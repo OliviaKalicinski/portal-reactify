@@ -1,0 +1,705 @@
+/* ========================
+   PORTAL DO DRAGÃO — STYLES
+======================== */
+
+.portal-page {
+  --dragon-orange: #925AED;
+  --dragon-green: #00FF87;
+  --dragon-purple: #2D0052;
+  --dragon-black: #0A0A0A;
+  --dragon-yellow: #FFE600;
+  --dragon-pink: #FF2D78;
+  --dragon-white: #FAFAFA;
+  --dragon-gray: #1A1A1A;
+  --dragon-gray-mid: #2E2E2E;
+
+  background: var(--dragon-black);
+  color: var(--dragon-white);
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* MARQUEE */
+.portal-page .marquee-bar {
+  background: var(--dragon-orange);
+  color: var(--dragon-black);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 8px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--dragon-black);
+  position: relative;
+  z-index: 100;
+}
+.portal-page .marquee-bar.bottom {
+  border-bottom: none;
+  border-top: 2px solid var(--dragon-black);
+  background: var(--dragon-green);
+}
+.portal-page .marquee-track {
+  display: inline-flex;
+  animation: portal-marquee-scroll 28s linear infinite;
+}
+.portal-page .marquee-track span { display: inline-block; padding: 0 28px; }
+.portal-page .marquee-track span::after { content: '🐉'; margin-left: 28px; }
+@keyframes portal-marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* HERO */
+.portal-page .hero {
+  position: relative;
+  background: var(--dragon-black);
+  overflow: hidden;
+  border-bottom: 3px solid var(--dragon-orange);
+  min-height: min(64vw, 600px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portal-page .hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px, transparent 1px, transparent 3px);
+  pointer-events: none; z-index: 3;
+}
+.portal-page .hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 110%, rgba(146,90,237,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(0,255,135,0.07) 0%, transparent 60%),
+    var(--dragon-black);
+}
+.portal-page .dragon-silhouette {
+  position: absolute; right: 4%; bottom: 0;
+  width: min(42vw, 480px); height: min(42vw, 480px);
+  opacity: 0.08; font-size: min(42vw, 480px); line-height: 1;
+  user-select: none; pointer-events: none; filter: grayscale(1);
+}
+.portal-page .hero-content {
+  position: relative; z-index: 2; text-align: center; padding: 60px 24px 52px;
+}
+.portal-page .hero-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--dragon-orange); margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.portal-page .hero-eyebrow::before,
+.portal-page .hero-eyebrow::after {
+  content: ''; display: block; width: 36px; height: 1px; background: var(--dragon-orange); opacity: 0.6;
+}
+.portal-page .hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: min(max(72px, 14vw), 180px); line-height: 0.88;
+  color: var(--dragon-white); letter-spacing: -0.01em;
+}
+.portal-page .hero-title .accent { color: var(--dragon-orange); display: block; }
+.portal-page .hero-name-output {
+  display: block; font-family: 'Bebas Neue', sans-serif;
+  font-size: min(max(38px, 7vw), 88px); line-height: 0.9;
+  color: var(--dragon-green); letter-spacing: -0.01em;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none; min-height: 0.1em;
+}
+.portal-page .hero-name-output.visible { opacity: 1; transform: translateY(0); }
+.portal-page .hero-tagline {
+  font-size: min(max(15px, 1.2vw), 22px); font-weight: 300;
+  color: rgba(250,250,250,0.65); margin-top: 20px;
+  max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.5;
+}
+.portal-page .hero-tagline strong { color: var(--dragon-green); font-weight: 600; }
+.portal-page .hero-name-wrap {
+  display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 26px;
+}
+.portal-page .hero-name-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase;
+  color: rgba(250,250,250,0.2); white-space: nowrap;
+}
+.portal-page .hero-name-input {
+  background: transparent; border: none; border-bottom: 1.5px solid rgba(255,255,255,0.14);
+  color: var(--dragon-white); font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: 0.14em; text-transform: uppercase;
+  width: 170px; text-align: center; outline: none; padding-bottom: 3px;
+  transition: border-color 0.25s; caret-color: var(--dragon-orange);
+}
+.portal-page .hero-name-input::placeholder {
+  color: rgba(255,255,255,0.12); font-size: 11px; letter-spacing: 0.25em;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.portal-page .hero-name-input:focus { border-color: rgba(255,255,255,0.35); }
+
+/* CONTROLS BAR */
+.portal-page .controls-bar {
+  background: var(--dragon-gray); border-bottom: 2px solid #333;
+  padding: 10px 20px; display: flex; align-items: center; gap: 12px;
+  flex-wrap: wrap; position: sticky; top: 0; z-index: 90;
+}
+.portal-page .controls-bar .label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(250,250,250,0.4); margin-right: 4px;
+}
+.portal-page .btn {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 12px;
+  letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid currentColor;
+  border-radius: 0; padding: 7px 16px; cursor: pointer;
+  transition: background 0.15s, color 0.15s; text-decoration: none; display: inline-block;
+  background: transparent;
+}
+.portal-page .btn-dragon { color: var(--dragon-orange); background: transparent; }
+.portal-page .btn-dragon:hover { background: var(--dragon-orange); color: var(--dragon-black); }
+.portal-page .btn-buy {
+  color: var(--dragon-black); background: var(--dragon-green);
+  border-color: var(--dragon-green); margin-left: auto;
+}
+.portal-page .btn-buy:hover { background: var(--dragon-yellow); border-color: var(--dragon-yellow); }
+
+.portal-page .skin-dots { display: flex; gap: 8px; align-items: center; }
+.portal-page .skin-dot {
+  width: 18px; height: 18px; border-radius: 50%; cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.2);
+  transition: transform 0.15s, border-color 0.15s;
+}
+.portal-page .skin-dot:hover { transform: scale(1.2); border-color: var(--dragon-white); }
+.portal-page .skin-dot.active { border-color: var(--dragon-white); transform: scale(1.15); }
+.portal-page .skin-dot.s1 { background: var(--dragon-orange); }
+.portal-page .skin-dot.s2 { background: var(--dragon-green); }
+.portal-page .skin-dot.s3 { background: var(--dragon-pink); }
+
+/* GRID */
+.portal-page .content-grid {
+  padding: 24px 20px; display: flex; flex-direction: column; gap: 16px;
+  max-width: 1280px; margin: 0 auto;
+}
+.portal-page .row { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.portal-page .card {
+  flex-grow: 1; min-width: 260px; position: relative; overflow: hidden; cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.08);
+  transition: transform 0.18s, border-color 0.18s; text-decoration: none; display: block;
+  color: inherit;
+}
+.portal-page .card:hover { transform: translateY(-3px); border-color: var(--dragon-orange); z-index: 2; }
+
+.portal-page .card-inner { position: relative; width: 100%; }
+.portal-page .card-inner::before { content: ''; display: block; }
+
+.portal-page .ratio-16-9 .card-inner::before { padding-top: 56.25%; }
+.portal-page .ratio-3-4 .card-inner::before { padding-top: 133.33%; }
+.portal-page .ratio-1-1 .card-inner::before { padding-top: 100%; }
+.portal-page .ratio-3-5 .card-inner::before { padding-top: 166.66%; }
+.portal-page .ratio-5-4 .card-inner::before { padding-top: 80%; }
+.portal-page .ratio-shop .card-inner::before { padding-top: 72%; }
+
+.portal-page .card-video { flex-grow: calc(16/9); }
+.portal-page .card-pdf { flex-grow: calc(3/4); }
+.portal-page .card-produtos { flex-grow: calc(1/1); }
+.portal-page .card-audio { flex-grow: calc(3/5); }
+.portal-page .card-manifesto { flex-grow: calc(5/4); }
+
+.portal-page .card-body {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 22px;
+}
+
+/* HOVER OVERLAY */
+.portal-page .card .card-hover-overlay {
+  position: absolute; inset: 0; background: rgba(146,90,237,0.07);
+  opacity: 0; transition: opacity 0.2s; z-index: 1; pointer-events: none;
+}
+.portal-page .card:hover .card-hover-overlay { opacity: 1; }
+
+/* CARD REVEAL */
+.portal-page .card-reveal {
+  position: absolute; inset: 0; opacity: 0; pointer-events: none; z-index: 4;
+  transition: opacity 0.32s ease; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; padding: 24px;
+}
+.portal-page .card:hover .card-reveal { opacity: 1; }
+
+/* Products reveal */
+.portal-page .reveal-produtos { background: rgba(10,10,10,0.93); }
+.portal-page .rp-title {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--dragon-orange); margin-bottom: 16px; align-self: flex-start;
+}
+.portal-page .rp-list { width: 100%; display: flex; flex-direction: column; gap: 0; }
+.portal-page .rp-item {
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.06); padding: 9px 0;
+  opacity: 0; transform: translateX(-10px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.portal-page .card:hover .rp-item { opacity: 1; transform: translateX(0); }
+.portal-page .rp-item:last-child { border-bottom: none; }
+.portal-page .rp-icon { font-size: 18px; flex-shrink: 0; }
+.portal-page .rp-name {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.75); line-height: 1.2;
+}
+.portal-page .rp-who {
+  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); margin-top: 2px;
+}
+
+/* Manifesto reveal */
+.portal-page .reveal-manifesto { background: rgba(10,10,10,0.92); padding: 28px; }
+.portal-page .rm-label {
+  font-family: 'Permanent Marker', cursive; font-size: 11px; color: var(--dragon-orange);
+  margin-bottom: 14px; transform: rotate(-1.2deg); display: inline-block;
+}
+.portal-page .rm-text {
+  font-family: 'Courier Prime', monospace; font-size: 13px; line-height: 1.75;
+  color: rgba(250,250,250,0.75); font-style: italic; max-width: 320px;
+}
+.portal-page .rm-sig {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2); margin-top: 16px; align-self: flex-end;
+}
+
+/* CARD SKINS */
+.portal-page .card-video { background: var(--dragon-black); }
+.portal-page .card-video .card-body {
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 40%, transparent);
+}
+.portal-page .card-video .card-tag {
+  position: absolute; top: 16px; left: 16px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+  background: var(--dragon-orange); color: var(--dragon-black); padding: 3px 9px;
+}
+.portal-page .card-video .card-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: min(max(36px, 4vw), 64px); line-height: 0.95; color: var(--dragon-white);
+}
+.portal-page .card-video .card-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 6px; }
+.portal-page .play-icon {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 60px; height: 60px; border: 3px solid rgba(255,255,255,0.7); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: var(--dragon-white);
+  transition: background 0.15s, border-color 0.15s; backdrop-filter: blur(4px);
+}
+.portal-page .card:hover .play-icon { background: var(--dragon-orange); border-color: var(--dragon-orange); }
+
+.portal-page .card-pdf { background: #f0ede6; border-color: #d4c9b0; }
+.portal-page .card-pdf:hover { border-color: var(--dragon-black); }
+.portal-page .card-pdf .card-body { background: none; justify-content: space-between; }
+.portal-page .card-pdf .card-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+  color: #666; font-family: 'Courier Prime', monospace;
+}
+.portal-page .card-pdf .card-label {
+  font-family: 'Courier Prime', monospace; font-weight: 700;
+  font-size: min(max(18px, 2vw), 28px); color: #1a1a1a; line-height: 1.2;
+}
+.portal-page .card-pdf .card-sub {
+  font-family: 'Courier Prime', monospace; font-size: 12px; color: #888; margin-top: 6px;
+}
+.portal-page .card-pdf .pdf-icon { font-size: 40px; color: var(--dragon-orange); margin-bottom: 8px; }
+
+.portal-page .card-produtos { background: var(--dragon-orange); }
+.portal-page .card-produtos:hover { border-color: var(--dragon-yellow); }
+.portal-page .card-produtos .card-body {
+  background: none; justify-content: center; align-items: center; text-align: center; gap: 12px;
+}
+.portal-page .card-produtos .card-label {
+  font-family: 'Abril Fatface', serif;
+  font-size: min(max(28px, 3.5vw), 52px); color: var(--dragon-black); line-height: 1.05;
+}
+.portal-page .card-produtos .card-sub { font-size: 13px; color: rgba(0,0,0,0.65); line-height: 1.4; }
+.portal-page .produto-emoji { font-size: 52px; display: block; margin-bottom: 4px; }
+
+.portal-page .card-audio { background: var(--dragon-purple); }
+.portal-page .card-audio:hover { border-color: var(--dragon-pink); }
+.portal-page .card-audio .card-body {
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 30%, transparent); gap: 8px;
+}
+.portal-page .card-audio .card-tag {
+  position: absolute; top: 16px; left: 16px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--dragon-pink);
+}
+.portal-page .card-audio .card-label {
+  font-weight: 700; font-size: min(max(18px, 2vw), 28px); color: var(--dragon-white); line-height: 1.15;
+}
+.portal-page .card-audio .card-sub { font-size: 12px; color: rgba(255,255,255,0.55); }
+
+.portal-page .waveform {
+  display: flex; gap: 3px; align-items: flex-end; height: 32px; margin-bottom: 8px;
+}
+.portal-page .waveform-bar {
+  width: 4px; background: var(--dragon-pink); border-radius: 2px;
+  animation: portal-wave 1.2s ease-in-out infinite;
+}
+.portal-page .waveform-bar:nth-child(1) { height: 60%; animation-delay: 0s; }
+.portal-page .waveform-bar:nth-child(2) { height: 100%; animation-delay: 0.1s; }
+.portal-page .waveform-bar:nth-child(3) { height: 40%; animation-delay: 0.2s; }
+.portal-page .waveform-bar:nth-child(4) { height: 80%; animation-delay: 0.15s; }
+.portal-page .waveform-bar:nth-child(5) { height: 55%; animation-delay: 0.05s; }
+.portal-page .waveform-bar:nth-child(6) { height: 90%; animation-delay: 0.25s; }
+.portal-page .waveform-bar:nth-child(7) { height: 35%; animation-delay: 0.1s; }
+.portal-page .waveform-bar:nth-child(8) { height: 70%; animation-delay: 0.2s; }
+@keyframes portal-wave {
+  0%, 100% { transform: scaleY(0.6); opacity: 0.7; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+.portal-page .card-manifesto { background: var(--dragon-yellow); }
+.portal-page .card-manifesto:hover { border-color: var(--dragon-black); }
+.portal-page .card-manifesto .card-body { background: none; justify-content: center; align-items: flex-start; }
+.portal-page .card-manifesto .card-label {
+  font-family: 'Permanent Marker', cursive;
+  font-size: min(max(22px, 2.6vw), 38px); color: var(--dragon-black); line-height: 1.15;
+}
+.portal-page .card-manifesto .card-sub { font-size: 12px; color: rgba(0,0,0,0.55); margin-top: 10px; }
+.portal-page .scratch-mark {
+  font-family: 'Permanent Marker', cursive; font-size: 11px; color: var(--dragon-orange);
+  background: rgba(0,0,0,0.08); padding: 3px 8px; display: inline-block;
+  margin-bottom: 10px; transform: rotate(-1.5deg);
+}
+
+/* VIDEO BG */
+.portal-page .video-bg-placeholder {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg, rgba(146,90,237,0.04) 0px, rgba(146,90,237,0.04) 1px, transparent 1px, transparent 20px), var(--dragon-black);
+  display: flex; align-items: center; justify-content: center;
+}
+.portal-page .video-thumb-text {
+  font-family: 'Bebas Neue', sans-serif; font-size: 11vw;
+  color: rgba(146,90,237,0.06); user-select: none; pointer-events: none;
+}
+
+/* SECTION LABEL */
+.portal-page .section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(250,250,250,0.3); padding: 18px 20px 4px; max-width: 1280px; margin: 0 auto;
+}
+
+/* STATS STRIP */
+.portal-page .stats-strip {
+  display: flex; flex-wrap: wrap;
+  border-top: 2px solid var(--dragon-gray-mid); border-bottom: 2px solid var(--dragon-gray-mid);
+  margin-top: 8px; background: var(--dragon-gray);
+}
+.portal-page .stat-item {
+  flex: 1; min-width: 140px; padding: 28px 20px;
+  border-right: 1px solid var(--dragon-gray-mid); text-align: center; position: relative;
+}
+.portal-page .stat-item:last-child { border-right: none; }
+.portal-page .stat-item::before {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--dragon-orange); transform: scaleX(0); transition: transform 0.3s ease;
+}
+.portal-page .stat-item:hover::before { transform: scaleX(1); }
+.portal-page .stat-num {
+  display: block; font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 72px); color: var(--dragon-orange); line-height: 1;
+}
+.portal-page .stat-label {
+  display: block; font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(250,250,250,0.35); margin-top: 6px;
+}
+.portal-page .stat-label em { font-style: normal; color: rgba(250,250,250,0.55); }
+
+/* SOCIAL CARDS */
+.portal-page .card-social .card-body {
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 50%, transparent); gap: 5px;
+}
+.portal-page .card-social .social-icon {
+  font-size: 56px; position: absolute; top: 18px; right: 20px; opacity: 0.18; pointer-events: none;
+}
+.portal-page .card-social .card-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+}
+.portal-page .card-social .card-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(30px, 4vw, 58px); color: var(--dragon-white); line-height: 0.95;
+}
+.portal-page .card-social .card-sub { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 6px; line-height: 1.4; }
+.portal-page .card-social-ig { background: linear-gradient(140deg, #2D0052 0%, #9B1060 50%, #925AED 100%); }
+.portal-page .card-social-ig:hover { border-color: var(--dragon-pink) !important; }
+.portal-page .card-social-wa { background: linear-gradient(140deg, #005C38 0%, #00A550 100%); }
+.portal-page .card-social-wa:hover { border-color: #00FF87 !important; }
+.portal-page .card-social-map { background: linear-gradient(140deg, #1A1A1A 0%, #2E2E2E 100%); border-color: rgba(255,255,255,0.1) !important; }
+.portal-page .card-social-map:hover { border-color: var(--dragon-orange) !important; }
+.portal-page .card-social-map .card-label { color: var(--dragon-orange); }
+.portal-page .card-social-email { background: linear-gradient(140deg, #0A0A0A 0%, #1a1a40 100%); border-color: rgba(255,255,255,0.08) !important; }
+.portal-page .card-social-email:hover { border-color: var(--dragon-yellow) !important; }
+.portal-page .card-social-email .card-label { color: var(--dragon-yellow); }
+
+/* SHOP CARDS */
+.portal-page .card-shop { min-width: 140px; flex-grow: 1; }
+.portal-page .card-shop .card-body {
+  background: none; justify-content: center; align-items: center; text-align: center; padding: 16px; gap: 4px;
+}
+.portal-page .card-shop .shop-name {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px, 2.8vw, 42px); line-height: 1;
+}
+.portal-page .card-shop .shop-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  display: block; margin-top: 5px; opacity: 0.55;
+}
+.portal-page .card-shop .shop-arrow {
+  font-size: 18px; opacity: 0.35; margin-top: 10px; transition: opacity 0.2s, transform 0.2s; display: block;
+}
+.portal-page .card-shop:hover .shop-arrow { opacity: 0.8; transform: translateX(4px); }
+.portal-page .card-shop-amazon { background: #925AED; }
+.portal-page .card-shop-amazon:hover { border-color: var(--dragon-yellow) !important; }
+.portal-page .card-shop-amazon .shop-name,
+.portal-page .card-shop-amazon .shop-tag,
+.portal-page .card-shop-amazon .shop-arrow { color: var(--dragon-black); }
+.portal-page .card-shop-ml { background: var(--dragon-yellow); }
+.portal-page .card-shop-ml:hover { border-color: var(--dragon-orange) !important; }
+.portal-page .card-shop-ml .shop-name,
+.portal-page .card-shop-ml .shop-tag,
+.portal-page .card-shop-ml .shop-arrow { color: var(--dragon-black); }
+.portal-page .card-shop-petlove { background: var(--dragon-pink); }
+.portal-page .card-shop-petlove:hover { border-color: var(--dragon-white) !important; }
+.portal-page .card-shop-petlove .shop-name,
+.portal-page .card-shop-petlove .shop-arrow { color: var(--dragon-white); }
+.portal-page .card-shop-petlove .shop-tag { color: rgba(255,255,255,0.7); }
+.portal-page .card-shop-oficial { background: var(--dragon-green); }
+.portal-page .card-shop-oficial:hover { border-color: var(--dragon-white) !important; }
+.portal-page .card-shop-oficial .shop-name,
+.portal-page .card-shop-oficial .shop-tag,
+.portal-page .card-shop-oficial .shop-arrow { color: var(--dragon-black); }
+
+/* BIOFÁBRICA */
+.portal-page .card-biofabrica { background: var(--dragon-purple); min-width: calc(100% - 32px); flex-grow: 1; }
+.portal-page .card-biofabrica:hover { border-color: var(--dragon-green) !important; }
+.portal-page .card-biofabrica .card-inner::before { padding-top: 26%; }
+.portal-page .card-biofabrica .card-body {
+  flex-direction: row; align-items: center; justify-content: space-between; padding: 40px 48px;
+  background:
+    radial-gradient(ellipse 60% 80% at 0% 50%, rgba(0,255,135,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 100% 50%, rgba(146,90,237,0.05) 0%, transparent 60%);
+  gap: 32px;
+}
+.portal-page .bio-left { flex: 1; }
+.portal-page .bio-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--dragon-green); margin-bottom: 12px; }
+.portal-page .bio-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 72px); line-height: 0.92; color: var(--dragon-white); }
+.portal-page .bio-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 14px; max-width: 380px; line-height: 1.7; }
+.portal-page .bio-badge {
+  font-family: 'Courier Prime', monospace; font-size: 10px; color: var(--dragon-green);
+  background: rgba(0,255,135,0.08); border: 1px solid rgba(0,255,135,0.22);
+  padding: 4px 12px; display: inline-block; margin-top: 18px; letter-spacing: 0.1em;
+}
+.portal-page .bio-right { flex-shrink: 0; text-align: right; pointer-events: none; user-select: none; }
+.portal-page .bio-giant { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 10vw, 180px); line-height: 0.85; color: var(--dragon-green); opacity: 0.07; }
+.portal-page .bio-cert-stack { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.portal-page .bio-cert { font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.08em; color: rgba(250,250,250,0.2); }
+
+/* QUIZ CARD */
+.portal-page .card-quiz {
+  flex-grow: 1.6; min-width: 280px; background: var(--dragon-black);
+  border: 2px solid rgba(255,255,255,0.08); overflow: hidden; min-height: 380px;
+  cursor: default; position: relative;
+}
+.portal-page .card-quiz:hover { transform: none; border-color: rgba(255,255,255,0.08); }
+.portal-page .card-quiz.qactive { border-color: var(--dragon-green) !important; }
+.portal-page .quiz-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,255,135,0.04) 0%, transparent 70%),
+    repeating-linear-gradient(-45deg, rgba(0,255,135,0.02) 0px, rgba(0,255,135,0.02) 1px, transparent 1px, transparent 22px);
+  pointer-events: none;
+}
+.portal-page .quiz-step {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 32px 28px; text-align: center;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.35s ease, transform 0.35s ease; pointer-events: none;
+}
+.portal-page .quiz-step.qon { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+.portal-page .quiz-dragon-big { font-size: 52px; margin-bottom: 10px; filter: grayscale(0.1); }
+.portal-page .quiz-intro-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase;
+  color: rgba(250,250,250,0.25); margin-bottom: 8px;
+}
+.portal-page .quiz-intro-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px, 4vw, 52px);
+  line-height: 0.95; color: var(--dragon-white); margin-bottom: 22px;
+}
+.portal-page .quiz-start-btn {
+  background: transparent; border: 2px solid var(--dragon-green); color: var(--dragon-green);
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px;
+  letter-spacing: 0.15em; text-transform: uppercase; padding: 11px 24px; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.portal-page .quiz-start-btn:hover { background: var(--dragon-green); color: var(--dragon-black); }
+
+.portal-page .quiz-q-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(250,250,250,0.25); margin-bottom: 10px;
+}
+.portal-page .quiz-question {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(28px, 4vw, 50px);
+  line-height: 0.95; color: var(--dragon-white); margin-bottom: 24px;
+}
+.portal-page .quiz-pets {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 290px;
+}
+.portal-page .quiz-pet-btn {
+  background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.1);
+  color: var(--dragon-white); font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600; font-size: 12px; padding: 16px 10px; cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.portal-page .quiz-pet-btn:hover { background: rgba(146,90,237,0.1); border-color: var(--dragon-orange); color: var(--dragon-orange); }
+.portal-page .quiz-pet-icon { font-size: 26px; }
+
+.portal-page .quiz-result-icon { font-size: 42px; margin-bottom: 8px; }
+.portal-page .quiz-dragon-says {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--dragon-orange); margin-bottom: 8px;
+}
+.portal-page .quiz-result-product {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px, 3.5vw, 40px);
+  color: var(--dragon-white); line-height: 1; margin-bottom: 8px;
+}
+.portal-page .quiz-result-desc {
+  font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.55; max-width: 230px; margin: 0 auto 16px;
+}
+.portal-page .quiz-coupon {
+  background: rgba(146,90,237,0.07); border: 1px solid rgba(146,90,237,0.22);
+  padding: 10px 22px; margin-bottom: 16px; text-align: center;
+}
+.portal-page .quiz-coupon-lbl {
+  font-size: 8px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(250,250,250,0.28); display: block; margin-bottom: 5px;
+}
+.portal-page .quiz-coupon-code {
+  font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 22px;
+  letter-spacing: 0.2em; color: var(--dragon-orange);
+}
+.portal-page .quiz-buy-link {
+  display: inline-block; background: var(--dragon-orange); border: none; color: var(--dragon-black);
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase; padding: 11px 22px; cursor: pointer;
+  text-decoration: none; transition: background 0.2s; margin-bottom: 10px;
+}
+.portal-page .quiz-buy-link:hover { background: var(--dragon-yellow); }
+.portal-page .quiz-reset {
+  background: transparent; border: none; color: rgba(255,255,255,0.18);
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600;
+  cursor: pointer; transition: color 0.2s; margin-top: 4px; font-family: 'Space Grotesk', sans-serif;
+}
+.portal-page .quiz-reset:hover { color: rgba(255,255,255,0.45); }
+
+/* Quiz companion */
+.portal-page .card-quiz-companion { flex-grow: 1; min-width: 200px; background: var(--dragon-gray); border: 2px solid rgba(255,255,255,0.06); }
+.portal-page .card-quiz-companion:hover { border-color: var(--dragon-orange); }
+.portal-page .card-quiz-companion .card-inner::before { padding-top: 125%; }
+.portal-page .card-quiz-companion .card-body { background: none; justify-content: space-between; padding: 22px; }
+.portal-page .cqc-label { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(250,250,250,0.3); }
+.portal-page .cqc-big { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 7vw, 96px); line-height: 0.88; color: var(--dragon-orange); }
+.portal-page .cqc-unit { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,250,250,0.35); margin-top: 4px; }
+.portal-page .cqc-tagline { font-family: 'Courier Prime', monospace; font-size: 11px; color: rgba(250,250,250,0.2); line-height: 1.5; }
+
+/* MODAL */
+.portal-page .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; }
+.portal-page .modal-overlay.open { display: block; }
+.portal-page .modal-window {
+  position: absolute; top: 15vh; left: 50%; transform: translateX(-50%);
+  width: min(480px, 94vw); border: 2px solid var(--dragon-orange);
+  background: var(--dragon-black); box-shadow: 8px 8px 0 var(--dragon-orange);
+}
+.portal-page .modal-titlebar {
+  background: var(--dragon-orange); padding: 9px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: move; user-select: none;
+}
+.portal-page .modal-titlebar .title {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--dragon-black);
+}
+.portal-page .modal-close {
+  background: var(--dragon-black); color: var(--dragon-orange);
+  border: 1.5px solid var(--dragon-black); width: 22px; height: 22px; font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-weight: 700; line-height: 1; transition: background 0.12s;
+}
+.portal-page .modal-close:hover { background: var(--dragon-white); }
+.portal-page .modal-body { padding: 28px 28px 24px; }
+.portal-page .modal-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--dragon-orange); margin-bottom: 14px; }
+.portal-page .modal-body p { font-size: 15px; line-height: 1.65; color: rgba(250,250,250,0.85); margin-bottom: 14px; }
+.portal-page .modal-body p strong { color: var(--dragon-green); }
+.portal-page .modal-body p em { color: var(--dragon-orange); font-style: normal; font-weight: 600; }
+.portal-page .modal-cta { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* SKIN THEMING */
+.portal-page.skin-2 .marquee-bar { background: var(--dragon-green); }
+.portal-page.skin-2 .hero-bg { background: radial-gradient(ellipse 70% 60% at 50% 110%, rgba(0,255,135,0.12) 0%, transparent 70%), var(--dragon-black); }
+.portal-page.skin-2 .hero-title .accent,
+.portal-page.skin-2 .hero-eyebrow { color: var(--dragon-green); }
+.portal-page.skin-2 .hero-eyebrow::before,
+.portal-page.skin-2 .hero-eyebrow::after { background: var(--dragon-green); }
+.portal-page.skin-2 .btn-dragon { color: var(--dragon-green); }
+.portal-page.skin-2 .btn-dragon:hover { background: var(--dragon-green); color: var(--dragon-black); }
+.portal-page.skin-2 .modal-titlebar { background: var(--dragon-green); }
+.portal-page.skin-2 .modal-close { color: var(--dragon-green); }
+.portal-page.skin-2 .modal-eyebrow,
+.portal-page.skin-2 .modal-body p em { color: var(--dragon-green); }
+.portal-page.skin-2 .card:hover { border-color: var(--dragon-green); }
+.portal-page.skin-2 .modal-window { border-color: var(--dragon-green); box-shadow: 8px 8px 0 var(--dragon-green); }
+.portal-page.skin-2 .hero-name-input { caret-color: var(--dragon-green); }
+
+.portal-page.skin-3 .marquee-bar { background: var(--dragon-pink); }
+.portal-page.skin-3 .hero-bg { background: radial-gradient(ellipse 70% 60% at 50% 110%, rgba(255,45,120,0.14) 0%, transparent 70%), var(--dragon-black); }
+.portal-page.skin-3 .hero-title .accent,
+.portal-page.skin-3 .hero-eyebrow { color: var(--dragon-pink); }
+.portal-page.skin-3 .hero-eyebrow::before,
+.portal-page.skin-3 .hero-eyebrow::after { background: var(--dragon-pink); }
+.portal-page.skin-3 .btn-dragon { color: var(--dragon-pink); }
+.portal-page.skin-3 .btn-dragon:hover { background: var(--dragon-pink); color: var(--dragon-white); }
+.portal-page.skin-3 .modal-titlebar { background: var(--dragon-pink); }
+.portal-page.skin-3 .modal-close,
+.portal-page.skin-3 .modal-eyebrow,
+.portal-page.skin-3 .modal-body p em { color: var(--dragon-pink); }
+.portal-page.skin-3 .card:hover { border-color: var(--dragon-pink); }
+.portal-page.skin-3 .modal-window { border-color: var(--dragon-pink); box-shadow: 8px 8px 0 var(--dragon-pink); }
+.portal-page.skin-3 .hero-name-output { color: var(--dragon-pink); }
+.portal-page.skin-3 .hero-name-input { caret-color: var(--dragon-pink); }
+
+/* FOOTER */
+.portal-page .portal-footer {
+  border-top: 2px solid var(--dragon-gray-mid); padding: 28px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 14px;
+}
+.portal-page .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--dragon-white); letter-spacing: 0.04em; }
+.portal-page .footer-logo span { color: var(--dragon-orange); }
+.portal-page .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.portal-page .footer-links a {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(250,250,250,0.45); text-decoration: none; transition: color 0.15s;
+}
+.portal-page .footer-links a:hover { color: var(--dragon-orange); }
+.portal-page .footer-tagline {
+  font-size: 11px; color: rgba(250,250,250,0.25); width: 100%; text-align: center;
+  padding-top: 10px; border-top: 1px solid #222;
+}
+
+/* RESPONSIVE */
+@media (max-width: 680px) {
+  .portal-page .row { flex-direction: column; }
+  .portal-page .card { flex-grow: unset; }
+  .portal-page .card-inner::before { padding-top: 62% !important; }
+  .portal-page .controls-bar { gap: 8px; }
+  .portal-page .btn-buy { margin-left: 0; }
+  .portal-page .stats-strip { flex-wrap: wrap; }
+  .portal-page .stat-item { flex: 1 1 45%; border-bottom: 1px solid var(--dragon-gray-mid); }
+  .portal-page .card-biofabrica .card-body { flex-direction: column; padding: 28px 24px; align-items: flex-start; }
+  .portal-page .bio-right { display: none; }
+  .portal-page .card-biofabrica .card-inner::before { padding-top: 60% !important; }
+  .portal-page .card-quiz { min-height: 420px; }
+}
