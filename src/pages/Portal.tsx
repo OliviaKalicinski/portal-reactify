@@ -203,7 +203,7 @@ const Portal = () => {
 
           <a href="#" className="card card-pdf ratio-3-4">
             <div className="card-inner">
-              <div className="card-body" style={{ background: "#f0ede6" }}>
+              <div className="card-body">
                 <div className="card-tag">Documento</div>
                 <div>
                   <div className="pdf-icon">📄</div>
@@ -248,7 +248,7 @@ const Portal = () => {
               <div className="card-body">
                 <span className="card-tag">Audiocasts</span>
                 <div className="waveform">
-                  {Array.from({ length: 8 }).map((_, i) => <div className="waveform-bar" key={i} />)}
+                  {Array.from({ length: 14 }).map((_, i) => <div className="waveform-bar" key={i} />)}
                 </div>
                 <div className="card-label">O Dragão<br />Fala ao<br />Microfone</div>
                 <div className="card-sub">Episódios sobre pet food, sustentabilidade e o que ninguém conta</div>
@@ -259,7 +259,7 @@ const Portal = () => {
 
           <a href="#" onClick={e => { e.preventDefault(); openModal(); }} className="card card-manifesto ratio-5-4">
             <div className="card-inner">
-              <div className="card-body" style={{ background: "#FFE600" }}>
+              <div className="card-body">
                 <span className="scratch-mark">// manifesto</span>
                 <div className="card-label">Nojento<br />é o<br />desperdício.</div>
                 <div className="card-sub">Leia o nosso manifesto — escrito pelo próprio Dragão</div>
