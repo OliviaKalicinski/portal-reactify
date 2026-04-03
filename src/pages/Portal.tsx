@@ -1,0 +1,508 @@
+import { useState, useCallback, useRef, useEffect } from "react";
+import "./Portal.css";
+
+const MARQUEE_TOP = [
+  "NOJENTO É O DESPERDÍCIO",
+  "MAIS QUE UM ALIMENTO, UMA REVOLUÇÃO",
+  "88,9% DE DIGESTIBILIDADE",
+  "40% PROTEÍNA BRUTA",
+  "O DRAGÃO VIU E TE AVISOU",
+  "INSETO BSF PRA CACHORRO",
+  "SUSTENTABILIDADE DE VERDADE",
+];
+
+const MARQUEE_BOTTOM = [
+  "@COMIDADEDRAGAO",
+  "SOMOS@LETSFLY.COM.BR",
+  "CACHOEIRAS DE MACACU, RJ",
+  "🐉 O DRAGÃO VÊ TUDO",
+  "INCLUSIVE O CARRINHO QUE VOCÊ ABANDONOU ÀS 2H DA MANHÃ",
+  "BSF — BLACK SOLDIER FLY",
+  "NUTRIÇÃO QUE RESPEITA O PLANETA",
+];
+
+const QUIZ_PRODUCTS: Record<string, { icon: string; name: string; desc: string; coupon: string; link: string }> = {
+  cao: { icon: "🐕", name: "COMIDA DE DRAGÃO ORIGINAL", desc: "Larva BSF 100% pura — o petisco mais proteico que seu cão vai conhecer.", coupon: "PRIMEIRODRAGO", link: "https://comidadedragao.com.br/collections/produtos" },
+  gato: { icon: "🐈", name: "SUPLEMENTO FELINO", desc: "Formulação especial com taurina — essencial pra saúde cardíaca e visual do seu gato.", coupon: "PRIMEIRODRAGO", link: "https://comidadedragao.com.br/collections/produtos" },
+  reptil: { icon: "🦎", name: "GRUB — ALIMENTO EM GEL", desc: "Proteína de 3 insetos em gel. Ca:P otimizado. Zero insetos vivos pra manusear.", coupon: "PRIMEIRODRAGO", link: "https://comidadedragao.com.br/collections/produtos" },
+  outro: { icon: "🐦", name: "COMIDA DE DRAGÃO ORIGINAL", desc: "Versátil e nutritivo — aceito por aves, peixes, anfíbios e mais. A natureza sempre soube.", coupon: "PRIMEIRODRAGO", link: "https://comidadedragao.com.br/collections/produtos" },
+};
+
+const PRODUCTS_LIST = [
+  { icon: "🐛", name: "ORIGINAL BSF", who: "Todos os pets", delay: "0s" },
+  { icon: "🌿", name: "MORDIDA LEGUMES", who: "Só cães", delay: "0.07s" },
+  { icon: "🌀", name: "MORDIDA SPIRULINA", who: "Só cães", delay: "0.13s" },
+  { icon: "💊", name: "SUPLEMENTO", who: "Cães + gatos", delay: "0.19s" },
+  { icon: "🐉", name: "GRUB GEL", who: "Répteis + anfíbios", delay: "0.25s" },
+];
+
+const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
+  const doubled = [...items, ...items];
+  return (
+    <div className={`marquee-bar${bottom ? " bottom" : ""}`}>
+      <div className="marquee-track" style={bottom ? { animationDirection: "reverse" } : undefined}>
+        {doubled.map((t, i) => <span key={i}>{t}</span>)}
+      </div>
+    </div>
+  );
+};
+
+const Portal = () => {
+  const [skin, setSkin] = useState(1);
+  const [heroName, setHeroName] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [quizStep, setQuizStep] = useState(0);
+  const [quizActive, setQuizActive] = useState(false);
+  const [quizResult, setQuizResult] = useState(QUIZ_PRODUCTS.cao);
+
+  // Modal drag state
+  const modalWindowRef = useRef<HTMLDivElement>(null);
+  const [dragState, setDragState] = useState<{ dragging: boolean; sx: number; sy: number; ol: number; ot: number; left: number; top: number; manual: boolean }>({ dragging: false, sx: 0, sy: 0, ol: 0, ot: 0, left: 0, top: 0, manual: false });
+
+  const openModal = useCallback(() => setModalOpen(true), []);
+  const closeModal = useCallback(() => {
+    setModalOpen(false);
+    setDragState(prev => ({ ...prev, manual: false }));
+  }, []);
+
+  // Keyboard Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") closeModal(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [closeModal]);
+
+  // Modal drag
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      if (!dragState.dragging) return;
+      setDragState(prev => ({ ...prev, left: prev.ol + e.clientX - prev.sx, top: prev.ot + e.clientY - prev.sy }));
+    };
+    const onUp = () => { setDragState(prev => ({ ...prev, dragging: false })); };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+    return () => { document.removeEventListener("mousemove", onMove); document.removeEventListener("mouseup", onUp); };
+  }, [dragState.dragging]);
+
+  const handleTitlebarMouseDown = (e: React.MouseEvent) => {
+    const win = modalWindowRef.current;
+    if (!win) return;
+    const r = win.getBoundingClientRect();
+    setDragState({ dragging: true, sx: e.clientX, sy: e.clientY, ol: r.left, ot: r.top, left: r.left, top: r.top, manual: true });
+  };
+
+  const quizGo = (toStep: number) => {
+    setQuizStep(-1); // trigger exit
+    setTimeout(() => {
+      setQuizStep(toStep);
+      if (toStep > 0) setQuizActive(true);
+    }, 160);
+  };
+
+  const quizSelectPet = (pet: string) => {
+    setQuizResult(QUIZ_PRODUCTS[pet]);
+    quizGo(2);
+  };
+
+  const quizReset = () => {
+    setQuizStep(-1);
+    setTimeout(() => {
+      setQuizStep(0);
+      setQuizActive(false);
+    }, 160);
+  };
+
+  const nameUpper = heroName.trim().toUpperCase();
+
+  const heroTaglineContent = nameUpper ? (
+    <>
+      <strong>{nameUpper}</strong>, seu pet merece o melhor da natureza.<br />
+      Mesmo que seja inseto.
+    </>
+  ) : (
+    <>
+      O Dragão sabe que seu cachorro merece<br />
+      <strong>o melhor da natureza.</strong><br />
+      Mesmo que seja inseto.
+    </>
+  );
+
+  const footerText = nameUpper
+    ? `🐉 O Dragão viu, ${nameUpper}. O Dragão aprovou. Agora é sua vez.`
+    : "🐉 O Dragão viu. O Dragão aprovou. Agora é sua vez.";
+
+  return (
+    <div className={`portal-page skin-${skin}`}>
+      {/* TOP MARQUEE */}
+      <MarqueeBar items={MARQUEE_TOP} />
+
+      {/* HERO */}
+      <section className="hero">
+        <div className="hero-bg" />
+        <div className="dragon-silhouette">🐉</div>
+        <div className="hero-content">
+          <div className="hero-eyebrow">Comida de Dragão — Hub da Marca</div>
+          <h1 className="hero-title">
+            COMIDA
+            <span className="accent">DE DRAGÃO</span>
+            <span className={`hero-name-output${nameUpper ? " visible" : ""}`}>
+              {nameUpper ? `PRA ${nameUpper}` : ""}
+            </span>
+          </h1>
+          <p className="hero-tagline">{heroTaglineContent}</p>
+          <div className="hero-name-wrap">
+            <span className="hero-name-label">pra quem é?</span>
+            <input
+              type="text"
+              className="hero-name-input"
+              placeholder="SEU NOME AQUI"
+              maxLength={16}
+              autoComplete="off"
+              spellCheck={false}
+              value={heroName}
+              onChange={e => setHeroName(e.target.value)}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* CONTROLS BAR */}
+      <nav className="controls-bar">
+        <button className="btn btn-dragon" onClick={openModal}>🐉 O Dragão Fala</button>
+        <span className="label">Modo</span>
+        <div className="skin-dots">
+          {[1, 2, 3].map(n => (
+            <div
+              key={n}
+              className={`skin-dot s${n}${skin === n ? " active" : ""}`}
+              title={["Modo Fogo", "Modo Floresta", "Modo Neon"][n - 1]}
+              onClick={() => setSkin(n)}
+            />
+          ))}
+        </div>
+        <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="btn btn-buy">Comprar Agora →</a>
+      </nav>
+
+      {/* CONTEÚDOS */}
+      <div className="section-label">Conteúdos</div>
+      <div className="content-grid">
+        {/* ROW 1 */}
+        <div className="row">
+          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-video ratio-16-9">
+            <div className="card-inner">
+              <div className="video-bg-placeholder"><span className="video-thumb-text">▶</span></div>
+              <div className="card-body">
+                <span className="card-tag">YouTube</span>
+                <div className="play-icon">▶</div>
+                <div className="card-label">O Canal<br />do Dragão</div>
+                <div className="card-sub">Vídeos, bastidores e tudo que o Dragão manda falar</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </a>
+
+          <a href="#" className="card card-pdf ratio-3-4">
+            <div className="card-inner">
+              <div className="card-body" style={{ background: "#f0ede6" }}>
+                <div className="card-tag">Documento</div>
+                <div>
+                  <div className="pdf-icon">📄</div>
+                  <div className="card-label">A Bíblia<br />do Dragão</div>
+                  <div className="card-sub">Tudo sobre a ciência por trás da alimentação BSF — em PDF</div>
+                </div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.05)" }} />
+          </a>
+        </div>
+
+        {/* ROW 2 */}
+        <div className="row">
+          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-produtos ratio-1-1">
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="produto-emoji">🐛</span>
+                <div className="card-label">Nossos<br />Produtos</div>
+                <div className="card-sub" style={{ marginTop: 8 }}>Passe o mouse e conheça toda a linha</div>
+              </div>
+              <div className="card-reveal reveal-produtos">
+                <div className="rp-title">// linha completa</div>
+                <div className="rp-list">
+                  {PRODUCTS_LIST.map((p, i) => (
+                    <div className="rp-item" key={i} style={{ transitionDelay: p.delay }}>
+                      <span className="rp-icon">{p.icon}</span>
+                      <div>
+                        <div className="rp-name">{p.name}</div>
+                        <div className="rp-who">{p.who}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
+          </a>
+
+          <a href="#" className="card card-audio ratio-3-5">
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="card-tag">Audiocasts</span>
+                <div className="waveform">
+                  {Array.from({ length: 8 }).map((_, i) => <div className="waveform-bar" key={i} />)}
+                </div>
+                <div className="card-label">O Dragão<br />Fala ao<br />Microfone</div>
+                <div className="card-sub">Episódios sobre pet food, sustentabilidade e o que ninguém conta</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </a>
+
+          <a href="#" onClick={e => { e.preventDefault(); openModal(); }} className="card card-manifesto ratio-5-4">
+            <div className="card-inner">
+              <div className="card-body" style={{ background: "#FFE600" }}>
+                <span className="scratch-mark">// manifesto</span>
+                <div className="card-label">Nojento<br />é o<br />desperdício.</div>
+                <div className="card-sub">Leia o nosso manifesto — escrito pelo próprio Dragão</div>
+              </div>
+              <div className="card-reveal reveal-manifesto">
+                <span className="rm-label">// o dragão dictou às 2h da manhã</span>
+                <p className="rm-text">
+                  "Eu sei que parece loucura.<br />
+                  Mas nojento mesmo é jogar<br />
+                  1,3 bilhão de toneladas de<br />
+                  comida no lixo — e achar normal.<br /><br />
+                  A gente só transformou<br />
+                  desperdício em proteína."
+                </p>
+                <span className="rm-sig">— O Dragão</span>
+              </div>
+            </div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.04)" }} />
+          </a>
+        </div>
+
+        {/* ROW 3: Quiz + Companion */}
+        <div className="row">
+          <div className={`card card-quiz${quizActive ? " qactive" : ""}`}>
+            <div className="quiz-bg" />
+
+            {/* Step 0 */}
+            <div className={`quiz-step${quizStep === 0 ? " qon" : ""}`}>
+              <div className="quiz-dragon-big">🐉</div>
+              <div className="quiz-intro-label">// descoberta personalizada</div>
+              <div className="quiz-intro-title">O DRAGÃO<br />QUER TE<br />CONHECER</div>
+              <button className="quiz-start-btn" onClick={() => quizGo(1)}>QUAL É O SEU PET? →</button>
+            </div>
+
+            {/* Step 1 */}
+            <div className={`quiz-step${quizStep === 1 ? " qon" : ""}`}>
+              <div className="quiz-q-label">// pergunta 1 de 1</div>
+              <div className="quiz-question">QUAL É<br />O SEU PET?</div>
+              <div className="quiz-pets">
+                {[
+                  { key: "cao", icon: "🐕", label: "Cão" },
+                  { key: "gato", icon: "🐈", label: "Gato" },
+                  { key: "reptil", icon: "🦎", label: "Réptil" },
+                  { key: "outro", icon: "🐦", label: "Outro" },
+                ].map(p => (
+                  <button className="quiz-pet-btn" key={p.key} onClick={() => quizSelectPet(p.key)}>
+                    <span className="quiz-pet-icon">{p.icon}</span>{p.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className={`quiz-step${quizStep === 2 ? " qon" : ""}`}>
+              <div className="quiz-result-icon">{quizResult.icon}</div>
+              <div className="quiz-dragon-says">O DRAGÃO ESCOLHEU</div>
+              <div className="quiz-result-product">{quizResult.name}</div>
+              <div className="quiz-result-desc">{quizResult.desc}</div>
+              <div className="quiz-coupon">
+                <span className="quiz-coupon-lbl">seu cupom · 20% off na primeira compra</span>
+                <span className="quiz-coupon-code">PRIMEIRODRAGO</span>
+              </div>
+              <a href={quizResult.link} target="_blank" rel="noopener noreferrer" className="quiz-buy-link">COMPRAR AGORA →</a>
+              <button className="quiz-reset" onClick={quizReset}>← recomeçar</button>
+            </div>
+          </div>
+
+          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-quiz-companion">
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="cqc-label">// digestibilidade</span>
+                <div>
+                  <div className="cqc-big">88,9%</div>
+                  <div className="cqc-unit">de proteína absorvida</div>
+                </div>
+                <div className="cqc-tagline">Ração comum chega<br />a 70–80%.<br />BSF é outro nível.</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </a>
+        </div>
+      </div>
+
+      {/* STATS STRIP */}
+      <div className="stats-strip">
+        {[
+          { num: "83%", label: <>menos <em>carbono</em></> },
+          { num: "15K", label: <>litros menos <em>água/kg</em></> },
+          { num: "142×", label: <>menos <em>uso de terra</em></> },
+          { num: "88,9%", label: <><em>digestibilidade</em></> },
+          { num: "45", label: <>dias de <em>ciclo de vida</em></> },
+        ].map((s, i) => (
+          <div className="stat-item" key={i}>
+            <span className="stat-num">{s.num}</span>
+            <span className="stat-label">{s.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* COMUNIDADE */}
+      <div className="section-label" style={{ marginTop: 32 }}>Comunidade</div>
+      <div className="content-grid" style={{ paddingTop: 8 }}>
+        <div className="row">
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-social card-social-ig ratio-5-4" style={{ flexGrow: 5 / 4 }}>
+            <div className="card-inner"><div className="card-body">
+              <span className="social-icon">📸</span>
+              <div className="card-tag">Instagram</div>
+              <div className="card-label">@comida<br />dedragao</div>
+              <div className="card-sub">Posts, stories, reels e o Dragão provocando todo dia</div>
+            </div></div>
+            <div className="card-hover-overlay" style={{ background: "rgba(255,45,120,0.08)" }} />
+          </a>
+
+          <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer" className="card card-social card-social-wa ratio-3-4" style={{ flexGrow: 3 / 4 }}>
+            <div className="card-inner"><div className="card-body">
+              <span className="social-icon">💬</span>
+              <div className="card-tag">WhatsApp SAC</div>
+              <div className="card-label">Fala<br />com<br />a gente</div>
+              <div className="card-sub">(21) 3950-0576 — O Dragão não abandona ninguém</div>
+            </div></div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,255,135,0.06)" }} />
+          </a>
+
+          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-social card-social-map ratio-16-9" style={{ flexGrow: 16 / 9 }}>
+            <div className="card-inner"><div className="card-body">
+              <span className="social-icon">📍</span>
+              <div className="card-tag">Presença Física</div>
+              <div className="card-label">+30 Lojas<br />SP e RJ</div>
+              <div className="card-sub">Encontre a loja mais perto de você</div>
+            </div></div>
+            <div className="card-hover-overlay" />
+          </a>
+
+          <a href="mailto:somos@letsfly.com.br" className="card card-social card-social-email ratio-3-5" style={{ flexGrow: 3 / 5 }}>
+            <div className="card-inner"><div className="card-body">
+              <span className="social-icon">✉️</span>
+              <div className="card-tag">Email</div>
+              <div className="card-label">Escreve<br />pro<br />Dragão</div>
+              <div className="card-sub">somos@letsfly.com.br</div>
+            </div></div>
+            <div className="card-hover-overlay" />
+          </a>
+        </div>
+      </div>
+
+      {/* ONDE COMPRAR */}
+      <div className="section-label" style={{ marginTop: 16 }}>Onde Comprar</div>
+      <div className="content-grid" style={{ paddingTop: 8 }}>
+        <div className="row">
+          {[
+            { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Entrega rápida · Prime" },
+            { cls: "card-shop-ml", href: "https://www.mercadolivre.com.br", name: "Mercado\nLivre", tag: "Frete Grátis" },
+            { cls: "card-shop-petlove", href: "https://www.petlove.com.br", name: "Petlove", tag: "Especialista em pets" },
+            { cls: "card-shop-oficial", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço" },
+          ].map((shop, i) => (
+            <a key={i} href={shop.href} target="_blank" rel="noopener noreferrer" className={`card card-shop ${shop.cls}`}>
+              <div className="card-inner ratio-shop">
+                <div className="card-body">
+                  <div className="shop-name">{shop.name.split("\n").map((line, j) => j > 0 ? <span key={j}><br />{line}</span> : line)}</div>
+                  <span className="shop-tag">{shop.tag}</span>
+                  <span className="shop-arrow">→</span>
+                </div>
+              </div>
+              <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
+            </a>
+          ))}
+        </div>
+
+        {/* Biofábrica */}
+        <div className="row">
+          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-biofabrica">
+            <div className="card-inner">
+              <div className="card-body">
+                <div className="bio-left">
+                  <div className="bio-tag">// Cachoeiras de Macacu, RJ</div>
+                  <div className="bio-title">Nossa<br />Biofábrica</div>
+                  <div className="bio-sub">
+                    Produzimos nossos próprios insetos. Do resíduo orgânico à proteína de elite —
+                    tudo rastreável, tudo nosso. 83% menos carbono que proteína convencional.
+                  </div>
+                  <span className="bio-badge">MAPA · ESTAB. RJ 001924-0</span>
+                </div>
+                <div className="bio-right">
+                  <div className="bio-giant">🏭</div>
+                  <div className="bio-cert-stack">
+                    <span className="bio-cert">BSF · Hermetia illucens</span>
+                    <span className="bio-cert">Ciclo 45 dias</span>
+                    <span className="bio-cert">Do resíduo à proteína</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,255,135,0.04)" }} />
+          </a>
+        </div>
+      </div>
+
+      {/* BOTTOM MARQUEE */}
+      <div style={{ marginTop: 24 }}>
+        <MarqueeBar items={MARQUEE_BOTTOM} bottom />
+      </div>
+
+      {/* FOOTER */}
+      <footer className="portal-footer">
+        <div className="footer-logo">COMIDA <span>DE DRAGÃO</span></div>
+        <nav className="footer-links">
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+          <a href="mailto:somos@letsfly.com.br">Contato</a>
+        </nav>
+        <div className="footer-tagline">{footerText}</div>
+      </footer>
+
+      {/* MODAL */}
+      <div
+        className={`modal-overlay${modalOpen ? " open" : ""}`}
+        onClick={e => { if (e.target === e.currentTarget) closeModal(); }}
+      >
+        <div
+          className="modal-window"
+          ref={modalWindowRef}
+          style={dragState.manual ? { left: dragState.left, top: dragState.top, transform: "none" } : undefined}
+        >
+          <div className="modal-titlebar" onMouseDown={handleTitlebarMouseDown}>
+            <span className="title">🐉 Nota do Dragão — Versão 1.0.0</span>
+            <button className="modal-close" onClick={closeModal}>✕</button>
+          </div>
+          <div className="modal-body">
+            <div className="modal-eyebrow">// mensagem confidencial</div>
+            <p>Eu sei. Você chegou aqui pensando: <em>"inseto pra cachorro?"</em><br />Faz sentido. A gente foi condicionado a achar isso nojento.</p>
+            <p>Mas o Dragão vê tudo. E o que eu vejo é que <strong>88,9% de digestibilidade</strong> não é coincidência — é ciência de 300 milhões de anos de evolução.</p>
+            <p>A larva BSF (<em>Black Soldier Fly</em>) é a proteína mais eficiente do planeta. Ela converte resíduos orgânicos em nutrição de elite. Nojento seria desperdiçar isso.</p>
+            <p style={{ fontStyle: "italic", color: "rgba(250,250,250,0.45)", fontSize: 13 }}>— O Dragão dictou. A equipe escreveu. Às 2h da manhã.</p>
+            <div className="modal-cta">
+              <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="btn btn-dragon">Ver os Produtos →</a>
+              <button className="btn" style={{ color: "rgba(250,250,250,0.4)", borderColor: "rgba(250,250,250,0.15)" }} onClick={closeModal}>Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Portal;
