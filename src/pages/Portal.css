@@ -689,6 +689,201 @@
   padding-top: 10px; border-top: 1px solid #222;
 }
 
+/* =====================================================
+   IDENTIDADE VISUAL ÚNICA POR CARD
+   Cada card tem seu próprio fundo / textura / mundo —
+   inspirado na abordagem do The Verge "2004"
+===================================================== */
+
+/* ── YouTube: CRT / broadcast ──────────────────────
+   Scanlines horizontais clássicas de monitor CRT
+   + glow roxo vindo de baixo                        */
+.portal-page .card-video {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.22) 0px, rgba(0,0,0,0.22) 1px,
+      transparent 1px, transparent 4px
+    );
+}
+.portal-page .card-video .video-bg-placeholder {
+  background:
+    repeating-linear-gradient(
+      -52deg,
+      rgba(146,90,237,0.05) 0px, rgba(146,90,237,0.05) 1px,
+      transparent 1px, transparent 22px
+    ),
+    radial-gradient(ellipse 90% 65% at 50% 115%, rgba(146,90,237,0.38) 0%, transparent 65%),
+    #060606;
+}
+
+/* ── Bíblia do Dragão: papel quadriculado / manuscrito
+   Textura de caderno científico com linhas de grade */
+.portal-page .card-pdf .card-body {
+  background-color: #f0ede6;
+  background-image:
+    linear-gradient(rgba(146,90,237,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(146,90,237,0.07) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+/* Corner fold mark — canto dobrado de página */
+.portal-page .card-pdf .card-body::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 0 32px 32px;
+  border-color: transparent transparent #d4c9b0 transparent;
+  pointer-events: none;
+}
+
+/* ── Nossos Produtos: favo de mel (inseto BSF)
+   Padrão de pontos em offset = honeycomb         */
+.portal-page .card-produtos {
+  background-image:
+    radial-gradient(circle, rgba(0,0,0,0.14) 2px, transparent 2px),
+    radial-gradient(circle, rgba(0,0,0,0.07) 2px, transparent 2px);
+  background-size: 18px 18px, 18px 18px;
+  background-position: 0 0, 9px 9px;
+}
+
+/* ── Audiocasts: espectro de frequência / EQ
+   Barras verticais simulando analisador de espectro
+   + glow neon rosa de baixo                       */
+.portal-page .card-audio {
+  background-image:
+    repeating-linear-gradient(90deg,
+      rgba(255,45,120,0.11) 0px, rgba(255,45,120,0.11) 2px,
+      transparent 2px, transparent 11px
+    ),
+    radial-gradient(ellipse 90% 45% at 50% 120%, rgba(255,45,120,0.25) 0%, transparent 70%);
+}
+
+/* Barras do waveform: mais variedade de alturas */
+.portal-page .waveform-bar:nth-child(9)  { height: 45%; animation-delay: 0.08s; }
+.portal-page .waveform-bar:nth-child(10) { height: 85%; animation-delay: 0.18s; }
+.portal-page .waveform-bar:nth-child(11) { height: 30%; animation-delay: 0.03s; }
+.portal-page .waveform-bar:nth-child(12) { height: 95%; animation-delay: 0.22s; }
+.portal-page .waveform-bar:nth-child(13) { height: 50%; animation-delay: 0.12s; }
+.portal-page .waveform-bar:nth-child(14) { height: 75%; animation-delay: 0.07s; }
+
+/* ── Manifesto: halftone / zine / serigrafia
+   Trama de pontos como impressão serigráfica    */
+.portal-page .card-manifesto .card-body {
+  background-color: var(--dragon-yellow);
+  background-image:
+    radial-gradient(circle, rgba(0,0,0,0.10) 1.5px, transparent 1.5px);
+  background-size: 9px 9px;
+}
+
+/* Canto rayado — como fita zebrada de canteiro de obras */
+.portal-page .card-manifesto .card-body::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 42%; height: 36%;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 5px,
+    transparent 5px, transparent 11px
+  );
+  pointer-events: none;
+}
+
+/* ── Instagram: linhas diagonais elegantes ── */
+.portal-page .card-social-ig {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px,
+      transparent 1px, transparent 20px
+    ),
+    linear-gradient(140deg, #2D0052 0%, #9B1060 50%, #925AED 100%);
+}
+
+/* ── WhatsApp: grid de pontos (borbulhas de chat) ── */
+.portal-page .card-social-wa {
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.07) 1.5px, transparent 1.5px),
+    linear-gradient(140deg, #005C38 0%, #00A550 100%);
+  background-size: 18px 18px, auto;
+}
+
+/* ── Lojas / Mapa: grid de cidade ── */
+.portal-page .card-social-map {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(140deg, #1A1A1A 0%, #2E2E2E 100%);
+  background-size: 28px 28px, 28px 28px, auto;
+}
+
+/* ── Email: linhas de caderno ── */
+.portal-page .card-social-email {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,230,0,0.07) 0px, rgba(255,230,0,0.07) 1px,
+      transparent 1px, transparent 20px
+    ),
+    linear-gradient(140deg, #0A0A0A 0%, #1a1a40 100%);
+}
+
+/* ── Amazon: hachura diagonal ── */
+.portal-page .card-shop-amazon {
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 2px,
+      transparent 2px, transparent 12px
+    );
+}
+
+/* ── Mercado Livre: bolinhas polka ── */
+.portal-page .card-shop-ml {
+  background-image:
+    radial-gradient(circle, rgba(0,0,0,0.09) 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+}
+
+/* ── Petlove: listras verticais finas ── */
+.portal-page .card-shop-petlove {
+  background-image:
+    repeating-linear-gradient(90deg,
+      rgba(255,255,255,0.09) 0px, rgba(255,255,255,0.09) 1px,
+      transparent 1px, transparent 16px
+    );
+}
+
+/* ── Loja Oficial: escama de dragão ── */
+.portal-page .card-shop-oficial {
+  background-image:
+    radial-gradient(ellipse 80% 70% at 0% 50%, rgba(0,0,0,0.10) 40%, transparent 55%),
+    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,0,0,0.10) 40%, transparent 55%),
+    radial-gradient(ellipse 80% 70% at 100% 50%, rgba(0,0,0,0.10) 40%, transparent 55%);
+  background-size: 22px 14px;
+}
+
+/* ── Biofábrica: placa de circuito / PCB ── */
+.portal-page .card-biofabrica {
+  background-image:
+    linear-gradient(rgba(0,255,135,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,135,0.06) 1px, transparent 1px);
+  background-size: 38px 38px;
+}
+
+/* ── Quiz companion: linhas de dados / data-viz ── */
+.portal-page .card-quiz-companion {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(146,90,237,0.08) 0px, rgba(146,90,237,0.08) 1px,
+      transparent 1px, transparent 14px
+    );
+}
+
 /* RESPONSIVE */
 @media (max-width: 680px) {
   .portal-page .row { flex-direction: column; }
