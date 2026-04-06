@@ -66,6 +66,7 @@ const Portal = () => {
   const [skin, setSkin] = useState(1);
   const [heroName, setHeroName] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [catalogOpen, setCatalogOpen] = useState(false);
   const [quizStep, setQuizStep] = useState(0);
   const [quizActive, setQuizActive] = useState(false);
   const [quizResult, setQuizResult] = useState(QUIZ_PRODUCTS.cao);
@@ -79,10 +80,12 @@ const Portal = () => {
     setModalOpen(false);
     setDragState(prev => ({ ...prev, manual: false }));
   }, []);
+  const openCatalog = useCallback(() => setCatalogOpen(true), []);
+  const closeCatalog = useCallback(() => setCatalogOpen(false), []);
 
   // Keyboard Escape
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") closeModal(); };
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeCatalog(); } };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [closeModal]);
@@ -257,13 +260,13 @@ const Portal = () => {
 
         {/* ROW 2 */}
         <div className="row">
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-produtos ratio-1-1">
+          <div onClick={openCatalog} style={{ cursor: "pointer" }} className="card card-produtos ratio-1-1">
             <HoverBg imgKey="produtos" />
             <div className="card-inner">
               <div className="card-body">
                 <span className="produto-emoji">🐛</span>
                 <div className="card-label">Nossos<br />Produtos</div>
-                <div className="card-sub" style={{ marginTop: 8 }}>Passe o mouse e conheça toda a linha</div>
+                <div className="card-sub" style={{ marginTop: 8 }}>Clique e veja o catálogo completo</div>
               </div>
               <div className="card-reveal reveal-produtos">
                 <div className="rp-title">// linha completa</div>
@@ -281,7 +284,7 @@ const Portal = () => {
               </div>
             </div>
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
-          </a>
+          </div>
 
           <a href="#" className="card card-audio ratio-3-5">
             <HoverBg imgKey="audio" />
@@ -586,6 +589,62 @@ const Portal = () => {
           </div>
         </div>
       </div>
+      {/* MODAL CATÁLOGO */}
+      {catalogOpen && (
+        <div
+          className="modal-overlay open"
+          onClick={e => { if (e.target === e.currentTarget) closeCatalog(); }}
+          style={{ zIndex: 1000 }}
+        >
+          <div style={{
+            position: "relative",
+            maxWidth: "90vw",
+            maxHeight: "90vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+            <button
+              onClick={closeCatalog}
+              style={{
+                position: "absolute",
+                top: -16,
+                right: -16,
+                background: "var(--dragon-lime, #aaff00)",
+                color: "#000",
+                border: "none",
+                borderRadius: "50%",
+                width: 36,
+                height: 36,
+                fontSize: 18,
+                fontWeight: 700,
+                cursor: "pointer",
+                zIndex: 10,
+                lineHeight: 1,
+              }}
+            >✕</button>
+            <img
+              src="/assets/images/Frente.png"
+              alt="Catálogo Comida de Dragão"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "88vh",
+                objectFit: "contain",
+                borderRadius: 8,
+                boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
+              }}
+            />
+            <a
+              href="https://comidadedragao.com.br/collections/produtos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-dragon"
+              style={{ marginTop: 16 }}
+            >Ver todos os produtos →</a>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
