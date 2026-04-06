@@ -9,7 +9,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   audio:      "/assets/images/estranho-cultural.jpg",
   produtos:   "/assets/images/larva-pets-amam.jpg",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
-  manual:     PORTAL_COVER,
+  manual:     "/assets/images/matilha.png",
 };
 
 const HoverBg = ({ imgKey }: { imgKey: string }) => (
@@ -267,18 +267,15 @@ const Portal = () => {
           </a>
 
           <div onClick={openManual} style={{ cursor: "pointer" }} className="card card-pdf ratio-3-4">
-            <HoverBg imgKey="manual" />
-            <div className="card-inner">
-              <div className="card-body">
-                <div className="card-tag">Manual</div>
-                <div>
-                  <div className="pdf-icon">📖</div>
-                  <div className="card-label">Manual do<br />Criador</div>
-                  <div className="card-sub">Clique e acesse o guia completo para criadores de conteúdo</div>
-                </div>
-              </div>
+            <div className="card-pdf-top">
+              <div className="card-tag">Manual</div>
+              <HoverBg imgKey="manual" />
             </div>
-            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.3)" }} />
+            <div className="card-pdf-bottom">
+              <div className="pdf-icon">📖</div>
+              <div className="card-label">Manual do<br />Criador</div>
+              <div className="card-sub">Clique e acesse o guia completo para criadores de conteúdo</div>
+            </div>
           </div>
         </div>
 
