@@ -1,12 +1,15 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import "./Portal.css";
 
+const PORTAL_COVER = "/assets/images/PORTAL COMIDA DE DRAGÃO.png";
+
 const CARD_HOVER_IMAGES: Record<string, string> = {
   manifesto:  "/assets/images/nojento-desperdicio.png",
   quiz:       "/assets/images/instinto-nao-erra.jpg",
   audio:      "/assets/images/estranho-cultural.jpg",
   produtos:   "/assets/images/larva-pets-amam.jpg",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
+  manual:     PORTAL_COVER,
 };
 
 const HoverBg = ({ imgKey }: { imgKey: string }) => (
@@ -264,6 +267,7 @@ const Portal = () => {
           </a>
 
           <div onClick={openManual} style={{ cursor: "pointer" }} className="card card-pdf ratio-3-4">
+            <HoverBg imgKey="manual" />
             <div className="card-inner">
               <div className="card-body">
                 <div className="card-tag">Manual</div>
@@ -274,7 +278,7 @@ const Portal = () => {
                 </div>
               </div>
             </div>
-            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.05)" }} />
+            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.3)" }} />
           </div>
         </div>
 
@@ -670,8 +674,19 @@ const Portal = () => {
         <div
           className="modal-overlay open"
           onClick={e => { if (e.target === e.currentTarget) closeManual(); }}
-          style={{ zIndex: 1000 }}
+          style={{
+            zIndex: 1000,
+            backgroundImage: `url(${PORTAL_COVER})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         >
+          {/* overlay escuro sobre o fundo */}
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "rgba(0,0,0,0.72)",
+            pointerEvents: "none",
+          }} />
           <div style={{
             position: "relative",
             maxWidth: "90vw",
@@ -679,6 +694,7 @@ const Portal = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            zIndex: 2,
           }}>
             <button
               onClick={closeManual}
