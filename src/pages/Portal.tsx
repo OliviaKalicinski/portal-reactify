@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import "./Portal.css";
 
-const PORTAL_COVER = "/assets/images/PORTAL COMIDA DE DRAGÃO.png";
+const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
 
 const CARD_HOVER_IMAGES: Record<string, string> = {
   manifesto:  "/assets/images/nojento-desperdicio.png",
@@ -15,7 +15,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
 const HoverBg = ({ imgKey }: { imgKey: string }) => (
   <div
     className="card-img-hover"
-    style={{ backgroundImage: `url(${CARD_HOVER_IMAGES[imgKey]})` }}
+    style={{ backgroundImage: `url('${CARD_HOVER_IMAGES[imgKey]}')` }}
   />
 );
 
@@ -676,17 +676,9 @@ const Portal = () => {
           onClick={e => { if (e.target === e.currentTarget) closeManual(); }}
           style={{
             zIndex: 1000,
-            backgroundImage: `url(${PORTAL_COVER})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            background: `rgba(0,0,0,0.72) url('${PORTAL_COVER}') center/cover no-repeat`,
           }}
         >
-          {/* overlay escuro sobre o fundo */}
-          <div style={{
-            position: "absolute", inset: 0,
-            background: "rgba(0,0,0,0.72)",
-            pointerEvents: "none",
-          }} />
           <div style={{
             position: "relative",
             maxWidth: "90vw",
