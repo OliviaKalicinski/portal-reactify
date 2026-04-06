@@ -9,7 +9,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   audio:      "/assets/images/estranho-cultural.jpg",
   produtos:   "/assets/images/larva-pets-amam.jpg",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
-  manual:     "/assets/images/portal-comida-dragao.png",
+  manual:     PORTAL_COVER,
 };
 
 const HoverBg = ({ imgKey }: { imgKey: string }) => (
@@ -333,18 +333,6 @@ const Portal = () => {
                 <div className="card-label">Nojento<br />é o<br />desperdício.</div>
                 <div className="card-sub">Leia o nosso manifesto — escrito pelo próprio Dragão</div>
               </div>
-              <div className="card-reveal reveal-manifesto">
-                <span className="rm-label">// o dragão dictou às 2h da manhã</span>
-                <p className="rm-text">
-                  "Eu sei que parece loucura.<br />
-                  Mas nojento mesmo é jogar<br />
-                  1,3 bilhão de toneladas de<br />
-                  comida no lixo — e achar normal.<br /><br />
-                  A gente só transformou<br />
-                  desperdício em proteína."
-                </p>
-                <span className="rm-sig">— O Dragão</span>
-              </div>
             </div>
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.04)" }} />
           </a>
@@ -597,15 +585,19 @@ const Portal = () => {
           style={dragState.manual ? { left: dragState.left, top: dragState.top, transform: "none" } : undefined}
         >
           <div className="modal-titlebar" onMouseDown={handleTitlebarMouseDown}>
-            <span className="title">🐉 Nota do Dragão — Versão 1.0.0</span>
+            <span className="title">🐉 A Carta do Dragão</span>
             <button className="modal-close" onClick={closeModal}>✕</button>
           </div>
           <div className="modal-body">
-            <div className="modal-eyebrow">// mensagem confidencial</div>
-            <p>Eu sei. Você chegou aqui pensando: <em>"inseto pra cachorro?"</em><br />Faz sentido. A gente foi condicionado a achar isso nojento.</p>
-            <p>Mas o Dragão vê tudo. E o que eu vejo é que <strong>88,9% de digestibilidade</strong> não é coincidência — é ciência de 300 milhões de anos de evolução.</p>
-            <p>A larva BSF (<em>Black Soldier Fly</em>) é a proteína mais eficiente do planeta. Ela converte resíduos orgânicos em nutrição de elite. Nojento seria desperdiçar isso.</p>
-            <p style={{ fontStyle: "italic", color: "rgba(250,250,250,0.45)", fontSize: 13 }}>— O Dragão dictou. A equipe escreveu. Às 2h da manhã.</p>
+            <div className="modal-eyebrow">// manifesto</div>
+            <p>Nasci do elo entre a vitalidade da terra e o saber ancestral. Sou milenar e atemporal, carregando a memória dos antigos e a chama que ilumina o caminho para nossa verdadeira natureza.</p>
+            <p>Meu sopro é de cura. Minha casca dura é usada para proteger e resistir, minha força serve para regenerar, e minha sabedoria uso para questionar e provocar com humildade.</p>
+            <p>Trago o elixir da regeneração, o néctar que nutre e harmoniza os seres vivos.</p>
+            <p><strong>Mais do que um alimento, uma revolução.</strong></p>
+            <p>Não posso permitir que a humanidade se satisfaça com tão pouco ou que a sustentabilidade se torne uma lenda esquecida. Nutrir-se de Comida de Dragão é um ato de rebeldia contra a inércia, uma afirmação de que buscamos algo mais profundo e significativo.</p>
+            <p>Na escuridão da ignorância, meu rugido é a fagulha que reacende a capacidade de sonhar com um amanhã possível. Como uma bússola, guiarei sua jornada de reconexão com a natureza e com todas as formas de vida.</p>
+            <p><em>Ofereço a coragem para fazer parte de um futuro harmonioso e regenerativo.</em></p>
+            <p style={{ fontStyle: "italic", color: "rgba(250,250,250,0.35)", fontSize: 12, marginTop: 8 }}>— O Dragão</p>
             <div className="modal-cta">
               <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="btn btn-dragon">Ver os Produtos →</a>
               <button className="btn" style={{ color: "rgba(250,250,250,0.4)", borderColor: "rgba(250,250,250,0.15)" }} onClick={closeModal}>Fechar</button>
