@@ -1,6 +1,21 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import "./Portal.css";
 
+const CARD_HOVER_IMAGES: Record<string, string> = {
+  manifesto:  "https://drive.google.com/uc?export=view&id=19BjHhPo_7CGphfOhw9x_tuOtUbhavtOY",
+  quiz:       "https://drive.google.com/uc?export=view&id=13TWo9GwhZLELVZ1TazgVOtWMeDcpK11w",
+  audio:      "https://drive.google.com/uc?export=view&id=1LZAeEND6jnnDZiH42nnW8Hw2WZU8VsSl",
+  produtos:   "https://drive.google.com/uc?export=view&id=1nSpr3aAZwoNUyYFi08pYkv01HeUBEwDG",
+  biofabrica: "https://drive.google.com/uc?export=view&id=1KRgUt0Ki1MkmmLwYiGEom0tV2fY8_A7f",
+};
+
+const HoverBg = ({ imgKey }: { imgKey: string }) => (
+  <div
+    className="card-img-hover"
+    style={{ backgroundImage: `url(${CARD_HOVER_IMAGES[imgKey]})` }}
+  />
+);
+
 const MARQUEE_TOP = [
   "NOJENTO É O DESPERDÍCIO",
   "MAIS QUE UM ALIMENTO, UMA REVOLUÇÃO",
@@ -133,6 +148,21 @@ const Portal = () => {
 
   return (
     <div className={`portal-page skin-${skin}`}>
+      <style>{`
+        .card-img-hover {
+          position: absolute;
+          inset: 0;
+          background-size: cover;
+          background-position: center;
+          opacity: 0;
+          transition: opacity 0.45s ease;
+          z-index: 0;
+          border-radius: inherit;
+        }
+        .card:hover .card-img-hover { opacity: 1; }
+        .card-inner, .card-body, .card-reveal,
+        .quiz-bg, .quiz-step { position: relative; z-index: 1; }
+      `}</style>
       {/* TOP MARQUEE */}
       <MarqueeBar items={MARQUEE_TOP} />
 
@@ -228,6 +258,7 @@ const Portal = () => {
         {/* ROW 2 */}
         <div className="row">
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-produtos ratio-1-1">
+            <HoverBg imgKey="produtos" />
             <div className="card-inner">
               <div className="card-body">
                 <span className="produto-emoji">🐛</span>
@@ -253,6 +284,7 @@ const Portal = () => {
           </a>
 
           <a href="#" className="card card-audio ratio-3-5">
+            <HoverBg imgKey="audio" />
             <div className="card-inner">
               <div className="card-body">
                 <span className="card-tag">Audiocasts</span>
@@ -267,6 +299,7 @@ const Portal = () => {
           </a>
 
           <a href="#" onClick={e => { e.preventDefault(); openModal(); }} className="card card-manifesto ratio-5-4">
+            <HoverBg imgKey="manifesto" />
             <div className="card-inner">
               <div className="card-body">
                 <span className="scratch-mark">// manifesto</span>
@@ -293,6 +326,7 @@ const Portal = () => {
         {/* ROW 3: Quiz + Companion */}
         <div className="row">
           <div className={`card card-quiz${quizActive ? " qactive" : ""}`}>
+            <HoverBg imgKey="quiz" />
             <div className="quiz-bg" />
 
             {/* Step 0 */}
@@ -481,6 +515,7 @@ const Portal = () => {
         {/* Biofábrica */}
         <div className="row">
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-biofabrica">
+            <HoverBg imgKey="biofabrica" />
             <div className="card-inner">
               <div className="card-body">
                 <div className="bio-left">
