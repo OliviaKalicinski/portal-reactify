@@ -661,6 +661,108 @@ const Portal = () => {
         </div>
       )}
 
+      {/* MODAL MANUAL DO CRIADOR */}
+      {manualOpen && (
+        <div
+          className="modal-overlay open"
+          onClick={e => { if (e.target === e.currentTarget) closeManual(); }}
+          style={{ zIndex: 1000 }}
+        >
+          <div style={{
+            position: "relative",
+            maxWidth: "90vw",
+            maxHeight: "90vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+            <button
+              onClick={closeManual}
+              style={{
+                position: "absolute",
+                top: -16,
+                right: -16,
+                background: "var(--dragon-lime, #aaff00)",
+                color: "#000",
+                border: "none",
+                borderRadius: "50%",
+                width: 36,
+                height: 36,
+                fontSize: 18,
+                fontWeight: 700,
+                cursor: "pointer",
+                zIndex: 10,
+                lineHeight: 1,
+              }}
+            >✕</button>
+            <div style={{
+              maxWidth: "100%",
+              maxHeight: "88vh",
+              overflowY: "auto",
+              display: "flex",
+              flexDirection: "column",
+              gap: 16,
+              alignItems: "center",
+            }}>
+              <img
+                src="/assets/images/poster-punk-converte.png"
+                alt="Manual do Criador — Página 1"
+                style={{
+                  maxWidth: "100%",
+                  objectFit: "contain",
+                  borderRadius: 8,
+                  boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
+                }}
+              />
+              <img
+                src="/assets/images/poster-punk-gato.png"
+                alt="Manual do Criador — Página 2"
+                style={{
+                  maxWidth: "100%",
+                  objectFit: "contain",
+                  borderRadius: 8,
+                  boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* AUDIO PLAYER FLUTUANTE */}
+      {audioOpen && (
+        <div className={`audio-float-player${audioMinimized ? " minimized" : ""}`}>
+          <audio ref={audioRef} src="/assets/audio/audiocast.mp3" preload="metadata" />
+          {!audioMinimized ? (
+            <>
+              <div className="afp-header">
+                <span className="afp-tag">🎙 Audiocast</span>
+                <div className="afp-controls">
+                  <button className="afp-btn" onClick={() => setAudioMinimized(true)} title="Minimizar">—</button>
+                  <button className="afp-btn" onClick={closeAudio} title="Fechar">✕</button>
+                </div>
+              </div>
+              <div className="afp-title">O Dragão Fala ao Microfone</div>
+              <div className="afp-waveform">
+                {Array.from({ length: 20 }).map((_, i) => <div className="afp-bar" key={i} />)}
+              </div>
+              <div className="afp-actions">
+                <button className="afp-play" onClick={() => {
+                  const a = audioRef.current;
+                  if (!a) return;
+                  a.paused ? a.play() : a.pause();
+                }}>▶ / ⏸</button>
+              </div>
+            </>
+          ) : (
+            <div className="afp-mini" onClick={() => setAudioMinimized(false)}>
+              <span>🎙 Audiocast</span>
+              <button className="afp-btn" onClick={e => { e.stopPropagation(); closeAudio(); }}>✕</button>
+            </div>
+          )}
+        </div>
+      )}
+
     </div>
   );
 };
