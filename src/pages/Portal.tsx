@@ -166,47 +166,6 @@ const Portal = () => {
         </div>
       </section>
 
-      {/* AUDIENCE HUB */}
-      <div className="audience-hub">
-        <div className="audience-hub-label">// Escolha seu universo</div>
-        <div className="audience-grid">
-
-          {/* Consumidor */}
-          <a href="https://comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="audience-card aud-consumer">
-            <div className="audience-card-inner">
-              <div className="aud-bg-num">01</div>
-              <div className="aud-tag">Tutor de pet</div>
-              <div className="aud-title">Quero<br />alimentar<br />bem.</div>
-              <div className="aud-desc">Produtos, quiz de recomendação, onde comprar. O Dragão te guia.</div>
-              <div className="aud-cta">Ver produtos →</div>
-            </div>
-          </a>
-
-          {/* Influenciador */}
-          <a href="#influenciador" className="audience-card aud-influencer">
-            <div className="audience-card-inner">
-              <div className="aud-bg-num">02</div>
-              <div className="aud-tag">Criador de conteúdo</div>
-              <div className="aud-title">Quero<br />ser<br />dragão.</div>
-              <div className="aud-desc">Manual de marca, kit de assets, briefings e links rastreados.</div>
-              <div className="aud-cta">Ver kit →</div>
-            </div>
-          </a>
-
-          {/* Vendedor */}
-          <a href="#vendedor" className="audience-card aud-seller">
-            <div className="audience-card-inner">
-              <div className="aud-bg-num">03</div>
-              <div className="aud-tag">Revenda / B2B</div>
-              <div className="aud-title">Quero<br />vender<br />junto.</div>
-              <div className="aud-desc">Catálogo, tabela de preços, materiais de PDV e contato comercial.</div>
-              <div className="aud-cta" style={{ color: "var(--dragon-lime)" }}>Ver catálogo →</div>
-            </div>
-          </a>
-
-        </div>
-      </div>
-
       {/* CONTROLS BAR */}
       <nav className="controls-bar">
         <button className="btn btn-dragon" onClick={openModal}>🐉 O Dragão Fala</button>
@@ -452,6 +411,47 @@ const Portal = () => {
             </div></div>
             <div className="card-hover-overlay" />
           </a>
+        </div>
+      </div>
+
+      {/* PERFIS */}
+      <div className="section-label" style={{ marginTop: 16 }}>Área por Perfil</div>
+      <div className="audience-hub" style={{ paddingTop: 8 }}>
+        <div className="audience-grid">
+
+          {/* Consumidor */}
+          <a href="https://comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="audience-card aud-consumer">
+            <div className="audience-card-inner">
+              <div className="aud-bg-num">01</div>
+              <div className="aud-tag">Tutor de pet</div>
+              <div className="aud-title">Quero<br />alimentar<br />bem.</div>
+              <div className="aud-desc">Produtos, quiz de recomendação, onde comprar. O Dragão te guia.</div>
+              <div className="aud-cta">Ver produtos →</div>
+            </div>
+          </a>
+
+          {/* Influenciador */}
+          <a href="#influenciador" className="audience-card aud-influencer">
+            <div className="audience-card-inner">
+              <div className="aud-bg-num">02</div>
+              <div className="aud-tag">Criador de conteúdo</div>
+              <div className="aud-title">Quero<br />ser<br />dragão.</div>
+              <div className="aud-desc">Manual de marca, kit de assets, briefings e links rastreados.</div>
+              <div className="aud-cta">Ver kit →</div>
+            </div>
+          </a>
+
+          {/* Vendedor */}
+          <a href="#vendedor" className="audience-card aud-seller">
+            <div className="audience-card-inner">
+              <div className="aud-bg-num">03</div>
+              <div className="aud-tag">Revenda / B2B</div>
+              <div className="aud-title">Quero<br />vender<br />junto.</div>
+              <div className="aud-desc">Catálogo, tabela de preços, materiais de PDV e contato comercial.</div>
+              <div className="aud-cta" style={{ color: "var(--dragon-lime)" }}>Ver catálogo →</div>
+            </div>
+          </a>
+
         </div>
       </div>
 
