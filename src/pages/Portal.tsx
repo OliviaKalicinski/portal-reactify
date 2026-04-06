@@ -2,11 +2,11 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import "./Portal.css";
 
 const CARD_HOVER_IMAGES: Record<string, string> = {
-  manifesto:  "https://drive.google.com/uc?export=view&id=19BjHhPo_7CGphfOhw9x_tuOtUbhavtOY",
-  quiz:       "https://drive.google.com/uc?export=view&id=13TWo9GwhZLELVZ1TazgVOtWMeDcpK11w",
-  audio:      "https://drive.google.com/uc?export=view&id=1LZAeEND6jnnDZiH42nnW8Hw2WZU8VsSl",
-  produtos:   "https://drive.google.com/uc?export=view&id=1nSpr3aAZwoNUyYFi08pYkv01HeUBEwDG",
-  biofabrica: "https://drive.google.com/uc?export=view&id=1KRgUt0Ki1MkmmLwYiGEom0tV2fY8_A7f",
+  manifesto:  "/assets/images/nojento-desperdicio.png",
+  quiz:       "/assets/images/instinto-nao-erra.jpg",
+  audio:      "/assets/images/estranho-cultural.jpg",
+  produtos:   "/assets/images/larva-pets-amam.jpg",
+  biofabrica: "/assets/images/biofabrica-exterior.jpeg",
 };
 
 const HoverBg = ({ imgKey }: { imgKey: string }) => (
