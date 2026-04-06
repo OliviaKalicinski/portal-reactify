@@ -247,12 +247,31 @@
   justify-content: flex-end; padding: 22px;
 }
 
+/* HOVER BACKGROUND IMAGE */
+.portal-page .card-img-hover {
+  position: absolute; inset: 0; z-index: 0;
+  background-size: cover; background-position: center;
+  opacity: 0; transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.portal-page .card:hover .card-img-hover { opacity: 1; }
+
 /* HOVER OVERLAY */
 .portal-page .card .card-hover-overlay {
   position: absolute; inset: 0; background: rgba(146,90,237,0.07);
   opacity: 0; transition: opacity 0.2s; z-index: 1; pointer-events: none;
 }
 .portal-page .card:hover .card-hover-overlay { opacity: 1; }
+
+/* PDF card: fade background on hover to show image */
+.portal-page .card-pdf:hover .card-body {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+.portal-page .card-pdf .card-body {
+  transition: background-color 0.35s ease, background-image 0.35s ease;
+  z-index: 2;
+}
 
 /* CARD REVEAL */
 .portal-page .card-reveal {
