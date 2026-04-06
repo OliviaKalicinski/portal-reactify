@@ -67,6 +67,10 @@ const Portal = () => {
   const [heroName, setHeroName] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
+  const [manualOpen, setManualOpen] = useState(false);
+  const [audioOpen, setAudioOpen] = useState(false);
+  const [audioMinimized, setAudioMinimized] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [quizStep, setQuizStep] = useState(0);
   const [quizActive, setQuizActive] = useState(false);
   const [quizResult, setQuizResult] = useState(QUIZ_PRODUCTS.cao);
@@ -82,10 +86,22 @@ const Portal = () => {
   }, []);
   const openCatalog = useCallback(() => setCatalogOpen(true), []);
   const closeCatalog = useCallback(() => setCatalogOpen(false), []);
+  const openManual = useCallback(() => setManualOpen(true), []);
+  const closeManual = useCallback(() => setManualOpen(false), []);
+  const openAudio = useCallback(() => {
+    setAudioOpen(true);
+    setAudioMinimized(false);
+    setTimeout(() => audioRef.current?.play(), 100);
+  }, []);
+  const closeAudio = useCallback(() => {
+    audioRef.current?.pause();
+    setAudioOpen(false);
+    setAudioMinimized(false);
+  }, []);
 
   // Keyboard Escape
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeCatalog(); } };
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeCatalog(); closeManual(); } };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [closeModal]);
@@ -243,19 +259,19 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <a href="#" className="card card-pdf ratio-3-4">
+          <div onClick={openManual} style={{ cursor: "pointer" }} className="card card-pdf ratio-3-4">
             <div className="card-inner">
               <div className="card-body">
-                <div className="card-tag">Documento</div>
+                <div className="card-tag">Manual</div>
                 <div>
-                  <div className="pdf-icon">📄</div>
-                  <div className="card-label">A Bíblia<br />do Dragão</div>
-                  <div className="card-sub">Tudo sobre a ciência por trás da alimentação BSF — em PDF</div>
+                  <div className="pdf-icon">📖</div>
+                  <div className="card-label">Manual do<br />Criador</div>
+                  <div className="card-sub">Clique e acesse o guia completo para criadores de conteúdo</div>
                 </div>
               </div>
             </div>
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.05)" }} />
-          </a>
+          </div>
         </div>
 
         {/* ROW 2 */}
@@ -286,7 +302,7 @@ const Portal = () => {
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
           </div>
 
-          <a href="#" className="card card-audio ratio-3-5">
+          <div onClick={openAudio} style={{ cursor: "pointer" }} className="card card-audio ratio-3-5">
             <HoverBg imgKey="audio" />
             <div className="card-inner">
               <div className="card-body">
@@ -295,11 +311,11 @@ const Portal = () => {
                   {Array.from({ length: 14 }).map((_, i) => <div className="waveform-bar" key={i} />)}
                 </div>
                 <div className="card-label">O Dragão<br />Fala ao<br />Microfone</div>
-                <div className="card-sub">Episódios sobre pet food, sustentabilidade e o que ninguém conta</div>
+                <div className="card-sub">Clique e ouça enquanto navega</div>
               </div>
             </div>
             <div className="card-hover-overlay" />
-          </a>
+          </div>
 
           <a href="#" onClick={e => { e.preventDefault(); openModal(); }} className="card card-manifesto ratio-5-4">
             <HoverBg imgKey="manifesto" />
