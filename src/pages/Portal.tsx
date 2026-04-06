@@ -268,8 +268,8 @@ const Portal = () => {
 
           <div onClick={openManual} style={{ cursor: "pointer" }} className="card card-pdf ratio-3-4">
             <HoverBg imgKey="manual" />
-            <div className="card-inner" style={{ justifyContent: "flex-end" }}>
-              <div className="card-body" style={{ marginTop: "auto" }}>
+            <div className="card-inner">
+              <div className="card-body">
                 <div className="card-tag">Manual</div>
                 <div>
                   <div className="pdf-icon">📖</div>
