@@ -9,7 +9,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   audio:      "/assets/images/estranho-cultural.jpg",
   produtos:   "/assets/images/larva-pets-amam.jpg",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
-  manual:     PORTAL_COVER,
+  manual:     "/assets/images/portal-comida-dragao.png",
 };
 
 const HoverBg = ({ imgKey }: { imgKey: string }) => (
