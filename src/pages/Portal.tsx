@@ -70,6 +70,7 @@ const Portal = () => {
   const [manualOpen, setManualOpen] = useState(false);
   const [audioOpen, setAudioOpen] = useState(false);
   const [audioMinimized, setAudioMinimized] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [quizStep, setQuizStep] = useState(0);
   const [quizActive, setQuizActive] = useState(false);
@@ -91,10 +92,13 @@ const Portal = () => {
   const openAudio = useCallback(() => {
     setAudioOpen(true);
     setAudioMinimized(false);
-    setTimeout(() => audioRef.current?.play(), 100);
+    setTimeout(() => {
+      audioRef.current?.play().then(() => setAudioPlaying(true)).catch(() => {});
+    }, 100);
   }, []);
   const closeAudio = useCallback(() => {
     audioRef.current?.pause();
+    setAudioPlaying(false);
     setAudioOpen(false);
     setAudioMinimized(false);
   }, []);
@@ -732,7 +736,14 @@ const Portal = () => {
       {/* AUDIO PLAYER FLUTUANTE */}
       {audioOpen && (
         <div className={`audio-float-player${audioMinimized ? " minimized" : ""}`}>
-          <audio ref={audioRef} src="/assets/audio/audiocast.mp3" preload="metadata" />
+          <audio
+            ref={audioRef}
+            src="/assets/audio/audiocast.mp3"
+            preload="metadata"
+            onPlay={() => setAudioPlaying(true)}
+            onPause={() => setAudioPlaying(false)}
+            onEnded={() => setAudioPlaying(false)}
+          />
           {!audioMinimized ? (
             <>
               <div className="afp-header">
@@ -743,7 +754,7 @@ const Portal = () => {
                 </div>
               </div>
               <div className="afp-title">O Dragão Fala ao Microfone</div>
-              <div className="afp-waveform">
+              <div className={`afp-waveform${audioPlaying ? " playing" : ""}`}>
                 {Array.from({ length: 20 }).map((_, i) => <div className="afp-bar" key={i} />)}
               </div>
               <div className="afp-actions">
@@ -751,12 +762,14 @@ const Portal = () => {
                   const a = audioRef.current;
                   if (!a) return;
                   a.paused ? a.play() : a.pause();
-                }}>▶ / ⏸</button>
+                }}>
+                  {audioPlaying ? "⏸ Pausar" : "▶ Ouvir"}
+                </button>
               </div>
             </>
           ) : (
             <div className="afp-mini" onClick={() => setAudioMinimized(false)}>
-              <span>🎙 Audiocast</span>
+              <span>{audioPlaying ? "🎙 Tocando..." : "🎙 Audiocast"}</span>
               <button className="afp-btn" onClick={e => { e.stopPropagation(); closeAudio(); }}>✕</button>
             </div>
           )}
