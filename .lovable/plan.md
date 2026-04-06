@@ -1,33 +1,63 @@
 
 
-## Diagnóstico
+## Problema
 
-Dois problemas encontrados no `Portal.tsx`:
+O sistema atual de hover usa `background-size: cover` em um div que cobre o card inteiro (`inset: 0`). Isso distorce/corta a imagem porque ela precisa preencher toda a área do card (proporção 3:4). O texto fica por cima com `z-index: 1`, mas o fundo sólido do `.card-body` também bloqueia a imagem.
 
-1. **Manual do Criador**: O estado `manualOpen` existe (linha 70) e a função `openManual` é chamada ao clicar no card (linha 262), mas **não existe nenhum modal renderizado** que responda a esse estado. O catálogo tem um modal completo (linhas 608-662), mas o manual não tem equivalente.
+A ideia do usuário é mais clara: o card deve ter **duas zonas verticais**:
 
-2. **Audiocast**: O estado `audioOpen` existe (linha 71) e `openAudio` é chamado ao clicar no card (linha 305), mas **não existe nenhum player de áudio renderizado** no componente. Não há `<audio>` element nem UI de player.
+```text
+┌─────────────────────┐
+│                     │  ← Zona superior: textura/cor padrão
+│                     │     No HOVER: imagem (matilha.png)
+│                     │     sem distorção, sem corte
+│                     │
+├─────────────────────┤
+│ 📖 Manual do        │  ← Zona inferior: barra fixa com texto
+│ Criador             │     Sempre visível, nunca muda
+│ Clique e acesse...  │
+└─────────────────────┘
+```
 
----
+## Plano
 
-## Plano de Correção
+### 1. Reestruturar o HTML do card PDF (`Portal.tsx`)
 
-### 1. Adicionar modal do Manual do Criador
+Dividir o card em duas áreas:
 
-Criar um modal idêntico ao do catálogo (mesmo estilo com overlay, botão fechar, imagem centralizada) logo após o modal do catálogo. Usará as imagens `poster-punk-converte.png` e/ou `poster-punk-gato.png` como páginas do manual (ou a imagem que melhor represente o manual). O modal responderá ao estado `manualOpen`.
+- **Zona superior (~65% da altura)**: contém a textura de fundo (grid de linhas atual do `#f0ede6`) e o `HoverBg` posicionado apenas nessa zona. A imagem aparece com `object-fit: contain` ou `background-size: contain` para não distorcer.
+- **Zona inferior (~35%)**: barra com fundo sólido (mesma cor `#f0ede6`) contendo o ícone 📖, título "Manual do Criador" e subtítulo. Esta barra é **sempre visível**, não muda no hover.
 
-### 2. Adicionar player de áudio flutuante
+Substituir a estrutura atual do card-pdf por algo como:
+```html
+<div className="card card-pdf">
+  <div className="card-pdf-top">
+    <div className="card-tag">Manual</div>
+    <HoverBg imgKey="manual" />  <!-- agora só cobre a zona superior -->
+  </div>
+  <div className="card-pdf-bottom">
+    <div className="pdf-icon">📖</div>
+    <div className="card-label">Manual do Criador</div>
+    <div className="card-sub">Clique e acesse o guia...</div>
+  </div>
+</div>
+```
 
-Criar um mini-player flutuante que aparece quando `audioOpen` é `true`. Incluirá:
-- Um elemento `<audio>` com ref (`audioRef` já existe)
-- Controles de play/pause
-- Botão de minimizar (usa `audioMinimized` que já existe)
-- Botão de fechar
-- Visual estilizado no tema do Portal (waveform, tag "Audiocast")
-- Posicionamento fixo no canto inferior direito
-- Placeholder de áudio (URL de exemplo ou arquivo local) — o usuário poderá substituir depois
+### 2. CSS para o novo layout (`Portal.css`)
+
+- `.card-pdf-top`: `position: relative; flex: 1; overflow: hidden;` — ocupa o espaço restante acima da barra.
+- `.card-pdf-bottom`: `padding: 16px 22px; background: #f0ede6;` — barra fixa embaixo.
+- `.card-pdf .card-img-hover`: agora posicionado dentro de `.card-pdf-top` apenas (não `inset: 0` do card inteiro), com `background-size: contain; background-repeat: no-repeat; background-position: center;`.
+- Remover as regras que forçam `background-color: transparent` no hover do `.card-pdf`.
+
+### 3. Imagem usada
+
+Usar `matilha.png` (já existe em `public/assets/images/`) como hover do manual. Alterar em `CARD_HOVER_IMAGES`:
+```
+manual: "/assets/images/matilha.png"
+```
 
 ### Arquivos alterados
-- `src/pages/Portal.tsx` — adicionar os dois blocos de UI (modal manual + player áudio)
-- `src/pages/Portal.css` — adicionar estilos para o player de áudio flutuante
+- **`src/pages/Portal.tsx`** — reestruturar o card-pdf e trocar imagem de hover
+- **`src/pages/Portal.css`** — adicionar `.card-pdf-top`, `.card-pdf-bottom`, ajustar `.card-img-hover` dentro do pdf
 
