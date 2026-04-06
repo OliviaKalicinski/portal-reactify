@@ -231,11 +231,10 @@ const Portal = () => {
         <div className="row">
           <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-video ratio-16-9">
             <div className="card-inner">
-              {/* Preview do YouTube — troque YT_VIDEO_ID pelo ID real do vídeo */}
               <div className="yt-preview-wrap" aria-hidden="true">
                 <iframe
                   className="yt-preview-iframe"
-                  src="https://www.youtube-nocookie.com/embed/YT_VIDEO_ID?autoplay=1&mute=1&controls=0&loop=1&playlist=YT_VIDEO_ID&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3"
+                  src="https://www.youtube-nocookie.com/embed/yb68p_v-63M?autoplay=1&mute=1&controls=0&loop=1&playlist=yb68p_v-63M&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3"
                   allow="autoplay; encrypted-media"
                   title=""
                   tabIndex={-1}
