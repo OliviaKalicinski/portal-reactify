@@ -6,10 +6,10 @@ const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DR
 const CARD_HOVER_IMAGES: Record<string, string> = {
   manifesto:  "/assets/images/nojento-desperdicio.png",
   quiz:       "/assets/images/instinto-nao-erra.jpg",
-  audio:      "/assets/images/estranho-cultural.jpg",
+  audio:      "/assets/images/Audiocast.png",
   produtos:   "/assets/images/larva-pets-amam.jpg",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
-  manual:     "/assets/images/matilha.png",
+  manual:     "/assets/images/Manual_do_Criador.png",
 };
 
 const HoverBg = ({ imgKey }: { imgKey: string }) => (
@@ -308,18 +308,17 @@ const Portal = () => {
           </div>
 
           <div onClick={openAudio} style={{ cursor: "pointer" }} className="card card-audio ratio-3-5">
-            <HoverBg imgKey="audio" />
-            <div className="card-inner">
-              <div className="card-body">
-                <span className="card-tag">Audiocasts</span>
-                <div className="waveform">
-                  {Array.from({ length: 14 }).map((_, i) => <div className="waveform-bar" key={i} />)}
-                </div>
-                <div className="card-label">O Dragão<br />Fala ao<br />Microfone</div>
-                <div className="card-sub">Clique e ouça enquanto navega</div>
-              </div>
+            <div className="card-audio-top">
+              <span className="card-tag">Audiocasts</span>
+              <HoverBg imgKey="audio" />
             </div>
-            <div className="card-hover-overlay" />
+            <div className="card-audio-bottom">
+              <div className="waveform">
+                {Array.from({ length: 14 }).map((_, i) => <div className="waveform-bar" key={i} />)}
+              </div>
+              <div className="card-label">O Dragão<br />Fala ao<br />Microfone</div>
+              <div className="card-sub">Clique e ouça enquanto navega</div>
+            </div>
           </div>
 
           <a href="#" onClick={e => { e.preventDefault(); openModal(); }} className="card card-manifesto ratio-5-4">
