@@ -585,7 +585,7 @@ const Portal = () => {
         <div
           className="modal-window"
           ref={modalWindowRef}
-          style={dragState.manual ? { left: dragState.left, top: dragState.top, transform: "none" } : undefined}
+          style={dragState.manual ? { position: "fixed", left: dragState.left, top: dragState.top } : undefined}
         >
           <div className="modal-titlebar" onMouseDown={handleTitlebarMouseDown}>
             <span className="title">🐉 O Dragão Fala</span>
