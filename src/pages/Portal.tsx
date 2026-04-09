@@ -591,12 +591,12 @@ const Portal = () => {
             <span className="title">🐉 O Dragão Fala</span>
             <button className="modal-close" onClick={closeModal}>✕</button>
           </div>
-          <div className="modal-body" style={{ padding: 0 }}>
+          <div className="modal-body" style={{ padding: 0, flex: 1, minHeight: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <video
               src="/assets/videos/SharkTank%20Insta%20.mp4"
               controls
               autoPlay
-              style={{ width: "100%", display: "block", borderRadius: "0 0 12px 12px" }}
+              style={{ width: "100%", maxWidth: "100%", maxHeight: "100%", objectFit: "contain", display: "block", borderRadius: "0 0 12px 12px" }}
             />
           </div>
         </div>
