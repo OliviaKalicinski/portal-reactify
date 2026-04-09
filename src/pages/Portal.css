@@ -701,7 +701,7 @@
 .portal-page .cqc-tagline { font-family: 'Courier Prime', monospace; font-size: 11px; color: rgba(250,250,250,0.2); line-height: 1.5; }
 
 /* MODAL */
-.portal-page .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; align-items: center; justify-content: center; }
+.portal-page .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
 .portal-page .modal-overlay.open { display: flex; }
 .portal-page .modal-window {
   position: relative;
