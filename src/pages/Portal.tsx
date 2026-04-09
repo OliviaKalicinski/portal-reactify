@@ -605,37 +605,27 @@ const Portal = () => {
         <div className="footer-tagline">{footerText}</div>
       </footer>
 
-      {/* MODAL */}
-      <div
-        className={`modal-overlay${modalOpen ? " open" : ""}`}
-        onClick={e => { if (e.target === e.currentTarget) closeModal(); }}
-      >
+      {/* MODAL DRAGÃO FALA — VÍDEO */}
+      {modalOpen && (
         <div
-          className="modal-window"
-          ref={modalWindowRef}
-          style={dragState.manual ? { left: dragState.left, top: dragState.top, transform: "none" } : undefined}
+          className="dragao-fala-overlay"
+          onClick={e => { if (e.target === e.currentTarget) closeModal(); }}
         >
-          <div className="modal-titlebar" onMouseDown={handleTitlebarMouseDown}>
-            <span className="title">🐉 A Carta do Dragão</span>
-            <button className="modal-close" onClick={closeModal}>✕</button>
-          </div>
-          <div className="modal-body">
-            <div className="modal-eyebrow">// manifesto</div>
-            <p>Nasci do elo entre a vitalidade da terra e o saber ancestral. Sou milenar e atemporal, carregando a memória dos antigos e a chama que ilumina o caminho para nossa verdadeira natureza.</p>
-            <p>Meu sopro é de cura. Minha casca dura é usada para proteger e resistir, minha força serve para regenerar, e minha sabedoria uso para questionar e provocar com humildade.</p>
-            <p>Trago o elixir da regeneração, o néctar que nutre e harmoniza os seres vivos.</p>
-            <p><strong>Mais do que um alimento, uma revolução.</strong></p>
-            <p>Não posso permitir que a humanidade se satisfaça com tão pouco ou que a sustentabilidade se torne uma lenda esquecida. Nutrir-se de Comida de Dragão é um ato de rebeldia contra a inércia, uma afirmação de que buscamos algo mais profundo e significativo.</p>
-            <p>Na escuridão da ignorância, meu rugido é a fagulha que reacende a capacidade de sonhar com um amanhã possível. Como uma bússola, guiarei sua jornada de reconexão com a natureza e com todas as formas de vida.</p>
-            <p><em>Ofereço a coragem para fazer parte de um futuro harmonioso e regenerativo.</em></p>
-            <p style={{ fontStyle: "italic", color: "rgba(250,250,250,0.35)", fontSize: 12, marginTop: 8 }}>— O Dragão</p>
-            <div className="modal-cta">
-              <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="btn btn-dragon">Ver os Produtos →</a>
-              <button className="btn" style={{ color: "rgba(250,250,250,0.4)", borderColor: "rgba(250,250,250,0.15)" }} onClick={closeModal}>Fechar</button>
+          <div className="dragao-fala-modal">
+            <div className="dragao-fala-header">
+              <span>🐉 O Dragão Fala</span>
+              <button className="dragao-fala-close" onClick={closeModal}>✕</button>
+            </div>
+            <div className="dragao-fala-video-wrap">
+              <video
+                className="dragao-fala-video"
+                controls
+                src="/assets/videos/dragao-fala.mp4"
+              />
             </div>
           </div>
         </div>
-      </div>
+      )}
       {/* MODAL CATÁLOGO */}
       {catalogOpen && (
         <div
