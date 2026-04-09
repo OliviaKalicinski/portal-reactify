@@ -181,11 +181,13 @@ const Portal = () => {
 
   const heroTaglineContent = nameUpper ? (
     <>
-      <strong>{nameUpper}</strong>, se você chegou aqui, já faz parte da revolução. Segue o fio...
+      <strong>{nameUpper}</strong>, se você chegou aqui,<br />
+      já faz parte da revolução!
     </>
   ) : (
     <>
-      Alimento para pets à base de inseto.
+      Alimento para pets à base de inseto.<br />
+      <strong>O futuro da nutrição animal.</strong>
     </>
   );
 
