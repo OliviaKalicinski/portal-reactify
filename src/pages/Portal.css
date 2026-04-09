@@ -1293,3 +1293,92 @@
   transition: opacity 0.4s ease;
 }
 .portal-page .card-shop:hover .card-inner { opacity: 0; }
+
+/* ========================
+   DRAGÃO FALA — MODAL DE VÍDEO (escopo fechado)
+======================== */
+.dragao-fala-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dragao-fala-modal {
+  position: relative;
+  width: 90vw;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #111;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dragao-fala-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--skin-accent, #FF7A00);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.dragao-fala-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.15s;
+}
+.dragao-fala-close:hover {
+  color: #fff;
+}
+
+.dragao-fala-video-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.dragao-fala-video {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(90vh - 60px);
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .dragao-fala-modal {
+    max-height: 95vh;
+    width: 95vw;
+  }
+  .dragao-fala-header {
+    padding: 10px 12px;
+  }
+  .dragao-fala-video-wrap {
+    padding: 8px;
+  }
+  .dragao-fala-video {
+    max-height: calc(95vh - 50px);
+  }
+}
