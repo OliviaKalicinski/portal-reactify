@@ -1,32 +1,68 @@
 
 
-## Problema
+## Mudanças no Hero Tagline
 
-A logo está como `<img>`, que **não suporta `currentColor`**. O CSS `color: var(--skin-accent)` não tem efeito em tags `<img>`. Para o SVG responder à cor do tema, ele precisa ser **inline** (direto no JSX).
+Duas alterações cirúrgicas: texto no TSX e estilo no CSS. Nada mais é tocado.
 
-## Solução
-
-Converter de `<img>` para SVG inline no `Portal.tsx`.
-
-### Alterações
-
-**`src/pages/Portal.tsx`**
-- Remover: `<img src="/assets/images/logo-dragao.svg" alt="Comida de Dragão" className="hero-logo" />`
-- No lugar, colar o conteúdo SVG diretamente como JSX, com `className="hero-logo"` e atributos React (`viewBox`, sem `id`, `xmlns` ok):
+### 1. Portal.tsx — Trocar `heroTaglineContent` (linhas 182-192)
 
 ```tsx
-<svg className="hero-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" aria-label="Comida de Dragão">
-  <g>
-    {/* todos os <path> do logo-dragao.svg, com fill="currentColor" */}
-  </g>
-</svg>
+const heroTaglineContent = nameUpper ? (
+  <>
+    {nameUpper}, SE VOCÊ CHEGOU AQUI, JÁ FAZ PARTE DA REVOLUÇÃO.
+    <span className="hero-tagline-sub">segue o fio...</span>
+  </>
+) : (
+  <>
+    ALIMENTO PARA PETS À BASE DE INSETO.
+    <span className="hero-tagline-sub">segue o fio...</span>
+  </>
+);
 ```
 
-Os `<path>` já usam `fill: currentColor` via a classe `.cls-1`, mas como inline SVG, vamos trocar `class="cls-1"` por `fill="currentColor"` diretamente em cada `<path>`.
+- Remove `<strong>` e `<br />` anteriores
+- Texto já em maiúsculas no JSX (CSS `text-transform: uppercase` reforça)
+- Adiciona `<span className="hero-tagline-sub">` como subtexto
 
-**`src/pages/Portal.css`**
-- Nenhuma alteração necessária. O CSS `.hero-logo` já define `color: var(--skin-accent)`, que agora vai funcionar porque o SVG inline herda `currentColor` do `color`.
+### 2. Portal.css — Alterar APENAS `.hero-tagline` (linhas 160-165)
 
-### Resultado
-A logo muda de cor automaticamente com cada skin (Fogo = laranja, Floresta = verde, Neon = pink).
+Substituir as regras existentes por:
+
+```css
+.portal-page .hero-tagline {
+  font-size: 28px;
+  font-weight: 300;
+  color: rgba(250,250,250,0.65);
+  margin-top: 20px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.4;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.portal-page .hero-tagline-sub {
+  display: block;
+  font-size: 14px;
+  text-transform: lowercase;
+  color: rgba(255,255,255,0.4);
+  margin-top: 8px;
+}
+```
+
+No `@media (max-width: 768px)` existente, adicionar:
+
+```css
+.portal-page .hero-tagline {
+  font-size: 20px;
+}
+```
+
+### O que NÃO muda
+
+- Logo SVG (`.hero-logo`) — zero alterações
+- `hero-content` layout — mantém `text-align: center` e `align-items: center`
+- Input de nome, cards, footer, controles, CSS global — intocados
+- Linha `.hero-tagline strong` pode ser removida pois não há mais `<strong>`
 
