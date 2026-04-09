@@ -82,6 +82,7 @@ const Portal = () => {
   const [skin, setSkin] = useState(1);
   const [heroName, setHeroName] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [manifestoOpen, setManifestoOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
   
   const [audioOpen, setAudioOpen] = useState(false);
@@ -101,6 +102,8 @@ const Portal = () => {
     setModalOpen(false);
     setDragState(prev => ({ ...prev, manual: false }));
   }, []);
+  const openManifesto = useCallback(() => setManifestoOpen(true), []);
+  const closeManifesto = useCallback(() => setManifestoOpen(false), []);
   const openCatalog = useCallback(() => setCatalogOpen(true), []);
   const closeCatalog = useCallback(() => setCatalogOpen(false), []);
   const openAudio = useCallback(() => {
@@ -119,20 +122,20 @@ const Portal = () => {
 
   // Keyboard Escape
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeCatalog(); } };
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeManifesto(); closeCatalog(); } };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [closeModal]);
 
-  // Body overflow lock when Dragão Fala modal is open
+  // Body overflow lock when any modal is open
   useEffect(() => {
-    if (modalOpen) {
+    if (modalOpen || manifestoOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [modalOpen]);
+  }, [modalOpen, manifestoOpen]);
 
   // Modal drag
   useEffect(() => {
@@ -178,14 +181,13 @@ const Portal = () => {
 
   const heroTaglineContent = nameUpper ? (
     <>
-      <strong>{nameUpper}</strong>, seu pet merece o melhor da natureza.<br />
-      Mesmo que seja inseto.
+      <strong>{nameUpper}</strong>, se você chegou aqui,<br />
+      já faz parte da revolução!
     </>
   ) : (
     <>
-      O Dragão sabe que seu cachorro merece<br />
-      <strong>o melhor da natureza.</strong><br />
-      Mesmo que seja inseto.
+      Alimento para pets à base de inseto.<br />
+      <strong>O futuro da nutrição animal.</strong>
     </>
   );
 
@@ -259,11 +261,12 @@ const Portal = () => {
             <div
               key={n}
               className={`skin-dot s${n}${skin === n ? " active" : ""}`}
-              title={["Modo Fogo", "Modo Floresta", "Modo Neon"][n - 1]}
+              title={["Curioso", "Nojentinho", "Estudado"][n - 1]}
               onClick={() => setSkin(n)}
             />
           ))}
         </div>
+        <span className="skin-active-name">{["Curioso", "Nojentinho", "Estudado"][skin - 1]}</span>
         <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="btn btn-buy">Comprar Agora →</a>
       </nav>
 
@@ -357,7 +360,7 @@ const Portal = () => {
             </div>
           </div>
 
-          <a href="#" onClick={e => { e.preventDefault(); openModal(); }} className="card card-manifesto ratio-5-4">
+          <a href="#" onClick={e => { e.preventDefault(); openManifesto(); }} className="card card-manifesto ratio-5-4">
             <HoverBg imgKey="manifesto" />
             <div className="card-inner">
               <div className="card-body">
@@ -417,16 +420,13 @@ const Portal = () => {
             </div>
           </div>
 
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-quiz-companion">
+          <a href="https://comidadedragao.com.br/blogs" target="_blank" rel="noopener noreferrer" className="card card-quiz-companion">
             <HoverBg imgKey="companion" />
             <div className="card-inner">
               <div className="card-body">
-                <span className="cqc-label">// digestibilidade</span>
-                <div>
-                  <div className="cqc-big">88,9%</div>
-                  <div className="cqc-unit">de proteína absorvida</div>
-                </div>
-                <div className="cqc-tagline">Ração comum chega<br />a 70–80%.<br />BSF é outro nível.</div>
+                <span className="cqc-label">// blog</span>
+                <div className="card-label">O Dragão<br />Escreve</div>
+                <div className="card-sub">Artigos, bastidores e ciência por trás do inseto</div>
               </div>
             </div>
             <div className="card-hover-overlay" />
@@ -440,7 +440,6 @@ const Portal = () => {
           { num: "83%", label: <>menos <em>carbono</em></> },
           { num: "15K", label: <>litros menos <em>água/kg</em></> },
           { num: "142×", label: <>menos <em>uso de terra</em></> },
-          { num: "88,9%", label: <><em>digestibilidade</em></> },
           { num: "45", label: <>dias de <em>ciclo de vida</em></> },
         ].map((s, i) => (
           <div className="stat-item" key={i}>
@@ -518,7 +517,7 @@ const Portal = () => {
           </a>
 
           {/* Influenciador */}
-          <a href="#influenciador" className="audience-card aud-influencer">
+          <a href="mailto:somos@letsfly.com.br?subject=Quero ser criador de conteúdo Comida de Dragão" className="audience-card aud-influencer">
             <HoverBg imgKey="influencer" />
             <div className="audience-card-inner">
               <div className="aud-bg-num">02</div>
@@ -530,7 +529,7 @@ const Portal = () => {
           </a>
 
           {/* Vendedor */}
-          <a href="#vendedor" className="audience-card aud-seller">
+          <a href="mailto:somos@letsfly.com.br?subject=Quero revender Comida de Dragão" className="audience-card aud-seller">
             <HoverBg imgKey="seller" />
             <div className="audience-card-inner">
               <div className="aud-bg-num">03</div>
@@ -623,7 +622,7 @@ const Portal = () => {
         >
           <div className="dragao-fala-modal">
             <div className="dragao-fala-header">
-              <span>🐉 O Dragão Fala</span>
+              <span>🐉 Mensagem do Dragão</span>
               <button className="dragao-fala-close" onClick={closeModal}>✕</button>
             </div>
             <div className="dragao-fala-video-wrap">
@@ -632,6 +631,32 @@ const Portal = () => {
                 controls
                 src="/assets/videos/SharkTank Insta .mp4"
               />
+            </div>
+          </div>
+        </div>
+      )}
+      {/* MODAL MANIFESTO */}
+      {manifestoOpen && (
+        <div
+          className="dragao-fala-overlay"
+          onClick={e => { if (e.target === e.currentTarget) closeManifesto(); }}
+        >
+          <div className="dragao-fala-modal" style={{ maxWidth: 540 }}>
+            <div className="dragao-fala-header">
+              <span>📜 Manifesto</span>
+              <button className="dragao-fala-close" onClick={closeManifesto}>✕</button>
+            </div>
+            <div style={{ padding: "24px 28px", overflowY: "auto", maxHeight: "calc(90vh - 60px)" }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", fontFamily: "'Space Mono', monospace", marginBottom: 16 }}>// manifesto</p>
+              <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Nasci do elo entre a vitalidade da terra e o saber ancestral. Sou milenar e atemporal, carregando a memória dos antigos e a chama que ilumina o caminho para nossa verdadeira natureza.</p>
+              <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Meu sopro é de cura. Minha força serve para regenerar, e minha sabedoria uso para questionar e provocar com humildade.</p>
+              <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Trago o elixir da regeneração, o néctar que nutre e harmoniza os seres vivos.</p>
+              <p style={{ fontSize: 16, lineHeight: 1.7, color: "#fff", fontWeight: 700, marginBottom: 14 }}>Mais do que um alimento, uma revolução.</p>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontStyle: "italic", marginBottom: 20 }}>— O Dragão</p>
+              <div style={{ display: "flex", gap: 12 }}>
+                <a href="https://comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="btn btn-dragon">Ver os Produtos →</a>
+                <button className="btn" style={{ color: "rgba(255,255,255,0.4)", borderColor: "rgba(255,255,255,0.15)" }} onClick={closeManifesto}>Fechar</button>
+              </div>
             </div>
           </div>
         </div>
