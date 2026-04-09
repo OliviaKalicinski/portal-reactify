@@ -124,6 +124,16 @@ const Portal = () => {
     return () => document.removeEventListener("keydown", handler);
   }, [closeModal]);
 
+  // Body overflow lock when Dragão Fala modal is open
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [modalOpen]);
+
   // Modal drag
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
