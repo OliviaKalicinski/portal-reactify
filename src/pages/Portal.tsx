@@ -106,6 +106,13 @@ const Portal = () => {
     setAudioMinimized(false);
   }, []);
 
+  // Lock body scroll when any modal is open
+  useEffect(() => {
+    const anyOpen = modalOpen || catalogOpen || manualOpen;
+    document.body.style.overflow = anyOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [modalOpen, catalogOpen, manualOpen]);
+
   // Keyboard Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeCatalog(); closeManual(); } };
