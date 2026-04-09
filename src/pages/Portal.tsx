@@ -106,6 +106,13 @@ const Portal = () => {
     setAudioMinimized(false);
   }, []);
 
+  // Lock body scroll when any modal is open
+  useEffect(() => {
+    const anyOpen = modalOpen || catalogOpen || manualOpen;
+    document.body.style.overflow = anyOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [modalOpen, catalogOpen, manualOpen]);
+
   // Keyboard Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeCatalog(); closeManual(); } };
@@ -578,7 +585,7 @@ const Portal = () => {
         <div
           className="modal-window"
           ref={modalWindowRef}
-          style={dragState.manual ? { left: dragState.left, top: dragState.top, transform: "none" } : undefined}
+          style={dragState.manual ? { position: "fixed", left: dragState.left, top: dragState.top } : undefined}
         >
           <div className="modal-titlebar" onMouseDown={handleTitlebarMouseDown}>
             <span className="title">🐉 O Dragão Fala</span>
