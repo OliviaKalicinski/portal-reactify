@@ -207,7 +207,7 @@ export default function Biblioteca() {
   return (
     <div className="biblioteca-page">
       <header className="biblioteca-header">
-        <Link to="/" className="biblioteca-voltar">
+        <Link to="/portal" className="biblioteca-voltar">
           ← voltar ao portal
         </Link>
         <h1 className="biblioteca-titulo">Biblioteca Científica</h1>
