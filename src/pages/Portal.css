@@ -861,6 +861,12 @@
 }
 .portal-page .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--dragon-white); letter-spacing: 0.04em; }
 .portal-page .footer-logo span { color: var(--dragon-orange); }
+.portal-page .footer-logo-svg {
+  width: 200px;
+  height: auto;
+  color: #ffffff;
+  display: block;
+}
 .portal-page .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
 .portal-page .footer-links a {
   font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
