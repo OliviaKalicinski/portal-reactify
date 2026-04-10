@@ -424,13 +424,13 @@ const Portal = () => {
             </div>
           </div>
 
-          <a href="https://comidadedragao.com.br/blogs" target="_blank" rel="noopener noreferrer" className="card card-quiz-companion">
+          <a href="/imprensa" className="card card-quiz-companion">
             <HoverBg imgKey="companion" />
             <div className="card-inner">
               <div className="card-body">
-                <span className="cqc-label">// blog</span>
-                <div className="card-label">O Dragão<br />Escreve</div>
-                <div className="card-sub">Artigos, bastidores e ciência por trás do inseto</div>
+                <span className="cqc-label">// imprensa</span>
+                <div className="card-label">Na Mídia &<br />Cobertura</div>
+                <div className="card-sub">23 links — matérias, vídeos e o que falam sobre o Dragão</div>
               </div>
             </div>
             <div className="card-hover-overlay" />
