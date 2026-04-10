@@ -179,15 +179,19 @@ const Portal = () => {
 
   const nameUpper = heroName.trim().toUpperCase();
 
-  const heroTaglineContent = nameUpper ? (
+  const heroTaglineContent = (
     <>
-      {nameUpper}, SE VOCÊ CHEGOU AQUI, JÁ FAZ PARTE DA REVOLUÇÃO.
-      <span className="hero-tagline-sub">segue o fio...</span>
-    </>
-  ) : (
-    <>
-      ALIMENTO PARA PETS À BASE DE INSETO.
-      <span className="hero-tagline-sub">segue o fio...</span>
+      <span className="hero-tagline-main">ALIMENTO PARA PETS À BASE DE INSETO.</span>
+      {nameUpper ? (
+        <span className="hero-tagline-sub">
+          <span className="hero-tagline-name">{nameUpper}</span>, SE VOCÊ CHEGOU AQUI, JÁ FAZ PARTE DA REVOLUÇÃO.
+          <span className="hero-tagline-fio">segue o fio...</span>
+        </span>
+      ) : (
+        <span className="hero-tagline-sub hero-tagline-sub-empty">
+          digite seu nome e segue o fio...
+        </span>
+      )}
     </>
   );
 
