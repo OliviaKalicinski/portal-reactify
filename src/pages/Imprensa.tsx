@@ -449,7 +449,7 @@ const Imprensa = () => {
 
       {/* FOOTER */}
       <footer className="portal-footer">
-        <div className="footer-logo">COMIDA <span>DE DRAGÃO</span></div>
+        <DragonLogo className="footer-logo-svg" />
         <nav className="footer-links">
           <Link to="/portal">Portal</Link>
           <Link to="/biblioteca">Biblioteca</Link>

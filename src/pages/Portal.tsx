@@ -608,7 +608,7 @@ const Portal = () => {
 
       {/* FOOTER */}
       <footer className="portal-footer">
-        <div className="footer-logo">COMIDA <span>DE DRAGÃO</span></div>
+        <DragonLogo className="footer-logo-svg" />
         <nav className="footer-links">
           <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
