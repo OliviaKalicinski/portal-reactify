@@ -286,7 +286,6 @@ const Biblioteca = () => {
       </nav>
 
       {/* BUSCA + FILTROS */}
-      <div className="section-label">Buscar</div>
       <div className="biblio-controles">
         <input
           type="text"
