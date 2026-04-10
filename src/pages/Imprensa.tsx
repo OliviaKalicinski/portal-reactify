@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import DragonLogo from "@/components/DragonLogo";
 import { Link } from "react-router-dom";
 import "./Portal.css";
 import "./Biblioteca.css";
