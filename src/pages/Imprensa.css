@@ -1,0 +1,112 @@
+/* ============================================================
+   IMPRENSA — estende Biblioteca.css
+   Usa toda a base do .biblio-*, só adiciona detalhes dos cards
+   de link (header com badge de tipo, veículo, etc.)
+   ============================================================ */
+
+.impr-page {
+  padding-bottom: 0;
+}
+
+/* ---------- Filtros (nomes mais longos que na biblioteca) ---------- */
+.impr-filtros {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 1100px) {
+  .impr-filtros {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .impr-filtros {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .impr-filtros {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Grid de cards ---------- */
+.impr-grid {
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+}
+
+/* ---------- Card de link ---------- */
+.impr-card {
+  padding: 24px 22px 22px;
+}
+
+.impr-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.impr-card-header .biblio-card-cat {
+  margin-bottom: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Badge de tipo (Matéria, Vídeo, etc.) ---------- */
+.impr-tipo-badge {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border: 1.5px solid;
+  border-radius: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ---------- Veículo (logo abaixo do título) ---------- */
+.impr-veiculo {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: -8px 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Ajuste do título pra respirar menos agressivo ---------- */
+.impr-card .biblio-card-titulo {
+  font-size: 20px;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+/* ---------- Hover state ---------- */
+.impr-card:hover .impr-tipo-badge {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 768px) {
+  .impr-card {
+    padding: 22px 18px 18px;
+  }
+
+  .impr-card .biblio-card-titulo {
+    font-size: 18px;
+  }
+
+  .impr-card-header {
+    flex-wrap: wrap;
+  }
+}
