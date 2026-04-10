@@ -364,13 +364,13 @@ const Portal = () => {
             </div>
           </div>
 
-          <a href="#" onClick={e => { e.preventDefault(); openManifesto(); }} className="card card-manifesto ratio-5-4">
+          <a href="/biblioteca" className="card card-manifesto ratio-5-4">
             <HoverBg imgKey="manifesto" />
             <div className="card-inner">
               <div className="card-body">
-                <span className="scratch-mark">// manifesto</span>
-                <div className="card-label">Nojento<br />é o<br />desperdício.</div>
-                <div className="card-sub">Leia o nosso manifesto — escrito pelo próprio Dragão</div>
+                <span className="scratch-mark">// biblioteca</span>
+                <div className="card-label">Biblioteca<br />Científica.</div>
+                <div className="card-sub">17 artigos sobre inseto na alimentação pet — a ciência por trás do Dragão</div>
               </div>
             </div>
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.04)" }} />
@@ -490,7 +490,7 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <a href="mailto:somos@letsfly.com.br" className="card card-social card-social-email ratio-3-5" style={{ flexGrow: 3 / 5 }}>
+          <a href="mailto:somos@letsfly.com.br" className="card card-social card-social-email ratio-3-4" style={{ flexGrow: 3 / 4 }}>
             <HoverBg imgKey="email" />
             <div className="card-inner"><div className="card-body">
               <span className="social-icon">✉️</span>
