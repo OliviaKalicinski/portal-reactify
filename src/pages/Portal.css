@@ -159,34 +159,36 @@
 .portal-page .hero-name-output.visible { opacity: 1; transform: translateY(0); }
 .portal-page .hero-tagline {
   margin-top: 24px;
-  max-width: 720px;
+  max-width: 760px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 .portal-page .hero-tagline-main {
   display: block;
-  font-size: 42px;
+  font-size: clamp(28px, 4.2vw, 52px);
   font-weight: 900;
-  line-height: 1.15;
+  line-height: 1.1;
   text-transform: uppercase;
   color: rgba(250,250,250,0.95);
   letter-spacing: -0.5px;
+  font-family: 'Big Shoulders Display', sans-serif;
 }
 .portal-page .hero-tagline-sub {
   display: block;
-  font-size: 18px;
+  font-size: clamp(15px, 1.4vw, 20px);
   font-weight: 400;
   line-height: 1.4;
   text-transform: uppercase;
   color: rgba(250,250,250,0.55);
+  font-family: 'Space Grotesk', sans-serif;
 }
 .portal-page .hero-tagline-sub-empty {
   text-transform: lowercase;
-  font-size: 14px;
+  font-size: 13px;
   color: rgba(250,250,250,0.3);
   font-style: italic;
 }
@@ -196,12 +198,13 @@
 }
 .portal-page .hero-tagline-fio {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   text-transform: lowercase;
   color: rgba(250,250,250,0.35);
   margin-top: 6px;
   font-style: italic;
 }
+.portal-page .hero-tagline strong { color: var(--skin-accent-alt); font-weight: 700; }
 .portal-page .hero-name-wrap {
   display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 26px;
 }
@@ -1148,8 +1151,6 @@
 
 @media (max-width: 768px) {
   .portal-page .hero-logo { width: 260px; }
-  .portal-page .hero-tagline-main { font-size: 28px; }
-  .portal-page .hero-tagline-sub { font-size: 15px; }
 }
 @media (max-width: 480px) {
   .portal-page .hero-logo { width: 200px; }
