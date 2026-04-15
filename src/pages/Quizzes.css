@@ -330,16 +330,63 @@
   margin-top: 10px;
 }
 
-/* Completed badge on card */
-.quizzes-page .qz-card-done-badge {
-  position: absolute; top: 14px; right: 14px; z-index: 3;
-  background: var(--dragon-lime);
-  color: var(--dragon-black);
-  font-size: 9px; font-weight: 800; letter-spacing: 0.2em;
-  text-transform: uppercase; padding: 4px 8px;
-  display: flex; align-items: center; gap: 5px;
-  max-width: calc(100% - 28px);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+/* ── CARD DONE STATE ─────────────────────────── */
+.quizzes-page .qz-card.done {
+  border-color: var(--card-accent, var(--dragon-orange));
+}
+
+/* Overlay central sobre o card concluído */
+.quizzes-page .qz-card-done-overlay {
+  position: absolute; inset: 0; z-index: 3;
+  background: rgba(10,10,10,0.82);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; padding: 20px; text-align: center;
+  transition: background 0.3s ease;
+}
+
+/* No hover: overlay some, revela imagem e título abaixo */
+.quizzes-page .qz-card.done:hover .qz-card-done-overlay {
+  background: rgba(10,10,10,0.45);
+}
+
+/* Mantém título e inner visíveis no done (não some no hover) */
+.quizzes-page .qz-card.done:hover .qz-card-body,
+.quizzes-page .qz-card.done:hover .qz-card-inner { opacity: 1; }
+.quizzes-page .qz-card.done:hover .qz-card-img  { opacity: 0.6; }
+
+/* "✓ CONCLUÍDO" */
+.quizzes-page .qz-card-done-tick {
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--card-accent, var(--dragon-lime));
+  background: rgba(0,0,0,0.5);
+  padding: 3px 10px;
+  border: 1px solid var(--card-accent, var(--dragon-lime));
+  opacity: 0.9;
+}
+
+/* Resultado: emoji + label */
+.quizzes-page .qz-card-done-result-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(20px, 2.8vw, 34px);
+  line-height: 1;
+  color: var(--dragon-white);
+  letter-spacing: 0.02em;
+}
+
+/* "Fazer de novo →" */
+.quizzes-page .qz-card-done-redo {
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  transition: color 0.2s;
+  margin-top: 2px;
+}
+.quizzes-page .qz-card.done:hover .qz-card-done-redo {
+  color: var(--card-accent, var(--dragon-orange));
 }
 
 /* Coming soon state */
