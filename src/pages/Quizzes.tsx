@@ -57,6 +57,12 @@ const MARQUEE_BOTTOM = [
 const CONFETTI_COLORS = ["#FF7A00", "#7BFF00", "#FFE600", "#FF2D78", "#925AED", "#00D96F"];
 const OPTION_LETTERS = ["A", "B", "C", "D", "E", "F"];
 
+// Remove emojis do início e de dentro do texto de perguntas/opções
+const stripEmoji = (s: string): string =>
+  s.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B00}-\u{2BFF}\u{1F300}-\u{1FAFF}\u24C2\uFE0F\u20E3]/gu, "")
+   .replace(/\s{2,}/g, " ")
+   .trim();
+
 // ─────────────────────────────────────────────────────────────────────────────
 // STORAGE HELPERS
 // ─────────────────────────────────────────────────────────────────────────────
@@ -672,8 +678,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
           {/* ── QUESTIONS ── */}
           {phase === "questions" && question && (
             <>
-              {question.emoji && <span className="qz-q-emoji">{question.emoji}</span>}
-              <div className="qz-question">{question.question}</div>
+              <div className="qz-question">{stripEmoji(question.question)}</div>
               <div className="qz-options">
                 {question.options.map((opt, i) => (
                   <button
@@ -682,7 +687,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
                     onClick={() => selectAnswer(opt.value)}
                   >
                     <span className="qz-option-letter">{OPTION_LETTERS[i]}</span>
-                    {opt.text}
+                    {stripEmoji(opt.text)}
                   </button>
                 ))}
               </div>
