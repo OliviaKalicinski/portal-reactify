@@ -8,7 +8,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   manifesto:  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnJrc2p5MGFmaWNobWJ4ZXRreGhkbTl1bnRyeGU5YWZ0Z2Jpd2J3MSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U3EC6scVE8SOsjqQPW/giphy.gif",
   quiz:       "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzJxNHpkYTNjYmI2cTlpOTV4ZTQxZG5ia3VpMnpvamNuZjBzdWEwZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1kkxWqT5nvLXupUTwK/giphy.gif",
   audio:      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm13bXZicTVvNWZncXdubnp5NDU4NTd3Y2t4bTU5bWZhcnZqNm0wYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/521JGiED6zWanTJroD/giphy.gif",
-  produtos:   "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHc0dWFpNHVmdG43ODZtb3FvZTNtd2xzbnlndTZ1c2N6YzNiOWNrNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1QkXdzj7erEHzgniAI/giphy.gif",
+  produtos:   "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmMzczJyY2V0YjRhdG16NXdlMzJxcXNneHpuYTR5aWY1M3hwOHk4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DZ1NZce3T5Q3e/giphy.gif",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
   manual:     "/assets/images/matilha.png",
   youtube:    "/assets/images/portal-comida-dragao.png",
