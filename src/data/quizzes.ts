@@ -366,7 +366,7 @@ const quizKnowledge: QuizDef = {
   intro: 'O Dragão passou a vida inteira estudando o que entra no prato dos pets.\nE o que ele descobriu… não é bonito.\nTesta seu conhecimento — e descobre o que eles não te contam na embalagem.',
   emoji: '🎓',
   accent: '#FFE600',
-  hoverImage: '/assets/images/instinto-nao-erra.jpg',
+  hoverImage: 'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTU2eWR3dWFmYmc5NzFuaTk5a3IxbWY1aWY1dTlkaGVzOHMyd21uNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1X8XxTMDxh1xanPVGX/giphy.gif',
   cardRatio: 'ratio-16-9',
   cardFlex: 16 / 9,
   dimension: 'knowledge',
