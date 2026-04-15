@@ -683,26 +683,27 @@
 .portal-page .card-quiz {
   flex-grow: 1.6; min-width: 280px; background: var(--dragon-black);
   border: 2px solid rgba(255,255,255,0.08); overflow: hidden; min-height: 380px;
-  cursor: default; position: relative;
+  cursor: pointer; position: relative; text-decoration: none;
+  display: block;
+  transition: transform 0.18s, border-color 0.18s;
 }
-.portal-page .card-quiz:hover { transform: none; border-color: rgba(255,255,255,0.08); }
-.portal-page .card-quiz.qactive { border-color: var(--dragon-green) !important; }
+.portal-page .card-quiz:hover {
+  transform: translateY(-4px);
+  border-color: var(--dragon-green);
+}
 .portal-page .quiz-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,255,135,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,255,135,0.06) 0%, transparent 70%),
     repeating-linear-gradient(-45deg, rgba(0,255,135,0.02) 0px, rgba(0,255,135,0.02) 1px, transparent 1px, transparent 22px);
   pointer-events: none;
 }
-.portal-page .quiz-step {
+.portal-page .quiz-cta-content {
   position: absolute; inset: 0; display: flex; flex-direction: column;
   align-items: center; justify-content: center; padding: 32px 28px; text-align: center;
-  opacity: 0; transform: translateY(14px);
-  transition: opacity 0.35s ease, transform 0.35s ease; pointer-events: none;
+  z-index: 1;
 }
-.portal-page .quiz-step.qon { opacity: 1; transform: translateY(0); pointer-events: auto; }
-
-.portal-page .quiz-dragon-big { font-size: 52px; margin-bottom: 10px; filter: grayscale(0.1); }
+.portal-page .quiz-dragon-big { font-size: 52px; margin-bottom: 10px; }
 .portal-page .quiz-intro-label {
   font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase;
   color: rgba(250,250,250,0.25); margin-bottom: 8px;
@@ -712,71 +713,15 @@
   line-height: 0.95; color: var(--dragon-white); margin-bottom: 22px;
 }
 .portal-page .quiz-start-btn {
+  display: inline-block;
   background: transparent; border: 2px solid var(--dragon-green); color: var(--dragon-green);
   font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.15em; text-transform: uppercase; padding: 11px 24px; cursor: pointer;
+  letter-spacing: 0.15em; text-transform: uppercase; padding: 11px 24px;
   transition: background 0.2s, color 0.2s;
 }
-.portal-page .quiz-start-btn:hover { background: var(--dragon-green); color: var(--dragon-black); }
-
-.portal-page .quiz-q-label {
-  font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
-  color: rgba(250,250,250,0.25); margin-bottom: 10px;
+.portal-page .card-quiz:hover .quiz-start-btn {
+  background: var(--dragon-green); color: var(--dragon-black);
 }
-.portal-page .quiz-question {
-  font-family: 'Bebas Neue', sans-serif; font-size: clamp(28px, 4vw, 50px);
-  line-height: 0.95; color: var(--dragon-white); margin-bottom: 24px;
-}
-.portal-page .quiz-pets {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 290px;
-}
-.portal-page .quiz-pet-btn {
-  background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.1);
-  color: var(--dragon-white); font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600; font-size: 12px; padding: 16px 10px; cursor: pointer;
-  transition: background 0.18s, border-color 0.18s, color 0.18s;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-}
-.portal-page .quiz-pet-btn:hover { background: rgba(146,90,237,0.1); border-color: var(--dragon-orange); color: var(--dragon-orange); }
-.portal-page .quiz-pet-icon { font-size: 26px; }
-
-.portal-page .quiz-result-icon { font-size: 42px; margin-bottom: 8px; }
-.portal-page .quiz-dragon-says {
-  font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase;
-  color: var(--dragon-orange); margin-bottom: 8px;
-}
-.portal-page .quiz-result-product {
-  font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px, 3.5vw, 40px);
-  color: var(--dragon-white); line-height: 1; margin-bottom: 8px;
-}
-.portal-page .quiz-result-desc {
-  font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.55; max-width: 230px; margin: 0 auto 16px;
-}
-.portal-page .quiz-coupon {
-  background: rgba(146,90,237,0.07); border: 1px solid rgba(146,90,237,0.22);
-  padding: 10px 22px; margin-bottom: 16px; text-align: center;
-}
-.portal-page .quiz-coupon-lbl {
-  font-size: 8px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
-  color: rgba(250,250,250,0.28); display: block; margin-bottom: 5px;
-}
-.portal-page .quiz-coupon-code {
-  font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 22px;
-  letter-spacing: 0.2em; color: var(--dragon-orange);
-}
-.portal-page .quiz-buy-link {
-  display: inline-block; background: var(--dragon-orange); border: none; color: var(--dragon-black);
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.12em; text-transform: uppercase; padding: 11px 22px; cursor: pointer;
-  text-decoration: none; transition: background 0.2s; margin-bottom: 10px;
-}
-.portal-page .quiz-buy-link:hover { background: var(--dragon-yellow); }
-.portal-page .quiz-reset {
-  background: transparent; border: none; color: rgba(255,255,255,0.18);
-  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600;
-  cursor: pointer; transition: color 0.2s; margin-top: 4px; font-family: 'Space Grotesk', sans-serif;
-}
-.portal-page .quiz-reset:hover { color: rgba(255,255,255,0.45); }
 
 /* Quiz companion */
 .portal-page .card-quiz-companion { flex-grow: 1; min-width: 200px; background: var(--dragon-gray); border: 2px solid rgba(255,255,255,0.06); }
