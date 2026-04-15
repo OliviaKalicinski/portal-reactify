@@ -800,67 +800,85 @@
 
 /* ── DIMENSION SLOTS ─────────────────────────── */
 .quizzes-page .qz-dimensions {
-  display: flex; flex-wrap: wrap; gap: 12px;
+  display: flex; flex-wrap: wrap; gap: 10px;
   position: relative; z-index: 2;
   width: 100%;
 }
 
 .quizzes-page .qz-dim-slot {
-  flex: 1 1 160px; min-width: 160px; max-width: 220px;
-  background: rgba(255,255,255,0.04);
-  border: 2px solid rgba(255,255,255,0.1);
-  padding: 16px 14px;
+  flex: 1 1 180px; min-width: 160px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 18px 16px 16px;
   transition: border-color 0.2s, background 0.2s, transform 0.15s;
   position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  min-height: 120px;
 }
+
+/* Filled: barra lateral esquerda forte na cor do quiz */
 .quizzes-page .qz-dim-slot.filled {
-  border-color: var(--dim-accent, var(--dragon-orange));
-  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+  border-left: 4px solid var(--dim-accent, var(--dragon-orange));
+  background: color-mix(in srgb, var(--dim-accent, #FF7A00) 6%, #111);
 }
-.quizzes-page .qz-dim-slot.filled::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--dim-accent, var(--dragon-orange));
-}
+
+/* Empty: borda tracejada */
 .quizzes-page .qz-dim-slot.empty {
   border-style: dashed;
   cursor: pointer;
+  justify-content: center;
 }
 .quizzes-page .qz-dim-slot.empty[role="button"]:hover {
   border-color: var(--dragon-orange);
-  background: rgba(255,122,0,0.05);
+  background: rgba(255,122,0,0.04);
   transform: translateY(-2px);
 }
-.quizzes-page .qz-dim-icon {
-  font-size: 22px; display: block; margin-bottom: 6px; line-height: 1;
-}
+
+/* Título da dimensão */
 .quizzes-page .qz-dim-title {
   font-family: 'Big Shoulders Display', sans-serif;
   font-weight: 800; font-size: 9px;
-  letter-spacing: 0.25em; text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 6px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 10px;
 }
+
+/* Nome do resultado — destaque principal */
 .quizzes-page .qz-dim-label {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px; line-height: 1;
+  font-size: clamp(18px, 2vw, 26px);
+  line-height: 1;
   text-transform: uppercase; letter-spacing: 0.02em;
-  margin-bottom: 4px;
-  /* color set inline */
+  margin-bottom: 6px;
+  flex: 1;
+  /* color set inline via accent */
 }
+
+/* Sub: nome curto do resultado */
 .quizzes-page .qz-dim-sub {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 10px; color: rgba(255,255,255,0.35);
-  letter-spacing: 0.04em;
+  font-size: 10px; color: rgba(255,255,255,0.3);
+  letter-spacing: 0.06em; text-transform: uppercase;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+
+/* Checkmark de concluído */
+.quizzes-page .qz-dim-check {
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.1em;
+  position: absolute; top: 12px; right: 12px;
+  opacity: 0.7;
+}
+
+/* CTA no empty */
 .quizzes-page .qz-dim-cta {
   font-family: 'Big Shoulders Display', sans-serif;
-  font-weight: 700; font-size: 11px;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
-  margin-top: 8px;
+  font-weight: 800; font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  text-align: center;
 }
 .quizzes-page .qz-dim-slot.empty[role="button"] .qz-dim-cta {
   color: var(--dragon-orange);
