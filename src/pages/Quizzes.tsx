@@ -105,6 +105,15 @@ function wrapText(
   return currentY;
 }
 
+async function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Failed to load: ${src}`));
+    img.src = src;
+  });
+}
+
 async function generateResultCardBlob(
   quiz: QuizDef,
   resultKey: string,
@@ -144,17 +153,30 @@ async function generateResultCardBlob(
   ctx.fillStyle = accent;
   ctx.fillRect(0, 0, S, 10);
 
-  // Brand
-  ctx.fillStyle = "#FF7A00";
-  ctx.font = "700 30px 'Big Shoulders Display', 'Arial Black', Arial, sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("COMIDA DE DRAGÃO", S / 2, 62);
+  // Logo (pequena, no topo)
+  try {
+    const logo = await loadImage("/assets/images/logo-dragao.svg");
+    const logoW = 160;
+    const logoH = logo.naturalHeight > 0
+      ? Math.round(logoW * logo.naturalHeight / logo.naturalWidth)
+      : 56;
+    ctx.globalAlpha = 0.75;
+    ctx.drawImage(logo, (S - logoW) / 2, 22, logoW, logoH);
+    ctx.globalAlpha = 1;
+  } catch {
+    // fallback: texto
+    ctx.fillStyle = "#FF7A00";
+    ctx.font = "700 28px 'Big Shoulders Display', Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("COMIDA DE DRAGÃO", S / 2, 58);
+  }
 
   // Dimension label
   if (dimension) {
     ctx.fillStyle = "rgba(255,255,255,0.35)";
     ctx.font = "500 21px 'Space Grotesk', Arial, sans-serif";
-    ctx.fillText(`${dimension.icon} ${dimension.title.toUpperCase()}`, S / 2, 102);
+    ctx.textAlign = "center";
+    ctx.fillText(`${dimension.icon} ${dimension.title.toUpperCase()}`, S / 2, 108);
   }
 
   // Large emoji
@@ -228,11 +250,26 @@ async function generateProfileCardBlob(
   ctx.fillStyle = "#7BFF00";
   ctx.fillRect(0, 0, S, 10);
 
-  // Brand
-  ctx.fillStyle = "#7BFF00";
-  ctx.font = "700 28px 'Big Shoulders Display', 'Arial Black', Arial, sans-serif";
+  // Logo + brand label
+  try {
+    const logo = await loadImage("/assets/images/logo-dragao.svg");
+    const logoW = 140;
+    const logoH = logo.naturalHeight > 0
+      ? Math.round(logoW * logo.naturalHeight / logo.naturalWidth)
+      : 50;
+    ctx.globalAlpha = 0.8;
+    ctx.drawImage(logo, (S - logoW) / 2, 18, logoW, logoH);
+    ctx.globalAlpha = 1;
+  } catch {
+    ctx.fillStyle = "#7BFF00";
+    ctx.font = "700 26px 'Big Shoulders Display', Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("COMIDA DE DRAGÃO", S / 2, 52);
+  }
+  ctx.fillStyle = "rgba(123,255,0,0.5)";
+  ctx.font = "500 18px 'Space Grotesk', Arial, sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText("COMIDA DE DRAGÃO — PERFIL DE TUTOR", S / 2, 58);
+  ctx.fillText("PERFIL DE TUTOR", S / 2, 78);
 
   // Name
   ctx.fillStyle = "#FAFAFA";
@@ -818,14 +855,21 @@ const QuizCard = ({ quiz, completed, onOpen }: QuizCardProps) => (
 
 const WelcomeHero = () => (
   <div className="qz-hero-content">
-    <div className="qz-hero-eyebrow">Comida de Dragão — Quizzes</div>
+    <img
+      src="/assets/images/logo-dragao.svg"
+      className="qz-hero-logo"
+      alt="Comida de Dragão"
+    />
+    <div className="qz-hero-eyebrow">Quizzes do Dragão</div>
     <div className="qz-welcome-title">
       O DRAGÃO<br />
       <span className="qz-accent">TE CONHECE</span>
     </div>
     <div className="qz-welcome-sub">
-      5 quizzes. Seu perfil completo de tutor.<br />
-      Responde, compartilha, entra na matilha.
+      5 quizzes pra descobrir quem você é como tutor.<br />
+      Personalidade, nível de nojo, consciência ambiental,<br />
+      conhecimento sobre pet food — e o produto certo pro seu pet.<br />
+      <strong>Responde, monta seu perfil completo e entra na matilha.</strong>
     </div>
     <div className="qz-welcome-hint">
       ↓ Escolha um quiz pra começar
