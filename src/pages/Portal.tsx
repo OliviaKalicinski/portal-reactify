@@ -5,9 +5,9 @@ import "./Portal.css";
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
 
 const CARD_HOVER_IMAGES: Record<string, string> = {
-  manifesto:  "/assets/images/biblioteca-hover.png",
+  manifesto:  "/assets/images/nojento-desperdicio.png",
   quiz:       "/assets/images/instinto-nao-erra.jpg",
-  audio:      "/assets/images/audiocast-hover.png",
+  audio:      "/assets/images/Audiocast.png",
   produtos:   "/assets/images/larva-pets-amam.jpg",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
   manual:     "/assets/images/matilha.png",
@@ -53,12 +53,6 @@ const MARQUEE_BOTTOM = [
   "NUTRIÇÃO QUE RESPEITA O PLANETA",
 ];
 
-const QUIZ_PRODUCTS: Record<string, { icon: string; name: string; desc: string; coupon: string; link: string }> = {
-  cao: { icon: "🐕", name: "COMIDA DE DRAGÃO ORIGINAL", desc: "Larva BSF 100% pura — o petisco mais proteico que seu cão vai conhecer.", coupon: "PRIMEIRODRAGO", link: "https://comidadedragao.com.br/collections/produtos" },
-  gato: { icon: "🐈", name: "SUPLEMENTO FELINO", desc: "Formulação especial com taurina — essencial pra saúde cardíaca e visual do seu gato.", coupon: "PRIMEIRODRAGO", link: "https://comidadedragao.com.br/collections/produtos" },
-  reptil: { icon: "🦎", name: "GRUB — ALIMENTO EM GEL", desc: "Proteína de 3 insetos em gel. Ca:P otimizado. Zero insetos vivos pra manusear.", coupon: "PRIMEIRODRAGO", link: "https://comidadedragao.com.br/collections/produtos" },
-  outro: { icon: "🐦", name: "COMIDA DE DRAGÃO ORIGINAL", desc: "Versátil e nutritivo — aceito por aves, peixes, anfíbios e mais. A natureza sempre soube.", coupon: "PRIMEIRODRAGO", link: "https://comidadedragao.com.br/collections/produtos" },
-};
 
 const PRODUCTS_LIST = [
   { icon: "🐛", name: "ORIGINAL BSF", who: "Todos os pets", delay: "0s" },
@@ -90,9 +84,6 @@ const Portal = () => {
   const [audioMinimized, setAudioMinimized] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [quizStep, setQuizStep] = useState(0);
-  const [quizActive, setQuizActive] = useState(false);
-  const [quizResult, setQuizResult] = useState(QUIZ_PRODUCTS.cao);
 
   // Modal drag state
   const modalWindowRef = useRef<HTMLDivElement>(null);
@@ -157,26 +148,6 @@ const Portal = () => {
     setDragState({ dragging: true, sx: e.clientX, sy: e.clientY, ol: r.left, ot: r.top, left: r.left, top: r.top, manual: true });
   };
 
-  const quizGo = (toStep: number) => {
-    setQuizStep(-1); // trigger exit
-    setTimeout(() => {
-      setQuizStep(toStep);
-      if (toStep > 0) setQuizActive(true);
-    }, 160);
-  };
-
-  const quizSelectPet = (pet: string) => {
-    setQuizResult(QUIZ_PRODUCTS[pet]);
-    quizGo(2);
-  };
-
-  const quizReset = () => {
-    setQuizStep(-1);
-    setTimeout(() => {
-      setQuizStep(0);
-      setQuizActive(false);
-    }, 160);
-  };
 
   const nameUpper = heroName.trim().toUpperCase();
 
@@ -367,50 +338,16 @@ const Portal = () => {
 
         {/* ROW 3: Quiz + Companion */}
         <div className="row">
-          <div className={`card card-quiz${quizActive ? " qactive" : ""}`}>
+          <a href="/quizzes" className="card card-quiz">
             <HoverBg imgKey="quiz" />
             <div className="quiz-bg" />
-
-            {/* Step 0 */}
-            <div className={`quiz-step${quizStep === 0 ? " qon" : ""}`}>
+            <div className="quiz-cta-content">
               <div className="quiz-dragon-big">🐉</div>
-              <div className="quiz-intro-label">// descoberta personalizada</div>
-              <div className="quiz-intro-title">O DRAGÃO<br />QUER TE<br />CONHECER</div>
-              <button className="quiz-start-btn" onClick={() => quizGo(1)}>QUAL É O SEU PET? →</button>
+              <div className="quiz-intro-label">// descubra seu perfil de tutor</div>
+              <div className="quiz-intro-title">O DRAGÃO<br />TE<br />CONHECE</div>
+              <span className="quiz-start-btn">MONTAR MEU PERFIL →</span>
             </div>
-
-            {/* Step 1 */}
-            <div className={`quiz-step${quizStep === 1 ? " qon" : ""}`}>
-              <div className="quiz-q-label">// pergunta 1 de 1</div>
-              <div className="quiz-question">QUAL É<br />O SEU PET?</div>
-              <div className="quiz-pets">
-                {[
-                  { key: "cao", icon: "🐕", label: "Cão" },
-                  { key: "gato", icon: "🐈", label: "Gato" },
-                  { key: "reptil", icon: "🦎", label: "Réptil" },
-                  { key: "outro", icon: "🐦", label: "Outro" },
-                ].map(p => (
-                  <button className="quiz-pet-btn" key={p.key} onClick={() => quizSelectPet(p.key)}>
-                    <span className="quiz-pet-icon">{p.icon}</span>{p.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className={`quiz-step${quizStep === 2 ? " qon" : ""}`}>
-              <div className="quiz-result-icon">{quizResult.icon}</div>
-              <div className="quiz-dragon-says">O DRAGÃO ESCOLHEU</div>
-              <div className="quiz-result-product">{quizResult.name}</div>
-              <div className="quiz-result-desc">{quizResult.desc}</div>
-              <div className="quiz-coupon">
-                <span className="quiz-coupon-lbl">seu cupom · 20% off na primeira compra</span>
-                <span className="quiz-coupon-code">PRIMEIRODRAGO</span>
-              </div>
-              <a href={quizResult.link} target="_blank" rel="noopener noreferrer" className="quiz-buy-link">COMPRAR AGORA →</a>
-              <button className="quiz-reset" onClick={quizReset}>← recomeçar</button>
-            </div>
-          </div>
+          </a>
 
           <a href="/imprensa" className="card card-quiz-companion">
             <HoverBg imgKey="companion" />
