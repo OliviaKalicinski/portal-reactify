@@ -7,7 +7,7 @@ const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DR
 const CARD_HOVER_IMAGES: Record<string, string> = {
   manifesto:  "/assets/images/nojento-desperdicio.png",
   quiz:       "/assets/images/instinto-nao-erra.jpg",
-  audio:      "/assets/images/Audiocast.png",
+  audio:      "/assets/images/audiocast-hover.png",
   produtos:   "/assets/images/larva-pets-amam.jpg",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
   manual:     "/assets/images/matilha.png",
