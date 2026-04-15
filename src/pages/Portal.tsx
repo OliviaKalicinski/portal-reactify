@@ -12,7 +12,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
   manual:     "/assets/images/matilha.png",
   youtube:    "/assets/images/portal-comida-dragao.png",
-  companion:  "/assets/images/estranho-cultural.jpg",
+  companion:  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHZ4b2Z2ZmhveGd4aHhzbnp2cWZocXo5aDJpcjBtaG01aTN0NTRtciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/P8CC8QCewsRhRTTQpx/giphy.gif",
   instagram:  "/assets/images/matilha.png",
   whatsapp:   "/assets/images/amostra-gratis.png",
   lojas:      "/assets/images/biofabrica-interior.jpeg",
