@@ -364,9 +364,9 @@
 }
 /* Hover do card done: igual ao card normal — imagem aparece, título some */
 
-/* Badge no canto superior esquerdo */
+/* Badge no rodapé do card */
 .quizzes-page .qz-card-done-badge {
-  position: absolute; top: 12px; left: 12px; z-index: 3;
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
   background: var(--dragon-lime);
   color: var(--dragon-black);
   font-family: 'Big Shoulders Display', sans-serif;
@@ -374,7 +374,6 @@
   text-transform: uppercase;
   padding: 5px 10px;
   display: flex; align-items: center; gap: 6px;
-  max-width: calc(100% - 24px);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
