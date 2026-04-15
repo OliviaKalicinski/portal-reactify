@@ -646,7 +646,7 @@ const quizEco: QuizDef = {
   intro: 'Todo mundo acha que é mais consciente que a média.\nO Dragão vê tudo — e resolveu testar.\n6 perguntas. Sem julgamento. Só a verdade. 🐉',
   emoji: '🌿',
   accent: '#7BFF00',
-  hoverImage: '/assets/images/biofabrica-exterior.jpeg',
+  hoverImage: 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGx6NTY4bWw1ZXN4aW8wdjh1bzA4ZW8wZmNubDFhM2ZlaDN6cHR5ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cObIzBCAkFxW60ORYj/giphy.gif',
   cardRatio: 'ratio-3-4',
   cardFlex: 3 / 4,
   dimension: 'eco',
