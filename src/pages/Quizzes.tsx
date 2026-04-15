@@ -508,16 +508,16 @@ const ProfileDimensionSlots = ({
           role={!pr && quiz && !quiz.comingSoon ? "button" : undefined}
           tabIndex={!pr && quiz && !quiz.comingSoon ? 0 : undefined}
         >
-          <div className="qz-dim-icon">{dim.icon}</div>
           <div className="qz-dim-title">{dim.title}</div>
           {pr && res ? (
             <>
               <div className="qz-dim-label" style={{ color: accent }}>
-                {res.profileLabel}
+                {stripEmoji(res.profileLabel)}
               </div>
               <div className="qz-dim-sub">
-                {pr.resultEmoji} {pr.resultLabel}
+                {stripEmoji(pr.resultLabel)}
               </div>
+              <div className="qz-dim-check" style={{ color: accent }}>✓</div>
             </>
           ) : (
             <div className="qz-dim-cta">
