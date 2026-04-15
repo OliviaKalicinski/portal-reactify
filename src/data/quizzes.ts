@@ -230,7 +230,7 @@ const quizNojo: QuizDef = {
   intro: 'O Dragão tem uma pergunta importante.\nNão sobre o seu pet. Sobre você.\n6 situações. Seja honesto. A gente não julga — muito. 🐉',
   emoji: '🤢',
   accent: '#FF7A00',
-  hoverImage: '/assets/images/nojento-desperdicio.png',
+  hoverImage: 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWpnam4wZDRibDB2b2xsY3g1ZXg3aGFtNmhzMms0dWt0M2UyMG1uYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/10FHR5A4cXqVrO/giphy.gif',
   cardRatio: 'ratio-3-4',
   cardFlex: 3 / 4,
   dimension: 'nojo',

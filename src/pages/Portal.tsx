@@ -6,7 +6,7 @@ const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DR
 
 const CARD_HOVER_IMAGES: Record<string, string> = {
   manifesto:  "/assets/images/nojento-desperdicio.png",
-  quiz:       "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWpnam4wZDRibDB2b2xsY3g1ZXg3aGFtNmhzMms0dWt0M2UyMG1uYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/10FHR5A4cXqVrO/giphy.gif",
+  quiz:       "/assets/images/instinto-nao-erra.jpg",
   audio:      "/assets/images/Audiocast.png",
   produtos:   "/assets/images/larva-pets-amam.jpg",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
