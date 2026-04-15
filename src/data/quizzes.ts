@@ -77,7 +77,7 @@ const quizPersonality: QuizDef = {
   intro: 'O Dragão vê tudo. Inclusive o tipo de tutor que você é.\n6 perguntas. Sem julgamento. Só a verdade — e ela vai te surpreender.',
   emoji: '🐲',
   accent: '#925AED',
-  hoverImage: 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW51bHlpdHkxZXd3NW9zeDdwb2wyY3BpeGwzaGo2NjBscHZ4eXltbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/k1FFupJJmn8AB7Y9UO/giphy.gif',
+  hoverImage: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXBhc29odzI5aHNkODdhZWRncTIyNmR1YTJ6a3RnbGQ5cmluZWdtMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26gs7b2ByVWk68F32/giphy.gif',
   cardRatio: 'ratio-5-4',
   cardFlex: 5 / 4,
   dimension: 'personality',
