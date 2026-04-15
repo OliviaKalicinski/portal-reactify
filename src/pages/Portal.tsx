@@ -5,7 +5,7 @@ import "./Portal.css";
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
 
 const CARD_HOVER_IMAGES: Record<string, string> = {
-  manifesto:  "/assets/images/nojento-desperdicio.png",
+  manifesto:  "/assets/images/biblioteca-hover.png",
   quiz:       "/assets/images/instinto-nao-erra.jpg",
   audio:      "/assets/images/audiocast-hover.png",
   produtos:   "/assets/images/larva-pets-amam.jpg",

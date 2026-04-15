@@ -1,9 +1,10 @@
 interface DragonLogoProps {
   className?: string;
+  style?: React.CSSProperties;
 }
 
-const DragonLogo = ({ className }: DragonLogoProps) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" aria-label="Comida de Dragão">
+const DragonLogo = ({ className, style }: DragonLogoProps) => (
+  <svg className={className} style={style} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" aria-label="Comida de Dragão">
     <g>
       <path fill="currentColor" d="M606.17,247.84l.02-.47c.92-16.1-13.48-28.41-28.66-30.12-22.92-3.68-40.76,17.31-32.34,39.12,11.98,29.43,59.49,24.43,60.98-8.53"/>
       <path fill="currentColor" d="M479.64,274.53c-3.8-13.9-20.45-8.15-30.52-5.88-11.14,2.85-21.91,4.87-32.05,9.66-18.56,8.42-29.21,25.99-8.12,36.61,18.28,8.91,44.7,8.05,59.94-6.93,8.07-8.31,13.18-21.43,10.86-33.04l-.11-.42Z"/>
