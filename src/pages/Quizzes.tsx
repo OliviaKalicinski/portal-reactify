@@ -843,7 +843,7 @@ const QuizCard = ({ quiz, completed, onOpen }: QuizCardProps) => (
     {completed && (
       <div className="qz-card-done-badge">
         <span className="qz-done-check">✓</span>
-        <span>{completed.resultEmoji} {completed.profileLabel}</span>
+        <span>{stripEmoji(completed.profileLabel)}</span>
         <span className="qz-done-redo">Fazer de novo →</span>
       </div>
     )}
