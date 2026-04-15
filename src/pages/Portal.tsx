@@ -5,7 +5,7 @@ import "./Portal.css";
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
 
 const CARD_HOVER_IMAGES: Record<string, string> = {
-  manifesto:  "/assets/images/nojento-desperdicio.png",
+  manifesto:  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnJrc2p5MGFmaWNobWJ4ZXRreGhkbTl1bnRyeGU5YWZ0Z2Jpd2J3MSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U3EC6scVE8SOsjqQPW/giphy.gif",
   quiz:       "/assets/images/instinto-nao-erra.jpg",
   audio:      "/assets/images/Audiocast.png",
   produtos:   "/assets/images/larva-pets-amam.jpg",
