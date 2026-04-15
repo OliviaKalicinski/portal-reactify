@@ -482,7 +482,7 @@ const quizProduto: QuizDef = {
   intro: 'O Dragão conhece cada produto da linha de cor e salteado.\nResponde aí — e ele te diz exatamente o que o seu pet precisa.',
   emoji: '🐾',
   accent: '#FF2D78',
-  hoverImage: '/assets/images/larva-pets-amam.jpg',
+  hoverImage: 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjZtdHhuMmxrd3ZkaW1pdHFkMmZyNGg0MXZ5YWg2cmVwdHAzbzJreCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Cdkk6wFFqisTe/giphy.gif',
   cardRatio: 'ratio-1-1',
   cardFlex: 1,
   dimension: 'pet',
