@@ -12,7 +12,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
   manual:     "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmk2dzZwdTZlemFiZGVkanMzdnZhMXp4bjBsb2VrcHl5NmI4NXc4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z9tvqoD1SEQcomTVaK/giphy.gif",
   youtube:    "/assets/images/portal-comida-dragao.png",
-  companion:  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHZ4b2Z2ZmhveGd4aHhzbnp2cWZocXo5aDJpcjBtaG01aTN0NTRtciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/P8CC8QCewsRhRTTQpx/giphy.gif",
+  companion:  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGF4YzU2Y21wcnZwOWp5azlhbG44ejJ0bm5tb2Uyc3QwdXo5YW4xaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tyEj6eMv4YAgg/giphy.gif",
   instagram:  "/assets/images/matilha.png",
   whatsapp:   "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2RzczUzNDA0eHg1ZXg4czhoemg4aXIybXprMGd6eGJrYzdzMm9zMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y0mkt9yBEsrPW/giphy.gif",
   lojas:      "/assets/images/biofabrica-interior.jpeg",
