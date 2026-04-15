@@ -8,7 +8,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   manifesto:  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnJrc2p5MGFmaWNobWJ4ZXRreGhkbTl1bnRyeGU5YWZ0Z2Jpd2J3MSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U3EC6scVE8SOsjqQPW/giphy.gif",
   quiz:       "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzJxNHpkYTNjYmI2cTlpOTV4ZTQxZG5ia3VpMnpvamNuZjBzdWEwZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1kkxWqT5nvLXupUTwK/giphy.gif",
   audio:      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm13bXZicTVvNWZncXdubnp5NDU4NTd3Y2t4bTU5bWZhcnZqNm0wYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/521JGiED6zWanTJroD/giphy.gif",
-  produtos:   "/assets/images/larva-pets-amam.jpg",
+  produtos:   "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGp5aDlzbjFjMzBkNXVsdmZrZTZkOWQ0bDduaHc4c2M5em1mMmdqOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Cdkk6wFFqisTe/giphy.gif",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
   manual:     "/assets/images/matilha.png",
   youtube:    "/assets/images/portal-comida-dragao.png",
