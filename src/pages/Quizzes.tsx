@@ -51,7 +51,7 @@ const MARQUEE_BOTTOM = [
   "@COMIDADEDRAGAO",
   "BIOFÁBRICA REGISTRADA NO MAPA",
   "DO RESÍDUO À PROTEÍNA",
-  "A NATUREZA SEMPRE SOUBE 🐉",
+  "A NATUREZA SEMPRE SOUBE",
 ];
 
 const CONFETTI_COLORS = ["#FF7A00", "#7BFF00", "#FFE600", "#FF2D78", "#925AED", "#00D96F"];
@@ -586,7 +586,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
 
   const submitGate = () => {
     if (!gateName.trim()) { setGateError("Coloca seu nome 👆"); return; }
-    if (!gateEmail.includes("@")) { setGateError("Email inválido 🐉"); return; }
+    if (!gateEmail.includes("@")) { setGateError("Email inválido"); return; }
     setGateError("");
     transition(() => setPhase("result"));
     onComplete(quiz.id, resultKey, { name: gateName, email: gateEmail });
@@ -692,7 +692,9 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
           {/* ── GATE ── */}
           {phase === "gate" && (
             <div className="qz-gate">
-              <span className="qz-gate-emoji">🐉</span>
+              <div className="qz-gate-logo-wrap">
+                <img src="/assets/images/logo-dragao.svg" className="qz-gate-logo" alt="Comida de Dragão" />
+              </div>
               <div className="qz-gate-title">O DRAGÃO TEM SEU RESULTADO</div>
               <div className="qz-gate-sub">
                 Deixa seu email pra revelar — e salvar<br />
@@ -745,7 +747,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
 
               {result.coupon && (
                 <div className="qz-result-coupon">
-                  <span className="qz-coupon-label">🎁 cupom exclusivo</span>
+                  <span className="qz-coupon-label">CUPOM EXCLUSIVO</span>
                   <span className="qz-coupon-code">{result.coupon}</span>
                 </div>
               )}
@@ -768,9 +770,9 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
                   onClick={handleShare}
                   disabled={sharing}
                 >
-                  {sharing ? "⏳ GERANDO CARD…"
-                    : shareStatus === "ok" ? "✓ CARD GERADO!"
-                    : "📤 COMPARTILHAR RESULTADO"}
+                  {sharing ? "GERANDO CARD…"
+                    : shareStatus === "ok" ? "CARD GERADO!"
+                    : "COMPARTILHAR RESULTADO"}
                 </button>
                 <button className="qz-result-retry" onClick={retry}>
                   ← Refazer o quiz
@@ -834,18 +836,15 @@ const QuizCard = ({ quiz, completed, onOpen }: QuizCardProps) => (
     </div>
 
     {completed && (
-      <div className="qz-card-done-overlay">
-        <div className="qz-card-done-tick">✓ CONCLUÍDO</div>
-        <div className="qz-card-done-result-label">
-          {completed.resultEmoji} {completed.profileLabel}
-        </div>
-        <div className="qz-card-done-redo">Fazer de novo →</div>
+      <div className="qz-card-done-badge">
+        <span className="qz-done-check">✓</span>
+        <span>{completed.resultEmoji} {completed.profileLabel}</span>
+        <span className="qz-done-redo">Fazer de novo →</span>
       </div>
     )}
 
     {quiz.comingSoon && (
       <div className="qz-soon-overlay">
-        <span className="qz-soon-icon">🐉</span>
         <span className="qz-soon-label">Em breve</span>
       </div>
     )}
@@ -905,9 +904,26 @@ const ProfileDisplay = ({
 
   return (
     <div className="qz-hero-content qz-profile-content">
+
+      {/* Logo + descrição */}
+      <div className="qz-profile-header">
+        <img
+          src="/assets/images/logo-dragao.svg"
+          className="qz-hero-logo qz-profile-logo"
+          alt="Comida de Dragão"
+        />
+        <p className="qz-profile-desc">
+          5 quizzes pra montar seu perfil completo de tutor.
+          Personalidade, nível de nojo, consciência ambiental,
+          conhecimento sobre pet food e o produto certo pro seu pet.
+        </p>
+      </div>
+
       {/* Top bar */}
       <div className="qz-profile-bar">
-        <div className="qz-profile-avatar">🐉</div>
+        <div className="qz-profile-avatar">
+          <img src="/assets/images/logo-dragao.svg" alt="Dragão" className="qz-avatar-logo" />
+        </div>
         <div className="qz-profile-info">
           <div className="qz-profile-greeting">Perfil do Dragão</div>
           <div className="qz-profile-name">{profile.name.toUpperCase()}</div>
@@ -921,9 +937,9 @@ const ProfileDisplay = ({
             onClick={onShareProfile}
             disabled={sharingProfile}
           >
-            {sharingProfile ? "⏳ GERANDO…"
-              : shareProfileStatus === "ok" ? "✓ CARD GERADO!"
-              : "📤 COMPARTILHAR PERFIL"}
+            {sharingProfile ? "GERANDO…"
+              : shareProfileStatus === "ok" ? "CARD GERADO!"
+              : "COMPARTILHAR PERFIL"}
           </button>
           <button className="qz-profile-reset" onClick={onReset}>
             Sair do perfil ×
