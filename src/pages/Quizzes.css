@@ -163,6 +163,30 @@
   50%       { transform: translateY(6px); }
 }
 
+/* ── PROFILE HEADER (logo + desc) ───────────── */
+.quizzes-page .qz-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.quizzes-page .qz-profile-logo {
+  width: 80px;
+  margin: 0;
+  flex-shrink: 0;
+}
+.quizzes-page .qz-profile-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  color: rgba(250,250,250,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  line-height: 1.65;
+  margin: 0;
+}
+
 /* ── PROFILE CARD (logged in) ────────────────── */
 .quizzes-page .qz-profile-bar {
   position: relative; z-index: 2;
@@ -176,9 +200,13 @@
   background: var(--dragon-orange);
   border: 3px solid rgba(255,122,0,0.4);
   display: flex; align-items: center; justify-content: center;
-  font-size: 32px;
   flex-shrink: 0;
   animation: qz-avatar-pulse 3s ease-in-out infinite;
+  overflow: hidden;
+}
+.quizzes-page .qz-avatar-logo {
+  width: 44px; height: auto;
+  filter: brightness(0) invert(1);
 }
 @keyframes qz-avatar-pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(255,122,0,0.3); }
@@ -335,58 +363,43 @@
   border-color: var(--card-accent, var(--dragon-orange));
 }
 
-/* Overlay central sobre o card concluído */
-.quizzes-page .qz-card-done-overlay {
-  position: absolute; inset: 0; z-index: 3;
-  background: rgba(10,10,10,0.82);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 10px; padding: 20px; text-align: center;
-  transition: background 0.3s ease;
+/* Imagem sempre visível em cards concluídos (sem efeito hover) */
+.quizzes-page .qz-card.done .qz-card-img {
+  opacity: 1;
 }
 
-/* No hover: overlay some, revela imagem e título abaixo */
-.quizzes-page .qz-card.done:hover .qz-card-done-overlay {
-  background: rgba(10,10,10,0.45);
+/* Título/body some pra dar destaque à imagem no card done */
+.quizzes-page .qz-card.done .qz-card-body,
+.quizzes-page .qz-card.done .qz-card-inner {
+  opacity: 0;
 }
 
-/* Mantém título e inner visíveis no done (não some no hover) */
-.quizzes-page .qz-card.done:hover .qz-card-body,
-.quizzes-page .qz-card.done:hover .qz-card-inner { opacity: 1; }
-.quizzes-page .qz-card.done:hover .qz-card-img  { opacity: 0.6; }
-
-/* "✓ CONCLUÍDO" */
-.quizzes-page .qz-card-done-tick {
+/* Badge no canto superior esquerdo */
+.quizzes-page .qz-card-done-badge {
+  position: absolute; top: 12px; left: 12px; z-index: 3;
+  background: var(--dragon-lime);
+  color: var(--dragon-black);
   font-family: 'Big Shoulders Display', sans-serif;
-  font-size: 10px; font-weight: 800; letter-spacing: 0.28em;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--card-accent, var(--dragon-lime));
-  background: rgba(0,0,0,0.5);
-  padding: 3px 10px;
-  border: 1px solid var(--card-accent, var(--dragon-lime));
-  opacity: 0.9;
+  padding: 5px 10px;
+  display: flex; align-items: center; gap: 6px;
+  max-width: calc(100% - 24px);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-/* Resultado: emoji + label */
-.quizzes-page .qz-card-done-result-label {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(20px, 2.8vw, 34px);
-  line-height: 1;
-  color: var(--dragon-white);
-  letter-spacing: 0.02em;
+.quizzes-page .qz-done-check {
+  font-size: 11px; flex-shrink: 0;
 }
 
-/* "Fazer de novo →" */
-.quizzes-page .qz-card-done-redo {
-  font-family: 'Big Shoulders Display', sans-serif;
-  font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
-  transition: color 0.2s;
-  margin-top: 2px;
+/* "Fazer de novo →" — aparece no hover */
+.quizzes-page .qz-done-redo {
+  display: none;
+  font-size: 9px; letter-spacing: 0.12em;
+  opacity: 0.6; flex-shrink: 0;
 }
-.quizzes-page .qz-card.done:hover .qz-card-done-redo {
-  color: var(--card-accent, var(--dragon-orange));
+.quizzes-page .qz-card.done:hover .qz-done-redo {
+  display: inline;
 }
 
 /* Coming soon state */
@@ -578,7 +591,9 @@
 
 /* ── LEAD GATE (email before result) ─────────── */
 .qz-gate { text-align: center; padding: 8px 0; }
-.qz-gate-emoji { font-size: 48px; display: block; margin-bottom: 16px; }
+/* Gate logo (substitui emoji do dragão) */
+.qz-gate-logo-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+.qz-gate-logo { width: 72px; height: auto; filter: brightness(0) invert(1); opacity: 0.85; }
 .qz-gate-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(32px, 5vw, 52px);
@@ -857,6 +872,8 @@
   .qz-modal { max-width: 100%; margin: 0; border-left: none; border-right: none; border-bottom: none; max-height: 100vh; }
   .qz-overlay { padding: 0; align-items: flex-end; }
   .quizzes-page .qz-hero-logo { width: 90px; margin-bottom: 16px; }
+  .quizzes-page .qz-profile-header { flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+  .quizzes-page .qz-profile-logo { width: 70px; }
   .quizzes-page .qz-profile-bar { flex-direction: column; align-items: flex-start; gap: 14px; }
   .quizzes-page .qz-profile-actions-top { align-items: flex-start; margin-left: 0; }
   .quizzes-page .qz-stats { flex-direction: column; }
