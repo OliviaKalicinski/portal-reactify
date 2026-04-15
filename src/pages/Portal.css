@@ -1115,7 +1115,12 @@
 @media (max-width: 680px) {
   .portal-page .row { flex-direction: column; }
   .portal-page .card { flex-grow: unset; }
-  .portal-page .card-inner::before { padding-top: 62% !important; }
+  .portal-page .ratio-16-9 .card-inner::before { padding-top: 75% !important; }
+  .portal-page .ratio-3-4 .card-inner::before { padding-top: 120% !important; }
+  .portal-page .ratio-1-1 .card-inner::before { padding-top: 100% !important; }
+  .portal-page .ratio-3-5 .card-inner::before { padding-top: 140% !important; }
+  .portal-page .ratio-5-4 .card-inner::before { padding-top: 100% !important; }
+  .portal-page .ratio-shop .card-inner::before { padding-top: 80% !important; }
   .portal-page .controls-bar { gap: 8px; }
   .portal-page .btn-buy { margin-left: 0; }
   .portal-page .stats-strip { flex-wrap: wrap; }
