@@ -11,7 +11,7 @@ type Categoria =
   | "Vídeos & Pitches"
   | "Ecossistema BSF";
 
-type Tipo = "Site" | "Matéria" | "Vídeo" | "Artigo" | "Produto";
+type Tipo = "Matéria" | "Vídeo" | "Artigo" | "Produto";
 
 type LinkItem = {
   id: number;
@@ -190,17 +190,6 @@ const LINKS: LinkItem[] = [
       "Matéria especializada apresentando a Lets Fly e o lançamento da Comida de Dragão na Pet South America, explicando o modelo circular, métricas de eficiência e economia de água.",
     url: "https://www.revistaclinicaveterinaria.com.br/noticias/mercado/pet-vet/linha-de-alimentos-funcionais-para-pets-utiliza-proteinas-de-bsf-desidratadas",
   },
-  {
-    id: 14,
-    titulo: "Lets Fly | Alimento que regenera",
-    categoria: "Na Mídia",
-    tipo: "Site",
-    veiculo: "LinkedIn",
-    resumo:
-      "Página institucional da Lets Fly no LinkedIn, com destaque para a certificação no Ministério da Agricultura para comercialização legal das larvas de BSF e foco em conformidade regulatória.",
-    url: "https://br.linkedin.com/company/letsflyfood",
-  },
-
   // ============ VÍDEOS & PITCHES ============
   {
     id: 15,
@@ -419,11 +408,11 @@ const Imprensa = () => {
               style={{ borderTopColor: cor }}
             >
               <div className="impr-card-header">
+                <span className="impr-tipo-badge">
+                  {link.tipo}
+                </span>
                 <span className="biblio-card-cat" style={{ color: cor }}>
                   // {link.categoria}
-                </span>
-                <span className="impr-tipo-badge" style={{ borderColor: cor, color: cor }}>
-                  {link.tipo}
                 </span>
               </div>
               <h2 className="biblio-card-titulo">{link.titulo}</h2>
