@@ -131,26 +131,6 @@ const LINKS: LinkItem[] = [
 
   // ============ COMIDA DE DRAGÃO ============
   {
-    id: 1,
-    titulo: "Comida de Dragão — Original",
-    categoria: "Comida de Dragão",
-    tipo: "Produto",
-    veiculo: "Site oficial",
-    resumo:
-      "Página do produto principal: larvas desidratadas de BSF com cerca de 45% de proteína, argumento de maior aproveitamento nutricional versus ração comum e posicionamento de petisco 100% natural.",
-    url: "https://www.comidadedragao.com.br/products/comida-de-dragao-original",
-  },
-  {
-    id: 2,
-    titulo: "Suplemento Integral para Cães",
-    categoria: "Comida de Dragão",
-    tipo: "Produto",
-    veiculo: "Site oficial",
-    resumo:
-      "Suplemento funcional com 45% de proteína, larvas de BSF desidratadas + cúrcuma + spirulina. Posicionado para pets ativos, filhotes e fase de gestação.",
-    url: "https://www.comidadedragao.com.br/products/suplemento-integral-para-caes",
-  },
-  {
     id: 3,
     titulo: "Comida de Dragão Original — Proteína BSF",
     categoria: "Comida de Dragão",
@@ -179,16 +159,6 @@ const LINKS: LinkItem[] = [
     resumo:
       "Página da marca no varejista especializado A Loja do Ollie, com foco em petisco natural de larvas BSF desidratadas.",
     url: "https://www.alojadoollie.com.br/marcas/comidadedragao/",
-  },
-  {
-    id: 6,
-    titulo: "As curiosidades por trás da BSF, o inseto alquimista",
-    categoria: "Comida de Dragão",
-    tipo: "Artigo",
-    veiculo: "Lets Fly",
-    resumo:
-      "Blog da Lets Fly explicando a narrativa de impacto da marca, origem da empresa, número de investidores, apoio da FINEP e posicionamento da BSF como o 'inseto alquimista' que regenera resíduos em proteína.",
-    url: "https://letsfly.com.br/curiosidades",
   },
 
   // ============ VÍDEOS & PITCHES ============
