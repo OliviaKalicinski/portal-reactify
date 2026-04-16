@@ -120,12 +120,13 @@
 
 /* ── HERO LOGO ───────────────────────────────── */
 .quizzes-page .qz-hero-logo {
-  width: 110px;
+  width: 260px;
+  max-width: 70vw;
   height: auto;
   display: block;
-  margin: 0 auto 22px;
-  filter: brightness(0) invert(1);
-  opacity: 0.85;
+  margin: 0 auto 28px;
+  color: var(--dragon-white);
+  filter: drop-shadow(0 2px 16px rgba(0,0,0,0.5));
 }
 
 /* ── WELCOME HERO (sem perfil) ───────────────── */
@@ -173,9 +174,11 @@
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 .quizzes-page .qz-profile-logo {
-  width: 80px;
+  width: 120px;
   margin: 0;
   flex-shrink: 0;
+  color: var(--dragon-white);
+  opacity: 0.8;
 }
 .quizzes-page .qz-profile-desc {
   font-family: 'Space Grotesk', sans-serif;
@@ -205,8 +208,8 @@
   overflow: hidden;
 }
 .quizzes-page .qz-avatar-logo {
-  width: 44px; height: auto;
-  filter: brightness(0) invert(1);
+  width: 42px; height: auto;
+  color: var(--dragon-black);
 }
 @keyframes qz-avatar-pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(255,122,0,0.3); }
@@ -594,9 +597,8 @@
 
 /* ── LEAD GATE (email before result) ─────────── */
 .qz-gate { text-align: center; padding: 8px 0; }
-/* Gate logo (substitui emoji do dragão) */
-.qz-gate-logo-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
-.qz-gate-logo { width: 72px; height: auto; filter: brightness(0) invert(1); opacity: 0.85; }
+/* Gate logo */
+.qz-gate-logo { width: 100px; height: auto; display: block; margin: 0 auto 20px; color: var(--dragon-white); opacity: 0.8; }
 .qz-gate-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(32px, 5vw, 52px);
