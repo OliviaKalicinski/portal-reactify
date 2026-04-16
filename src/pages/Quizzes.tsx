@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import DragonLogo from "@/components/DragonLogo";
+
 import {
   QUIZZES,
   QuizDef,
@@ -120,6 +121,36 @@ async function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
+async function loadLogoColored(color: string): Promise<HTMLImageElement | null> {
+  try {
+    const resp = await fetch("/assets/images/logo-dragao.svg");
+    const svgText = await resp.text();
+    const colored = svgText.replace(/currentColor/g, color);
+    const blob = new Blob([colored], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    const img = await loadImage(url);
+    URL.revokeObjectURL(url);
+    return img;
+  } catch {
+    return null;
+  }
+}
+
+function drawCornerMarks(ctx: CanvasRenderingContext2D, S: number, color: string, size = 32, gap = 18) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  const corners = [
+    { x: gap, y: gap, dx: 1, dy: 1 },
+    { x: S - gap, y: gap, dx: -1, dy: 1 },
+    { x: gap, y: S - gap, dx: 1, dy: -1 },
+    { x: S - gap, y: S - gap, dx: -1, dy: -1 },
+  ];
+  for (const { x, y, dx, dy } of corners) {
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dx * size, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + dy * size); ctx.stroke();
+  }
+}
+
 async function generateResultCardBlob(
   quiz: QuizDef,
   resultKey: string,
@@ -133,97 +164,117 @@ async function generateResultCardBlob(
 
   const S = 1080;
   const canvas = document.createElement("canvas");
-  canvas.width = S;
-  canvas.height = S;
+  canvas.width = S; canvas.height = S;
   const ctx = canvas.getContext("2d")!;
   const accent = quiz.accent || "#FF7A00";
 
-  // Background
+  // ── Background preto
   ctx.fillStyle = "#0A0A0A";
   ctx.fillRect(0, 0, S, S);
 
-  // Subtle grid
-  ctx.strokeStyle = "rgba(255,255,255,0.025)";
+  // ── Grade sutil
+  ctx.strokeStyle = "rgba(255,255,255,0.018)";
   ctx.lineWidth = 1;
-  for (let x = 0; x < S; x += 54) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, S); ctx.stroke(); }
-  for (let y = 0; y < S; y += 54) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(S, y); ctx.stroke(); }
+  for (let x = 0; x < S; x += 60) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,S); ctx.stroke(); }
+  for (let y = 0; y < S; y += 60) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(S,y); ctx.stroke(); }
 
-  // Radial glow
-  const grad = ctx.createRadialGradient(S / 2, S * 0.48, 0, S / 2, S * 0.48, S * 0.55);
-  grad.addColorStop(0, accent + "28");
-  grad.addColorStop(1, "transparent");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, S, S);
+  // ── Glow radial central
+  const glow = ctx.createRadialGradient(S/2, S*0.5, 0, S/2, S*0.5, S*0.6);
+  glow.addColorStop(0, accent + "30");
+  glow.addColorStop(1, "transparent");
+  ctx.fillStyle = glow; ctx.fillRect(0, 0, S, S);
 
-  // Top accent bar
+  // ── Corner marks decorativos
+  drawCornerMarks(ctx, S, accent + "99", 40, 24);
+
+  // ── Barra lateral esquerda (accent)
   ctx.fillStyle = accent;
-  ctx.fillRect(0, 0, S, 10);
+  ctx.fillRect(0, 0, 8, S);
 
-  // Logo (pequena, no topo)
-  try {
-    const logo = await loadImage("/assets/images/logo-dragao.svg");
-    const logoW = 160;
-    const logoH = logo.naturalHeight > 0
-      ? Math.round(logoW * logo.naturalHeight / logo.naturalWidth)
-      : 56;
-    ctx.globalAlpha = 0.75;
-    ctx.drawImage(logo, (S - logoW) / 2, 22, logoW, logoH);
+  // ── Logo colorida no topo
+  const logo = await loadLogoColored("#FAFAFA");
+  const logoY = 52;
+  if (logo) {
+    const logoW = 200;
+    const logoH = logo.naturalHeight > 0 ? Math.round(logoW * logo.naturalHeight / logo.naturalWidth) : 70;
+    ctx.globalAlpha = 0.9;
+    ctx.drawImage(logo, (S - logoW) / 2, logoY, logoW, logoH);
     ctx.globalAlpha = 1;
-  } catch {
-    // fallback: texto
-    ctx.fillStyle = "#FF7A00";
-    ctx.font = "700 28px 'Big Shoulders Display', Arial, sans-serif";
+  } else {
+    ctx.fillStyle = "#FAFAFA";
+    ctx.font = "700 26px 'Big Shoulders Display', Arial, sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("COMIDA DE DRAGÃO", S / 2, 58);
+    ctx.fillText("COMIDA DE DRAGÃO", S/2, logoY + 30);
   }
 
-  // Dimension label
+  // ── Linha separadora abaixo da logo
+  ctx.strokeStyle = accent + "55";
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(80, 152); ctx.lineTo(S - 80, 152); ctx.stroke();
+
+  // ── Dimension tag
   if (dimension) {
-    ctx.fillStyle = "rgba(255,255,255,0.35)";
-    ctx.font = "500 21px 'Space Grotesk', Arial, sans-serif";
+    ctx.fillStyle = accent;
+    const tagText = dimension.title.toUpperCase();
+    ctx.font = "700 15px 'Big Shoulders Display', Arial, sans-serif";
+    const tw = ctx.measureText(tagText).width + 28;
+    ctx.fillRect((S - tw) / 2, 168, tw, 30);
+    ctx.fillStyle = "#0A0A0A";
+    ctx.font = "800 14px 'Big Shoulders Display', Arial, sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(`${dimension.icon} ${dimension.title.toUpperCase()}`, S / 2, 108);
+    ctx.fillText(tagText, S/2, 188);
   }
 
-  // Large emoji
-  ctx.font = "160px serif";
-  ctx.fillText(result.emoji, S / 2, 340);
+  // ── Emoji grande com glow
+  const emojiY = 360;
+  const emojiGlow = ctx.createRadialGradient(S/2, emojiY - 30, 0, S/2, emojiY - 30, 140);
+  emojiGlow.addColorStop(0, accent + "40");
+  emojiGlow.addColorStop(1, "transparent");
+  ctx.fillStyle = emojiGlow;
+  ctx.beginPath(); ctx.arc(S/2, emojiY - 30, 140, 0, Math.PI * 2); ctx.fill();
+  ctx.font = "140px serif";
+  ctx.textAlign = "center";
+  ctx.fillText(result.emoji, S/2, emojiY);
 
-  // profileLabel
-  const labelFontSize = result.profileLabel.length > 16 ? 72 : 90;
-  ctx.fillStyle = "#FAFAFA";
-  ctx.font = `800 ${labelFontSize}px 'Bebas Neue', 'Big Shoulders Display', 'Arial Black', Arial, sans-serif`;
-  ctx.fillText(result.profileLabel.toUpperCase(), S / 2, 505);
-
-  // Category
+  // ── profileLabel — grande, cor accent
+  const labelText = stripEmoji(result.profileLabel).toUpperCase();
+  const labelSize = labelText.length > 18 ? 68 : labelText.length > 12 ? 82 : 96;
   ctx.fillStyle = accent;
-  ctx.font = "600 27px 'Space Grotesk', Arial, sans-serif";
-  ctx.fillText(result.category, S / 2, 558);
+  ctx.font = `800 ${labelSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+  ctx.fillText(labelText, S/2, 530);
 
-  // Description (max 2 lines)
-  ctx.fillStyle = "rgba(255,255,255,0.5)";
-  ctx.font = "400 24px 'Space Grotesk', Arial, sans-serif";
-  const descSlice = result.description.length > 110 ? result.description.slice(0, 110) + "…" : result.description;
-  wrapText(ctx, descSlice, S / 2, 620, S - 180, 36);
+  // ── Category — branco
+  ctx.fillStyle = "rgba(255,255,255,0.85)";
+  ctx.font = "600 24px 'Space Grotesk', Arial, sans-serif";
+  ctx.fillText(result.category.toUpperCase(), S/2, 576);
 
-  // Divider
-  ctx.strokeStyle = accent + "88";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(S / 2 - 180, 775); ctx.lineTo(S / 2 + 180, 775);
-  ctx.stroke();
+  // ── Linha separadora
+  ctx.strokeStyle = "rgba(255,255,255,0.1)";
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(120, 608); ctx.lineTo(S - 120, 608); ctx.stroke();
 
-  // User name
+  // ── Description snippet
+  ctx.fillStyle = "rgba(255,255,255,0.42)";
+  ctx.font = "400 21px 'Space Grotesk', Arial, sans-serif";
+  const firstLine = result.description.split("\n")[0];
+  const desc = firstLine.length > 90 ? firstLine.slice(0, 90) + "…" : firstLine;
+  wrapText(ctx, desc, S/2, 640, S - 200, 32);
+
+  // ── Nome do usuário
   ctx.fillStyle = "#FAFAFA";
-  ctx.font = "700 36px 'Big Shoulders Display', 'Arial Black', Arial, sans-serif";
-  ctx.fillText(profileName.toUpperCase(), S / 2, 828);
+  ctx.font = "700 32px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.fillText(profileName.toUpperCase(), S/2, 840);
 
-  // Footer
-  ctx.fillStyle = "#FF7A00";
-  ctx.fillRect(0, S - 80, S, 80);
+  // ── Ponto accent abaixo do nome
+  ctx.fillStyle = accent;
+  ctx.beginPath(); ctx.arc(S/2, 862, 4, 0, Math.PI * 2); ctx.fill();
+
+  // ── Footer — accent colorido
+  ctx.fillStyle = accent;
+  ctx.fillRect(0, S - 72, S, 72);
   ctx.fillStyle = "#0A0A0A";
-  ctx.font = "700 24px 'Big Shoulders Display', 'Arial Black', Arial, sans-serif";
-  ctx.fillText("@COMIDADEDRAGAO · COMIDADEDRAGAO.COM.BR", S / 2, S - 28);
+  ctx.font = "800 20px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.fillText("@COMIDADEDRAGAO · COMIDADEDRAGAO.COM.BR", S/2, S - 24);
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png")
@@ -246,50 +297,68 @@ async function generateProfileCardBlob(
   ctx.fillStyle = "#0A0A0A";
   ctx.fillRect(0, 0, S, S);
 
-  // Subtle grid
-  ctx.strokeStyle = "rgba(255,255,255,0.025)";
+  // Grade sutil
+  ctx.strokeStyle = "rgba(255,255,255,0.018)";
   ctx.lineWidth = 1;
-  for (let x = 0; x < S; x += 54) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, S); ctx.stroke(); }
-  for (let y = 0; y < S; y += 54) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(S, y); ctx.stroke(); }
+  for (let x = 0; x < S; x += 60) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,S); ctx.stroke(); }
+  for (let y = 0; y < S; y += 60) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(S,y); ctx.stroke(); }
 
-  // Top lime bar
+  // Glow lime
+  const pglow = ctx.createRadialGradient(S/2, S*0.18, 0, S/2, S*0.18, S*0.5);
+  pglow.addColorStop(0, "#7BFF0022"); pglow.addColorStop(1, "transparent");
+  ctx.fillStyle = pglow; ctx.fillRect(0, 0, S, S);
+
+  // Barra lateral lime
   ctx.fillStyle = "#7BFF00";
-  ctx.fillRect(0, 0, S, 10);
+  ctx.fillRect(0, 0, 8, S);
 
-  // Logo + brand label
-  try {
-    const logo = await loadImage("/assets/images/logo-dragao.svg");
-    const logoW = 140;
-    const logoH = logo.naturalHeight > 0
-      ? Math.round(logoW * logo.naturalHeight / logo.naturalWidth)
-      : 50;
-    ctx.globalAlpha = 0.8;
-    ctx.drawImage(logo, (S - logoW) / 2, 18, logoW, logoH);
+  // Corner marks
+  drawCornerMarks(ctx, S, "#7BFF0099", 40, 24);
+
+  // Logo colorida no topo
+  const pLogo = await loadLogoColored("#FAFAFA");
+  if (pLogo) {
+    const lw = 200;
+    const lh = pLogo.naturalHeight > 0 ? Math.round(lw * pLogo.naturalHeight / pLogo.naturalWidth) : 70;
+    ctx.globalAlpha = 0.9;
+    ctx.drawImage(pLogo, (S - lw) / 2, 36, lw, lh);
     ctx.globalAlpha = 1;
-  } catch {
-    ctx.fillStyle = "#7BFF00";
+  } else {
+    ctx.fillStyle = "#FAFAFA";
     ctx.font = "700 26px 'Big Shoulders Display', Arial, sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("COMIDA DE DRAGÃO", S / 2, 52);
+    ctx.fillText("COMIDA DE DRAGÃO", S/2, 68);
   }
-  ctx.fillStyle = "rgba(123,255,0,0.5)";
-  ctx.font = "500 18px 'Space Grotesk', Arial, sans-serif";
+
+  // Tag "PERFIL DE TUTOR"
+  ctx.fillStyle = "#7BFF00";
+  const ptag = "PERFIL DE TUTOR";
+  ctx.font = "800 13px 'Big Shoulders Display', Arial, sans-serif";
+  const ptagW = ctx.measureText(ptag).width + 28;
+  ctx.fillRect((S - ptagW) / 2, 134, ptagW, 26);
+  ctx.fillStyle = "#0A0A0A";
   ctx.textAlign = "center";
-  ctx.fillText("PERFIL DE TUTOR", S / 2, 78);
+  ctx.fillText(ptag, S/2, 152);
 
-  // Name
-  ctx.fillStyle = "#FAFAFA";
-  ctx.font = "800 78px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif";
-  ctx.fillText(profile.name.toUpperCase(), S / 2, 148);
-
-  // Divider
-  ctx.strokeStyle = "rgba(255,255,255,0.12)";
+  // Linha separadora
+  ctx.strokeStyle = "rgba(123,255,0,0.2)";
   ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(60, 168); ctx.lineTo(S - 60, 168); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(80, 174); ctx.lineTo(S - 80, 174); ctx.stroke();
 
-  // Dimension slots: 3 on top, 2 on bottom
-  const SW = 315, SH = 215, GX = 22, GY = 22;
-  const ROW1_Y = 186;
+  // Nome do usuário
+  ctx.fillStyle = "#FAFAFA";
+  ctx.font = "800 72px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText(profile.name.toUpperCase(), S / 2, 232);
+
+  // Linha separadora
+  ctx.strokeStyle = "rgba(255,255,255,0.1)";
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(80, 252); ctx.lineTo(S - 80, 252); ctx.stroke();
+
+  // Dimension slots: 3 em cima, 2 em baixo
+  const SW = 310, SH = 210, GX = 20, GY = 18;
+  const ROW1_Y = 270;
 
   PROFILE_DIMENSIONS.forEach((dim, i) => {
     const isRow1 = i < 3;
@@ -321,61 +390,67 @@ async function generateProfileCardBlob(
       ctx.fillStyle = accentColor;
       ctx.fillRect(sx, sy, SW, 5);
 
-      // Dimension title
-      ctx.fillStyle = "rgba(255,255,255,0.5)";
-      ctx.font = "500 17px 'Space Grotesk', Arial, sans-serif";
+      // Dimension title (pequeno, no topo)
+      ctx.fillStyle = "rgba(255,255,255,0.4)";
+      ctx.font = "700 13px 'Big Shoulders Display', Arial, sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText(`${dim.icon} ${dim.title.toUpperCase()}`, sx + SW / 2, sy + 33);
+      ctx.fillText(dim.title.toUpperCase(), sx + SW / 2, sy + 28);
 
-      // profileLabel
-      const pl = (res?.profileLabel || pr.profileLabel || pr.resultLabel).toUpperCase();
-      const plSize = pl.length > 16 ? 36 : 44;
+      // profileLabel (grande, accent)
+      const pl = stripEmoji(res?.profileLabel || pr.profileLabel || pr.resultLabel).toUpperCase();
+      const plSize = pl.length > 18 ? 30 : pl.length > 12 ? 36 : 42;
       ctx.fillStyle = accentColor;
       ctx.font = `800 ${plSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
       ctx.fillText(pl, sx + SW / 2, sy + 100);
 
-      // Emoji + result label
-      ctx.font = "500 16px 'Space Grotesk', Arial, sans-serif";
-      ctx.fillStyle = "rgba(255,255,255,0.4)";
-      const short = pr.resultLabel.length > 22 ? pr.resultLabel.slice(0, 22) + "…" : pr.resultLabel;
-      ctx.fillText(`${pr.resultEmoji} ${short}`, sx + SW / 2, sy + 135);
+      // Result label (sub, sem emoji)
+      const shortLabel = stripEmoji(pr.resultLabel);
+      const shortTrim = shortLabel.length > 20 ? shortLabel.slice(0, 20) + "…" : shortLabel;
+      ctx.font = "500 13px 'Space Grotesk', Arial, sans-serif";
+      ctx.fillStyle = "rgba(255,255,255,0.35)";
+      ctx.fillText(shortTrim.toUpperCase(), sx + SW / 2, sy + 130);
+
+      // Checkmark ✓
+      ctx.fillStyle = accentColor;
+      ctx.font = "600 13px 'Big Shoulders Display', Arial, sans-serif";
+      ctx.fillText("✓", sx + SW - 18, sy + 18);
 
     } else {
-      // Empty slot
-      ctx.setLineDash([8, 8]);
-      ctx.strokeStyle = "rgba(255,255,255,0.12)";
-      ctx.lineWidth = 2;
+      // Empty slot — tracejado
+      ctx.setLineDash([6, 6]);
+      ctx.strokeStyle = "rgba(255,255,255,0.1)";
+      ctx.lineWidth = 1;
       ctx.strokeRect(sx + 1, sy + 1, SW - 2, SH - 2);
       ctx.setLineDash([]);
 
-      ctx.fillStyle = "rgba(255,255,255,0.18)";
-      ctx.font = "700 30px serif";
+      ctx.font = "700 12px 'Big Shoulders Display', Arial, sans-serif";
+      ctx.fillStyle = "rgba(255,255,255,0.25)";
       ctx.textAlign = "center";
-      ctx.fillText(dim.icon, sx + SW / 2, sy + 76);
+      ctx.fillText(dim.title.toUpperCase(), sx + SW / 2, sy + SH / 2 - 10);
 
-      ctx.font = "600 18px 'Space Grotosk', Arial, sans-serif";
-      ctx.fillStyle = "rgba(255,255,255,0.22)";
-      ctx.fillText(dim.title.toUpperCase(), sx + SW / 2, sy + 108);
-
-      ctx.font = "400 14px 'Space Grotesk', Arial, sans-serif";
-      ctx.fillStyle = "rgba(255,255,255,0.1)";
-      ctx.fillText("A RESPONDER", sx + SW / 2, sy + 135);
+      ctx.font = "600 11px 'Space Grotesk', Arial, sans-serif";
+      ctx.fillStyle = "rgba(255,255,255,0.15)";
+      ctx.fillText("A RESPONDER", sx + SW / 2, sy + SH / 2 + 14);
     }
   });
 
   // Completed count
   const done = Object.keys(profile.results).length;
-  ctx.fillStyle = "rgba(255,255,255,0.3)";
-  ctx.font = "500 22px 'Space Grotesk', Arial, sans-serif";
+  ctx.fillStyle = done === 5 ? "#7BFF00" : "rgba(255,255,255,0.3)";
+  ctx.font = `700 18px 'Big Shoulders Display', Arial, sans-serif`;
   ctx.textAlign = "center";
-  ctx.fillText(`${done} de 5 dimensões completas`, S / 2, 665);
+  const countY = ROW1_Y + SH + GY + SH + 36;
+  ctx.fillText(
+    done === 5 ? "PERFIL COMPLETO" : `${done} DE 5 DIMENSÕES COMPLETAS`,
+    S / 2, countY
+  );
 
   // Footer
   ctx.fillStyle = "#7BFF00";
-  ctx.fillRect(0, S - 80, S, 80);
+  ctx.fillRect(0, S - 68, S, 68);
   ctx.fillStyle = "#0A0A0A";
-  ctx.font = "700 24px 'Big Shoulders Display', 'Arial Black', Arial, sans-serif";
-  ctx.fillText("@COMIDADEDRAGAO · COMIDADEDRAGAO.COM.BR", S / 2, S - 28);
+  ctx.font = "800 18px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.fillText("@COMIDADEDRAGAO · COMIDADEDRAGAO.COM.BR", S / 2, S - 22);
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png")
@@ -697,9 +772,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
           {/* ── GATE ── */}
           {phase === "gate" && (
             <div className="qz-gate">
-              <div className="qz-gate-logo-wrap">
-                <img src="/assets/images/logo-dragao.svg" className="qz-gate-logo" alt="Comida de Dragão" />
-              </div>
+              <DragonLogo className="qz-gate-logo" />
               <div className="qz-gate-title">O DRAGÃO TEM SEU RESULTADO</div>
               <div className="qz-gate-sub">
                 Deixa seu email pra revelar — e salvar<br />
@@ -862,11 +935,7 @@ const QuizCard = ({ quiz, completed, onOpen }: QuizCardProps) => (
 
 const WelcomeHero = () => (
   <div className="qz-hero-content">
-    <img
-      src="/assets/images/logo-dragao.svg"
-      className="qz-hero-logo"
-      alt="Comida de Dragão"
-    />
+    <DragonLogo className="qz-hero-logo" />
     <div className="qz-hero-eyebrow">Quizzes do Dragão</div>
     <div className="qz-welcome-title">
       O DRAGÃO<br />
@@ -912,11 +981,7 @@ const ProfileDisplay = ({
 
       {/* Logo + descrição */}
       <div className="qz-profile-header">
-        <img
-          src="/assets/images/logo-dragao.svg"
-          className="qz-hero-logo qz-profile-logo"
-          alt="Comida de Dragão"
-        />
+        <DragonLogo className="qz-hero-logo qz-profile-logo" />
         <p className="qz-profile-desc">
           5 quizzes pra montar seu perfil completo de tutor.
           Personalidade, nível de nojo, consciência ambiental,
@@ -927,7 +992,7 @@ const ProfileDisplay = ({
       {/* Top bar */}
       <div className="qz-profile-bar">
         <div className="qz-profile-avatar">
-          <img src="/assets/images/logo-dragao.svg" alt="Dragão" className="qz-avatar-logo" />
+          <DragonLogo className="qz-avatar-logo" />
         </div>
         <div className="qz-profile-info">
           <div className="qz-profile-greeting">Perfil do Dragão</div>
