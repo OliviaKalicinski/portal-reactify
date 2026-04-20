@@ -1480,3 +1480,18 @@
 .portal-page .card-quiz-companion-video .card-inner { position: relative; z-index: 2; }
 .portal-page .card-quiz-companion-video:hover .card-bg-video { opacity: 0; }
 .portal-page .card-quiz-companion-video .card-img-hover { z-index: 1; }
+
+/* Imprensa: textos em preto, label maior e empurrada para baixo */
+.portal-page .card-quiz-companion-video .card-body {
+  justify-content: flex-end;
+}
+.portal-page .card-quiz-companion-video .cqc-label,
+.portal-page .card-quiz-companion-video .card-label,
+.portal-page .card-quiz-companion-video .card-sub {
+  color: #000;
+}
+.portal-page .card-quiz-companion-video .card-label {
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1;
+  margin-top: 8px;
+}
