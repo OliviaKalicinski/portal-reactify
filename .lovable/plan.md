@@ -1,58 +1,74 @@
 
 
-## Problema
+## Resposta à dúvida
 
-A imagem `manual-criador-cover.png` é quadrada (1:1) e contém o lockup completo "ENTRE NA NOSSA MATILHA". No card atual:
-1. O `.card-pdf-top` está com `background-size: cover`, que corta as bordas para preencher a área.
-2. A área disponível para a imagem é menor que quadrada porque o card tem ratio 3:4 e uma barra inferior (`card-pdf-bottom`) com 📖 + "Manual do Criador" + subtítulo ocupa parte vertical.
-3. O resultado: as letras "E" do "ENTRE" e o "a" final de "MATILHa" são cortados nas laterais.
+**Não, o card não está dividido em dois.** Ele é um único bloco. O que você vê como "barra" na metade inferior é apenas um gradiente escuro (`rgba(0,0,0,0.72)` → transparente) aplicado por cima do fundo roxo, para dar legibilidade ao texto branco "INSTAGRAM / @comidadedragao / Posts, stories...". A parte de cima fica mais clara (roxo puro com a câmera 📸 estilizada) e a de baixo escurece — daí a aparência de duas faixas. É tudo a mesma camada.
 
-## Solução
+Como a imagem `4.png` já contém **todo** o lockup tipográfico (INSTAGRAM + @COMIDADEDRAGAO + subtítulo) embutido na arte, a estratégia certa é fazer a imagem ocupar o card inteiro, sem corte, e remover/ocultar o texto HTML existente — senão ficaria duplicado.
 
-Ajustar o card para que a imagem caiba inteira, sem cortes, mantendo o lockup legível.
+## Mudanças
 
-### 1. `src/pages/Portal.css` — variante dark (linhas 1387–1422)
+### 1. Asset
+- Copiar `user-uploads://4.png` → `public/assets/images/instagram-cover.png`.
 
-**a) Mostrar a imagem inteira (sem corte)** — trocar `background-size: cover` por `contain` na variante dark:
+### 2. `src/pages/Portal.tsx` (linha 388–395)
+Adicionar uma classe `card-social-ig-img` ao card e esconder os filhos textuais (mais simples: deixar o JSX como está e ocultar via CSS pela nova classe — preserva acessibilidade mínima caso a imagem falhe; alternativa é remover o markup interno). Vou pela via CSS:
+
+```tsx
+<a ... className="card card-social card-social-ig card-social-ig-img ratio-5-4" ...>
+  <HoverBg imgKey="instagram" />
+  <div className="card-inner"><div className="card-body">
+    <span className="social-icon">📸</span>
+    <div className="card-tag">Instagram</div>
+    <div className="card-label">@comida<br />dedragao</div>
+    <div className="card-sub">Posts, stories, reels e o Dragão provocando todo dia</div>
+  </div></div>
+</a>
+```
+
+### 3. `src/pages/Portal.css`
+Adicionar nova regra para a variante com imagem:
 
 ```css
-.portal-page .card-pdf-dark .card-pdf-top {
-  background-color: #0a0a0a;
-  background-image: none; /* setado inline no TSX */
-  background-size: contain;        /* ← mudou de cover */
+/* Instagram com cover-art (a arte já contém todo o lockup) */
+.portal-page .card-social-ig.card-social-ig-img {
+  background-image: url('/assets/images/instagram-cover.png');
+  background-size: cover;        /* preenche sem deformar */
   background-position: center;
   background-repeat: no-repeat;
+  background-color: #000;        /* fundo preto da arte casa com bordas */
+}
+/* a arte tem proporção retrato (~4:5). Ajustar o ratio do card pra não cortar. */
+.portal-page .card-social-ig.card-social-ig-img.ratio-5-4 .card-inner::before {
+  padding-top: 125%;             /* 4:5 retrato — combina com a imagem */
+}
+/* Esconder texto/ícone HTML — a tipografia já está dentro da imagem */
+.portal-page .card-social-ig.card-social-ig-img .card-body > * {
+  display: none;
+}
+/* Remover o gradiente escuro do .card-body que criava o efeito de "barra" */
+.portal-page .card-social-ig.card-social-ig-img .card-body {
+  background: none;
 }
 ```
 
-`contain` garante que a imagem inteira apareça dentro da área, sem corte. Como a imagem é quadrada e tem fundo preto, vai casar perfeitamente com o fundo `#0a0a0a` do card — não vai aparecer "barra preta" estranha, vai parecer contínuo.
+> Nota sobre `background-size`: a arte 4.png tem fundo preto sólido nas bordas, então `cover` não vai gerar corte visual problemático — mas se preferir garantir que **nada** de tipografia seja cortada, troco para `contain`. Vou usar `cover` por padrão (mantém o card cheio) e o `padding-top: 125%` já casa com a proporção da imagem para não sobrar barra preta.
 
-**b) Ajustar proporção do card** — trocar `ratio-3-4` por uma proporção mais quadrada, para a imagem aparecer maior e a barra inferior ficar compacta. Adicionar override específico:
+### 4. Hover preview
+**Mantido sem mudanças.** O `<HoverBg imgKey="instagram" />` continua funcionando — no hover, fade-out do `.card-body` (regra global existente já cobre) e aparece `matilha.png`.
 
-```css
-/* Card Manual dark: proporção mais alta para acomodar imagem quadrada + barra inferior */
-.portal-page .card-pdf.card-pdf-dark.ratio-3-4 .card-inner::before {
-  padding-top: 115%; /* ~quadrado + espaço pra barra inferior */
-}
-```
+## Resultado
 
-(Observação: cards `.card-pdf` usam flex em vez de `.card-inner::before`. Vou verificar e, se necessário, usar `aspect-ratio` direto no `.card-pdf-dark`.)
+- Card Instagram exibe a arte 4.png inteira como fundo único (sem divisão visual).
+- Tipografia HTML antiga oculta (a arte já tem tudo).
+- Hover continua trocando para `matilha.png`.
+- Imagem salva como `public/assets/images/instagram-cover.png`.
 
-### 2. `src/pages/Portal.tsx` (linha 271)
-
-Sem mudanças estruturais na marcação. Apenas garantir que o `style` inline no `.card-pdf-top` continua com a imagem.
-
-### 3. Resultado esperado
-
-- A imagem "ENTRE NA NOSSA MATILHA" aparece **inteira**, centralizada, com todo o texto visível.
-- O fundo preto da imagem se funde com o fundo preto do card → parece um único bloco.
-- A barra inferior ("📖 Manual do Criador / Clique e acesse...") permanece com texto branco.
-- Hover continua trocando para o GIF do manual.
-
-## Mudanças por arquivo
+## Arquivos alterados
 
 | Arquivo | Mudança |
 |---|---|
-| `src/pages/Portal.css` | `background-size: cover` → `contain` na regra `.card-pdf-dark .card-pdf-top`. Ajuste de proporção do card dark se necessário. |
-| `src/pages/Portal.tsx` | Sem mudanças (a menos que o ajuste de proporção exija uma classe extra). |
+| `public/assets/images/instagram-cover.png` | Novo (cópia de 4.png) |
+| `src/pages/Portal.tsx` | Adiciona classe `card-social-ig-img` ao `<a>` do Instagram |
+| `src/pages/Portal.css` | Nova regra `.card-social-ig-img` (background, ratio, oculta filhos, remove gradiente) |
 
