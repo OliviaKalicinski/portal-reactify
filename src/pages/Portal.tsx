@@ -385,7 +385,7 @@ const Portal = () => {
       <div className="section-label" style={{ marginTop: 32 }}>Comunidade</div>
       <div className="content-grid" style={{ paddingTop: 8 }}>
         <div className="row">
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-social card-social-ig ratio-5-4" style={{ flexGrow: 5 / 4 }}>
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-social card-social-ig card-social-ig-img ratio-5-4" style={{ flexGrow: 5 / 4 }}>
             <HoverBg imgKey="instagram" />
             <div className="card-inner"><div className="card-body">
               <span className="social-icon">📸</span>
