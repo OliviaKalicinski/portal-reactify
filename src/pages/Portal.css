@@ -491,7 +491,7 @@
 
 .portal-page .card-audio-top {
   position: relative; flex: 1; overflow: hidden;
-  background: var(--dragon-purple);
+  background: var(--dragon-purple) url('/assets/images/audiocast-cover.png') center/cover no-repeat;
 }
 .portal-page .card-audio-top .card-tag {
   position: absolute; top: 12px; left: 14px; z-index: 2;
