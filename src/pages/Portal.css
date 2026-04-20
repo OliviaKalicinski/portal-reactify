@@ -1476,7 +1476,7 @@
   pointer-events: none;
   transition: opacity .35s ease;
 }
-.portal-page .card-quiz-companion-video .card-body > * { display: none; }
-.portal-page .card-quiz-companion-video .card-body { background: none; }
+/* texto mantido visível por cima do vídeo */
+.portal-page .card-quiz-companion-video .card-inner { position: relative; z-index: 2; }
 .portal-page .card-quiz-companion-video:hover .card-bg-video { opacity: 0; }
 .portal-page .card-quiz-companion-video .card-img-hover { z-index: 1; }
