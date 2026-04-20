@@ -1446,3 +1446,21 @@
 .portal-page .card-social-ig.card-social-ig-img .card-body {
   background: none;
 }
+
+/* WhatsApp SAC com cover-art (a arte já contém todo o lockup) */
+.portal-page .card-social-wa.card-social-wa-img {
+  background-image: url('/assets/images/whatsapp-cover.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #00ff66;
+}
+.portal-page .card-social-wa.card-social-wa-img.ratio-3-4 .card-inner::before {
+  padding-top: 125%;
+}
+.portal-page .card-social-wa.card-social-wa-img .card-body > * {
+  display: none;
+}
+.portal-page .card-social-wa.card-social-wa-img .card-body {
+  background: none;
+}

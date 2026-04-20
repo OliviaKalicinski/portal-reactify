@@ -396,7 +396,7 @@ const Portal = () => {
             <div className="card-hover-overlay" style={{ background: "rgba(255,45,120,0.08)" }} />
           </a>
 
-          <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer" className="card card-social card-social-wa ratio-3-4" style={{ flexGrow: 3 / 4 }}>
+          <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer" className="card card-social card-social-wa card-social-wa-img ratio-3-4" style={{ flexGrow: 3 / 4 }}>
             <HoverBg imgKey="whatsapp" />
             <div className="card-inner"><div className="card-body">
               <span className="social-icon">💬</span>
