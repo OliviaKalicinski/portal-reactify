@@ -1464,3 +1464,19 @@
 .portal-page .card-social-wa.card-social-wa-img .card-body {
   background: none;
 }
+
+/* Imprensa card com vídeo de fundo */
+.portal-page .card-quiz-companion-video { background: #000; }
+.portal-page .card-quiz-companion-video .card-bg-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+.portal-page .card-quiz-companion-video .card-body > * { display: none; }
+.portal-page .card-quiz-companion-video .card-body { background: none; }
+.portal-page .card-quiz-companion-video:hover .card-bg-video { opacity: 0; }
+.portal-page .card-quiz-companion-video .card-img-hover { z-index: 1; }

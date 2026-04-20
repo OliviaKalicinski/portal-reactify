@@ -352,8 +352,17 @@ const Portal = () => {
             </div>
           </a>
 
-          <a href="/imprensa" className="card card-quiz-companion">
+          <a href="/imprensa" className="card card-quiz-companion card-quiz-companion-video">
             <HoverBg imgKey="companion" />
+            <video
+              className="card-bg-video"
+              src="/assets/videos/imprensa-cover.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
             <div className="card-inner">
               <div className="card-body">
                 <span className="cqc-label">// imprensa</span>
