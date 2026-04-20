@@ -1,52 +1,58 @@
 
 
-## Objetivo
+## Problema
 
-Transformar o card "Manual do Criador" para ter a imagem `3.png` ("ENTRE NA NOSSA MATILHA") como visual inicial (no lugar da textura de caderno creme), com os textos em branco. No hover, manter a troca para o GIF atual do manual.
+A imagem `manual-criador-cover.png` é quadrada (1:1) e contém o lockup completo "ENTRE NA NOSSA MATILHA". No card atual:
+1. O `.card-pdf-top` está com `background-size: cover`, que corta as bordas para preencher a área.
+2. A área disponível para a imagem é menor que quadrada porque o card tem ratio 3:4 e uma barra inferior (`card-pdf-bottom`) com 📖 + "Manual do Criador" + subtítulo ocupa parte vertical.
+3. O resultado: as letras "E" do "ENTRE" e o "a" final de "MATILHa" são cortados nas laterais.
 
-## Mudanças
+## Solução
 
-### 1. Renomear e mover a imagem
-- Copiar `user-uploads://3.png` para `public/assets/images/manual-criador-cover.png` (nome descritivo da função: capa do card Manual do Criador).
+Ajustar o card para que a imagem caiba inteira, sem cortes, mantendo o lockup legível.
 
-### 2. `src/pages/Portal.tsx` (linha 271–281)
-Adicionar a imagem de fundo inline no `card-pdf-top` e ajustar classes para indicar tema escuro:
+### 1. `src/pages/Portal.css` — variante dark (linhas 1387–1422)
 
-```tsx
-<a href="/assets/pdfs/Manual%20do%20Criador.pdf" ... className="card card-pdf card-pdf-dark ratio-3-4">
-  <HoverBg imgKey="manual" />
-  <div
-    className="card-pdf-top"
-    style={{ backgroundImage: "url('/assets/images/manual-criador-cover.png')" }}
-  >
-    <div className="card-tag">Manual</div>
-  </div>
-  <div className="card-pdf-bottom">
-    <div className="pdf-icon">📖</div>
-    <div className="card-label">Manual do<br />Criador</div>
-    <div className="card-sub">Clique e acesse o guia completo para criadores de conteúdo</div>
-  </div>
-</a>
+**a) Mostrar a imagem inteira (sem corte)** — trocar `background-size: cover` por `contain` na variante dark:
+
+```css
+.portal-page .card-pdf-dark .card-pdf-top {
+  background-color: #0a0a0a;
+  background-image: none; /* setado inline no TSX */
+  background-size: contain;        /* ← mudou de cover */
+  background-position: center;
+  background-repeat: no-repeat;
+}
 ```
 
-### 3. `src/pages/Portal.css`
-Adicionar regras para a variante `.card-pdf-dark`:
+`contain` garante que a imagem inteira apareça dentro da área, sem corte. Como a imagem é quadrada e tem fundo preto, vai casar perfeitamente com o fundo `#0a0a0a` do card — não vai aparecer "barra preta" estranha, vai parecer contínuo.
 
-- `.card-pdf.card-pdf-dark` → fundo preto (`#0a0a0a`), borda escura.
-- `.card-pdf-dark .card-pdf-top` → remover textura/listras creme, usar a imagem `3.png` em `cover/center`, sem o gradiente de linhas.
-- `.card-pdf-dark .card-pdf-top .card-tag` → cor branca (`#fff` ou `rgba(255,255,255,0.85)`).
-- `.card-pdf-dark .card-pdf-bottom` → fundo preto, borda-topo branca translúcida.
-- `.card-pdf-dark .card-pdf-bottom .card-label` → cor branca.
-- `.card-pdf-dark .card-pdf-bottom .card-sub` → cinza claro (`rgba(255,255,255,0.7)`).
-- `.card-pdf-dark .card-pdf-bottom .pdf-icon` → manter laranja (já contrasta) ou trocar pra branco — manter laranja para consistência da marca.
-- Sobrescrever a regra existente `.portal-page .card-pdf .card-body` (textura caderno) **apenas** quando NÃO for `.card-pdf-dark`, para não vazar a textura creme.
+**b) Ajustar proporção do card** — trocar `ratio-3-4` por uma proporção mais quadrada, para a imagem aparecer maior e a barra inferior ficar compacta. Adicionar override específico:
 
-### 4. Comportamento do hover (sem mudanças)
-O sistema atual já faz fade-out de `.card-pdf-top` e `.card-pdf-bottom` no hover e mostra `.card-img-hover` (o GIF do `manual`). Isso continua funcionando — só o "estado base" é que muda de creme→preto.
+```css
+/* Card Manual dark: proporção mais alta para acomodar imagem quadrada + barra inferior */
+.portal-page .card-pdf.card-pdf-dark.ratio-3-4 .card-inner::before {
+  padding-top: 115%; /* ~quadrado + espaço pra barra inferior */
+}
+```
 
-## Resultado
+(Observação: cards `.card-pdf` usam flex em vez de `.card-inner::before`. Vou verificar e, se necessário, usar `aspect-ratio` direto no `.card-pdf-dark`.)
 
-- **Estado base**: card preto com a arte "ENTRE NA NOSSA MATILHA" no topo, tag "MANUAL", ícone 📖 laranja, "Manual do Criador" e subtítulo em branco.
-- **Hover**: fade para o GIF atual do manual, igual antes.
-- Imagem fica em `public/assets/images/manual-criador-cover.png`.
+### 2. `src/pages/Portal.tsx` (linha 271)
+
+Sem mudanças estruturais na marcação. Apenas garantir que o `style` inline no `.card-pdf-top` continua com a imagem.
+
+### 3. Resultado esperado
+
+- A imagem "ENTRE NA NOSSA MATILHA" aparece **inteira**, centralizada, com todo o texto visível.
+- O fundo preto da imagem se funde com o fundo preto do card → parece um único bloco.
+- A barra inferior ("📖 Manual do Criador / Clique e acesse...") permanece com texto branco.
+- Hover continua trocando para o GIF do manual.
+
+## Mudanças por arquivo
+
+| Arquivo | Mudança |
+|---|---|
+| `src/pages/Portal.css` | `background-size: cover` → `contain` na regra `.card-pdf-dark .card-pdf-top`. Ajuste de proporção do card dark se necessário. |
+| `src/pages/Portal.tsx` | Sem mudanças (a menos que o ajuste de proporção exija uma classe extra). |
 
