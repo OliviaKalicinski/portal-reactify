@@ -1,74 +1,78 @@
 
 
-## Resposta à dúvida
-
-**Não, o card não está dividido em dois.** Ele é um único bloco. O que você vê como "barra" na metade inferior é apenas um gradiente escuro (`rgba(0,0,0,0.72)` → transparente) aplicado por cima do fundo roxo, para dar legibilidade ao texto branco "INSTAGRAM / @comidadedragao / Posts, stories...". A parte de cima fica mais clara (roxo puro com a câmera 📸 estilizada) e a de baixo escurece — daí a aparência de duas faixas. É tudo a mesma camada.
-
-Como a imagem `4.png` já contém **todo** o lockup tipográfico (INSTAGRAM + @COMIDADEDRAGAO + subtítulo) embutido na arte, a estratégia certa é fazer a imagem ocupar o card inteiro, sem corte, e remover/ocultar o texto HTML existente — senão ficaria duplicado.
-
 ## Mudanças
 
-### 1. Asset
-- Copiar `user-uploads://4.png` → `public/assets/images/instagram-cover.png`.
+Vou transformar o card "Na Mídia & Cobertura" (Portal → link para `/imprensa`) em um card com **vídeo de fundo em loop** usando o `aaa.mp4`. O hover preview (GIF do `companion`) é mantido — o vídeo some e o GIF aparece, igual aos outros cards.
 
-### 2. `src/pages/Portal.tsx` (linha 388–395)
-Adicionar uma classe `card-social-ig-img` ao card e esconder os filhos textuais (mais simples: deixar o JSX como está e ocultar via CSS pela nova classe — preserva acessibilidade mínima caso a imagem falhe; alternativa é remover o markup interno). Vou pela via CSS:
+### 1. Asset
+- Copiar `user-uploads://aaa.mp4` → `public/assets/videos/imprensa-cover.mp4` (renomeado conforme pedido).
+
+### 2. `src/pages/Portal.tsx` (linhas 355–365)
+Adicionar classe `card-quiz-companion-video` ao `<a>` do Imprensa e incluir um `<video>` de fundo. O texto/lockup HTML é ocultado por CSS (a ideia é que o vídeo conte a história, igual fizemos com Instagram/WhatsApp).
 
 ```tsx
-<a ... className="card card-social card-social-ig card-social-ig-img ratio-5-4" ...>
-  <HoverBg imgKey="instagram" />
-  <div className="card-inner"><div className="card-body">
-    <span className="social-icon">📸</span>
-    <div className="card-tag">Instagram</div>
-    <div className="card-label">@comida<br />dedragao</div>
-    <div className="card-sub">Posts, stories, reels e o Dragão provocando todo dia</div>
-  </div></div>
+<a href="/imprensa" className="card card-quiz-companion card-quiz-companion-video">
+  <HoverBg imgKey="companion" />
+  <video
+    className="card-bg-video"
+    src="/assets/videos/imprensa-cover.mp4"
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+  />
+  <div className="card-inner">
+    <div className="card-body">
+      <span className="cqc-label">// imprensa</span>
+      <div className="card-label">Na Mídia &<br />Cobertura</div>
+      <div className="card-sub">23 links — matérias, vídeos e o que falam sobre o Dragão</div>
+    </div>
+  </div>
+  <div className="card-hover-overlay" />
 </a>
 ```
 
-### 3. `src/pages/Portal.css`
-Adicionar nova regra para a variante com imagem:
+### 3. `src/pages/Portal.css` — novas regras
 
 ```css
-/* Instagram com cover-art (a arte já contém todo o lockup) */
-.portal-page .card-social-ig.card-social-ig-img {
-  background-image: url('/assets/images/instagram-cover.png');
-  background-size: cover;        /* preenche sem deformar */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #000;        /* fundo preto da arte casa com bordas */
+/* Imprensa card com vídeo de fundo */
+.portal-page .card-quiz-companion-video { background: #000; }
+.portal-page .card-quiz-companion-video .card-bg-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;             /* preenche o card sem deformar */
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
 }
-/* a arte tem proporção retrato (~4:5). Ajustar o ratio do card pra não cortar. */
-.portal-page .card-social-ig.card-social-ig-img.ratio-5-4 .card-inner::before {
-  padding-top: 125%;             /* 4:5 retrato — combina com a imagem */
-}
-/* Esconder texto/ícone HTML — a tipografia já está dentro da imagem */
-.portal-page .card-social-ig.card-social-ig-img .card-body > * {
-  display: none;
-}
-/* Remover o gradiente escuro do .card-body que criava o efeito de "barra" */
-.portal-page .card-social-ig.card-social-ig-img .card-body {
-  background: none;
-}
+/* Esconde o lockup HTML (vídeo já comunica) */
+.portal-page .card-quiz-companion-video .card-body > * { display: none; }
+.portal-page .card-quiz-companion-video .card-body { background: none; }
+/* No hover: vídeo desaparece, GIF do HoverBg (companion) toma conta */
+.portal-page .card-quiz-companion-video:hover .card-bg-video { opacity: 0; }
+/* Garantir que o card-img-hover (GIF) fique acima do vídeo */
+.portal-page .card-quiz-companion-video .card-img-hover { z-index: 1; }
 ```
 
-> Nota sobre `background-size`: a arte 4.png tem fundo preto sólido nas bordas, então `cover` não vai gerar corte visual problemático — mas se preferir garantir que **nada** de tipografia seja cortada, troco para `contain`. Vou usar `cover` por padrão (mantém o card cheio) e o `padding-top: 125%` já casa com a proporção da imagem para não sobrar barra preta.
+> Atributos `muted` + `playsInline` + `autoPlay` garantem reprodução sem fricção em todos os browsers (incluindo iOS Safari). `preload="metadata"` evita baixar o vídeo inteiro até precisar.
 
 ### 4. Hover preview
-**Mantido sem mudanças.** O `<HoverBg imgKey="instagram" />` continua funcionando — no hover, fade-out do `.card-body` (regra global existente já cobre) e aparece `matilha.png`.
+Mantido. O `<HoverBg imgKey="companion" />` continua usando o GIF do Giphy já configurado no `CARD_HOVER_IMAGES`.
 
 ## Resultado
 
-- Card Instagram exibe a arte 4.png inteira como fundo único (sem divisão visual).
-- Tipografia HTML antiga oculta (a arte já tem tudo).
-- Hover continua trocando para `matilha.png`.
-- Imagem salva como `public/assets/images/instagram-cover.png`.
+- Card "Na Mídia & Cobertura" passa a exibir `aaa.mp4` em loop como fundo.
+- Texto antigo oculto (vídeo é o protagonista).
+- Hover continua mostrando o GIF companion.
+- Vídeo salvo como `public/assets/videos/imprensa-cover.mp4`.
 
 ## Arquivos alterados
 
 | Arquivo | Mudança |
 |---|---|
-| `public/assets/images/instagram-cover.png` | Novo (cópia de 4.png) |
-| `src/pages/Portal.tsx` | Adiciona classe `card-social-ig-img` ao `<a>` do Instagram |
-| `src/pages/Portal.css` | Nova regra `.card-social-ig-img` (background, ratio, oculta filhos, remove gradiente) |
+| `public/assets/videos/imprensa-cover.mp4` | Novo (cópia renomeada de `aaa.mp4`) |
+| `src/pages/Portal.tsx` | Adiciona classe + `<video>` no card de Imprensa |
+| `src/pages/Portal.css` | Regras `.card-quiz-companion-video` (vídeo cover, oculta filhos, fade no hover) |
 
