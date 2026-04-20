@@ -268,16 +268,15 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <a
-            href="/assets/pdfs/Manual%20do%20Criador.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="card card-pdf card-pdf-dark ratio-3-4"
-            style={{ backgroundImage: "url('/assets/images/manual-criador-cover.png')" }}
-          >
+          <a href="/assets/pdfs/Manual%20do%20Criador.pdf" target="_blank" rel="noopener noreferrer" className="card card-pdf card-pdf-dark ratio-3-4">
             <HoverBg imgKey="manual" />
-            <div className="card-tag card-tag-overlay">Manual</div>
-            <div className="card-pdf-overlay">
+            <div
+              className="card-pdf-top"
+              style={{ backgroundImage: "url('/assets/images/manual-criador-cover.png')" }}
+            >
+              <div className="card-tag">Manual</div>
+            </div>
+            <div className="card-pdf-bottom">
               <div className="pdf-icon">📖</div>
               <div className="card-label">Manual do<br />Criador</div>
               <div className="card-sub">Clique e acesse o guia completo para criadores de conteúdo</div>
