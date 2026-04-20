@@ -312,7 +312,7 @@ const Portal = () => {
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
           </div>
 
-          <div onClick={openAudio} style={{ cursor: "pointer" }} className="card card-audio ratio-3-5">
+          <div onClick={openAudio} style={{ cursor: "pointer" }} className="card card-audio ratio-1-1">
             <HoverBg imgKey="audio" />
             <div className="card-audio-top">
               <span className="card-tag">Audiocasts</span>
