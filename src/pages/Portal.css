@@ -294,7 +294,7 @@
 .portal-page .card-video { flex-grow: calc(16/9); }
 .portal-page .card-pdf { flex-grow: calc(3/4); }
 .portal-page .card-produtos { flex-grow: calc(1/1); }
-.portal-page .card-audio { flex-grow: calc(3/5); }
+.portal-page .card-audio { flex-grow: calc(1/1); }
 .portal-page .card-manifesto { flex-grow: calc(5/4); }
 
 .portal-page .card-body {
