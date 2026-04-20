@@ -2,57 +2,138 @@
 
 ## Problema
 
-A imagem `manual-criador-cover.png` é quadrada (1:1) e contém o lockup completo "ENTRE NA NOSSA MATILHA". No card atual:
-1. O `.card-pdf-top` está com `background-size: cover`, que corta as bordas para preencher a área.
-2. A área disponível para a imagem é menor que quadrada porque o card tem ratio 3:4 e uma barra inferior (`card-pdf-bottom`) com 📖 + "Manual do Criador" + subtítulo ocupa parte vertical.
-3. O resultado: as letras "E" do "ENTRE" e o "a" final de "MATILHa" são cortados nas laterais.
+Hoje o card "Manual do Criador" tem duas zonas visualmente separadas:
+- `.card-pdf-top` → imagem "ENTRE NA NOSSA MATILHA"
+- `.card-pdf-bottom` → barra preta com 📖, "Manual do Criador" e subtítulo
+
+Mesmo as duas sendo pretas, a barra inferior empurra a imagem pra cima e a imagem aparece com `contain` (com espaço sobrando), criando a sensação de "card dividido em dois".
+
+A intenção é: **a imagem ocupa o card inteiro e o texto fica sobreposto a ela**, como uma legenda em overlay.
 
 ## Solução
 
-Ajustar o card para que a imagem caiba inteira, sem cortes, mantendo o lockup legível.
+Reestruturar o card dark para ter **uma única camada visual** (a imagem cobrindo o card todo) e o texto posicionado por cima, na parte inferior, com um leve gradiente de legibilidade.
 
-### 1. `src/pages/Portal.css` — variante dark (linhas 1387–1422)
+### 1. `src/pages/Portal.tsx` (linhas 271–284)
 
-**a) Mostrar a imagem inteira (sem corte)** — trocar `background-size: cover` por `contain` na variante dark:
+Trocar a estrutura `top + bottom` por **uma única div de fundo + overlay de texto absoluto**:
+
+```tsx
+<a
+  href="/assets/pdfs/Manual%20do%20Criador.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="card card-pdf card-pdf-dark ratio-3-4"
+  style={{ backgroundImage: "url('/assets/images/manual-criador-cover.png')" }}
+>
+  <HoverBg imgKey="manual" />
+  <div className="card-tag card-tag-overlay">Manual</div>
+  <div className="card-pdf-overlay">
+    <div className="pdf-icon">📖</div>
+    <div className="card-label">Manual do<br />Criador</div>
+    <div className="card-sub">Clique e acesse o guia completo para criadores de conteúdo</div>
+  </div>
+</a>
+```
+
+Pontos:
+- Imagem vai direto no `<a>` como `background-image` (cobrindo o card inteiro).
+- `.card-pdf-top` e `.card-pdf-bottom` deixam de existir nesse card.
+- O texto fica em `.card-pdf-overlay`, posicionado absoluto no rodapé do card, por cima da imagem.
+
+### 2. `src/pages/Portal.css` — refazer regras `.card-pdf-dark` (linhas 1387–1426)
+
+Substituir o bloco atual por:
 
 ```css
-.portal-page .card-pdf-dark .card-pdf-top {
-  background-color: #0a0a0a;
-  background-image: none; /* setado inline no TSX */
-  background-size: contain;        /* ← mudou de cover */
-  background-position: center;
+.portal-page .card-pdf.card-pdf-dark {
+  background: #0a0a0a;
+  background-size: cover;       /* imagem cobre o card inteiro */
+  background-position: center top;
   background-repeat: no-repeat;
+  border-color: #1a1a1a;
+  position: relative;
+  overflow: hidden;
 }
+.portal-page .card-pdf.card-pdf-dark:hover {
+  border-color: var(--dragon-orange);
+}
+
+/* Volta o card para proporção quadrada (igual à imagem) */
+.portal-page .card-pdf.card-pdf-dark.ratio-3-4 {
+  aspect-ratio: 1 / 1;
+}
+
+/* Tag "Manual" no canto superior, sobre a imagem */
+.portal-page .card-pdf-dark .card-tag-overlay {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  color: rgba(255,255,255,0.9);
+  background: rgba(0,0,0,0.45);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Overlay de texto no rodapé, sobre a imagem */
+.portal-page .card-pdf-dark .card-pdf-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px 18px 18px;
+  z-index: 2;
+  color: #fff;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.85) 0%,
+    rgba(0,0,0,0.55) 55%,
+    rgba(0,0,0,0) 100%
+  );
+}
+.portal-page .card-pdf-dark .card-pdf-overlay .pdf-icon { color: var(--dragon-orange); }
+.portal-page .card-pdf-dark .card-pdf-overlay .card-label { color: #fff; }
+.portal-page .card-pdf-dark .card-pdf-overlay .card-sub { color: rgba(255,255,255,0.75); }
 ```
 
-`contain` garante que a imagem inteira apareça dentro da área, sem corte. Como a imagem é quadrada e tem fundo preto, vai casar perfeitamente com o fundo `#0a0a0a` do card — não vai aparecer "barra preta" estranha, vai parecer contínuo.
+Remover (ou deixar inertes) as regras antigas que criavam a barra inferior:
+- `.card-pdf-dark .card-pdf-top` → não usado mais
+- `.card-pdf-dark .card-pdf-bottom` → não usado mais
+- `.card-pdf-dark .card-body` overrides → não usado mais
 
-**b) Ajustar proporção do card** — trocar `ratio-3-4` por uma proporção mais quadrada, para a imagem aparecer maior e a barra inferior ficar compacta. Adicionar override específico:
+### 3. Hover
+
+`HoverBg` continua funcionando — ele renderiza um `<div className="card-img-hover">` absoluto que cobre o card. Como agora não temos mais `.card-pdf-top/bottom` para fazer fade-out, o GIF simplesmente aparece **por cima** da capa estática + overlay de texto no hover (já é o comportamento padrão do `card-img-hover`).
+
+Se quisermos esconder o texto no hover (recomendado, pra não sobrepor o GIF), adicionar:
 
 ```css
-/* Card Manual dark: proporção mais alta para acomodar imagem quadrada + barra inferior */
-.portal-page .card-pdf.card-pdf-dark.ratio-3-4 .card-inner::before {
-  padding-top: 115%; /* ~quadrado + espaço pra barra inferior */
+.portal-page .card-pdf-dark:hover .card-pdf-overlay,
+.portal-page .card-pdf-dark:hover .card-tag-overlay {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.portal-page .card-pdf-dark .card-pdf-overlay,
+.portal-page .card-pdf-dark .card-tag-overlay {
+  transition: opacity .25s ease;
 }
 ```
 
-(Observação: cards `.card-pdf` usam flex em vez de `.card-inner::before`. Vou verificar e, se necessário, usar `aspect-ratio` direto no `.card-pdf-dark`.)
+## Resultado
 
-### 2. `src/pages/Portal.tsx` (linha 271)
-
-Sem mudanças estruturais na marcação. Apenas garantir que o `style` inline no `.card-pdf-top` continua com a imagem.
-
-### 3. Resultado esperado
-
-- A imagem "ENTRE NA NOSSA MATILHA" aparece **inteira**, centralizada, com todo o texto visível.
-- O fundo preto da imagem se funde com o fundo preto do card → parece um único bloco.
-- A barra inferior ("📖 Manual do Criador / Clique e acesse...") permanece com texto branco.
-- Hover continua trocando para o GIF do manual.
+- Card 1:1, com a arte "ENTRE NA NOSSA MATILHA" ocupando 100% da área (sem barra inferior separando).
+- "MANUAL" como tag pequena no topo-esquerdo, sobre a imagem.
+- 📖 + "Manual do Criador" + subtítulo no rodapé, em branco, sobre um gradiente preto sutil para legibilidade.
+- No hover, texto some e o GIF do manual aparece, igual antes.
 
 ## Mudanças por arquivo
 
 | Arquivo | Mudança |
 |---|---|
-| `src/pages/Portal.css` | `background-size: cover` → `contain` na regra `.card-pdf-dark .card-pdf-top`. Ajuste de proporção do card dark se necessário. |
-| `src/pages/Portal.tsx` | Sem mudanças (a menos que o ajuste de proporção exija uma classe extra). |
+| `src/pages/Portal.tsx` | Trocar estrutura `card-pdf-top/bottom` por imagem no `<a>` + `.card-pdf-overlay` com o texto sobreposto. |
+| `src/pages/Portal.css` | Reescrever bloco `.card-pdf-dark` (1387–1426): imagem cobre o card todo, aspect-ratio 1:1, overlay com gradiente, fade do texto no hover. |
 
