@@ -1395,9 +1395,13 @@
 .portal-page .card-pdf-dark .card-pdf-top {
   background-color: #0a0a0a;
   background-image: none;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+/* Card Manual dark: proporção mais quadrada para acomodar a imagem 1:1 inteira + barra inferior */
+.portal-page .card-pdf.card-pdf-dark.ratio-3-4 {
+  aspect-ratio: 1 / 1.18;
 }
 .portal-page .card-pdf-dark .card-pdf-top .card-tag {
   color: rgba(255, 255, 255, 0.85);
