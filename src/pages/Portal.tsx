@@ -268,9 +268,12 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <a href="/assets/pdfs/Manual%20do%20Criador.pdf" target="_blank" rel="noopener noreferrer" className="card card-pdf ratio-3-4">
+          <a href="/assets/pdfs/Manual%20do%20Criador.pdf" target="_blank" rel="noopener noreferrer" className="card card-pdf card-pdf-dark ratio-3-4">
             <HoverBg imgKey="manual" />
-            <div className="card-pdf-top">
+            <div
+              className="card-pdf-top"
+              style={{ backgroundImage: "url('/assets/images/manual-criador-cover.png')" }}
+            >
               <div className="card-tag">Manual</div>
             </div>
             <div className="card-pdf-bottom">
