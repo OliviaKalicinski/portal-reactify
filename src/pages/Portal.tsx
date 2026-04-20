@@ -10,6 +10,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   audio:      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm13bXZicTVvNWZncXdubnp5NDU4NTd3Y2t4bTU5bWZhcnZqNm0wYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/521JGiED6zWanTJroD/giphy.gif",
   produtos:   "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmMzczJyY2V0YjRhdG16NXdlMzJxcXNneHpuYTR5aWY1M3hwOHk4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DZ1NZce3T5Q3e/giphy.gif",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
+  biofabrica_hover: "/assets/images/hover-biofabrica.gif",
   manual:     "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmk2dzZwdTZlemFiZGVkanMzdnZhMXp4bjBsb2VrcHl5NmI4NXc4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z9tvqoD1SEQcomTVaK/giphy.gif",
   youtube:    "/assets/images/portal-comida-dragao.png",
   companion:  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGF4YzU2Y21wcnZwOWp5azlhbG44ejJ0bm5tb2Uyc3QwdXo5YW4xaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tyEj6eMv4YAgg/giphy.gif",
@@ -512,6 +513,7 @@ const Portal = () => {
         {/* Biofábrica */}
         <div className="row">
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-biofabrica card-biofabrica-img">
+            <HoverBg imgKey="biofabrica_hover" />
             <div className="card-inner">
               <div className="card-body">
                 <div className="bio-left">
