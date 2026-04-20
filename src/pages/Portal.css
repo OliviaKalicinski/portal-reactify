@@ -1383,3 +1383,40 @@
     max-height: calc(95vh - 50px);
   }
 }
+
+/* ── Manual do Criador: variante dark com capa "ENTRE NA NOSSA MATILHA" */
+.portal-page .card-pdf.card-pdf-dark {
+  background: #0a0a0a;
+  border-color: #1a1a1a;
+}
+.portal-page .card-pdf.card-pdf-dark:hover {
+  border-color: var(--dragon-orange);
+}
+.portal-page .card-pdf-dark .card-pdf-top {
+  background-color: #0a0a0a;
+  background-image: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.portal-page .card-pdf-dark .card-pdf-top .card-tag {
+  color: rgba(255, 255, 255, 0.85);
+}
+.portal-page .card-pdf-dark .card-pdf-bottom {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.portal-page .card-pdf-dark .card-pdf-bottom .card-label {
+  color: #ffffff;
+}
+.portal-page .card-pdf-dark .card-pdf-bottom .card-sub {
+  color: rgba(255, 255, 255, 0.7);
+}
+/* Remove a textura de caderno creme quando o card é dark (caso .card-body esteja presente) */
+.portal-page .card-pdf.card-pdf-dark .card-body {
+  background-color: #0a0a0a;
+  background-image: none;
+}
+.portal-page .card-pdf.card-pdf-dark .card-body::after {
+  display: none;
+}
