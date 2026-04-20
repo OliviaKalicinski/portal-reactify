@@ -1428,3 +1428,21 @@
 .portal-page .card-pdf.card-pdf-dark .card-body::after {
   display: none;
 }
+
+/* Instagram com cover-art (a arte já contém todo o lockup) */
+.portal-page .card-social-ig.card-social-ig-img {
+  background-image: url('/assets/images/instagram-cover.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #000;
+}
+.portal-page .card-social-ig.card-social-ig-img.ratio-5-4 .card-inner::before {
+  padding-top: 125%;
+}
+.portal-page .card-social-ig.card-social-ig-img .card-body > * {
+  display: none;
+}
+.portal-page .card-social-ig.card-social-ig-img .card-body {
+  background: none;
+}
