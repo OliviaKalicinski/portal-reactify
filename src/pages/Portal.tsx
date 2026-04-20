@@ -501,8 +501,7 @@ const Portal = () => {
 
         {/* Biofábrica */}
         <div className="row">
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-biofabrica">
-            <HoverBg imgKey="biofabrica" />
+          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-biofabrica card-biofabrica-img">
             <div className="card-inner">
               <div className="card-body">
                 <div className="bio-left">
