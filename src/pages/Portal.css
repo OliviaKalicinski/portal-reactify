@@ -481,7 +481,7 @@
 }
 .portal-page .card-produtos:hover { border-color: var(--dragon-yellow); }
 .portal-page .card-produtos .card-body {
-  background: none; justify-content: center; align-items: center; text-align: center; gap: 12px;
+  background: none; justify-content: flex-start; align-items: center; text-align: center; gap: 12px; padding-top: 24px;
 }
 .portal-page .card-produtos .card-label {
   font-family: 'Big Shoulders Display', sans-serif; font-weight: 900;
