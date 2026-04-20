@@ -473,7 +473,12 @@
   font-family: 'Courier Prime', monospace; font-size: 11px; color: #888; margin-top: 4px;
 }
 
-.portal-page .card-produtos { background: var(--dragon-orange); }
+.portal-page .card-produtos {
+  background: var(--dragon-orange);
+  background-image: url('/assets/images/bg-produtos.png');
+  background-size: cover;
+  background-position: center;
+}
 .portal-page .card-produtos:hover { border-color: var(--dragon-yellow); }
 .portal-page .card-produtos .card-body {
   background: none; justify-content: center; align-items: center; text-align: center; gap: 12px;
@@ -868,15 +873,7 @@
   pointer-events: none;
 }
 
-/* ── Nossos Produtos: favo de mel (inseto BSF)
-   Padrão de pontos em offset = honeycomb         */
-.portal-page .card-produtos {
-  background-image:
-    radial-gradient(circle, rgba(0,0,0,0.14) 2px, transparent 2px),
-    radial-gradient(circle, rgba(0,0,0,0.07) 2px, transparent 2px);
-  background-size: 18px 18px, 18px 18px;
-  background-position: 0 0, 9px 9px;
-}
+/* ── Nossos Produtos: imagem de fundo personalizada */
 
 /* ── Audiocasts: espectro de frequência / EQ
    Barras verticais simulando analisador de espectro
