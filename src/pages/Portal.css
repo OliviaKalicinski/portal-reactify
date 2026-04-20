@@ -562,6 +562,8 @@
   display: flex; flex-wrap: wrap;
   border-top: 2px solid var(--dragon-gray-mid); border-bottom: 2px solid var(--dragon-gray-mid);
   margin-top: 8px; background: var(--dragon-gray);
+  max-width: 1280px; margin-left: auto; margin-right: auto;
+  padding-left: 20px; padding-right: 20px;
 }
 .portal-page .stat-item {
   flex: 1; min-width: 140px; padding: 28px 20px;
