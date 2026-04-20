@@ -427,14 +427,15 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <a href="mailto:somos@letsfly.com.br" className="card card-social card-social-email ratio-3-4" style={{ flexGrow: 3 / 4 }}>
+          <a href="mailto:somos@letsfly.com.br" className="card card-manifesto card-email-manifesto ratio-3-4" style={{ flexGrow: 3 / 4 }}>
             <HoverBg imgKey="email" />
-            <div className="card-inner"><div className="card-body">
-              <span className="social-icon">✉️</span>
-              <div className="card-tag">Email</div>
-              <div className="card-label">Escreve<br />pro<br />Dragão</div>
-              <div className="card-sub">somos@letsfly.com.br</div>
-            </div></div>
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="scratch-mark">// email</span>
+                <div className="card-label">Escreve<br />pro<br />Dragão</div>
+                <div className="card-sub">somos@letsfly.com.br</div>
+              </div>
+            </div>
             <div className="card-hover-overlay" />
           </a>
         </div>
