@@ -1000,12 +1000,16 @@
   background-size: 22px 14px;
 }
 
-/* ── Biofábrica: placa de circuito / PCB ── */
-.portal-page .card-biofabrica {
-  background-image:
-    linear-gradient(rgba(0,255,135,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,135,0.06) 1px, transparent 1px);
-  background-size: 38px 38px;
+/* ── Biofábrica: imagem de capa ── */
+.portal-page .card-biofabrica.card-biofabrica-img {
+  background-color: #0a0a0a;
+  background-image: url('/assets/images/biofabrica-cover.png');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+}
+.portal-page .card-biofabrica.card-biofabrica-img .card-body {
+  background: linear-gradient(to right, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.55) 45%, transparent 70%);
 }
 
 /* ── Quiz companion: linhas de dados / data-viz ── */
