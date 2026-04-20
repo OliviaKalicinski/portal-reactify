@@ -16,7 +16,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   instagram:  "/assets/images/matilha.png",
   whatsapp:   "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2RzczUzNDA0eHg1ZXg4czhoemg4aXIybXprMGd6eGJrYzdzMm9zMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y0mkt9yBEsrPW/giphy.gif",
   lojas:      "/assets/images/biofabrica-interior.jpeg",
-  email:      "/assets/images/de larva.png",
+  email:      "/assets/images/hover-email.gif",
   consumer:   "/assets/images/Frente.png",
   influencer: "/assets/images/poster-punk-converte.png",
   seller:     "/assets/images/poster-punk-gato.png",
