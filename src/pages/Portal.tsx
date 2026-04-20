@@ -356,7 +356,7 @@ const Portal = () => {
             <HoverBg imgKey="companion" />
             <video
               className="card-bg-video"
-              src="/assets/videos/imprensa-cover.mp4"
+              src="/assets/videos/imprensa-cover.mp4?v=2"
               autoPlay
               muted
               loop
