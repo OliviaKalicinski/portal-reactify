@@ -547,3 +547,122 @@
   .parceiros-link-btn { align-self: flex-end; }
   .parceiros-hero { padding: 52px 22px 48px; }
 }
+
+/* ==========================================================
+   THEME LIGHT — Parceiros (reading room)
+   ========================================================== */
+.portal-page.theme-light .parceiros-hero {
+  background: var(--bg-page);
+  border-bottom: 4px solid var(--skin-accent);
+}
+.portal-page.theme-light .parceiros-hero-bg {
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 110%, color-mix(in srgb, var(--skin-accent) 22%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, color-mix(in srgb, var(--dragon-aqua) 18%, transparent) 0%, transparent 60%),
+    var(--bg-page);
+}
+.portal-page.theme-light .parceiros-hero::after {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(22,33,26,0.025) 0px, rgba(22,33,26,0.025) 1px,
+    transparent 1px, transparent 3px
+  );
+}
+.portal-page.theme-light .parceiros-hero .dragon-silhouette {
+  color: var(--skin-accent);
+  opacity: 0.08;
+  filter: none;
+}
+.portal-page.theme-light .parceiros-hero .hero-logo {
+  color: var(--skin-accent);
+  filter: drop-shadow(0 4px 18px rgba(22,33,26,0.18));
+}
+.portal-page.theme-light .parceiros-backlink { color: var(--ink-muted); }
+.portal-page.theme-light .parceiros-backlink:hover { color: var(--skin-accent); }
+.portal-page.theme-light .parceiros-hero-title { color: var(--ink-primary); }
+.portal-page.theme-light .parceiros-hero-title span { color: var(--skin-accent); }
+.portal-page.theme-light .parceiros-hero-sub { color: var(--ink-secondary); }
+.portal-page.theme-light .parceiros-hero-note { color: var(--ink-faded); }
+.portal-page.theme-light .parceiros-badge {
+  background: color-mix(in srgb, var(--skin-accent) 14%, transparent);
+  border-color: color-mix(in srgb, var(--skin-accent) 45%, transparent);
+  color: var(--dragon-green);
+}
+
+/* Seções / tipografia */
+.portal-page.theme-light .parceiros-secao-titulo { color: var(--ink-primary); }
+.portal-page.theme-light .parceiros-secao-texto { color: var(--ink-secondary); }
+.portal-page.theme-light .parceiros-divider { background: var(--ink-border); }
+
+/* Steps */
+.portal-page.theme-light .parceiros-step-body {
+  background: var(--bg-card);
+  border-bottom-color: var(--ink-border);
+}
+.portal-page.theme-light .parceiros-step-body strong { color: var(--ink-primary); }
+.portal-page.theme-light .parceiros-step-body span { color: var(--ink-secondary); }
+
+/* Benefícios — cada card rotaciona cor via CSS vars já definidas na página */
+.portal-page.theme-light .parceiros-beneficio {
+  background: var(--bg-card);
+}
+.portal-page.theme-light .parceiros-beneficio:hover {
+  background: color-mix(in srgb, var(--skin-accent) 8%, var(--bg-card));
+}
+.portal-page.theme-light .parceiros-beneficio-desc { color: var(--ink-secondary); }
+
+/* Requisitos */
+.portal-page.theme-light .parceiros-req-body {
+  background: var(--bg-card);
+  border-bottom-color: var(--ink-border);
+}
+.portal-page.theme-light .parceiros-req-body strong { color: var(--ink-primary); }
+.portal-page.theme-light .parceiros-req-body span { color: var(--ink-secondary); }
+
+/* Regras */
+.portal-page.theme-light .parceiros-regra-body {
+  background: var(--bg-card);
+  border-bottom-color: var(--ink-border);
+}
+.portal-page.theme-light .parceiros-regra-body strong { color: var(--ink-primary); }
+.portal-page.theme-light .parceiros-regra-body span { color: var(--ink-secondary); }
+.portal-page.theme-light .parceiros-regra-badge.badge-no {
+  background: color-mix(in srgb, var(--dragon-pink) 12%, transparent);
+  color: var(--dragon-pink);
+  border-color: color-mix(in srgb, var(--dragon-pink) 40%, transparent);
+}
+
+/* Link boxes (materiais) — violet light */
+.portal-page.theme-light .parceiros-link-box {
+  background: color-mix(in srgb, var(--dragon-violet) 6%, var(--bg-card));
+  border-color: color-mix(in srgb, var(--dragon-violet) 25%, transparent);
+}
+.portal-page.theme-light .parceiros-link-box:hover {
+  background: color-mix(in srgb, var(--dragon-violet) 12%, var(--bg-card));
+  border-color: color-mix(in srgb, var(--dragon-violet) 55%, transparent);
+}
+.portal-page.theme-light .parceiros-link-label { color: var(--ink-muted); }
+.portal-page.theme-light .parceiros-link-url { color: var(--dragon-violet); }
+.portal-page.theme-light .parceiros-link-btn {
+  background: var(--dragon-violet);
+  color: #fff;
+}
+
+/* CTA final */
+.portal-page.theme-light .parceiros-cta-final {
+  background: var(--bg-elevated);
+  border-top-color: var(--skin-accent);
+}
+.portal-page.theme-light .parceiros-cta-final::after {
+  background: radial-gradient(ellipse 70% 60% at 50% 110%, color-mix(in srgb, var(--skin-accent) 18%, transparent) 0%, transparent 70%);
+}
+.portal-page.theme-light .parceiros-cta-final-titulo { color: var(--ink-primary); }
+.portal-page.theme-light .parceiros-cta-final-sub { color: var(--ink-secondary); }
+.portal-page.theme-light .parceiros-cta-final-note { color: var(--ink-faded); }
+
+/* Reels section overrides quando em light */
+.portal-page.theme-light .section-label { color: var(--skin-accent); opacity: 1; }
+.portal-page.theme-light .section-label::after {
+  background: linear-gradient(to right, var(--skin-accent) 0%, transparent 80%);
+  opacity: 0.35;
+}

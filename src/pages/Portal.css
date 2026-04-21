@@ -45,6 +45,273 @@
   --skin-marquee-bottom: var(--dragon-violet);
 }
 
+/* ==========================================================
+   ARCHIVE HERO — hero compartilhado entre Biblioteca, Imprensa,
+   Produtos, Parceiros (via className="archive-hero").
+   Copiado do ArchiveList.tsx pra ficar disponível sem depender
+   do componente estar montado.
+   ========================================================== */
+.portal-page .archive-hero {
+  position: relative;
+  background: var(--dragon-black);
+  overflow: hidden;
+  border-bottom: 4px solid var(--skin-accent);
+  padding: 72px 24px 64px;
+  min-height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portal-page .archive-hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 110%, rgba(123,255,0,0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(0,217,111,0.08) 0%, transparent 60%),
+    var(--dragon-black);
+  z-index: 1;
+}
+.portal-page .archive-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px,
+    transparent 1px, transparent 3px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+.portal-page .archive-hero .dragon-silhouette {
+  position: absolute;
+  right: 4%;
+  bottom: -10%;
+  font-size: min(40vw, 420px);
+  line-height: 1;
+  opacity: 0.06;
+  filter: grayscale(1);
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+}
+.portal-page .archive-hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  padding: 0 8px;
+}
+.portal-page .archive-backlink {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: rgba(250,250,250,0.5);
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.18s;
+}
+.portal-page .archive-backlink:hover { color: var(--skin-accent); }
+.portal-page .archive-hero .hero-logo {
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+.portal-page .archive-hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(44px, 6.5vw, 82px);
+  line-height: 0.92;
+  color: var(--dragon-white);
+  letter-spacing: 0.5px;
+  margin-bottom: 22px;
+}
+.portal-page .archive-hero-title span {
+  color: var(--skin-accent);
+  display: block;
+}
+.portal-page .archive-hero-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  color: rgba(250,250,250,0.72);
+  line-height: 1.6;
+  max-width: 540px;
+  margin: 0 auto 24px;
+}
+
+/* ==========================================================
+   THEME LIGHT — Brand-aligned paper / reading room
+   Aplicado com className="portal-page theme-light" nas páginas
+   de leitura densa (Biblioteca, Imprensa, Produtos, Parceiros).
+   Portal (home) continua dark.
+   Paleta: Cores do Dragão + Terrosas + Mágicas.
+   ========================================================== */
+.portal-page.theme-light {
+  /* Paleta ajustada pra contraste sobre fundo claro */
+  --dragon-orange: #FF6600;
+  --dragon-lime:   #3FFF33;
+  --dragon-green:  #268050;
+  --dragon-purple: #5C2D91;
+  --dragon-violet: #925AED;
+  --dragon-yellow: #FFCC00;
+  --dragon-pink:   #FF0066;
+  --dragon-aqua:   #33FF99;
+
+  /* Layers */
+  --bg-page:     #FFFBED;   /* creme Cores do Dragão */
+  --bg-card:     #FFFFFF;
+  --bg-elevated: #FFF3ED;   /* pêssego claro */
+
+  /* Text */
+  --ink-primary:   #16211A;
+  --ink-secondary: #375D29;
+  --ink-muted:     rgba(22, 33, 26, 0.55);
+  --ink-faded:     rgba(22, 33, 26, 0.35);
+
+  /* Borders */
+  --ink-border:        rgba(22, 33, 26, 0.12);
+  --ink-border-strong: rgba(22, 33, 26, 0.3);
+
+  background: var(--bg-page);
+  color: var(--ink-primary);
+}
+/* Skin accents ajustados no light */
+.portal-page.theme-light.skin-1 {
+  --skin-accent: var(--dragon-orange);
+  --skin-accent-alt: var(--dragon-yellow);
+}
+.portal-page.theme-light.skin-2 {
+  --skin-accent: var(--dragon-lime);
+  --skin-accent-alt: var(--dragon-green);
+}
+.portal-page.theme-light.skin-3 {
+  --skin-accent: var(--dragon-pink);
+  --skin-accent-alt: var(--dragon-violet);
+}
+
+/* ----- HERO no light ----- */
+.portal-page.theme-light .archive-hero {
+  background: var(--bg-page);
+  border-bottom: 4px solid var(--skin-accent);
+}
+.portal-page.theme-light .archive-hero-bg {
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 110%, color-mix(in srgb, var(--skin-accent) 22%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, color-mix(in srgb, var(--dragon-aqua) 18%, transparent) 0%, transparent 60%),
+    var(--bg-page);
+}
+.portal-page.theme-light .archive-hero::after {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(22,33,26,0.025) 0px, rgba(22,33,26,0.025) 1px,
+    transparent 1px, transparent 3px
+  );
+}
+.portal-page.theme-light .archive-hero .dragon-silhouette {
+  color: var(--skin-accent);
+  opacity: 0.08;
+  filter: none;
+}
+.portal-page.theme-light .archive-backlink { color: var(--ink-muted); }
+.portal-page.theme-light .archive-backlink:hover { color: var(--skin-accent); }
+.portal-page.theme-light .archive-hero .hero-logo {
+  color: var(--skin-accent);
+  filter: drop-shadow(0 4px 18px rgba(22,33,26,0.18));
+}
+.portal-page.theme-light .archive-hero-title { color: var(--ink-primary); }
+.portal-page.theme-light .archive-hero-title span { color: var(--skin-accent); }
+.portal-page.theme-light .archive-hero-sub { color: var(--ink-secondary); }
+.portal-page.theme-light .hero-eyebrow { color: var(--skin-accent); }
+.portal-page.theme-light .hero-eyebrow::before,
+.portal-page.theme-light .hero-eyebrow::after { background: var(--skin-accent); }
+
+/* ----- ARCHIVE LIST (Biblioteca + Imprensa) ----- */
+.portal-page.theme-light .archive-stats {
+  background: var(--ink-border);
+  border: 1px solid var(--ink-border);
+}
+.portal-page.theme-light .archive-stat { background: var(--bg-card); }
+.portal-page.theme-light .archive-stat-num { color: var(--skin-accent); }
+.portal-page.theme-light .archive-stat-label { color: var(--ink-muted); }
+
+.portal-page.theme-light .archive-search {
+  background: var(--bg-card);
+  border: 1px solid var(--ink-border);
+  color: var(--ink-primary);
+}
+.portal-page.theme-light .archive-search::placeholder { color: var(--ink-faded); }
+.portal-page.theme-light .archive-search:focus {
+  border-color: var(--skin-accent);
+  background: var(--bg-card);
+}
+
+.portal-page.theme-light .archive-chip {
+  border-color: var(--ink-border);
+  color: var(--ink-secondary);
+}
+.portal-page.theme-light .archive-chip:hover {
+  border-color: var(--ink-border-strong);
+  color: var(--ink-primary);
+}
+.portal-page.theme-light .archive-chip.active {
+  background: var(--bg-card);
+  color: var(--ink-primary);
+  border-color: var(--ink-primary);
+}
+.portal-page.theme-light .archive-count { color: var(--ink-muted); }
+
+.portal-page.theme-light .archive-row {
+  border-bottom: 1px solid var(--ink-border);
+}
+.portal-page.theme-light .archive-row:hover {
+  background: var(--bg-elevated);
+}
+.portal-page.theme-light .archive-row-dot {
+  box-shadow: 0 0 0 2px var(--bg-page);
+}
+.portal-page.theme-light .archive-row-submeta { color: var(--ink-muted); }
+.portal-page.theme-light .archive-row-title { color: var(--ink-primary); }
+.portal-page.theme-light .archive-row:hover .archive-row-title { color: var(--skin-accent); }
+.portal-page.theme-light .archive-row-arrow { color: var(--ink-faded); }
+.portal-page.theme-light .archive-empty { color: var(--ink-muted); }
+
+/* Modal do ArchiveList em light */
+.portal-page.theme-light .archive-modal-overlay {
+  background: rgba(22, 33, 26, 0.55);
+}
+.portal-page.theme-light .archive-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--ink-border);
+  color: var(--ink-primary);
+}
+.portal-page.theme-light .archive-modal-close { color: var(--ink-muted); }
+.portal-page.theme-light .archive-modal-close:hover { color: var(--ink-primary); }
+.portal-page.theme-light .archive-modal-submeta { color: var(--ink-muted); }
+.portal-page.theme-light .archive-modal-title { color: var(--ink-primary); }
+.portal-page.theme-light .archive-modal-summary { color: var(--ink-secondary); }
+.portal-page.theme-light .archive-modal-actions { border-top-color: var(--ink-border); }
+.portal-page.theme-light .archive-modal-back {
+  border-color: var(--ink-border);
+  color: var(--ink-muted);
+}
+.portal-page.theme-light .archive-modal-back:hover {
+  color: var(--ink-primary);
+  border-color: var(--ink-border-strong);
+}
+
+/* ----- FOOTER em light ----- */
+.portal-page.theme-light .portal-footer {
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--ink-border);
+  color: var(--ink-primary);
+}
+.portal-page.theme-light .portal-footer a { color: var(--ink-secondary); }
+.portal-page.theme-light .portal-footer a:hover { color: var(--skin-accent); }
+.portal-page.theme-light .footer-tagline { color: var(--ink-muted); }
+.portal-page.theme-light .footer-logo-svg { color: var(--skin-accent); }
+
 /* MARQUEE */
 .portal-page .marquee-bar {
   background: var(--skin-marquee-top);
