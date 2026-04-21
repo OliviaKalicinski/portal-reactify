@@ -297,6 +297,487 @@
 .portal-page .card-audio { flex-grow: calc(1/1); }
 .portal-page .card-manifesto { flex-grow: calc(5/4); }
 
+/* ========= ROW EQUAL HEIGHT =========
+   Altura da linha é fixa (clamp responsivo, compacto).
+   Cada card deduz a largura da altura × aspect-ratio real da sua imagem.
+   Zero crop, zero stretch. Row centralizada, aceita sobrar espaço nos lados. */
+.portal-page .row-equal-h {
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.portal-page .row-equal-h .card {
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 0;
+  height: clamp(240px, 26vw, 340px);
+  width: auto;
+}
+.portal-page .row-equal-h .card > .card-inner { height: 100%; }
+.portal-page .row-equal-h .card .card-inner::before { display: none; }
+
+/* Aspect-ratio CSS (largura = altura × aspect) */
+.portal-page .row-equal-h .card.ratio-16-9 { aspect-ratio: 16 / 9; }
+.portal-page .row-equal-h .card.ratio-3-4  { aspect-ratio: 3 / 4;  }
+.portal-page .row-equal-h .card.ratio-1-1  { aspect-ratio: 1 / 1;  }
+.portal-page .row-equal-h .card.ratio-5-4  { aspect-ratio: 5 / 4;  }
+.portal-page .row-equal-h .card.ratio-3-5  { aspect-ratio: 3 / 5;  }
+
+/* Overrides: cards cujo cover image tem aspect diferente do nome da classe.
+   IG e WhatsApp usam PNGs 4:5 confirmadas (964×1204). */
+.portal-page .row-equal-h .card.card-social-ig-img { aspect-ratio: 4 / 5; }
+.portal-page .row-equal-h .card.card-social-wa-img { aspect-ratio: 4 / 5; }
+
+/* Modifier: distribui cards ao longo de toda a row (pra linhas que
+   naturalmente sobra espaço) — cards mantêm tamanho, só o gap expande. */
+.portal-page .row-equal-h.row-spread {
+  justify-content: space-between;
+}
+
+/* ========= CARD LIVES DO DRAGÃO (Row 3) =========
+   4º card que fecha a linha em 99% de ocupação.
+   1:1 aspect, dark com accent pink/neon — vibe de transmissão ao vivo. */
+.portal-page .card-lives {
+  background: linear-gradient(140deg, #1a0613 0%, #2d0015 55%, #0a0a0a 100%);
+  border: 2px solid rgba(255,45,120,0.18);
+  text-decoration: none;
+  color: var(--dragon-white);
+  position: relative;
+  overflow: hidden;
+}
+.portal-page .card-lives::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255,45,120,0.03) 0px, rgba(255,45,120,0.03) 1px,
+    transparent 1px, transparent 3px
+  );
+  pointer-events: none;
+}
+.portal-page .card-lives:hover {
+  border-color: var(--dragon-pink);
+}
+.portal-page .card-lives .card-body {
+  padding: 22px;
+  gap: 4px;
+  position: relative;
+  z-index: 2;
+  justify-content: flex-end;
+}
+.portal-page .card-lives .lives-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--dragon-pink);
+  color: var(--dragon-black);
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 4px 8px 4px 6px;
+  margin-bottom: auto;
+}
+.portal-page .card-lives .lives-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dragon-black);
+  animation: lives-pulse 1.4s ease-in-out infinite;
+}
+@keyframes lives-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+.portal-page .card-lives .card-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-top: 10px;
+}
+.portal-page .card-lives .card-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 0.95;
+  color: var(--dragon-white);
+  letter-spacing: -0.01em;
+}
+.portal-page .card-lives .card-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.65);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.portal-page .card-lives .lives-cta {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dragon-pink);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,45,120,0.25);
+}
+
+/* ========= CONTROLS BAR polido =========
+   Minimalista, 2 botões em pontas opostas. */
+.portal-page .controls-bar {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), var(--dragon-gray));
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 2px solid rgba(255,255,255,0.08);
+  padding: 14px 28px;
+  justify-content: space-between;
+}
+
+/* ========= POPUP DO NOME (Dragão Fala) =========
+   Abre ao apertar Enter no input de nome do hero. */
+.portal-page .name-greeting-modal {
+  background: linear-gradient(140deg, #0a0a0a 0%, #1a0a2e 100%);
+  border: 2px solid var(--skin-accent);
+  padding: 36px 38px 32px;
+  max-width: 520px;
+  width: calc(100vw - 40px);
+  text-align: center;
+  position: relative;
+  animation: name-greeting-in 0.35s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+@keyframes name-greeting-in {
+  from { opacity: 0; transform: scale(0.95) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.portal-page .name-greeting-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: var(--skin-accent);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.portal-page .name-greeting-eyebrow::before,
+.portal-page .name-greeting-eyebrow::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+.portal-page .name-greeting-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(44px, 7vw, 82px);
+  line-height: 0.9;
+  color: var(--dragon-white);
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+}
+.portal-page .name-greeting-msg {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+.portal-page .name-greeting-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.portal-page .name-greeting-close-x {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: color 0.15s;
+}
+.portal-page .name-greeting-close-x:hover { color: var(--dragon-white); }
+
+/* Mobile: volta a stack vertical com altura natural */
+@media (max-width: 768px) {
+  .portal-page .row-equal-h {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  .portal-page .row-equal-h .card {
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+  }
+  .portal-page .row-equal-h .card > .card-inner { height: auto; }
+  .portal-page .row-equal-h .card .card-inner::before { display: block; }
+}
+
+/* ========= PERFIL SELECTOR (compacto) =========
+   Barra horizontal de 3 chips/botões abaixo do hero.
+   Simples e visível sem dominar a tela. */
+.portal-page .perfil-selector {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px 20px 4px;
+}
+.portal-page .perfil-selector-label {
+  font-family: 'Space Mono', 'Courier Prime', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.4);
+  text-transform: lowercase;
+  margin-bottom: 10px;
+}
+.portal-page .perfil-selector-grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.portal-page .perfil-card {
+  flex: 1 1 0;
+  min-width: 180px;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.1);
+  padding: 12px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: inherit;
+  color: var(--dragon-white);
+  transition: border-color 0.15s, background 0.15s;
+  text-align: left;
+  overflow: hidden;
+  position: relative;
+}
+.portal-page .perfil-card:hover {
+  border-color: currentColor;
+}
+.portal-page .perfil-card .perfil-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  color: currentColor;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+.portal-page .perfil-card .perfil-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: currentColor;
+  opacity: 0.55;
+  flex: 1 1 auto;
+}
+.portal-page .perfil-card .perfil-cta {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: currentColor;
+  opacity: 0.8;
+  flex: 0 0 auto;
+}
+/* Esconde os elementos pesados do design anterior */
+.portal-page .perfil-card .perfil-line,
+.portal-page .perfil-card .perfil-bg-num {
+  display: none;
+}
+
+/* Cores por modo */
+.portal-page .perfil-card-s1 { color: var(--dragon-orange); }
+.portal-page .perfil-card-s2 { color: var(--dragon-lime); }
+.portal-page .perfil-card-s3 { color: var(--dragon-pink); }
+
+/* Modo ativo — chip preenchido */
+.portal-page .perfil-card.active {
+  background: currentColor;
+  border-color: currentColor;
+}
+.portal-page .perfil-card.active .perfil-name,
+.portal-page .perfil-card.active .perfil-tag,
+.portal-page .perfil-card.active .perfil-cta {
+  color: var(--dragon-black);
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .portal-page .perfil-selector-grid { flex-direction: column; }
+}
+
+/* ========= MANIFESTO CTA (Row 1 Conteúdos) =========
+   Card preto texturizado que abre o modal do Manifesto.
+   Aspect 3:4 — combina com Manual do Criador. */
+.portal-page .card-manifesto-cta {
+  background: #0d0d0d;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0px, transparent 1px, rgba(255,255,255,0.025) 1px, rgba(255,255,255,0.025) 2px);
+  border: 2px solid rgba(255,255,255,0.1);
+  color: var(--dragon-white);
+}
+.portal-page .card-manifesto-cta:hover {
+  border-color: var(--skin-accent);
+}
+.portal-page .card-manifesto-cta .card-body {
+  padding: 22px;
+  gap: 4px;
+}
+.portal-page .card-manifesto-cta .card-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+}
+.portal-page .card-manifesto-cta .manifesto-scroll {
+  font-size: 52px;
+  line-height: 1;
+  margin-bottom: 10px;
+  filter: grayscale(0.2);
+}
+.portal-page .card-manifesto-cta .card-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 0.95;
+  color: var(--dragon-white);
+  letter-spacing: -0.01em;
+}
+.portal-page .card-manifesto-cta .card-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+/* ========= STAT HINT (hover tooltip) =========
+   Mostra detalhe do cálculo de cada métrica no hover. */
+.portal-page .stat-item { cursor: help; }
+.portal-page .stat-hint {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: calc(100% + 4px);
+  background: var(--dragon-black);
+  border: 1px solid var(--skin-accent);
+  padding: 10px 14px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  z-index: 20;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.portal-page .stat-item:hover .stat-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========= PERGUNTAS QUE NINGUÉM FAZ =========
+   Card compacto na row-equal-h da Comunidade (ratio-3-4).
+   Abre modal com Q&As na voz do Dragão. */
+.portal-page .card-perguntas {
+  background: linear-gradient(135deg, #1a0a2e 0%, #0f0f0f 55%, #0a0a0a 100%);
+  border: 2px solid rgba(255,255,255,0.1);
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: var(--dragon-white);
+  overflow: hidden;
+}
+.portal-page .card-perguntas:hover {
+  border-color: var(--skin-accent);
+}
+.portal-page .card-perguntas .card-body {
+  padding: 22px;
+  gap: 4px;
+  justify-content: flex-end;
+}
+.portal-page .card-perguntas .perg-bg-mark {
+  position: absolute;
+  top: -32px;
+  right: -12px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(180px, 22vw, 280px);
+  line-height: 0.85;
+  color: var(--skin-accent);
+  opacity: 0.14;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+.portal-page .card-perguntas .card-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+.portal-page .card-perguntas .card-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 0.95;
+  color: var(--dragon-white);
+  letter-spacing: -0.01em;
+  position: relative;
+  z-index: 1;
+}
+.portal-page .card-perguntas .card-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.62);
+  margin-top: 6px;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+.portal-page .card-perguntas .perg-cta {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--skin-accent);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
 .portal-page .card-body {
   position: absolute; inset: 0; display: flex; flex-direction: column;
   justify-content: flex-end; padding: 22px;
@@ -557,9 +1038,15 @@
 /* SECTION LABEL */
 .portal-page .section-label {
   font-family: 'Big Shoulders Display', sans-serif;
-  font-size: 11px; font-weight: 800; letter-spacing: 0.35em; text-transform: uppercase;
-  color: var(--skin-accent); opacity: 0.7;
-  padding: 20px 20px 4px; max-width: 1280px; margin: 0 auto;
+  font-size: 13px; font-weight: 800; letter-spacing: 0.38em; text-transform: uppercase;
+  color: var(--skin-accent); opacity: 0.9;
+  padding: 28px 20px 6px; max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: center; gap: 14px;
+}
+.portal-page .section-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, var(--skin-accent) 0%, transparent 80%);
+  opacity: 0.35;
 }
 
 /* STATS STRIP */
@@ -1388,46 +1875,66 @@
   }
 }
 
-/* ── Manual do Criador: variante dark com capa "ENTRE NA NOSSA MATILHA" */
+/* ── Manual do Criador: variante dark com capa "ENTRE NA NOSSA MATILHA"
+   Agora a imagem preenche o card INTEIRO como background (sem split),
+   e o texto flutua por cima com gradiente no rodapé. */
 .portal-page .card-pdf.card-pdf-dark {
-  background: #0a0a0a;
-  border-color: #1a1a1a;
+  display: block; /* override o flex-column do .card-pdf */
+  background: #0a0a0a url('/assets/images/manual-criador-cover.png') center/cover no-repeat;
+  border-color: rgba(255,255,255,0.1);
 }
 .portal-page .card-pdf.card-pdf-dark:hover {
-  border-color: var(--dragon-orange);
+  border-color: var(--skin-accent);
 }
-.portal-page .card-pdf-dark .card-pdf-top {
-  background-color: #0a0a0a;
-  background-image: none;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+/* Mostra o card-inner que estava oculto pra card-pdf */
+.portal-page .card-pdf.card-pdf-dark .card-inner {
+  display: block;
+  height: 100%;
 }
-/* Card Manual dark: proporção mais quadrada para acomodar a imagem 1:1 inteira + barra inferior */
-.portal-page .card-pdf.card-pdf-dark.ratio-3-4 {
-  aspect-ratio: 1 / 1.18;
-}
-.portal-page .card-pdf-dark .card-pdf-top .card-tag {
-  color: rgba(255, 255, 255, 0.85);
-}
-.portal-page .card-pdf-dark .card-pdf-bottom {
-  background: #0a0a0a;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-.portal-page .card-pdf-dark .card-pdf-bottom .card-label {
-  color: #ffffff;
-}
-.portal-page .card-pdf-dark .card-pdf-bottom .card-sub {
-  color: rgba(255, 255, 255, 0.7);
-}
-/* Remove a textura de caderno creme quando o card é dark (caso .card-body esteja presente) */
 .portal-page .card-pdf.card-pdf-dark .card-body {
-  background-color: #0a0a0a;
-  background-image: none;
+  padding: 22px;
+  justify-content: flex-end;
+  gap: 4px;
+  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 40%, transparent 70%);
+  background-color: transparent;
 }
 .portal-page .card-pdf.card-pdf-dark .card-body::after {
   display: none;
 }
+.portal-page .card-pdf.card-pdf-dark .card-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 4px;
+  align-self: flex-start;
+}
+.portal-page .card-pdf.card-pdf-dark .pdf-icon {
+  font-size: 24px;
+  margin-bottom: 2px;
+  color: var(--dragon-orange);
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+}
+.portal-page .card-pdf.card-pdf-dark .card-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(22px, 2.4vw, 32px);
+  color: var(--dragon-white);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+.portal-page .card-pdf.card-pdf-dark .card-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 4px;
+  line-height: 1.4;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+/* Card Manual dark: aspect vem do padding-top da classe ratio-3-4,
+   sem aspect-ratio CSS (evita conflito com row-equal-h flex-grow). */
 
 /* Instagram com cover-art (a arte já contém todo o lockup) */
 .portal-page .card-social-ig.card-social-ig-img {

@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import DragonLogo from "@/components/DragonLogo";
+import ReelsSection from "@/components/ReelsSection";
 import "./Portal.css";
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
@@ -80,6 +81,9 @@ const Portal = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [manifestoOpen, setManifestoOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
+  const [perguntasOpen, setPerguntasOpen] = useState(false);
+  const [nameModalOpen, setNameModalOpen] = useState(false);
+  const [nameGreeting, setNameGreeting] = useState("");
   
   const [audioOpen, setAudioOpen] = useState(false);
   const [audioMinimized, setAudioMinimized] = useState(false);
@@ -99,6 +103,25 @@ const Portal = () => {
   const closeManifesto = useCallback(() => setManifestoOpen(false), []);
   const openCatalog = useCallback(() => setCatalogOpen(true), []);
   const closeCatalog = useCallback(() => setCatalogOpen(false), []);
+  const openPerguntas = useCallback(() => setPerguntasOpen(true), []);
+  const closePerguntas = useCallback(() => setPerguntasOpen(false), []);
+  const closeNameModal = useCallback(() => setNameModalOpen(false), []);
+
+  const triggerNameGreeting = useCallback(() => {
+    const clean = heroName.trim();
+    if (clean.length < 2) return;
+    const messages = [
+      "o Dragão te esperava. Segue o fio.",
+      "esse nome tem força. Bem-vindo à matilha.",
+      "você chegou no lugar certo. Agora explora.",
+      "seu pet tem sorte. O Dragão aprovou.",
+      "o Dragão me avisou. Já tava de olho em você.",
+      "sabia que você ia aparecer. Tá tudo pronto aí embaixo.",
+    ];
+    const msg = messages[Math.floor(Math.random() * messages.length)];
+    setNameGreeting(msg);
+    setNameModalOpen(true);
+  }, [heroName]);
   const openAudio = useCallback(() => {
     setAudioOpen(true);
     setAudioMinimized(false);
@@ -115,20 +138,20 @@ const Portal = () => {
 
   // Keyboard Escape
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeManifesto(); closeCatalog(); } };
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeManifesto(); closeCatalog(); closePerguntas(); closeNameModal(); } };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [closeModal]);
 
   // Body overflow lock when any modal is open
   useEffect(() => {
-    if (modalOpen || manifestoOpen) {
+    if (modalOpen || manifestoOpen || perguntasOpen || nameModalOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [modalOpen, manifestoOpen]);
+  }, [modalOpen, manifestoOpen, perguntasOpen]);
 
   // Modal drag
   useEffect(() => {
@@ -211,26 +234,39 @@ const Portal = () => {
               spellCheck={false}
               value={heroName}
               onChange={e => setHeroName(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter") triggerNameGreeting(); }}
             />
           </div>
+        </div>
+      </section>
+
+      {/* PERFIL SELECTOR — a brincadeira dos 3 modos */}
+      <section className="perfil-selector">
+        <div className="perfil-selector-label">// escolhe seu modo de navegar</div>
+        <div className="perfil-selector-grid">
+          {[
+            { n: 1, name: "CURIOSO",    tag: "MODO FOGO" },
+            { n: 2, name: "NOJENTINHO", tag: "MODO FLORESTA" },
+            { n: 3, name: "ESTUDADO",   tag: "MODO NEON" },
+          ].map(p => (
+            <button
+              key={p.n}
+              type="button"
+              className={`perfil-card perfil-card-s${p.n}${skin === p.n ? " active" : ""}`}
+              onClick={() => setSkin(p.n)}
+              aria-pressed={skin === p.n}
+            >
+              <span className="perfil-name">{p.name}</span>
+              <span className="perfil-tag">{p.tag}</span>
+              <span className="perfil-cta">{skin === p.n ? "✓" : "→"}</span>
+            </button>
+          ))}
         </div>
       </section>
 
       {/* CONTROLS BAR */}
       <nav className="controls-bar">
         <button className="btn btn-dragon" onClick={openModal}>🐉 O Dragão Fala</button>
-        <span className="label">Modo</span>
-        <div className="skin-dots">
-          {[1, 2, 3].map(n => (
-            <div
-              key={n}
-              className={`skin-dot s${n}${skin === n ? " active" : ""}`}
-              title={["Curioso", "Nojentinho", "Estudado"][n - 1]}
-              onClick={() => setSkin(n)}
-            />
-          ))}
-        </div>
-        <span className="skin-active-name">{["Curioso", "Nojentinho", "Estudado"][skin - 1]}</span>
         <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="btn btn-buy">Comprar Agora →</a>
       </nav>
 
@@ -238,7 +274,7 @@ const Portal = () => {
       <div className="section-label">Conteúdos</div>
       <div className="content-grid">
         {/* ROW 1 */}
-        <div className="row">
+        <div className="row row-equal-h">
           <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-video ratio-16-9">
             <div className="card-video-hover">
               <iframe
@@ -269,20 +305,30 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <a href="/assets/pdfs/Manual%20do%20Criador.pdf" target="_blank" rel="noopener noreferrer" className="card card-pdf card-pdf-dark ratio-3-4">
+          <a href="/assets/pdfs/Manual%20do%20Criador.pdf" target="_blank" rel="noopener noreferrer" className="card card-pdf card-pdf-dark ratio-1-1">
             <HoverBg imgKey="manual" />
-            <div
-              className="card-pdf-top"
-              style={{ backgroundImage: "url('/assets/images/manual-criador-cover.png')" }}
-            >
-              <div className="card-tag">Manual</div>
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="card-tag">Manual</span>
+                <div className="pdf-icon">📖</div>
+                <div className="card-label">Manual do<br />Criador</div>
+                <div className="card-sub">Clique e acesse o guia completo</div>
+              </div>
             </div>
-            <div className="card-pdf-bottom">
-              <div className="pdf-icon">📖</div>
-              <div className="card-label">Manual do<br />Criador</div>
-              <div className="card-sub">Clique e acesse o guia completo para criadores de conteúdo</div>
-            </div>
+            <div className="card-hover-overlay" />
           </a>
+
+          <div onClick={openManifesto} style={{ cursor: "pointer" }} className="card card-manifesto-cta ratio-3-4">
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="card-tag">Manifesto</span>
+                <div className="manifesto-scroll">📜</div>
+                <div className="card-label">Leia o<br />Manifesto</div>
+                <div className="card-sub">O que o Dragão acredita — em 5 parágrafos</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </div>
         </div>
 
         {/* ROW 2 */}
@@ -340,9 +386,9 @@ const Portal = () => {
           </a>
         </div>
 
-        {/* ROW 3: Quiz + Companion */}
-        <div className="row">
-          <a href="/quizzes" className="card card-quiz">
+        {/* ROW 3: Quiz + Companion + Perguntas + Lives */}
+        <div className="row row-equal-h">
+          <a href="/quizzes" className="card card-quiz ratio-1-1">
             <HoverBg imgKey="quiz" />
             <div className="quiz-bg" />
             <div className="quiz-cta-content">
@@ -354,7 +400,7 @@ const Portal = () => {
             </div>
           </a>
 
-          <a href="/imprensa" className="card card-quiz-companion card-quiz-companion-video">
+          <a href="/imprensa" className="card card-quiz-companion card-quiz-companion-video ratio-3-4">
             <HoverBg imgKey="companion" />
             <video
               className="card-bg-video"
@@ -374,29 +420,69 @@ const Portal = () => {
             </div>
             <div className="card-hover-overlay" />
           </a>
+
+          <button
+            type="button"
+            onClick={openPerguntas}
+            className="card card-perguntas ratio-3-4"
+          >
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="perg-bg-mark">?</span>
+                <span className="card-tag">FAQ secreto</span>
+                <div className="card-label">Perguntas<br />que ninguém<br />faz</div>
+                <div className="card-sub">O Dragão responde sem filtro</div>
+                <span className="perg-cta">Abrir →</span>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </button>
+
+          <a
+            href="https://www.instagram.com/comidadedragao"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card card-lives ratio-1-1"
+          >
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="lives-badge"><span className="lives-dot" />AO VIVO</span>
+                <span className="card-tag">Agenda</span>
+                <div className="card-label">Lives<br />do Dragão</div>
+                <div className="card-sub">Toda quinta 19h · @comidadedragao</div>
+                <span className="lives-cta">Entra na próxima →</span>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </a>
         </div>
       </div>
 
       {/* STATS STRIP */}
+      <div className="section-label" style={{ marginTop: 40 }}>Não é marketing, é matemática</div>
       <div className="stats-strip">
         {[
-          { num: "83%", label: <>menos <em>carbono</em></> },
-          { num: "15K", label: <>litros menos <em>água/kg</em></> },
-          { num: "142×", label: <>menos <em>uso de terra</em></> },
-          { num: "45", label: <>dias de <em>ciclo de vida</em></> },
+          { num: "83%",  label: <>menos <em>carbono</em></>,         hint: "~500g CO₂/kg (BSF) vs ~2.850g/kg (boi)." },
+          { num: "15K",  label: <>litros menos <em>água/kg</em></>,  hint: "Economiza 15.000 litros de água por kg de proteína produzida." },
+          { num: "142×", label: <>menos <em>uso de terra</em></>,    hint: "1,4m² (BSF) vs 200m² (boi). Cabe numa sala — não num pasto." },
+          { num: "45",   label: <>dias de <em>ciclo de vida</em></>, hint: "Ciclo completo da BSF em 45 dias. Boi leva 18–24 meses." },
         ].map((s, i) => (
           <div className="stat-item" key={i}>
             <span className="stat-num">{s.num}</span>
             <span className="stat-label">{s.label}</span>
+            <span className="stat-hint">{s.hint}</span>
           </div>
         ))}
       </div>
 
+      {/* REELS DO DRAGÃO */}
+      <ReelsSection />
+
       {/* COMUNIDADE */}
-      <div className="section-label" style={{ marginTop: 32 }}>Comunidade</div>
+      <div className="section-label" style={{ marginTop: 40 }}>Comunidade</div>
       <div className="content-grid" style={{ paddingTop: 8 }}>
-        <div className="row">
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-social card-social-ig card-social-ig-img ratio-5-4" style={{ flexGrow: 5 / 4 }}>
+        <div className="row row-equal-h">
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-social card-social-ig card-social-ig-img ratio-5-4">
             <HoverBg imgKey="instagram" />
             <div className="card-inner"><div className="card-body">
               <span className="social-icon">📸</span>
@@ -407,7 +493,7 @@ const Portal = () => {
             <div className="card-hover-overlay" style={{ background: "rgba(255,45,120,0.08)" }} />
           </a>
 
-          <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer" className="card card-social card-social-wa card-social-wa-img ratio-3-4" style={{ flexGrow: 3 / 4 }}>
+          <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer" className="card card-social card-social-wa card-social-wa-img ratio-3-4">
             <HoverBg imgKey="whatsapp" />
             <div className="card-inner"><div className="card-body">
               <span className="social-icon">💬</span>
@@ -418,7 +504,7 @@ const Portal = () => {
             <div className="card-hover-overlay" style={{ background: "rgba(0,255,135,0.06)" }} />
           </a>
 
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-social card-social-map ratio-16-9" style={{ flexGrow: 16 / 9 }}>
+          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-social card-social-map ratio-1-1">
             <HoverBg imgKey="lojas" />
             <div className="card-inner"><div className="card-body">
               <span className="social-icon">📍</span>
@@ -429,7 +515,8 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <a href="mailto:somos@letsfly.com.br" className="card card-manifesto card-email-manifesto ratio-3-4" style={{ flexGrow: 3 / 4 }}>
+
+          <a href="mailto:somos@letsfly.com.br" className="card card-manifesto card-email-manifesto ratio-3-4">
             <HoverBg imgKey="email" />
             <div className="card-inner">
               <div className="card-body">
@@ -444,7 +531,7 @@ const Portal = () => {
       </div>
 
       {/* PERFIS */}
-      <div className="section-label" style={{ marginTop: 16 }}>Área por Perfil</div>
+      <div className="section-label" style={{ marginTop: 40 }}>Área por Perfil</div>
       <div className="audience-hub" style={{ paddingTop: 8 }}>
         <div className="audience-grid">
 
@@ -488,7 +575,7 @@ const Portal = () => {
       </div>
 
       {/* ONDE COMPRAR */}
-      <div className="section-label" style={{ marginTop: 16 }}>Onde Comprar</div>
+      <div className="section-label" style={{ marginTop: 40 }}>Onde Comprar</div>
       <div className="content-grid" style={{ paddingTop: 8 }}>
         <div className="row">
           {[
@@ -497,9 +584,9 @@ const Portal = () => {
             { cls: "card-shop-petlove", href: "https://www.petlove.com.br", name: "Petlove", tag: "Especialista em pets", hoverKey: "petlove" },
             { cls: "card-shop-oficial", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial" },
           ].map((shop, i) => (
-            <a key={i} href={shop.href} target="_blank" rel="noopener noreferrer" className={`card card-shop ${shop.cls}`}>
+            <a key={i} href={shop.href} target="_blank" rel="noopener noreferrer" className={`card card-shop ratio-shop ${shop.cls}`}>
               <HoverBg imgKey={shop.hoverKey} />
-              <div className="card-inner ratio-shop">
+              <div className="card-inner">
                 <div className="card-body">
                   <div className="shop-name">{shop.name.split("\n").map((line, j) => j > 0 ? <span key={j}><br />{line}</span> : line)}</div>
                   <span className="shop-tag">{shop.tag}</span>
@@ -605,6 +692,79 @@ const Portal = () => {
           </div>
         </div>
       )}
+      {/* MODAL DRAGÃO RESPONDE AO NOME */}
+      {nameModalOpen && (
+        <div
+          className="dragao-fala-overlay"
+          onClick={e => { if (e.target === e.currentTarget) closeNameModal(); }}
+        >
+          <div className="name-greeting-modal">
+            <button className="name-greeting-close-x" onClick={closeNameModal} aria-label="Fechar">✕</button>
+            <div className="name-greeting-eyebrow">🐉 O Dragão Fala</div>
+            <div className="name-greeting-name">{heroName.trim().toUpperCase()}</div>
+            <div className="name-greeting-msg">...{nameGreeting}</div>
+            <div className="name-greeting-actions">
+              <button className="btn btn-dragon" onClick={closeNameModal}>Bora explorar →</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL PERGUNTAS QUE NINGUÉM FAZ */}
+      {perguntasOpen && (
+        <div
+          className="dragao-fala-overlay"
+          onClick={e => { if (e.target === e.currentTarget) closePerguntas(); }}
+        >
+          <div className="dragao-fala-modal" style={{ maxWidth: 680 }}>
+            <div className="dragao-fala-header">
+              <span>🤔 Perguntas que ninguém faz</span>
+              <button className="dragao-fala-close" onClick={closePerguntas}>✕</button>
+            </div>
+            <div style={{ padding: "24px 28px 32px", overflowY: "auto", maxHeight: "calc(90vh - 60px)" }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", fontFamily: "'Space Mono', monospace", marginBottom: 18 }}>
+                // as perguntas que ficam na cabeça e ninguém tem coragem de mandar no DM
+              </p>
+              {[
+                {
+                  q: "Meu gato é super enjoado, vai aceitar mesmo?",
+                  a: "Gato aceita BSF melhor que muita ração comum — a palatabilidade é 1,93:1 a favor da farinha de inseto em testes. Dica: começa com 5% misturado na ração normal, não troca tudo de uma vez.",
+                },
+                {
+                  q: "Posso dar todo dia? Não cansa?",
+                  a: "Pode e deve. Ingrediente único, hipoalergênico, perfil completo de aminoácidos. Não é snack ocasional — é nutrição diária com 88,9% de digestibilidade.",
+                },
+                {
+                  q: "E se eu provar também? Tipo, de curiosidade.",
+                  a: "Não é recomendado pra humanos (a nossa linha é registrada no MAPA como pet food). Mas 2 bilhões de pessoas no mundo comem inseto regularmente — só que existem produtos específicos pra isso.",
+                },
+                {
+                  q: "Meu pet tem alergia a tudo. BSF pode desencadear?",
+                  a: "BSF é a proteína nova por excelência em dieta de eliminação — é exatamente o produto que veterinários usam quando o pet é alérgico a frango, boi e laticínio. Cuidado apenas se o pet é alérgico a ácaros/crustáceos (reatividade cruzada rara).",
+                },
+                {
+                  q: "Se eu der pro meu cachorro, meus amigos vão achar estranho. Como explico?",
+                  a: "Não explica — mostra o pet devorando. 90% dos tutores que deram pra experimentar mudaram de ideia em 1 semana. E se quiser argumentar: seu cão já come barata no quintal — o nosso só tem 88,9% mais digestibilidade.",
+                },
+              ].map((qa, i) => (
+                <div key={i} style={{ marginBottom: 22 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,0.95)", marginBottom: 6, fontFamily: "'Space Grotesk', sans-serif" }}>
+                    {i + 1}. {qa.q}
+                  </div>
+                  <div style={{ fontSize: 14, color: "rgba(255,255,255,0.72)", lineHeight: 1.55, fontFamily: "'Space Grotesk', sans-serif" }}>
+                    {qa.a}
+                  </div>
+                </div>
+              ))}
+              <div style={{ marginTop: 24, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <a href="https://wa.me/552139500576?text=Tenho%20uma%20pergunta%20pro%20Drag%C3%A3o" target="_blank" rel="noopener noreferrer" className="btn btn-dragon">Pergunta direto no Zap →</a>
+                <button className="btn" style={{ color: "rgba(255,255,255,0.4)", borderColor: "rgba(255,255,255,0.15)" }} onClick={closePerguntas}>Fechar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* MODAL CATÁLOGO */}
       {catalogOpen && (
         <div
