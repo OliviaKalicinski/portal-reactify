@@ -694,8 +694,10 @@
 .portal-page .quiz-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,255,135,0.06) 0%, transparent 70%),
-    repeating-linear-gradient(-45deg, rgba(0,255,135,0.02) 0px, rgba(0,255,135,0.02) 1px, transparent 1px, transparent 22px);
+    linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 100%),
+    url('/assets/images/bg-dragao-conhece.png');
+  background-size: cover;
+  background-position: center;
   pointer-events: none;
 }
 .portal-page .quiz-cta-content {
