@@ -1,114 +1,80 @@
-/* ============================================================
-   IMPRENSA — estende Biblioteca.css
-   Usa toda a base do .biblio-*, só adiciona detalhes dos cards
-   de link (header com badge de tipo, veículo, etc.)
-   ============================================================ */
+/* ================================
+   IMPRENSA PAGE — overrides específicos
+   Reutiliza: archive-hero, parceiros-secao, parceiros-steps,
+   parceiros-beneficios, parceiros-requisitos, parceiros-cta-final
+================================ */
 
-.impr-page {
-  padding-bottom: 0;
+/* Header do arquivo (título antes da lista) */
+.impr-archive-header {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 8px 20px 4px;
 }
 
-/* ---------- Filtros (nomes mais longos que na biblioteca) ---------- */
-.impr-filtros {
-  grid-template-columns: repeat(5, 1fr);
+/* DESTAQUES — 2x2 cards com conteúdo jornalístico */
+.parceiros-beneficios.impr-destaques {
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+.parceiros-beneficio.impr-destaque {
+  padding: 26px 26px 28px;
+  gap: 6px;
+  text-decoration: none;
+  transition: background 0.18s;
+  position: relative;
+}
+.parceiros-beneficio.impr-destaque:hover {
+  background: rgba(255,255,255,0.06);
 }
 
-@media (max-width: 1100px) {
-  .impr-filtros {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 720px) {
-  .impr-filtros {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .impr-filtros {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ---------- Grid de cards ---------- */
-.impr-grid {
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-}
-
-/* ---------- Card de link ---------- */
-.impr-card {
-  padding: 24px 22px 22px;
-}
-
-.impr-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.impr-card-header .biblio-card-cat {
-  margin-bottom: 0;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* ---------- Badge de tipo (Matéria, Vídeo, etc.) — sempre verde neon ---------- */
-.impr-tipo-badge {
-  font-family: "Space Mono", monospace;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 4px 10px;
-  border: 1.5px solid var(--dragon-lime);
-  border-radius: 0;
-  white-space: nowrap;
-  flex-shrink: 0;
-  color: var(--dragon-lime);
-  background: rgba(123, 255, 0, 0.07);
-}
-
-/* ---------- Veículo (logo abaixo do título) ---------- */
-.impr-veiculo {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
-  text-transform: uppercase;
+.impr-destaque-veiculo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
   letter-spacing: 0.05em;
-  margin: -8px 0 14px;
-  padding-bottom: 12px;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+  line-height: 1;
+  margin-bottom: 2px;
 }
-
-/* ---------- Ajuste do título pra respirar menos agressivo ---------- */
-.impr-card .biblio-card-titulo {
-  font-size: 20px;
-  line-height: 1.1;
+.impr-destaque-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 10px;
+}
+.impr-destaque-titulo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--dragon-white);
   margin-bottom: 8px;
 }
-
-/* ---------- Hover state ---------- */
-.impr-card:hover .impr-tipo-badge {
-  background: rgba(123, 255, 0, 0.14);
+.impr-destaque-resumo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.55;
+  margin-bottom: 14px;
+  flex-grow: 1;
+}
+.impr-destaque-arrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  transition: letter-spacing 0.2s;
+}
+.parceiros-beneficio.impr-destaque:hover .impr-destaque-arrow {
+  letter-spacing: 0.2em;
 }
 
-/* ---------- Responsivo ---------- */
-@media (max-width: 768px) {
-  .impr-card {
-    padding: 22px 18px 18px;
-  }
-
-  .impr-card .biblio-card-titulo {
-    font-size: 18px;
-  }
-
-  .impr-card-header {
-    flex-wrap: wrap;
+@media (max-width: 640px) {
+  .parceiros-beneficios.impr-destaques {
+    grid-template-columns: 1fr;
   }
 }

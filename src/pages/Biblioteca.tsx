@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ArchiveList, { ArchiveItem } from "@/components/ArchiveList";
 import "./Portal.css";
+import "./Parceiros.css";
+import "./Biblioteca.css";
 
 const PDF_BASE = "/assets/pdfs/artigos%20cientificos/";
 
@@ -44,7 +46,61 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
   );
 };
 
-// ================ ARTIGOS ================
+// ==================== DESTAQUES ====================
+interface Destaque {
+  id: number;
+  categoria: string;
+  label: string;
+  titulo: string;
+  resumo: string;
+  url: string;
+  cor: string;
+}
+
+const DESTAQUES: Destaque[] = [
+  {
+    id: 1,
+    categoria: "Nutrição",
+    label: "Estudo com cães Beagle",
+    titulo: "BSF como fonte de proteína ou gordura — digestibilidade, microbiota e perfil metabólico",
+    resumo:
+      "Proteína BSF (20%) e gordura BSF (8%) mantiveram peso, saúde e capacidade antioxidante normais — e ainda melhoraram a microbiota intestinal.",
+    url: PDF_BASE + "bsf-protein-fat-digestibility-microbiota-beagle.pdf",
+    cor: "var(--dragon-orange)",
+  },
+  {
+    id: 7,
+    categoria: "Microbiota felina",
+    label: "Ensaio com 30 gatos",
+    titulo: "BSF em diferentes substratos — efeitos na microbiota fecal de gatos",
+    resumo:
+      "Substituir até 6% da proteína por BSF aumentou digestibilidade de aminoácidos essenciais e elevou Bacteroidota — microbiota positiva.",
+    url: PDF_BASE + "bsf-substrates-cat-diets-fecal-microbiota.pdf",
+    cor: "var(--dragon-lime)",
+  },
+  {
+    id: 9,
+    categoria: "Alergia clínica",
+    label: "Relato de caso — Beagle 5 anos",
+    titulo: "BSF em dieta de eliminação pra cão com alergia alimentar",
+    resumo:
+      "Cadela com alergia a frango: em dieta BSF ficou assintomática. Desafio com frango retomou os sintomas em 2 dias; retorno ao BSF reverteu.",
+    url: PDF_BASE + "insect-meal-dog-food-allergy-case-report.pdf",
+    cor: "var(--dragon-pink)",
+  },
+  {
+    id: 13,
+    categoria: "Revisão ampla",
+    label: "BSF como alimento animal + humano",
+    titulo: "Revisão abrangente — economia circular e proteína alternativa",
+    resumo:
+      "42% de proteína, 29% de gordura. A BSF não concentra pesticidas nem micotoxinas e fecha ciclo de nutrientes transformando resíduos em alimento.",
+    url: PDF_BASE + "bsf-animal-feed-human-food-review.pdf",
+    cor: "var(--dragon-violet)",
+  },
+];
+
+// ==================== ARTIGOS (arquivo completo) ====================
 const ARTIGOS: ArchiveItem[] = [
   {
     id: 1,
@@ -202,10 +258,10 @@ const ARTIGOS: ArchiveItem[] = [
 
 const Biblioteca = () => {
   return (
-    <div className="portal-page skin-2">
+    <div className="portal-page parceiros-page skin-2">
       <MarqueeBar items={MARQUEE_TOP} />
 
-      {/* HERO — padrão Comida de Dragão (igual Parceiros) */}
+      {/* HERO — padrão */}
       <section className="archive-hero">
         <div className="archive-hero-bg" />
         <div className="dragon-silhouette">🐉</div>
@@ -224,20 +280,77 @@ const Biblioteca = () => {
         </div>
       </section>
 
-      {/* ARCHIVE LIST */}
+      {/* DESTAQUES — 4 papers-chave */}
+      <section className="parceiros-secao">
+        <div className="parceiros-tag tag-pink">destaques</div>
+        <h2 className="parceiros-secao-titulo titulo-pink">
+          Papers <span>que embasam a conversa</span>
+        </h2>
+        <div className="parceiros-beneficios biblio-destaques">
+          {DESTAQUES.map(d => (
+            <a
+              key={d.id}
+              href={d.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="parceiros-beneficio biblio-destaque"
+            >
+              <div className="biblio-destaque-categoria" style={{ color: d.cor }}>
+                {d.categoria}
+              </div>
+              <div className="biblio-destaque-label">{d.label}</div>
+              <div className="biblio-destaque-titulo">{d.titulo}</div>
+              <div className="biblio-destaque-resumo">{d.resumo}</div>
+              <span className="biblio-destaque-arrow" style={{ color: d.cor }}>
+                Abrir PDF →
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <div className="parceiros-divider" />
+
+      {/* ARQUIVO COMPLETO */}
+      <div className="biblio-archive-header">
+        <div className="parceiros-tag tag-violet">arquivo completo</div>
+        <h2 className="parceiros-secao-titulo titulo-violet">
+          Todos os <span>{ARTIGOS.length} papers</span>
+        </h2>
+        <p className="parceiros-secao-texto" style={{ marginTop: 6 }}>
+          Use a busca e os filtros pra navegar por tema. Click em qualquer linha
+          abre o resumo e o PDF completo.
+        </p>
+      </div>
+
       <ArchiveList
         items={ARTIGOS}
         categoryColors={CATEGORY_COLORS}
         searchPlaceholder="Busque por palavra-chave, categoria, tema..."
         openLabel="Abrir PDF →"
         emptyMessage="Nenhum paper encontrado. Tenta outra busca."
-        stats={[
-          { num: String(ARTIGOS.length), label: "Papers" },
-          { num: String(Object.keys(CATEGORY_COLORS).length), label: "Temas" },
-          { num: "100%", label: "Peer-reviewed" },
-          { num: "Grátis", label: "Pra sempre" },
-        ]}
       />
+
+      {/* CTA FINAL — DIEGO FLORES (P&D) */}
+      <section className="parceiros-cta-final">
+        <h2 className="parceiros-cta-final-titulo">
+          Dúvida <span>científica?</span>
+        </h2>
+        <p className="parceiros-cta-final-sub">
+          Fala direto com o Diego Flores, nosso diretor de P&D.
+          Dá pra aprofundar qualquer um desses papers — metodologia,
+          aplicação clínica, extrapolação pro seu caso.
+        </p>
+        <a
+          href="mailto:diego.flores@letsfly.com.br?subject=D%C3%BAvida%20cient%C3%ADfica%20sobre%20BSF"
+          className="parceiros-btn-primary"
+        >
+          diego.flores@letsfly.com.br ↗
+        </a>
+        <p className="parceiros-cta-final-note">
+          Veterinários, pesquisadores e estudantes — todos atendidos.
+        </p>
+      </section>
 
       {/* BOTTOM MARQUEE */}
       <div style={{ marginTop: 24 }}>

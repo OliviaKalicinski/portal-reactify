@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ArchiveList, { ArchiveItem } from "@/components/ArchiveList";
 import "./Portal.css";
+import "./Parceiros.css";
+import "./Imprensa.css";
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Comida de Dragão": "var(--dragon-orange)",
@@ -14,7 +16,7 @@ const MARQUEE_TOP = [
   "IMPRENSA & COBERTURA",
   "O QUE FALAM SOBRE O DRAGÃO",
   "NA MÍDIA · VÍDEOS · ECOSSISTEMA BSF",
-  "LETS FLY NA MÍDIA",
+  "BBC · G1 · EXAME · ARCHDAILY",
   "A REVOLUÇÃO DO INSETO",
 ];
 
@@ -40,9 +42,73 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
   );
 };
 
-// ================ LINKS DE IMPRENSA ================
+// ========== DADOS ==========
+
+interface Destaque {
+  id: number;
+  veiculo: string;
+  label: string;
+  titulo: string;
+  resumo: string;
+  url: string;
+  cor: string;
+}
+
+const DESTAQUES: Destaque[] = [
+  {
+    id: 24,
+    veiculo: "Globo",
+    label: "TV aberta nacional",
+    titulo: "Comida de Dragão na Globo",
+    resumo:
+      "Matéria da Globo sobre a marca brasileira de proteína BSF para pets — do estúdio pro país inteiro.",
+    url: "https://globoplay.globo.com/v/14061746/",
+    cor: "var(--dragon-pink)",
+  },
+  {
+    id: 12,
+    veiculo: "G1 Globo",
+    label: "Alcance nacional",
+    titulo: "O pequeno inseto que transforma resíduos em fertilizante sustentável",
+    resumo:
+      "A maior mídia brasileira publicou a versão em português da BBC — a pauta ganhou tração no país inteiro.",
+    url: "https://g1.globo.com/meio-ambiente/noticia/2025/02/13/o-pequeno-inseto-com-grande-apetite-que-transforma-residuos-organicos-em-fertilizante-sustentavel.ghtml",
+    cor: "var(--dragon-lime)",
+  },
+  {
+    id: 9,
+    veiculo: "Exame",
+    label: "Negócios",
+    titulo: "O negócio que transforma moscas em comida de pet e atraiu 37 investidores",
+    resumo:
+      "A Exame reconheceu o modelo de negócio — 37 investidores acompanhando a jornada da Lets Fly.",
+    url: "https://exame.com/negocios/o-negocio-dele-transforma-moscas-em-comida-de-pet-e-atraiu-37-investidores/",
+    cor: "var(--dragon-orange)",
+  },
+  {
+    id: 10,
+    veiculo: "ArchDaily Brasil",
+    label: "Design & Arquitetura",
+    titulo: "Biofábrica Lets Fly — Projeto arquitetônico",
+    resumo:
+      "O projeto arquitetônico da biofábrica virou pauta em uma das maiores revistas de design do mundo.",
+    url: "https://www.archdaily.com.br/br/1027734/biofabrica-lets-fly-grua",
+    cor: "var(--dragon-violet)",
+  },
+];
+
+// ========== LINKS (arquivo completo) ==========
 const LINKS: ArchiveItem[] = [
-  // NA MÍDIA
+  // NA MÍDIA — em destaque no topo da lista (Globo)
+  {
+    id: 24,
+    title: "Comida de Dragão na Globo",
+    category: "Na Mídia",
+    meta: "Globo · Vídeo",
+    summary:
+      "Matéria da Globo sobre a Comida de Dragão e a revolução da proteína de inseto BSF pra pets no Brasil. Cobertura na TV aberta nacional.",
+    href: "https://globoplay.globo.com/v/14061746/",
+  },
   {
     id: 7,
     title: "Empresa brasileira investe em proteína à base de inseto para pets",
@@ -233,10 +299,10 @@ const LINKS: ArchiveItem[] = [
 
 const Imprensa = () => {
   return (
-    <div className="portal-page skin-2">
+    <div className="portal-page parceiros-page skin-2">
       <MarqueeBar items={MARQUEE_TOP} />
 
-      {/* HERO — padrão Comida de Dragão (igual Parceiros) */}
+      {/* HERO — padrão */}
       <section className="archive-hero">
         <div className="archive-hero-bg" />
         <div className="dragon-silhouette">🐉</div>
@@ -250,31 +316,80 @@ const Imprensa = () => {
           </h1>
           <p className="archive-hero-sub">
             {LINKS.length} links curados — matérias, vídeos, produtos e referências
-            do ecossistema BSF. Tudo sobre a Comida de Dragão, a Lets Fly e o inseto
-            que está mudando o jogo.
+            do ecossistema BSF. Do G1 à BBC, passando por ArchDaily e Exame.
           </p>
         </div>
       </section>
 
-      {/* ARCHIVE LIST */}
+      {/* DESTAQUES — 4 veículos principais */}
+      <section className="parceiros-secao">
+        <div className="parceiros-tag tag-pink">destaques</div>
+        <h2 className="parceiros-secao-titulo titulo-pink">
+          Na mídia, <span>a pauta bateu</span>
+        </h2>
+        <div className="parceiros-beneficios impr-destaques">
+          {DESTAQUES.map(d => (
+            <a
+              key={d.id}
+              href={d.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="parceiros-beneficio impr-destaque"
+            >
+              <div className="impr-destaque-veiculo" style={{ color: d.cor }}>
+                {d.veiculo}
+              </div>
+              <div className="impr-destaque-label">{d.label}</div>
+              <div className="impr-destaque-titulo">{d.titulo}</div>
+              <div className="impr-destaque-resumo">{d.resumo}</div>
+              <span className="impr-destaque-arrow" style={{ color: d.cor }}>
+                Abrir matéria →
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <div className="parceiros-divider" />
+
+      {/* ARQUIVO COMPLETO — header + ArchiveList */}
+      <div className="impr-archive-header">
+        <div className="parceiros-tag tag-violet">arquivo completo</div>
+        <h2 className="parceiros-secao-titulo titulo-violet">
+          Todos os <span>{LINKS.length} links</span>
+        </h2>
+        <p className="parceiros-secao-texto" style={{ marginTop: 6 }}>
+          Use a busca e os filtros pra navegar. Click em qualquer linha abre o resumo e o link.
+        </p>
+      </div>
+
       <ArchiveList
         items={LINKS}
         categoryColors={CATEGORY_COLORS}
         searchPlaceholder="Busque por título, veículo, tema..."
         openLabel="Abrir link →"
         emptyMessage="Nenhum link encontrado. Tenta outra busca."
-        stats={[
-          { num: String(LINKS.length), label: "Links" },
-          { num: String(Object.keys(CATEGORY_COLORS).length), label: "Categorias" },
-          { num: "4", label: "Veículos Gov/Mídia" },
-          { num: "3", label: "Idiomas" },
-        ]}
       />
 
-      {/* BOTTOM MARQUEE */}
-      <div style={{ marginTop: 24 }}>
-        <MarqueeBar items={MARQUEE_BOTTOM} bottom />
-      </div>
+      {/* CTA FINAL — pra jornalistas */}
+      <section className="parceiros-cta-final">
+        <h2 className="parceiros-cta-final-titulo">
+          Tá fazendo <span>matéria?</span>
+        </h2>
+        <p className="parceiros-cta-final-sub">
+          A gente topa entrevista, visita guiada à biofábrica e pauta exclusiva.
+          Tem material fotográfico, dados técnicos e contato direto com os fundadores.
+        </p>
+        <a
+          href="mailto:somos@letsfly.com.br?subject=Imprensa%20%E2%80%94%20Pauta%20Comida%20de%20Drag%C3%A3o"
+          className="parceiros-btn-primary"
+        >
+          somos@letsfly.com.br ↗
+        </a>
+        <p className="parceiros-cta-final-note">Respondemos em até 48h úteis</p>
+      </section>
+
+      <MarqueeBar items={MARQUEE_BOTTOM} bottom />
 
       {/* FOOTER */}
       <footer className="portal-footer">

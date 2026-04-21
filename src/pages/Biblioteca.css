@@ -1,238 +1,80 @@
-/* ============================================================
-   BIBLIOTECA CIENTÍFICA — complementa Portal.css
-   Usa as mesmas variáveis: --dragon-orange, --dragon-lime,
-   --dragon-pink, --dragon-yellow, --dragon-violet, --dragon-green,
-   --dragon-black, --skin-accent
-   ============================================================ */
+/* ================================
+   BIBLIOTECA PAGE — overrides específicos
+   Reutiliza: archive-hero, parceiros-secao, parceiros-beneficios,
+   parceiros-cta-final
+================================ */
 
-.biblio-page {
-  padding-bottom: 0;
+/* Header do arquivo (título antes da lista) */
+.biblio-archive-header {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 8px 20px 4px;
 }
 
-/* ---------- HERO ---------- */
-.biblio-hero {
-  min-height: auto;
-  padding: 80px 6vw 60px;
+/* DESTAQUES — 2x2 cards com papers-chave */
+.parceiros-beneficios.biblio-destaques {
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+.parceiros-beneficio.biblio-destaque {
+  padding: 26px 26px 28px;
+  gap: 6px;
+  text-decoration: none;
+  transition: background 0.18s;
+  position: relative;
+}
+.parceiros-beneficio.biblio-destaque:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.biblio-title {
-  font-family: "Big Shoulders Display", "Bebas Neue", sans-serif;
-  font-weight: 900;
-  font-size: clamp(48px, 9vw, 140px);
-  line-height: 0.88;
-  letter-spacing: -0.02em;
-  color: #fff;
-  margin: 16px 0 24px;
+.biblio-destaque-categoria {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.biblio-destaque-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 10px;
 }
-
-.biblio-title-accent {
-  color: var(--skin-accent);
-  transition: color 0.4s ease;
-}
-
-.biblio-hero-sub {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(16px, 1.4vw, 20px);
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.75);
-  max-width: 720px;
-  margin: 0;
-}
-
-/* ---------- CONTROLES (busca + filtros) ---------- */
-.biblio-controles {
-  padding: 0 6vw;
+.biblio-destaque-titulo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--dragon-white);
   margin-bottom: 8px;
 }
-
-.biblio-busca {
-  width: 100%;
-  max-width: 100%;
-  padding: 14px 20px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  border-radius: 0;
-  color: #fff;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 15px;
-  outline: none;
-  transition: all 0.2s ease;
-  margin-bottom: 16px;
-  box-sizing: border-box;
-}
-
-.biblio-busca::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.biblio-busca:focus {
-  border-color: var(--skin-accent);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.biblio-filtros {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.biblio-filtro {
-  padding: 14px 16px;
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.25);
-  color: rgba(255, 255, 255, 0.75);
-  font-family: "Space Mono", monospace;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  border-radius: 0;
-  text-align: center;
-  min-height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1.25;
-}
-
-.biblio-filtro:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.15);
-}
-
-.biblio-filtro.ativo {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border-color: #fff;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
-}
-
-@media (max-width: 960px) {
-  .biblio-filtros {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 560px) {
-  .biblio-filtros {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ---------- GRID DE ARTIGOS ---------- */
-.biblio-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-  padding: 0 6vw;
-}
-
-.biblio-card {
-  display: flex;
-  flex-direction: column;
-  padding: 28px 24px 24px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-top: 8px solid var(--dragon-orange);
-  text-decoration: none;
-  color: #fff;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.biblio-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
-  pointer-events: none;
-}
-
-.biblio-card:hover {
-  transform: translate(-4px, -4px);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.4);
-}
-
-.biblio-card-cat {
-  font-family: "Space Mono", monospace;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+.biblio-destaque-resumo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.55;
   margin-bottom: 14px;
-  display: block;
-}
-
-.biblio-card-titulo {
-  font-family: "Big Shoulders Display", "Bebas Neue", sans-serif;
-  font-weight: 800;
-  font-size: 22px;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  color: #fff;
-  text-transform: uppercase;
-  margin: 0 0 16px;
-  flex-shrink: 0;
-}
-
-.biblio-card-resumo {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0 0 20px;
   flex-grow: 1;
 }
-
-.biblio-card-cta {
-  font-family: "Space Mono", monospace;
-  font-size: 12px;
+.biblio-destaque-arrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-top: auto;
-  display: inline-block;
-  transition: transform 0.2s ease;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  transition: letter-spacing 0.2s;
+}
+.parceiros-beneficio.biblio-destaque:hover .biblio-destaque-arrow {
+  letter-spacing: 0.2em;
 }
 
-.biblio-card:hover .biblio-card-cta {
-  transform: translateX(4px);
-}
-
-/* ---------- VAZIO ---------- */
-.biblio-vazio {
-  padding: 80px 6vw;
-  text-align: center;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* ---------- RESPONSIVO ---------- */
-@media (max-width: 768px) {
-  .biblio-hero {
-    padding: 60px 5vw 40px;
-  }
-
-  .biblio-title {
-    font-size: clamp(44px, 12vw, 80px);
-  }
-
-  .biblio-controles,
-  .biblio-grid {
-    padding: 0 5vw;
-  }
-
-  .biblio-grid {
+@media (max-width: 640px) {
+  .parceiros-beneficios.biblio-destaques {
     grid-template-columns: 1fr;
-  }
-
-  .biblio-card {
-    padding: 24px 20px 20px;
   }
 }
