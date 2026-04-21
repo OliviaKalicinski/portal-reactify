@@ -4,6 +4,7 @@ import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
 import PageMeta from "@/components/PageMeta";
 import portalDogImg from "@/assets/portal-dog.png";
+import lojasCoverImg from "@/assets/lojas-cover.png";
 import "./Portal.css";
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
@@ -512,6 +513,7 @@ const Portal = () => {
           </a>
 
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-social card-social-map ratio-1-1">
+            <img src={lojasCoverImg} alt="" className="card-produtos-cover" draggable={false} />
             <HoverBg imgKey="lojas" />
             <div className="card-inner"><div className="card-body">
               <span className="social-icon">📍</span>
