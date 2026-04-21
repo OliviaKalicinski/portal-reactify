@@ -1236,7 +1236,16 @@
   font-size: min(max(28px, 3.5vw), 52px); color: var(--dragon-black); line-height: 0.95;
 }
 .portal-page .card-produtos .card-sub { font-size: 13px; color: rgba(0,0,0,0.65); line-height: 1.4; }
-.portal-page .produto-emoji { font-size: 52px; display: block; margin-bottom: 4px; }
+.portal-page .card-produtos-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  border-radius: inherit;
+}
+.portal-page .card-produtos .card-inner { z-index: 1; position: relative; justify-content: flex-start; padding-top: 18px; }
 
 .portal-page .card-audio { background: var(--dragon-purple); display: flex; flex-direction: column; }
 .portal-page .card-audio:hover { border-color: var(--dragon-pink); }
