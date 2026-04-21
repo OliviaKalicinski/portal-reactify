@@ -1,0 +1,190 @@
+/* ================================
+   404 — página do Dragão sumido
+================================ */
+
+.notfound-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.notfound-hero {
+  position: relative;
+  flex: 1;
+  min-height: 100vh;
+  background: var(--dragon-black);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+}
+
+.notfound-hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 30%, rgba(255,122,0,0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 50% 100%, rgba(255,45,120,0.08) 0%, transparent 70%),
+    var(--dragon-black);
+  z-index: 1;
+}
+.notfound-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px,
+    transparent 1px, transparent 3px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.notfound-silhouette {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: min(70vw, 700px);
+  line-height: 1;
+  opacity: 0.04;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  filter: grayscale(1);
+}
+
+.notfound-content {
+  position: relative;
+  z-index: 3;
+  max-width: 680px;
+  text-align: center;
+  width: 100%;
+}
+
+.notfound-code {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(120px, 22vw, 260px);
+  line-height: 0.85;
+  color: var(--skin-accent);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 10px 40px rgba(255,122,0,0.3));
+}
+
+.notfound-page .notfound-logo {
+  width: clamp(160px, 18vw, 220px);
+  max-width: 80vw;
+  height: auto;
+  display: block;
+  margin: 4px auto 24px;
+  color: var(--skin-accent);
+  opacity: 0.9;
+}
+
+.notfound-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 4.5vw, 52px);
+  line-height: 0.98;
+  color: var(--dragon-white);
+  letter-spacing: 0.5px;
+  margin: 0 0 18px;
+  font-weight: 400;
+}
+.notfound-title span {
+  display: block;
+  color: var(--skin-accent);
+}
+
+.notfound-message {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.72);
+  max-width: 440px;
+  margin: 0 auto 28px;
+}
+
+.notfound-path {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.notfound-path-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+.notfound-path-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: var(--skin-accent);
+  word-break: break-all;
+}
+
+.notfound-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.notfound-btn-primary {
+  background: var(--skin-accent);
+  color: var(--dragon-black);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  padding: 14px 28px;
+  text-decoration: none;
+  border: 2px solid var(--skin-accent);
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.notfound-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(255,122,0,0.35);
+}
+
+.notfound-btn-secondary {
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: color 0.15s, border-color 0.15s;
+}
+.notfound-btn-secondary:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.55);
+}
+
+.notfound-quote {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.3);
+  font-style: italic;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .notfound-hero { padding: 40px 20px; }
+  .notfound-actions { flex-direction: column; }
+  .notfound-btn-primary,
+  .notfound-btn-secondary { width: 100%; text-align: center; }
+}
