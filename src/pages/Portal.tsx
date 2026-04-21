@@ -347,8 +347,10 @@ const Portal = () => {
             <div className="quiz-bg" />
             <div className="quiz-cta-content">
               <div className="quiz-intro-label">// descubra seu perfil de tutor</div>
-              <div className="quiz-intro-title">O DRAGÃO<br />QUER TE<br />CONHECER</div>
-              <span className="quiz-start-btn">MONTAR MEU PERFIL →</span>
+              <div className="quiz-inner-box">
+                <div className="quiz-intro-title">O DRAGÃO<br />QUER TE<br />CONHECER</div>
+                <span className="quiz-start-btn">MONTAR MEU PERFIL →</span>
+              </div>
             </div>
           </a>
 
