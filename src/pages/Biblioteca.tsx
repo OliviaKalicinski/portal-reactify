@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ArchiveList, { ArchiveItem } from "@/components/ArchiveList";
+import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
 import "./Parceiros.css";
 import "./Biblioteca.css";
@@ -259,6 +260,10 @@ const ARTIGOS: ArchiveItem[] = [
 const Biblioteca = () => {
   return (
     <div className="portal-page parceiros-page skin-2">
+      <PageMeta
+        title="Biblioteca Científica · Comida de Dragão"
+        description="17 papers peer-reviewed sobre proteína de inseto BSF na alimentação de cães e gatos. Digestibilidade, microbiota, alergia, reviews — a ciência que embasa o Dragão."
+      />
       <MarqueeBar items={MARQUEE_TOP} />
 
       {/* HERO — padrão */}

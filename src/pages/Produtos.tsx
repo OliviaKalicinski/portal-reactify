@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
+import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
 import "./Produtos.css";
 
@@ -416,6 +417,11 @@ const Produtos = () => {
 
   return (
     <div className="portal-page produtos-page skin-2">
+      <PageMeta
+        title="Produtos · Comida de Dragão"
+        description="7 SKUs de proteína de inseto BSF pra pets. Original, Mordidas, Suplementos e GRUB — pra cães, gatos, répteis e anfíbios. Ficha técnica e compra em um clique."
+        image="/assets/images/produtos/kit-completo.png"
+      />
       <MarqueeBar items={MARQUEE_TOP} />
 
       {/* HERO (padrão) */}

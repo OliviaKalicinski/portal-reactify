@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
+import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
@@ -198,6 +199,11 @@ const Portal = () => {
 
   return (
     <div className={`portal-page skin-${skin}`}>
+      <PageMeta
+        title="Comida de Dragão — Hub do Dragão"
+        description="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade, feita na nossa biofábrica em Cachoeiras de Macacu. Mais que um alimento, uma revolução."
+        image="/assets/images/canal-dragao-cover.png"
+      />
       <style>{`
         .card-img-hover {
           position: absolute;

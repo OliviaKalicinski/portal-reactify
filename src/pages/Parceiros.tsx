@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
+import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
 import "./Parceiros.css";
 
@@ -120,6 +121,11 @@ const MARKETING_DRIVE_URL = "https://drive.google.com/drive/u/0/folders/1DiTxfcg
 const Parceiros = () => {
   return (
     <div className="portal-page parceiros-page skin-2">
+      <PageMeta
+        title="Parceiros · Comida de Dragão"
+        description="Seja criador de conteúdo Comida de Dragão. 30% de comissão, produtos mensais, cupom exclusivo e liberdade criativa. Entra na matilha."
+        image="/assets/images/poster-punk-converte.png"
+      />
       <MarqueeBar items={MARQUEE_TOP} />
 
       {/* HERO */}

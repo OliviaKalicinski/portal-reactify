@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ArchiveList, { ArchiveItem } from "@/components/ArchiveList";
+import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
 import "./Parceiros.css";
 import "./Imprensa.css";
@@ -300,6 +301,10 @@ const LINKS: ArchiveItem[] = [
 const Imprensa = () => {
   return (
     <div className="portal-page parceiros-page skin-2">
+      <PageMeta
+        title="Imprensa & Cobertura · Comida de Dragão"
+        description="20+ links curados — Globo, G1, BBC, Exame, ArchDaily. O que falam sobre a Comida de Dragão, a Lets Fly e o inseto que tá mudando o jogo."
+      />
       <MarqueeBar items={MARQUEE_TOP} />
 
       {/* HERO — padrão */}
