@@ -515,12 +515,6 @@ const Portal = () => {
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-social card-social-map ratio-1-1">
             <img src={lojasCoverImg} alt="" className="card-produtos-cover" draggable={false} />
             <HoverBg imgKey="lojas" />
-            <div className="card-inner"><div className="card-body">
-              <span className="social-icon">📍</span>
-              <div className="card-tag">Presença Física</div>
-              <div className="card-label">+30 Lojas<br />SP e RJ</div>
-              <div className="card-sub">Encontre a loja mais perto de você</div>
-            </div></div>
             <div className="card-hover-overlay" />
           </a>
 
