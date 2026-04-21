@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
 import PageMeta from "@/components/PageMeta";
+import portalDogImg from "@/assets/portal-dog.png";
 import "./Portal.css";
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
@@ -341,10 +342,9 @@ const Portal = () => {
         {/* ROW 2 */}
         <div className="row">
           <Link to="/produtos" className="card card-produtos ratio-1-1">
-            <HoverBg imgKey="produtos" />
+            <img src={portalDogImg} alt="" className="card-produtos-cover" draggable={false} />
             <div className="card-inner">
               <div className="card-body">
-                <span className="produto-emoji">🐛</span>
                 <div className="card-label">Nossos<br />Produtos</div>
                 <div className="card-sub" style={{ marginTop: 8 }}>Veja a linha completa — 7 SKUs</div>
               </div>
