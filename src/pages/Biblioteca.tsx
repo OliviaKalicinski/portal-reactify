@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
-import ArchiveList, { ArchiveItem } from "@/components/ArchiveList";
+import StripeList, { StripeItem } from "@/components/StripeList";
 import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
 import "./Parceiros.css";
@@ -8,6 +8,7 @@ import "./Biblioteca.css";
 
 const PDF_BASE = "/assets/pdfs/artigos%20cientificos/";
 
+// Cores dos dots dos destaques (CSS vars, funcionam com --dragon-* do theme)
 const CATEGORY_COLORS: Record<string, string> = {
   "Digestibilidade & Nutrição": "var(--dragon-orange)",
   "Saúde & Microbiota": "var(--dragon-lime)",
@@ -15,6 +16,45 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Reviews Gerais": "var(--dragon-yellow)",
   "Aceitação de Consumidor": "var(--dragon-violet)",
   "Saúde Sênior": "var(--dragon-green)",
+};
+
+// Cores das faixas da lista principal (hex puro — contraste com texto preto)
+const STRIPE_COLORS: Record<string, string> = {
+  "Digestibilidade & Nutrição": "#FF6600",
+  "Saúde & Microbiota": "#3FFF33",
+  "Alergia & Dermatite": "#FF0066",
+  "Reviews Gerais": "#FFCC00",
+  "Aceitação de Consumidor": "#33FF99",
+  "Saúde Sênior": "#FCBA97",
+};
+
+// Cores das faixas dos DESTAQUES (por categoria abreviada)
+const DESTAQUE_STRIPE_COLORS: Record<string, string> = {
+  "Nutrição": "#FF6600",
+  "Microbiota felina": "#3FFF33",
+  "Alergia clínica": "#FF0066",
+  "Revisão ampla": "#FFCC00",
+};
+
+// Títulos curtos pra exibir na faixa (editáveis sem alterar dados principais)
+const SHORT_TITLES: Record<number, string> = {
+  1: "BSF em Beagle",
+  2: "Farinha & Óleo BSF",
+  3: "BSF In Vitro",
+  4: "Dieta Extrusada",
+  5: "BSF Desengordurada",
+  6: "BSF Extrusado Gatos",
+  7: "BSF Substratos Gatos",
+  8: "Derivados BSF",
+  9: "Alergia — Relato",
+  10: "BSF Dermatite",
+  11: "BSF Cães & Gatos",
+  12: "Valor Nutricional",
+  13: "Alimento Amplo",
+  14: "Potencial Pet",
+  15: "Aceitação Americanos",
+  16: "BSF Panificação",
+  17: "FEDIAF Sênior",
 };
 
 const MARQUEE_TOP = [
@@ -102,7 +142,7 @@ const DESTAQUES: Destaque[] = [
 ];
 
 // ==================== ARTIGOS (arquivo completo) ====================
-const ARTIGOS: ArchiveItem[] = [
+const ARTIGOS: StripeItem[] = [
   {
     id: 1,
     title:
@@ -285,55 +325,45 @@ const Biblioteca = () => {
         </div>
       </section>
 
-      {/* DESTAQUES — 4 papers-chave */}
+      {/* DESTAQUES — 4 papers-chave em faixas coloridas */}
       <section className="parceiros-secao">
         <div className="parceiros-tag tag-pink">destaques</div>
         <h2 className="parceiros-secao-titulo titulo-pink">
           Papers <span>que embasam a conversa</span>
         </h2>
-        <div className="parceiros-beneficios biblio-destaques">
-          {DESTAQUES.map(d => (
-            <a
-              key={d.id}
-              href={d.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="parceiros-beneficio biblio-destaque"
-            >
-              <div className="biblio-destaque-categoria" style={{ color: d.cor }}>
-                {d.categoria}
-              </div>
-              <div className="biblio-destaque-label">{d.label}</div>
-              <div className="biblio-destaque-titulo">{d.titulo}</div>
-              <div className="biblio-destaque-resumo">{d.resumo}</div>
-              <span className="biblio-destaque-arrow" style={{ color: d.cor }}>
-                Abrir PDF →
-              </span>
-            </a>
-          ))}
-        </div>
       </section>
+
+      <StripeList
+        items={DESTAQUES.map((d) => ({
+          id: `d${d.id}`,
+          category: d.categoria,
+          shortTitle: d.label.toUpperCase(),
+          title: d.titulo,
+          summary: d.resumo,
+          href: d.url,
+        }))}
+        stripeColors={DESTAQUE_STRIPE_COLORS}
+        openLabel="Abrir PDF →"
+      />
 
       <div className="parceiros-divider" />
 
-      {/* ARQUIVO COMPLETO */}
+      {/* ARQUIVO COMPLETO — faixas coloridas editorial */}
       <div className="biblio-archive-header">
         <div className="parceiros-tag tag-violet">arquivo completo</div>
         <h2 className="parceiros-secao-titulo titulo-violet">
           Todos os <span>{ARTIGOS.length} papers</span>
         </h2>
-        <p className="parceiros-secao-texto" style={{ marginTop: 6 }}>
-          Use a busca e os filtros pra navegar por tema. Click em qualquer linha
-          abre o resumo e o PDF completo.
-        </p>
       </div>
 
-      <ArchiveList
-        items={ARTIGOS}
-        categoryColors={CATEGORY_COLORS}
-        searchPlaceholder="Busque por palavra-chave, categoria, tema..."
+      <StripeList
+        items={ARTIGOS.map((a) => ({
+          ...a,
+          shortTitle: SHORT_TITLES[a.id as number],
+        }))}
+        stripeColors={STRIPE_COLORS}
         openLabel="Abrir PDF →"
-        emptyMessage="Nenhum paper encontrado. Tenta outra busca."
+        emptyMessage="Nenhum paper encontrado."
       />
 
       {/* CTA FINAL — DIEGO FLORES (P&D) */}

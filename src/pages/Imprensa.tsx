@@ -1,16 +1,40 @@
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
-import ArchiveList, { ArchiveItem } from "@/components/ArchiveList";
+import StripeList, { StripeItem } from "@/components/StripeList";
 import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
 import "./Parceiros.css";
 import "./Imprensa.css";
 
+// Cores dos dots dos destaques
 const CATEGORY_COLORS: Record<string, string> = {
   "Comida de Dragão": "var(--dragon-orange)",
   "Na Mídia": "var(--dragon-lime)",
   "Vídeos & Pitches": "var(--dragon-pink)",
   "Ecossistema BSF": "var(--dragon-yellow)",
+};
+
+// Cores das faixas da lista principal (hex — contraste com texto preto)
+const STRIPE_COLORS: Record<string, string> = {
+  "Comida de Dragão": "#FF6600",
+  "Na Mídia": "#3FFF33",
+  "Vídeos & Pitches": "#FF0066",
+  "Ecossistema BSF": "#FFCC00",
+};
+
+// Cores das faixas dos DESTAQUES (por label do destaque)
+const DESTAQUE_STRIPE_COLORS: Record<string, string> = {
+  "TV aberta nacional": "#FF0066",
+  "Alcance nacional": "#3FFF33",
+  "Negócios": "#FF6600",
+  "Design & Arquitetura": "#FFCC00",
+};
+
+// Extrai veículo de "Veículo · Tipo" → usado como shortTitle da faixa
+const getVeiculo = (meta?: string) => {
+  if (!meta) return "";
+  const parts = meta.split(" · ");
+  return parts[0].trim();
 };
 
 const MARQUEE_TOP = [
@@ -99,7 +123,7 @@ const DESTAQUES: Destaque[] = [
 ];
 
 // ========== LINKS (arquivo completo) ==========
-const LINKS: ArchiveItem[] = [
+const LINKS: StripeItem[] = [
   // NA MÍDIA — em destaque no topo da lista (Globo)
   {
     id: 24,
@@ -326,54 +350,45 @@ const Imprensa = () => {
         </div>
       </section>
 
-      {/* DESTAQUES — 4 veículos principais */}
+      {/* DESTAQUES — 4 veículos principais em faixas coloridas */}
       <section className="parceiros-secao">
         <div className="parceiros-tag tag-pink">destaques</div>
         <h2 className="parceiros-secao-titulo titulo-pink">
           Na mídia, <span>a pauta bateu</span>
         </h2>
-        <div className="parceiros-beneficios impr-destaques">
-          {DESTAQUES.map(d => (
-            <a
-              key={d.id}
-              href={d.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="parceiros-beneficio impr-destaque"
-            >
-              <div className="impr-destaque-veiculo" style={{ color: d.cor }}>
-                {d.veiculo}
-              </div>
-              <div className="impr-destaque-label">{d.label}</div>
-              <div className="impr-destaque-titulo">{d.titulo}</div>
-              <div className="impr-destaque-resumo">{d.resumo}</div>
-              <span className="impr-destaque-arrow" style={{ color: d.cor }}>
-                Abrir matéria →
-              </span>
-            </a>
-          ))}
-        </div>
       </section>
+
+      <StripeList
+        items={DESTAQUES.map((d) => ({
+          id: `d${d.id}`,
+          category: d.label,
+          shortTitle: d.veiculo.toUpperCase(),
+          title: d.titulo,
+          summary: d.resumo,
+          href: d.url,
+        }))}
+        stripeColors={DESTAQUE_STRIPE_COLORS}
+        openLabel="Abrir matéria →"
+      />
 
       <div className="parceiros-divider" />
 
-      {/* ARQUIVO COMPLETO — header + ArchiveList */}
+      {/* ARQUIVO COMPLETO — faixas coloridas editorial */}
       <div className="impr-archive-header">
         <div className="parceiros-tag tag-violet">arquivo completo</div>
         <h2 className="parceiros-secao-titulo titulo-violet">
           Todos os <span>{LINKS.length} links</span>
         </h2>
-        <p className="parceiros-secao-texto" style={{ marginTop: 6 }}>
-          Use a busca e os filtros pra navegar. Click em qualquer linha abre o resumo e o link.
-        </p>
       </div>
 
-      <ArchiveList
-        items={LINKS}
-        categoryColors={CATEGORY_COLORS}
-        searchPlaceholder="Busque por título, veículo, tema..."
+      <StripeList
+        items={LINKS.map((l) => ({
+          ...l,
+          shortTitle: getVeiculo(l.meta),
+        }))}
+        stripeColors={STRIPE_COLORS}
         openLabel="Abrir link →"
-        emptyMessage="Nenhum link encontrado. Tenta outra busca."
+        emptyMessage="Nenhum link encontrado."
       />
 
       {/* CTA FINAL — pra jornalistas */}
