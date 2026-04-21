@@ -346,9 +346,8 @@ const Portal = () => {
             <HoverBg imgKey="quiz" />
             <div className="quiz-bg" />
             <div className="quiz-cta-content">
-              <div className="quiz-dragon-big">🐉</div>
               <div className="quiz-intro-label">// descubra seu perfil de tutor</div>
-              <div className="quiz-intro-title">O DRAGÃO<br />TE<br />CONHECE</div>
+              <div className="quiz-intro-title">O DRAGÃO<br />QUER TE<br />CONHECER</div>
               <span className="quiz-start-btn">MONTAR MEU PERFIL →</span>
             </div>
           </a>
