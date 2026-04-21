@@ -47,9 +47,19 @@ const DEFAULT_REELS: Reel[] = [
 
 interface Props {
   reels?: Reel[];
+  title?: string;
+  subtitle?: string;
+  seeAllUrl?: string;
+  seeAllLabel?: string;
 }
 
-const ReelsSection = ({ reels = DEFAULT_REELS }: Props) => {
+const ReelsSection = ({
+  reels = DEFAULT_REELS,
+  title = "Reels do Dragão",
+  subtitle,
+  seeAllUrl = "https://www.instagram.com/comidadedragao",
+  seeAllLabel = "Ver tudo no @comidadedragao →",
+}: Props) => {
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const [muted, setMuted] = useState(true);
   const modalVideoRef = useRef<HTMLVideoElement>(null);
@@ -107,21 +117,24 @@ const ReelsSection = ({ reels = DEFAULT_REELS }: Props) => {
   return (
     <>
       <style>{REELS_STYLES}</style>
-      <div className="section-label" style={{ marginTop: 40 }}>Reels do Dragão</div>
+      <div className="section-label" style={{ marginTop: 40 }}>{title}</div>
+      {subtitle && <div className="reels-subtitle">{subtitle}</div>}
       <div className="reels-strip-wrap">
         <div className="reels-strip">
           {reels.map((r, i) => (
             <ReelCard key={r.id} reel={r} onClick={() => open(i)} />
           ))}
         </div>
-        <a
-          href="https://www.instagram.com/comidadedragao"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="reels-see-all"
-        >
-          Ver tudo no @comidadedragao →
-        </a>
+        {seeAllUrl && (
+          <a
+            href={seeAllUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="reels-see-all"
+          >
+            {seeAllLabel}
+          </a>
+        )}
       </div>
 
       {active && (
@@ -250,6 +263,15 @@ export default ReelsSection;
    Quando a gente consolidar tudo, movo essas regras pro Portal.css
    e removo este bloco. */
 const REELS_STYLES = `
+.portal-page .reels-subtitle {
+  max-width: 1280px;
+  margin: 0 auto 8px;
+  padding: 0 20px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.5;
+}
 .portal-page .reels-strip-wrap {
   max-width: 1280px;
   margin: 0 auto;

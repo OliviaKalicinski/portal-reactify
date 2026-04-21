@@ -8,6 +8,8 @@ import Portal from "./pages/Portal.tsx";
 import Biblioteca from "./pages/Biblioteca.tsx";
 import Imprensa from "./pages/Imprensa.tsx";
 import Quizzes from "./pages/Quizzes.tsx";
+import Parceiros from "./pages/Parceiros.tsx";
+import Produtos from "./pages/Produtos.tsx";
 import NotFound from "./pages/NotFound.tsx";
 const queryClient = new QueryClient();
 const App = () => (
@@ -22,6 +24,8 @@ const App = () => (
           <Route path="/biblioteca" element={<Biblioteca />} />
           <Route path="/imprensa" element={<Imprensa />} />
           <Route path="/quizzes" element={<Quizzes />} />
+          <Route path="/parceiros" element={<Parceiros />} />
+          <Route path="/produtos" element={<Produtos />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

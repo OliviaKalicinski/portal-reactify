@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
 import "./Portal.css";
@@ -305,18 +306,18 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <a href="/assets/pdfs/Manual%20do%20Criador.pdf" target="_blank" rel="noopener noreferrer" className="card card-pdf card-pdf-dark ratio-1-1">
+          <Link to="/parceiros" className="card card-pdf card-pdf-dark ratio-1-1">
             <HoverBg imgKey="manual" />
             <div className="card-inner">
               <div className="card-body">
-                <span className="card-tag">Manual</span>
+                <span className="card-tag">Parceiros</span>
                 <div className="pdf-icon">📖</div>
                 <div className="card-label">Manual do<br />Criador</div>
-                <div className="card-sub">Clique e acesse o guia completo</div>
+                <div className="card-sub">Entra na matilha — 30% de comissão</div>
               </div>
             </div>
             <div className="card-hover-overlay" />
-          </a>
+          </Link>
 
           <div onClick={openManifesto} style={{ cursor: "pointer" }} className="card card-manifesto-cta ratio-3-4">
             <div className="card-inner">
@@ -333,13 +334,13 @@ const Portal = () => {
 
         {/* ROW 2 */}
         <div className="row">
-          <div onClick={openCatalog} style={{ cursor: "pointer" }} className="card card-produtos ratio-1-1">
+          <Link to="/produtos" className="card card-produtos ratio-1-1">
             <HoverBg imgKey="produtos" />
             <div className="card-inner">
               <div className="card-body">
                 <span className="produto-emoji">🐛</span>
                 <div className="card-label">Nossos<br />Produtos</div>
-                <div className="card-sub" style={{ marginTop: 8 }}>Clique e veja o catálogo completo</div>
+                <div className="card-sub" style={{ marginTop: 8 }}>Veja a linha completa — 7 SKUs</div>
               </div>
               <div className="card-reveal reveal-produtos">
                 <div className="rp-title">// linha completa</div>
@@ -357,7 +358,7 @@ const Portal = () => {
               </div>
             </div>
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
-          </div>
+          </Link>
 
           <div onClick={openAudio} style={{ cursor: "pointer" }} className="card card-audio ratio-1-1">
             <HoverBg imgKey="audio" />

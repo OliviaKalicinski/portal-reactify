@@ -1,0 +1,549 @@
+/* ================================
+   PARCEIROS PAGE — Comida de Dragão
+   Design: dark, lime accent, brutalist
+   Adaptado do rascunho HTML pro design system do portal
+================================ */
+
+.parceiros-page {
+  padding-bottom: 0;
+}
+
+/* ========= HERO ========= */
+.parceiros-hero {
+  position: relative;
+  background: var(--dragon-black);
+  overflow: hidden;
+  border-bottom: 4px solid var(--dragon-lime);
+  padding: 72px 24px 64px;
+  min-height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.parceiros-hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 110%, rgba(123,255,0,0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(0,217,111,0.08) 0%, transparent 60%),
+    var(--dragon-black);
+  z-index: 1;
+}
+.parceiros-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px,
+    transparent 1px, transparent 3px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+.parceiros-hero .dragon-silhouette {
+  position: absolute;
+  right: 4%;
+  bottom: -10%;
+  font-size: min(40vw, 420px);
+  line-height: 1;
+  opacity: 0.06;
+  filter: grayscale(1);
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+}
+.parceiros-hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  padding: 0 8px;
+}
+
+.parceiros-backlink {
+  display: inline-block;
+  font-family: 'Space Mono', 'Courier Prime', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: rgba(250,250,250,0.5);
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.18s;
+}
+.parceiros-backlink:hover {
+  color: var(--dragon-lime);
+}
+
+/* Usa a .hero-logo padrão do portal (mesma aparência dos outros heros) */
+.parceiros-page .hero-logo {
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+
+.parceiros-hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(44px, 6.5vw, 82px);
+  line-height: 0.92;
+  color: var(--dragon-white);
+  letter-spacing: 0.5px;
+  margin-bottom: 22px;
+}
+.parceiros-hero-title span {
+  color: var(--dragon-lime);
+  display: block;
+}
+
+.parceiros-hero-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  color: rgba(250,250,250,0.72);
+  line-height: 1.6;
+  max-width: 540px;
+  margin: 0 auto 24px;
+}
+
+.parceiros-hero-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.parceiros-badge {
+  background: rgba(123,255,0,0.1);
+  border: 1px solid rgba(123,255,0,0.3);
+  color: var(--dragon-lime);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: 6px 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.parceiros-hero-cta {
+  margin-bottom: 12px;
+}
+
+.parceiros-hero-note {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  color: rgba(250,250,250,0.38);
+  margin-top: 14px;
+}
+
+/* ========= PRIMARY BUTTON ========= */
+.parceiros-btn-primary {
+  background: var(--dragon-lime);
+  color: var(--dragon-black);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  padding: 16px 34px;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.15s, box-shadow 0.2s;
+  border: 2px solid var(--dragon-lime);
+  cursor: pointer;
+}
+.parceiros-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(123,255,0,0.3);
+}
+
+/* ========= SEÇÕES ========= */
+.parceiros-secao {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 56px 24px 0;
+  position: relative;
+}
+.parceiros-divider {
+  max-width: 720px;
+  margin: 56px auto 0;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+.parceiros-tag {
+  display: inline-block;
+  background: var(--dragon-lime);
+  color: var(--dragon-black);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  padding: 4px 12px;
+  margin-bottom: 18px;
+}
+/* Tag colors — cada seção tem seu acento */
+.parceiros-tag.tag-orange { background: var(--dragon-orange); color: var(--dragon-black); }
+.parceiros-tag.tag-green  { background: var(--dragon-green);  color: var(--dragon-black); }
+.parceiros-tag.tag-pink   { background: var(--dragon-pink);   color: var(--dragon-white); }
+.parceiros-tag.tag-violet { background: var(--dragon-violet); color: var(--dragon-white); }
+.parceiros-tag.tag-yellow { background: var(--dragon-yellow); color: var(--dragon-black); }
+
+.parceiros-secao-titulo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1;
+  color: var(--dragon-white);
+  letter-spacing: 0.5px;
+  margin-bottom: 22px;
+}
+.parceiros-secao-titulo span {
+  color: var(--dragon-lime);
+}
+/* Cor do accent span por seção (combina com a tag) */
+.parceiros-secao-titulo.titulo-orange span { color: var(--dragon-orange); }
+.parceiros-secao-titulo.titulo-green  span { color: var(--dragon-green);  }
+.parceiros-secao-titulo.titulo-pink   span { color: var(--dragon-pink);   }
+.parceiros-secao-titulo.titulo-violet span { color: var(--dragon-violet); }
+.parceiros-secao-titulo.titulo-yellow span { color: var(--dragon-yellow); }
+
+.parceiros-secao-texto {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  color: rgba(250,250,250,0.62);
+  line-height: 1.75;
+}
+
+/* ========= STEPS (Como Funciona) ========= */
+.parceiros-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.parceiros-step {
+  display: flex;
+  overflow: hidden;
+}
+.parceiros-step-num {
+  width: 60px;
+  flex-shrink: 0;
+  background: var(--dragon-lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--dragon-black);
+}
+.parceiros-step-body {
+  background: var(--dragon-gray);
+  padding: 18px 22px;
+  flex: 1;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.parceiros-step-body strong {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dragon-white);
+  display: block;
+  margin-bottom: 4px;
+}
+.parceiros-step-body span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: rgba(250,250,250,0.58);
+  line-height: 1.6;
+}
+
+/* ========= BENEFÍCIOS ========= */
+.parceiros-beneficios {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+.parceiros-beneficio {
+  background: var(--dragon-gray);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background 0.18s;
+}
+.parceiros-beneficio:hover {
+  background: rgba(123,255,0,0.05);
+}
+.parceiros-beneficio-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+.parceiros-beneficio-titulo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--dragon-lime);
+  letter-spacing: 0.5px;
+}
+/* Rotação de cor nos títulos de benefício — ritmo visual */
+.parceiros-beneficio:nth-child(1) .parceiros-beneficio-titulo { color: var(--dragon-lime); }
+.parceiros-beneficio:nth-child(2) .parceiros-beneficio-titulo { color: var(--dragon-orange); }
+.parceiros-beneficio:nth-child(3) .parceiros-beneficio-titulo { color: var(--dragon-pink); }
+.parceiros-beneficio:nth-child(4) .parceiros-beneficio-titulo { color: var(--dragon-yellow); }
+.parceiros-beneficio:nth-child(5) .parceiros-beneficio-titulo { color: var(--dragon-violet); }
+.parceiros-beneficio:nth-child(6) .parceiros-beneficio-titulo { color: var(--dragon-green); }
+.parceiros-beneficio-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  color: rgba(250,250,250,0.58);
+  line-height: 1.55;
+}
+
+/* ========= REQUISITOS ========= */
+.parceiros-requisitos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.parceiros-req {
+  display: flex;
+  overflow: hidden;
+}
+.parceiros-req-check {
+  width: 50px;
+  flex-shrink: 0;
+  background: var(--dragon-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--dragon-black);
+}
+.parceiros-req-body {
+  background: var(--dragon-gray);
+  padding: 14px 20px;
+  flex: 1;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.parceiros-req-body strong {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  color: var(--dragon-white);
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 700;
+}
+.parceiros-req-body span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: rgba(250,250,250,0.58);
+  line-height: 1.55;
+}
+
+/* ========= PRAZO BOX (urgência — laranja) ========= */
+.parceiros-prazo-box {
+  background: var(--dragon-orange);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.parceiros-prazo-box::after {
+  content: 'DIAS';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 88px;
+  color: rgba(0,0,0,0.08);
+  pointer-events: none;
+  letter-spacing: 0.05em;
+}
+.parceiros-prazo-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 96px;
+  color: var(--dragon-black);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.parceiros-prazo-texto strong {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--dragon-black);
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+.parceiros-prazo-texto span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: rgba(0,0,0,0.72);
+  line-height: 1.55;
+}
+
+/* ========= REGRAS ========= */
+.parceiros-regras {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 16px;
+}
+.parceiros-regra {
+  display: flex;
+  overflow: hidden;
+}
+.parceiros-regra-badge {
+  width: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  writing-mode: vertical-lr;
+  padding: 14px 0;
+}
+.parceiros-regra-badge.badge-ok {
+  background: var(--dragon-lime);
+  color: var(--dragon-black);
+}
+.parceiros-regra-badge.badge-no {
+  background: rgba(255,45,120,0.12);
+  color: var(--dragon-pink);
+  border: 1px solid rgba(255,45,120,0.3);
+}
+.parceiros-regra-body {
+  background: var(--dragon-gray);
+  padding: 18px 22px;
+  flex: 1;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.parceiros-regra-body strong {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  color: var(--dragon-white);
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+.parceiros-regra-body span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: rgba(250,250,250,0.58);
+  line-height: 1.6;
+}
+
+/* ========= LINK BOX (Materiais — violet) ========= */
+.parceiros-link-box {
+  background: rgba(146,90,237,0.08);
+  border: 1px solid rgba(146,90,237,0.28);
+  padding: 18px 22px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  text-decoration: none;
+  transition: background 0.18s, border-color 0.18s;
+}
+.parceiros-link-box:hover {
+  background: rgba(146,90,237,0.14);
+  border-color: rgba(146,90,237,0.5);
+}
+.parceiros-link-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.45);
+  margin-bottom: 4px;
+}
+.parceiros-link-url {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--dragon-violet);
+  word-break: break-all;
+}
+.parceiros-link-btn {
+  background: var(--dragon-violet);
+  color: var(--dragon-white);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  padding: 10px 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ========= CTA FINAL ========= */
+.parceiros-cta-final {
+  background: var(--dragon-black);
+  padding: 72px 24px;
+  margin-top: 72px;
+  border-top: 4px solid var(--dragon-lime);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.parceiros-cta-final::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 110%, rgba(123,255,0,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.parceiros-cta-final-titulo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 0.95;
+  color: var(--dragon-white);
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.5px;
+}
+.parceiros-cta-final-titulo span {
+  color: var(--dragon-lime);
+}
+.parceiros-cta-final-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  color: rgba(250,250,250,0.58);
+  margin-bottom: 32px;
+  line-height: 1.6;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 2;
+}
+.parceiros-cta-final-note {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  color: rgba(250,250,250,0.32);
+  margin-top: 18px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ========= MOBILE ========= */
+@media (max-width: 640px) {
+  .parceiros-beneficios { grid-template-columns: 1fr; }
+  .parceiros-prazo-box {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 24px;
+    gap: 10px;
+  }
+  .parceiros-prazo-box::after { display: none; }
+  .parceiros-prazo-num { font-size: 72px; }
+  .parceiros-link-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .parceiros-link-btn { align-self: flex-end; }
+  .parceiros-hero { padding: 52px 22px 48px; }
+}
