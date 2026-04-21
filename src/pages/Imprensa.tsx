@@ -401,7 +401,11 @@ const Imprensa = () => {
         <DragonLogo className="footer-logo-svg" />
         <nav className="footer-links">
           <Link to="/portal">Portal</Link>
+          <Link to="/produtos">Produtos</Link>
+          <Link to="/parceiros">Parceiros</Link>
           <Link to="/biblioteca">Biblioteca</Link>
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>
         </nav>
