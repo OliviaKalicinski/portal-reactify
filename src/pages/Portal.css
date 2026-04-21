@@ -702,7 +702,7 @@
 }
 .portal-page .quiz-cta-content {
   position: absolute; inset: 0; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; padding: 32px 28px; text-align: center;
+  align-items: flex-end; justify-content: flex-start; padding: 28px 28px; text-align: right;
   z-index: 1;
 }
 .portal-page .quiz-dragon-big { font-size: 52px; margin-bottom: 10px; }
