@@ -2353,6 +2353,108 @@
 }
 
 /* ============================================================
+   MOBILE BASELINE — até 640px
+   Reduz tamanhos, misregistration e paddings proporcionalmente
+   ============================================================ */
+@media (max-width: 640px) {
+  /* Hero principal do Portal */
+  .portal-page .hero {
+    min-height: auto;
+    padding: 48px 20px 40px;
+  }
+  .portal-page .hero-title {
+    font-size: clamp(32px, 11vw, 54px);
+    text-shadow: 2px 2px 0 var(--skin-accent);
+    margin: 6px 0 12px;
+  }
+  .portal-page .hero-title span {
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+  }
+  .portal-page .hero-descricao {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 22px;
+    padding: 0 4px;
+  }
+  .portal-page .hero-eyebrow {
+    font-size: 10px;
+    margin-bottom: 12px;
+  }
+  .portal-page .hero-name-wrap {
+    gap: 8px;
+  }
+  .portal-page .hero-name-input {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+  /* Archive hero (Biblioteca/Imprensa/Produtos) */
+  .portal-page .archive-hero {
+    padding: 48px 20px 40px;
+    min-height: auto;
+  }
+  .portal-page .archive-hero-title {
+    font-size: clamp(16px, 4.5vw, 22px);
+    text-shadow: 1px 1px 0 var(--skin-accent);
+  }
+  .portal-page .archive-hero-title span {
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  }
+
+  /* Perfil selector — cards mais compactos */
+  .portal-page .perfil-selector { padding: 0 16px; }
+  .portal-page .perfil-selector-grid {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .portal-page .perfil-card {
+    padding: 10px 14px;
+    min-width: 0;
+  }
+  .portal-page .perfil-card .perfil-name {
+    font-size: 18px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
+  }
+  .portal-page .perfil-card .perfil-num {
+    font-size: 12px;
+    margin-right: 8px;
+  }
+
+  /* Cards gerais — label menor, misreg reduzido */
+  .portal-page .card .card-label {
+    text-shadow: 1.5px 1.5px 0 var(--skin-accent);
+  }
+
+  /* Card Imprensa específico — era o "NA MÍDIA & COBERTURA" gigante */
+  .portal-page .card-quiz-companion-video .card-label {
+    font-size: clamp(16px, 5vw, 22px);
+  }
+
+  /* Botões */
+  .portal-page .btn {
+    font-size: 12px;
+    padding: 9px 16px;
+  }
+
+  /* Marquee mais compacta */
+  .portal-page .marquee-track span {
+    font-size: 11px;
+    padding: 0 14px;
+  }
+  .portal-page .marquee-track span::after { margin-left: 16px; }
+}
+
+/* Tablets médios — entre 641 e 900px */
+@media (min-width: 641px) and (max-width: 900px) {
+  .portal-page .hero-title {
+    font-size: clamp(42px, 7vw, 64px);
+  }
+  .portal-page .archive-hero-title {
+    font-size: clamp(18px, 2.6vw, 26px);
+  }
+}
+
+/* ============================================================
    RISOGRAPH TYPOGRAPHY — unifica cards do Portal
    Archivo Black + misregistration sutil (usa --skin-accent)
    Mantém font-size/color dos overrides específicos de cada card

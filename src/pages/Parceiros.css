@@ -524,22 +524,89 @@
 
 /* ========= MOBILE ========= */
 @media (max-width: 640px) {
+  /* Grid e boxes empilhando */
   .parceiros-beneficios { grid-template-columns: 1fr; }
   .parceiros-prazo-box {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-    padding: 24px;
+    padding: 22px;
     gap: 10px;
   }
   .parceiros-prazo-box::after { display: none; }
-  .parceiros-prazo-num { font-size: 72px; }
+  .parceiros-prazo-num { font-size: 64px; }
   .parceiros-link-box {
     flex-direction: column;
     align-items: flex-start;
   }
   .parceiros-link-btn { align-self: flex-end; }
-  .parceiros-hero { padding: 52px 22px 48px; }
+
+  /* Hero — padding reduzido + título proporcional */
+  .parceiros-hero { padding: 52px 22px 48px; min-height: auto; }
+  .parceiros-hero-title {
+    font-size: clamp(40px, 12vw, 60px) !important;
+    text-shadow: 2px 2px 0 var(--dragon-lime);
+  }
+  .parceiros-hero-title span {
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+  }
+  .parceiros-hero-sub {
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 0 4px;
+  }
+  .parceiros-hero-badges { gap: 6px; }
+  .parceiros-badge {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+  .parceiros-btn-primary {
+    font-size: 16px;
+    padding: 12px 24px;
+    letter-spacing: 0.08em;
+  }
+
+  /* Seções — títulos menores */
+  .parceiros-secao { padding: 40px 20px; }
+  .parceiros-secao-titulo {
+    font-size: clamp(28px, 9vw, 44px) !important;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.35);
+  }
+  .parceiros-secao-titulo span {
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+  }
+
+  /* Benefícios — cards mais compactos */
+  .parceiros-beneficio { padding: 18px; }
+  .parceiros-beneficio-icon { font-size: 24px !important; }
+  .parceiros-beneficio-titulo { font-size: 17px; }
+  .parceiros-beneficio-desc { font-size: 12px; }
+
+  /* Regras SIM/NÃO — badge menor, texto menor */
+  .parceiros-regra { gap: 12px; padding: 14px 0; }
+  .parceiros-regra-badge {
+    width: 44px;
+    font-size: 10px;
+  }
+  .parceiros-regra-body strong { font-size: 14px; }
+  .parceiros-regra-body span { font-size: 12.5px; line-height: 1.5; }
+
+  /* CTA final */
+  .parceiros-cta-final { padding: 52px 22px; }
+  .parceiros-cta-final-titulo {
+    font-size: clamp(32px, 10vw, 48px) !important;
+    text-shadow: 2px 2px 0 var(--dragon-lime);
+  }
+  .parceiros-cta-final-titulo span {
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+  }
+  .parceiros-cta-final-sub { font-size: 13px; padding: 0 8px; }
+
+  /* Steps numerados — menor padding */
+  .parceiros-step { padding: 14px 0; gap: 14px; }
+  .parceiros-step-num { width: 44px; height: 44px; font-size: 20px; }
+  .parceiros-step-body strong { font-size: 15px; }
+  .parceiros-step-body span { font-size: 13px; line-height: 1.5; }
 }
 
 /* ==========================================================
