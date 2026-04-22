@@ -253,21 +253,7 @@ const Portal = () => {
 
   const nameUpper = heroName.trim().toUpperCase();
 
-  const heroTaglineContent = (
-    <>
-      <span className="hero-tagline-main">ALIMENTO PARA PETS À BASE DE INSETO.</span>
-      {nameUpper ? (
-        <span className="hero-tagline-sub">
-          <span className="hero-tagline-name">{nameUpper}</span>, SE VOCÊ CHEGOU AQUI, JÁ FAZ PARTE DA REVOLUÇÃO.
-          <span className="hero-tagline-fio">segue o fio...</span>
-        </span>
-      ) : (
-        <span className="hero-tagline-sub hero-tagline-sub-empty">
-          digite seu nome e segue o fio...
-        </span>
-      )}
-    </>
-  );
+  // (heroTaglineContent removido — novo hero com título + descrição + interativo abaixo)
 
   const footerText = nameUpper
     ? `O Dragão viu, ${nameUpper}. O Dragão aprovou. Agora é sua vez.`
@@ -688,11 +674,20 @@ const Portal = () => {
         <div className="hero-bg" />
         <div className="dragon-silhouette">🐉</div>
         <div className="hero-content">
-          <div className="hero-eyebrow">Comida de Dragão — Hub da Marca</div>
+          <div className="hero-eyebrow">// portal do dragão</div>
           <DragonLogo className="hero-logo" />
-          <p className="hero-tagline">{heroTaglineContent}</p>
+
+          <h1 className="hero-title">
+            Bem-vindo<br />
+            <span>à caverna.</span>
+          </h1>
+
+          <p className="hero-descricao">
+            Manifesto, produtos, ciência real, o que a mídia fala, como virar parceiro e as perguntas que ninguém tem coragem de fazer. Tudo num lugar só. <strong>Descobre. Aprende. Se diverte.</strong>
+          </p>
+
           <div className="hero-name-wrap">
-            <span className="hero-name-label">pra quem é?</span>
+            <span className="hero-name-label">como te chama?</span>
             <input
               type="text"
               className="hero-name-input"
@@ -705,6 +700,17 @@ const Portal = () => {
               onKeyDown={e => { if (e.key === "Enter") triggerNameGreeting(); }}
             />
           </div>
+
+          {nameUpper ? (
+            <p className="hero-tagline-sub">
+              <span className="hero-tagline-name">{nameUpper}</span>, JÁ FAZ PARTE DA REVOLUÇÃO.
+              <span className="hero-tagline-fio">segue o fio...</span>
+            </p>
+          ) : (
+            <p className="hero-tagline-sub hero-tagline-sub-empty">
+              digite seu nome e segue o fio...
+            </p>
+          )}
         </div>
       </section>
 
