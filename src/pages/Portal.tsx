@@ -3,11 +3,21 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
 import PageMeta from "@/components/PageMeta";
-import portalDogImg from "@/assets/portal-dog.png";
-import lojasCoverImg from "@/assets/lojas-cover.png";
 import "./Portal.css";
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
+
+/**
+ * FORMSPREE ENDPOINT
+ * ------------------
+ * Para o "Escreve pro Dragão" capturar leads sem abrir o email do usuário:
+ * 1. Criar conta grátis em https://formspree.io
+ * 2. Criar form "Escreve pro Dragão" → destino somos@letsfly.com.br
+ * 3. Copiar o endpoint (algo tipo https://formspree.io/f/xxxxxxxx)
+ * 4. Substituir abaixo
+ * Enquanto não tiver endpoint real, o form mostra mensagem de erro (placeholder).
+ */
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/REPLACE_ME";
 
 const CARD_HOVER_IMAGES: Record<string, string> = {
   manifesto:  "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2FuY2JjbDV0aXdjNWgwOHhvcWZqY3ozZWZoZ3FoaXVtNzZ2aDRuOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mrTjb8ZXFeJdC/giphy.gif",
@@ -53,7 +63,7 @@ const MARQUEE_BOTTOM = [
   "@COMIDADEDRAGAO",
   "SOMOS@LETSFLY.COM.BR",
   "CACHOEIRAS DE MACACU, RJ",
-  "🐉 O DRAGÃO VÊ TUDO",
+  "O DRAGÃO VÊ TUDO",
   "INCLUSIVE O CARRINHO QUE VOCÊ ABANDONOU ÀS 2H DA MANHÃ",
   "BSF — BLACK SOLDIER FLY",
   "NUTRIÇÃO QUE RESPEITA O PLANETA",
@@ -61,11 +71,11 @@ const MARQUEE_BOTTOM = [
 
 
 const PRODUCTS_LIST = [
-  { icon: "🐛", name: "ORIGINAL BSF", who: "Todos os pets", delay: "0s" },
-  { icon: "🌿", name: "MORDIDA LEGUMES", who: "Só cães", delay: "0.07s" },
-  { icon: "🌀", name: "MORDIDA SPIRULINA", who: "Só cães", delay: "0.13s" },
-  { icon: "💊", name: "SUPLEMENTO", who: "Cães + gatos", delay: "0.19s" },
-  { icon: "🐉", name: "GRUB GEL", who: "Répteis + anfíbios", delay: "0.25s" },
+  { icon: "01", name: "ORIGINAL BSF", who: "Todos os pets", delay: "0s" },
+  { icon: "02", name: "MORDIDA LEGUMES", who: "Só cães", delay: "0.07s" },
+  { icon: "03", name: "MORDIDA SPIRULINA", who: "Só cães", delay: "0.13s" },
+  { icon: "04", name: "SUPLEMENTO", who: "Cães + gatos", delay: "0.19s" },
+  { icon: "05", name: "GRUB GEL", who: "Répteis + anfíbios", delay: "0.25s" },
 ];
 
 const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
@@ -93,6 +103,12 @@ const Portal = () => {
   const [audioMinimized, setAudioMinimized] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Email / Escreve pro Dragão
+  const [emailOpen, setEmailOpen] = useState(false);
+  const [emailForm, setEmailForm] = useState({ email: "", nome: "", mensagem: "" });
+  const [emailStatus, setEmailStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
+  const [emailErrMsg, setEmailErrMsg] = useState("");
 
   // Modal drag state
   const modalWindowRef = useRef<HTMLDivElement>(null);
@@ -140,22 +156,78 @@ const Portal = () => {
     setAudioMinimized(false);
   }, []);
 
+  const openEmail = useCallback(() => {
+    setEmailStatus("idle");
+    setEmailErrMsg("");
+    setEmailOpen(true);
+  }, []);
+  const closeEmail = useCallback(() => {
+    setEmailOpen(false);
+    // mantém o conteúdo digitado caso o user reabra
+  }, []);
+
+  const submitEmail = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    const email = emailForm.email.trim();
+    const mensagem = emailForm.mensagem.trim();
+    if (!email || !mensagem) {
+      setEmailStatus("err");
+      setEmailErrMsg("Preenche email e mensagem.");
+      return;
+    }
+    // validação básica de email
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailStatus("err");
+      setEmailErrMsg("Esse email parece torto, confere aí.");
+      return;
+    }
+    if (FORMSPREE_ENDPOINT.includes("REPLACE_ME")) {
+      setEmailStatus("err");
+      setEmailErrMsg("Endpoint ainda não configurado (Bruno precisa criar form no Formspree).");
+      return;
+    }
+    setEmailStatus("sending");
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          email,
+          nome: emailForm.nome.trim() || "(sem nome)",
+          mensagem,
+          origem: "Portal do Dragão — Escreve pro Dragão",
+          _subject: `Dragão recebeu uma mensagem de ${emailForm.nome.trim() || email}`,
+        }),
+      });
+      if (res.ok) {
+        setEmailStatus("ok");
+        setEmailForm({ email: "", nome: "", mensagem: "" });
+      } else {
+        setEmailStatus("err");
+        setEmailErrMsg("Algo deu ruim no envio. Tenta de novo em 1 min.");
+      }
+    } catch {
+      setEmailStatus("err");
+      setEmailErrMsg("Sem conexão. Verifica sua internet.");
+    }
+  }, [emailForm]);
+
   // Keyboard Escape
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeManifesto(); closeCatalog(); closePerguntas(); closeNameModal(); } };
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeManifesto(); closeCatalog(); closePerguntas(); closeNameModal(); closeEmail(); } };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [closeModal]);
+  }, [closeModal, closeEmail]);
 
   // Body overflow lock when any modal is open
   useEffect(() => {
-    if (modalOpen || manifestoOpen || perguntasOpen || nameModalOpen) {
+    if (modalOpen || manifestoOpen || perguntasOpen || nameModalOpen || emailOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [modalOpen, manifestoOpen, perguntasOpen]);
+  }, [modalOpen, manifestoOpen, perguntasOpen, nameModalOpen, emailOpen]);
 
   // Modal drag
   useEffect(() => {
@@ -196,8 +268,8 @@ const Portal = () => {
   );
 
   const footerText = nameUpper
-    ? `🐉 O Dragão viu, ${nameUpper}. O Dragão aprovou. Agora é sua vez.`
-    : "🐉 O Dragão viu. O Dragão aprovou. Agora é sua vez.";
+    ? `O Dragão viu, ${nameUpper}. O Dragão aprovou. Agora é sua vez.`
+    : "O Dragão viu. O Dragão aprovou. Agora é sua vez.";
 
   return (
     <div className={`portal-page skin-${skin}`}>
@@ -220,6 +292,391 @@ const Portal = () => {
         .card:hover .card-img-hover { opacity: 1; }
         .card-inner, .card-body, .card-reveal,
         .quiz-bg, .quiz-step { position: relative; z-index: 1; }
+
+        /* ============================================================
+           RISOGRAPH DO DRAGÃO — popups com misregistration + grain
+           ============================================================ */
+        .riso-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(10,10,10,0.85);
+          backdrop-filter: blur(5px);
+          z-index: 2000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 24px;
+          animation: riso-fade 0.22s ease;
+        }
+        @keyframes riso-fade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .riso {
+          position: relative;
+          width: 100%;
+          max-width: 560px;
+          max-height: 90vh;
+          overflow-y: auto;
+          padding: 36px 30px 32px;
+          font-family: 'Space Grotesk', sans-serif;
+          box-shadow:
+            0 0 0 2.5px #0A0A0A,
+            12px 14px 0 0 #0A0A0A;
+          animation: riso-pop 0.24s cubic-bezier(0.2, 0.9, 0.4, 1.4);
+        }
+        .riso.large { max-width: 620px; }
+        @keyframes riso-pop {
+          from { opacity: 0; transform: scale(0.94) translateY(14px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .riso::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.28 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+          mix-blend-mode: multiply;
+          opacity: 1;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .riso > * { position: relative; z-index: 2; }
+
+        .riso-close {
+          position: absolute;
+          top: 14px;
+          right: 16px;
+          width: 36px;
+          height: 36px;
+          border: 2.5px solid #0A0A0A;
+          background: #FAFAFA;
+          color: #0A0A0A;
+          font-family: 'Space Mono', monospace;
+          font-size: 15px;
+          font-weight: 700;
+          cursor: pointer;
+          z-index: 10;
+          transition: transform 0.15s;
+          padding: 0;
+          line-height: 1;
+        }
+        .riso-close:hover { transform: rotate(90deg); }
+
+        .riso-pagenum {
+          position: absolute;
+          font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+          font-size: 260px;
+          line-height: 0.78;
+          opacity: 0.09;
+          bottom: -34px;
+          right: -16px;
+          pointer-events: none;
+          z-index: 1;
+          letter-spacing: -0.04em;
+          color: #0A0A0A;
+          font-weight: 900;
+        }
+
+        .riso-eyebrow {
+          font-family: 'Space Mono', monospace;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.26em;
+          text-transform: uppercase;
+          padding: 5px 9px;
+          display: inline-block;
+          border: 1.5px solid #0A0A0A;
+          background: rgba(0,0,0,0.08);
+          margin-bottom: 10px;
+          color: #0A0A0A;
+        }
+
+        .riso-title {
+          font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
+          font-size: clamp(48px, 6.5vw, 82px);
+          line-height: 0.85;
+          letter-spacing: -0.015em;
+          text-transform: uppercase;
+          margin: 16px 0 22px;
+          color: #0A0A0A;
+          font-weight: 900;
+        }
+
+        .riso-body { }
+        .riso-body p {
+          font-size: 14.5px;
+          line-height: 1.55;
+          margin-bottom: 10px;
+          color: rgba(10,10,10,0.88);
+        }
+        .riso-body p.pull {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 26px;
+          line-height: 1;
+          letter-spacing: 0.01em;
+          color: #0A0A0A;
+          border-top: 3px solid #0A0A0A;
+          border-bottom: 3px solid #0A0A0A;
+          padding: 12px 0;
+          margin: 18px 0;
+        }
+        .riso-body p.meta {
+          font-family: 'Space Mono', monospace;
+          font-size: 12px;
+          font-weight: 700;
+          color: rgba(10,10,10,0.75);
+          letter-spacing: 0.08em;
+        }
+        .riso-body p.strong {
+          font-weight: 700;
+          color: #0A0A0A;
+        }
+
+        .riso-signature {
+          font-family: 'Space Mono', monospace;
+          font-size: 11px;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          margin-top: 14px;
+          font-weight: 700;
+          color: rgba(10,10,10,0.7);
+        }
+
+        .riso-btn {
+          display: inline-block;
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 18px;
+          letter-spacing: 0.12em;
+          padding: 13px 24px;
+          border: none;
+          cursor: pointer;
+          text-decoration: none;
+          margin-top: 16px;
+          margin-right: 8px;
+          box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+          transition: transform 0.12s, box-shadow 0.12s;
+          color: #0A0A0A;
+        }
+        .riso-btn:hover {
+          transform: translate(-2px, -2px);
+          box-shadow: 6px 6px 0 rgba(0,0,0,0.35);
+        }
+        .riso-btn:disabled {
+          opacity: 0.55;
+          cursor: wait;
+          transform: none;
+        }
+        .riso-btn.ghost {
+          background: transparent;
+          border: 2.5px solid #0A0A0A;
+          box-shadow: none;
+          color: #0A0A0A;
+        }
+        .riso-btn.ghost:hover {
+          background: #0A0A0A;
+          color: #FAFAFA;
+        }
+
+        .riso-strip {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 9px;
+          background: #0A0A0A;
+          z-index: 3;
+        }
+        .riso-strip::after {
+          content: '';
+          position: absolute;
+          top: 5px;
+          left: 0;
+          right: 0;
+          height: 4px;
+        }
+
+        /* COMBO 2 — MANIFESTO (laranja + pink) */
+        .riso-manifesto { background: #FF7A00; }
+        .riso-manifesto .riso-title { text-shadow: 3px 3px 0 #FF2D78, 6px 6px 0 rgba(0,0,0,0.15); }
+        .riso-manifesto .riso-strip::after { background: #FF2D78; }
+        .riso-manifesto .riso-btn { background: #FF2D78; color: #0A0A0A; }
+
+        /* COMBO 7 — EMAIL (yellow + pink) */
+        .riso-email { background: #FFE600; }
+        .riso-email .riso-title { text-shadow: 3px 3px 0 #FF2D78, 6px 6px 0 rgba(0,0,0,0.15); }
+        .riso-email .riso-strip::after { background: #FF2D78; }
+        .riso-email .riso-btn { background: #FF2D78; color: #FAFAFA; }
+
+        /* COMBO 4 — DRAGÃO FALA VIDEO (pink + lime) */
+        .riso-video { background: #FF2D78; padding: 24px 26px 22px; }
+        .riso-video .riso-title {
+          text-shadow: 3px 3px 0 #7BFF00, 6px 6px 0 rgba(0,0,0,0.2);
+          font-size: clamp(38px, 5vw, 56px);
+          margin: 10px 0 14px;
+        }
+        .riso-video .riso-strip::after { background: #7BFF00; }
+        .riso-video .riso-btn { background: #7BFF00; color: #0A0A0A; }
+        .riso-video .riso-body p { font-size: 13.5px; line-height: 1.5; }
+        .riso-video .riso-signature { margin-top: 8px; }
+
+        /* COMBO 10 — PERGUNTAS (violet + lime · texto branco) */
+        .riso-perguntas { background: #925AED; color: #FAFAFA; }
+        .riso-perguntas .riso-title { color: #FAFAFA; text-shadow: 3px 3px 0 #7BFF00, 6px 6px 0 rgba(0,0,0,0.3); }
+        .riso-perguntas .riso-strip::after { background: #7BFF00; }
+        .riso-perguntas .riso-btn { background: #7BFF00; color: #0A0A0A; }
+        .riso-perguntas .riso-eyebrow { border-color: #FAFAFA; background: rgba(255,255,255,0.1); color: #FAFAFA; }
+        .riso-perguntas .riso-body p { color: rgba(255,255,255,0.88); }
+        .riso-perguntas .riso-body p.pull { color: #FAFAFA; border-color: #FAFAFA; }
+        .riso-perguntas .riso-body p.strong { color: #FAFAFA; }
+        .riso-perguntas .riso-body p.meta { color: rgba(255,255,255,0.7); }
+        .riso-perguntas .riso-signature { color: rgba(255,255,255,0.65); }
+        .riso-perguntas .riso-pagenum { color: #FAFAFA; opacity: 0.1; }
+        .riso-perguntas .riso-btn.ghost { color: #FAFAFA; border-color: #FAFAFA; }
+        .riso-perguntas .riso-btn.ghost:hover { background: #FAFAFA; color: #0A0A0A; }
+        .riso-perguntas .riso-close { background: #FAFAFA; border-color: #FAFAFA; color: #0A0A0A; }
+
+        /* Q&A list styles (usado no Perguntas) */
+        .riso-qa {
+          margin-top: 4px;
+        }
+        .riso-qa-item {
+          padding: 18px 0;
+          border-bottom: 2px dashed rgba(255,255,255,0.22);
+        }
+        .riso-qa-item:last-of-type { border-bottom: none; }
+        .riso-qa-num {
+          display: inline-block;
+          font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+          font-size: 22px;
+          line-height: 1;
+          color: #7BFF00;
+          text-shadow: 2px 2px 0 rgba(10,10,10,0.35);
+          margin-bottom: 6px;
+          letter-spacing: 0.02em;
+        }
+        .riso-qa-q {
+          font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;
+          font-size: 20px;
+          line-height: 1.1;
+          color: #FAFAFA;
+          margin-bottom: 8px;
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: 0.01em;
+        }
+        .riso-qa-a {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 14px;
+          line-height: 1.55;
+          color: rgba(255,255,255,0.85);
+        }
+
+        /* FORMS */
+        .riso-form {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          margin-top: 18px;
+        }
+        .riso-field { display: flex; flex-direction: column; gap: 5px; }
+        .riso-field-label {
+          font-family: 'Space Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          font-weight: 700;
+          color: rgba(10,10,10,0.72);
+        }
+        .riso-input,
+        .riso-textarea {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 14px;
+          color: #0A0A0A;
+          background: rgba(255,255,255,0.55);
+          border: 2.5px solid #0A0A0A;
+          padding: 10px 12px;
+          outline: none;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        .riso-input:focus,
+        .riso-textarea:focus {
+          background: #fff;
+          box-shadow: 3px 3px 0 #FF2D78;
+        }
+        .riso-textarea { min-height: 110px; resize: vertical; line-height: 1.45; font-family: 'Space Grotesk', sans-serif; }
+        .riso-helper {
+          font-family: 'Space Mono', monospace;
+          font-size: 10px;
+          color: rgba(10,10,10,0.55);
+          margin-top: -2px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+        }
+        .riso-status {
+          padding: 10px 12px;
+          font-family: 'Space Mono', monospace;
+          font-size: 12px;
+          line-height: 1.45;
+          border: 2px solid #0A0A0A;
+          font-weight: 700;
+        }
+        .riso-status.ok { background: #7BFF00; color: #0A0A0A; }
+        .riso-status.err { background: rgba(10,10,10,0.9); color: #FF2D78; }
+
+        /* VIDEO FRAMES (vertical 9:16 pra video de boas-vindas)
+           limite por altura — largura calculada pelo aspect-ratio
+           pra garantir que o popup caiba em viewport típico sem scroll */
+        .riso-video-frame {
+          margin: 10px auto 8px;
+          border: 3px solid #0A0A0A;
+          aspect-ratio: 9 / 16;
+          width: auto;
+          max-height: 42vh;
+          max-width: calc(42vh * 9 / 16);
+          background: #0A0A0A;
+          position: relative;
+          box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+          overflow: hidden;
+        }
+        .riso-video-frame video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .riso-video-frame::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: repeating-linear-gradient(
+            to bottom, transparent 0 2px, rgba(255,255,255,0.04) 2px 3px
+          );
+          pointer-events: none;
+          z-index: 3;
+        }
+        .riso-video-tag {
+          position: absolute;
+          top: 10px;
+          left: 12px;
+          font-family: 'Space Mono', monospace;
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          background: rgba(10,10,10,0.85);
+          padding: 3px 7px;
+          z-index: 5;
+          border: 1.5px solid;
+          color: #7BFF00;
+          border-color: #7BFF00;
+        }
+
+        @media (max-width: 600px) {
+          .riso { padding: 28px 22px 24px; box-shadow: 0 0 0 2px #0A0A0A, 8px 10px 0 #0A0A0A; }
+          .riso-title { font-size: clamp(40px, 10vw, 62px); }
+          .riso-pagenum { font-size: 180px; bottom: -20px; right: -10px; }
+        }
+
       `}</style>
       {/* TOP MARQUEE */}
       <MarqueeBar items={MARQUEE_TOP} />
@@ -267,7 +724,7 @@ const Portal = () => {
             >
               <span className="perfil-name">{p.name}</span>
               <span className="perfil-tag">{p.tag}</span>
-              <span className="perfil-cta">{skin === p.n ? "✓" : "→"}</span>
+              <span className="perfil-cta">{skin === p.n ? "●" : "→"}</span>
             </button>
           ))}
         </div>
@@ -275,7 +732,7 @@ const Portal = () => {
 
       {/* CONTROLS BAR */}
       <nav className="controls-bar">
-        <button className="btn btn-dragon" onClick={openModal}>🐉 O Dragão Fala</button>
+        <button className="btn btn-dragon" onClick={openModal}>O Dragão Fala →</button>
         <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="btn btn-buy">Comprar Agora →</a>
       </nav>
 
@@ -319,7 +776,6 @@ const Portal = () => {
             <div className="card-inner">
               <div className="card-body">
                 <span className="card-tag">Parceiros</span>
-                <div className="pdf-icon">📖</div>
                 <div className="card-label">Manual do<br />Criador</div>
                 <div className="card-sub">Entra na matilha — 30% de comissão</div>
               </div>
@@ -331,7 +787,6 @@ const Portal = () => {
             <div className="card-inner">
               <div className="card-body">
                 <span className="card-tag">Manifesto</span>
-                <div className="manifesto-scroll">📜</div>
                 <div className="card-label">Leia o<br />Manifesto</div>
                 <div className="card-sub">O que o Dragão acredita — em 5 parágrafos</div>
               </div>
@@ -343,7 +798,7 @@ const Portal = () => {
         {/* ROW 2 */}
         <div className="row">
           <Link to="/produtos" className="card card-produtos ratio-1-1">
-            <img src={portalDogImg} alt="" className="card-produtos-cover" draggable={false} />
+            <HoverBg imgKey="produtos" />
             <div className="card-inner">
               <div className="card-body">
                 <div className="card-label">Nossos<br />Produtos</div>
@@ -504,7 +959,6 @@ const Portal = () => {
           <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer" className="card card-social card-social-wa card-social-wa-img ratio-3-4">
             <HoverBg imgKey="whatsapp" />
             <div className="card-inner"><div className="card-body">
-              <span className="social-icon">💬</span>
               <div className="card-tag">WhatsApp SAC</div>
               <div className="card-label">Fala<br />com<br />a gente</div>
               <div className="card-sub">(21) 3950-0576 — O Dragão não abandona ninguém</div>
@@ -513,23 +967,32 @@ const Portal = () => {
           </a>
 
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-social card-social-map ratio-1-1">
-            <img src={lojasCoverImg} alt="" className="card-produtos-cover" draggable={false} />
             <HoverBg imgKey="lojas" />
+            <div className="card-inner"><div className="card-body">
+              <div className="card-tag">Presença Física</div>
+              <div className="card-label">+30 Lojas<br />SP e RJ</div>
+              <div className="card-sub">Encontre a loja mais perto de você</div>
+            </div></div>
             <div className="card-hover-overlay" />
           </a>
 
 
-          <a href="mailto:somos@letsfly.com.br" className="card card-manifesto card-email-manifesto ratio-3-4">
+          <button
+            type="button"
+            onClick={openEmail}
+            className="card card-manifesto card-email-manifesto ratio-3-4"
+            style={{ border: "none", font: "inherit", color: "inherit", textAlign: "left", cursor: "pointer" }}
+          >
             <HoverBg imgKey="email" />
             <div className="card-inner">
               <div className="card-body">
                 <span className="scratch-mark">// email</span>
                 <div className="card-label">Escreve<br />pro<br />Dragão</div>
-                <div className="card-sub">somos@letsfly.com.br</div>
+                <div className="card-sub">manda uma mensagem →</div>
               </div>
             </div>
             <div className="card-hover-overlay" />
-          </a>
+          </button>
         </div>
       </div>
 
@@ -655,48 +1118,151 @@ const Portal = () => {
       {/* MODAL DRAGÃO FALA — VÍDEO */}
       {modalOpen && (
         <div
-          className="dragao-fala-overlay"
+          className="riso-overlay"
           onClick={e => { if (e.target === e.currentTarget) closeModal(); }}
         >
-          <div className="dragao-fala-modal">
-            <div className="dragao-fala-header">
-              <span>🐉 Mensagem do Dragão</span>
-              <button className="dragao-fala-close" onClick={closeModal}>✕</button>
-            </div>
-            <div className="dragao-fala-video-wrap">
+          <article className="riso riso-video large" role="dialog">
+            <div className="riso-strip" />
+            <button className="riso-close" onClick={closeModal} aria-label="Fechar">×</button>
+            <div className="riso-pagenum">03</div>
+            <span className="riso-eyebrow">RECADO · DO DRAGÃO PRA VOCÊ</span>
+            <h2 className="riso-title">Bem-<br/>vindo.</h2>
+            <div className="riso-video-frame">
+              <span className="riso-video-tag">DRAGÃO FALA</span>
               <video
-                className="dragao-fala-video"
                 controls
+                autoPlay
+                playsInline
                 src="/assets/videos/SharkTank Insta .mp4"
               />
             </div>
-          </div>
+            <div className="riso-body">
+              <p className="meta">MENSAGEM · DIRETO DA BIOFÁBRICA</p>
+              <p>Dois bilhões de pessoas no mundo já comem inseto. Pet food é só o começo da revolução. O Dragão te conta tudo — aperta o play.</p>
+            </div>
+            <div className="riso-signature">— O DRAGÃO · CACHOEIRAS DE MACACU</div>
+          </article>
         </div>
       )}
-      {/* MODAL MANIFESTO */}
+      {/* MODAL MANIFESTO — Risograph (laranja + pink) */}
       {manifestoOpen && (
         <div
-          className="dragao-fala-overlay"
+          className="riso-overlay"
           onClick={e => { if (e.target === e.currentTarget) closeManifesto(); }}
         >
-          <div className="dragao-fala-modal" style={{ maxWidth: 540 }}>
-            <div className="dragao-fala-header">
-              <span>📜 Manifesto</span>
-              <button className="dragao-fala-close" onClick={closeManifesto}>✕</button>
+          <article className="riso riso-manifesto" role="dialog" aria-labelledby="manifesto-title">
+            <div className="riso-strip" />
+            <button className="riso-close" onClick={closeManifesto} aria-label="Fechar">×</button>
+            <div className="riso-pagenum">01</div>
+            <span className="riso-eyebrow">MANIFESTO · O DRAGÃO</span>
+            <h2 id="manifesto-title" className="riso-title">Nojento é<br/>o desper-<br/>dício.</h2>
+            <div className="riso-body">
+              <p>Nasci do elo entre a vitalidade da terra e o saber ancestral. Sou milenar e atemporal, carregando a memória dos antigos e a chama que ilumina o caminho para nossa verdadeira natureza.</p>
+              <p className="pull">Meu sopro é de cura. Minha força regenera.</p>
+              <p>Trago o elixir da regeneração, o néctar que nutre e harmoniza os seres vivos.</p>
+              <p className="strong">Mais do que um alimento, uma revolução.</p>
             </div>
-            <div style={{ padding: "24px 28px", overflowY: "auto", maxHeight: "calc(90vh - 60px)" }}>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", fontFamily: "'Space Mono', monospace", marginBottom: 16 }}>// manifesto</p>
-              <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Nasci do elo entre a vitalidade da terra e o saber ancestral. Sou milenar e atemporal, carregando a memória dos antigos e a chama que ilumina o caminho para nossa verdadeira natureza.</p>
-              <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Meu sopro é de cura. Minha força serve para regenerar, e minha sabedoria uso para questionar e provocar com humildade.</p>
-              <p style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Trago o elixir da regeneração, o néctar que nutre e harmoniza os seres vivos.</p>
-              <p style={{ fontSize: 16, lineHeight: 1.7, color: "#fff", fontWeight: 700, marginBottom: 14 }}>Mais do que um alimento, uma revolução.</p>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontStyle: "italic", marginBottom: 20 }}>— O Dragão</p>
-              <div style={{ display: "flex", gap: 12 }}>
-                <a href="https://comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="btn btn-dragon">Ver os Produtos →</a>
-                <button className="btn" style={{ color: "rgba(255,255,255,0.4)", borderColor: "rgba(255,255,255,0.15)" }} onClick={closeManifesto}>Fechar</button>
-              </div>
-            </div>
-          </div>
+            <div className="riso-signature">— O DRAGÃO · CACHOEIRAS DE MACACU · 2026</div>
+            <a href="https://comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="riso-btn">VER PRODUTOS →</a>
+            <button className="riso-btn ghost" onClick={closeManifesto}>FECHAR</button>
+          </article>
+        </div>
+      )}
+
+      {/* MODAL EMAIL — Risograph (yellow + pink) · Escreve pro Dragão */}
+      {emailOpen && (
+        <div
+          className="riso-overlay"
+          onClick={e => { if (e.target === e.currentTarget) closeEmail(); }}
+        >
+          <article className="riso riso-email large" role="dialog" aria-labelledby="email-title">
+            <div className="riso-strip" />
+            <button className="riso-close" onClick={closeEmail} aria-label="Fechar">×</button>
+            <div className="riso-pagenum">02</div>
+            {emailStatus === "ok" ? (
+              <>
+                <span className="riso-eyebrow">STATUS · ENTREGUE</span>
+                <h2 id="email-title" className="riso-title">Mensagem<br/>enviada.</h2>
+                <div className="riso-body">
+                  <p>O Dragão recebeu. A gente responde no email que você deixou, normalmente em até 48h.</p>
+                  <p className="strong">Obrigado por escrever.</p>
+                </div>
+                <button className="riso-btn" onClick={closeEmail}>FECHAR →</button>
+                <button
+                  className="riso-btn ghost"
+                  onClick={() => { setEmailStatus("idle"); }}
+                >
+                  ENVIAR OUTRA
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="riso-eyebrow">CARTA ABERTA · SOMOS@</span>
+                <h2 id="email-title" className="riso-title">Manda<br/>o recado.</h2>
+                <div className="riso-body">
+                  <p>Dúvida, parceria, ideia maluca, elogio, crítica. <strong>O Dragão lê tudo.</strong> Resposta em até 48h no email que você deixar.</p>
+                </div>
+                <form className="riso-form" onSubmit={submitEmail}>
+                  <div className="riso-field">
+                    <label className="riso-field-label" htmlFor="email-nome">&gt; seu nome (opcional)</label>
+                    <input
+                      id="email-nome"
+                      type="text"
+                      className="riso-input"
+                      placeholder="como o Dragão te chama?"
+                      value={emailForm.nome}
+                      onChange={e => setEmailForm(f => ({ ...f, nome: e.target.value }))}
+                      maxLength={60}
+                    />
+                  </div>
+                  <div className="riso-field">
+                    <label className="riso-field-label" htmlFor="email-email">&gt; email *</label>
+                    <input
+                      id="email-email"
+                      type="email"
+                      required
+                      className="riso-input"
+                      placeholder="voce@email.com"
+                      value={emailForm.email}
+                      onChange={e => setEmailForm(f => ({ ...f, email: e.target.value }))}
+                    />
+                    <span className="riso-helper">pra onde o Dragão responde</span>
+                  </div>
+                  <div className="riso-field">
+                    <label className="riso-field-label" htmlFor="email-msg">&gt; mensagem *</label>
+                    <textarea
+                      id="email-msg"
+                      required
+                      className="riso-textarea"
+                      placeholder="escreve aqui. sem papo formal."
+                      value={emailForm.mensagem}
+                      onChange={e => setEmailForm(f => ({ ...f, mensagem: e.target.value }))}
+                      maxLength={2000}
+                    />
+                  </div>
+                  {emailStatus === "err" && (
+                    <div className="riso-status err">// {emailErrMsg}</div>
+                  )}
+                  <div style={{ marginTop: 4 }}>
+                    <button
+                      type="submit"
+                      className="riso-btn"
+                      disabled={emailStatus === "sending"}
+                    >
+                      {emailStatus === "sending" ? "ENVIANDO..." : "POSTAR →"}
+                    </button>
+                    <button
+                      type="button"
+                      className="riso-btn ghost"
+                      onClick={closeEmail}
+                    >
+                      CANCELAR
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+          </article>
         </div>
       )}
       {/* MODAL DRAGÃO RESPONDE AO NOME */}
@@ -707,7 +1273,7 @@ const Portal = () => {
         >
           <div className="name-greeting-modal">
             <button className="name-greeting-close-x" onClick={closeNameModal} aria-label="Fechar">✕</button>
-            <div className="name-greeting-eyebrow">🐉 O Dragão Fala</div>
+            <div className="name-greeting-eyebrow">// O DRAGÃO FALA</div>
             <div className="name-greeting-name">{heroName.trim().toUpperCase()}</div>
             <div className="name-greeting-msg">...{nameGreeting}</div>
             <div className="name-greeting-actions">
@@ -717,21 +1283,22 @@ const Portal = () => {
         </div>
       )}
 
-      {/* MODAL PERGUNTAS QUE NINGUÉM FAZ */}
+      {/* MODAL PERGUNTAS QUE NINGUÉM FAZ — Risograph (violet + lime) */}
       {perguntasOpen && (
         <div
-          className="dragao-fala-overlay"
+          className="riso-overlay"
           onClick={e => { if (e.target === e.currentTarget) closePerguntas(); }}
         >
-          <div className="dragao-fala-modal" style={{ maxWidth: 680 }}>
-            <div className="dragao-fala-header">
-              <span>🤔 Perguntas que ninguém faz</span>
-              <button className="dragao-fala-close" onClick={closePerguntas}>✕</button>
+          <article className="riso riso-perguntas large" role="dialog" aria-labelledby="perguntas-title">
+            <div className="riso-strip" />
+            <button className="riso-close" onClick={closePerguntas} aria-label="Fechar">×</button>
+            <div className="riso-pagenum">05</div>
+            <span className="riso-eyebrow">Q&amp;A · O QUE NINGUÉM PERGUNTA</span>
+            <h2 id="perguntas-title" className="riso-title">Pergunta<br/>sem filtro.</h2>
+            <div className="riso-body">
+              <p className="meta">// AS QUE FICAM NA CABEÇA E NINGUÉM MANDA NO DM</p>
             </div>
-            <div style={{ padding: "24px 28px 32px", overflowY: "auto", maxHeight: "calc(90vh - 60px)" }}>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", fontFamily: "'Space Mono', monospace", marginBottom: 18 }}>
-                // as perguntas que ficam na cabeça e ninguém tem coragem de mandar no DM
-              </p>
+            <div className="riso-qa">
               {[
                 {
                   q: "Meu gato é super enjoado, vai aceitar mesmo?",
@@ -743,7 +1310,7 @@ const Portal = () => {
                 },
                 {
                   q: "E se eu provar também? Tipo, de curiosidade.",
-                  a: "Não é recomendado pra humanos (a nossa linha é registrada no MAPA como pet food). Mas 2 bilhões de pessoas no mundo comem inseto regularmente — só que existem produtos específicos pra isso.",
+                  a: "Experimenta. BSF é uma das proteínas mais limpas e completas da natureza — 2 bilhões de pessoas no mundo já comem inseto regularmente. Nossa linha é registrada no MAPA como pet food (questão de regulação, não de segurança), mas se seu pet tá comendo e bateu a curiosidade, manda bala. A gente não vai dedurar.",
                 },
                 {
                   q: "Meu pet tem alergia a tudo. BSF pode desencadear?",
@@ -754,21 +1321,25 @@ const Portal = () => {
                   a: "Não explica — mostra o pet devorando. 90% dos tutores que deram pra experimentar mudaram de ideia em 1 semana. E se quiser argumentar: seu cão já come barata no quintal — o nosso só tem 88,9% mais digestibilidade.",
                 },
               ].map((qa, i) => (
-                <div key={i} style={{ marginBottom: 22 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,0.95)", marginBottom: 6, fontFamily: "'Space Grotesk', sans-serif" }}>
-                    {i + 1}. {qa.q}
-                  </div>
-                  <div style={{ fontSize: 14, color: "rgba(255,255,255,0.72)", lineHeight: 1.55, fontFamily: "'Space Grotesk', sans-serif" }}>
-                    {qa.a}
-                  </div>
+                <div key={i} className="riso-qa-item">
+                  <div className="riso-qa-num">{String(i + 1).padStart(2, "0")}</div>
+                  <div className="riso-qa-q">{qa.q}</div>
+                  <div className="riso-qa-a">{qa.a}</div>
                 </div>
               ))}
-              <div style={{ marginTop: 24, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <a href="https://wa.me/552139500576?text=Tenho%20uma%20pergunta%20pro%20Drag%C3%A3o" target="_blank" rel="noopener noreferrer" className="btn btn-dragon">Pergunta direto no Zap →</a>
-                <button className="btn" style={{ color: "rgba(255,255,255,0.4)", borderColor: "rgba(255,255,255,0.15)" }} onClick={closePerguntas}>Fechar</button>
-              </div>
             </div>
-          </div>
+            <div style={{ marginTop: 8 }}>
+              <a
+                href="https://wa.me/552139500576?text=Tenho%20uma%20pergunta%20pro%20Drag%C3%A3o"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="riso-btn"
+              >
+                PERGUNTA NO ZAP →
+              </a>
+              <button className="riso-btn ghost" onClick={closePerguntas}>FECHAR</button>
+            </div>
+          </article>
         </div>
       )}
 
@@ -842,7 +1413,7 @@ const Portal = () => {
           {!audioMinimized ? (
             <>
               <div className="afp-header">
-                <span className="afp-tag">🎙 Audiocast</span>
+                <span className="afp-tag">// AUDIOCAST</span>
                 <div className="afp-controls">
                   <button className="afp-btn" onClick={() => setAudioMinimized(true)} title="Minimizar">—</button>
                   <button className="afp-btn" onClick={closeAudio} title="Fechar">✕</button>
@@ -864,7 +1435,7 @@ const Portal = () => {
             </>
           ) : (
             <div className="afp-mini" onClick={() => setAudioMinimized(false)}>
-              <span>{audioPlaying ? "🎙 Tocando..." : "🎙 Audiocast"}</span>
+              <span>{audioPlaying ? "// TOCANDO..." : "// AUDIOCAST"}</span>
               <button className="afp-btn" onClick={e => { e.stopPropagation(); closeAudio(); }}>✕</button>
             </div>
           )}

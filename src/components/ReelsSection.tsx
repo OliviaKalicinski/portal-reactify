@@ -139,66 +139,70 @@ const ReelsSection = ({
 
       {active && (
         <div
-          className="reels-modal-overlay"
+          className="reels-riso-overlay"
           onClick={e => { if (e.target === e.currentTarget) close(); }}
         >
           <button
-            className="reels-modal-nav reels-modal-prev"
+            className="reels-riso-nav reels-riso-prev"
             onClick={prev}
             aria-label="Reel anterior"
           >‹</button>
 
-          <div className="reels-modal-player">
+          <article className="reels-riso" role="dialog">
+            <div className="reels-riso-strip" />
             <button
-              className="reels-modal-close"
+              className="reels-riso-close"
               onClick={close}
               aria-label="Fechar"
-            >✕</button>
+            >×</button>
+            <div className="reels-riso-pagenum">04</div>
+            <span className="reels-riso-eyebrow">
+              REEL {String(activeIdx! + 1).padStart(2, "0")}/{String(reels.length).padStart(2, "0")} · @COMIDADEDRAGAO
+            </span>
 
-            <video
-              key={active.id}
-              ref={modalVideoRef}
-              src={active.src}
-              autoPlay
-              loop
-              muted={muted}
-              playsInline
-              className="reels-modal-video"
-              onClick={() => setMuted(m => !m)}
-            />
-
-            <div className="reels-modal-info">
-              <div className="reels-modal-title">{active.title}</div>
-              {active.caption && (
-                <div className="reels-modal-caption">{active.caption}</div>
-              )}
-              <div className="reels-modal-actions">
-                <button
-                  className="reels-mute-btn"
-                  onClick={() => setMuted(m => !m)}
-                  type="button"
-                >
-                  {muted ? "🔇 Sem som — toque pra ouvir" : "🔊 Som ligado"}
-                </button>
-                {active.link && (
-                  <a
-                    href={active.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="reels-ig-btn"
-                  >
-                    Ver no Instagram →
-                  </a>
-                )}
-              </div>
-              <div className="reels-modal-counter">
-                {activeIdx! + 1} / {reels.length}
-              </div>
+            <div className="reels-riso-frame">
+              <span className="reels-riso-counter">{activeIdx! + 1}/{reels.length}</span>
+              <video
+                key={active.id}
+                ref={modalVideoRef}
+                src={active.src}
+                autoPlay
+                loop
+                muted={muted}
+                playsInline
+                className="reels-riso-video"
+                onClick={() => setMuted(m => !m)}
+              />
             </div>
-          </div>
+
+            <h3 className="reels-riso-title">{active.title}</h3>
+            {active.caption && (
+              <p className="reels-riso-caption">"{active.caption}"</p>
+            )}
+
+            <div className="reels-riso-actions">
+              <button
+                className="reels-riso-btn"
+                onClick={() => setMuted(m => !m)}
+                type="button"
+              >
+                {muted ? "SEM SOM · TOQUE PRA OUVIR" : "SOM LIGADO"}
+              </button>
+              {active.link && (
+                <a
+                  href={active.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="reels-riso-btn ghost"
+                >
+                  VER NO IG →
+                </a>
+              )}
+            </div>
+          </article>
 
           <button
-            className="reels-modal-nav reels-modal-next"
+            className="reels-riso-nav reels-riso-next"
             onClick={next}
             aria-label="Próximo reel"
           >›</button>
@@ -375,135 +379,249 @@ const REELS_STYLES = `
 }
 .portal-page .reels-see-all:hover { opacity: 1; }
 
-/* MODAL PLAYER */
-.portal-page .reels-modal-overlay {
+/* ============================================================
+   MODAL PLAYER — RISOGRAPH DO DRAGÃO (combo 9: lime + orange)
+   ============================================================ */
+.reels-riso-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.94);
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(5px);
   z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  backdrop-filter: blur(6px);
+  animation: reels-riso-fade 0.22s ease;
 }
-.portal-page .reels-modal-player {
+@keyframes reels-riso-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.reels-riso {
   position: relative;
-  width: min(400px, 92vw);
-  aspect-ratio: 9 / 16;
-  max-height: 90vh;
-  background: #000;
-  overflow: hidden;
-  border-radius: 14px;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+  width: min(420px, 92vw);
+  max-height: 92vh;
+  padding: 28px 24px 24px;
+  background: #7BFF00;
+  color: #0A0A0A;
+  font-family: 'Space Grotesk', sans-serif;
+  box-shadow:
+    0 0 0 2.5px #0A0A0A,
+    12px 14px 0 0 #0A0A0A;
+  overflow-y: auto;
+  animation: reels-riso-pop 0.24s cubic-bezier(0.2, 0.9, 0.4, 1.4);
 }
-.portal-page .reels-modal-video {
+@keyframes reels-riso-pop {
+  from { opacity: 0; transform: scale(0.94) translateY(14px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.reels-riso::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.28 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+.reels-riso > * { position: relative; z-index: 2; }
+
+.reels-riso-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 9px;
+  background: #0A0A0A;
+  z-index: 3;
+}
+.reels-riso-strip::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #FF7A00;
+}
+
+.reels-riso-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: 2.5px solid #0A0A0A;
+  background: #FAFAFA;
+  color: #0A0A0A;
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0;
+  line-height: 1;
+  transition: transform 0.15s;
+}
+.reels-riso-close:hover { transform: rotate(90deg); }
+
+.reels-riso-pagenum {
+  position: absolute;
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+  font-size: 240px;
+  line-height: 0.78;
+  opacity: 0.09;
+  bottom: -28px;
+  right: -14px;
+  pointer-events: none;
+  z-index: 1;
+  letter-spacing: -0.04em;
+  color: #0A0A0A;
+  font-weight: 900;
+}
+
+.reels-riso-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  display: inline-block;
+  border: 1.5px solid #0A0A0A;
+  background: rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+  color: #0A0A0A;
+}
+
+.reels-riso-frame {
+  aspect-ratio: 9 / 16;
+  max-width: 100%;
+  border: 3px solid #0A0A0A;
+  background: #000;
+  position: relative;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+.reels-riso-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  cursor: pointer;
   display: block;
-}
-.portal-page .reels-modal-info {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  padding: 16px 20px 20px;
-  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
-  color: #fff;
-  pointer-events: none;
-}
-.portal-page .reels-modal-info > * { pointer-events: auto; }
-.portal-page .reels-modal-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 0.01em;
-  line-height: 1.05;
-  margin-bottom: 4px;
-}
-.portal-page .reels-modal-caption {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
-  color: rgba(255,255,255,0.8);
-  line-height: 1.4;
-  margin-bottom: 12px;
-}
-.portal-page .reels-modal-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.portal-page .reels-mute-btn,
-.portal-page .reels-ig-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 8px 12px;
-  border: 1px solid rgba(255,255,255,0.3);
-  background: rgba(0,0,0,0.3);
-  color: rgba(255,255,255,0.9);
   cursor: pointer;
-  text-decoration: none;
-  transition: background 0.15s, border-color 0.15s;
 }
-.portal-page .reels-mute-btn:hover,
-.portal-page .reels-ig-btn:hover {
-  background: rgba(255,255,255,0.15);
-  border-color: rgba(255,255,255,0.6);
-}
-.portal-page .reels-modal-counter {
+.reels-riso-frame::after {
+  content: '';
   position: absolute;
-  top: 14px;
-  left: 18px;
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  color: rgba(255,255,255,0.7);
-  letter-spacing: 0.1em;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom, transparent 0 2px, rgba(255,255,255,0.04) 2px 3px
+  );
+  pointer-events: none;
+  z-index: 3;
 }
-.portal-page .reels-modal-close {
+.reels-riso-counter {
   position: absolute;
   top: 10px;
-  right: 12px;
-  background: rgba(0,0,0,0.5);
-  border: none;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  transition: background 0.15s;
+  left: 12px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  background: rgba(10,10,10,0.85);
+  color: #FF7A00;
+  padding: 3px 7px;
+  z-index: 5;
+  border: 1.5px solid #FF7A00;
 }
-.portal-page .reels-modal-close:hover { background: rgba(0,0,0,0.85); }
-.portal-page .reels-modal-nav {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-  font-size: 28px;
+
+.reels-riso-title {
+  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
+  font-size: 30px;
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  color: #0A0A0A;
+  margin: 14px 0 4px;
+  text-align: center;
+  text-shadow: 2px 2px 0 #FF7A00;
+  font-weight: 900;
+}
+.reels-riso-caption {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(10,10,10,0.78);
+  text-align: center;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+.reels-riso-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.reels-riso-btn {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  padding: 9px 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  background: #FF7A00;
+  color: #0A0A0A;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.reels-riso-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+}
+.reels-riso-btn.ghost {
+  background: transparent;
+  border: 2.5px solid #0A0A0A;
+  box-shadow: none;
+  color: #0A0A0A;
+}
+.reels-riso-btn.ghost:hover {
+  background: #0A0A0A;
+  color: #7BFF00;
+}
+
+/* Navegação lateral */
+.reels-riso-nav {
+  background: #7BFF00;
+  border: 2.5px solid #0A0A0A;
+  color: #0A0A0A;
+  font-size: 26px;
   width: 48px;
   height: 48px;
-  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s;
   margin: 0 14px;
   font-family: sans-serif;
+  flex-shrink: 0;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.6);
+  transition: transform 0.12s, box-shadow 0.12s;
 }
-.portal-page .reels-modal-nav:hover { background: rgba(255,255,255,0.22); }
+.reels-riso-nav:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.7);
+}
 
 @media (max-width: 768px) {
   .portal-page .reel-card { width: clamp(150px, 45vw, 200px); }
-  .portal-page .reels-modal-nav { display: none; }
-  .portal-page .reels-modal-close {
-    top: 8px; right: 10px;
-    width: 30px; height: 30px; font-size: 14px;
-  }
+  .reels-riso-nav { display: none; }
+  .reels-riso { box-shadow: 0 0 0 2px #0A0A0A, 8px 10px 0 #0A0A0A; padding: 24px 20px 22px; }
+  .reels-riso-pagenum { font-size: 180px; }
 }
+
 `;

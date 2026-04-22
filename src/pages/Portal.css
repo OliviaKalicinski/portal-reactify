@@ -338,7 +338,7 @@
   animation: portal-marquee-scroll 28s linear infinite;
 }
 .portal-page .marquee-track span { display: inline-block; padding: 0 28px; }
-.portal-page .marquee-track span::after { content: '🐉'; margin-left: 28px; }
+.portal-page .marquee-track span::after { content: '·'; margin-left: 28px; opacity: 0.6; }
 @keyframes portal-marquee-scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -1236,16 +1236,7 @@
   font-size: min(max(28px, 3.5vw), 52px); color: var(--dragon-black); line-height: 0.95;
 }
 .portal-page .card-produtos .card-sub { font-size: 13px; color: rgba(0,0,0,0.65); line-height: 1.4; }
-.portal-page .card-produtos-cover {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  border-radius: inherit;
-}
-.portal-page .card-produtos .card-inner { z-index: 1; position: relative; justify-content: flex-start; padding-top: 18px; }
+.portal-page .produto-emoji { font-size: 52px; display: block; margin-bottom: 4px; }
 
 .portal-page .card-audio { background: var(--dragon-purple); display: flex; flex-direction: column; }
 .portal-page .card-audio:hover { border-color: var(--dragon-pink); }
@@ -2277,4 +2268,50 @@
   font-size: clamp(28px, 3.4vw, 44px);
   line-height: 1;
   margin-top: 8px;
+}
+
+/* ============================================================
+   RISOGRAPH TYPOGRAPHY — unifica cards do Portal
+   Archivo Black + misregistration sutil (usa --skin-accent)
+   Mantém font-size/color dos overrides específicos de cada card
+   ============================================================ */
+.portal-page .card .card-label,
+.portal-page .shop-name,
+.portal-page .audience-card .aud-title {
+  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+  text-shadow: 2px 2px 0 var(--skin-accent);
+}
+
+/* Cards de fundo CLARO (amarelo/laranja/lime) — misreg em pink pra destacar */
+.portal-page .card-produtos .card-label,
+.portal-page .card-manifesto .card-label {
+  text-shadow: 2px 2px 0 var(--dragon-pink);
+}
+
+/* Sub = Space Mono maiúsculo com espaçamento (estilo CTA) */
+.portal-page .card .card-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* Audience cards — título também no sistema */
+.portal-page .audience-card .aud-title {
+  text-shadow: 3px 3px 0 var(--skin-accent-alt, var(--dragon-pink));
+}
+.portal-page .audience-card .aud-cta,
+.portal-page .audience-card .aud-desc {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 11px;
+  line-height: 1.45;
 }

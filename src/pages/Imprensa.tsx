@@ -50,7 +50,7 @@ const MARQUEE_BOTTOM = [
   "// NA MÍDIA",
   "// VÍDEOS & PITCHES",
   "// ECOSSISTEMA BSF",
-  "🐉 O DRAGÃO É NOTÍCIA",
+  "O DRAGÃO É NOTÍCIA",
 ];
 
 const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
@@ -334,7 +334,7 @@ const Imprensa = () => {
       {/* HERO — padrão */}
       <section className="archive-hero">
         <div className="archive-hero-bg" />
-        <div className="dragon-silhouette">🐉</div>
+        <div className="dragon-silhouette" aria-hidden="true" />
         <div className="archive-hero-content">
           <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
           <div className="hero-eyebrow">Comida de Dragão — Imprensa & Cobertura</div>
@@ -424,7 +424,7 @@ const Imprensa = () => {
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>
         </nav>
-        <div className="footer-tagline">🐉 O Dragão é notícia. O Dragão é ciência. O Dragão é agora.</div>
+        <div className="footer-tagline">O Dragão é notícia. O Dragão é ciência. O Dragão é agora.</div>
       </footer>
     </div>
   );

@@ -69,7 +69,7 @@ const MARQUEE_TOP = [
 const MARQUEE_BOTTOM = [
   "// NUTRIÇÃO · MICROBIOTA · ALERGIA",
   "// REVIEWS · ACEITAÇÃO · SENIOR",
-  "🐉 O DRAGÃO LEU TUDO",
+  "O DRAGÃO LEU TUDO",
   "CIÊNCIA DE VERDADE",
 ];
 
@@ -309,7 +309,7 @@ const Biblioteca = () => {
       {/* HERO — padrão */}
       <section className="archive-hero">
         <div className="archive-hero-bg" />
-        <div className="dragon-silhouette">🐉</div>
+        <div className="dragon-silhouette" aria-hidden="true" />
         <div className="archive-hero-content">
           <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
           <div className="hero-eyebrow">Comida de Dragão — Biblioteca Científica</div>
@@ -405,7 +405,7 @@ const Biblioteca = () => {
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>
         </nav>
-        <div className="footer-tagline">🐉 O Dragão leu. O Dragão aprovou. Agora é sua vez.</div>
+        <div className="footer-tagline">O Dragão leu. O Dragão aprovou. Agora é sua vez.</div>
       </footer>
     </div>
   );

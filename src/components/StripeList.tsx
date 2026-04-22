@@ -211,7 +211,7 @@ const STYLES = `
   min-width: 0;
 }
 .stripe-title {
-  font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;
+  font-family: 'Archivo Black', 'Big Shoulders Display', 'Bebas Neue', sans-serif;
   font-size: clamp(34px, 4.8vw, 60px);
   font-weight: 900;
   line-height: 0.92;
@@ -220,6 +220,7 @@ const STYLES = `
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-shadow: 3px 3px 0 rgba(10,10,10,0.22);
 }
 .stripe-subtitle {
   font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;

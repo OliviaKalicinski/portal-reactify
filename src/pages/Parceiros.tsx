@@ -20,7 +20,7 @@ const MARQUEE_BOTTOM = [
   "// MATILHA DO DRAGÃO",
   "@COMIDADEDRAGAO",
   "NOJENTO É O DESPERDÍCIO",
-  "🐉 ENTRA NA MATILHA",
+  "ENTRA NA MATILHA",
   "COMIDA DE DRAGÃO · LET'S FLY",
 ];
 
@@ -59,12 +59,12 @@ const STEPS = [
 ];
 
 const BENEFICIOS = [
-  { icon: "💸", title: "30% de comissão", desc: "Por cada venda gerada pelo seu cupom, automaticamente." },
-  { icon: "📦", title: "Produtos mensais", desc: "Um produto por mês direto na plataforma, sem custo." },
-  { icon: "🏷️", title: "Cupom exclusivo", desc: "10% de desconto para seus seguidores, código personalizado." },
-  { icon: "📲", title: "Liberdade total", desc: "Sem script nem formato obrigatório. Você cria do seu jeito." },
-  { icon: "📈", title: "Amplificação", desc: "Repostamos seu conteúdo orgânico e ampliamos seu alcance." },
-  { icon: "🐉", title: "Suporte direto", desc: "Acesso direto à Luana para dúvidas, ideias e suporte." },
+  { icon: "01", title: "30% de comissão", desc: "Por cada venda gerada pelo seu cupom, automaticamente." },
+  { icon: "02", title: "Produtos mensais", desc: "Um produto por mês direto na plataforma, sem custo." },
+  { icon: "03", title: "Cupom exclusivo", desc: "10% de desconto para seus seguidores, código personalizado." },
+  { icon: "04", title: "Liberdade total", desc: "Sem script nem formato obrigatório. Você cria do seu jeito." },
+  { icon: "05", title: "Amplificação", desc: "Repostamos seu conteúdo orgânico e ampliamos seu alcance." },
+  { icon: "06", title: "Suporte direto", desc: "Acesso direto à Luana para dúvidas, ideias e suporte." },
 ];
 
 const REQUISITOS = [
@@ -131,7 +131,7 @@ const Parceiros = () => {
       {/* HERO */}
       <section className="parceiros-hero">
         <div className="parceiros-hero-bg" />
-        <div className="dragon-silhouette">🐉</div>
+        <div className="dragon-silhouette" aria-hidden="true" />
         <div className="parceiros-hero-content">
           <Link to="/portal" className="parceiros-backlink">← voltar pro portal</Link>
           <div className="hero-eyebrow">Comida de Dragão — Parceiros</div>
@@ -331,7 +331,7 @@ const Parceiros = () => {
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>
         </nav>
-        <div className="footer-tagline">🐉 Nojento é o desperdício.</div>
+        <div className="footer-tagline">Nojento é o desperdício.</div>
       </footer>
     </div>
   );

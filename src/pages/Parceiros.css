@@ -666,3 +666,42 @@
   background: linear-gradient(to right, var(--skin-accent) 0%, transparent 80%);
   opacity: 0.35;
 }
+
+/* ============================================================
+   RISOGRAPH TYPOGRAPHY — Parceiros
+   Títulos principais em Archivo Black + misregistration lime/accent
+   ============================================================ */
+.parceiros-hero-title,
+.parceiros-secao-titulo,
+.parceiros-cta-final-titulo {
+  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif !important;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.9 !important;
+  text-shadow: 3px 3px 0 var(--dragon-lime);
+}
+
+/* Títulos coloridos por seção — misreg acompanha a cor da tag */
+.parceiros-secao-titulo.titulo-orange { text-shadow: 3px 3px 0 var(--dragon-pink); }
+.parceiros-secao-titulo.titulo-green  { text-shadow: 3px 3px 0 var(--dragon-orange); }
+.parceiros-secao-titulo.titulo-pink   { text-shadow: 3px 3px 0 var(--dragon-yellow); }
+.parceiros-secao-titulo.titulo-violet { text-shadow: 3px 3px 0 var(--dragon-lime); }
+
+/* Benefício título também no sistema (fica consistente) */
+.parceiros-beneficio-titulo {
+  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif !important;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+/* Benefício icon — era emoji, agora é número editorial */
+.parceiros-beneficio-icon {
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+  font-size: 38px !important;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}

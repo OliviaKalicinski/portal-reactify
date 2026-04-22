@@ -17,7 +17,7 @@ const MARQUEE_TOP = [
 const MARQUEE_BOTTOM = [
   "// CÃES · GATOS · RÉPTEIS · ANFÍBIOS",
   "// PETISCO · SUPLEMENTO · GEL",
-  "🐉 NOJENTO É O DESPERDÍCIO",
+  "NOJENTO É O DESPERDÍCIO",
   "MAIS QUE UM ALIMENTO, UMA REVOLUÇÃO",
 ];
 
@@ -54,6 +54,7 @@ interface Produto {
   tag: string;
   pets: PetType[];
   corTag: string;
+  corCard: string;             // cor de fundo do card (hex) — contraste com texto preto
   fotos: string[];
   destaques: string[];         // 3 bullets curtos no card
   proteina: string;
@@ -70,12 +71,13 @@ interface Produto {
 const PRODUTOS: Produto[] = [
   {
     id: "original",
-    nome: "Original BSF",
+    nome: "Original",
     variante: "Larvas inteiras desidratadas",
     tamanho: "90g",
     tag: "TODOS OS PETS",
     pets: ["caes", "gatos", "repteis"],
     corTag: "var(--dragon-orange)",
+    corCard: "#FF6600",
     fotos: [
       "/assets/images/produtos/original-frente.png",
       "/assets/images/produtos/original-cima.png",
@@ -114,6 +116,7 @@ const PRODUTOS: Produto[] = [
     tag: "CÃES + PEQ. MAMÍFEROS",
     pets: ["caes"],
     corTag: "var(--dragon-green)",
+    corCard: "#B9FF33",
     fotos: [
       "/assets/images/produtos/legumes-frente.png",
       "/assets/images/produtos/legumes-cima.png",
@@ -160,6 +163,7 @@ const PRODUTOS: Produto[] = [
     tag: "CÃES + PEQ. MAMÍFEROS",
     pets: ["caes"],
     corTag: "var(--dragon-green)",
+    corCard: "#33FF99",
     fotos: [
       "/assets/images/produtos/spirulina-frente.png",
       "/assets/images/produtos/spirulina-cima.png",
@@ -207,6 +211,7 @@ const PRODUTOS: Produto[] = [
     tag: "SÓ CÃES",
     pets: ["caes"],
     corTag: "var(--dragon-orange)",
+    corCard: "#FFCC00",
     fotos: [
       "/assets/images/produtos/suplemento-integral-frente.png",
       "/assets/images/produtos/suplemento-integral-cima.png",
@@ -251,6 +256,7 @@ const PRODUTOS: Produto[] = [
     tag: "SÓ CÃES",
     pets: ["caes"],
     corTag: "var(--dragon-pink)",
+    corCard: "#FF0066",
     fotos: [
       "/assets/images/produtos/suplemento-concentrado-frente.png",
       "/assets/images/produtos/suplemento-concentrado-cima.png",
@@ -297,6 +303,7 @@ const PRODUTOS: Produto[] = [
     tag: "SÓ GATOS",
     pets: ["gatos"],
     corTag: "var(--dragon-violet)",
+    corCard: "#FCBA97",
     fotos: [
       "/assets/images/produtos/suplemento-felino-frente.png",
       "/assets/images/produtos/suplemento-felino-cima.png",
@@ -338,6 +345,7 @@ const PRODUTOS: Produto[] = [
     tag: "RÉPTEIS · ANFÍBIOS",
     pets: ["repteis"],
     corTag: "var(--dragon-lime)",
+    corCard: "#3FFF33",
     fotos: [
       "/assets/images/produtos/grub-frente.png",
       "/assets/images/produtos/grub-verso.png",
@@ -427,7 +435,7 @@ const Produtos = () => {
       {/* HERO (padrão) */}
       <section className="archive-hero">
         <div className="archive-hero-bg" />
-        <div className="dragon-silhouette">🐉</div>
+        <div className="dragon-silhouette" aria-hidden="true" />
         <div className="archive-hero-content">
           <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
           <div className="hero-eyebrow">Comida de Dragão — Produtos</div>
@@ -466,14 +474,21 @@ const Produtos = () => {
 
       {/* GRID */}
       <div className="produtos-grid">
-        {filtrados.map((p) => (
+        {filtrados.map((p, i) => (
           <button
             type="button"
             key={p.id}
             className="produto-card"
             onClick={() => openProduto(p.id)}
+            style={{ background: p.corCard }}
           >
-            <div className="produto-card-img-wrap">
+            <div className="produto-card-top">
+              <span className="produto-card-index">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="produto-card-tag">{p.tag}</span>
+            </div>
+            <div className="produto-card-photo">
               {p.fotos[0] ? (
                 <img
                   src={p.fotos[0]}
@@ -483,26 +498,16 @@ const Produtos = () => {
                 />
               ) : (
                 <div className="produto-card-placeholder">
-                  <span className="produto-placeholder-emoji">🐉</span>
-                  <span className="produto-placeholder-label">foto em breve</span>
+                  <span className="produto-placeholder-emoji">[ sem imagem ]</span>
                 </div>
               )}
-              <span className="produto-card-tag" style={{ background: p.corTag }}>
-                {p.tag}
-              </span>
             </div>
-            <div className="produto-card-body">
-              <div className="produto-card-nome">{p.nome}</div>
-              {p.variante && (
-                <div className="produto-card-variante">{p.variante}</div>
-              )}
-              <div className="produto-card-tamanho">{p.tamanho}</div>
-              <ul className="produto-card-destaques">
-                {p.destaques.map((d, i) => (
-                  <li key={i}>{d}</li>
-                ))}
-              </ul>
-              <span className="produto-card-cta">Ver detalhes →</span>
+            <div className="produto-card-footer">
+              <div className="produto-card-title">{p.nome}</div>
+              <div className="produto-card-meta">
+                {p.tamanho}
+                {p.variante && <> · {p.variante}</>}
+              </div>
             </div>
           </button>
         ))}
@@ -541,7 +546,7 @@ const Produtos = () => {
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>
         </nav>
-        <div className="footer-tagline">🐉 Nojento é o desperdício.</div>
+        <div className="footer-tagline">Nojento é o desperdício.</div>
       </footer>
 
       {/* MODAL DE PRODUTO */}
@@ -573,7 +578,7 @@ const Produtos = () => {
                     />
                   ) : (
                     <div className="produto-modal-placeholder">
-                      <span>🐉</span>
+                      <span>[ ]</span>
                       <span>foto em breve</span>
                     </div>
                   )}
@@ -675,7 +680,7 @@ const Produtos = () => {
                 </div>
 
                 {activeProduto.alerta && (
-                  <div className="produto-modal-alerta">⚠️ {activeProduto.alerta}</div>
+                  <div className="produto-modal-alerta">// ATENÇÃO · {activeProduto.alerta}</div>
                 )}
 
                 {activeProduto.ficha && (
