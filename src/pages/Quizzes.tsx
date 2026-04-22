@@ -867,6 +867,14 @@ const QuizCard = ({ quiz, index, completed, onOpen }: QuizCardProps) => {
       tabIndex={quiz.comingSoon ? undefined : 0}
       onKeyDown={quiz.comingSoon ? undefined : (e) => { if (e.key === "Enter") onOpen(); }}
     >
+      {quiz.hoverImage && (
+        <div
+          className="quiz-card-img"
+          style={{ backgroundImage: `url('${quiz.hoverImage}')` }}
+          aria-hidden="true"
+        />
+      )}
+
       <div className="quiz-card-top">
         <span className="quiz-card-index">{String(index + 1).padStart(2, "0")}</span>
         <span className="quiz-card-tag">{tagText}</span>
