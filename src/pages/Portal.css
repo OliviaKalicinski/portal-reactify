@@ -132,9 +132,11 @@
   margin-bottom: 12px;
   text-shadow: 1.5px 1.5px 0 var(--skin-accent);
 }
+/* Span colorido: sombra preta (evita cor-com-cor) */
 .portal-page .archive-hero-title span {
   color: var(--skin-accent);
   display: block;
+  text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.5);
 }
 .portal-page .archive-hero-sub {
   font-family: 'Space Grotesk', sans-serif;
@@ -406,18 +408,19 @@
 .portal-page .hero-title {
   font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
   font-weight: 900;
-  font-size: clamp(48px, 7.5vw, 96px);
-  line-height: 0.88;
+  font-size: clamp(42px, 6.5vw, 82px);
+  line-height: 0.9;
   color: var(--dragon-white);
   letter-spacing: -0.015em;
   text-transform: uppercase;
   margin: 10px 0 16px;
-  text-shadow: 4px 4px 0 var(--skin-accent);
+  text-shadow: 3px 3px 0 var(--skin-accent);
 }
+/* Span colorido: sombra preta (evita cor-com-cor) */
 .portal-page .hero-title span {
   display: block;
   color: var(--skin-accent);
-  text-shadow: 4px 4px 0 rgba(250,250,250,0.9);
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.7);
 }
 .portal-page .hero-descricao {
   max-width: 620px;
@@ -535,20 +538,37 @@
   color: rgba(250,250,250,0.4); margin-right: 4px;
 }
 .portal-page .btn {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 12px;
-  letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid currentColor;
-  border-radius: 0; padding: 7px 16px; cursor: pointer;
-  transition: background 0.15s, color 0.15s; text-decoration: none; display: inline-block;
+  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 2.5px solid currentColor;
+  border-radius: 0;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.15s, color 0.15s;
+  text-decoration: none;
+  display: inline-block;
   background: transparent;
 }
-.portal-page .btn-dragon { color: var(--skin-accent); background: transparent; border-color: var(--skin-accent); }
-.portal-page .btn-dragon:hover { background: var(--skin-accent); color: var(--dragon-black); }
-.portal-page .btn-buy {
-  color: var(--dragon-black); background: var(--dragon-lime);
-  border-color: var(--dragon-lime); margin-left: auto; font-family: 'Big Shoulders Display', sans-serif;
-  font-weight: 800; letter-spacing: 0.1em;
+.portal-page .btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 currentColor;
 }
-.portal-page .btn-buy:hover { background: var(--dragon-yellow); border-color: var(--dragon-yellow); }
+.portal-page .btn-dragon { color: var(--skin-accent); background: transparent; border-color: var(--skin-accent); }
+.portal-page .btn-dragon:hover { background: var(--skin-accent); color: var(--dragon-black); box-shadow: 4px 4px 0 var(--skin-accent); }
+.portal-page .btn-buy {
+  color: var(--dragon-black);
+  background: var(--dragon-lime);
+  border-color: var(--dragon-black);
+  margin-left: auto;
+}
+.portal-page .btn-buy:hover {
+  background: var(--dragon-lime);
+  border-color: var(--dragon-black);
+  box-shadow: 4px 4px 0 var(--dragon-black);
+}
 
 .portal-page .skin-dots { display: flex; gap: 8px; align-items: center; }
 .portal-page .skin-dot {

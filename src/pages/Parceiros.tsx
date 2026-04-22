@@ -137,9 +137,8 @@ const Parceiros = () => {
           <div className="hero-eyebrow">Comida de Dragão — Parceiros</div>
           <DragonLogo className="hero-logo" />
           <h1 className="parceiros-hero-title">
-            Ei, quer se tornar
-            <span>influenciador</span>
-            <span>da Comida de Dragão?</span>
+            Entra
+            <span>na matilha.</span>
           </h1>
           <p className="parceiros-hero-sub">
             Produtos mensais, cupom exclusivo e comissão por venda — com a marca brasileira de

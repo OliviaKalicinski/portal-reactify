@@ -277,16 +277,10 @@
 .parceiros-beneficio-titulo {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 20px;
-  color: var(--dragon-lime);
+  color: var(--dragon-orange);
   letter-spacing: 0.5px;
 }
-/* Rotação de cor nos títulos de benefício — ritmo visual */
-.parceiros-beneficio:nth-child(1) .parceiros-beneficio-titulo { color: var(--dragon-lime); }
-.parceiros-beneficio:nth-child(2) .parceiros-beneficio-titulo { color: var(--dragon-orange); }
-.parceiros-beneficio:nth-child(3) .parceiros-beneficio-titulo { color: var(--dragon-pink); }
-.parceiros-beneficio:nth-child(4) .parceiros-beneficio-titulo { color: var(--dragon-yellow); }
-.parceiros-beneficio:nth-child(5) .parceiros-beneficio-titulo { color: var(--dragon-violet); }
-.parceiros-beneficio:nth-child(6) .parceiros-beneficio-titulo { color: var(--dragon-green); }
+/* Todos os benefícios em laranja — 1 cor dominante por seção */
 .parceiros-beneficio-desc {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 12px;
@@ -338,7 +332,7 @@
 
 /* ========= PRAZO BOX (urgência — laranja) ========= */
 .parceiros-prazo-box {
-  background: var(--dragon-orange);
+  background: var(--dragon-pink);
   padding: 28px 32px;
   display: flex;
   align-items: center;
@@ -404,13 +398,13 @@
   padding: 14px 0;
 }
 .parceiros-regra-badge.badge-ok {
-  background: var(--dragon-lime);
+  background: var(--dragon-pink);
   color: var(--dragon-black);
 }
 .parceiros-regra-badge.badge-no {
-  background: rgba(255,45,120,0.12);
-  color: var(--dragon-pink);
-  border: 1px solid rgba(255,45,120,0.3);
+  background: transparent;
+  color: rgba(250,250,250,0.55);
+  border: 1px solid rgba(250,250,250,0.2);
 }
 .parceiros-regra-body {
   background: var(--dragon-gray);
@@ -669,39 +663,45 @@
 
 /* ============================================================
    RISOGRAPH TYPOGRAPHY — Parceiros
-   Títulos principais em Archivo Black + misregistration lime/accent
+   Regra de misregistration:
+   - texto BRANCO → sombra colorida (accent)
+   - texto COLORIDO → sombra PRETA (evita verde-com-verde etc)
    ============================================================ */
-.parceiros-hero-title,
-.parceiros-secao-titulo,
+
+/* Hero: primeira linha branca com sombra lime; span colorido com sombra preta */
+.parceiros-hero-title {
+  text-shadow: 2px 2px 0 var(--dragon-lime);
+}
+.parceiros-hero-title span {
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+}
+
+/* CTA final: mesma lógica */
 .parceiros-cta-final-titulo {
-  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif !important;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 0.9 !important;
-  text-shadow: 3px 3px 0 var(--dragon-lime);
+  text-shadow: 2px 2px 0 var(--dragon-lime);
+}
+.parceiros-cta-final-titulo span {
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
 }
 
-/* Títulos coloridos por seção — misreg acompanha a cor da tag */
-.parceiros-secao-titulo.titulo-orange { text-shadow: 3px 3px 0 var(--dragon-pink); }
-.parceiros-secao-titulo.titulo-green  { text-shadow: 3px 3px 0 var(--dragon-orange); }
-.parceiros-secao-titulo.titulo-pink   { text-shadow: 3px 3px 0 var(--dragon-yellow); }
-.parceiros-secao-titulo.titulo-violet { text-shadow: 3px 3px 0 var(--dragon-lime); }
-
-/* Benefício título também no sistema (fica consistente) */
-.parceiros-beneficio-titulo {
-  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif !important;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 1;
+/* Seção titles: branco com sombra da cor do accent */
+.parceiros-secao-titulo {
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.35);
 }
+.parceiros-secao-titulo span {
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+}
+.parceiros-secao-titulo.titulo-orange { text-shadow: 2px 2px 0 var(--dragon-orange); }
+.parceiros-secao-titulo.titulo-green  { text-shadow: 2px 2px 0 var(--dragon-green); }
+.parceiros-secao-titulo.titulo-pink   { text-shadow: 2px 2px 0 var(--dragon-pink); }
+.parceiros-secao-titulo.titulo-violet { text-shadow: 2px 2px 0 var(--dragon-violet); }
 
-/* Benefício icon — era emoji, agora é número editorial */
+/* Benefício icon — número editorial (ex: 01, 02...) */
 .parceiros-beneficio-icon {
   font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
-  font-size: 38px !important;
+  font-size: 30px !important;
   line-height: 1;
   font-weight: 900;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
+  opacity: 0.85;
 }
