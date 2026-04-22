@@ -508,24 +508,50 @@
 }
 .portal-page .hero-tagline strong { color: var(--skin-accent-alt); font-weight: 700; }
 .portal-page .hero-name-wrap {
-  display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 30px;
+  flex-wrap: wrap;
 }
 .portal-page .hero-name-label {
-  font-size: 9px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase;
-  color: rgba(250,250,250,0.2); white-space: nowrap;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.55);
+  white-space: nowrap;
 }
 .portal-page .hero-name-input {
-  background: transparent; border: none; border-bottom: 1.5px solid rgba(255,255,255,0.14);
-  color: var(--dragon-white); font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px; letter-spacing: 0.14em; text-transform: uppercase;
-  width: 170px; text-align: center; outline: none; padding-bottom: 3px;
-  transition: border-color 0.25s; caret-color: var(--dragon-orange);
+  background: rgba(255,255,255,0.04);
+  border: none;
+  border-bottom: 2.5px solid var(--skin-accent);
+  color: var(--dragon-white);
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: 240px;
+  text-align: center;
+  outline: none;
+  padding: 8px 12px;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.2s;
+  caret-color: var(--skin-accent);
 }
 .portal-page .hero-name-input::placeholder {
-  color: rgba(255,255,255,0.12); font-size: 11px; letter-spacing: 0.25em;
-  font-family: 'Space Grotesk', sans-serif;
+  color: rgba(255,255,255,0.3);
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
 }
-.portal-page .hero-name-input:focus { border-color: rgba(255,255,255,0.35); }
+.portal-page .hero-name-input:focus {
+  background: rgba(255,255,255,0.08);
+  box-shadow: 3px 3px 0 var(--skin-accent);
+}
 
 /* CONTROLS BAR */
 .portal-page .controls-bar {
@@ -914,6 +940,25 @@
   opacity: 0.55;
   flex: 1 1 auto;
 }
+.portal-page .perfil-card .perfil-indicator {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid currentColor;
+  background: transparent;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: background 0.18s, transform 0.18s;
+}
+.portal-page .perfil-card:hover .perfil-indicator {
+  background: currentColor;
+  transform: scale(1.15);
+}
+.portal-page .perfil-card.active .perfil-indicator {
+  background: var(--dragon-black);
+  border-color: var(--dragon-black);
+}
 .portal-page .perfil-card .perfil-cta {
   font-family: 'Space Mono', monospace;
   font-size: 11px;
@@ -942,7 +987,8 @@
 }
 .portal-page .perfil-card.active .perfil-name,
 .portal-page .perfil-card.active .perfil-num,
-.portal-page .perfil-card.active .perfil-cta {
+.portal-page .perfil-card.active .perfil-cta,
+.portal-page .perfil-card.active .perfil-indicator {
   color: var(--dragon-black);
   opacity: 1;
 }
@@ -1417,8 +1463,14 @@
 }
 .portal-page .stat-item:hover::before { transform: scaleX(1); }
 .portal-page .stat-num {
-  display: block; font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif; font-weight: 900;
-  font-size: clamp(36px, 5vw, 72px); color: var(--skin-accent); line-height: 1;
+  display: block;
+  font-family: 'Archivo Black', 'Big Shoulders Display', 'Bebas Neue', sans-serif;
+  font-weight: 900;
+  font-size: clamp(36px, 5vw, 72px);
+  color: var(--skin-accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
 }
 .portal-page .stat-label {
   display: block; font-size: 10px; font-weight: 600; letter-spacing: 0.18em;

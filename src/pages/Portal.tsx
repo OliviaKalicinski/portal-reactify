@@ -703,7 +703,7 @@ const Portal = () => {
 
           {nameUpper ? (
             <p className="hero-tagline-sub">
-              <span className="hero-tagline-name">{nameUpper}</span>, JÁ FAZ PARTE DA REVOLUÇÃO.
+              <span className="hero-tagline-name">{nameUpper}</span> JÁ FAZ PARTE DA REVOLUÇÃO.
               <span className="hero-tagline-fio">segue o fio...</span>
             </p>
           ) : (
@@ -732,6 +732,7 @@ const Portal = () => {
             >
               <span className="perfil-num">{String(p.n).padStart(2, "0")}</span>
               <span className="perfil-name">{p.name}</span>
+              <span className="perfil-indicator" aria-hidden="true" />
               <span className="perfil-cta">{skin === p.n ? "●" : "→"}</span>
             </button>
           ))}
@@ -933,10 +934,9 @@ const Portal = () => {
       <div className="section-label" style={{ marginTop: 40 }}>Não é marketing, é matemática</div>
       <div className="stats-strip">
         {[
-          { num: "83%",  label: <>menos <em>carbono</em></>,         hint: "~500g CO₂/kg (BSF) vs ~2.850g/kg (boi)." },
-          { num: "15K",  label: <>litros menos <em>água/kg</em></>,  hint: "Economiza 15.000 litros de água por kg de proteína produzida." },
-          { num: "142×", label: <>menos <em>uso de terra</em></>,    hint: "1,4m² (BSF) vs 200m² (boi). Cabe numa sala — não num pasto." },
-          { num: "45",   label: <>dias de <em>ciclo de vida</em></>, hint: "Ciclo completo da BSF em 45 dias. Boi leva 18–24 meses." },
+          { num: "83%",   label: <>menos <em>carbono</em></>,          hint: "~500g CO₂/kg (BSF) vs ~2.850g/kg (boi)." },
+          { num: "3140×", label: <>mais <em>eficiente</em></>,         hint: "Agregado: menos água + menos terra + mais proteína por kg vs. gado." },
+          { num: "45",    label: <>dias de <em>ciclo de vida</em></>,  hint: "Ciclo completo da BSF em 45 dias. Boi leva 18–24 meses." },
         ].map((s, i) => (
           <div className="stat-item" key={i}>
             <span className="stat-num">{s.num}</span>
