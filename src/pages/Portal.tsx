@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
 import PageMeta from "@/components/PageMeta";
+import portalDogImg from "@/assets/portal-dog.png";
+import lojasCoverImg from "@/assets/lojas-cover.png";
 import "./Portal.css";
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
@@ -798,7 +800,7 @@ const Portal = () => {
         {/* ROW 2 */}
         <div className="row">
           <Link to="/produtos" className="card card-produtos ratio-1-1">
-            <HoverBg imgKey="produtos" />
+            <img src={portalDogImg} alt="" className="card-produtos-cover" draggable={false} />
             <div className="card-inner">
               <div className="card-body">
                 <div className="card-label">Nossos<br />Produtos</div>
@@ -967,12 +969,8 @@ const Portal = () => {
           </a>
 
           <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-social card-social-map ratio-1-1">
+            <img src={lojasCoverImg} alt="" className="card-produtos-cover" draggable={false} />
             <HoverBg imgKey="lojas" />
-            <div className="card-inner"><div className="card-body">
-              <div className="card-tag">Presença Física</div>
-              <div className="card-label">+30 Lojas<br />SP e RJ</div>
-              <div className="card-sub">Encontre a loja mais perto de você</div>
-            </div></div>
             <div className="card-hover-overlay" />
           </a>
 
