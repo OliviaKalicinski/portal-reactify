@@ -123,20 +123,20 @@
 .portal-page .archive-hero-title {
   font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
   font-weight: 900;
-  font-size: clamp(18px, 2.2vw, 28px);
-  line-height: 1;
+  font-size: clamp(52px, 6.8vw, 96px);
+  line-height: 0.95;
   color: var(--dragon-white);
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
-  margin-top: 2px;
-  margin-bottom: 12px;
-  text-shadow: 1.5px 1.5px 0 var(--skin-accent);
+  margin-top: 4px;
+  margin-bottom: 18px;
+  text-shadow: 3px 3px 0 var(--skin-accent);
 }
 /* Span colorido: sombra preta (evita cor-com-cor) */
 .portal-page .archive-hero-title span {
   color: var(--skin-accent);
   display: block;
-  text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.5);
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
 }
 .portal-page .archive-hero-sub {
   font-family: 'Space Grotesk', sans-serif;
@@ -2446,11 +2446,12 @@
     min-height: auto;
   }
   .portal-page .archive-hero-title {
-    font-size: clamp(16px, 4.5vw, 22px);
-    text-shadow: 1px 1px 0 var(--skin-accent);
+    font-size: clamp(38px, 10.5vw, 60px);
+    text-shadow: 2px 2px 0 var(--skin-accent);
+    margin-bottom: 14px;
   }
   .portal-page .archive-hero-title span {
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
   }
 
   /* Perfil selector — cards mais compactos */
@@ -2502,7 +2503,11 @@
     font-size: clamp(42px, 7vw, 64px);
   }
   .portal-page .archive-hero-title {
-    font-size: clamp(18px, 2.6vw, 26px);
+    font-size: clamp(44px, 8.2vw, 78px);
+    text-shadow: 2.5px 2.5px 0 var(--skin-accent);
+  }
+  .portal-page .archive-hero-title span {
+    text-shadow: 2.5px 2.5px 0 rgba(0,0,0,0.5);
   }
 }
 
