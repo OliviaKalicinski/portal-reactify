@@ -1,12 +1,15 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
+import PageMeta from "@/components/PageMeta";
 
 import {
   QUIZZES,
   QuizDef,
   PROFILE_DIMENSIONS,
-  GRID_LAYOUT,
 } from "@/data/quizzes";
+import "./Portal.css";
+import "./Parceiros.css";
 import "./Quizzes.css";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -37,21 +40,19 @@ const STORAGE_KEY = "dragon_quiz_profile";
 
 const MARQUEE_TOP = [
   "QUIZZES DO DRAGÃO",
-  "DESCUBRA SEU PERFIL DE TUTOR",
-  "O DRAGÃO TE CONHECE",
-  "QUAL PROTEÍNA É A SUA?",
-  "MONTA SEU PERFIL",
-  "ENTRE NA MATILHA",
-  "NOJENTO É O DESPERDÍCIO",
+  "O DRAGÃO QUER TE CONHECER",
+  "MONTA TEU PERFIL DE TUTOR",
+  "5 DIMENSÕES · 5 QUIZZES",
+  "PERSONALIDADE · NOJO · CONSCIÊNCIA · CONHECIMENTO · PET",
+  "ENTRA NA MATILHA",
 ];
 
 const MARQUEE_BOTTOM = [
-  "88,9% DE DIGESTIBILIDADE",
-  "83% MENOS CARBONO",
-  "142× MENOS USO DE TERRA",
-  "@COMIDADEDRAGAO",
-  "BIOFÁBRICA REGISTRADA NO MAPA",
-  "DO RESÍDUO À PROTEÍNA",
+  "// 88,9% DIGESTIBILIDADE",
+  "// 83% MENOS CARBONO",
+  "// 142× MENOS TERRA",
+  "// 15K LITROS MENOS ÁGUA",
+  "NOJENTO É O DESPERDÍCIO",
   "A NATUREZA SEMPRE SOUBE",
 ];
 
@@ -63,6 +64,20 @@ const stripEmoji = (s: string): string =>
   s.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B00}-\u{2BFF}\u{1F300}-\u{1FAFF}\u24C2\uFE0F\u20E3]/gu, "")
    .replace(/\s{2,}/g, " ")
    .trim();
+
+const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
+  const doubled = [...items, ...items];
+  return (
+    <div className={`marquee-bar${bottom ? " bottom" : ""}`}>
+      <div
+        className="marquee-track"
+        style={bottom ? { animationDirection: "reverse" } : undefined}
+      >
+        {doubled.map((t, i) => <span key={i}>{t}</span>)}
+      </div>
+    </div>
+  );
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // STORAGE HELPERS
@@ -489,49 +504,7 @@ async function shareCard(blob: Blob, fileName: string, text: string) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// MARQUEE BAR
-// ─────────────────────────────────────────────────────────────────────────────
-
-const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
-  const doubled = [...items, ...items];
-  return (
-    <div className={`qz-marquee${bottom ? " bottom" : ""}`}>
-      <div className="qz-marquee-track" style={bottom ? { animationDirection: "reverse" } : undefined}>
-        {doubled.map((t, i) => <span key={i}>{t}</span>)}
-      </div>
-    </div>
-  );
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// ANIMATED HERO DOTS
-// ─────────────────────────────────────────────────────────────────────────────
-
-const HeroDots = () => {
-  const dots = Array.from({ length: 18 }, (_, i) => ({
-    id: i,
-    left: `${(i * 37.3 + 5) % 100}%`,
-    top: `${(i * 53.7 + 10) % 90}%`,
-    size: `${4 + (i * 7) % 10}px`,
-    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-    delay: `${(i * 0.63) % 5}s`,
-    duration: `${4 + (i * 1.1) % 6}s`,
-  }));
-  return (
-    <div className="qz-hero-dots">
-      {dots.map((d) => (
-        <div
-          key={d.id}
-          className="qz-hero-dot"
-          style={{ left: d.left, top: d.top, width: d.size, height: d.size, background: d.color, animationDelay: d.delay, animationDuration: d.duration }}
-        />
-      ))}
-    </div>
-  );
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// CONFETTI
+// CONFETTI (inside modal)
 // ─────────────────────────────────────────────────────────────────────────────
 
 const Confetti = () => {
@@ -734,7 +707,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
         {/* Header */}
         <div className="qz-modal-header">
           <div className="qz-modal-header-info">
-            <div className="qz-modal-quiz-name">{quiz.emoji} {quiz.title}</div>
+            <div className="qz-modal-quiz-name">{quiz.title}</div>
             <div className="qz-modal-step-count">
               {phase === "questions" ? `Pergunta ${stepIdx + 1} de ${totalSteps}`
                 : phase === "gate"   ? "Quase lá…"
@@ -866,159 +839,62 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// QUIZ CARD
+// QUIZ CARD — editorial pattern (index circle + tag + big "?" + title + sub)
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface QuizCardProps {
   quiz: QuizDef;
+  index: number;
   completed?: ProfileResult;
   onOpen: () => void;
 }
 
-const QuizCard = ({ quiz, completed, onOpen }: QuizCardProps) => (
-  <div
-    className={[
-      "qz-card",
-      quiz.cardRatio || "ratio-16-9",
-      quiz.comingSoon ? "coming-soon" : "",
-      completed ? "done" : "",
-    ].filter(Boolean).join(" ")}
-    style={{
-      flexGrow: quiz.cardFlex || 1,
-      "--card-accent": quiz.accent,
-    } as React.CSSProperties}
-    onClick={quiz.comingSoon ? undefined : onOpen}
-    role={quiz.comingSoon ? undefined : "button"}
-    tabIndex={quiz.comingSoon ? undefined : 0}
-    onKeyDown={quiz.comingSoon ? undefined : (e) => { if (e.key === "Enter") onOpen(); }}
-  >
-    {quiz.hoverImage && (
-      <div
-        className="qz-card-img"
-        style={{ backgroundImage: `url('${quiz.hoverImage}')` }}
-      />
-    )}
-
-    <div className="qz-card-inner">
-      <div className="qz-card-body">
-        <div className="qz-card-tag">// Quiz</div>
-        <span className="qz-card-emoji">{quiz.emoji}</span>
-        <div className="qz-card-title">{quiz.title}</div>
-        <div className="qz-card-sub">{quiz.subtitle}</div>
-        {!quiz.comingSoon && (
-          <div className="qz-card-meta">
-            {quiz.questions.length} pergunta{quiz.questions.length !== 1 ? "s" : ""}
-          </div>
-        )}
-      </div>
-    </div>
-
-    {completed && (
-      <div className="qz-card-done-badge">
-        <span className="qz-done-check">✓</span>
-        <span>{stripEmoji(completed.profileLabel)}</span>
-        <span className="qz-done-redo">Fazer de novo →</span>
-      </div>
-    )}
-
-    {quiz.comingSoon && (
-      <div className="qz-soon-overlay">
-        <span className="qz-soon-label">Em breve</span>
-      </div>
-    )}
-  </div>
-);
-
-// ─────────────────────────────────────────────────────────────────────────────
-// WELCOME HERO (no profile)
-// ─────────────────────────────────────────────────────────────────────────────
-
-const WelcomeHero = () => (
-  <div className="qz-hero-content">
-    <DragonLogo className="qz-hero-logo" />
-    <div className="qz-hero-eyebrow">Quizzes do Dragão</div>
-    <div className="qz-welcome-title">
-      O DRAGÃO<br />
-      <span className="qz-accent">TE CONHECE</span>
-    </div>
-    <div className="qz-welcome-sub">
-      5 quizzes pra descobrir quem você é como tutor.<br />
-      Personalidade, nível de nojo, consciência ambiental,<br />
-      conhecimento sobre pet food — e o produto certo pro seu pet.<br />
-      <strong>Responde, monta seu perfil completo e entra na matilha.</strong>
-    </div>
-    <div className="qz-welcome-hint">
-      ↓ Escolha um quiz pra começar
-    </div>
-  </div>
-);
-
-// ─────────────────────────────────────────────────────────────────────────────
-// PROFILE DISPLAY (has profile)
-// ─────────────────────────────────────────────────────────────────────────────
-
-interface ProfileDisplayProps {
-  profile: DragonProfile;
-  onReset: () => void;
-  onShareProfile: () => void;
-  sharingProfile: boolean;
-  shareProfileStatus: "idle" | "ok" | "err";
-  onQuizClick: (quiz: QuizDef) => void;
-}
-
-const ProfileDisplay = ({
-  profile,
-  onReset,
-  onShareProfile,
-  sharingProfile,
-  shareProfileStatus,
-  onQuizClick,
-}: ProfileDisplayProps) => {
-  const completedCount = Object.keys(profile.results).length;
+const QuizCard = ({ quiz, index, completed, onOpen }: QuizCardProps) => {
+  const label = completed ? stripEmoji(completed.profileLabel) : null;
+  const dim = PROFILE_DIMENSIONS.find((d) => d.quizId === quiz.id);
+  const tagText = dim?.title || "Quiz";
 
   return (
-    <div className="qz-hero-content qz-profile-content">
-
-      {/* Logo + descrição */}
-      <div className="qz-profile-header">
-        <DragonLogo className="qz-hero-logo qz-profile-logo" />
-        <p className="qz-profile-desc">
-          5 quizzes pra montar seu perfil completo de tutor.
-          Personalidade, nível de nojo, consciência ambiental,
-          conhecimento sobre pet food e o produto certo pro seu pet.
-        </p>
+    <div
+      className={[
+        "quiz-card",
+        quiz.comingSoon ? "coming-soon" : "",
+        completed ? "done" : "",
+      ].filter(Boolean).join(" ")}
+      style={{ "--card-accent": quiz.accent } as React.CSSProperties}
+      onClick={quiz.comingSoon ? undefined : onOpen}
+      role={quiz.comingSoon ? undefined : "button"}
+      tabIndex={quiz.comingSoon ? undefined : 0}
+      onKeyDown={quiz.comingSoon ? undefined : (e) => { if (e.key === "Enter") onOpen(); }}
+    >
+      <div className="quiz-card-top">
+        <span className="quiz-card-index">{String(index + 1).padStart(2, "0")}</span>
+        <span className="quiz-card-tag">{tagText}</span>
       </div>
 
-      {/* Top bar */}
-      <div className="qz-profile-bar">
-        <div className="qz-profile-avatar">
-          <DragonLogo className="qz-avatar-logo" />
-        </div>
-        <div className="qz-profile-info">
-          <div className="qz-profile-greeting">Perfil do Dragão</div>
-          <div className="qz-profile-name">{profile.name.toUpperCase()}</div>
-          <div className="qz-profile-progress">
-            <strong>{completedCount}</strong> de 5 dimensões completas
-          </div>
-        </div>
-        <div className="qz-profile-actions-top">
-          <button
-            className={`qz-share-btn profile-share${sharingProfile ? " loading" : ""}${shareProfileStatus === "ok" ? " ok" : ""}`}
-            onClick={onShareProfile}
-            disabled={sharingProfile}
-          >
-            {sharingProfile ? "GERANDO…"
-              : shareProfileStatus === "ok" ? "CARD GERADO!"
-              : "COMPARTILHAR PERFIL"}
-          </button>
-          <button className="qz-profile-reset" onClick={onReset}>
-            Sair do perfil ×
-          </button>
-        </div>
+      <div className="quiz-card-visual" aria-hidden="true">
+        {quiz.comingSoon ? "…" : "?"}
       </div>
 
-      {/* Dimension slots */}
-      <ProfileDimensionSlots profile={profile} onQuizClick={onQuizClick} />
+      <div className="quiz-card-body">
+        <h3 className="quiz-card-title">{quiz.title}</h3>
+        <p className="quiz-card-sub">{quiz.subtitle}</p>
+        {!quiz.comingSoon && !completed && (
+          <span className="quiz-card-meta">
+            {quiz.questions.length} pergunta{quiz.questions.length !== 1 ? "s" : ""} →
+          </span>
+        )}
+        {completed && label && (
+          <span className="quiz-card-meta quiz-card-meta-done">
+            ✓ {label} · refazer →
+          </span>
+        )}
+        {quiz.comingSoon && (
+          <span className="quiz-card-meta quiz-card-meta-soon">
+            Em breve
+          </span>
+        )}
+      </div>
     </div>
   );
 };
@@ -1108,88 +984,160 @@ const Quizzes = () => {
   }, [profile, sharingProfile]);
 
   const completedCount = profile ? Object.keys(profile.results).length : 0;
+  const totalActive = QUIZZES.filter((q) => !q.comingSoon).length;
 
   if (!profileLoaded) return null;
 
   return (
-    <div className="quizzes-page">
-      {/* TOP MARQUEE */}
+    <div className="portal-page quizzes-page skin-2">
+      <PageMeta
+        title="Quizzes do Dragão · Comida de Dragão"
+        description="5 quizzes pra descobrir quem você é como tutor. Personalidade, nível de nojo, consciência ambiental, conhecimento sobre pet food e o produto certo pro seu pet."
+      />
       <MarqueeBar items={MARQUEE_TOP} />
 
-      {/* HERO — profile zone */}
-      <section className="qz-hero">
-        <div className="qz-hero-bg" />
-        <HeroDots />
-        {profile ? (
-          <ProfileDisplay
-            profile={profile}
-            onReset={handleReset}
-            onShareProfile={handleShareProfile}
-            sharingProfile={sharingProfile}
-            shareProfileStatus={shareProfileStatus}
-            onQuizClick={handleOpenQuiz}
-          />
-        ) : (
-          <WelcomeHero />
-        )}
+      {/* HERO — unificado (constante nos dois estados) */}
+      <section className="archive-hero">
+        <div className="archive-hero-bg" />
+        <div className="dragon-silhouette" aria-hidden="true" />
+        <div className="archive-hero-content">
+          <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
+          <div className="hero-eyebrow">Comida de Dragão — Quizzes</div>
+          <DragonLogo className="hero-logo" />
+          <h1 className="archive-hero-title">
+            O Dragão quer
+            <span>te conhecer!</span>
+          </h1>
+          <p className="archive-hero-sub">
+            {totalActive} quizzes pra descobrir quem você é como tutor.
+            Personalidade, nível de nojo, consciência ambiental,
+            conhecimento sobre pet food e o produto certo pro seu pet.
+            Responde, monta seu perfil e entra na matilha.
+          </p>
+        </div>
       </section>
 
-      {/* SECTION LABEL */}
-      <div className="qz-section-label">
-        {profile
-          ? `Quizzes do Dragão — ${completedCount}/5 dimensões completas`
-          : "Quizzes do Dragão — escolha um pra começar"}
+      {/* PROFILE SECTION — só aparece se já tem perfil */}
+      {profile && (
+        <>
+          <section className="parceiros-secao">
+            <div className="parceiros-tag tag-orange">teu perfil</div>
+            <h2 className="parceiros-secao-titulo titulo-orange">
+              Olá, <span>{profile.name}</span>
+            </h2>
+          </section>
+
+          <section className="qz-profile-section">
+            <div className="qz-profile-bar">
+              <div className="qz-profile-info">
+                <div className="qz-profile-greeting">Perfil do Dragão</div>
+                <div className="qz-profile-progress">
+                  <strong>{completedCount}</strong> de 5 dimensões completas
+                </div>
+              </div>
+              <div className="qz-profile-actions-top">
+                <button
+                  className={`qz-share-btn profile-share${sharingProfile ? " loading" : ""}${shareProfileStatus === "ok" ? " ok" : ""}`}
+                  onClick={handleShareProfile}
+                  disabled={sharingProfile}
+                >
+                  {sharingProfile ? "GERANDO…"
+                    : shareProfileStatus === "ok" ? "CARD GERADO!"
+                    : "COMPARTILHAR PERFIL"}
+                </button>
+                <button className="qz-profile-reset" onClick={handleReset}>
+                  Sair do perfil ×
+                </button>
+              </div>
+            </div>
+
+            <ProfileDimensionSlots profile={profile} onQuizClick={handleOpenQuiz} />
+          </section>
+
+          <div className="parceiros-divider" />
+        </>
+      )}
+
+      {/* QUIZ GRID SECTION */}
+      <section className="parceiros-secao">
+        <div className="parceiros-tag tag-green">
+          {profile ? "continue teu perfil" : "monta teu perfil"}
+        </div>
+        <h2 className="parceiros-secao-titulo titulo-green">
+          {profile
+            ? <>Faltam <span>{5 - completedCount}</span> dimensões</>
+            : <>5 quizzes, <span>5 dimensões</span></>}
+        </h2>
+      </section>
+
+      <div className="quiz-grid-wrap">
+        <div className="quiz-grid">
+          {QUIZZES.map((quiz, i) => {
+            const completed = profile?.results[quiz.id];
+            return (
+              <QuizCard
+                key={quiz.id}
+                quiz={quiz}
+                index={i}
+                completed={completed}
+                onOpen={() => handleOpenQuiz(quiz)}
+              />
+            );
+          })}
+        </div>
       </div>
 
-      {/* QUIZ GRID */}
-      <div className="qz-grid">
-        {GRID_LAYOUT.map((row, rowIdx) => (
-          <div className="qz-row" key={rowIdx}>
-            {row.map((quizIdx) => {
-              const quiz = QUIZZES[quizIdx];
-              if (!quiz) return null;
-              const completed = profile?.results[quiz.id];
-              return (
-                <QuizCard
-                  key={quiz.id}
-                  quiz={quiz}
-                  completed={completed}
-                  onOpen={() => handleOpenQuiz(quiz)}
-                />
-              );
-            })}
-          </div>
-        ))}
-      </div>
+      {/* CTA FINAL */}
+      <section className="parceiros-cta-final">
+        <h2 className="parceiros-cta-final-titulo">
+          {profile && completedCount === 5
+            ? <>Teu perfil tá <span>completo!</span></>
+            : profile
+              ? <>Completa teu <span>perfil</span></>
+              : <>Começa pelo <span>primeiro quiz</span></>}
+        </h2>
+        <p className="parceiros-cta-final-sub">
+          {profile && completedCount === 5
+            ? "Gera teu card de perfil e compartilha com a matilha. O Dragão já te conhece inteiro."
+            : profile
+              ? "Ainda tem quizzes pra responder. Cada resposta monta mais uma dimensão do teu perfil de tutor."
+              : "Cinco quizzes curtos, cinco dimensões do teu perfil. No final, um card pronto pra compartilhar."}
+        </p>
+        {profile && completedCount === 5 ? (
+          <button
+            className={`parceiros-btn-primary${sharingProfile ? " loading" : ""}`}
+            onClick={handleShareProfile}
+            disabled={sharingProfile}
+          >
+            {sharingProfile ? "Gerando card…" : "Compartilhar perfil ↗"}
+          </button>
+        ) : (
+          <a href="#quiz-grid" className="parceiros-btn-primary">
+            {profile ? "Ver quizzes restantes ↓" : "Escolher um quiz ↓"}
+          </a>
+        )}
+        <p className="parceiros-cta-final-note">
+          Sem cadastro obrigatório — só no final do primeiro quiz.
+        </p>
+      </section>
 
-      {/* STATS STRIP */}
-      <div className="qz-stats">
-        {[
-          { num: "83%", label: "menos carbono" },
-          { num: "15K", label: "litros menos água/kg" },
-          { num: "142×", label: "menos uso de terra" },
-          { num: "88,9%", label: "digestibilidade proteína" },
-          { num: "5", label: "dimensões do seu perfil" },
-        ].map((s, i) => (
-          <div className="qz-stat" key={i}>
-            <span className="qz-stat-num">{s.num}</span>
-            <span className="qz-stat-label">{s.label}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* BOTTOM MARQUEE */}
       <MarqueeBar items={MARQUEE_BOTTOM} bottom />
 
       {/* FOOTER */}
-      <footer className="qz-footer">
-        <DragonLogo style={{ width: 120, margin: "0 auto 14px", display: "block", opacity: 0.4 }} />
-        Comida de Dragão — Let's Fly Sustentável &nbsp;·&nbsp;{" "}
-        <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">
-          comidadedragao.com.br
-        </a>
-        &nbsp;·&nbsp;
-        <a href="/portal">← Voltar ao Portal</a>
+      <footer className="portal-footer">
+        <DragonLogo className="footer-logo-svg" />
+        <nav className="footer-links">
+          <Link to="/portal">Portal</Link>
+          <Link to="/produtos">Produtos</Link>
+          <Link to="/parceiros">Parceiros</Link>
+          <Link to="/biblioteca">Biblioteca</Link>
+          <Link to="/imprensa">Imprensa</Link>
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+          <a href="mailto:somos@letsfly.com.br">Contato</a>
+        </nav>
+        <div className="footer-tagline">O Dragão te conhece. A natureza sempre soube.</div>
       </footer>
 
       {/* QUIZ MODAL */}
