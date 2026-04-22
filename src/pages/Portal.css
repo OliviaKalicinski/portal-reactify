@@ -118,15 +118,19 @@
 .portal-page .archive-backlink:hover { color: var(--skin-accent); }
 .portal-page .archive-hero .hero-logo {
   margin-top: 4px;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 .portal-page .archive-hero-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(44px, 6.5vw, 82px);
-  line-height: 0.92;
+  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
+  font-weight: 900;
+  font-size: clamp(26px, 3.4vw, 44px);
+  line-height: 0.95;
   color: var(--dragon-white);
-  letter-spacing: 0.5px;
-  margin-bottom: 22px;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  margin-bottom: 14px;
+  text-shadow: 2px 2px 0 var(--skin-accent);
 }
 .portal-page .archive-hero-title span {
   color: var(--skin-accent);
