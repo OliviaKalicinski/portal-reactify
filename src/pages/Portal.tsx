@@ -710,12 +710,12 @@ const Portal = () => {
 
       {/* PERFIL SELECTOR — a brincadeira dos 3 modos */}
       <section className="perfil-selector">
-        <div className="perfil-selector-label">// escolhe seu modo de navegar</div>
+        <div className="perfil-selector-label">// quem é você?</div>
         <div className="perfil-selector-grid">
           {[
-            { n: 1, name: "CURIOSO",    tag: "MODO FOGO" },
-            { n: 2, name: "NOJENTINHO", tag: "MODO FLORESTA" },
-            { n: 3, name: "ESTUDADO",   tag: "MODO NEON" },
+            { n: 1, name: "CURIOSO" },
+            { n: 2, name: "NOJENTINHO" },
+            { n: 3, name: "ESTUDADO" },
           ].map(p => (
             <button
               key={p.n}
@@ -724,8 +724,8 @@ const Portal = () => {
               onClick={() => setSkin(p.n)}
               aria-pressed={skin === p.n}
             >
+              <span className="perfil-num">{String(p.n).padStart(2, "0")}</span>
               <span className="perfil-name">{p.name}</span>
-              <span className="perfil-tag">{p.tag}</span>
               <span className="perfil-cta">{skin === p.n ? "●" : "→"}</span>
             </button>
           ))}

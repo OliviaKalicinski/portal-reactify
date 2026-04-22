@@ -838,13 +838,27 @@
 .portal-page .perfil-card:hover {
   border-color: currentColor;
 }
+.portal-page .perfil-card .perfil-num {
+  font-family: 'Archivo Black', 'Space Mono', monospace;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: currentColor;
+  opacity: 0.5;
+  line-height: 1;
+  flex: 0 0 auto;
+  margin-right: 10px;
+}
 .portal-page .perfil-card .perfil-name {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
+  font-weight: 900;
   font-size: 22px;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
   color: currentColor;
   line-height: 1;
   flex: 0 0 auto;
+  text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.35);
 }
 .portal-page .perfil-card .perfil-tag {
   font-family: 'Space Mono', monospace;
@@ -882,10 +896,13 @@
   border-color: currentColor;
 }
 .portal-page .perfil-card.active .perfil-name,
-.portal-page .perfil-card.active .perfil-tag,
+.portal-page .perfil-card.active .perfil-num,
 .portal-page .perfil-card.active .perfil-cta {
   color: var(--dragon-black);
   opacity: 1;
+}
+.portal-page .perfil-card.active .perfil-name {
+  text-shadow: 1.5px 1.5px 0 rgba(255,255,255,0.3);
 }
 
 @media (max-width: 768px) {
