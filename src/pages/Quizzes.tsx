@@ -687,77 +687,6 @@ const computeAggregateStats = (
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PROFILE DIMENSION SLOTS
-// ─────────────────────────────────────────────────────────────────────────────
-
-const ProfileDimensionSlots = ({
-  profile,
-  onQuizClick,
-}: {
-  profile: DragonProfile;
-  onQuizClick: (quiz: QuizDef) => void;
-}) => (
-  <div className="qz-stripe-list qz-dim-stripes">
-    {PROFILE_DIMENSIONS.map((dim, i) => {
-      const pr = profile.results[dim.quizId];
-      const quiz = QUIZZES.find((q) => q.id === dim.quizId);
-      const res = pr && quiz ? quiz.results[pr.resultKey] : null;
-      const accent = quiz?.accent || "#2A2A2A";
-      const done = !!pr;
-      const canClick = quiz && !quiz.comingSoon;
-      const label = res ? stripEmoji(res.profileLabel) : null;
-      const subLabel = pr ? stripEmoji(pr.resultLabel) : null;
-
-      return (
-        <button
-          type="button"
-          key={dim.key}
-          className={[
-            "qz-stripe",
-            done ? "done" : "empty",
-            !canClick ? "disabled" : "",
-          ].filter(Boolean).join(" ")}
-          style={{
-            backgroundColor: done ? accent : "#141414",
-            color: done ? "#0A0A0A" : "#FAFAFA",
-            zIndex: i + 1,
-          } as React.CSSProperties}
-          onClick={canClick ? () => onQuizClick(quiz!) : undefined}
-          disabled={!canClick}
-          aria-label={`Dimensão ${dim.title}${done ? ` — ${label}` : " — não respondida"}`}
-        >
-          <span
-            className="qz-stripe-number"
-            style={done ? undefined : { borderColor: accent, color: accent }}
-          >
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <div className="qz-stripe-content">
-            <div className="qz-stripe-title">
-              {done && label ? label : dim.title.toUpperCase()}
-            </div>
-            <div className="qz-stripe-subtitle">
-              {done ? dim.title : (quiz?.title || "—")}
-            </div>
-          </div>
-          <div className="qz-stripe-meta">
-            <div className="qz-stripe-meta-label">
-              {done ? "Dimensão completa" : quiz?.comingSoon ? "Em breve" : "A responder"}
-            </div>
-            <div className="qz-stripe-meta-text">
-              {done && subLabel ? subLabel : (quiz?.subtitle || "")}
-            </div>
-          </div>
-          <span className="qz-stripe-arrow">
-            {done ? "✓" : quiz?.comingSoon ? "…" : "→"}
-          </span>
-        </button>
-      );
-    })}
-  </div>
-);
-
-// ─────────────────────────────────────────────────────────────────────────────
 // QUIZ MODAL
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1083,49 +1012,63 @@ const QuizCard = ({ quiz, index, completed, onOpen }: QuizCardProps) => {
   const tagText = dim?.title || "Quiz";
   const disabled = !!quiz.comingSoon;
 
-  const shortTitle = quiz.title.length > 34
-    ? quiz.title.slice(0, 34).trim() + "…"
-    : quiz.title;
-
-  const rightText = disabled
-    ? "Em breve"
-    : completed && label
-      ? `✓ ${label} — refazer`
-      : quiz.subtitle;
-
   return (
-    <button
-      type="button"
+    <div
       className={[
-        "qz-stripe",
-        disabled ? "disabled" : "",
+        "quiz-card",
+        disabled ? "coming-soon" : "",
         completed ? "done" : "",
       ].filter(Boolean).join(" ")}
-      style={{
-        backgroundColor: quiz.accent,
-        zIndex: index + 1,
-      } as React.CSSProperties}
+      style={{ "--card-accent": quiz.accent } as React.CSSProperties}
       onClick={disabled ? undefined : onOpen}
-      disabled={disabled}
+      role={disabled ? undefined : "button"}
+      tabIndex={disabled ? undefined : 0}
+      onKeyDown={disabled ? undefined : (e) => { if (e.key === "Enter") onOpen(); }}
       aria-label={`${quiz.title} — ${tagText}`}
     >
-      <span className="qz-stripe-number">{String(index + 1).padStart(2, "0")}</span>
-      <div className="qz-stripe-content">
-        <div className="qz-stripe-title">{shortTitle}</div>
-        <div className="qz-stripe-subtitle">{tagText}</div>
+      {/* Texturas sobrepostas à cor chapada */}
+      <div className="quiz-card-halftone" aria-hidden="true" />
+      <div className="quiz-card-grain" aria-hidden="true" />
+
+      {/* GIF hover preview (opcional, vem por cima no hover) */}
+      {quiz.hoverImage && !disabled && (
+        <div
+          className="quiz-card-img"
+          style={{ backgroundImage: `url('${quiz.hoverImage}')` }}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Top: índice + tag da dimensão */}
+      <div className="quiz-card-top">
+        <span className="quiz-card-index">{String(index + 1).padStart(2, "0")}</span>
+        <span className="quiz-card-tag">{tagText}</span>
       </div>
-      <div className="qz-stripe-meta">
-        <div className="qz-stripe-meta-label">
-          {disabled
-            ? "Chegando"
-            : completed
-              ? "Completo"
-              : `${quiz.questions.length} pergunta${quiz.questions.length !== 1 ? "s" : ""}`}
-        </div>
-        <div className="qz-stripe-meta-text">{rightText}</div>
+
+      {/* Centro: "?" tipográfico ou "…" pra coming-soon */}
+      <div className="quiz-card-visual" aria-hidden="true">
+        {disabled ? "…" : "?"}
       </div>
-      <span className="qz-stripe-arrow">{disabled ? "…" : "→"}</span>
-    </button>
+
+      {/* Bottom: título, subtítulo, meta */}
+      <div className="quiz-card-body">
+        <h3 className="quiz-card-title">{quiz.title}</h3>
+        <p className="quiz-card-sub">{quiz.subtitle}</p>
+        {disabled && (
+          <span className="quiz-card-meta quiz-card-meta-soon">Em breve</span>
+        )}
+        {!disabled && completed && label && (
+          <span className="quiz-card-meta quiz-card-meta-done">
+            ✓ {label} · refazer →
+          </span>
+        )}
+        {!disabled && !completed && (
+          <span className="quiz-card-meta">
+            {quiz.questions.length} pergunta{quiz.questions.length !== 1 ? "s" : ""} →
+          </span>
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -1392,9 +1335,6 @@ const Quizzes = () => {
               );
             })()}
 
-            {/* ── DIMENSÕES EM STRIPES ─────────────────────── */}
-            <div className="qz-dim-stripes-head">DIMENSÕES DO PERFIL</div>
-            <ProfileDimensionSlots profile={profile} onQuizClick={handleOpenQuiz} />
           </section>
 
           <div className="parceiros-divider" />
@@ -1414,7 +1354,7 @@ const Quizzes = () => {
       </section>
 
       <div className="quiz-grid-wrap">
-        <div className="qz-stripe-list" id="quiz-grid">
+        <div className="quiz-grid" id="quiz-grid">
           {QUIZZES.map((quiz, i) => {
             const completed = profile?.results[quiz.id];
             return (
