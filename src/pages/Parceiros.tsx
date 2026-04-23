@@ -128,39 +128,6 @@ const Parceiros = () => {
       />
       <MarqueeBar items={MARQUEE_TOP} />
 
-      {/* INTRO — quem é a Comida de Dragão */}
-      <section className="parceiros-brand-intro">
-        <div className="parceiros-brand-intro-inner">
-          <div className="parceiros-brand-eyebrow">// antes de tudo</div>
-          <h2 className="parceiros-brand-titulo">
-            Queremos<br />fazer barulho.
-          </h2>
-          <p className="parceiros-brand-texto">
-            A <strong>Comida de Dragão</strong> é uma inovação brasileira que transforma inseto BSF em nutrição premium pra pets. Produzimos nossos próprios insetos em Cachoeiras de Macacu, RJ — do resíduo orgânico à proteína de elite, tudo rastreável, tudo nosso.
-          </p>
-          <p className="parceiros-brand-texto">
-            Somos sustentáveis de verdade: 83% menos carbono, 142× menos uso de terra, ciclo de 45 dias. Não é marketing. É matemática.
-          </p>
-          <p className="parceiros-brand-callout">
-            2 bilhões de pessoas no mundo já comem inseto. Pets são o começo da revolução no Brasil — e queremos que mais gente saiba disso. <strong>É aqui que você entra.</strong>
-          </p>
-          <div className="parceiros-brand-stats">
-            <div className="parceiros-brand-stat">
-              <span className="pbs-num">83<small>%</small></span>
-              <span className="pbs-lbl">menos carbono</span>
-            </div>
-            <div className="parceiros-brand-stat">
-              <span className="pbs-num">88,9<small>%</small></span>
-              <span className="pbs-lbl">digestibilidade</span>
-            </div>
-            <div className="parceiros-brand-stat">
-              <span className="pbs-num">45<small>%</small></span>
-              <span className="pbs-lbl">proteína bruta</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* HERO */}
       <section className="parceiros-hero">
         <div className="parceiros-hero-bg" />
@@ -196,6 +163,39 @@ const Parceiros = () => {
           <p className="parceiros-hero-note">
             Cadastro gratuito · Sem exclusividade · Você posta do seu jeito
           </p>
+        </div>
+      </section>
+
+      {/* INTRO — quem é a Comida de Dragão */}
+      <section className="parceiros-brand-intro">
+        <div className="parceiros-brand-intro-inner">
+          <div className="parceiros-brand-eyebrow">// antes de tudo</div>
+          <h2 className="parceiros-brand-titulo">
+            Queremos<br />fazer barulho.
+          </h2>
+          <p className="parceiros-brand-texto">
+            A <strong>Comida de Dragão</strong> é uma inovação brasileira que transforma inseto BSF em nutrição premium pra pets. Produzimos nossos próprios insetos em Cachoeiras de Macacu, RJ — do resíduo orgânico à proteína de elite, tudo rastreável, tudo nosso.
+          </p>
+          <p className="parceiros-brand-texto">
+            Somos sustentáveis de verdade: 83% menos carbono, 142× menos uso de terra, ciclo de 45 dias. Não é marketing. É matemática.
+          </p>
+          <p className="parceiros-brand-callout">
+            2 bilhões de pessoas no mundo já comem inseto. Pets são o começo da revolução no Brasil — e queremos que mais gente saiba disso. <strong>É aqui que você entra.</strong>
+          </p>
+          <div className="parceiros-brand-stats">
+            <div className="parceiros-brand-stat">
+              <span className="pbs-num">83<small>%</small></span>
+              <span className="pbs-lbl">menos carbono</span>
+            </div>
+            <div className="parceiros-brand-stat">
+              <span className="pbs-num">88,9<small>%</small></span>
+              <span className="pbs-lbl">digestibilidade</span>
+            </div>
+            <div className="parceiros-brand-stat">
+              <span className="pbs-num">45<small>%</small></span>
+              <span className="pbs-lbl">proteína bruta</span>
+            </div>
+          </div>
         </div>
       </section>
 
