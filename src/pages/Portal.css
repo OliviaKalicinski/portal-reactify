@@ -1403,7 +1403,17 @@
   50% { transform: scaleY(1); opacity: 1; }
 }
 
-.portal-page .card-manifesto { background: var(--dragon-yellow); }
+.portal-page .card-manifesto {
+  background-color: var(--dragon-yellow);
+  /* Retícula halftone — pontos pretos pequenos em grid 6px, estilo riso/poster.
+     Mais denso nas bordas, mais esparso no centro pra não atrapalhar a leitura. */
+  background-image:
+    radial-gradient(ellipse 70% 55% at 50% 50%, rgba(255,231,15,0.92) 0%, transparent 72%),
+    radial-gradient(circle, rgba(0,0,0,0.85) 1.2px, transparent 1.6px);
+  background-size: auto, 6px 6px;
+  background-position: center, 0 0;
+  background-repeat: no-repeat, repeat;
+}
 .portal-page .card-manifesto:hover { border-color: var(--dragon-black); }
 .portal-page .card-manifesto .card-body { background: none; justify-content: center; align-items: flex-start; }
 .portal-page .card-manifesto .card-label {
@@ -2555,4 +2565,683 @@
   text-transform: uppercase;
   font-size: 11px;
   line-height: 1.45;
+}
+
+/* =============================================================
+   HERO NAME REVEAL — quando a pessoa digita o nome,
+   input some e aparece a frase grandona "FULANA já faz parte da revolução".
+   Substitui o fluxo antigo do hero-name-wrap persistente.
+   ============================================================= */
+@keyframes heroNameReveal {
+  0%   { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.portal-page .hero-name-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  animation: heroNameReveal 0.45s ease-out both;
+}
+.portal-page .hero-tagline-sub-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: clamp(20px, 2.4vw, 32px);
+  color: rgba(250,250,250,0.92);
+  text-transform: none;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  font-family: 'Space Grotesk', sans-serif;
+  max-width: 760px;
+  text-align: center;
+}
+.portal-page .hero-tagline-sub-reveal .hero-tagline-name {
+  display: block;
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+  font-weight: 900;
+  font-size: clamp(38px, 5.2vw, 72px);
+  color: var(--skin-accent);
+  text-shadow: 3px 3px 0 var(--dragon-black);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.portal-page .hero-tagline-sub-reveal .hero-tagline-rest {
+  display: block;
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-weight: 700;
+  font-size: clamp(18px, 2vw, 26px);
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.88);
+  letter-spacing: 0.01em;
+  margin-top: 4px;
+}
+.portal-page .hero-tagline-sub-reveal .hero-tagline-fio {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  text-transform: lowercase;
+  color: rgba(250,250,250,0.45);
+  margin-top: 8px;
+  font-style: italic;
+  letter-spacing: 0.06em;
+}
+.portal-page .hero-name-edit {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.35);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 10px;
+  transition: color 0.15s;
+}
+.portal-page .hero-name-edit:hover {
+  color: var(--skin-accent);
+}
+.portal-page .hero-name-hint {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  color: rgba(250,250,250,0.35);
+  text-align: center;
+  text-transform: lowercase;
+}
+@media (max-width: 640px) {
+  .portal-page .hero-tagline-sub-reveal .hero-tagline-name {
+    font-size: clamp(34px, 10vw, 56px);
+    text-shadow: 2px 2px 0 var(--dragon-black);
+  }
+  .portal-page .hero-tagline-sub-reveal .hero-tagline-rest {
+    font-size: clamp(16px, 4.4vw, 22px);
+  }
+}
+
+/* =============================================================
+   PERFIL BUY LINK — "comprar →" discreto no fim da grid
+   dos 3 perfis. Mesma altura dos cards, visual bem mais quieto.
+   ============================================================= */
+.portal-page .perfil-buy-link {
+  flex: 0 0 auto;
+  min-width: 140px;
+  background: transparent;
+  border: 1.5px dashed rgba(255,255,255,0.2);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-decoration: none;
+  color: rgba(255,255,255,0.55);
+  font-family: 'Space Mono', monospace;
+  transition: color 0.18s, border-color 0.18s, background 0.18s, transform 0.15s;
+  margin-left: auto;
+}
+.portal-page .perfil-buy-link:hover {
+  color: var(--dragon-lime);
+  border-color: var(--dragon-lime);
+  background: rgba(220,255,36,0.04);
+  transform: translate(-1px, -1px);
+}
+.portal-page .perfil-buy-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.portal-page .perfil-buy-cta {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1;
+}
+@media (max-width: 768px) {
+  .portal-page .perfil-buy-link {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+    gap: 14px;
+  }
+}
+
+/* =============================================================
+   DRAGON CTA BAR — "O Dragão Fala" solo, gigante, contra-intuitivo.
+   Botão do tamanho de um bloco editorial. Preto com texto neon.
+   Chama pro modal cheio de drama.
+   ============================================================= */
+.portal-page .dragon-cta-bar {
+  max-width: 1280px;
+  margin: 18px auto 8px;
+  padding: 0 20px;
+}
+.portal-page .btn-dragon-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "eyebrow eyebrow"
+    "title sub";
+  column-gap: 24px;
+  row-gap: 10px;
+  align-items: end;
+  width: 100%;
+  padding: 28px 32px 26px;
+  background: var(--dragon-black);
+  border: 2.5px solid var(--dragon-white);
+  color: var(--skin-accent, var(--dragon-lime));
+  cursor: pointer;
+  text-align: left;
+  text-transform: none;
+  font-family: inherit;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.2s, color 0.2s;
+  box-shadow: 6px 6px 0 var(--skin-accent, var(--dragon-lime));
+  overflow: hidden;
+}
+.portal-page .btn-dragon-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(255,255,255,0.025) 2px, rgba(255,255,255,0.025) 3px);
+  pointer-events: none;
+  z-index: 0;
+}
+.portal-page .btn-dragon-hero > * {
+  position: relative;
+  z-index: 1;
+}
+.portal-page .btn-dragon-hero-eyebrow {
+  grid-area: eyebrow;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.portal-page .btn-dragon-hero-title {
+  grid-area: title;
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+  font-weight: 900;
+  font-size: clamp(42px, 6vw, 84px);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--skin-accent, var(--dragon-lime));
+  text-shadow: 4px 4px 0 rgba(255,255,255,0.08);
+}
+.portal-page .btn-dragon-hero-sub {
+  grid-area: sub;
+  align-self: end;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: lowercase;
+  color: rgba(255,255,255,0.8);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-style: italic;
+  white-space: nowrap;
+}
+.portal-page .btn-dragon-hero-arrow {
+  display: inline-block;
+  font-family: 'Archivo Black', sans-serif;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--skin-accent, var(--dragon-lime));
+  transition: transform 0.18s ease;
+}
+.portal-page .btn-dragon-hero:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--skin-accent, var(--dragon-lime));
+  background: var(--skin-accent, var(--dragon-lime));
+  color: var(--dragon-black);
+}
+.portal-page .btn-dragon-hero:hover .btn-dragon-hero-title {
+  color: var(--dragon-black);
+  text-shadow: 4px 4px 0 rgba(0,0,0,0.12);
+}
+.portal-page .btn-dragon-hero:hover .btn-dragon-hero-eyebrow,
+.portal-page .btn-dragon-hero:hover .btn-dragon-hero-sub {
+  color: rgba(0,0,0,0.75);
+}
+.portal-page .btn-dragon-hero:hover .btn-dragon-hero-arrow {
+  color: var(--dragon-black);
+  transform: translateX(6px);
+}
+.portal-page .btn-dragon-hero:active {
+  transform: translate(0, 0);
+  box-shadow: 3px 3px 0 var(--skin-accent, var(--dragon-lime));
+}
+@media (max-width: 640px) {
+  .portal-page .dragon-cta-bar { padding: 0 16px; }
+  .portal-page .btn-dragon-hero {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "eyebrow"
+      "title"
+      "sub";
+    padding: 22px 20px 20px;
+    row-gap: 8px;
+  }
+  .portal-page .btn-dragon-hero-title {
+    font-size: clamp(40px, 11vw, 60px);
+    text-shadow: 3px 3px 0 rgba(255,255,255,0.08);
+  }
+  .portal-page .btn-dragon-hero-sub {
+    white-space: normal;
+  }
+}
+
+/* =============================================================
+   PROFILE JOKE POPUP — piadinha quando a pessoa escolhe um perfil
+   ============================================================= */
+@keyframes profileJokeFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes profileJokeIn {
+  0%   { opacity: 0; transform: translate(-50%, -46%) scale(0.96); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.portal-page .profile-joke-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: profileJokeFade 0.22s ease-out both;
+}
+.portal-page .profile-joke-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 480px);
+  background: var(--dragon-paper, #f4efe6);
+  color: var(--dragon-black);
+  padding: 36px 36px 32px;
+  border: 3px solid var(--dragon-black);
+  box-shadow: 10px 10px 0 var(--skin-accent, var(--dragon-lime));
+  animation: profileJokeIn 0.28s cubic-bezier(0.22, 0.68, 0.36, 1.08) both;
+  overflow: hidden;
+}
+.portal-page .profile-joke-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 8px;
+  background: var(--skin-accent, var(--dragon-lime));
+}
+.portal-page .profile-joke-card-s1 { --skin-accent: var(--dragon-orange); }
+.portal-page .profile-joke-card-s2 { --skin-accent: var(--dragon-lime); }
+.portal-page .profile-joke-card-s3 { --skin-accent: var(--dragon-pink); }
+.portal-page .profile-joke-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--dragon-black);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.portal-page .profile-joke-close:hover {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+.portal-page .profile-joke-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.55);
+  margin-bottom: 14px;
+}
+.portal-page .profile-joke-title {
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+  font-weight: 900;
+  font-size: clamp(32px, 5vw, 44px);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--dragon-black);
+  text-shadow: 3px 3px 0 var(--skin-accent, var(--dragon-lime));
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.portal-page .profile-joke-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(0,0,0,0.82);
+  margin: 0 0 22px;
+}
+.portal-page .profile-joke-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--dragon-black);
+  color: var(--skin-accent, var(--dragon-lime));
+  border: 2.5px solid var(--dragon-black);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.portal-page .profile-joke-cta:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--skin-accent, var(--dragon-lime));
+}
+@media (max-width: 480px) {
+  .portal-page .profile-joke-card {
+    padding: 28px 22px 24px;
+    box-shadow: 6px 6px 0 var(--skin-accent, var(--dragon-lime));
+  }
+  .portal-page .profile-joke-title {
+    font-size: clamp(28px, 9vw, 36px);
+    text-shadow: 2px 2px 0 var(--skin-accent, var(--dragon-lime));
+  }
+}
+
+/* =============================================================
+   HERO HOME — variantes inline (título em 1 linha, nome+frase em 1 linha)
+   Sobrescreve o layout de coluna das classes base.
+   ============================================================= */
+.portal-page .hero-title-inline {
+  display: block;
+  white-space: normal;
+  font-size: clamp(42px, 6.5vw, 82px);
+  line-height: 1;
+  text-shadow: 3px 3px 0 var(--skin-accent);
+  margin: 10px 0 16px;
+}
+@media (max-width: 640px) {
+  .portal-page .hero-title-inline {
+    font-size: clamp(32px, 9vw, 56px);
+    text-shadow: 2px 2px 0 var(--skin-accent);
+  }
+}
+
+/* Campo de nome em linha única (label + input + botão →) */
+.portal-page .hero-name-wrap-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+  width: 100%;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.portal-page .hero-name-wrap-inline .hero-name-label {
+  flex: 0 0 auto;
+}
+.portal-page .hero-name-wrap-inline .hero-name-input {
+  flex: 1 1 220px;
+  min-width: 180px;
+  max-width: 280px;
+}
+.portal-page .hero-name-wrap-inline .hero-name-hint {
+  flex: 1 1 100%;
+  text-align: center;
+  margin-top: 2px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  color: rgba(250,250,250,0.35);
+  text-transform: lowercase;
+}
+.portal-page .hero-name-submit {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--skin-accent);
+  color: var(--dragon-black);
+  border: 2.5px solid var(--skin-accent);
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s, opacity 0.15s;
+}
+.portal-page .hero-name-submit:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--dragon-white);
+}
+.portal-page .hero-name-submit:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Reveal inline — nome GRANDE + frase na mesma linha */
+.portal-page .hero-name-reveal-inline {
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 28px;
+}
+.portal-page .hero-tagline-sub-inline {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 14px;
+  max-width: 900px;
+  text-align: center;
+  row-gap: 4px;
+}
+.portal-page .hero-tagline-sub-inline .hero-tagline-name {
+  display: inline-block;
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1;
+}
+.portal-page .hero-tagline-sub-inline .hero-tagline-rest {
+  display: inline-block;
+  margin-top: 0;
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.15;
+  align-self: center;
+}
+@media (max-width: 640px) {
+  .portal-page .hero-tagline-sub-inline {
+    gap: 8px;
+  }
+  .portal-page .hero-tagline-sub-inline .hero-tagline-name {
+    font-size: clamp(30px, 9vw, 48px);
+    flex: 1 1 100%;
+  }
+  .portal-page .hero-tagline-sub-inline .hero-tagline-rest {
+    font-size: clamp(14px, 4vw, 18px);
+    flex: 1 1 100%;
+  }
+}
+
+/* =============================================================
+   THESIS LABEL — título editorial grande, usado na seção
+   "Não é marketing, é matemática". Promove o statement.
+   ============================================================= */
+.portal-page .thesis-label {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 20px 18px;
+  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
+  font-weight: 900;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--dragon-white);
+  text-shadow: 3px 3px 0 var(--skin-accent);
+}
+.portal-page .thesis-label span {
+  color: var(--skin-accent);
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.7);
+}
+.portal-page .thesis-label-center {
+  text-align: center;
+}
+@media (max-width: 640px) {
+  .portal-page .thesis-label {
+    font-size: clamp(28px, 8.5vw, 44px);
+    text-shadow: 2px 2px 0 var(--skin-accent);
+    padding: 22px 16px 14px;
+  }
+  .portal-page .thesis-label span {
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+  }
+}
+
+/* =============================================================
+   STATS STRIP — números com efeito editorial mais sutil
+   (duplicado/misregistration menor, combinando com o título).
+   ============================================================= */
+.portal-page .stats-strip .stat-num {
+  text-shadow:
+    1.5px 1.5px 0 rgba(255,255,255,0.08),
+    3px 3px 0 rgba(0,0,0,0.35);
+}
+/* Unidade grudada no número (%, ×, "dias") em tamanho menor */
+.portal-page .stats-strip .stat-unit {
+  font-family: 'Big Shoulders Display', 'Archivo Black', sans-serif;
+  font-size: 0.42em;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin-left: 0.08em;
+  vertical-align: 0.35em;
+  text-transform: lowercase;
+  line-height: 1;
+  opacity: 0.9;
+}
+.portal-page .stats-strip .stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: rgba(250,250,250,0.55);
+  margin-top: 10px;
+}
+.portal-page .stats-strip .stat-label em {
+  color: var(--dragon-white);
+  font-weight: 700;
+}
+@media (max-width: 640px) {
+  .portal-page .stats-strip .stat-num {
+    text-shadow:
+      1px 1px 0 rgba(255,255,255,0.08),
+      2px 2px 0 rgba(0,0,0,0.35);
+  }
+  .portal-page .stats-strip .stat-unit {
+    font-size: 0.38em;
+  }
+}
+
+/* =============================================================
+   CARD NOSSOS PRODUTOS — PNG como capa fixa + GIF no hover.
+   Layout default de título no topo, subtítulo abaixo.
+   ============================================================= */
+/* PNG (card-produtos-cover) fica na base z-index 0;
+   GIF (.card-img-hover) sobe pra z-index 10 e aparece no hover. */
+.portal-page .card-produtos .card-produtos-cover {
+  object-position: center;
+}
+/* Desce o título + subtítulo pra não encostar no topo do PNG */
+.portal-page .card-produtos .card-inner {
+  padding-top: 24%;
+}
+.portal-page .card-produtos .card-body {
+  padding-top: 16px;
+}
+
+/* =============================================================
+   AUD-CTA — botão "Ver produtos / kits / catálogo" com contraste
+   escuro. Era texto flutuante baixo contraste; vira chip preto.
+   ============================================================= */
+.portal-page .aud-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  margin-top: 20px;
+  background: var(--dragon-black);
+  color: var(--dragon-white);
+  border: 2px solid var(--dragon-black);
+  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 1;
+  transition: background 0.18s, color 0.18s, transform 0.12s, box-shadow 0.12s, gap 0.15s;
+  align-self: flex-start;
+  width: fit-content;
+}
+.portal-page .audience-card:hover .aud-cta {
+  background: var(--skin-accent, var(--dragon-lime));
+  color: var(--dragon-black);
+  border-color: var(--dragon-black);
+  gap: 12px;
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--dragon-black);
+  opacity: 1;
+}
+
+/* =============================================================
+   BTN DRAGÃO HERO — overlay com Plastic Scales no hover.
+   Imagem de escamas aparece como textura + blend mode.
+   O arquivo deve estar em /assets/images/dragon-scales.gif
+   ============================================================= */
+.portal-page .btn-dragon-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/images/dragon-scales.gif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  mix-blend-mode: multiply;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.portal-page .btn-dragon-hero:hover::after {
+  opacity: 0.55;
 }
