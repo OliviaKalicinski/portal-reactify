@@ -26,6 +26,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   quiz:       "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzJxNHpkYTNjYmI2cTlpOTV4ZTQxZG5ia3VpMnpvamNuZjBzdWEwZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1kkxWqT5nvLXupUTwK/giphy.gif",
   audio:      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm13bXZicTVvNWZncXdubnp5NDU4NTd3Y2t4bTU5bWZhcnZqNm0wYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/521JGiED6zWanTJroD/giphy.gif",
   produtos:   "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmMzczJyY2V0YjRhdG16NXdlMzJxcXNneHpuYTR5aWY1M3hwOHk4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DZ1NZce3T5Q3e/giphy.gif",
+  perguntas:  "/assets/images/sus-dog.gif",
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
   biofabrica_hover: "/assets/images/hover-biofabrica.gif",
   manual:     "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmk2dzZwdTZlemFiZGVkanMzdnZhMXp4bjBsb2VrcHl5NmI4NXc4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z9tvqoD1SEQcomTVaK/giphy.gif",
@@ -94,13 +95,34 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
 const Portal = () => {
   const [skin, setSkin] = useState(1);
   const [heroName, setHeroName] = useState("");
+  const [nameRevealed, setNameRevealed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [manifestoOpen, setManifestoOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [perguntasOpen, setPerguntasOpen] = useState(false);
   const [nameModalOpen, setNameModalOpen] = useState(false);
   const [nameGreeting, setNameGreeting] = useState("");
-  
+  const [profileJoke, setProfileJoke] = useState<number | null>(null);
+
+  // Piadinhas por perfil (aparece quando clica num card do perfil-selector)
+  const PROFILE_JOKES: Record<number, { tag: string; title: string; text: string }> = {
+    1: {
+      tag: "perfil 01 · curioso",
+      title: "Ei, detetive.",
+      text: "Você é o tipo que googla 'larva desidratada é seguro pra cachorro?' e lê até o último PDF. Boa. A gente tem muita carne nova pro seu cérebro.",
+    },
+    2: {
+      tag: "perfil 02 · nojentinho",
+      title: "Calma aí.",
+      text: "A gente sabe. Da primeira vez também arrepiou. Hoje a gente serve no petisco do filhote. Se liga — nojento mesmo é o desperdício.",
+    },
+    3: {
+      tag: "perfil 03 · estudado",
+      title: "Beleza, nerd.",
+      text: "Proteína 40%, digestibilidade 88,9%, ingrediente único hipoalergênico, 83% menos CO₂. Ficha técnica completa, papers, tudo aqui. Não vamos te insultar com marketing.",
+    },
+  };
+
   const [audioOpen, setAudioOpen] = useState(false);
   const [audioMinimized, setAudioMinimized] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
@@ -132,6 +154,7 @@ const Portal = () => {
   const triggerNameGreeting = useCallback(() => {
     const clean = heroName.trim();
     if (clean.length < 2) return;
+    setNameRevealed(true);
     const messages = [
       "o Dragão te esperava. Segue o fio.",
       "esse nome tem força. Bem-vindo à matilha.",
@@ -672,49 +695,66 @@ const Portal = () => {
       {/* HERO */}
       <section className="hero">
         <div className="hero-bg" />
-        <div className="dragon-silhouette">🐉</div>
         <div className="hero-content">
           <div className="hero-eyebrow">// portal do dragão</div>
           <DragonLogo className="hero-logo" />
 
-          <h1 className="hero-title">
-            Bem-vindo<br />
-            <span>à caverna.</span>
+          <h1 className="hero-title hero-title-inline">
+            Bem-vindo à caverna.
           </h1>
 
           <p className="hero-descricao">
             Manifesto, produtos, ciência real, o que a mídia fala, como virar parceiro e as perguntas que ninguém tem coragem de fazer. Tudo num lugar só. <strong>Descobre. Aprende. Se diverte.</strong>
           </p>
 
-          <div className="hero-name-wrap">
-            <span className="hero-name-label">como te chama?</span>
-            <input
-              type="text"
-              className="hero-name-input"
-              placeholder="SEU NOME AQUI"
-              maxLength={16}
-              autoComplete="off"
-              spellCheck={false}
-              value={heroName}
-              onChange={e => setHeroName(e.target.value)}
-              onKeyDown={e => { if (e.key === "Enter") triggerNameGreeting(); }}
-            />
-          </div>
-
-          {nameUpper ? (
-            <p className="hero-tagline-sub">
-              <span className="hero-tagline-name">{nameUpper}</span> JÁ FAZ PARTE DA REVOLUÇÃO.
-              <span className="hero-tagline-fio">segue o fio...</span>
-            </p>
+          {nameRevealed && nameUpper ? (
+            <div className="hero-name-reveal hero-name-reveal-inline">
+              <p className="hero-tagline-sub hero-tagline-sub-reveal hero-tagline-sub-inline">
+                <span className="hero-tagline-name">{nameUpper}</span>
+                <span className="hero-tagline-rest">já faz parte da revolução.</span>
+              </p>
+              <button
+                type="button"
+                className="hero-name-edit"
+                onClick={() => { setHeroName(""); setNameRevealed(false); }}
+                aria-label="Trocar nome"
+              >
+                trocar nome ×
+              </button>
+            </div>
           ) : (
-            <p className="hero-tagline-sub hero-tagline-sub-empty">
-              digite seu nome e segue o fio...
-            </p>
+            <form
+              className="hero-name-wrap hero-name-wrap-inline"
+              onSubmit={e => { e.preventDefault(); triggerNameGreeting(); }}
+            >
+              <span className="hero-name-label">como te chama?</span>
+              <input
+                type="text"
+                className="hero-name-input"
+                placeholder="SEU NOME AQUI"
+                maxLength={16}
+                autoComplete="off"
+                spellCheck={false}
+                value={heroName}
+                onChange={e => setHeroName(e.target.value)}
+                onBlur={() => { if (heroName.trim().length >= 2) setNameRevealed(true); }}
+                autoFocus
+              />
+              <button
+                type="submit"
+                className="hero-name-submit"
+                aria-label="Confirmar nome"
+                disabled={heroName.trim().length < 2}
+              >
+                →
+              </button>
+              <span className="hero-name-hint">aperta enter e segue o fio...</span>
+            </form>
           )}
         </div>
       </section>
 
-      {/* PERFIL SELECTOR — a brincadeira dos 3 modos */}
+      {/* PERFIL SELECTOR — a brincadeira dos 3 modos + comprar discreto ao lado */}
       <section className="perfil-selector">
         <div className="perfil-selector-label">// quem é você?</div>
         <div className="perfil-selector-grid">
@@ -727,7 +767,7 @@ const Portal = () => {
               key={p.n}
               type="button"
               className={`perfil-card perfil-card-s${p.n}${skin === p.n ? " active" : ""}`}
-              onClick={() => setSkin(p.n)}
+              onClick={() => { setSkin(p.n); setProfileJoke(p.n); }}
               aria-pressed={skin === p.n}
             >
               <span className="perfil-num">{String(p.n).padStart(2, "0")}</span>
@@ -736,14 +776,63 @@ const Portal = () => {
               <span className="perfil-cta">{skin === p.n ? "●" : "→"}</span>
             </button>
           ))}
+          <a
+            href="https://comidadedragao.com.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="perfil-buy-link"
+          >
+            <span className="perfil-buy-label">comprar</span>
+            <span className="perfil-buy-cta">→</span>
+          </a>
         </div>
       </section>
 
-      {/* CONTROLS BAR */}
-      <nav className="controls-bar">
-        <button className="btn btn-dragon" onClick={openModal}>O Dragão Fala →</button>
-        <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="btn btn-buy">Comprar Agora →</a>
+      {/* O DRAGÃO FALA — CTA principal, solo, gigante */}
+      <nav className="dragon-cta-bar">
+        <button type="button" className="btn-dragon-hero" onClick={openModal}>
+          <span className="btn-dragon-hero-eyebrow">// apertou aqui você some por um tempo</span>
+          <span className="btn-dragon-hero-title">O Dragão Fala</span>
+          <span className="btn-dragon-hero-sub">clica se tiver coragem <span className="btn-dragon-hero-arrow">→</span></span>
+        </button>
       </nav>
+
+      {/* PROFILE JOKE POPUP — piadinha por perfil escolhido */}
+      {profileJoke !== null && (
+        <div
+          className="profile-joke-overlay"
+          onClick={(e) => { if (e.target === e.currentTarget) setProfileJoke(null); }}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className={`profile-joke-card profile-joke-card-s${profileJoke}`}>
+            <button
+              type="button"
+              className="profile-joke-close"
+              onClick={() => setProfileJoke(null)}
+              aria-label="Fechar"
+            >
+              ×
+            </button>
+            <div className="profile-joke-tag">
+              {PROFILE_JOKES[profileJoke].tag}
+            </div>
+            <div className="profile-joke-title">
+              {PROFILE_JOKES[profileJoke].title}
+            </div>
+            <p className="profile-joke-text">
+              {PROFILE_JOKES[profileJoke].text}
+            </p>
+            <button
+              type="button"
+              className="profile-joke-cta"
+              onClick={() => setProfileJoke(null)}
+            >
+              bora lá →
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* CONTEÚDOS */}
       <div className="section-label">Conteúdos</div>
@@ -784,9 +873,8 @@ const Portal = () => {
             <HoverBg imgKey="manual" />
             <div className="card-inner">
               <div className="card-body">
-                <span className="card-tag">Parceiros</span>
-                <div className="card-label">Manual do<br />Criador</div>
-                <div className="card-sub">Entra na matilha — 30% de comissão</div>
+                <div className="card-label">Vira<br />Parceiro</div>
+                <div className="card-sub">Entre na matilha →</div>
               </div>
             </div>
             <div className="card-hover-overlay" />
@@ -807,25 +895,12 @@ const Portal = () => {
         {/* ROW 2 */}
         <div className="row">
           <Link to="/produtos" className="card card-produtos ratio-1-1">
-            <img src={portalDogImg} alt="" className="card-produtos-cover" draggable={false} />
+            <img src="/assets/images/nossos-produtos.png" alt="" className="card-produtos-cover" draggable={false} />
+            <HoverBg imgKey="produtos" />
             <div className="card-inner">
               <div className="card-body">
                 <div className="card-label">Nossos<br />Produtos</div>
                 <div className="card-sub" style={{ marginTop: 8 }}>Veja a linha completa — 7 SKUs</div>
-              </div>
-              <div className="card-reveal reveal-produtos">
-                <div className="rp-title">// linha completa</div>
-                <div className="rp-list">
-                  {PRODUCTS_LIST.map((p, i) => (
-                    <div className="rp-item" key={i} style={{ transitionDelay: p.delay }}>
-                      <span className="rp-icon">{p.icon}</span>
-                      <div>
-                        <div className="rp-name">{p.name}</div>
-                        <div className="rp-who">{p.who}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
@@ -876,7 +951,7 @@ const Portal = () => {
             <HoverBg imgKey="companion" />
             <video
               className="card-bg-video"
-              src="/assets/videos/imprensa-cover.mp4?v=2"
+              src="/assets/videos/na-midia.mp4?v=1"
               autoPlay
               muted
               loop
@@ -898,6 +973,7 @@ const Portal = () => {
             onClick={openPerguntas}
             className="card card-perguntas ratio-3-4"
           >
+            <HoverBg imgKey="perguntas" />
             <div className="card-inner">
               <div className="card-body">
                 <span className="perg-bg-mark">?</span>
@@ -931,12 +1007,15 @@ const Portal = () => {
       </div>
 
       {/* STATS STRIP */}
-      <div className="section-label" style={{ marginTop: 40 }}>Não é marketing, é matemática</div>
+      <h2 className="thesis-label thesis-label-center" style={{ marginTop: 40 }}>
+        Não é marketing, <span>é matemática.</span>
+      </h2>
       <div className="stats-strip">
         {[
-          { num: "83%",   label: <>menos <em>carbono</em></>,          hint: "~500g CO₂/kg (BSF) vs ~2.850g/kg (boi)." },
-          { num: "3140×", label: <>mais <em>eficiente</em></>,         hint: "Agregado: menos água + menos terra + mais proteína por kg vs. gado." },
-          { num: "45",    label: <>dias de <em>ciclo de vida</em></>,  hint: "Ciclo completo da BSF em 45 dias. Boi leva 18–24 meses." },
+          { num: <>83<span className="stat-unit">%</span></>,     label: <>menos <em>carbono</em></>,      hint: "~500g CO₂/kg (BSF) vs ~2.850g/kg (boi)." },
+          { num: <>3140<span className="stat-unit">×</span></>,   label: <>mais <em>eficiente</em></>,     hint: "Agregado: menos água + menos terra + mais proteína por kg vs. gado." },
+          { num: <>88,9<span className="stat-unit">%</span></>,   label: <>de <em>digestibilidade</em></>, hint: "Proteína de BSF é quase totalmente absorvida — superior à maioria das fontes convencionais em cães." },
+          { num: <>45<span className="stat-unit">%</span></>,     label: <>de <em>proteína</em></>,        hint: "Alta densidade proteica — quase o dobro da maioria das rações convencionais." },
         ].map((s, i) => (
           <div className="stat-item" key={i}>
             <span className="stat-num">{s.num}</span>
