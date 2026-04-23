@@ -169,7 +169,8 @@ function drawCornerMarks(ctx: CanvasRenderingContext2D, S: number, color: string
 async function generateResultCardBlob(
   quiz: QuizDef,
   resultKey: string,
-  profileName: string
+  profileName: string,
+  petPhotoFile?: File | null
 ): Promise<Blob> {
   await document.fonts.ready;
 
@@ -193,103 +194,216 @@ async function generateResultCardBlob(
   for (let x = 0; x < S; x += 60) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,S); ctx.stroke(); }
   for (let y = 0; y < S; y += 60) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(S,y); ctx.stroke(); }
 
-  // ── Glow radial central
-  const glow = ctx.createRadialGradient(S/2, S*0.5, 0, S/2, S*0.5, S*0.6);
-  glow.addColorStop(0, accent + "30");
+  // ── Glow radial (concentrado no topo onde fica a foto)
+  const glow = ctx.createRadialGradient(S/2, 360, 0, S/2, 360, S * 0.55);
+  glow.addColorStop(0, accent + "2A");
   glow.addColorStop(1, "transparent");
-  ctx.fillStyle = glow; ctx.fillRect(0, 0, S, S);
-
-  // ── Corner marks decorativos
-  drawCornerMarks(ctx, S, accent + "99", 40, 24);
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, S, S);
 
   // ── Barra lateral esquerda (accent)
   ctx.fillStyle = accent;
   ctx.fillRect(0, 0, 8, S);
 
-  // ── Logo colorida no topo
+  // ── Corner marks decorativos
+  drawCornerMarks(ctx, S, accent + "55", 36, 20);
+
+  // ── LOGO centered no topo
   const logo = await loadLogoColored("#FAFAFA");
-  const logoY = 52;
+  const logoW = 156, logoY = 34;
   if (logo) {
-    const logoW = 200;
-    const logoH = logo.naturalHeight > 0 ? Math.round(logoW * logo.naturalHeight / logo.naturalWidth) : 70;
-    ctx.globalAlpha = 0.9;
+    const logoH = logo.naturalHeight > 0 ? Math.round(logoW * logo.naturalHeight / logo.naturalWidth) : 54;
+    ctx.globalAlpha = 0.88;
     ctx.drawImage(logo, (S - logoW) / 2, logoY, logoW, logoH);
     ctx.globalAlpha = 1;
   } else {
     ctx.fillStyle = "#FAFAFA";
-    ctx.font = "700 26px 'Big Shoulders Display', Arial, sans-serif";
+    ctx.font = "700 22px 'Big Shoulders Display', Arial, sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("COMIDA DE DRAGÃO", S/2, logoY + 30);
+    ctx.fillText("COMIDA DE DRAGÃO", S/2, logoY + 28);
   }
 
-  // ── Linha separadora abaixo da logo
-  ctx.strokeStyle = accent + "55";
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(80, 152); ctx.lineTo(S - 80, 152); ctx.stroke();
-
-  // ── Dimension tag
-  if (dimension) {
-    ctx.fillStyle = accent;
-    const tagText = dimension.title.toUpperCase();
-    ctx.font = "700 15px 'Big Shoulders Display', Arial, sans-serif";
-    const tw = ctx.measureText(tagText).width + 28;
-    ctx.fillRect((S - tw) / 2, 168, tw, 30);
-    ctx.fillStyle = "#0A0A0A";
-    ctx.font = "800 14px 'Big Shoulders Display', Arial, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(tagText, S/2, 188);
-  }
-
-  // ── Emoji grande com glow
-  const emojiY = 360;
-  const emojiGlow = ctx.createRadialGradient(S/2, emojiY - 30, 0, S/2, emojiY - 30, 140);
-  emojiGlow.addColorStop(0, accent + "40");
-  emojiGlow.addColorStop(1, "transparent");
-  ctx.fillStyle = emojiGlow;
-  ctx.beginPath(); ctx.arc(S/2, emojiY - 30, 140, 0, Math.PI * 2); ctx.fill();
-  ctx.font = "140px serif";
+  // ── Dimension tag pill
+  const tagText = (dimension?.title || quiz.title).toUpperCase();
+  ctx.font = "700 12px 'Big Shoulders Display', Arial, sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText(result.emoji, S/2, emojiY);
-
-  // ── profileLabel — grande, cor accent
-  const labelText = stripEmoji(result.profileLabel).toUpperCase();
-  const labelSize = labelText.length > 18 ? 68 : labelText.length > 12 ? 82 : 96;
-  ctx.fillStyle = accent;
-  ctx.font = `800 ${labelSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
-  ctx.fillText(labelText, S/2, 530);
-
-  // ── Category — branco
-  ctx.fillStyle = "rgba(255,255,255,0.85)";
-  ctx.font = "600 24px 'Space Grotesk', Arial, sans-serif";
-  ctx.fillText(result.category.toUpperCase(), S/2, 576);
-
-  // ── Linha separadora
-  ctx.strokeStyle = "rgba(255,255,255,0.1)";
+  const tagW = ctx.measureText(tagText).width + 24;
+  const tagX = (S - tagW) / 2;
+  const tagPillY = 102;
+  ctx.fillStyle = accent + "20";
+  ctx.fillRect(tagX, tagPillY, tagW, 22);
+  ctx.strokeStyle = accent + "80";
   ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(120, 608); ctx.lineTo(S - 120, 608); ctx.stroke();
-
-  // ── Description snippet
-  ctx.fillStyle = "rgba(255,255,255,0.42)";
-  ctx.font = "400 21px 'Space Grotesk', Arial, sans-serif";
-  const firstLine = result.description.split("\n")[0];
-  const desc = firstLine.length > 90 ? firstLine.slice(0, 90) + "…" : firstLine;
-  wrapText(ctx, desc, S/2, 640, S - 200, 32);
-
-  // ── Nome do usuário
-  ctx.fillStyle = "#FAFAFA";
-  ctx.font = "700 32px 'Big Shoulders Display', Arial, sans-serif";
-  ctx.fillText(profileName.toUpperCase(), S/2, 840);
-
-  // ── Ponto accent abaixo do nome
+  ctx.strokeRect(tagX, tagPillY, tagW, 22);
   ctx.fillStyle = accent;
-  ctx.beginPath(); ctx.arc(S/2, 862, 4, 0, Math.PI * 2); ctx.fill();
+  ctx.fillText(tagText, S/2, tagPillY + 15);
 
-  // ── Footer — accent colorido
+  // ── FOTO FRAME (460×460, y=134)
+  const photoSize = 460;
+  const photoX = (S - photoSize) / 2;
+  const photoY = 134;
+
+  // Glow atrás do frame
+  const photoGlow = ctx.createRadialGradient(S/2, photoY + photoSize/2, 0, S/2, photoY + photoSize/2, photoSize * 0.65);
+  photoGlow.addColorStop(0, accent + "22");
+  photoGlow.addColorStop(1, "transparent");
+  ctx.fillStyle = photoGlow;
+  ctx.fillRect(photoX - 60, photoY - 60, photoSize + 120, photoSize + 120);
+
+  // Carregar foto do pet (ou padrão)
+  let petImg: HTMLImageElement | null = null;
+  if (petPhotoFile) {
+    try {
+      const blobUrl = URL.createObjectURL(petPhotoFile);
+      petImg = await loadImage(blobUrl);
+      URL.revokeObjectURL(blobUrl);
+    } catch { petImg = null; }
+  }
+
+  // Clip e draw
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(photoX, photoY, photoSize, photoSize);
+  ctx.clip();
+
+  if (petImg) {
+    // Cover-fit: escala para preencher o quadrado
+    const iw = petImg.naturalWidth, ih = petImg.naturalHeight;
+    const scale = Math.max(photoSize / iw, photoSize / ih);
+    const dw = iw * scale, dh = ih * scale;
+    ctx.drawImage(petImg, photoX + (photoSize - dw) / 2, photoY + (photoSize - dh) / 2, dw, dh);
+  } else {
+    // Background padrão
+    ctx.fillStyle = "#111111";
+    ctx.fillRect(photoX, photoY, photoSize, photoSize);
+    // Linhas diagonais suaves (textura)
+    ctx.strokeStyle = accent + "0E";
+    ctx.lineWidth = 1;
+    for (let d = -photoSize; d < photoSize * 2; d += 40) {
+      ctx.beginPath();
+      ctx.moveTo(photoX + d, photoY);
+      ctx.lineTo(photoX + d + photoSize, photoY + photoSize);
+      ctx.stroke();
+    }
+    // Emoji grande centralizado
+    ctx.font = "190px serif";
+    ctx.textAlign = "center";
+    ctx.fillText(result.emoji, photoX + photoSize / 2, photoY + photoSize / 2 + 66);
+    // Hint "adicionar foto"
+    ctx.fillStyle = "rgba(255,255,255,0.16)";
+    ctx.font = "400 14px 'Space Grotesk', Arial, sans-serif";
+    ctx.fillText("adicionar foto do pet ↑", photoX + photoSize / 2, photoY + photoSize - 16);
+  }
+  ctx.restore();
+
+  // Borda accent do frame
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 3;
+  ctx.strokeRect(photoX, photoY, photoSize, photoSize);
+
+  // Corner marks do frame (preto + accent)
+  const pcSize = 28;
+  const photoCorners = [
+    { x: photoX,              y: photoY,              dx: 1,  dy: 1  },
+    { x: photoX + photoSize,  y: photoY,              dx: -1, dy: 1  },
+    { x: photoX,              y: photoY + photoSize,  dx: 1,  dy: -1 },
+    { x: photoX + photoSize,  y: photoY + photoSize,  dx: -1, dy: -1 },
+  ];
+  ctx.strokeStyle = "#0A0A0A";
+  ctx.lineWidth = 6;
+  for (const { x, y, dx, dy } of photoCorners) {
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dx * pcSize, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + dy * pcSize); ctx.stroke();
+  }
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 3;
+  for (const { x, y, dx, dy } of photoCorners) {
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dx * pcSize, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + dy * pcSize); ctx.stroke();
+  }
+
+  // ── IDENTITY STATEMENT (primeira pessoa, grande)
+  const statement = stripEmoji(result.profileLabel).toUpperCase();
+  const stLen = statement.length;
+  const stFontSize = stLen > 28 ? 68 : stLen > 20 ? 80 : 92;
+  const stLineH = stFontSize * 1.08;
+  const maxStWidth = S - 120;
+
+  ctx.font = `800 ${stFontSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+  ctx.textAlign = "center";
+  ctx.shadowColor = accent;
+  ctx.shadowBlur = 22;
+  ctx.fillStyle = "#FFFFFF";
+
+  const stWords = statement.split(" ");
+  let stLine = "";
+  let stY = photoY + photoSize + 50; // gap abaixo da foto
+  for (const word of stWords) {
+    const test = stLine + word + " ";
+    if (ctx.measureText(test).width > maxStWidth && stLine !== "") {
+      ctx.fillText(stLine.trim(), S/2, stY);
+      stLine = word + " ";
+      stY += stLineH;
+    } else {
+      stLine = test;
+    }
+  }
+  if (stLine.trim()) ctx.fillText(stLine.trim(), S/2, stY);
+
+  ctx.shadowBlur = 0;
+  ctx.shadowColor = "transparent";
+
+  const afterStY = stY + 18;
+
+  // ── Category sub-label
+  ctx.fillStyle = "rgba(255,255,255,0.38)";
+  ctx.font = "500 17px 'Space Grotesk', Arial, sans-serif";
+  ctx.textAlign = "center";
+  const categoryY = afterStY + 22;
+  ctx.fillText(result.category.toUpperCase(), S/2, categoryY);
+
+  // ── Dimension + result badge
+  const badgeText = `${(dimension?.title || "RESULTADO").toUpperCase()}  ·  ${result.label.toUpperCase()}`;
+  ctx.font = "700 13px 'Big Shoulders Display', Arial, sans-serif";
+  const badgeW = Math.min(ctx.measureText(badgeText).width + 32, S - 120);
+  const badgeX = (S - badgeW) / 2;
+  const badgeY = categoryY + 22;
+  ctx.fillStyle = accent + "1E";
+  ctx.fillRect(badgeX, badgeY, badgeW, 26);
+  ctx.strokeStyle = accent + "77";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(badgeX, badgeY, badgeW, 26);
   ctx.fillStyle = accent;
-  ctx.fillRect(0, S - 72, S, 72);
+  ctx.fillText(badgeText, S/2, badgeY + 17);
+
+  // ── Footer accent (y: 980-1080 = 100px)
+  const footerY = 980;
+  ctx.fillStyle = accent;
+  ctx.fillRect(0, footerY, S, S - footerY);
+
+  // Misregistration shadow sutil
+  ctx.globalAlpha = 0.22;
   ctx.fillStyle = "#0A0A0A";
-  ctx.font = "800 20px 'Big Shoulders Display', Arial, sans-serif";
-  ctx.fillText("@COMIDADEDRAGAO · COMIDADEDRAGAO.COM.BR", S/2, S - 24);
+  ctx.font = "900 20px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("DESCOBRE O SEU  →  COMIDADEDRAGAO.COM.BR", S/2 + 3, footerY + 38 + 3);
+  ctx.globalAlpha = 1;
+
+  ctx.fillStyle = "#0A0A0A";
+  ctx.font = "900 20px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.fillText("DESCOBRE O SEU  →  COMIDADEDRAGAO.COM.BR", S/2, footerY + 38);
+
+  ctx.fillStyle = "rgba(0,0,0,0.5)";
+  ctx.font = "500 13px 'Space Grotesk', Arial, sans-serif";
+  ctx.fillText("@COMIDADEDRAGAO  ·  #COMIDADEDRAGAO", S/2, footerY + 64);
+
+  // Nome do tutor (canto inferior direito do footer)
+  if (profileName && profileName !== "Tutor Dragão") {
+    ctx.fillStyle = "rgba(0,0,0,0.4)";
+    ctx.font = "700 11px 'Big Shoulders Display', Arial, sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText(profileName.toUpperCase(), S - 22, footerY + 90);
+  }
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png")
@@ -606,7 +720,10 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
   const [gateError, setGateError] = useState("");
   const [sharing, setSharing]     = useState(false);
   const [shareStatus, setShareStatus] = useState<"idle" | "ok" | "err">("idle");
+  const [petPhotoFile, setPetPhotoFile] = useState<File | null>(null);
+  const [petPhotoPreview, setPetPhotoPreview] = useState<string | null>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const petPhotoRef = useRef<HTMLInputElement>(null);
 
   const totalSteps = quiz.questions.length;
   const progressPct =
@@ -646,7 +763,23 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
     onComplete(quiz.id, resultKey, { name: gateName, email: gateEmail });
   };
 
+  const removePetPhoto = () => {
+    if (petPhotoPreview) URL.revokeObjectURL(petPhotoPreview);
+    setPetPhotoFile(null);
+    setPetPhotoPreview(null);
+    if (petPhotoRef.current) petPhotoRef.current.value = "";
+  };
+
+  const handlePetPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (petPhotoPreview) URL.revokeObjectURL(petPhotoPreview);
+    setPetPhotoFile(file);
+    setPetPhotoPreview(URL.createObjectURL(file));
+  };
+
   const retry = () => {
+    removePetPhoto();
     transition(() => {
       setPhase("questions");
       setStepIdx(0);
@@ -662,7 +795,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
     setSharing(true);
     setShareStatus("idle");
     try {
-      const blob = await generateResultCardBlob(quiz, resultKey, name);
+      const blob = await generateResultCardBlob(quiz, resultKey, name, petPhotoFile);
       const resultData = quiz.results[resultKey];
       const text = `Descobri que sou ${resultData?.profileLabel || resultData?.label} no quiz do Dragão! ${resultData?.emoji || "🐉"} Descobre o seu: comidadedragao.com.br #ComidaDeDragao`;
       await shareCard(blob, "resultado-dragao.png", text);
@@ -686,6 +819,11 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
+
+  // Revoke pet photo URL on unmount or change
+  useEffect(() => {
+    return () => { if (petPhotoPreview) URL.revokeObjectURL(petPhotoPreview); };
+  }, [petPhotoPreview]);
 
   const result  = resultKey ? quiz.results[resultKey] : null;
   const question = quiz.questions[stepIdx];
@@ -814,6 +952,31 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
                   {result.ctaText || "EXPLORAR →"}
                 </a>
               )}
+
+              {/* Pet photo upload */}
+              <div className="qz-pet-photo-section">
+                <input
+                  ref={petPhotoRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handlePetPhotoChange}
+                />
+                {petPhotoPreview ? (
+                  <div className="qz-pet-preview-wrap">
+                    <img src={petPhotoPreview} className="qz-pet-preview-img" alt="Foto do pet" />
+                    <div className="qz-pet-preview-label">Foto do pet no card</div>
+                    <button className="qz-pet-remove-btn" onClick={removePetPhoto}>Remover</button>
+                  </div>
+                ) : (
+                  <button
+                    className="qz-add-photo-btn"
+                    onClick={() => petPhotoRef.current?.click()}
+                  >
+                    + Adicionar foto do pet no card
+                  </button>
+                )}
+              </div>
 
               <div className="qz-result-actions">
                 <button
