@@ -3187,7 +3187,8 @@
   padding-top: 15%;
 }
 .portal-page .card-produtos .card-body {
-  padding-top: 22%;
+  padding-top: 14%;
+  gap: 4px;
 }
 
 /* =============================================================
