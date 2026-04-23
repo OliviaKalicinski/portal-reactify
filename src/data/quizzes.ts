@@ -46,6 +46,13 @@ export interface QuizResult {
   emoji: string;
   /** Rótulo curto p/ o card compartilhável — sem mencionar produto */
   profileLabel: string;
+  /**
+   * Versão autossuficiente do profileLabel usada na MANCHETE e no CARD COMPARTILHÁVEL.
+   * Necessária quando o label curto é ambíguo fora do contexto do quiz
+   * (ex: "Tô me convencendo aos poucos" → "Tô me convencendo a comer inseto").
+   * Fallback: profileLabel.
+   */
+  manifestoLine?: string;
   coupon?: string;
   ctaText?: string;
   ctaLink?: string;
@@ -210,6 +217,7 @@ const quizPersonality: QuizDef = {
       description: 'Você faz aniversário pro pet, manda foto do prato montado e chora no veterinário. E tá tudo bem. Na verdade, tá mais que bem — porque esse nível de amor merece o melhor alimento do mundo.\n\nO Dragão te vê: tanta intensidade merece uma nutrição à altura.',
       emoji: '🔴',
       profileLabel: 'Eu exagero — e não me arrependo',
+      manifestoLine: 'Exagero nos mimos com meu pet — e não me arrependo',
       stats: [
         { label: 'PESQUISA',    value: 55 },
         { label: 'VÍNCULO',     value: 92 },
@@ -372,6 +380,7 @@ const quizNojo: QuizDef = {
       description: 'Você consegue. Não gosta, mas consegue. E isso já é muito — porque a maioria das grandes mudanças na história da alimentação começou exatamente assim: com alguém fazendo uma careta e experimentando mesmo assim.\n\nO Dragão respeita a coragem disfarçada de nojo.',
       emoji: '😬',
       profileLabel: 'Eu faço, mas sofro um pouco',
+      manifestoLine: 'Como proteína de inseto — mas ainda sofro um pouco',
       stats: [
         { label: 'CORAGEM',    value: 42 },
         { label: 'CURIOSIDADE', value: 55 },
@@ -387,6 +396,7 @@ const quizNojo: QuizDef = {
       description: 'Você está no lugar mais interessante de todos: na fronteira entre o velho e o novo. Faz perguntas, lê ingredientes, pesa o nojo contra a lógica. Esse é exatamente o perfil de tutor que muda de ideia com um dado bom.\n\nAqui vai um: 83% menos emissões de carbono. 15.000 litros a menos de água por kg.',
       emoji: '🤔',
       profileLabel: 'Tô me convencendo aos poucos',
+      manifestoLine: 'Tô me convencendo a comer inseto aos poucos',
       stats: [
         { label: 'CORAGEM',    value: 65 },
         { label: 'CURIOSIDADE', value: 78 },
@@ -402,6 +412,7 @@ const quizNojo: QuizDef = {
       description: 'Inseto não te assusta. Você provavelmente já leu sobre BSF antes, ou pelo menos não fechou o artigo no primeiro parágrafo. O que falta é só dar o passo — e seu pet está esperando faz tempo.\n\nO Dragão vê você hesitando. E ele não entende por quê.',
       emoji: '😏',
       profileLabel: 'O nojo já foi embora',
+      manifestoLine: 'Comer inseto já não me causa nojo',
       stats: [
         { label: 'CORAGEM',    value: 82 },
         { label: 'CURIOSIDADE', value: 88 },
@@ -523,6 +534,7 @@ const quizKnowledge: QuizDef = {
       description: 'Não se preocupa — a maioria dos tutores está exatamente aqui. A indústria de ração não foi construída pra ser fácil de entender. Embalagem bonita, palavras difíceis, e o essencial fica escondido na lista de ingredientes.\n\nAgora que você sabe um pouco mais, o próximo passo é simples: escolha com mais informação.',
       emoji: '🐣',
       profileLabel: 'Aprendi mais hoje do que esperava',
+      manifestoLine: 'Aprendi mais sobre pet food hoje do que esperava',
       stats: [
         { label: 'CONHECIMENTO', value: 22 },
         { label: 'CRITÉRIO',     value: 38 },
@@ -863,6 +875,7 @@ const quizEco: QuizDef = {
       description: 'Sem julgamento — a maioria das pessoas está aqui. O sistema foi construído pra facilitar escolhas de alto impacto e dificultar as outras. Mas o primeiro passo é sempre o mesmo: saber onde você está.\n\nVocê acabou de dar esse passo. O Dragão sugere começar pequeno.',
       emoji: '🌋',
       profileLabel: 'Sei que dá pra mudar. Começo aqui.',
+      manifestoLine: 'Sei que dá pra mudar meu consumo — começo agora',
       stats: [
         { label: 'IMPACTO',      value: 22 },
         { label: 'CONSISTÊNCIA', value: 16 },
@@ -878,6 +891,7 @@ const quizEco: QuizDef = {
       description: 'Você já pensa. Já questiona. Já fez algumas mudanças — mas sabe que ainda tem espaço pra evoluir. Esse é o perfil mais comum entre pessoas que realmente chegam a mudar: não é perfeição, é processo.\n\nO Dragão não pede perfeição. Só escolhas melhores, uma de cada vez.',
       emoji: '🌥️',
       profileLabel: 'Tô melhorando, um passo de cada vez',
+      manifestoLine: 'Tô melhorando minha consciência ambiental um passo por vez',
       stats: [
         { label: 'IMPACTO',      value: 55 },
         { label: 'CONSISTÊNCIA', value: 50 },
@@ -893,6 +907,7 @@ const quizEco: QuizDef = {
       description: 'Você tem consciência, tem intenção e já colocou bastante em prática. O que falta é consistência nos pontos cegos — aquelas áreas onde o hábito ainda fala mais alto que o valor.\n\nO Dragão vê os gaps. E tem uma sugestão pra cada um deles.',
       emoji: '⛅',
       profileLabel: 'Já entendi — agora fecho os gaps',
+      manifestoLine: 'Já entendi a urgência — agora fecho os gaps do meu consumo',
       stats: [
         { label: 'IMPACTO',      value: 76 },
         { label: 'CONSISTÊNCIA', value: 68 },
@@ -908,6 +923,7 @@ const quizEco: QuizDef = {
       description: 'Você já internalizou. Separa lixo, pensa na origem, reduziu carne, e faz perguntas que a maioria nem sabe que existem. O próximo nível não é consumir melhor — é influenciar as pessoas ao redor.\n\nO Dragão precisa de pessoas como você.',
       emoji: '🌤️',
       profileLabel: 'Já virou estilo de vida pra mim',
+      manifestoLine: 'Consciência ambiental já virou meu estilo de vida',
       stats: [
         { label: 'IMPACTO',      value: 88 },
         { label: 'CONSISTÊNCIA', value: 85 },
@@ -923,6 +939,7 @@ const quizEco: QuizDef = {
       description: 'Você é a referência no grupo. A pessoa que as outras mandam mensagem quando têm dúvida sobre reciclagem, origem de alimento ou impacto ambiental. Não é postura — é convicção.\n\nO Dragão te reconhece. E já sabia que você chegaria até aqui.',
       emoji: '🌿',
       profileLabel: 'Eu vivo tudo que eu prego',
+      manifestoLine: 'Vivo tudo que prego sobre consumo consciente',
       stats: [
         { label: 'IMPACTO',      value: 99 },
         { label: 'CONSISTÊNCIA', value: 97 },
@@ -1017,6 +1034,7 @@ const quizRevolucao: QuizDef = {
       description: 'Você segue o fluxo. Compra o que sempre comprou, confia em quem sempre confiou e não perde tempo questionando o que parece funcionar.\n\nMas o Dragão tem uma pergunta incômoda: funcionar pra quem? Pro pet, pro planeta, ou pra indústria que prefere que você não leia o rótulo?\n\nUma leitura de ingrediente pode mudar tudo.',
       emoji: '🔁',
       profileLabel: 'Sigo o que funciona. Por enquanto.',
+      manifestoLine: 'Sigo o que funciona no mercado pet — por enquanto',
       stats: [
         { label: 'AUTONOMIA',       value: 18 },
         { label: 'CURIOSIDADE',     value: 28 },
@@ -1032,6 +1050,7 @@ const quizRevolucao: QuizDef = {
       description: 'Você questiona algumas coisas, pesquisa quando tem tempo e já mudou pelo menos uma escolha por convicção. O problema é a inconsistência — algumas áreas ainda funcionam no automático enquanto outras já estão no manual.\n\nO Dragão vê o movimento. E sabe que quem começa a questionar raramente para.',
       emoji: '⚡',
       profileLabel: 'Tô saindo do piloto automático',
+      manifestoLine: 'Tô saindo do piloto automático do pet convencional',
       stats: [
         { label: 'AUTONOMIA',       value: 55 },
         { label: 'CURIOSIDADE',     value: 62 },

@@ -364,7 +364,7 @@ async function generateProfileCardBlob(
 
   const LIME = "#7BFF00";
   const DARK = "#0A0A0A";
-  const TOP_H = 420; // zona da foto / headline
+  const FOOTER_H = 68;
 
   // ── Background preto base
   ctx.fillStyle = DARK;
@@ -380,62 +380,49 @@ async function generateProfileCardBlob(
     } catch { ownerImg = null; }
   }
 
-  // ── Zona topo: foto duotone lime ou fundo neutro
+  // ── Foto duotone lime como BACKDROP full-bleed @ ~20% (anti Ale-style nojo)
   if (ownerImg) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(0, 0, S, TOP_H);
-    ctx.clip();
-
     const offC = document.createElement("canvas");
-    offC.width = S; offC.height = TOP_H;
+    offC.width = S; offC.height = S;
     const offCtx = offC.getContext("2d")!;
+
     const iw = ownerImg.naturalWidth, ih = ownerImg.naturalHeight;
-    const sc = Math.max(S / iw, TOP_H / ih);
+    const sc = Math.max(S / iw, S / ih);
     const dw = iw * sc, dh = ih * sc;
 
-    // Crop bias: foto vertical → ancora mais próximo do topo (rostos tendem
-    // a estar no terço superior). Foto horizontal → centro.
     const isPortrait = ih / iw > 1.15;
-    const overflowY = dh - TOP_H; // sempre >= 0 porque sc é 'cover'
+    const overflowY = dh - S;
     const dy = isPortrait ? -overflowY * 0.22 : -overflowY * 0.5;
     offCtx.drawImage(ownerImg, (S - dw) / 2, dy, dw, dh);
-    const imgData = offCtx.getImageData(0, 0, S, TOP_H);
+
+    // Grayscale
+    const imgData = offCtx.getImageData(0, 0, S, S);
     const d = imgData.data;
     for (let i = 0; i < d.length; i += 4) {
       const g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
       d[i] = d[i + 1] = d[i + 2] = g;
     }
     offCtx.putImageData(imgData, 0, 0);
+
+    // Lime multiply overlay (duotone)
+    offCtx.globalCompositeOperation = "multiply";
+    offCtx.globalAlpha = 0.88;
+    offCtx.fillStyle = LIME;
+    offCtx.fillRect(0, 0, S, S);
+    offCtx.globalCompositeOperation = "source-over";
+    offCtx.globalAlpha = 1;
+
+    // Desenha backdrop no canvas principal com 22% de opacidade
+    ctx.globalAlpha = 0.22;
     ctx.drawImage(offC, 0, 0);
-    ctx.globalCompositeOperation = "multiply";
-    ctx.globalAlpha = 0.72;
-    ctx.fillStyle = LIME;
-    ctx.fillRect(0, 0, S, TOP_H);
-    ctx.globalCompositeOperation = "source-over";
     ctx.globalAlpha = 1;
-    ctx.restore();
 
-    // Fade inferior pro preto
-    const fadeGrad = ctx.createLinearGradient(0, TOP_H - 140, 0, TOP_H);
-    fadeGrad.addColorStop(0, "transparent");
-    fadeGrad.addColorStop(1, DARK);
-    ctx.fillStyle = fadeGrad;
-    ctx.fillRect(0, 0, S, TOP_H);
-
-    // Fade topo pra legibilidade
-    const topFade = ctx.createLinearGradient(0, 0, 0, 120);
-    topFade.addColorStop(0, "rgba(0,0,0,0.55)");
-    topFade.addColorStop(1, "transparent");
-    ctx.fillStyle = topFade;
-    ctx.fillRect(0, 0, S, 120);
-  } else {
-    // Sem foto: sutil glow lime
-    const pglow = ctx.createRadialGradient(S / 2, TOP_H * 0.4, 0, S / 2, TOP_H * 0.4, S * 0.45);
-    pglow.addColorStop(0, "#7BFF0018");
-    pglow.addColorStop(1, "transparent");
-    ctx.fillStyle = pglow;
-    ctx.fillRect(0, 0, S, TOP_H);
+    // Vignette escuro pra manter tipografia legível mesmo com foto
+    const vign = ctx.createRadialGradient(S / 2, S / 2, S * 0.3, S / 2, S / 2, S * 0.75);
+    vign.addColorStop(0, "rgba(0,0,0,0.0)");
+    vign.addColorStop(1, "rgba(0,0,0,0.55)");
+    ctx.fillStyle = vign;
+    ctx.fillRect(0, 0, S, S);
   }
 
   // ── Accent stripe lateral lime
@@ -447,145 +434,164 @@ async function generateProfileCardBlob(
   if (pLogo) {
     const lw = 128;
     const lh = pLogo.naturalHeight > 0 ? Math.round(lw * pLogo.naturalHeight / pLogo.naturalWidth) : 44;
-    ctx.globalAlpha = 0.92;
-    ctx.drawImage(pLogo, 30, 28, lw, lh);
+    ctx.globalAlpha = 0.95;
+    ctx.drawImage(pLogo, 36, 32, lw, lh);
     ctx.globalAlpha = 1;
   }
 
-  // ── Tag "PERFIL DE TUTOR" top-right
-  ctx.font = "800 12px 'Big Shoulders Display', Arial, sans-serif";
-  ctx.textAlign = "right";
-  const ptag = "PERFIL DE TUTOR · SUPER TRUNFO";
-  ctx.fillStyle = "rgba(123,255,0,0.92)";
-  ctx.fillText(ptag, S - 30, 46);
+  // ── Tag top-right "COMIDA DE DRAGÃO · PERFIL N/8"
+  const doneCount = Object.keys(profile.results).length;
+  const total = PROFILE_DIMENSIONS.length;
 
-  // ── Nome grande (center, sobrepõe foto)
+  ctx.font = "700 12px 'Space Mono', 'Big Shoulders Display', Arial, sans-serif";
+  ctx.textAlign = "right";
+  ctx.fillStyle = LIME;
+  ctx.fillText(
+    `PERFIL DE TUTOR · ${doneCount}/${total}`,
+    S - 36, 54
+  );
+
+  // ── Nome grande (left-aligned, abaixo do logo)
   const displayName = (profile.name || "TUTOR DRAGÃO").toUpperCase();
-  let nameSize = 96;
+  let nameSize = 92;
   ctx.font = `800 ${nameSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
-  const maxNameW = S - 140;
+  const NAME_X = 48;
+  const maxNameW = S - NAME_X - 48;
   while (ctx.measureText(displayName).width > maxNameW && nameSize > 48) {
     nameSize -= 4;
     ctx.font = `800 ${nameSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
   }
-  const nameY = ownerImg ? TOP_H - 24 : TOP_H - 60;
-  ctx.textAlign = "center";
+  const nameY = 180;
+  ctx.textAlign = "left";
   ctx.fillStyle = "#FAFAFA";
-  ctx.shadowColor = "rgba(0,0,0,0.6)";
-  ctx.shadowBlur = ownerImg ? 10 : 0;
-  ctx.fillText(displayName, S / 2, nameY);
+  ctx.shadowColor = "rgba(0,0,0,0.7)";
+  ctx.shadowBlur = ownerImg ? 12 : 0;
+  ctx.fillText(displayName, NAME_X, nameY);
   ctx.shadowBlur = 0;
 
-  // ── Divisória accent sob o nome
-  ctx.strokeStyle = LIME;
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(S / 2 - 48, nameY + 14);
-  ctx.lineTo(S / 2 + 48, nameY + 14);
-  ctx.stroke();
+  // ── Divisória lime sob o nome
+  ctx.fillStyle = LIME;
+  ctx.fillRect(NAME_X, nameY + 12, 86, 4);
+
+  // ── Label "EU, NA REAL · N/8"
+  ctx.font = "700 13px 'Space Mono', Arial, sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillStyle = LIME;
+  ctx.fillText(`EU, NA REAL · ${doneCount}/${total}`, NAME_X, nameY + 58);
 
   // ─────────────────────────────────────────────────────────────────────
-  // STATS SUPER TRUNFO — 8 linhas com barra + valor
+  // MANCHETE — linhas coloridas com prefixo SOU/TÔ/E
   // ─────────────────────────────────────────────────────────────────────
-  const STATS_Y_START = TOP_H + 40;
-  const STATS_Y_END = S - 92;
-  const ROW_H = (STATS_Y_END - STATS_Y_START) / PROFILE_DIMENSIONS.length;
-  const PAD_X = 72;
-  const VAL_COL = 120; // largura reservada pra coluna do valor
-  const BAR_W = S - PAD_X * 2 - VAL_COL;
-  const BAR_X = PAD_X;
-  const VAL_X = S - PAD_X;
+  const manchete = buildIdentityLines(profile, quizzes);
 
-  // Linha separadora accent acima das stats
-  ctx.strokeStyle = "rgba(123,255,0,0.28)";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(PAD_X, STATS_Y_START - 18);
-  ctx.lineTo(S - PAD_X, STATS_Y_START - 18);
-  ctx.stroke();
+  // Constants layout
+  const MCH_LEFT = NAME_X;
+  const MCH_RIGHT = S - 48;
+  const MCH_TOP = nameY + 90;
+  const MCH_BOTTOM = S - FOOTER_H - 60;
+  const MCH_HEIGHT = MCH_BOTTOM - MCH_TOP;
+  const PREFIX_W = 90;
+  const LABEL_X = MCH_LEFT + PREFIX_W;
+  const LABEL_MAX_W = MCH_RIGHT - LABEL_X;
 
-  PROFILE_DIMENSIONS.forEach((dim, i) => {
-    const rowY = STATS_Y_START + i * ROW_H;
-    const pr = profile.results[dim.quizId];
-    const quiz = quizzes.find((q) => q.id === dim.quizId);
-    const done = pr && quiz;
-    const accentColor = quiz?.accent || "#FFFFFF";
-
-    // Valor agregado: média dos stats do resultado (fallback 0)
-    let aggregate = 0;
-    if (done) {
-      const res = quiz!.results[pr!.resultKey];
-      const stats = res?.stats ?? [];
-      if (stats.length > 0) {
-        aggregate = Math.round(
-          stats.reduce((s, st) => s + (st.value || 0), 0) / stats.length
-        );
+  // Helper: word-wrap dado fonte fixa
+  const wrap = (text: string, maxW: number, font: string): string[] => {
+    ctx.font = font;
+    const words = text.split(/\s+/);
+    const lines: string[] = [];
+    let cur = "";
+    for (const w of words) {
+      const test = cur ? cur + " " + w : w;
+      if (ctx.measureText(test).width > maxW && cur) {
+        lines.push(cur);
+        cur = w;
+      } else {
+        cur = test;
       }
     }
+    if (cur) lines.push(cur);
+    return lines;
+  };
 
-    // Dimension title (esquerda, topo da linha)
-    ctx.font = "700 13px 'Big Shoulders Display', Arial, sans-serif";
-    ctx.textAlign = "left";
-    ctx.fillStyle = done ? "rgba(250,250,250,0.88)" : "rgba(255,255,255,0.32)";
-    ctx.fillText(dim.title.toUpperCase(), BAR_X, rowY + 16);
+  // Auto-fit: busca o labelSize que faz tudo caber em MCH_HEIGHT
+  // com no máximo 2 linhas wrapped por entrada
+  let labelSize = 46;
+  let lineGap = 14; // gap entre entradas
+  let wrappedPerEntry: string[][] = [];
+  let pendingBlockH = manchete.length < total ? 42 : 0; // espaço pro "+ N VERDADES"
 
-    // Resultado curto (label do quiz) abaixo do título — só se completou
-    if (done) {
-      const res = quiz!.results[pr!.resultKey];
-      const resLabel = stripEmoji(res?.label || pr!.resultLabel || "").toUpperCase();
-      ctx.font = "500 11px 'Space Grotesk', Arial, sans-serif";
-      ctx.fillStyle = accentColor + "CC";
-      const trimmed = resLabel.length > 36 ? resLabel.slice(0, 36) + "…" : resLabel;
-      ctx.fillText(trimmed, BAR_X, rowY + 34);
-    } else {
-      ctx.font = "500 11px 'Space Grotesk', Arial, sans-serif";
-      ctx.fillStyle = "rgba(255,255,255,0.20)";
-      ctx.fillText("A RESPONDER", BAR_X, rowY + 34);
-    }
+  while (labelSize >= 26) {
+    const labelFont = `800 ${labelSize}px 'Archivo Black', 'Bebas Neue', Arial, sans-serif`;
+    const lineH = Math.round(labelSize * 1.02);
+    wrappedPerEntry = manchete.map((ln) => wrap(ln.label, LABEL_MAX_W, labelFont).slice(0, 2));
+    const totalLines = wrappedPerEntry.reduce((s, w) => s + w.length, 0);
+    const totalH =
+      totalLines * lineH +
+      (manchete.length - 1) * lineGap +
+      pendingBlockH;
+    if (totalH <= MCH_HEIGHT) break;
+    labelSize -= 2;
+  }
 
-    // Barra de progresso
-    const barY = rowY + ROW_H - 16;
-    const barH = 4;
-    ctx.fillStyle = "rgba(255,255,255,0.08)";
-    ctx.fillRect(BAR_X, barY, BAR_W, barH);
-    if (done) {
-      ctx.fillStyle = accentColor;
-      ctx.fillRect(BAR_X, barY, BAR_W * (aggregate / 100), barH);
-    }
+  const labelFont = `800 ${labelSize}px 'Archivo Black', 'Bebas Neue', Arial, sans-serif`;
+  const prefixFont = `700 ${Math.round(labelSize * 0.55)}px 'Bebas Neue', Arial, sans-serif`;
+  const lineH = Math.round(labelSize * 1.02);
 
-    // Valor numérico grande à direita
-    const numSize = Math.min(52, ROW_H - 14);
-    ctx.font = `800 ${numSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+  let cursorY = MCH_TOP + labelSize; // primeira baseline
+
+  manchete.forEach((ln, i) => {
+    const prefix = i === 0 ? "SOU" : i === manchete.length - 1 && manchete.length > 1 ? "E" : "·";
+    const wrapped = wrappedPerEntry[i];
+
+    // Prefix
+    ctx.font = prefixFont;
+    ctx.fillStyle = "rgba(250,250,250,0.35)";
     ctx.textAlign = "right";
-    if (done) {
-      ctx.fillStyle = accentColor;
-      ctx.fillText(String(aggregate), VAL_X, rowY + ROW_H - 10);
-    } else {
-      ctx.fillStyle = "rgba(255,255,255,0.18)";
-      ctx.fillText("—", VAL_X, rowY + ROW_H - 10);
-    }
+    ctx.fillText(prefix, MCH_LEFT + PREFIX_W - 18, cursorY - labelSize * 0.15);
+
+    // Label (pode ser 1-2 linhas)
+    ctx.font = labelFont;
+    ctx.fillStyle = ln.accent;
+    ctx.textAlign = "left";
+    ctx.shadowColor = "rgba(0,0,0,0.55)";
+    ctx.shadowBlur = ownerImg ? 10 : 0;
+
+    wrapped.forEach((wline, wi) => {
+      ctx.fillText(wline, LABEL_X, cursorY + wi * lineH);
+    });
+    ctx.shadowBlur = 0;
+
+    cursorY += wrapped.length * lineH + lineGap;
   });
+
+  // ── "+ N VERDADES POR DESCOBRIR"
+  if (manchete.length < total) {
+    const pending = total - manchete.length;
+    ctx.font = `700 22px 'Bebas Neue', Arial, sans-serif`;
+    ctx.fillStyle = "rgba(250,250,250,0.42)";
+    ctx.textAlign = "left";
+    ctx.fillText(
+      `+ ${pending} ${pending === 1 ? "VERDADE" : "VERDADES"} POR DESCOBRIR`,
+      LABEL_X, cursorY + 4
+    );
+  }
 
   // ─────────────────────────────────────────────────────────────────────
   // FOOTER LIME
   // ─────────────────────────────────────────────────────────────────────
-  const FOOTER_H = 72;
   ctx.fillStyle = LIME;
   ctx.fillRect(0, S - FOOTER_H, S, FOOTER_H);
 
-  const doneCount = Object.keys(profile.results).length;
-  const total = PROFILE_DIMENSIONS.length;
-
   ctx.fillStyle = DARK;
-  ctx.font = "800 16px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.font = "800 15px 'Big Shoulders Display', Arial, sans-serif";
   ctx.textAlign = "left";
   ctx.fillText(
     doneCount === total ? "PERFIL COMPLETO" : `${doneCount}/${total} DIMENSÕES`,
-    30, S - 30
+    30, S - 26
   );
 
   ctx.textAlign = "right";
-  ctx.fillText("@COMIDADEDRAGAO  ·  COMIDADEDRAGAO.COM.BR", S - 30, S - 30);
+  ctx.fillText("@COMIDADEDRAGAO  ·  COMIDADEDRAGAO.COM.BR", S - 30, S - 26);
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png")
@@ -650,46 +656,47 @@ const Confetti = () => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// AGGREGATE STATS — reúne stats cross-quiz por label, calcula média
+// IDENTITY LINES — monta linhas de identidade a partir dos quizzes respondidos
 // ─────────────────────────────────────────────────────────────────────────────
 
-interface AggregateStat {
-  label: string;
-  value: number;
-  samples: number;
+interface IdentityLine {
+  label: string;   // profileLabel sem emoji ("BANGUELA", "EM TRANSIÇÃO"...)
+  accent: string;  // cor do quiz de origem
+  quizId: string;
 }
 
-const computeAggregateStats = (
+const buildIdentityLines = (
   profile: DragonProfile,
-  quizzes: QuizDef[],
-  limit = 4
-): AggregateStat[] => {
-  const bucket: Record<string, { total: number; count: number }> = {};
-
-  for (const quizId of Object.keys(profile.results)) {
-    const pr = profile.results[quizId];
-    const quiz = quizzes.find((q) => q.id === quizId);
+  quizzes: QuizDef[]
+): IdentityLine[] => {
+  const lines: IdentityLine[] = [];
+  // Ordena pela ordem das dimensões pra manter consistência visual
+  for (const dim of PROFILE_DIMENSIONS) {
+    const pr = profile.results[dim.quizId];
+    if (!pr) continue;
+    const quiz = quizzes.find((q) => q.id === dim.quizId);
     if (!quiz) continue;
-    const res = quiz.results[pr.resultKey];
-    if (!res?.stats) continue;
-    for (const st of res.stats) {
-      const key = st.label.toUpperCase();
-      if (!bucket[key]) bucket[key] = { total: 0, count: 0 };
-      bucket[key].total += st.value || 0;
-      bucket[key].count += 1;
-    }
+    const result = quiz.results[pr.resultKey];
+    // manifestoLine (auto-contida) > profileLabel (curto). Fallback garantido.
+    const source = result?.manifestoLine || pr.profileLabel;
+    lines.push({
+      label: stripEmoji(source).toUpperCase(),
+      accent: quiz.accent,
+      quizId: dim.quizId,
+    });
   }
+  return lines;
+};
 
-  const entries: AggregateStat[] = Object.entries(bucket).map(([label, v]) => ({
-    label,
-    value: v.count > 0 ? Math.round(v.total / v.count) : 0,
-    samples: v.count,
-  }));
-
-  // Ordena: primeiro por nº de samples (mais frequentes), depois por valor
-  entries.sort((a, b) => (b.samples - a.samples) || (b.value - a.value));
-
-  return entries.slice(0, limit);
+// Monta a frase pronta pra "marca um tutor que..." / copiar
+const buildFriendTagText = (lines: IdentityLine[], profileName: string): string => {
+  if (lines.length === 0) return "";
+  const parts = lines.map((l) => l.label.toLowerCase());
+  let joined: string;
+  if (parts.length === 1) joined = parts[0];
+  else if (parts.length === 2) joined = `${parts[0]} e ${parts[1]}`;
+  else joined = `${parts.slice(0, -1).join(", ")} e ${parts[parts.length - 1]}`;
+  return `Marca um tutor que também é ${joined} — vocês formam a matilha 🐉 Faz o teu em comidadedragao.com.br #ComidaDeDragao`;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1002,6 +1009,79 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// FRIEND TAG BLOCK — frase pronta pra "marca um tutor que..." + copy/share
+// ─────────────────────────────────────────────────────────────────────────────
+
+const FriendTagBlock = ({ text }: { text: string }) => {
+  const [copied, setCopied] = useState(false);
+  const [sharing, setSharing] = useState(false);
+  const canNativeShare = typeof navigator !== "undefined" && !!(navigator as Navigator & { share?: unknown }).share;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback: tenta selecionar + execCommand pra browsers antigos
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 2000);
+      } catch { /* ignore */ }
+    }
+  };
+
+  const handleShare = async () => {
+    if (!canNativeShare) return handleCopy();
+    setSharing(true);
+    try {
+      await (navigator as Navigator & { share: (data: ShareData) => Promise<void> }).share({
+        title: "Meu perfil de tutor — Comida de Dragão",
+        text,
+        url: "https://comidadedragao.com.br",
+      });
+    } catch { /* user cancelou, ignora */ }
+    finally {
+      setSharing(false);
+    }
+  };
+
+  return (
+    <div className="qz-friend-tag">
+      <div className="qz-friend-tag-label">MANDA PRA TEU GRUPO</div>
+      <p className="qz-friend-tag-text">{text}</p>
+      <div className="qz-friend-tag-actions">
+        <button
+          type="button"
+          className={`qz-friend-btn primary${copied ? " copied" : ""}`}
+          onClick={handleCopy}
+        >
+          {copied ? "COPIADO ✓" : "COPIAR TEXTO"}
+        </button>
+        {canNativeShare && (
+          <button
+            type="button"
+            className="qz-friend-btn ghost"
+            onClick={handleShare}
+            disabled={sharing}
+          >
+            {sharing ? "ABRINDO…" : "COMPARTILHAR ↗"}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // QUIZ CARD — editorial pattern (index circle + tag + big "?" + title + sub)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1227,13 +1307,6 @@ const Quizzes = () => {
       {/* PROFILE SECTION — só aparece se já tem perfil */}
       {profile && (
         <>
-          <section className="parceiros-secao">
-            <div className="parceiros-tag tag-orange">teu perfil</div>
-            <h2 className="parceiros-secao-titulo titulo-orange">
-              Olá, <span>{profile.name}</span>
-            </h2>
-          </section>
-
           <section className="qz-profile-section">
 
             {/* ── IDENTIDADE: foto + nome + ações ────────────── */}
@@ -1330,30 +1403,45 @@ const Quizzes = () => {
               </div>
             </div>
 
-            {/* ── STATS AGREGADAS ──────────────────────────── */}
+            {/* ── MANCHETE DE IDENTIDADE + MARCA-UM-AMIGO ─── */}
             {completedCount > 0 && (() => {
-              const aggregates = computeAggregateStats(profile, QUIZZES, 4);
-              if (aggregates.length === 0) return null;
+              const lines = buildIdentityLines(profile, QUIZZES);
+              const friendText = buildFriendTagText(lines, profile.name);
+              const pending = totalDimensions - lines.length;
+
               return (
-                <div className="qz-aggregates">
-                  <div className="qz-aggregates-label">ESTATÍSTICAS AGREGADAS</div>
-                  <div className="qz-aggregates-grid">
-                    {aggregates.map((a) => (
-                      <div key={a.label} className="qz-agg-card">
-                        <div className="qz-agg-head">
-                          <div className="qz-agg-name">{a.label}</div>
-                          <div className="qz-agg-value">{a.value}</div>
+                <>
+                  <div className="qz-identity">
+                    <div className="qz-identity-label">
+                      EU, NA REAL · {lines.length}/{totalDimensions}
+                    </div>
+                    <div className="qz-identity-stack">
+                      {lines.map((l, idx) => (
+                        <div key={l.quizId} className="qz-identity-line">
+                          <span className="qz-identity-prefix">
+                            {idx === 0 ? "SOU" : idx === lines.length - 1 && lines.length > 1 ? "E" : "·"}
+                          </span>
+                          <span
+                            className="qz-identity-word"
+                            style={{ color: l.accent }}
+                          >
+                            {l.label}
+                          </span>
                         </div>
-                        <div className="qz-agg-bar">
-                          <div
-                            className="qz-agg-bar-fill"
-                            style={{ width: `${Math.max(4, a.value)}%` }}
-                          />
+                      ))}
+                      {pending > 0 && (
+                        <div className="qz-identity-line qz-identity-line-pending">
+                          <span className="qz-identity-prefix">+</span>
+                          <span className="qz-identity-word">
+                            {pending} {pending === 1 ? "VERDADE" : "VERDADES"} POR DESCOBRIR
+                          </span>
                         </div>
-                      </div>
-                    ))}
+                      )}
+                    </div>
                   </div>
-                </div>
+
+                  <FriendTagBlock text={friendText} />
+                </>
               );
             })()}
 
