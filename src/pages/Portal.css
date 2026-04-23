@@ -3184,10 +3184,10 @@
 }
 /* Desce o título + subtítulo pra não encostar no topo do PNG */
 .portal-page .card-produtos .card-inner {
-  padding-top: 24%;
+  padding-top: 15%;
 }
 .portal-page .card-produtos .card-body {
-  padding-top: 16px;
+  padding-top: 22%;
 }
 
 /* =============================================================
