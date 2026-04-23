@@ -318,10 +318,58 @@
   color: var(--dragon-pink);
 }
 
+/* ── OWNER PHOTO UPLOAD (profile-level) ──────── */
+.quizzes-page .qz-owner-photo-btn {
+  background: none;
+  border: 1px dashed rgba(123, 255, 0, 0.4);
+  color: rgba(250, 250, 250, 0.7);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+.quizzes-page .qz-owner-photo-btn:hover {
+  border-color: #7BFF00;
+  color: #7BFF00;
+  background: rgba(123, 255, 0, 0.06);
+}
+.quizzes-page .qz-owner-photo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.quizzes-page .qz-owner-photo-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(123, 255, 0, 0.5);
+}
+.quizzes-page .qz-owner-photo-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 4px 6px;
+  transition: color 0.15s;
+}
+.quizzes-page .qz-owner-photo-remove:hover {
+  color: #7BFF00;
+}
+
 /* ── DIMENSION SLOTS ─────────────────────────── */
 .quizzes-page .qz-dimensions {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 

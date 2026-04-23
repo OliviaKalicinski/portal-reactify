@@ -42,8 +42,8 @@ const MARQUEE_TOP = [
   "QUIZZES DO DRAGÃO",
   "O DRAGÃO QUER TE CONHECER",
   "MONTA TEU PERFIL DE TUTOR",
-  "5 DIMENSÕES · 5 QUIZZES",
-  "PERSONALIDADE · NOJO · CONSCIÊNCIA · CONHECIMENTO · PET",
+  "8 DIMENSÕES · 8 QUIZZES",
+  "PERSONALIDADE · NOJO · CONSCIÊNCIA · CONHECIMENTO · PET · REVOLUÇÃO · ESTILO · ALIMENTAÇÃO",
   "ENTRA NA MATILHA",
 ];
 
@@ -169,7 +169,7 @@ function drawCornerMarks(ctx: CanvasRenderingContext2D, S: number, color: string
 async function generateResultCardBlob(
   quiz: QuizDef,
   resultKey: string,
-  profileName: string,
+  _profileName: string,
   petPhotoFile?: File | null
 ): Promise<Blob> {
   await document.fonts.ready;
@@ -179,26 +179,19 @@ async function generateResultCardBlob(
   const dimension = PROFILE_DIMENSIONS.find((d) => d.quizId === quiz.id);
 
   const S = 1080;
-  const FOOTER_Y = 940;
-  const PHOTO_H  = 450;   // foto ocupa topo full-width
-  const PAD_X    = 64;    // padding lateral das stats
+  const PAD_X = 72;
+  const PHOTO_H = 460; // zona duotone quando há foto
 
   const canvas = document.createElement("canvas");
   canvas.width = S; canvas.height = S;
   const ctx = canvas.getContext("2d")!;
   const accent = quiz.accent || "#FF7A00";
 
-  // ── Background preto + grade sutil
+  // ── Background preto
   ctx.fillStyle = "#0A0A0A";
   ctx.fillRect(0, 0, S, S);
-  ctx.strokeStyle = "rgba(255,255,255,0.016)";
-  ctx.lineWidth = 1;
-  for (let x = 0; x < S; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, S); ctx.stroke(); }
-  for (let y = 0; y < S; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(S, y); ctx.stroke(); }
 
-  // ─────────────────────────────────────────────────────────────────────
-  // ZONA DE FOTO — full-width, duotone
-  // ─────────────────────────────────────────────────────────────────────
+  // ── Carrega foto, se houver
   let petImg: HTMLImageElement | null = null;
   if (petPhotoFile) {
     try {
@@ -208,13 +201,15 @@ async function generateResultCardBlob(
     } catch { petImg = null; }
   }
 
-  ctx.save();
-  ctx.beginPath();
-  ctx.rect(0, 0, S, PHOTO_H);
-  ctx.clip();
-
+  // ─────────────────────────────────────────────────────────────────────
+  // ZONA DE FOTO (duotone) — só se tem foto
+  // ─────────────────────────────────────────────────────────────────────
   if (petImg) {
-    // ── Offscreen canvas para conversão em grayscale
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, 0, S, PHOTO_H);
+    ctx.clip();
+
     const offC = document.createElement("canvas");
     offC.width = S; offC.height = PHOTO_H;
     const offCtx = offC.getContext("2d")!;
@@ -222,7 +217,6 @@ async function generateResultCardBlob(
     const sc = Math.max(S / iw, PHOTO_H / ih);
     const dw = iw * sc, dh = ih * sc;
     offCtx.drawImage(petImg, (S - dw) / 2, (PHOTO_H - dh) / 2, dw, dh);
-    // Grayscale pixel por pixel
     const imgData = offCtx.getImageData(0, 0, S, PHOTO_H);
     const d = imgData.data;
     for (let i = 0; i < d.length; i += 4) {
@@ -230,206 +224,125 @@ async function generateResultCardBlob(
       d[i] = d[i + 1] = d[i + 2] = g;
     }
     offCtx.putImageData(imgData, 0, 0);
-    // Desenha grayscale no canvas principal
     ctx.drawImage(offC, 0, 0);
-    // Multiply blend → tinge áreas claras com a cor accent (efeito duotone)
     ctx.globalCompositeOperation = "multiply";
     ctx.globalAlpha = 0.75;
     ctx.fillStyle = accent;
     ctx.fillRect(0, 0, S, PHOTO_H);
     ctx.globalCompositeOperation = "source-over";
     ctx.globalAlpha = 1;
-  } else {
-    // Placeholder: fundo escuro + linhas diagonais + emoji grande
-    ctx.fillStyle = "#0D0D0D";
+    ctx.restore();
+
+    // Fade inferior da foto pro preto — transição suave
+    const fadeGrad = ctx.createLinearGradient(0, PHOTO_H - 140, 0, PHOTO_H);
+    fadeGrad.addColorStop(0, "transparent");
+    fadeGrad.addColorStop(1, "#0A0A0A");
+    ctx.fillStyle = fadeGrad;
     ctx.fillRect(0, 0, S, PHOTO_H);
-    ctx.strokeStyle = accent + "12";
-    ctx.lineWidth = 1;
-    for (let d2 = -PHOTO_H; d2 < S + PHOTO_H; d2 += 44) {
-      ctx.beginPath(); ctx.moveTo(d2, 0); ctx.lineTo(d2 + PHOTO_H, PHOTO_H); ctx.stroke();
-    }
-    ctx.font = "220px serif";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "rgba(255,255,255,0.05)";
-    ctx.fillText(result.emoji, S / 2, PHOTO_H / 2 + 78);
-    ctx.font = "400 15px 'Space Grotesk', Arial, sans-serif";
-    ctx.fillStyle = "rgba(255,255,255,0.20)";
-    ctx.fillText("adicionar foto do seu pet no card  ↓", S / 2, PHOTO_H - 22);
-  }
-  ctx.restore();
 
-  // ── Gradiente escuro no fundo da foto (transição suave para o preto)
-  const fadeGrad = ctx.createLinearGradient(0, PHOTO_H - 120, 0, PHOTO_H);
-  fadeGrad.addColorStop(0, "transparent");
-  fadeGrad.addColorStop(1, "#0A0A0A");
-  ctx.fillStyle = fadeGrad;
-  ctx.fillRect(0, 0, S, PHOTO_H);
-
-  // ── Gradiente escuro no topo da foto (legibilidade do logo)
-  const topFade = ctx.createLinearGradient(0, 0, 0, 90);
-  topFade.addColorStop(0, "rgba(0,0,0,0.60)");
-  topFade.addColorStop(1, "transparent");
-  ctx.fillStyle = topFade;
-  ctx.fillRect(0, 0, S, 90);
-
-  // ── Logo top-left (sobre a foto)
-  const logo = await loadLogoColored("#FAFAFA");
-  if (logo) {
-    const lw = 128;
-    const lh = logo.naturalHeight > 0 ? Math.round(lw * logo.naturalHeight / logo.naturalWidth) : 44;
-    ctx.globalAlpha = 0.88;
-    ctx.drawImage(logo, 28, 22, lw, lh);
-    ctx.globalAlpha = 1;
-  } else {
-    ctx.fillStyle = "rgba(255,255,255,0.85)";
-    ctx.font = "700 15px 'Big Shoulders Display', Arial, sans-serif";
-    ctx.textAlign = "left";
-    ctx.fillText("COMIDA DE DRAGÃO", 28, 46);
+    // Fade topo pra legibilidade do logo
+    const topFade = ctx.createLinearGradient(0, 0, 0, 120);
+    topFade.addColorStop(0, "rgba(0,0,0,0.55)");
+    topFade.addColorStop(1, "transparent");
+    ctx.fillStyle = topFade;
+    ctx.fillRect(0, 0, S, 120);
   }
 
-  // ── Tag dimensão + número do card (top-right, sobre a foto)
-  const dimTitle = (dimension?.title || quiz.title).toUpperCase();
-  const quizIdx  = QUIZZES.indexOf(quiz) + 1;
-  const cardNum  = String(quizIdx).padStart(2, "0");
-  ctx.font = "700 11px 'Big Shoulders Display', Arial, sans-serif";
-  ctx.textAlign = "right";
-  const tagW = ctx.measureText(dimTitle).width + 20;
-  const tagH = 22;
-  const tagX = S - 26 - tagW;
-  const tagY = 22;
-  ctx.fillStyle = "rgba(0,0,0,0.42)";
-  ctx.fillRect(tagX, tagY, tagW, tagH);
-  ctx.strokeStyle = accent;
-  ctx.lineWidth = 1;
-  ctx.strokeRect(tagX, tagY, tagW, tagH);
-  ctx.fillStyle = accent;
-  ctx.fillText(dimTitle, S - 26, tagY + 15);
-  ctx.font = "700 10px 'Space Mono', monospace";
-  ctx.fillStyle = "rgba(255,255,255,0.40)";
-  ctx.fillText(`# ${cardNum}`, S - 26, tagY + 36);
-
-  // ── Accent stripe esquerda
+  // ── Accent stripe lateral esquerda (6px)
   ctx.fillStyle = accent;
   ctx.fillRect(0, 0, 6, S);
 
+  // ── Logo top-left pequeno
+  const logo = await loadLogoColored("#FAFAFA");
+  if (logo) {
+    const lw = 116;
+    const lh = logo.naturalHeight > 0 ? Math.round(lw * logo.naturalHeight / logo.naturalWidth) : 40;
+    ctx.globalAlpha = petImg ? 0.92 : 0.78;
+    ctx.drawImage(logo, 30, 26, lw, lh);
+    ctx.globalAlpha = 1;
+  } else {
+    ctx.fillStyle = "rgba(255,255,255,0.78)";
+    ctx.font = "700 14px 'Big Shoulders Display', Arial, sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText("COMIDA DE DRAGÃO", 30, 48);
+  }
+
+  // ── Dimension tag muted top-right
+  const dimTitle = (dimension?.title || quiz.title).toUpperCase();
+  ctx.font = "600 11px 'Space Grotesk', Arial, sans-serif";
+  ctx.textAlign = "right";
+  ctx.fillStyle = "rgba(255,255,255,0.32)";
+  ctx.fillText(dimTitle, S - 30, 42);
+
   // ─────────────────────────────────────────────────────────────────────
-  // STATEMENT DE IDENTIDADE (abaixo da foto)
+  // STATEMENT — única coisa que importa
   // ─────────────────────────────────────────────────────────────────────
-  const statement  = stripEmoji(result.profileLabel).toUpperCase();
-  const stLen      = statement.length;
-  const stFontSize = stLen > 32 ? 60 : stLen > 22 ? 72 : 84;
-  const stLineH    = stFontSize * 1.08;
-  const maxStW     = S - PAD_X * 2;
+  const statement = stripEmoji(result.profileLabel).toUpperCase();
+  const maxStW = S - PAD_X * 2;
+
+  // Quebra em linhas dentro de um font-size candidato; devolve linhas
+  const wrap = (fontSize: number): string[] => {
+    ctx.font = `800 ${fontSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+    const words = statement.split(" ");
+    const lines: string[] = [];
+    let acc = "";
+    for (const word of words) {
+      const test = acc + word + " ";
+      if (ctx.measureText(test).width > maxStW && acc !== "") {
+        lines.push(acc.trim());
+        acc = word + " ";
+      } else {
+        acc = test;
+      }
+    }
+    if (acc.trim()) lines.push(acc.trim());
+    return lines;
+  };
+
+  // Escolhe tamanho que caiba bonito
+  let stFontSize = petImg ? 110 : 140;
+  let stLines = wrap(stFontSize);
+  while ((stLines.length > 3 || stLines.some(l => ctx.measureText(l).width > maxStW)) && stFontSize > 54) {
+    stFontSize -= 6;
+    stLines = wrap(stFontSize);
+  }
+  const stLineH = stFontSize * 1.04;
+  const stBlockH = stLines.length * stLineH;
+
+  // Posiciona: com foto, logo abaixo do fade; sem foto, centraliza vertical
+  const stTop = petImg
+    ? PHOTO_H + 30
+    : (S - stBlockH) / 2 - 20;
 
   ctx.font = `800 ${stFontSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
   ctx.textAlign = "center";
-  const stWords = statement.split(" ");
-  let stAcc = "";
-  const stLines: string[] = [];
-  for (const word of stWords) {
-    const test = stAcc + word + " ";
-    if (ctx.measureText(test).width > maxStW && stAcc !== "") {
-      stLines.push(stAcc.trim()); stAcc = word + " ";
-    } else { stAcc = test; }
-  }
-  if (stAcc.trim()) stLines.push(stAcc.trim());
-
-  const stTop = PHOTO_H + 14;
-  ctx.shadowColor = accent;
-  ctx.shadowBlur  = 20;
-  ctx.fillStyle   = "#FFFFFF";
+  ctx.fillStyle = "#FAFAFA";
   let stY = stTop + stFontSize * 0.82;
   for (const line of stLines) {
     ctx.fillText(line, S / 2, stY);
     stY += stLineH;
   }
-  ctx.shadowBlur  = 0;
-  ctx.shadowColor = "transparent";
-  const stBottom = stTop + stLines.length * stLineH;
+
+  // Traço accent embaixo da frase (editorial)
+  const underlineY = stTop + stBlockH + 26;
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(S / 2 - 54, underlineY);
+  ctx.lineTo(S / 2 + 54, underlineY);
+  ctx.stroke();
 
   // ─────────────────────────────────────────────────────────────────────
-  // STATS — estilo Super Trunfo
-  // Cada linha: label esquerda + barra + número direita
+  // FOOTER mínimo
   // ─────────────────────────────────────────────────────────────────────
-  const stats   = result.stats ?? [];
-  const STATS_Y = stBottom + 20;
-  const BAR_W   = S - PAD_X * 2;
-  const ROW_H   = Math.min(68, (FOOTER_Y - STATS_Y - 44) / Math.max(stats.length, 1));
-
-  if (stats.length > 0) {
-    // Separador fino accent acima das stats
-    ctx.strokeStyle = accent + "38";
-    ctx.lineWidth   = 1;
-    ctx.beginPath();
-    ctx.moveTo(PAD_X, STATS_Y - 6);
-    ctx.lineTo(S - PAD_X, STATS_Y - 6);
-    ctx.stroke();
-
-    stats.forEach((stat, i) => {
-      const rowY = STATS_Y + i * ROW_H;
-
-      // Label
-      ctx.fillStyle = "rgba(255,255,255,0.38)";
-      ctx.font = "600 11px 'Space Grotesk', Arial, sans-serif";
-      ctx.textAlign = "left";
-      ctx.fillText(stat.label.toUpperCase(), PAD_X, rowY + 13);
-
-      // Barra de progresso
-      const barY = rowY + 19;
-      const barH = 3;
-      ctx.fillStyle = "rgba(255,255,255,0.07)";
-      ctx.fillRect(PAD_X, barY, BAR_W, barH);
-      ctx.fillStyle = accent;
-      ctx.fillRect(PAD_X, barY, BAR_W * (stat.value / 100), barH);
-
-      // Número grande à direita
-      const numSize = Math.min(44, ROW_H - 26);
-      ctx.fillStyle = accent;
-      ctx.font = `800 ${numSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
-      ctx.textAlign = "right";
-      ctx.fillText(String(stat.value), S - PAD_X, rowY + ROW_H - 6);
-    });
-  }
-
-  // ─────────────────────────────────────────────────────────────────────
-  // FOOTER (y=940 → 1080 = 140px)
-  // ─────────────────────────────────────────────────────────────────────
-  ctx.fillStyle = accent;
-  ctx.fillRect(0, FOOTER_Y, S, S - FOOTER_Y);
-
-  ctx.fillStyle = "rgba(0,0,0,0.0)";
-  ctx.fillRect(0, FOOTER_Y, S, 2);
-
-  ctx.fillStyle = "rgba(0,0,0,0.48)";
-  ctx.font      = `900 20px 'Big Shoulders Display', Arial, sans-serif`;
+  ctx.fillStyle = "rgba(255,255,255,0.42)";
+  ctx.font = "700 14px 'Big Shoulders Display', Arial, sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText("COMIDADEDRAGAO.COM.BR  ·  @COMIDADEDRAGAO", S / 2, FOOTER_Y + 44);
+  ctx.fillText("@COMIDADEDRAGAO", S / 2, S - 56);
 
-  ctx.fillStyle = "rgba(0,0,0,0.34)";
-  ctx.font      = `500 11px 'Space Grotesk', Arial, sans-serif`;
-  ctx.fillText("#COMIDADEDRAGAO  ·  #NOJENTOÉODESPERDÍCIO", S / 2, FOOTER_Y + 68);
-
-  // Coupon badge
-  if (result.coupon) {
-    ctx.font = `700 11px 'Space Mono', monospace`;
-    ctx.textAlign = "left";
-    ctx.fillStyle = "rgba(0,0,0,0.30)";
-    const cW = ctx.measureText(result.coupon).width + 16;
-    ctx.fillRect(20, FOOTER_Y + 94, cW, 22);
-    ctx.fillStyle = "rgba(0,0,0,0.60)";
-    ctx.fillText(result.coupon, 28, FOOTER_Y + 109);
-  }
-
-  // Nome do tutor — canto inferior direito
-  if (profileName && profileName !== "Tutor Dragão") {
-    ctx.fillStyle = "rgba(0,0,0,0.34)";
-    ctx.font      = `700 10px 'Big Shoulders Display', Arial, sans-serif`;
-    ctx.textAlign = "right";
-    ctx.fillText(profileName.toUpperCase(), S - 20, FOOTER_Y + 120);
-  }
-
-  // Corner marks decorativos
-  drawCornerMarks(ctx, S, accent + "44", 32, 18);
+  ctx.fillStyle = "rgba(255,255,255,0.18)";
+  ctx.font = "500 11px 'Space Grotesk', Arial, sans-serif";
+  ctx.fillText("comidadedragao.com.br", S / 2, S - 34);
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png")
@@ -438,7 +351,8 @@ async function generateResultCardBlob(
 
 async function generateProfileCardBlob(
   profile: DragonProfile,
-  quizzes: QuizDef[]
+  quizzes: QuizDef[],
+  ownerPhotoFile?: File | null
 ): Promise<Blob> {
   await document.fonts.ready;
 
@@ -448,164 +362,224 @@ async function generateProfileCardBlob(
   canvas.height = S;
   const ctx = canvas.getContext("2d")!;
 
-  // Background
-  ctx.fillStyle = "#0A0A0A";
+  const LIME = "#7BFF00";
+  const DARK = "#0A0A0A";
+  const TOP_H = 420; // zona da foto / headline
+
+  // ── Background preto base
+  ctx.fillStyle = DARK;
   ctx.fillRect(0, 0, S, S);
 
-  // Grade sutil
-  ctx.strokeStyle = "rgba(255,255,255,0.018)";
-  ctx.lineWidth = 1;
-  for (let x = 0; x < S; x += 60) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,S); ctx.stroke(); }
-  for (let y = 0; y < S; y += 60) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(S,y); ctx.stroke(); }
-
-  // Glow lime
-  const pglow = ctx.createRadialGradient(S/2, S*0.18, 0, S/2, S*0.18, S*0.5);
-  pglow.addColorStop(0, "#7BFF0022"); pglow.addColorStop(1, "transparent");
-  ctx.fillStyle = pglow; ctx.fillRect(0, 0, S, S);
-
-  // Barra lateral lime
-  ctx.fillStyle = "#7BFF00";
-  ctx.fillRect(0, 0, 8, S);
-
-  // Corner marks
-  drawCornerMarks(ctx, S, "#7BFF0099", 40, 24);
-
-  // Logo colorida no topo
-  const pLogo = await loadLogoColored("#FAFAFA");
-  if (pLogo) {
-    const lw = 200;
-    const lh = pLogo.naturalHeight > 0 ? Math.round(lw * pLogo.naturalHeight / pLogo.naturalWidth) : 70;
-    ctx.globalAlpha = 0.9;
-    ctx.drawImage(pLogo, (S - lw) / 2, 36, lw, lh);
-    ctx.globalAlpha = 1;
-  } else {
-    ctx.fillStyle = "#FAFAFA";
-    ctx.font = "700 26px 'Big Shoulders Display', Arial, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("COMIDA DE DRAGÃO", S/2, 68);
+  // ── Carrega foto do tutor+pet (opcional)
+  let ownerImg: HTMLImageElement | null = null;
+  if (ownerPhotoFile) {
+    try {
+      const blobUrl = URL.createObjectURL(ownerPhotoFile);
+      ownerImg = await loadImage(blobUrl);
+      URL.revokeObjectURL(blobUrl);
+    } catch { ownerImg = null; }
   }
 
-  // Tag "PERFIL DE TUTOR"
-  ctx.fillStyle = "#7BFF00";
-  const ptag = "PERFIL DE TUTOR";
-  ctx.font = "800 13px 'Big Shoulders Display', Arial, sans-serif";
-  const ptagW = ctx.measureText(ptag).width + 28;
-  ctx.fillRect((S - ptagW) / 2, 134, ptagW, 26);
-  ctx.fillStyle = "#0A0A0A";
+  // ── Zona topo: foto duotone lime ou fundo neutro
+  if (ownerImg) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, 0, S, TOP_H);
+    ctx.clip();
+
+    const offC = document.createElement("canvas");
+    offC.width = S; offC.height = TOP_H;
+    const offCtx = offC.getContext("2d")!;
+    const iw = ownerImg.naturalWidth, ih = ownerImg.naturalHeight;
+    const sc = Math.max(S / iw, TOP_H / ih);
+    const dw = iw * sc, dh = ih * sc;
+    offCtx.drawImage(ownerImg, (S - dw) / 2, (TOP_H - dh) / 2, dw, dh);
+    const imgData = offCtx.getImageData(0, 0, S, TOP_H);
+    const d = imgData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      d[i] = d[i + 1] = d[i + 2] = g;
+    }
+    offCtx.putImageData(imgData, 0, 0);
+    ctx.drawImage(offC, 0, 0);
+    ctx.globalCompositeOperation = "multiply";
+    ctx.globalAlpha = 0.72;
+    ctx.fillStyle = LIME;
+    ctx.fillRect(0, 0, S, TOP_H);
+    ctx.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = 1;
+    ctx.restore();
+
+    // Fade inferior pro preto
+    const fadeGrad = ctx.createLinearGradient(0, TOP_H - 140, 0, TOP_H);
+    fadeGrad.addColorStop(0, "transparent");
+    fadeGrad.addColorStop(1, DARK);
+    ctx.fillStyle = fadeGrad;
+    ctx.fillRect(0, 0, S, TOP_H);
+
+    // Fade topo pra legibilidade
+    const topFade = ctx.createLinearGradient(0, 0, 0, 120);
+    topFade.addColorStop(0, "rgba(0,0,0,0.55)");
+    topFade.addColorStop(1, "transparent");
+    ctx.fillStyle = topFade;
+    ctx.fillRect(0, 0, S, 120);
+  } else {
+    // Sem foto: sutil glow lime
+    const pglow = ctx.createRadialGradient(S / 2, TOP_H * 0.4, 0, S / 2, TOP_H * 0.4, S * 0.45);
+    pglow.addColorStop(0, "#7BFF0018");
+    pglow.addColorStop(1, "transparent");
+    ctx.fillStyle = pglow;
+    ctx.fillRect(0, 0, S, TOP_H);
+  }
+
+  // ── Accent stripe lateral lime
+  ctx.fillStyle = LIME;
+  ctx.fillRect(0, 0, 8, S);
+
+  // ── Logo top-left
+  const pLogo = await loadLogoColored("#FAFAFA");
+  if (pLogo) {
+    const lw = 128;
+    const lh = pLogo.naturalHeight > 0 ? Math.round(lw * pLogo.naturalHeight / pLogo.naturalWidth) : 44;
+    ctx.globalAlpha = 0.92;
+    ctx.drawImage(pLogo, 30, 28, lw, lh);
+    ctx.globalAlpha = 1;
+  }
+
+  // ── Tag "PERFIL DE TUTOR" top-right
+  ctx.font = "800 12px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.textAlign = "right";
+  const ptag = "PERFIL DE TUTOR · SUPER TRUNFO";
+  ctx.fillStyle = "rgba(123,255,0,0.92)";
+  ctx.fillText(ptag, S - 30, 46);
+
+  // ── Nome grande (center, sobrepõe foto)
+  const displayName = (profile.name || "TUTOR DRAGÃO").toUpperCase();
+  let nameSize = 96;
+  ctx.font = `800 ${nameSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+  const maxNameW = S - 140;
+  while (ctx.measureText(displayName).width > maxNameW && nameSize > 48) {
+    nameSize -= 4;
+    ctx.font = `800 ${nameSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+  }
+  const nameY = ownerImg ? TOP_H - 24 : TOP_H - 60;
   ctx.textAlign = "center";
-  ctx.fillText(ptag, S/2, 152);
-
-  // Linha separadora
-  ctx.strokeStyle = "rgba(123,255,0,0.2)";
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(80, 174); ctx.lineTo(S - 80, 174); ctx.stroke();
-
-  // Nome do usuário
   ctx.fillStyle = "#FAFAFA";
-  ctx.font = "800 72px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText(profile.name.toUpperCase(), S / 2, 232);
+  ctx.shadowColor = "rgba(0,0,0,0.6)";
+  ctx.shadowBlur = ownerImg ? 10 : 0;
+  ctx.fillText(displayName, S / 2, nameY);
+  ctx.shadowBlur = 0;
 
-  // Linha separadora
-  ctx.strokeStyle = "rgba(255,255,255,0.1)";
+  // ── Divisória accent sob o nome
+  ctx.strokeStyle = LIME;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(S / 2 - 48, nameY + 14);
+  ctx.lineTo(S / 2 + 48, nameY + 14);
+  ctx.stroke();
+
+  // ─────────────────────────────────────────────────────────────────────
+  // STATS SUPER TRUNFO — 8 linhas com barra + valor
+  // ─────────────────────────────────────────────────────────────────────
+  const STATS_Y_START = TOP_H + 40;
+  const STATS_Y_END = S - 92;
+  const ROW_H = (STATS_Y_END - STATS_Y_START) / PROFILE_DIMENSIONS.length;
+  const PAD_X = 72;
+  const VAL_COL = 120; // largura reservada pra coluna do valor
+  const BAR_W = S - PAD_X * 2 - VAL_COL;
+  const BAR_X = PAD_X;
+  const VAL_X = S - PAD_X;
+
+  // Linha separadora accent acima das stats
+  ctx.strokeStyle = "rgba(123,255,0,0.28)";
   ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(80, 252); ctx.lineTo(S - 80, 252); ctx.stroke();
-
-  // Dimension slots: 3 em cima, 2 em baixo
-  const SW = 310, SH = 210, GX = 20, GY = 18;
-  const ROW1_Y = 270;
+  ctx.beginPath();
+  ctx.moveTo(PAD_X, STATS_Y_START - 18);
+  ctx.lineTo(S - PAD_X, STATS_Y_START - 18);
+  ctx.stroke();
 
   PROFILE_DIMENSIONS.forEach((dim, i) => {
-    const isRow1 = i < 3;
-    const col = isRow1 ? i : i - 3;
-    const rowLen = isRow1 ? 3 : 2;
-    const totalW = rowLen * SW + (rowLen - 1) * GX;
-    const sx = (S - totalW) / 2 + col * (SW + GX);
-    const sy = isRow1 ? ROW1_Y : ROW1_Y + SH + GY;
-
+    const rowY = STATS_Y_START + i * ROW_H;
     const pr = profile.results[dim.quizId];
     const quiz = quizzes.find((q) => q.id === dim.quizId);
-    const accentColor = quiz?.accent || "#FF7A00";
+    const done = pr && quiz;
+    const accentColor = quiz?.accent || "#FFFFFF";
 
-    if (pr && quiz) {
-      const res = quiz.results[pr.resultKey];
+    // Valor agregado: média dos stats do resultado (fallback 0)
+    let aggregate = 0;
+    if (done) {
+      const res = quiz!.results[pr!.resultKey];
+      const stats = res?.stats ?? [];
+      if (stats.length > 0) {
+        aggregate = Math.round(
+          stats.reduce((s, st) => s + (st.value || 0), 0) / stats.length
+        );
+      }
+    }
 
-      // Background fill
-      ctx.globalAlpha = 0.12;
-      ctx.fillStyle = accentColor;
-      ctx.fillRect(sx, sy, SW, SH);
-      ctx.globalAlpha = 1;
+    // Dimension title (esquerda, topo da linha)
+    ctx.font = "700 13px 'Big Shoulders Display', Arial, sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillStyle = done ? "rgba(250,250,250,0.88)" : "rgba(255,255,255,0.32)";
+    ctx.fillText(dim.title.toUpperCase(), BAR_X, rowY + 16);
 
-      // Border
-      ctx.strokeStyle = accentColor;
-      ctx.lineWidth = 2;
-      ctx.strokeRect(sx, sy, SW, SH);
-
-      // Accent top bar
-      ctx.fillStyle = accentColor;
-      ctx.fillRect(sx, sy, SW, 5);
-
-      // Dimension title (pequeno, no topo)
-      ctx.fillStyle = "rgba(255,255,255,0.4)";
-      ctx.font = "700 13px 'Big Shoulders Display', Arial, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText(dim.title.toUpperCase(), sx + SW / 2, sy + 28);
-
-      // profileLabel (grande, accent)
-      const pl = stripEmoji(res?.profileLabel || pr.profileLabel || pr.resultLabel).toUpperCase();
-      const plSize = pl.length > 18 ? 30 : pl.length > 12 ? 36 : 42;
-      ctx.fillStyle = accentColor;
-      ctx.font = `800 ${plSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
-      ctx.fillText(pl, sx + SW / 2, sy + 100);
-
-      // Result label (sub, sem emoji)
-      const shortLabel = stripEmoji(pr.resultLabel);
-      const shortTrim = shortLabel.length > 20 ? shortLabel.slice(0, 20) + "…" : shortLabel;
-      ctx.font = "500 13px 'Space Grotesk', Arial, sans-serif";
-      ctx.fillStyle = "rgba(255,255,255,0.35)";
-      ctx.fillText(shortTrim.toUpperCase(), sx + SW / 2, sy + 130);
-
-      // Checkmark ✓
-      ctx.fillStyle = accentColor;
-      ctx.font = "600 13px 'Big Shoulders Display', Arial, sans-serif";
-      ctx.fillText("✓", sx + SW - 18, sy + 18);
-
+    // Resultado curto (label do quiz) abaixo do título — só se completou
+    if (done) {
+      const res = quiz!.results[pr!.resultKey];
+      const resLabel = stripEmoji(res?.label || pr!.resultLabel || "").toUpperCase();
+      ctx.font = "500 11px 'Space Grotesk', Arial, sans-serif";
+      ctx.fillStyle = accentColor + "CC";
+      const trimmed = resLabel.length > 36 ? resLabel.slice(0, 36) + "…" : resLabel;
+      ctx.fillText(trimmed, BAR_X, rowY + 34);
     } else {
-      // Empty slot — tracejado
-      ctx.setLineDash([6, 6]);
-      ctx.strokeStyle = "rgba(255,255,255,0.1)";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(sx + 1, sy + 1, SW - 2, SH - 2);
-      ctx.setLineDash([]);
+      ctx.font = "500 11px 'Space Grotesk', Arial, sans-serif";
+      ctx.fillStyle = "rgba(255,255,255,0.20)";
+      ctx.fillText("A RESPONDER", BAR_X, rowY + 34);
+    }
 
-      ctx.font = "700 12px 'Big Shoulders Display', Arial, sans-serif";
-      ctx.fillStyle = "rgba(255,255,255,0.25)";
-      ctx.textAlign = "center";
-      ctx.fillText(dim.title.toUpperCase(), sx + SW / 2, sy + SH / 2 - 10);
+    // Barra de progresso
+    const barY = rowY + ROW_H - 16;
+    const barH = 4;
+    ctx.fillStyle = "rgba(255,255,255,0.08)";
+    ctx.fillRect(BAR_X, barY, BAR_W, barH);
+    if (done) {
+      ctx.fillStyle = accentColor;
+      ctx.fillRect(BAR_X, barY, BAR_W * (aggregate / 100), barH);
+    }
 
-      ctx.font = "600 11px 'Space Grotesk', Arial, sans-serif";
-      ctx.fillStyle = "rgba(255,255,255,0.15)";
-      ctx.fillText("A RESPONDER", sx + SW / 2, sy + SH / 2 + 14);
+    // Valor numérico grande à direita
+    const numSize = Math.min(52, ROW_H - 14);
+    ctx.font = `800 ${numSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+    ctx.textAlign = "right";
+    if (done) {
+      ctx.fillStyle = accentColor;
+      ctx.fillText(String(aggregate), VAL_X, rowY + ROW_H - 10);
+    } else {
+      ctx.fillStyle = "rgba(255,255,255,0.18)";
+      ctx.fillText("—", VAL_X, rowY + ROW_H - 10);
     }
   });
 
-  // Completed count
-  const done = Object.keys(profile.results).length;
-  ctx.fillStyle = done === 5 ? "#7BFF00" : "rgba(255,255,255,0.3)";
-  ctx.font = `700 18px 'Big Shoulders Display', Arial, sans-serif`;
-  ctx.textAlign = "center";
-  const countY = ROW1_Y + SH + GY + SH + 36;
+  // ─────────────────────────────────────────────────────────────────────
+  // FOOTER LIME
+  // ─────────────────────────────────────────────────────────────────────
+  const FOOTER_H = 72;
+  ctx.fillStyle = LIME;
+  ctx.fillRect(0, S - FOOTER_H, S, FOOTER_H);
+
+  const doneCount = Object.keys(profile.results).length;
+  const total = PROFILE_DIMENSIONS.length;
+
+  ctx.fillStyle = DARK;
+  ctx.font = "800 16px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.textAlign = "left";
   ctx.fillText(
-    done === 5 ? "PERFIL COMPLETO" : `${done} DE 5 DIMENSÕES COMPLETAS`,
-    S / 2, countY
+    doneCount === total ? "PERFIL COMPLETO" : `${doneCount}/${total} DIMENSÕES`,
+    30, S - 30
   );
 
-  // Footer
-  ctx.fillStyle = "#7BFF00";
-  ctx.fillRect(0, S - 68, S, 68);
-  ctx.fillStyle = "#0A0A0A";
-  ctx.font = "800 18px 'Big Shoulders Display', Arial, sans-serif";
-  ctx.fillText("@COMIDADEDRAGAO · COMIDADEDRAGAO.COM.BR", S / 2, S - 22);
+  ctx.textAlign = "right";
+  ctx.fillText("@COMIDADEDRAGAO  ·  COMIDADEDRAGAO.COM.BR", S - 30, S - 30);
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png")
@@ -1106,19 +1080,45 @@ const Quizzes = () => {
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [sharingProfile, setSharingProfile] = useState(false);
   const [shareProfileStatus, setShareProfileStatus] = useState<"idle" | "ok" | "err">("idle");
+  const [ownerPhotoFile, setOwnerPhotoFile] = useState<File | null>(null);
+  const [ownerPhotoPreview, setOwnerPhotoPreview] = useState<string | null>(null);
+  const ownerPhotoRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setProfile(loadProfile());
     setProfileLoaded(true);
   }, []);
 
+  useEffect(() => {
+    return () => { if (ownerPhotoPreview) URL.revokeObjectURL(ownerPhotoPreview); };
+  }, [ownerPhotoPreview]);
+
+  const handleOwnerPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (ownerPhotoPreview) URL.revokeObjectURL(ownerPhotoPreview);
+    setOwnerPhotoFile(file);
+    setOwnerPhotoPreview(URL.createObjectURL(file));
+  };
+
+  const removeOwnerPhoto = () => {
+    if (ownerPhotoPreview) URL.revokeObjectURL(ownerPhotoPreview);
+    setOwnerPhotoFile(null);
+    setOwnerPhotoPreview(null);
+    if (ownerPhotoRef.current) ownerPhotoRef.current.value = "";
+  };
+
   const handleReset = useCallback(() => {
     if (window.confirm("Tem certeza? Isso vai apagar seu perfil e resultados.")) {
       clearProfile();
       setProfile(null);
       setShareProfileStatus("idle");
+      if (ownerPhotoPreview) URL.revokeObjectURL(ownerPhotoPreview);
+      setOwnerPhotoFile(null);
+      setOwnerPhotoPreview(null);
+      if (ownerPhotoRef.current) ownerPhotoRef.current.value = "";
     }
-  }, []);
+  }, [ownerPhotoPreview]);
 
   const handleOpenQuiz = useCallback((quiz: QuizDef) => {
     if (!quiz.comingSoon) setActiveQuiz(quiz);
@@ -1168,9 +1168,10 @@ const Quizzes = () => {
     setSharingProfile(true);
     setShareProfileStatus("idle");
     try {
-      const blob = await generateProfileCardBlob(profile, QUIZZES);
+      const blob = await generateProfileCardBlob(profile, QUIZZES, ownerPhotoFile);
       const done = Object.keys(profile.results).length;
-      const text = `Meu perfil de tutor está ${done === 5 ? "completo" : "em construção"}! 🐉 Faz o teu em comidadedragao.com.br #ComidaDeDragao`;
+      const total = PROFILE_DIMENSIONS.length;
+      const text = `Meu perfil de tutor está ${done === total ? "completo" : "em construção"}! 🐉 Faz o teu em comidadedragao.com.br #ComidaDeDragao`;
       await shareCard(blob, "perfil-tutor-dragao.png", text);
       setShareProfileStatus("ok");
     } catch {
@@ -1178,10 +1179,11 @@ const Quizzes = () => {
     } finally {
       setSharingProfile(false);
     }
-  }, [profile, sharingProfile]);
+  }, [profile, sharingProfile, ownerPhotoFile]);
 
   const completedCount = profile ? Object.keys(profile.results).length : 0;
   const totalActive = QUIZZES.filter((q) => !q.comingSoon).length;
+  const totalDimensions = PROFILE_DIMENSIONS.length;
 
   if (!profileLoaded) return null;
 
@@ -1189,7 +1191,7 @@ const Quizzes = () => {
     <div className="portal-page quizzes-page skin-2">
       <PageMeta
         title="Quizzes do Dragão · Comida de Dragão"
-        description="5 quizzes pra descobrir quem você é como tutor. Personalidade, nível de nojo, consciência ambiental, conhecimento sobre pet food e o produto certo pro seu pet."
+        description="8 quizzes pra descobrir quem você é como tutor. Personalidade, nojo, consciência ambiental, conhecimento, pet, revolução, estilo e alimentação."
       />
       <MarqueeBar items={MARQUEE_TOP} />
 
@@ -1207,9 +1209,9 @@ const Quizzes = () => {
           </h1>
           <p className="archive-hero-sub">
             {totalActive} quizzes pra descobrir quem você é como tutor.
-            Personalidade, nível de nojo, consciência ambiental,
-            conhecimento sobre pet food e o produto certo pro seu pet.
-            Responde, monta seu perfil e entra na matilha.
+            Personalidade, nojo, consciência ambiental, conhecimento,
+            perfil do pet, grau de revolução, estilo de cuidado e
+            alimentação. Responde, monta seu perfil e entra na matilha.
           </p>
         </div>
       </section>
@@ -1229,10 +1231,36 @@ const Quizzes = () => {
               <div className="qz-profile-info">
                 <div className="qz-profile-greeting">Perfil do Dragão</div>
                 <div className="qz-profile-progress">
-                  <strong>{completedCount}</strong> de 5 dimensões completas
+                  <strong>{completedCount}</strong> de {totalDimensions} dimensões completas
                 </div>
               </div>
               <div className="qz-profile-actions-top">
+                <input
+                  ref={ownerPhotoRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleOwnerPhotoChange}
+                />
+                {ownerPhotoPreview ? (
+                  <div className="qz-owner-photo-wrap">
+                    <img
+                      src={ownerPhotoPreview}
+                      className="qz-owner-photo-thumb"
+                      alt="Foto do tutor"
+                    />
+                    <button className="qz-owner-photo-remove" onClick={removeOwnerPhoto}>
+                      Trocar foto
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    className="qz-owner-photo-btn"
+                    onClick={() => ownerPhotoRef.current?.click()}
+                  >
+                    + Foto do perfil
+                  </button>
+                )}
                 <button
                   className={`qz-share-btn profile-share${sharingProfile ? " loading" : ""}${shareProfileStatus === "ok" ? " ok" : ""}`}
                   onClick={handleShareProfile}
@@ -1262,8 +1290,8 @@ const Quizzes = () => {
         </div>
         <h2 className="parceiros-secao-titulo titulo-green">
           {profile
-            ? <>Faltam <span>{5 - completedCount}</span> dimensões</>
-            : <>5 quizzes, <span>5 dimensões</span></>}
+            ? <>Faltam <span>{Math.max(0, totalDimensions - completedCount)}</span> dimensões</>
+            : <>{totalDimensions} quizzes, <span>{totalDimensions} dimensões</span></>}
         </h2>
       </section>
 
@@ -1287,20 +1315,20 @@ const Quizzes = () => {
       {/* CTA FINAL */}
       <section className="parceiros-cta-final">
         <h2 className="parceiros-cta-final-titulo">
-          {profile && completedCount === 5
+          {profile && completedCount === totalDimensions
             ? <>Teu perfil tá <span>completo!</span></>
             : profile
               ? <>Completa teu <span>perfil</span></>
               : <>Começa pelo <span>primeiro quiz</span></>}
         </h2>
         <p className="parceiros-cta-final-sub">
-          {profile && completedCount === 5
+          {profile && completedCount === totalDimensions
             ? "Gera teu card de perfil e compartilha com a matilha. O Dragão já te conhece inteiro."
             : profile
               ? "Ainda tem quizzes pra responder. Cada resposta monta mais uma dimensão do teu perfil de tutor."
-              : "Cinco quizzes curtos, cinco dimensões do teu perfil. No final, um card pronto pra compartilhar."}
+              : `Oito quizzes curtos, oito dimensões do teu perfil. No final, um card pronto pra compartilhar.`}
         </p>
-        {profile && completedCount === 5 ? (
+        {profile && completedCount === totalDimensions ? (
           <button
             className={`parceiros-btn-primary${sharingProfile ? " loading" : ""}`}
             onClick={handleShareProfile}

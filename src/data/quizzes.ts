@@ -6,7 +6,15 @@
 
 // ── TIPOS ─────────────────────────────────────────────────────────────────────
 
-export type ProfileDimension = 'personality' | 'nojo' | 'knowledge' | 'eco' | 'pet';
+export type ProfileDimension =
+  | 'personality'
+  | 'nojo'
+  | 'knowledge'
+  | 'eco'
+  | 'pet'
+  | 'revolucao'
+  | 'tipo_tutor'
+  | 'alimentacao';
 
 export interface ProfileDimensionDef {
   key: ProfileDimension;
@@ -65,11 +73,14 @@ export interface QuizDef {
 // ── DIMENSÕES DO PERFIL ────────────────────────────────────────────────────────
 
 export const PROFILE_DIMENSIONS: ProfileDimensionDef[] = [
-  { key: 'personality', title: 'Tipo de Tutor',         icon: '🐲', quizId: 'que-dragao-voce-e'      },
-  { key: 'nojo',        title: 'Relação com Inseto',    icon: '🤢', quizId: 'nivel-de-nojo'           },
-  { key: 'knowledge',   title: 'Conhecimento Pet Food', icon: '🎓', quizId: 'quanto-voce-sabe'        },
-  { key: 'eco',         title: 'Consciência Ambiental', icon: '🌿', quizId: 'consciencia-ambiental'   },
-  { key: 'pet',         title: 'Perfil do Pet',         icon: '🐾', quizId: 'qual-produto'            },
+  { key: 'personality', title: 'Tipo de Tutor',         icon: '🐲', quizId: 'que-dragao-voce-e'             },
+  { key: 'nojo',        title: 'Relação com Inseto',    icon: '🤢', quizId: 'nivel-de-nojo'                 },
+  { key: 'knowledge',   title: 'Conhecimento Pet Food', icon: '🎓', quizId: 'quanto-voce-sabe'              },
+  { key: 'eco',         title: 'Consciência Ambiental', icon: '🌿', quizId: 'consciencia-ambiental'         },
+  { key: 'pet',         title: 'Perfil do Pet',         icon: '🐾', quizId: 'qual-produto'                  },
+  { key: 'revolucao',   title: 'Grau de Revolução',     icon: '🔥', quizId: 'convencional-ou-revolucionario'},
+  { key: 'tipo_tutor',  title: 'Estilo de Cuidado',     icon: '🧭', quizId: 'tipo-de-tutor'                 },
+  { key: 'alimentacao', title: 'Prato vs Prato',        icon: '🍽️', quizId: 'voce-ou-seu-pet'              },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -934,35 +945,417 @@ const quizEco: QuizDef = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// QUIZZES 6–8 — EM BREVE
+// QUIZ 6 — CONVENCIONAL OU REVOLUCIONÁRIO?
+// Tipo: V/F. Dimensão: revolucao.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const comingSoon = (
-  id: string,
-  title: string,
-  subtitle: string,
-  emoji: string,
-  accent: string,
-  cardRatio: string,
-  cardFlex: number,
-): QuizDef => ({
-  id,
-  title,
-  subtitle,
-  intro: '',
-  emoji,
-  accent,
-  cardRatio,
-  cardFlex,
-  comingSoon: true,
-  questions: [],
-  results: {},
-  computeResult: () => '',
-});
+const quizRevolucao: QuizDef = {
+  id: 'convencional-ou-revolucionario',
+  title: 'CONVENCIONAL OU REVOLUCIONÁRIO?',
+  subtitle: 'A maioria acha que questiona. Poucos realmente questionam.',
+  intro: 'O Dragão tem uma teoria.\nA maioria dos tutores acha que questiona o mercado.\nPoucos realmente questionam.\nVerdadeiro ou falso — e descobre em qual lado você está. 🐉',
+  emoji: '🔥',
+  accent: '#00D96F',
+  hoverImage: 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmMzczJyY2V0YjRhdG16NXdlMzJxcXNneHpuYTR5aWY1M3hwOHk4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DZ1NZce3T5Q3e/giphy.gif',
+  cardRatio: 'ratio-5-4',
+  cardFlex: 5 / 4,
+  dimension: 'revolucao',
+  questions: [
+    {
+      question: '"EU COMPRO A MESMA RAÇÃO HÁ ANOS PORQUE MEU PET ACEITA BEM E NUNCA DEU PROBLEMA."',
+      emoji: '🔁',
+      options: [
+        { text: '✅ Verdadeiro — se tá funcionando, não mexo', value: '0' },
+        { text: '❌ Falso — revejo as escolhas periodicamente', value: '1' },
+      ],
+    },
+    {
+      question: '"EU JÁ LI A LISTA DE INGREDIENTES COMPLETA DE PELO MENOS UM PRODUTO QUE DOU PRO MEU PET."',
+      emoji: '🔍',
+      options: [
+        { text: '✅ Verdadeiro — leio com frequência', value: '1' },
+        { text: '❌ Falso — confio na embalagem e na indicação', value: '0' },
+      ],
+    },
+    {
+      question: '"SE MEU VETERINÁRIO NÃO INDICOU, EU NÃO EXPERIMENTO."',
+      emoji: '🩺',
+      options: [
+        { text: '✅ Verdadeiro — vet é minha única referência', value: '0' },
+        { text: '❌ Falso — pesquiso e levo novas informações pra ele', value: '1' },
+      ],
+    },
+    {
+      question: '"JÁ OFERECI ALGO DIFERENTE PRO MEU PET SÓ PORQUE A CIÊNCIA OU OUTROS TUTORES MOSTRARAM QUE FUNCIONA."',
+      emoji: '🧪',
+      options: [
+        { text: '✅ Verdadeiro — testo com critério e observo o resultado', value: '1' },
+        { text: '❌ Falso — prefiro esperar validação oficial', value: '0' },
+      ],
+    },
+    {
+      question: '"SUSTENTABILIDADE INFLUENCIA MINHAS ESCOLHAS DE CONSUMO — INCLUSIVE AS DO MEU PET."',
+      emoji: '🌍',
+      options: [
+        { text: '✅ Verdadeiro — impacto ambiental entra na conta', value: '1' },
+        { text: '❌ Falso — foco em qualidade e preço, sustentabilidade é bônus', value: '0' },
+      ],
+    },
+    {
+      question: '"JÁ CONVERTI PELO MENOS UMA PESSOA DO MEU CÍRCULO PRA UMA ESCOLHA MAIS CONSCIENTE PRO PET DELA."',
+      emoji: '📣',
+      options: [
+        { text: '✅ Verdadeiro — compartilho o que descubro', value: '1' },
+        { text: '❌ Falso — cuido do meu pet e deixo os outros decidirem', value: '0' },
+      ],
+    },
+  ],
+  results: {
+    convencional: {
+      label: 'CONVENCIONAL DE CARTEIRINHA',
+      category: 'O sistema foi feito pra você',
+      description: 'Você segue o fluxo. Compra o que sempre comprou, confia em quem sempre confiou e não perde tempo questionando o que parece funcionar.\n\nMas o Dragão tem uma pergunta incômoda: funcionar pra quem? Pro pet, pro planeta, ou pra indústria que prefere que você não leia o rótulo?\n\nUma leitura de ingrediente pode mudar tudo.',
+      emoji: '🔁',
+      profileLabel: 'Sigo o que funciona. Por enquanto.',
+      stats: [
+        { label: 'AUTONOMIA',       value: 18 },
+        { label: 'CURIOSIDADE',     value: 28 },
+        { label: 'SUSTENTABILIDADE', value: 22 },
+        { label: 'INFLUÊNCIA',      value: 15 },
+      ],
+      ctaText: 'COMEÇAR PELA LISTA DE INGREDIENTES →',
+      ctaLink: '/biblioteca',
+    },
+    transicao: {
+      label: 'EM TRANSIÇÃO',
+      category: 'Saiu do piloto automático',
+      description: 'Você questiona algumas coisas, pesquisa quando tem tempo e já mudou pelo menos uma escolha por convicção. O problema é a inconsistência — algumas áreas ainda funcionam no automático enquanto outras já estão no manual.\n\nO Dragão vê o movimento. E sabe que quem começa a questionar raramente para.',
+      emoji: '⚡',
+      profileLabel: 'Tô saindo do piloto automático',
+      stats: [
+        { label: 'AUTONOMIA',       value: 55 },
+        { label: 'CURIOSIDADE',     value: 62 },
+        { label: 'SUSTENTABILIDADE', value: 58 },
+        { label: 'INFLUÊNCIA',      value: 48 },
+      ],
+      ctaText: 'O PRÓXIMO PASSO →',
+      ctaLink: 'https://comidadedragao.com.br',
+    },
+    revolucionario: {
+      label: 'TUTOR REVOLUCIONÁRIO',
+      category: 'Você empurra o mercado',
+      description: 'Lê ingrediente, pesquisa origem, considera impacto ambiental, compartilha o que aprende e já testou pelo menos uma coisa que o mainstream ainda não chegou. Seu pet é mais bem nutrido por causa disso — e pelo menos uma pessoa no seu círculo também.\n\nO Dragão te reconhece. Você chegou antes da maioria.',
+      emoji: '🔥',
+      profileLabel: 'Eu empurro o mercado, não sigo ele',
+      coupon: 'REVOLUCAO',
+      stats: [
+        { label: 'AUTONOMIA',       value: 94 },
+        { label: 'CURIOSIDADE',     value: 98 },
+        { label: 'SUSTENTABILIDADE', value: 96 },
+        { label: 'INFLUÊNCIA',      value: 92 },
+      ],
+      ctaText: 'VER A LINHA COMPLETA →',
+      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+    },
+  },
+  computeResult: (answers) => {
+    const score = answers.reduce((sum, v) => sum + parseInt(v || '0'), 0);
+    if (score >= 5) return 'revolucionario';
+    if (score >= 3) return 'transicao';
+    return 'convencional';
+  },
+};
 
-const quizCS1 = comingSoon('cs-this-or-that', 'ISTO OU AQUILO?', 'Formato em breve', '🔀', '#FF7A00', 'ratio-5-4', 5 / 4);
-const quizCS2 = comingSoon('cs-erros-tutor',  'QUAL ERRO VOCÊ COMETE?', 'Formato em breve', '😬', '#925AED', 'ratio-3-4', 3 / 4);
-const quizCS3 = comingSoon('cs-pet-stories',  'A VIDA DO SEU PET EM 6 CENAS', 'Formato em breve', '🎬', '#00D96F', 'ratio-16-9', 16 / 9);
+// ─────────────────────────────────────────────────────────────────────────────
+// QUIZ 7 — QUE TIPO DE TUTOR VOCÊ É?
+// Tipo: Personalidade. Dimensão: tipo_tutor.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const quizTipoTutor: QuizDef = {
+  id: 'tipo-de-tutor',
+  title: 'QUE TIPO DE TUTOR VOCÊ É?',
+  subtitle: 'O Dragão observou milhares de tutores. Todo mundo se encaixa em um tipo.',
+  intro: 'O Dragão observou milhares de tutores.\nE descobriu que todo mundo se encaixa em um tipo.\n6 perguntas. Um diagnóstico honesto. Você vai se reconhecer. 🐉',
+  emoji: '🧭',
+  accent: '#925AED',
+  hoverImage: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXBhc29odzI5aHNkODdhZWRncTIyNmR1YTJ6a3RnbGQ5cmluZWdtMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26gs7b2ByVWk68F32/giphy.gif',
+  cardRatio: 'ratio-3-4',
+  cardFlex: 3 / 4,
+  dimension: 'tipo_tutor',
+  questions: [
+    {
+      question: 'SEU PET FICA DOENTE. QUAL É O SEU PRIMEIRO MOVIMENTO?',
+      emoji: '🩺',
+      options: [
+        { text: '🔬 Pesquiso os sintomas em 4 fontes diferentes antes de ligar pro vet', value: 'pesquisador' },
+        { text: '🏥 Veterinário no mesmo dia, sem hesitar', value: 'protocolar' },
+        { text: '💬 Pergunto no grupo de WhatsApp de tutores primeiro', value: 'comunidade' },
+        { text: '🫂 Fico do lado, monitoro e confio no instinto', value: 'intuitivo' },
+      ],
+    },
+    {
+      question: 'COMO VOCÊ DESCREVERIA SUA RELAÇÃO COM O RÓTULO DOS PRODUTOS DO SEU PET?',
+      emoji: '🏷️',
+      options: [
+        { text: '🔍 Leio tudo — ingredientes, origem, percentuais. Duas vezes.', value: 'pesquisador' },
+        { text: '🛒 Confio na indicação do vet ou da pet shop', value: 'protocolar' },
+        { text: '👥 Sigo o que outros tutores recomendam nos grupos', value: 'comunidade' },
+        { text: '🤍 Confio no instinto — se ele come bem e está feliz, tá ótimo', value: 'intuitivo' },
+      ],
+    },
+    {
+      question: 'SEU PET FAZ ANIVERSÁRIO. O QUE ACONTECE?',
+      emoji: '🎂',
+      options: [
+        { text: '📊 Aproveito pra avaliar saúde, peso e rotina do ano', value: 'pesquisador' },
+        { text: '🎂 Bolo pet-friendly comprado em fornecedor certificado', value: 'protocolar' },
+        { text: '🎉 Festinha com os pets amigos dele e foto pra postar', value: 'comunidade' },
+        { text: '🥺 Um momento especial entre nós dois, sem alarde', value: 'intuitivo' },
+      ],
+    },
+    {
+      question: 'UM CONHECIDO MUDOU A ALIMENTAÇÃO DO PET E O RESULTADO FOI INCRÍVEL. VOCÊ:',
+      emoji: '📢',
+      options: [
+        { text: '📚 Pesquisa o ingrediente, os estudos e a biofábrica antes de qualquer coisa', value: 'pesquisador' },
+        { text: '👨‍⚕️ Anota pra perguntar pro veterinário na próxima consulta', value: 'protocolar' },
+        { text: '💬 Leva pro grupo pra ver o que os outros acham', value: 'comunidade' },
+        { text: '👀 Observa o pet do conhecido por algumas semanas antes de decidir', value: 'intuitivo' },
+      ],
+    },
+    {
+      question: 'QUAL FRASE REPRESENTA MELHOR SUA FILOSOFIA COMO TUTOR?',
+      emoji: '💭',
+      options: [
+        { text: '"Decisão boa é decisão informada. Sempre."', value: 'pesquisador' },
+        { text: '"Veterinário é referência. Eu sigo o que funciona."', value: 'protocolar' },
+        { text: '"A gente aprende junto — comunidade é tudo."', value: 'comunidade' },
+        { text: '"Meu pet me diz o que precisa. Eu aprendi a ouvir."', value: 'intuitivo' },
+      ],
+    },
+    {
+      question: 'VOCÊ DESCOBRE A COMIDA DE DRAGÃO. QUAL É A SUA REAÇÃO?',
+      emoji: '🐉',
+      options: [
+        { text: '🔬 Pesquisa digestibilidade, origem, registro MAPA e estudos científicos', value: 'pesquisador' },
+        { text: '📋 Espera a próxima consulta pra perguntar pro vet', value: 'protocolar' },
+        { text: '💬 Posta no grupo pra ver se alguém já testou', value: 'comunidade' },
+        { text: '🐾 Observa a reação do pet na primeira mordida e decide ali', value: 'intuitivo' },
+      ],
+    },
+  ],
+  results: {
+    pesquisador: {
+      label: 'TUTOR PESQUISADOR',
+      category: 'Sabe mais que muitos veterinários esperam',
+      description: 'Você lê ingrediente, questiona origem, compara digestibilidade e não aceita "é bom porque todo mundo usa" como argumento. Sua tomada de decisão é lenta — mas raramente errada.\n\nO Dragão ama tutores assim. E tem tudo que você precisa pra fechar sua pesquisa com a resposta certa.',
+      emoji: '🔬',
+      profileLabel: 'Pesquiso antes de qualquer decisão',
+      stats: [
+        { label: 'PESQUISA',     value: 98 },
+        { label: 'CONSISTÊNCIA', value: 75 },
+        { label: 'EMPATIA',      value: 62 },
+        { label: 'INTUIÇÃO',     value: 55 },
+      ],
+      ctaText: 'VER TODOS OS DADOS TÉCNICOS →',
+      ctaLink: '/biblioteca',
+    },
+    protocolar: {
+      label: 'TUTOR PROTOCOLAR',
+      category: 'Faz tudo certo. E com consistência.',
+      description: 'Veterinário é sua referência, rotina é sua força e você não toma decisão por impulso. Seu pet tem sorte — porque consistência é um dos maiores presentes que um tutor pode dar.\n\nCada vez mais veterinários brasileiros estão recomendando proteína de inseto. Quando o seu perguntar, você já vai saber do que se trata.',
+      emoji: '📋',
+      profileLabel: 'Faço tudo certo. E com consistência.',
+      stats: [
+        { label: 'PESQUISA',     value: 65 },
+        { label: 'CONSISTÊNCIA', value: 98 },
+        { label: 'EMPATIA',      value: 72 },
+        { label: 'INTUIÇÃO',     value: 60 },
+      ],
+      ctaText: 'O QUE OS VETS ESTÃO DIZENDO →',
+      ctaLink: '/biblioteca',
+    },
+    comunidade: {
+      label: 'TUTOR COMUNIDADE',
+      category: 'Não anda sozinho — e o pet se beneficia',
+      description: 'Você aprende com os outros, compartilha o que descobre e constrói conhecimento coletivo. Grupos de tutores, fóruns, recomendações de quem já testou — esse é o seu ecossistema.\n\nCentenas de tutores como você já testaram e aprovaram. A comunidade já decidiu.',
+      emoji: '👥',
+      profileLabel: 'A matilha aprende junta',
+      stats: [
+        { label: 'PESQUISA',     value: 58 },
+        { label: 'CONSISTÊNCIA', value: 68 },
+        { label: 'EMPATIA',      value: 96 },
+        { label: 'INTUIÇÃO',     value: 72 },
+      ],
+      ctaText: 'VER O QUE OUTROS TUTORES FALAM →',
+      ctaLink: 'https://comidadedragao.com.br',
+    },
+    intuitivo: {
+      label: 'TUTOR INTUITIVO',
+      category: 'Linguagem própria com o pet — e ela raramente mente',
+      description: 'Você não precisa de dado pra saber quando algo está errado. Percebe antes de todo mundo, age pelo instinto e raramente erra na escolha. Sua relação com o pet vai além do que qualquer protocolo consegue medir.\n\nO Dragão respeita esse tipo de vínculo. E sabe que quando seu pet provar, o instinto vai confirmar.',
+      emoji: '🤍',
+      profileLabel: 'Meu pet me diz o que ele precisa',
+      stats: [
+        { label: 'PESQUISA',     value: 52 },
+        { label: 'CONSISTÊNCIA', value: 72 },
+        { label: 'EMPATIA',      value: 88 },
+        { label: 'INTUIÇÃO',     value: 99 },
+      ],
+      ctaText: 'DEIXA O PET DECIDIR →',
+      ctaLink: 'https://comidadedragao.com.br',
+    },
+  },
+  computeResult: (answers) => {
+    const count: Record<string, number> = {};
+    for (const a of answers) count[a] = (count[a] || 0) + 1;
+    return Object.entries(count).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'protocolar';
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// QUIZ 8 — VOCÊ OU SEU PET: QUEM COME MELHOR?
+// Tipo: Comparação binária. Dimensão: alimentacao.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const quizVoceOuPet: QuizDef = {
+  id: 'voce-ou-seu-pet',
+  title: 'VOCÊ OU SEU PET: QUEM COME MELHOR?',
+  subtitle: '6 rodadas. Escolha honestamente. Seu pet pode estar ganhando.',
+  intro: 'O Dragão passou a analisar o que entra no prato de tutores e pets no Brasil.\nO resultado foi... constrangedor.\n6 rodadas. Escolha honestamente. Seu pet pode estar ganhando. 🐉',
+  emoji: '🍽️',
+  accent: '#FF2D78',
+  hoverImage: 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjZtdHhuMmxrd3ZkaW1pdHFkMmZyNGg0MXZ5YWg2cmVwdHAzbzJreCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Cdkk6wFFqisTe/giphy.gif',
+  cardRatio: 'ratio-16-9',
+  cardFlex: 16 / 9,
+  dimension: 'alimentacao',
+  questions: [
+    {
+      question: 'RODADA 1 — O CAFÉ DA MANHÃ. VOCÊ: CAFÉ COM LEITE + BISCOITO RECHEADO. SEU PET: RAÇÃO BALANCEADA COM PROTEÍNA E VITAMINAS.',
+      emoji: '☕',
+      options: [
+        { text: '🧑 Sou eu — café com biscoito é sagrado', value: 'pet' },
+        { text: '🐾 É o pet — ele come mais equilibrado de manhã', value: 'pet' },
+        { text: '🍳 Eu como melhor (ovo, fruta, coisa de gente)', value: 'voce' },
+      ],
+    },
+    {
+      question: 'RODADA 2 — O LANCHE DA TARDE. VOCÊ: SALGADINHO DE PACOTE + REFRI. SEU PET: PETISCO COM 40% PROTEÍNA, ÔMEGAS E 88,9% DIGESTIBILIDADE.',
+      emoji: '🥤',
+      options: [
+        { text: '🧑 Sou eu — salgadinho não tem hora', value: 'pet' },
+        { text: '🐾 É o pet — o petisco dele tem mais nutriente que meu lanche', value: 'pet' },
+        { text: '🍎 Eu lancho fruta ou castanha', value: 'voce' },
+      ],
+    },
+    {
+      question: 'RODADA 3 — A PROTEÍNA DO DIA. VOCÊ: FRANGO DE PRAÇA DE ALIMENTAÇÃO. SEU PET: LARVA BSF, HIPOALERGÊNICA, RASTREÁVEL.',
+      emoji: '🍗',
+      options: [
+        { text: '🧑 Sou eu — praça conta como almoço', value: 'pet' },
+        { text: '🐾 É o pet — a proteína dele tem origem mais clara que a minha', value: 'pet' },
+        { text: '🥗 Eu como proteína de origem conhecida', value: 'voce' },
+      ],
+    },
+    {
+      question: 'RODADA 4 — O FIM DE SEMANA. VOCÊ: PIZZA, CERVEJA, ARREPENDIMENTO NO DOMINGO. SEU PET: MESMA ROTINA, SEM EXCEÇÃO.',
+      emoji: '🍕',
+      options: [
+        { text: '🧑 Sou eu — fim de semana não tem regra', value: 'pet' },
+        { text: '🐾 É o pet — ele mantém a dieta melhor do que eu', value: 'pet' },
+        { text: '🥦 Eu mantenho dieta no fim de semana também', value: 'voce' },
+      ],
+    },
+    {
+      question: 'RODADA 5 — O QUE VOCÊS DOIS BEBEM. VOCÊ: CAFÉ, ENERGÉTICO, "VOU BEBER ÁGUA AMANHÃ". SEU PET: ÁGUA FILTRADA. SEMPRE.',
+      emoji: '💧',
+      options: [
+        { text: '🧑 Sou eu — hidratação é complicada', value: 'pet' },
+        { text: '🐾 É o pet — ele bebe mais água do que eu', value: 'pet' },
+        { text: '💦 Eu também bebo 2L de água por dia', value: 'voce' },
+      ],
+    },
+    {
+      question: 'RODADA 6 — A CONSCIÊNCIA NA HORA DE ESCOLHER. VOCÊ: COMPRA O QUE TÁ EM PROMOÇÃO. SEU PET: TEM TUTOR QUE PESQUISA CADA INGREDIENTE.',
+      emoji: '🧠',
+      options: [
+        { text: '🧑 Sou eu — promoção decide', value: 'pet' },
+        { text: '🐾 É o pet — alguém aqui se importa mais com o que ele come', value: 'pet' },
+        { text: '🔍 Eu também pesquiso antes de comprar', value: 'voce' },
+      ],
+    },
+  ],
+  results: {
+    voce_ganhou: {
+      label: 'VOCÊ GANHOU',
+      category: 'Você come melhor que seu pet',
+      description: 'Isso é raro. De verdade. Significa que você cuida bem da sua alimentação — e provavelmente já pensa na do pet também. Ou você mentiu em pelo menos duas rodadas. O Dragão vê tudo. 👀\n\nDe qualquer forma: seu pet merece chegar no seu nível.',
+      emoji: '🏆',
+      profileLabel: 'Pra variar, eu como melhor que meu pet',
+      stats: [
+        { label: 'CONSCIÊNCIA',    value: 72 },
+        { label: 'CRITÉRIO',       value: 68 },
+        { label: 'COMPROMETIMENTO', value: 75 },
+        { label: 'HUMOR',          value: 65 },
+      ],
+      ctaText: 'ELEVAR O PET AO SEU NÍVEL →',
+      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+    },
+    empate: {
+      label: 'EMPATE TÉCNICO',
+      category: 'Mesmo nível. Preocupante.',
+      description: 'A boa notícia: você não está sozinho. A menos boa: seu pet e você disputam o mesmo nível nutricional médio. Alguém aqui precisa evoluir — e o pet tem vantagem porque ele não escolhe o próprio prato.\n\nVocê escolhe pelos dois. Que tal elevar os dois juntos?',
+      emoji: '🤝',
+      profileLabel: 'Eu e meu pet no mesmo nível. Preocupante.',
+      stats: [
+        { label: 'CONSCIÊNCIA',    value: 58 },
+        { label: 'CRITÉRIO',       value: 55 },
+        { label: 'COMPROMETIMENTO', value: 60 },
+        { label: 'HUMOR',          value: 82 },
+      ],
+      ctaText: 'COMEÇAR PELO PRATO DO PET →',
+      ctaLink: 'https://comidadedragao.com.br',
+    },
+    pet_ganhando: {
+      label: 'SEU PET ESTÁ GANHANDO',
+      category: 'Ele come melhor que você — e nem sabe',
+      description: 'Você pesquisa ingrediente, lê rótulo e escolhe com cuidado — mas só pro pet. Na sua própria alimentação, o biscoito recheado ainda vence. O Dragão não te julga. Mas seu pet, em silêncio, provavelmente sim.\n\nA boa notícia: pelo menos um dos dois está bem nutrido.',
+      emoji: '🐾',
+      profileLabel: 'Meu pet come melhor que eu. Sem julgamento.',
+      stats: [
+        { label: 'CONSCIÊNCIA',    value: 85 },
+        { label: 'CRITÉRIO',       value: 88 },
+        { label: 'COMPROMETIMENTO', value: 92 },
+        { label: 'HUMOR',          value: 88 },
+      ],
+      ctaText: 'VER O QUE FAZ DIFERENÇA →',
+      ctaLink: '/biblioteca',
+    },
+    pet_muito_melhor: {
+      label: 'TUTOR NOTA 10',
+      category: 'Ser humano em desenvolvimento nutricional',
+      description: 'Seu pet tem proteína rastreável, digestibilidade comprovada, ômega balanceado e consistência diária. Você tem salgadinho, café e boas intenções.\n\nNenhum julgamento. Mas talvez seja hora de pelo menos empatar. O Dragão sugere começar pelo lanche — o do pet é bem melhor.',
+      emoji: '🏆',
+      profileLabel: 'Tutor nota 10. Ser humano em desenvolvimento.',
+      coupon: 'TUTORNOTA10',
+      stats: [
+        { label: 'CONSCIÊNCIA',    value: 96 },
+        { label: 'CRITÉRIO',       value: 98 },
+        { label: 'COMPROMETIMENTO', value: 99 },
+        { label: 'HUMOR',          value: 95 },
+      ],
+      ctaText: 'O PETISCO QUE FAZ DIFERENÇA →',
+      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+    },
+  },
+  computeResult: (answers) => {
+    const petVotes = answers.filter((a) => a === 'pet').length;
+    if (petVotes >= 6) return 'pet_muito_melhor';
+    if (petVotes >= 4) return 'pet_ganhando';
+    if (petVotes === 3) return 'empate';
+    return 'voce_ganhou';
+  },
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // EXPORT FINAL
@@ -974,14 +1367,14 @@ export const QUIZZES: QuizDef[] = [
   quizKnowledge,
   quizProduto,
   quizEco,
-  quizCS1,
-  quizCS2,
-  quizCS3,
+  quizRevolucao,
+  quizTipoTutor,
+  quizVoceOuPet,
 ];
 
 // Layout do grid: cada array = uma linha de cards
 export const GRID_LAYOUT: number[][] = [
   [0, 1, 2],
-  [3, 4],
-  [5, 6, 7],
+  [3, 4, 5],
+  [6, 7],
 ];
