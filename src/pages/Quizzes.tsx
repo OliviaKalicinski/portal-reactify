@@ -322,87 +322,146 @@ async function generateResultCardBlob(
     ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + dy * pcSize); ctx.stroke();
   }
 
-  // ── IDENTITY STATEMENT (primeira pessoa, grande)
-  const statement = stripEmoji(result.profileLabel).toUpperCase();
-  const stLen = statement.length;
-  const stFontSize = stLen > 28 ? 68 : stLen > 20 ? 80 : 92;
-  const stLineH = stFontSize * 1.08;
-  const maxStWidth = S - 120;
+  // ─────────────────────────────────────────────────────────────────────
+  // ZONA DE TEXTO — centralização vertical entre foto e footer
+  // Photo bottom: photoY + photoSize = 134 + 460 = 594
+  // Footer topo:  940
+  // Zona de texto: 594→940 = 346px
+  // ─────────────────────────────────────────────────────────────────────
 
+  const footerY   = 940;
+  const zoneTop   = photoY + photoSize;   // 594
+  const zoneBot   = footerY;              // 940
+  const zoneH     = zoneBot - zoneTop;    // 346px
+
+  // ── Pré-medição do statement para calcular altura total do bloco
+
+  const statement  = stripEmoji(result.profileLabel).toUpperCase();
+  const stLen      = statement.length;
+  const stFontSize = stLen > 28 ? 70 : stLen > 20 ? 82 : 94;
+  const stLineH    = stFontSize * 1.1;
+  const maxStW     = S - 100;
+
+  ctx.font = `800 ${stFontSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+  const stWords = statement.split(" ");
+  let stLineAcc = "";
+  const stLines: string[] = [];
+  for (const word of stWords) {
+    const test = stLineAcc + word + " ";
+    if (ctx.measureText(test).width > maxStW && stLineAcc !== "") {
+      stLines.push(stLineAcc.trim());
+      stLineAcc = word + " ";
+    } else {
+      stLineAcc = test;
+    }
+  }
+  if (stLineAcc.trim()) stLines.push(stLineAcc.trim());
+
+  const stBlockH = stLines.length * stLineH;
+
+  // ── Pré-medição do snippet de descrição (1 linha truncada)
+  const CAT_SIZE  = 16;
+  const DESC_SIZE = 18;
+  ctx.font = `400 ${DESC_SIZE}px 'Space Grotesk', Arial, sans-serif`;
+  const descMaxW  = S - 160;
+  const rawDesc   = result.description.split("\n")[0];
+  let descAcc     = "";
+  for (const word of rawDesc.split(" ")) {
+    const test = descAcc + word + " ";
+    if (ctx.measureText(test).width > descMaxW) break;
+    descAcc = test;
+  }
+  const descSnippet = descAcc.trim() || rawDesc.slice(0, 70) + "…";
+
+  // ── Altura total do bloco de texto
+  //    statement + gap + category + gap + separator + gap + description
+  const GAP_ST_CAT  = 14;
+  const GAP_CAT_SEP = 16;
+  const GAP_SEP_DSC = 18;
+  const totalBlockH = stBlockH + GAP_ST_CAT + CAT_SIZE + GAP_CAT_SEP + 1 + GAP_SEP_DSC + DESC_SIZE;
+
+  // ── Y inicial do bloco (centralizado verticalmente na zona)
+  const blockTop = zoneTop + Math.max(12, (zoneH - totalBlockH) / 2);
+
+  // ── Desenhar statement
   ctx.font = `800 ${stFontSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
   ctx.textAlign = "center";
   ctx.shadowColor = accent;
-  ctx.shadowBlur = 22;
-  ctx.fillStyle = "#FFFFFF";
+  ctx.shadowBlur  = 22;
+  ctx.fillStyle   = "#FFFFFF";
 
-  const stWords = statement.split(" ");
-  let stLine = "";
-  let stY = photoY + photoSize + 50; // gap abaixo da foto
-  for (const word of stWords) {
-    const test = stLine + word + " ";
-    if (ctx.measureText(test).width > maxStWidth && stLine !== "") {
-      ctx.fillText(stLine.trim(), S/2, stY);
-      stLine = word + " ";
-      stY += stLineH;
-    } else {
-      stLine = test;
-    }
+  let drawY = blockTop + stFontSize * 0.82; // offset para cap-height
+  for (const line of stLines) {
+    ctx.fillText(line, S / 2, drawY);
+    drawY += stLineH;
   }
-  if (stLine.trim()) ctx.fillText(stLine.trim(), S/2, stY);
-
-  ctx.shadowBlur = 0;
+  ctx.shadowBlur  = 0;
   ctx.shadowColor = "transparent";
 
-  const afterStY = stY + 18;
+  // ── Category label
+  const catBaseY = blockTop + stBlockH + GAP_ST_CAT + CAT_SIZE * 0.82;
+  ctx.font      = `500 ${CAT_SIZE}px 'Space Grotesk', Arial, sans-serif`;
+  ctx.fillStyle = "rgba(255,255,255,0.35)";
+  ctx.fillText(result.category.toUpperCase(), S / 2, catBaseY);
 
-  // ── Category sub-label
-  ctx.fillStyle = "rgba(255,255,255,0.38)";
-  ctx.font = "500 17px 'Space Grotesk', Arial, sans-serif";
-  ctx.textAlign = "center";
-  const categoryY = afterStY + 22;
-  ctx.fillText(result.category.toUpperCase(), S/2, categoryY);
+  // ── Separador horizontal accent
+  const sepY = blockTop + stBlockH + GAP_ST_CAT + CAT_SIZE + GAP_CAT_SEP;
+  ctx.strokeStyle = accent + "55";
+  ctx.lineWidth   = 1;
+  ctx.beginPath();
+  ctx.moveTo(130, sepY);
+  ctx.lineTo(S - 130, sepY);
+  ctx.stroke();
 
-  // ── Dimension + result badge
-  const badgeText = `${(dimension?.title || "RESULTADO").toUpperCase()}  ·  ${result.label.toUpperCase()}`;
-  ctx.font = "700 13px 'Big Shoulders Display', Arial, sans-serif";
-  const badgeW = Math.min(ctx.measureText(badgeText).width + 32, S - 120);
-  const badgeX = (S - badgeW) / 2;
-  const badgeY = categoryY + 22;
-  ctx.fillStyle = accent + "1E";
-  ctx.fillRect(badgeX, badgeY, badgeW, 26);
-  ctx.strokeStyle = accent + "77";
-  ctx.lineWidth = 1;
-  ctx.strokeRect(badgeX, badgeY, badgeW, 26);
-  ctx.fillStyle = accent;
-  ctx.fillText(badgeText, S/2, badgeY + 17);
+  // ── Description snippet
+  const descBaseY = sepY + GAP_SEP_DSC + DESC_SIZE * 0.82;
+  ctx.font      = `400 ${DESC_SIZE}px 'Space Grotesk', Arial, sans-serif`;
+  ctx.fillStyle = "rgba(255,255,255,0.26)";
+  ctx.fillText(descSnippet, S / 2, descBaseY);
 
-  // ── Footer accent (y: 980-1080 = 100px)
-  const footerY = 980;
+  // ─────────────────────────────────────────────────────────────────────
+  // FOOTER (y=940 → 1080 = 140px)
+  // ─────────────────────────────────────────────────────────────────────
   ctx.fillStyle = accent;
   ctx.fillRect(0, footerY, S, S - footerY);
 
-  // Misregistration shadow sutil
-  ctx.globalAlpha = 0.22;
-  ctx.fillStyle = "#0A0A0A";
-  ctx.font = "900 20px 'Big Shoulders Display', Arial, sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("DESCOBRE O SEU  →  COMIDADEDRAGAO.COM.BR", S/2 + 3, footerY + 38 + 3);
+  // Linha decorativa topo do footer
+  ctx.fillStyle = "rgba(0,0,0,0.15)";
+  ctx.fillRect(0, footerY, S, 2);
+
+  // Linha principal — misregistration offset sutil
+  ctx.globalAlpha = 0.18;
+  ctx.fillStyle   = "#000000";
+  ctx.font        = `900 22px 'Big Shoulders Display', Arial, sans-serif`;
+  ctx.textAlign   = "center";
+  ctx.fillText("DESCOBRE O SEU  →  COMIDADEDRAGAO.COM.BR", S / 2 + 3, footerY + 46 + 3);
   ctx.globalAlpha = 1;
 
   ctx.fillStyle = "#0A0A0A";
-  ctx.font = "900 20px 'Big Shoulders Display', Arial, sans-serif";
-  ctx.fillText("DESCOBRE O SEU  →  COMIDADEDRAGAO.COM.BR", S/2, footerY + 38);
+  ctx.font      = `900 22px 'Big Shoulders Display', Arial, sans-serif`;
+  ctx.fillText("DESCOBRE O SEU  →  COMIDADEDRAGAO.COM.BR", S / 2, footerY + 46);
 
-  ctx.fillStyle = "rgba(0,0,0,0.5)";
-  ctx.font = "500 13px 'Space Grotesk', Arial, sans-serif";
-  ctx.fillText("@COMIDADEDRAGAO  ·  #COMIDADEDRAGAO", S/2, footerY + 64);
+  ctx.fillStyle = "rgba(0,0,0,0.42)";
+  ctx.font      = `500 12px 'Space Grotesk', Arial, sans-serif`;
+  ctx.fillText("@COMIDADEDRAGAO  ·  #COMIDADEDRAGAO", S / 2, footerY + 72);
 
-  // Nome do tutor (canto inferior direito do footer)
-  if (profileName && profileName !== "Tutor Dragão") {
+  // Coupon — aparece se o resultado tiver um
+  if (result.coupon) {
+    ctx.font = `800 12px 'Big Shoulders Display', Arial, sans-serif`;
+    ctx.textAlign = "left";
     ctx.fillStyle = "rgba(0,0,0,0.4)";
-    ctx.font = "700 11px 'Big Shoulders Display', Arial, sans-serif";
+    const cW = ctx.measureText(result.coupon).width + 18;
+    ctx.fillRect(20, footerY + 98, cW, 22);
+    ctx.fillStyle = "rgba(0,0,0,0.55)";
+    ctx.fillText(result.coupon, 29, footerY + 113);
+  }
+
+  // Nome do tutor — canto inferior direito
+  if (profileName && profileName !== "Tutor Dragão") {
+    ctx.fillStyle = "rgba(0,0,0,0.35)";
+    ctx.font      = `700 11px 'Big Shoulders Display', Arial, sans-serif`;
     ctx.textAlign = "right";
-    ctx.fillText(profileName.toUpperCase(), S - 22, footerY + 90);
+    ctx.fillText(profileName.toUpperCase(), S - 20, footerY + 120);
   }
 
   return new Promise<Blob>((resolve, reject) =>
