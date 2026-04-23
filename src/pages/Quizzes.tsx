@@ -179,78 +179,26 @@ async function generateResultCardBlob(
   const dimension = PROFILE_DIMENSIONS.find((d) => d.quizId === quiz.id);
 
   const S = 1080;
+  const FOOTER_Y = 940;
+  const PHOTO_H  = 450;   // foto ocupa topo full-width
+  const PAD_X    = 64;    // padding lateral das stats
+
   const canvas = document.createElement("canvas");
   canvas.width = S; canvas.height = S;
   const ctx = canvas.getContext("2d")!;
   const accent = quiz.accent || "#FF7A00";
 
-  // ── Background preto
+  // ── Background preto + grade sutil
   ctx.fillStyle = "#0A0A0A";
   ctx.fillRect(0, 0, S, S);
-
-  // ── Grade sutil
-  ctx.strokeStyle = "rgba(255,255,255,0.018)";
+  ctx.strokeStyle = "rgba(255,255,255,0.016)";
   ctx.lineWidth = 1;
-  for (let x = 0; x < S; x += 60) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,S); ctx.stroke(); }
-  for (let y = 0; y < S; y += 60) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(S,y); ctx.stroke(); }
+  for (let x = 0; x < S; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, S); ctx.stroke(); }
+  for (let y = 0; y < S; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(S, y); ctx.stroke(); }
 
-  // ── Glow radial (concentrado no topo onde fica a foto)
-  const glow = ctx.createRadialGradient(S/2, 360, 0, S/2, 360, S * 0.55);
-  glow.addColorStop(0, accent + "2A");
-  glow.addColorStop(1, "transparent");
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, S, S);
-
-  // ── Barra lateral esquerda (accent)
-  ctx.fillStyle = accent;
-  ctx.fillRect(0, 0, 8, S);
-
-  // ── Corner marks decorativos
-  drawCornerMarks(ctx, S, accent + "55", 36, 20);
-
-  // ── LOGO centered no topo
-  const logo = await loadLogoColored("#FAFAFA");
-  const logoW = 156, logoY = 34;
-  if (logo) {
-    const logoH = logo.naturalHeight > 0 ? Math.round(logoW * logo.naturalHeight / logo.naturalWidth) : 54;
-    ctx.globalAlpha = 0.88;
-    ctx.drawImage(logo, (S - logoW) / 2, logoY, logoW, logoH);
-    ctx.globalAlpha = 1;
-  } else {
-    ctx.fillStyle = "#FAFAFA";
-    ctx.font = "700 22px 'Big Shoulders Display', Arial, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("COMIDA DE DRAGÃO", S/2, logoY + 28);
-  }
-
-  // ── Dimension tag pill
-  const tagText = (dimension?.title || quiz.title).toUpperCase();
-  ctx.font = "700 12px 'Big Shoulders Display', Arial, sans-serif";
-  ctx.textAlign = "center";
-  const tagW = ctx.measureText(tagText).width + 24;
-  const tagX = (S - tagW) / 2;
-  const tagPillY = 102;
-  ctx.fillStyle = accent + "20";
-  ctx.fillRect(tagX, tagPillY, tagW, 22);
-  ctx.strokeStyle = accent + "80";
-  ctx.lineWidth = 1;
-  ctx.strokeRect(tagX, tagPillY, tagW, 22);
-  ctx.fillStyle = accent;
-  ctx.fillText(tagText, S/2, tagPillY + 15);
-
-  // ── FOTO FRAME (460×460, y=134)
-  const photoSize = 460;
-  const photoX = (S - photoSize) / 2;
-  const photoY = 134;
-
-  // Glow atrás do frame
-  const photoGlow = ctx.createRadialGradient(S/2, photoY + photoSize/2, 0, S/2, photoY + photoSize/2, photoSize * 0.65);
-  photoGlow.addColorStop(0, accent + "22");
-  photoGlow.addColorStop(1, "transparent");
-  ctx.fillStyle = photoGlow;
-  ctx.fillRect(photoX - 60, photoY - 60, photoSize + 120, photoSize + 120);
-
-  // Carregar foto do pet (ou padrão)
+  // ─────────────────────────────────────────────────────────────────────
+  // ZONA DE FOTO — full-width, duotone
+  // ─────────────────────────────────────────────────────────────────────
   let petImg: HTMLImageElement | null = null;
   if (petPhotoFile) {
     try {
@@ -260,209 +208,228 @@ async function generateResultCardBlob(
     } catch { petImg = null; }
   }
 
-  // Clip e draw
   ctx.save();
   ctx.beginPath();
-  ctx.rect(photoX, photoY, photoSize, photoSize);
+  ctx.rect(0, 0, S, PHOTO_H);
   ctx.clip();
 
   if (petImg) {
-    // Cover-fit: escala para preencher o quadrado
+    // ── Offscreen canvas para conversão em grayscale
+    const offC = document.createElement("canvas");
+    offC.width = S; offC.height = PHOTO_H;
+    const offCtx = offC.getContext("2d")!;
     const iw = petImg.naturalWidth, ih = petImg.naturalHeight;
-    const scale = Math.max(photoSize / iw, photoSize / ih);
-    const dw = iw * scale, dh = ih * scale;
-    ctx.drawImage(petImg, photoX + (photoSize - dw) / 2, photoY + (photoSize - dh) / 2, dw, dh);
-  } else {
-    // Background padrão
-    ctx.fillStyle = "#111111";
-    ctx.fillRect(photoX, photoY, photoSize, photoSize);
-    // Linhas diagonais suaves (textura)
-    ctx.strokeStyle = accent + "0E";
-    ctx.lineWidth = 1;
-    for (let d = -photoSize; d < photoSize * 2; d += 40) {
-      ctx.beginPath();
-      ctx.moveTo(photoX + d, photoY);
-      ctx.lineTo(photoX + d + photoSize, photoY + photoSize);
-      ctx.stroke();
+    const sc = Math.max(S / iw, PHOTO_H / ih);
+    const dw = iw * sc, dh = ih * sc;
+    offCtx.drawImage(petImg, (S - dw) / 2, (PHOTO_H - dh) / 2, dw, dh);
+    // Grayscale pixel por pixel
+    const imgData = offCtx.getImageData(0, 0, S, PHOTO_H);
+    const d = imgData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      d[i] = d[i + 1] = d[i + 2] = g;
     }
-    // Emoji grande centralizado
-    ctx.font = "190px serif";
+    offCtx.putImageData(imgData, 0, 0);
+    // Desenha grayscale no canvas principal
+    ctx.drawImage(offC, 0, 0);
+    // Multiply blend → tinge áreas claras com a cor accent (efeito duotone)
+    ctx.globalCompositeOperation = "multiply";
+    ctx.globalAlpha = 0.75;
+    ctx.fillStyle = accent;
+    ctx.fillRect(0, 0, S, PHOTO_H);
+    ctx.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = 1;
+  } else {
+    // Placeholder: fundo escuro + linhas diagonais + emoji grande
+    ctx.fillStyle = "#0D0D0D";
+    ctx.fillRect(0, 0, S, PHOTO_H);
+    ctx.strokeStyle = accent + "12";
+    ctx.lineWidth = 1;
+    for (let d2 = -PHOTO_H; d2 < S + PHOTO_H; d2 += 44) {
+      ctx.beginPath(); ctx.moveTo(d2, 0); ctx.lineTo(d2 + PHOTO_H, PHOTO_H); ctx.stroke();
+    }
+    ctx.font = "220px serif";
     ctx.textAlign = "center";
-    ctx.fillText(result.emoji, photoX + photoSize / 2, photoY + photoSize / 2 + 66);
-    // Hint "adicionar foto"
-    ctx.fillStyle = "rgba(255,255,255,0.16)";
-    ctx.font = "400 14px 'Space Grotesk', Arial, sans-serif";
-    ctx.fillText("adicionar foto do pet ↑", photoX + photoSize / 2, photoY + photoSize - 16);
+    ctx.fillStyle = "rgba(255,255,255,0.05)";
+    ctx.fillText(result.emoji, S / 2, PHOTO_H / 2 + 78);
+    ctx.font = "400 15px 'Space Grotesk', Arial, sans-serif";
+    ctx.fillStyle = "rgba(255,255,255,0.20)";
+    ctx.fillText("adicionar foto do seu pet no card  ↓", S / 2, PHOTO_H - 22);
   }
   ctx.restore();
 
-  // Borda accent do frame
-  ctx.strokeStyle = accent;
-  ctx.lineWidth = 3;
-  ctx.strokeRect(photoX, photoY, photoSize, photoSize);
+  // ── Gradiente escuro no fundo da foto (transição suave para o preto)
+  const fadeGrad = ctx.createLinearGradient(0, PHOTO_H - 120, 0, PHOTO_H);
+  fadeGrad.addColorStop(0, "transparent");
+  fadeGrad.addColorStop(1, "#0A0A0A");
+  ctx.fillStyle = fadeGrad;
+  ctx.fillRect(0, 0, S, PHOTO_H);
 
-  // Corner marks do frame (preto + accent)
-  const pcSize = 28;
-  const photoCorners = [
-    { x: photoX,              y: photoY,              dx: 1,  dy: 1  },
-    { x: photoX + photoSize,  y: photoY,              dx: -1, dy: 1  },
-    { x: photoX,              y: photoY + photoSize,  dx: 1,  dy: -1 },
-    { x: photoX + photoSize,  y: photoY + photoSize,  dx: -1, dy: -1 },
-  ];
-  ctx.strokeStyle = "#0A0A0A";
-  ctx.lineWidth = 6;
-  for (const { x, y, dx, dy } of photoCorners) {
-    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dx * pcSize, y); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + dy * pcSize); ctx.stroke();
+  // ── Gradiente escuro no topo da foto (legibilidade do logo)
+  const topFade = ctx.createLinearGradient(0, 0, 0, 90);
+  topFade.addColorStop(0, "rgba(0,0,0,0.60)");
+  topFade.addColorStop(1, "transparent");
+  ctx.fillStyle = topFade;
+  ctx.fillRect(0, 0, S, 90);
+
+  // ── Logo top-left (sobre a foto)
+  const logo = await loadLogoColored("#FAFAFA");
+  if (logo) {
+    const lw = 128;
+    const lh = logo.naturalHeight > 0 ? Math.round(lw * logo.naturalHeight / logo.naturalWidth) : 44;
+    ctx.globalAlpha = 0.88;
+    ctx.drawImage(logo, 28, 22, lw, lh);
+    ctx.globalAlpha = 1;
+  } else {
+    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    ctx.font = "700 15px 'Big Shoulders Display', Arial, sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText("COMIDA DE DRAGÃO", 28, 46);
   }
+
+  // ── Tag dimensão + número do card (top-right, sobre a foto)
+  const dimTitle = (dimension?.title || quiz.title).toUpperCase();
+  const quizIdx  = QUIZZES.indexOf(quiz) + 1;
+  const cardNum  = String(quizIdx).padStart(2, "0");
+  ctx.font = "700 11px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.textAlign = "right";
+  const tagW = ctx.measureText(dimTitle).width + 20;
+  const tagH = 22;
+  const tagX = S - 26 - tagW;
+  const tagY = 22;
+  ctx.fillStyle = "rgba(0,0,0,0.42)";
+  ctx.fillRect(tagX, tagY, tagW, tagH);
   ctx.strokeStyle = accent;
-  ctx.lineWidth = 3;
-  for (const { x, y, dx, dy } of photoCorners) {
-    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dx * pcSize, y); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + dy * pcSize); ctx.stroke();
-  }
+  ctx.lineWidth = 1;
+  ctx.strokeRect(tagX, tagY, tagW, tagH);
+  ctx.fillStyle = accent;
+  ctx.fillText(dimTitle, S - 26, tagY + 15);
+  ctx.font = "700 10px 'Space Mono', monospace";
+  ctx.fillStyle = "rgba(255,255,255,0.40)";
+  ctx.fillText(`# ${cardNum}`, S - 26, tagY + 36);
+
+  // ── Accent stripe esquerda
+  ctx.fillStyle = accent;
+  ctx.fillRect(0, 0, 6, S);
 
   // ─────────────────────────────────────────────────────────────────────
-  // ZONA DE TEXTO — centralização vertical entre foto e footer
-  // Photo bottom: photoY + photoSize = 134 + 460 = 594
-  // Footer topo:  940
-  // Zona de texto: 594→940 = 346px
+  // STATEMENT DE IDENTIDADE (abaixo da foto)
   // ─────────────────────────────────────────────────────────────────────
-
-  const footerY   = 940;
-  const zoneTop   = photoY + photoSize;   // 594
-  const zoneBot   = footerY;              // 940
-  const zoneH     = zoneBot - zoneTop;    // 346px
-
-  // ── Pré-medição do statement para calcular altura total do bloco
-
   const statement  = stripEmoji(result.profileLabel).toUpperCase();
   const stLen      = statement.length;
-  const stFontSize = stLen > 28 ? 70 : stLen > 20 ? 82 : 94;
-  const stLineH    = stFontSize * 1.1;
-  const maxStW     = S - 100;
+  const stFontSize = stLen > 32 ? 60 : stLen > 22 ? 72 : 84;
+  const stLineH    = stFontSize * 1.08;
+  const maxStW     = S - PAD_X * 2;
 
-  ctx.font = `800 ${stFontSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
-  const stWords = statement.split(" ");
-  let stLineAcc = "";
-  const stLines: string[] = [];
-  for (const word of stWords) {
-    const test = stLineAcc + word + " ";
-    if (ctx.measureText(test).width > maxStW && stLineAcc !== "") {
-      stLines.push(stLineAcc.trim());
-      stLineAcc = word + " ";
-    } else {
-      stLineAcc = test;
-    }
-  }
-  if (stLineAcc.trim()) stLines.push(stLineAcc.trim());
-
-  const stBlockH = stLines.length * stLineH;
-
-  // ── Pré-medição do snippet de descrição (1 linha truncada)
-  const CAT_SIZE  = 16;
-  const DESC_SIZE = 18;
-  ctx.font = `400 ${DESC_SIZE}px 'Space Grotesk', Arial, sans-serif`;
-  const descMaxW  = S - 160;
-  const rawDesc   = result.description.split("\n")[0];
-  let descAcc     = "";
-  for (const word of rawDesc.split(" ")) {
-    const test = descAcc + word + " ";
-    if (ctx.measureText(test).width > descMaxW) break;
-    descAcc = test;
-  }
-  const descSnippet = descAcc.trim() || rawDesc.slice(0, 70) + "…";
-
-  // ── Altura total do bloco de texto
-  //    statement + gap + category + gap + separator + gap + description
-  const GAP_ST_CAT  = 14;
-  const GAP_CAT_SEP = 16;
-  const GAP_SEP_DSC = 18;
-  const totalBlockH = stBlockH + GAP_ST_CAT + CAT_SIZE + GAP_CAT_SEP + 1 + GAP_SEP_DSC + DESC_SIZE;
-
-  // ── Y inicial do bloco (centralizado verticalmente na zona)
-  const blockTop = zoneTop + Math.max(12, (zoneH - totalBlockH) / 2);
-
-  // ── Desenhar statement
   ctx.font = `800 ${stFontSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
   ctx.textAlign = "center";
-  ctx.shadowColor = accent;
-  ctx.shadowBlur  = 22;
-  ctx.fillStyle   = "#FFFFFF";
+  const stWords = statement.split(" ");
+  let stAcc = "";
+  const stLines: string[] = [];
+  for (const word of stWords) {
+    const test = stAcc + word + " ";
+    if (ctx.measureText(test).width > maxStW && stAcc !== "") {
+      stLines.push(stAcc.trim()); stAcc = word + " ";
+    } else { stAcc = test; }
+  }
+  if (stAcc.trim()) stLines.push(stAcc.trim());
 
-  let drawY = blockTop + stFontSize * 0.82; // offset para cap-height
+  const stTop = PHOTO_H + 14;
+  ctx.shadowColor = accent;
+  ctx.shadowBlur  = 20;
+  ctx.fillStyle   = "#FFFFFF";
+  let stY = stTop + stFontSize * 0.82;
   for (const line of stLines) {
-    ctx.fillText(line, S / 2, drawY);
-    drawY += stLineH;
+    ctx.fillText(line, S / 2, stY);
+    stY += stLineH;
   }
   ctx.shadowBlur  = 0;
   ctx.shadowColor = "transparent";
+  const stBottom = stTop + stLines.length * stLineH;
 
-  // ── Category label
-  const catBaseY = blockTop + stBlockH + GAP_ST_CAT + CAT_SIZE * 0.82;
-  ctx.font      = `500 ${CAT_SIZE}px 'Space Grotesk', Arial, sans-serif`;
-  ctx.fillStyle = "rgba(255,255,255,0.35)";
-  ctx.fillText(result.category.toUpperCase(), S / 2, catBaseY);
+  // ─────────────────────────────────────────────────────────────────────
+  // STATS — estilo Super Trunfo
+  // Cada linha: label esquerda + barra + número direita
+  // ─────────────────────────────────────────────────────────────────────
+  const stats   = result.stats ?? [];
+  const STATS_Y = stBottom + 20;
+  const BAR_W   = S - PAD_X * 2;
+  const ROW_H   = Math.min(68, (FOOTER_Y - STATS_Y - 44) / Math.max(stats.length, 1));
 
-  // ── Separador horizontal accent
-  const sepY = blockTop + stBlockH + GAP_ST_CAT + CAT_SIZE + GAP_CAT_SEP;
-  ctx.strokeStyle = accent + "55";
-  ctx.lineWidth   = 1;
-  ctx.beginPath();
-  ctx.moveTo(130, sepY);
-  ctx.lineTo(S - 130, sepY);
-  ctx.stroke();
+  if (stats.length > 0) {
+    // Separador fino accent acima das stats
+    ctx.strokeStyle = accent + "38";
+    ctx.lineWidth   = 1;
+    ctx.beginPath();
+    ctx.moveTo(PAD_X, STATS_Y - 6);
+    ctx.lineTo(S - PAD_X, STATS_Y - 6);
+    ctx.stroke();
 
-  // ── Description snippet
-  const descBaseY = sepY + GAP_SEP_DSC + DESC_SIZE * 0.82;
-  ctx.font      = `400 ${DESC_SIZE}px 'Space Grotesk', Arial, sans-serif`;
-  ctx.fillStyle = "rgba(255,255,255,0.26)";
-  ctx.fillText(descSnippet, S / 2, descBaseY);
+    stats.forEach((stat, i) => {
+      const rowY = STATS_Y + i * ROW_H;
+
+      // Label
+      ctx.fillStyle = "rgba(255,255,255,0.38)";
+      ctx.font = "600 11px 'Space Grotesk', Arial, sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText(stat.label.toUpperCase(), PAD_X, rowY + 13);
+
+      // Barra de progresso
+      const barY = rowY + 19;
+      const barH = 3;
+      ctx.fillStyle = "rgba(255,255,255,0.07)";
+      ctx.fillRect(PAD_X, barY, BAR_W, barH);
+      ctx.fillStyle = accent;
+      ctx.fillRect(PAD_X, barY, BAR_W * (stat.value / 100), barH);
+
+      // Número grande à direita
+      const numSize = Math.min(44, ROW_H - 26);
+      ctx.fillStyle = accent;
+      ctx.font = `800 ${numSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+      ctx.textAlign = "right";
+      ctx.fillText(String(stat.value), S - PAD_X, rowY + ROW_H - 6);
+    });
+  }
 
   // ─────────────────────────────────────────────────────────────────────
   // FOOTER (y=940 → 1080 = 140px)
   // ─────────────────────────────────────────────────────────────────────
   ctx.fillStyle = accent;
-  ctx.fillRect(0, footerY, S, S - footerY);
+  ctx.fillRect(0, FOOTER_Y, S, S - FOOTER_Y);
 
-  // Linha decorativa topo do footer
-  ctx.fillStyle = "rgba(0,0,0,0.15)";
-  ctx.fillRect(0, footerY, S, 2);
+  ctx.fillStyle = "rgba(0,0,0,0.0)";
+  ctx.fillRect(0, FOOTER_Y, S, 2);
 
-  // Linha principal — misregistration offset sutil
-  ctx.globalAlpha = 0.18;
-  ctx.fillStyle   = "#000000";
-  ctx.font        = `900 22px 'Big Shoulders Display', Arial, sans-serif`;
-  ctx.textAlign   = "center";
-  ctx.fillText("DESCOBRE O SEU  →  COMIDADEDRAGAO.COM.BR", S / 2 + 3, footerY + 46 + 3);
-  ctx.globalAlpha = 1;
+  ctx.fillStyle = "rgba(0,0,0,0.48)";
+  ctx.font      = `900 20px 'Big Shoulders Display', Arial, sans-serif`;
+  ctx.textAlign = "center";
+  ctx.fillText("COMIDADEDRAGAO.COM.BR  ·  @COMIDADEDRAGAO", S / 2, FOOTER_Y + 44);
 
-  ctx.fillStyle = "#0A0A0A";
-  ctx.font      = `900 22px 'Big Shoulders Display', Arial, sans-serif`;
-  ctx.fillText("DESCOBRE O SEU  →  COMIDADEDRAGAO.COM.BR", S / 2, footerY + 46);
+  ctx.fillStyle = "rgba(0,0,0,0.34)";
+  ctx.font      = `500 11px 'Space Grotesk', Arial, sans-serif`;
+  ctx.fillText("#COMIDADEDRAGAO  ·  #NOJENTOÉODESPERDÍCIO", S / 2, FOOTER_Y + 68);
 
-  ctx.fillStyle = "rgba(0,0,0,0.42)";
-  ctx.font      = `500 12px 'Space Grotesk', Arial, sans-serif`;
-  ctx.fillText("@COMIDADEDRAGAO  ·  #COMIDADEDRAGAO", S / 2, footerY + 72);
-
-  // Coupon — aparece se o resultado tiver um
+  // Coupon badge
   if (result.coupon) {
-    ctx.font = `800 12px 'Big Shoulders Display', Arial, sans-serif`;
+    ctx.font = `700 11px 'Space Mono', monospace`;
     ctx.textAlign = "left";
-    ctx.fillStyle = "rgba(0,0,0,0.4)";
-    const cW = ctx.measureText(result.coupon).width + 18;
-    ctx.fillRect(20, footerY + 98, cW, 22);
-    ctx.fillStyle = "rgba(0,0,0,0.55)";
-    ctx.fillText(result.coupon, 29, footerY + 113);
+    ctx.fillStyle = "rgba(0,0,0,0.30)";
+    const cW = ctx.measureText(result.coupon).width + 16;
+    ctx.fillRect(20, FOOTER_Y + 94, cW, 22);
+    ctx.fillStyle = "rgba(0,0,0,0.60)";
+    ctx.fillText(result.coupon, 28, FOOTER_Y + 109);
   }
 
   // Nome do tutor — canto inferior direito
   if (profileName && profileName !== "Tutor Dragão") {
-    ctx.fillStyle = "rgba(0,0,0,0.35)";
-    ctx.font      = `700 11px 'Big Shoulders Display', Arial, sans-serif`;
+    ctx.fillStyle = "rgba(0,0,0,0.34)";
+    ctx.font      = `700 10px 'Big Shoulders Display', Arial, sans-serif`;
     ctx.textAlign = "right";
-    ctx.fillText(profileName.toUpperCase(), S - 20, footerY + 120);
+    ctx.fillText(profileName.toUpperCase(), S - 20, FOOTER_Y + 120);
   }
+
+  // Corner marks decorativos
+  drawCornerMarks(ctx, S, accent + "44", 32, 18);
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png")

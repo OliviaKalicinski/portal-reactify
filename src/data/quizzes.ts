@@ -26,6 +26,11 @@ export interface QuizQuestion {
   options: QuizOption[];
 }
 
+export interface StatEntry {
+  label: string;
+  value: number; // 0–100
+}
+
 export interface QuizResult {
   label: string;
   category: string;
@@ -36,6 +41,8 @@ export interface QuizResult {
   coupon?: string;
   ctaText?: string;
   ctaLink?: string;
+  /** Stats estilo Super Trunfo exibidas no card compartilhável */
+  stats?: StatEntry[];
 }
 
 export interface QuizDef {
@@ -162,6 +169,12 @@ const quizPersonality: QuizDef = {
       description: 'Você lê rótulo, questiona ingrediente, compara marca. Seu pet é seu tesouro — e você cuida dele com a mesma seriedade que Smaug cuida do ouro de Erebor. Só que com muito mais carinho, e a gente sabe disso.\n\nO Dragão te vê: você está no lugar certo. A Comida de Dragão foi feita pra tutores que não aceitam menos que o melhor.',
       emoji: '🐲',
       profileLabel: 'Eu pesquiso tudo antes de comprar',
+      stats: [
+        { label: 'PESQUISA',    value: 98 },
+        { label: 'VÍNCULO',     value: 72 },
+        { label: 'INTENSIDADE', value: 65 },
+        { label: 'EQUILÍBRIO',  value: 85 },
+      ],
       ctaText: 'CONHECER A LINHA COMPLETA →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
     },
@@ -171,6 +184,12 @@ const quizPersonality: QuizDef = {
       description: 'Você e seu pet se entendem sem precisar falar. A conexão é real, profunda, e guia cada escolha que você faz por ele. Você não cuida por obrigação — cuida porque ele é parte de você.\n\nO Dragão te vê: quem ama de verdade escolhe com consciência.',
       emoji: '🖤',
       profileLabel: 'Meu pet é minha alma gêmea',
+      stats: [
+        { label: 'PESQUISA',    value: 65 },
+        { label: 'VÍNCULO',     value: 99 },
+        { label: 'INTENSIDADE', value: 78 },
+        { label: 'EQUILÍBRIO',  value: 80 },
+      ],
       ctaText: 'ESCOLHER COM CONSCIÊNCIA →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -180,6 +199,12 @@ const quizPersonality: QuizDef = {
       description: 'Você faz aniversário pro pet, manda foto do prato montado e chora no veterinário. E tá tudo bem. Na verdade, tá mais que bem — porque esse nível de amor merece o melhor alimento do mundo.\n\nO Dragão te vê: tanta intensidade merece uma nutrição à altura.',
       emoji: '🔴',
       profileLabel: 'Eu exagero — e não me arrependo',
+      stats: [
+        { label: 'PESQUISA',    value: 55 },
+        { label: 'VÍNCULO',     value: 92 },
+        { label: 'INTENSIDADE', value: 99 },
+        { label: 'EQUILÍBRIO',  value: 28 },
+      ],
       ctaText: 'VER O QUE ELE MERECE →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -189,6 +214,12 @@ const quizPersonality: QuizDef = {
       description: 'Você sabe que amor não é superproteção. Seu pet tem rotina, limites e liberdade — e é mais feliz por isso. Você escolhe com critério, age com consistência e não cai em modinha.\n\nO Dragão te vê: quem pensa com clareza, escolhe com qualidade.',
       emoji: '⚡',
       profileLabel: 'Amor com limites. Equilíbrio real.',
+      stats: [
+        { label: 'PESQUISA',    value: 82 },
+        { label: 'VÍNCULO',     value: 78 },
+        { label: 'INTENSIDADE', value: 68 },
+        { label: 'EQUILÍBRIO',  value: 98 },
+      ],
       ctaText: 'ESCOLHER COM CRITÉRIO →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -198,6 +229,12 @@ const quizPersonality: QuizDef = {
       description: 'Você não se perde em ansiedade. Topa testar o que é novo, adora ver seu pet explorar o mundo, e transforma até a rotina em diversão. Seu pet é seu parceiro de aventura, não um projeto a ser gerenciado.\n\nO Dragão te vê: quem não tem medo de experimentar vai longe.',
       emoji: '🌟',
       profileLabel: 'Nós vivemos na aventura',
+      stats: [
+        { label: 'PESQUISA',    value: 52 },
+        { label: 'VÍNCULO',     value: 86 },
+        { label: 'INTENSIDADE', value: 72 },
+        { label: 'EQUILÍBRIO',  value: 68 },
+      ],
       ctaText: 'EXPLORAR A LINHA →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -207,6 +244,12 @@ const quizPersonality: QuizDef = {
       description: 'Você e seu pet têm uma linguagem própria. Você percebe antes de todo mundo quando algo está errado, age pelo instinto e raramente erra. Não precisa de validação — você sabe quando está fazendo a coisa certa.\n\nO Dragão te vê: intuição poderosa merece um alimento à sua altura.',
       emoji: '🌊',
       profileLabel: 'Nos entendemos sem palavras',
+      stats: [
+        { label: 'PESQUISA',    value: 70 },
+        { label: 'VÍNCULO',     value: 97 },
+        { label: 'INTENSIDADE', value: 48 },
+        { label: 'EQUILÍBRIO',  value: 90 },
+      ],
       ctaText: 'SENTIR ANTES DE PENSAR →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -303,6 +346,12 @@ const quizNojo: QuizDef = {
       description: 'Tudo bem. Você está em boa companhia — a maioria das pessoas começa aqui. O nojo é uma resposta evolutiva legítima. Mas aqui vai uma informação que o Dragão precisa que você saiba: seu pet não tem esse problema. Ele comeu inseto hoje. Provavelmente ontem também.\n\nA ciência já provou. A biofábrica já produziu. Seu pet já aprovou. Agora é a sua vez de respirar fundo.',
       emoji: '😱',
       profileLabel: 'Eu tenho nojo — e meu pet não liga',
+      stats: [
+        { label: 'CORAGEM',    value: 8  },
+        { label: 'CURIOSIDADE', value: 22 },
+        { label: 'ADAPTAÇÃO',  value: 15 },
+        { label: 'CONVICÇÃO',  value: 62 },
+      ],
       ctaText: 'VER O QUE SEU PET JÁ SABE →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -312,6 +361,12 @@ const quizNojo: QuizDef = {
       description: 'Você consegue. Não gosta, mas consegue. E isso já é muito — porque a maioria das grandes mudanças na história da alimentação começou exatamente assim: com alguém fazendo uma careta e experimentando mesmo assim.\n\nO Dragão respeita a coragem disfarçada de nojo.',
       emoji: '😬',
       profileLabel: 'Eu faço, mas sofro um pouco',
+      stats: [
+        { label: 'CORAGEM',    value: 42 },
+        { label: 'CURIOSIDADE', value: 55 },
+        { label: 'ADAPTAÇÃO',  value: 40 },
+        { label: 'CONVICÇÃO',  value: 68 },
+      ],
       ctaText: 'DAR O PRIMEIRO PASSO →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
     },
@@ -321,6 +376,12 @@ const quizNojo: QuizDef = {
       description: 'Você está no lugar mais interessante de todos: na fronteira entre o velho e o novo. Faz perguntas, lê ingredientes, pesa o nojo contra a lógica. Esse é exatamente o perfil de tutor que muda de ideia com um dado bom.\n\nAqui vai um: 83% menos emissões de carbono. 15.000 litros a menos de água por kg.',
       emoji: '🤔',
       profileLabel: 'Tô me convencendo aos poucos',
+      stats: [
+        { label: 'CORAGEM',    value: 65 },
+        { label: 'CURIOSIDADE', value: 78 },
+        { label: 'ADAPTAÇÃO',  value: 62 },
+        { label: 'CONVICÇÃO',  value: 72 },
+      ],
       ctaText: 'OS DADOS QUE VÃO TE CONVENCER →',
       ctaLink: '/biblioteca',
     },
@@ -330,6 +391,12 @@ const quizNojo: QuizDef = {
       description: 'Inseto não te assusta. Você provavelmente já leu sobre BSF antes, ou pelo menos não fechou o artigo no primeiro parágrafo. O que falta é só dar o passo — e seu pet está esperando faz tempo.\n\nO Dragão vê você hesitando. E ele não entende por quê.',
       emoji: '😏',
       profileLabel: 'O nojo já foi embora',
+      stats: [
+        { label: 'CORAGEM',    value: 82 },
+        { label: 'CURIOSIDADE', value: 88 },
+        { label: 'ADAPTAÇÃO',  value: 80 },
+        { label: 'CONVICÇÃO',  value: 82 },
+      ],
       ctaText: 'TÁ ESPERANDO O QUÊ? →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
     },
@@ -339,6 +406,12 @@ const quizNojo: QuizDef = {
       description: 'Você é a pessoa que explica BSF pra todo mundo na mesa e ainda converte dois amigos por semestre. Não tem nojo, tem curiosidade. Não tem medo, tem critério. E já sabe que o futuro da nutrição pet passa por aqui.\n\nO Dragão te reconhece. Você é da família.',
       emoji: '🐉',
       profileLabel: 'Inseto? Já convenci meia turma.',
+      stats: [
+        { label: 'CORAGEM',    value: 99 },
+        { label: 'CURIOSIDADE', value: 97 },
+        { label: 'ADAPTAÇÃO',  value: 98 },
+        { label: 'CONVICÇÃO',  value: 99 },
+      ],
       coupon: 'DRAGAOVERDADE',
       ctaText: 'VER A LINHA COMPLETA →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
@@ -439,6 +512,12 @@ const quizKnowledge: QuizDef = {
       description: 'Não se preocupa — a maioria dos tutores está exatamente aqui. A indústria de ração não foi construída pra ser fácil de entender. Embalagem bonita, palavras difíceis, e o essencial fica escondido na lista de ingredientes.\n\nAgora que você sabe um pouco mais, o próximo passo é simples: escolha com mais informação.',
       emoji: '🐣',
       profileLabel: 'Aprendi mais hoje do que esperava',
+      stats: [
+        { label: 'CONHECIMENTO', value: 22 },
+        { label: 'CRITÉRIO',     value: 38 },
+        { label: 'CETICISMO',    value: 32 },
+        { label: 'CONSCIÊNCIA',  value: 42 },
+      ],
       ctaText: 'CONHECER A COMIDA DE DRAGÃO →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -448,6 +527,12 @@ const quizKnowledge: QuizDef = {
       description: 'Você pesquisa mais que a média. Sabe que rótulo bonito não é garantia de qualidade, e já questionou pelo menos uma vez o que tem na ração do seu pet. Esse tipo de tutor é raro — e exatamente quem a Comida de Dragão foi feita pra atender.\n\nUm ingrediente. Uma origem. Tudo rastreável da biofábrica até o prato.',
       emoji: '🔍',
       profileLabel: 'Eu leio cada rótulo. Todo rótulo.',
+      stats: [
+        { label: 'CONHECIMENTO', value: 68 },
+        { label: 'CRITÉRIO',     value: 75 },
+        { label: 'CETICISMO',    value: 72 },
+        { label: 'CONSCIÊNCIA',  value: 78 },
+      ],
       ctaText: 'POR QUE BSF É DIFERENTE →',
       ctaLink: '/biblioteca',
     },
@@ -457,6 +542,12 @@ const quizKnowledge: QuizDef = {
       description: 'Você já deveria fazer parte do nosso time. Conhece os bastidores do mercado, entende de digestibilidade, sabe o que "farinha de subprodutos" realmente significa e não aceita resposta vaga de fabricante.\n\nO Dragão te reconhece. E tem muito orgulho.',
       emoji: '🐉',
       profileLabel: 'Sei o que tem na ração — e mudei',
+      stats: [
+        { label: 'CONHECIMENTO', value: 97 },
+        { label: 'CRITÉRIO',     value: 99 },
+        { label: 'CETICISMO',    value: 95 },
+        { label: 'CONSCIÊNCIA',  value: 98 },
+      ],
       coupon: 'TUTORDRAGAO',
       ctaText: 'VER A LINHA COMPLETA →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
@@ -555,6 +646,12 @@ const quizProduto: QuizDef = {
       description: 'Larvas BSF inteiras, 40% de proteína no mínimo, e serve pra cão, gato, ave, réptil e anfíbio. Funciona como petisco, ferramenta de treino e introdução ao mundo BSF. É o produto que converte céticos — porque quando o pet come, a conversa acaba.',
       emoji: '🐛',
       profileLabel: 'Meu pet come tudo e ama tudo',
+      stats: [
+        { label: 'PROTEÍNA',       value: 82 },
+        { label: 'NUTRIÇÃO',       value: 78 },
+        { label: 'ESPECIFICIDADE', value: 62 },
+        { label: 'VITALIDADE',     value: 88 },
+      ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR ORIGINAL →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
@@ -565,6 +662,12 @@ const quizProduto: QuizDef = {
       description: 'Snack assado com BSF, cenoura, cúrcuma e betacaroteno. Rico em nutrientes naturais, ótima palatabilidade e zero frescura pra aceitar. Pra tutores que querem petisco com substância — não só crocância.',
       emoji: '🥦',
       profileLabel: 'Só nutrição de verdade pra ele',
+      stats: [
+        { label: 'PROTEÍNA',       value: 75 },
+        { label: 'NUTRIÇÃO',       value: 92 },
+        { label: 'ESPECIFICIDADE', value: 76 },
+        { label: 'VITALIDADE',     value: 85 },
+      ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR MORDIDA LEGUMES →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
@@ -575,6 +678,12 @@ const quizProduto: QuizDef = {
       description: 'Spirulina, coco, espinafre e BSF num snack que age por dentro. Antioxidantes, ficocianina e triglicerídeos de cadeia média — palavras difíceis pra um resultado simples: pelo mais bonito, imunidade melhor, mais disposição.',
       emoji: '✨',
       profileLabel: 'Pelagem bonita começa por dentro',
+      stats: [
+        { label: 'PROTEÍNA',       value: 75 },
+        { label: 'NUTRIÇÃO',       value: 90 },
+        { label: 'ESPECIFICIDADE', value: 86 },
+        { label: 'VITALIDADE',     value: 92 },
+      ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR MORDIDA SPIRULINA →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
@@ -585,6 +694,12 @@ const quizProduto: QuizDef = {
       description: '45% de proteína no mínimo, cúrcuma e spirulina em pó. Fácil de incluir na rotina, aumenta a palatabilidade da ração e serve pra cães em crescimento, muito ativos ou com baixo apetite.',
       emoji: '💪',
       profileLabel: 'Meu pet treina como atleta',
+      stats: [
+        { label: 'PROTEÍNA',       value: 92 },
+        { label: 'NUTRIÇÃO',       value: 88 },
+        { label: 'ESPECIFICIDADE', value: 82 },
+        { label: 'VITALIDADE',     value: 96 },
+      ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR SUPLEMENTO INTEGRAL →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
@@ -595,6 +710,12 @@ const quizProduto: QuizDef = {
       description: '55% de proteína no mínimo — a maior concentração da linha. Com apenas 9,45% de gordura, é o produto certo pra cães em recuperação, com pancreatite, restrição de gordura ou que precisam de reconstrução muscular real.',
       emoji: '🔬',
       profileLabel: 'Proteína máxima, gordura mínima',
+      stats: [
+        { label: 'PROTEÍNA',       value: 99 },
+        { label: 'NUTRIÇÃO',       value: 84 },
+        { label: 'ESPECIFICIDADE', value: 99 },
+        { label: 'VITALIDADE',     value: 86 },
+      ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR SUPLEMENTO CONCENTRADO →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
@@ -605,6 +726,12 @@ const quizProduto: QuizDef = {
       description: '40% de proteína no mínimo com taurina — o aminoácido essencial que gato não produz sozinho. Cuida do coração, da visão e da saúde geral. Porque gato não é cão pequeno, e o Dragão sabe disso.',
       emoji: '🐱',
       profileLabel: 'Gato não é cão pequeno. Sei disso.',
+      stats: [
+        { label: 'PROTEÍNA',       value: 85 },
+        { label: 'NUTRIÇÃO',       value: 90 },
+        { label: 'ESPECIFICIDADE', value: 99 },
+        { label: 'VITALIDADE',     value: 88 },
+      ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR SUPLEMENTO FELINO →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
@@ -615,6 +742,12 @@ const quizProduto: QuizDef = {
       description: 'Pó que vira gel com água quente — proteína de 3 fontes de insetos, 47% no mínimo, relação Ca:P perfeita pra répteis. Sem inseto vivo, sem odor, sem complicação. Nutrição consistente de verdade pro seu animal exótico.',
       emoji: '🦎',
       profileLabel: 'Tenho um dragão de verdade em casa',
+      stats: [
+        { label: 'PROTEÍNA',       value: 92 },
+        { label: 'NUTRIÇÃO',       value: 82 },
+        { label: 'ESPECIFICIDADE', value: 99 },
+        { label: 'VITALIDADE',     value: 86 },
+      ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR GRUB →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
@@ -719,6 +852,12 @@ const quizEco: QuizDef = {
       description: 'Sem julgamento — a maioria das pessoas está aqui. O sistema foi construído pra facilitar escolhas de alto impacto e dificultar as outras. Mas o primeiro passo é sempre o mesmo: saber onde você está.\n\nVocê acabou de dar esse passo. O Dragão sugere começar pequeno.',
       emoji: '🌋',
       profileLabel: 'Sei que dá pra mudar. Começo aqui.',
+      stats: [
+        { label: 'IMPACTO',      value: 22 },
+        { label: 'CONSISTÊNCIA', value: 16 },
+        { label: 'INFLUÊNCIA',   value: 12 },
+        { label: 'CONVICÇÃO',    value: 28 },
+      ],
       ctaText: 'VER COMO COMEÇAR →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -728,6 +867,12 @@ const quizEco: QuizDef = {
       description: 'Você já pensa. Já questiona. Já fez algumas mudanças — mas sabe que ainda tem espaço pra evoluir. Esse é o perfil mais comum entre pessoas que realmente chegam a mudar: não é perfeição, é processo.\n\nO Dragão não pede perfeição. Só escolhas melhores, uma de cada vez.',
       emoji: '🌥️',
       profileLabel: 'Tô melhorando, um passo de cada vez',
+      stats: [
+        { label: 'IMPACTO',      value: 55 },
+        { label: 'CONSISTÊNCIA', value: 50 },
+        { label: 'INFLUÊNCIA',   value: 42 },
+        { label: 'CONVICÇÃO',    value: 58 },
+      ],
       ctaText: 'UMA ESCOLHA QUE FAZ DIFERENÇA →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -737,6 +882,12 @@ const quizEco: QuizDef = {
       description: 'Você tem consciência, tem intenção e já colocou bastante em prática. O que falta é consistência nos pontos cegos — aquelas áreas onde o hábito ainda fala mais alto que o valor.\n\nO Dragão vê os gaps. E tem uma sugestão pra cada um deles.',
       emoji: '⛅',
       profileLabel: 'Já entendi — agora fecho os gaps',
+      stats: [
+        { label: 'IMPACTO',      value: 76 },
+        { label: 'CONSISTÊNCIA', value: 68 },
+        { label: 'INFLUÊNCIA',   value: 60 },
+        { label: 'CONVICÇÃO',    value: 74 },
+      ],
       ctaText: 'FECHAR OS GAPS →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -746,6 +897,12 @@ const quizEco: QuizDef = {
       description: 'Você já internalizou. Separa lixo, pensa na origem, reduziu carne, e faz perguntas que a maioria nem sabe que existem. O próximo nível não é consumir melhor — é influenciar as pessoas ao redor.\n\nO Dragão precisa de pessoas como você.',
       emoji: '🌤️',
       profileLabel: 'Já virou estilo de vida pra mim',
+      stats: [
+        { label: 'IMPACTO',      value: 88 },
+        { label: 'CONSISTÊNCIA', value: 85 },
+        { label: 'INFLUÊNCIA',   value: 78 },
+        { label: 'CONVICÇÃO',    value: 88 },
+      ],
       ctaText: 'FAZER PARTE DO MOVIMENTO →',
       ctaLink: 'https://comidadedragao.com.br',
     },
@@ -755,6 +912,12 @@ const quizEco: QuizDef = {
       description: 'Você é a referência no grupo. A pessoa que as outras mandam mensagem quando têm dúvida sobre reciclagem, origem de alimento ou impacto ambiental. Não é postura — é convicção.\n\nO Dragão te reconhece. E já sabia que você chegaria até aqui.',
       emoji: '🌿',
       profileLabel: 'Eu vivo tudo que eu prego',
+      stats: [
+        { label: 'IMPACTO',      value: 99 },
+        { label: 'CONSISTÊNCIA', value: 97 },
+        { label: 'INFLUÊNCIA',   value: 95 },
+        { label: 'CONVICÇÃO',    value: 99 },
+      ],
       coupon: 'DRAGAOVERDE',
       ctaText: 'A PROTEÍNA QUE PENSA IGUAL A VOCÊ →',
       ctaLink: 'https://comidadedragao.com.br/collections/produtos',
