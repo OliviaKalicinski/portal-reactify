@@ -393,7 +393,13 @@ async function generateProfileCardBlob(
     const iw = ownerImg.naturalWidth, ih = ownerImg.naturalHeight;
     const sc = Math.max(S / iw, TOP_H / ih);
     const dw = iw * sc, dh = ih * sc;
-    offCtx.drawImage(ownerImg, (S - dw) / 2, (TOP_H - dh) / 2, dw, dh);
+
+    // Crop bias: foto vertical → ancora mais próximo do topo (rostos tendem
+    // a estar no terço superior). Foto horizontal → centro.
+    const isPortrait = ih / iw > 1.15;
+    const overflowY = dh - TOP_H; // sempre >= 0 porque sc é 'cover'
+    const dy = isPortrait ? -overflowY * 0.22 : -overflowY * 0.5;
+    offCtx.drawImage(ownerImg, (S - dw) / 2, dy, dw, dh);
     const imgData = offCtx.getImageData(0, 0, S, TOP_H);
     const d = imgData.data;
     for (let i = 0; i < d.length; i += 4) {
@@ -1264,6 +1270,18 @@ const Quizzes = () => {
                 {profile.email && (
                   <div className="qz-profile-email">{profile.email}</div>
                 )}
+                {!ownerPhotoPreview && (
+                  <button
+                    type="button"
+                    className="qz-profile-photo-hint"
+                    onClick={() => ownerPhotoRef.current?.click()}
+                  >
+                    <span className="qz-profile-photo-hint-icon">📷</span>
+                    <span>
+                      <strong>Sobe uma foto com teu pet</strong> — teu card de perfil fica personalizado e pronto pra compartilhar.
+                    </span>
+                  </button>
+                )}
               </div>
 
               <div className="qz-profile-actions-top">
@@ -1289,7 +1307,11 @@ const Quizzes = () => {
                   <strong>{completedCount}</strong>/{totalDimensions}
                 </span>
                 <span className="qz-progress-label">
-                  {completedCount === totalDimensions ? "PERFIL COMPLETO" : "DIMENSÕES RESPONDIDAS"}
+                  {completedCount === totalDimensions
+                    ? "PERFIL COMPLETO"
+                    : completedCount === 0
+                      ? "DIMENSÕES RESPONDIDAS"
+                      : `FALTAM ${totalDimensions - completedCount} DIMENSÕES`}
                 </span>
               </div>
               <div className="qz-progress-segments">
@@ -1341,17 +1363,21 @@ const Quizzes = () => {
         </>
       )}
 
-      {/* QUIZ GRID SECTION */}
-      <section className="parceiros-secao">
-        <div className="parceiros-tag tag-green">
-          {profile ? "continue teu perfil" : "monta teu perfil"}
-        </div>
-        <h2 className="parceiros-secao-titulo titulo-green">
-          {profile
-            ? <>Faltam <span>{Math.max(0, totalDimensions - completedCount)}</span> dimensões</>
-            : <>{totalDimensions} quizzes, <span>{totalDimensions} dimensões</span></>}
-        </h2>
-      </section>
+      {/* QUIZ GRID SECTION — só título/intro pra quem ainda não tem perfil */}
+      {!profile && (
+        <section className="parceiros-secao">
+          <div className="parceiros-tag tag-green">monta teu perfil</div>
+          <h2 className="parceiros-secao-titulo titulo-green">
+            8 quizzes pra <span>descobrir quem você é</span> como tutor
+          </h2>
+          <p className="qz-intro-pitch">
+            Personalidade, nojo, consciência ambiental, conhecimento, perfil do pet,
+            grau de revolução, estilo de cuidado e alimentação.
+            <br />
+            <strong>Responde, monta teu perfil e entra na matilha.</strong>
+          </p>
+        </section>
+      )}
 
       <div className="quiz-grid-wrap">
         <div className="quiz-grid" id="quiz-grid">
@@ -1374,33 +1400,45 @@ const Quizzes = () => {
       <section className="parceiros-cta-final">
         <h2 className="parceiros-cta-final-titulo">
           {profile && completedCount === totalDimensions
-            ? <>Teu perfil tá <span>completo!</span></>
+            ? <>Teu Super Trunfo tá <span>pronto!</span></>
             : profile
               ? <>Completa teu <span>perfil</span></>
               : <>Começa pelo <span>primeiro quiz</span></>}
         </h2>
         <p className="parceiros-cta-final-sub">
           {profile && completedCount === totalDimensions
-            ? "Gera teu card de perfil e compartilha com a matilha. O Dragão já te conhece inteiro."
+            ? "Gera teu card e posta no Instagram marcando @comidadedragao. A matilha dá RP nos melhores perfis."
             : profile
               ? "Ainda tem quizzes pra responder. Cada resposta monta mais uma dimensão do teu perfil de tutor."
-              : `Oito quizzes curtos, oito dimensões do teu perfil. No final, um card pronto pra compartilhar.`}
+              : `Oito quizzes curtos, oito dimensões do teu perfil. No final, um card pronto pra postar no Instagram.`}
         </p>
         {profile && completedCount === totalDimensions ? (
-          <button
-            className={`parceiros-btn-primary${sharingProfile ? " loading" : ""}`}
-            onClick={handleShareProfile}
-            disabled={sharingProfile}
-          >
-            {sharingProfile ? "Gerando card…" : "Compartilhar perfil ↗"}
-          </button>
+          <div className="qz-cta-actions">
+            <button
+              className={`parceiros-btn-primary${sharingProfile ? " loading" : ""}`}
+              onClick={handleShareProfile}
+              disabled={sharingProfile}
+            >
+              {sharingProfile ? "Gerando card…" : "Gerar card de perfil ↓"}
+            </button>
+            <a
+              href="https://www.instagram.com/comidadedragao"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="parceiros-btn-ghost"
+            >
+              Abrir @comidadedragao ↗
+            </a>
+          </div>
         ) : (
           <a href="#quiz-grid" className="parceiros-btn-primary">
             {profile ? "Ver quizzes restantes ↓" : "Escolher um quiz ↓"}
           </a>
         )}
         <p className="parceiros-cta-final-note">
-          Sem cadastro obrigatório — só no final do primeiro quiz.
+          {profile && completedCount === totalDimensions
+            ? "É uma brincadeira pra conhecer teu estilo de tutor. Quanto mais gente joga, mais a matilha cresce. Marca a gente no story e a gente reposta."
+            : "Sem cadastro obrigatório — só no final do primeiro quiz. No fim, card pronto pra postar no Instagram marcando @comidadedragao."}
         </p>
       </section>
 
