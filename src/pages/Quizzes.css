@@ -11,6 +11,30 @@
    ============================================================ */
 
 /* ════════════════════════════════════════════════
+   HERO TITLE — override: 1 linha no desktop
+════════════════════════════════════════════════ */
+
+.quizzes-page .archive-hero-title {
+  font-size: clamp(42px, 5vw, 74px);
+  white-space: nowrap;
+}
+.quizzes-page .archive-hero-title span {
+  display: inline;
+  margin-left: 0.3em;
+}
+
+@media (max-width: 960px) {
+  .quizzes-page .archive-hero-title {
+    white-space: normal;
+    font-size: clamp(36px, 8vw, 60px);
+  }
+  .quizzes-page .archive-hero-title span {
+    display: block;
+    margin-left: 0;
+  }
+}
+
+/* ════════════════════════════════════════════════
    QUIZ GRID — editorial, mesmo padrão do Produtos
 ════════════════════════════════════════════════ */
 
@@ -66,6 +90,8 @@
   background-size: 9px 9px;
   mix-blend-mode: multiply;
   pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s ease;
 }
 
 /* ── Textura 2: grain/ruído (SVG noise em multiply) ── */
@@ -77,13 +103,14 @@
   mix-blend-mode: multiply;
   opacity: 0.7;
   pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 
-/* ── GIF hover preview — aparece por cima no hover ── */
+/* ── GIF hover preview — aparece por cima no hover, LIMPO (sem overlay) ── */
 .quizzes-page .quiz-card-img {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 6;
   background-size: cover;
   background-position: center;
   opacity: 0;
@@ -95,43 +122,34 @@
   opacity: 1;
 }
 
-/* Gradient escuro por cima do GIF pra manter texto legível */
-.quizzes-page .quiz-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 32%, rgba(0, 0, 0, 0.1) 100%);
+/* No hover: TUDO que é texto/textura/badge some. Só o GIF fica (padrão Home). */
+.quizzes-page .quiz-card:hover .quiz-card-top,
+.quizzes-page .quiz-card:hover .quiz-card-visual,
+.quizzes-page .quiz-card:hover .quiz-card-body,
+.quizzes-page .quiz-card:hover .quiz-card-halftone,
+.quizzes-page .quiz-card:hover .quiz-card-grain,
+.quizzes-page .quiz-card:focus-visible .quiz-card-top,
+.quizzes-page .quiz-card:focus-visible .quiz-card-visual,
+.quizzes-page .quiz-card:focus-visible .quiz-card-body,
+.quizzes-page .quiz-card:focus-visible .quiz-card-halftone,
+.quizzes-page .quiz-card:focus-visible .quiz-card-grain {
   opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-.quizzes-page .quiz-card:hover::after,
-.quizzes-page .quiz-card:focus-visible::after {
-  opacity: 1;
 }
 
-/* No hover, texto inverte pra branco e "?" some pra dar espaço ao GIF */
-.quizzes-page .quiz-card:hover .quiz-card-visual,
-.quizzes-page .quiz-card:focus-visible .quiz-card-visual {
+/* Badge done (✓) também some no hover pra GIF ficar limpo */
+.quizzes-page .quiz-card.done::before {
+  transition: opacity 0.4s ease;
+}
+.quizzes-page .quiz-card.done:hover::before,
+.quizzes-page .quiz-card.done:focus-visible::before {
   opacity: 0;
-  transform: scale(0.92);
 }
-.quizzes-page .quiz-card:hover .quiz-card-top,
-.quizzes-page .quiz-card:hover .quiz-card-body,
-.quizzes-page .quiz-card:focus-visible .quiz-card-top,
-.quizzes-page .quiz-card:focus-visible .quiz-card-body {
-  color: #FAFAFA;
-}
-.quizzes-page .quiz-card:hover .quiz-card-index,
-.quizzes-page .quiz-card:focus-visible .quiz-card-index {
-  border-color: #FAFAFA;
-  color: #FAFAFA;
-}
-.quizzes-page .quiz-card:hover .quiz-card-tag,
-.quizzes-page .quiz-card:focus-visible .quiz-card-tag {
-  border-color: #FAFAFA;
-  color: #FAFAFA;
+
+/* Transição suave dos elementos de conteúdo */
+.quizzes-page .quiz-card-top,
+.quizzes-page .quiz-card-visual,
+.quizzes-page .quiz-card-body {
+  transition: opacity 0.4s ease;
 }
 
 /* ── Top row: índice + tag ─────────────────────── */
@@ -179,60 +197,68 @@
   transition: border-color 0.3s ease, color 0.3s ease;
 }
 
-/* ── Centro: "?" tipográfico gigante ──────────── */
+/* ── Centro: "?" tipográfico — menor pra não competir com o título ─── */
 .quizzes-page .quiz-card-visual {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
-  font-size: clamp(120px, 16vw, 220px);
+  font-size: clamp(70px, 8vw, 110px);
   line-height: 0.8;
-  color: rgba(10, 10, 10, 0.92);
-  text-shadow: 6px 6px 0 rgba(10, 10, 10, 0.14);
+  color: rgba(10, 10, 10, 0.72);
+  text-shadow: 4px 4px 0 rgba(10, 10, 10, 0.14);
   position: relative;
   z-index: 4;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  margin: 6px 0 8px;
   user-select: none;
+  align-self: flex-start;
 }
 
-/* ── Bottom: título + sub + meta ──────────────── */
+/* ── Bottom: título + sub + meta — TÍTULO MAXIMALISTA (estilo pôster) ── */
 .quizzes-page .quiz-card-body {
+  flex: 1;
   position: relative;
   z-index: 4;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  transition: color 0.3s ease;
+  justify-content: flex-end;
+  gap: 4px;
 }
 
 .quizzes-page .quiz-card-title {
   font-family: 'Archivo Black', 'Big Shoulders Display', 'Bebas Neue', sans-serif;
-  font-size: clamp(20px, 1.8vw, 26px);
+  font-size: clamp(26px, 2.6vw, 40px);
   font-weight: 900;
-  line-height: 0.98;
-  letter-spacing: -0.005em;
+  line-height: 0.92;
+  letter-spacing: -0.012em;
   text-transform: uppercase;
   margin: 0;
-  text-shadow: 2px 2px 0 rgba(10, 10, 10, 0.15);
+  text-shadow: 3px 3px 0 rgba(10, 10, 10, 0.28);
+  /* Nunca deixa o título estourar o card */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .quizzes-page .quiz-card-sub {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
-  line-height: 1.35;
-  margin: 0;
-  opacity: 0.82;
+  font-size: 12px;
+  line-height: 1.3;
+  margin: 4px 0 0;
+  opacity: 0.75;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-weight: 500;
 }
 
 .quizzes-page .quiz-card-meta {
   font-family: 'Space Mono', monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.18em;
+  font-size: 10px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   margin-top: 6px;
   font-weight: 700;
@@ -800,6 +826,57 @@
   border-left: 4px solid var(--quiz-accent, #FF7A00);
   color: var(--dragon-white);
 }
+
+/* ── Feedback pós-resposta em quizzes tipo trivia ── */
+.qz-option:disabled {
+  cursor: default;
+  transform: none;
+}
+.qz-option:disabled:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.09);
+  border-left-color: rgba(255, 255, 255, 0.09);
+  color: rgba(250, 250, 250, 0.75);
+  transform: none;
+}
+
+.qz-option.correct,
+.qz-option.correct:disabled,
+.qz-option.correct:disabled:hover {
+  background: color-mix(in srgb, #7BFF00 22%, transparent);
+  border-color: #7BFF00;
+  border-left: 4px solid #7BFF00;
+  color: #FAFAFA;
+  animation: qz-option-pulse 0.35s ease;
+}
+.qz-option.correct .qz-option-letter {
+  color: #7BFF00;
+}
+
+.qz-option.incorrect,
+.qz-option.incorrect:disabled,
+.qz-option.incorrect:disabled:hover {
+  background: color-mix(in srgb, #FF3B3B 22%, transparent);
+  border-color: #FF3B3B;
+  border-left: 4px solid #FF3B3B;
+  color: #FAFAFA;
+}
+.qz-option.incorrect .qz-option-letter {
+  color: #FF3B3B;
+}
+
+.qz-option.dimmed,
+.qz-option.dimmed:disabled,
+.qz-option.dimmed:disabled:hover {
+  opacity: 0.32;
+  color: rgba(250, 250, 250, 0.4);
+}
+
+@keyframes qz-option-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
 .qz-option-letter {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 22px; line-height: 1;
@@ -906,32 +983,175 @@
   50%       { opacity: 0.3;  transform: scale(1.1); }
 }
 
+/* ══════════════════════════════════════════════════
+   CARD PREVIEW — espelha o PNG que será compartilhado
+   Pessoa vê ANTES de gerar, então já sabe o que vai postar
+══════════════════════════════════════════════════ */
+
+.qz-result-card-preview {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  max-width: 360px;
+  width: 100%;
+  margin: 0 auto 24px;
+  background: #0A0A0A;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 30px 22px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.qz-preview-stripe {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 8px;
+  background: var(--dragon-lime, #7BFF00);
+}
+
+.qz-preview-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.qz-preview-logo-top {
+  height: 28px;
+  width: auto;
+  opacity: 0.88;
+}
+.qz-preview-dim {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.42);
+  text-align: right;
+  max-width: 55%;
+}
+
+.qz-preview-statement {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+  font-size: clamp(22px, 4.6vw, 44px);
+  line-height: 0.92;
+  letter-spacing: -0.008em;
+  color: #FAFAFA;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 20px 6px;
+  overflow-wrap: anywhere;
+}
+
+.qz-preview-divider {
+  width: 72px;
+  height: 3px;
+  margin: 0 auto 14px;
+}
+
+.qz-preview-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.qz-preview-logo-bottom {
+  height: 22px;
+  width: auto;
+  opacity: 0.65;
+}
+.qz-preview-handle {
+  font-family: 'Space Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════════════
+   Detalhes do resultado (embaixo, menor)
+══════════════════════════════════════════════════ */
+
+.qz-result-details {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+}
+
+/* Variante: quando os detalhes vêm PRIMEIRO (sem border-top, texto maior) */
+.qz-result-details.qz-result-details-top {
+  margin-top: 8px;
+  padding-top: 0;
+  border-top: none;
+  margin-bottom: 32px;
+}
+.qz-result-details-top .qz-result-label {
+  font-size: clamp(26px, 3.6vw, 40px);
+}
+.qz-result-details-top .qz-result-desc {
+  font-size: 14px;
+  color: rgba(250, 250, 250, 0.78);
+}
+
+/* Bloco de share — card preview + ações — vem por último */
+.qz-result-share-block {
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+.qz-result-share-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--dragon-lime, #7BFF00);
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.qz-result-details-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
 .qz-result-tag {
   display: inline-block;
   background: var(--quiz-accent, #FF7A00);
   color: var(--dragon-black);
   font-size: 9px; font-weight: 800; letter-spacing: 0.3em;
   text-transform: uppercase; padding: 4px 10px;
-  margin-bottom: 12px;
 }
 .qz-result-label {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(26px, 4.5vw, 44px);
-  line-height: 0.95; color: var(--dragon-white);
-  margin-bottom: 6px;
-}
-.qz-result-profile-label {
-  font-family: 'Big Shoulders Display', sans-serif;
-  font-weight: 900; font-size: clamp(22px, 3.5vw, 38px);
-  text-transform: uppercase; letter-spacing: 0.04em;
-  margin-bottom: 16px;
-  /* color via inline style (accent do quiz) */
+  font-size: clamp(18px, 2.4vw, 26px);
+  line-height: 1;
 }
 .qz-result-desc {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 14px; line-height: 1.6;
-  color: rgba(250, 250, 250, 0.65);
-  max-width: 400px; margin: 0 auto 24px;
+  font-size: 13px; line-height: 1.6;
+  color: rgba(250, 250, 250, 0.68);
+  margin: 0 0 18px;
+}
+/* classe legada — removida visualmente mas mantida pra não quebrar CSS selector */
+.qz-result-profile-label { display: none; }
+
+.qz-pet-change-btn {
+  background: transparent;
+  border: 1px solid rgba(250, 250, 250, 0.18);
+  color: rgba(250, 250, 250, 0.7);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.qz-pet-change-btn:hover {
+  border-color: var(--dragon-lime, #7BFF00);
+  color: var(--dragon-lime, #7BFF00);
 }
 
 /* Coupon */

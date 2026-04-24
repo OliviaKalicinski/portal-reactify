@@ -178,20 +178,20 @@ async function generateResultCardBlob(
   if (!result) throw new Error("Result not found");
   const dimension = PROFILE_DIMENSIONS.find((d) => d.quizId === quiz.id);
 
-  const S = 1080;
+  // Formato 9:16 — stories do Instagram
+  const W = 1080, H = 1920;
   const PAD_X = 72;
-  const PHOTO_H = 460; // zona duotone quando há foto
+  const PHOTO_H = 960; // zona duotone ocupa metade superior
 
   const canvas = document.createElement("canvas");
-  canvas.width = S; canvas.height = S;
+  canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext("2d")!;
   const accent = quiz.accent || "#FF7A00";
 
-  // ── Background preto
   ctx.fillStyle = "#0A0A0A";
-  ctx.fillRect(0, 0, S, S);
+  ctx.fillRect(0, 0, W, H);
 
-  // ── Carrega foto, se houver
+  // Foto do pet (opcional)
   let petImg: HTMLImageElement | null = null;
   if (petPhotoFile) {
     try {
@@ -201,148 +201,162 @@ async function generateResultCardBlob(
     } catch { petImg = null; }
   }
 
-  // ─────────────────────────────────────────────────────────────────────
-  // ZONA DE FOTO (duotone) — só se tem foto
-  // ─────────────────────────────────────────────────────────────────────
+  // Zona superior: foto duotone accent (mesma fórmula do profile card)
   if (petImg) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(0, 0, S, PHOTO_H);
-    ctx.clip();
-
     const offC = document.createElement("canvas");
-    offC.width = S; offC.height = PHOTO_H;
+    offC.width = W; offC.height = PHOTO_H;
     const offCtx = offC.getContext("2d")!;
+
     const iw = petImg.naturalWidth, ih = petImg.naturalHeight;
-    const sc = Math.max(S / iw, PHOTO_H / ih);
+    const sc = Math.max(W / iw, PHOTO_H / ih);
     const dw = iw * sc, dh = ih * sc;
-    offCtx.drawImage(petImg, (S - dw) / 2, (PHOTO_H - dh) / 2, dw, dh);
-    const imgData = offCtx.getImageData(0, 0, S, PHOTO_H);
+    const isPortrait = ih / iw > 1.15;
+    const overflowY = dh - PHOTO_H;
+    const dy = isPortrait ? -overflowY * 0.22 : -overflowY * 0.5;
+    offCtx.drawImage(petImg, (W - dw) / 2, dy, dw, dh);
+
+    // Duotone fotográfico: SHADOW (dark) → HIGHLIGHT (accent) per-pixel
+    const accentR = parseInt(accent.slice(1, 3), 16);
+    const accentG = parseInt(accent.slice(3, 5), 16);
+    const accentB = parseInt(accent.slice(5, 7), 16);
+    const SHADOW_R = Math.max(0, Math.floor(accentR * 0.08));
+    const SHADOW_G = Math.max(0, Math.floor(accentG * 0.08));
+    const SHADOW_B = Math.max(0, Math.floor(accentB * 0.08));
+    const HIGH_R = Math.min(255, Math.floor(accentR * 1.08));
+    const HIGH_G = Math.min(255, Math.floor(accentG * 1.08));
+    const HIGH_B = Math.min(255, Math.floor(accentB * 1.08));
+
+    const imgData = offCtx.getImageData(0, 0, W, PHOTO_H);
     const d = imgData.data;
     for (let i = 0; i < d.length; i += 4) {
-      const g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-      d[i] = d[i + 1] = d[i + 2] = g;
+      const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      const t = lum / 255;
+      d[i]     = SHADOW_R + (HIGH_R - SHADOW_R) * t;
+      d[i + 1] = SHADOW_G + (HIGH_G - SHADOW_G) * t;
+      d[i + 2] = SHADOW_B + (HIGH_B - SHADOW_B) * t;
     }
     offCtx.putImageData(imgData, 0, 0);
-    ctx.drawImage(offC, 0, 0);
-    ctx.globalCompositeOperation = "multiply";
-    ctx.globalAlpha = 0.75;
-    ctx.fillStyle = accent;
-    ctx.fillRect(0, 0, S, PHOTO_H);
-    ctx.globalCompositeOperation = "source-over";
-    ctx.globalAlpha = 1;
-    ctx.restore();
 
-    // Fade inferior da foto pro preto — transição suave
-    const fadeGrad = ctx.createLinearGradient(0, PHOTO_H - 140, 0, PHOTO_H);
+    ctx.drawImage(offC, 0, 0);
+
+    // Fade inferior pro preto, transição pro corpo
+    const fadeGrad = ctx.createLinearGradient(0, PHOTO_H - 200, 0, PHOTO_H);
     fadeGrad.addColorStop(0, "transparent");
     fadeGrad.addColorStop(1, "#0A0A0A");
     ctx.fillStyle = fadeGrad;
-    ctx.fillRect(0, 0, S, PHOTO_H);
+    ctx.fillRect(0, PHOTO_H - 200, W, 200);
 
-    // Fade topo pra legibilidade do logo
-    const topFade = ctx.createLinearGradient(0, 0, 0, 120);
+    // Fade topo pra logo
+    const topFade = ctx.createLinearGradient(0, 0, 0, 160);
     topFade.addColorStop(0, "rgba(0,0,0,0.55)");
     topFade.addColorStop(1, "transparent");
     ctx.fillStyle = topFade;
-    ctx.fillRect(0, 0, S, 120);
+    ctx.fillRect(0, 0, W, 160);
   }
 
-  // ── Accent stripe lateral esquerda (6px)
+  // Stripe accent lateral — altura completa, com sombra pra destacar sobre foto
+  ctx.save();
+  ctx.shadowColor = "rgba(0,0,0,0.8)";
+  ctx.shadowBlur = 6;
+  ctx.shadowOffsetX = 2;
   ctx.fillStyle = accent;
-  ctx.fillRect(0, 0, 6, S);
+  ctx.fillRect(0, 0, 10, H);
+  ctx.restore();
 
-  // ── Logo top-left pequeno
+  // Header: logo top-left + dimension tag top-right
   const logo = await loadLogoColored("#FAFAFA");
   if (logo) {
-    const lw = 116;
-    const lh = logo.naturalHeight > 0 ? Math.round(lw * logo.naturalHeight / logo.naturalWidth) : 40;
-    ctx.globalAlpha = petImg ? 0.92 : 0.78;
-    ctx.drawImage(logo, 30, 26, lw, lh);
+    const lw = 140;
+    const lh = logo.naturalHeight > 0 ? Math.round(lw * logo.naturalHeight / logo.naturalWidth) : 48;
+    ctx.globalAlpha = 0.95;
+    ctx.drawImage(logo, 40, 40, lw, lh);
     ctx.globalAlpha = 1;
-  } else {
-    ctx.fillStyle = "rgba(255,255,255,0.78)";
-    ctx.font = "700 14px 'Big Shoulders Display', Arial, sans-serif";
-    ctx.textAlign = "left";
-    ctx.fillText("COMIDA DE DRAGÃO", 30, 48);
   }
 
-  // ── Dimension tag muted top-right
   const dimTitle = (dimension?.title || quiz.title).toUpperCase();
-  ctx.font = "600 11px 'Space Grotesk', Arial, sans-serif";
+  ctx.font = "700 14px 'Space Mono', 'Big Shoulders Display', Arial, sans-serif";
   ctx.textAlign = "right";
-  ctx.fillStyle = "rgba(255,255,255,0.32)";
-  ctx.fillText(dimTitle, S - 30, 42);
+  ctx.fillStyle = accent;
+  ctx.fillText(dimTitle, W - 40, 60);
 
-  // ─────────────────────────────────────────────────────────────────────
-  // STATEMENT — única coisa que importa
-  // ─────────────────────────────────────────────────────────────────────
-  const statement = stripEmoji(result.profileLabel).toUpperCase();
-  const maxStW = S - PAD_X * 2;
+  // STATEMENT — corpo, frase auto-suficiente grande e centralizada
+  const statement = stripEmoji(
+    result.manifestoLine || result.profileLabel
+  ).toUpperCase();
+  const maxStW = W - PAD_X * 2;
 
-  // Quebra em linhas dentro de um font-size candidato; devolve linhas
   const wrap = (fontSize: number): string[] => {
-    ctx.font = `800 ${fontSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+    ctx.font = `800 ${fontSize}px 'Archivo Black', 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
     const words = statement.split(" ");
     const lines: string[] = [];
     let acc = "";
     for (const word of words) {
-      const test = acc + word + " ";
+      const test = acc ? acc + " " + word : word;
       if (ctx.measureText(test).width > maxStW && acc !== "") {
-        lines.push(acc.trim());
-        acc = word + " ";
+        lines.push(acc);
+        acc = word;
       } else {
         acc = test;
       }
     }
-    if (acc.trim()) lines.push(acc.trim());
+    if (acc) lines.push(acc);
     return lines;
   };
 
-  // Escolhe tamanho que caiba bonito
-  let stFontSize = petImg ? 110 : 140;
+  // Zona do statement: ~1030 até ~1700 (altura 670px)
+  const ST_ZONE_TOP = petImg ? PHOTO_H + 80 : 700;
+  const ST_ZONE_BOTTOM = H - 260;
+  const ST_ZONE_H = ST_ZONE_BOTTOM - ST_ZONE_TOP;
+
+  let stFontSize = 120;
   let stLines = wrap(stFontSize);
-  while ((stLines.length > 3 || stLines.some(l => ctx.measureText(l).width > maxStW)) && stFontSize > 54) {
+  while (stFontSize > 48) {
+    const lineH = stFontSize * 1.02;
+    const blockH = stLines.length * lineH;
+    if (stLines.length <= 5 && blockH <= ST_ZONE_H) break;
     stFontSize -= 6;
     stLines = wrap(stFontSize);
   }
-  const stLineH = stFontSize * 1.04;
+
+  const stLineH = stFontSize * 1.02;
   const stBlockH = stLines.length * stLineH;
+  const stTop = ST_ZONE_TOP + (ST_ZONE_H - stBlockH) / 2;
 
-  // Posiciona: com foto, logo abaixo do fade; sem foto, centraliza vertical
-  const stTop = petImg
-    ? PHOTO_H + 30
-    : (S - stBlockH) / 2 - 20;
-
-  ctx.font = `800 ${stFontSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
+  ctx.font = `800 ${stFontSize}px 'Archivo Black', 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
   ctx.textAlign = "center";
   ctx.fillStyle = "#FAFAFA";
+  ctx.shadowColor = "rgba(0,0,0,0.5)";
+  ctx.shadowBlur = petImg ? 12 : 0;
+
   let stY = stTop + stFontSize * 0.82;
   for (const line of stLines) {
-    ctx.fillText(line, S / 2, stY);
+    ctx.fillText(line, W / 2, stY);
     stY += stLineH;
   }
+  ctx.shadowBlur = 0;
 
-  // Traço accent embaixo da frase (editorial)
-  const underlineY = stTop + stBlockH + 26;
+  // Traço accent editorial embaixo
+  const underlineY = stTop + stBlockH + 40;
   ctx.strokeStyle = accent;
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 4;
   ctx.beginPath();
-  ctx.moveTo(S / 2 - 54, underlineY);
-  ctx.lineTo(S / 2 + 54, underlineY);
+  ctx.moveTo(W / 2 - 70, underlineY);
+  ctx.lineTo(W / 2 + 70, underlineY);
   ctx.stroke();
 
-  // ─────────────────────────────────────────────────────────────────────
-  // FOOTER mínimo
-  // ─────────────────────────────────────────────────────────────────────
-  ctx.fillStyle = "rgba(255,255,255,0.42)";
-  ctx.font = "700 14px 'Big Shoulders Display', Arial, sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("@COMIDADEDRAGAO", S / 2, S - 56);
+  // FOOTER — logo centralizada + handle
+  if (logo) {
+    const lw = 130;
+    const lh = logo.naturalHeight > 0 ? Math.round(lw * logo.naturalHeight / logo.naturalWidth) : 44;
+    ctx.globalAlpha = 0.78;
+    ctx.drawImage(logo, (W - lw) / 2, H - 160, lw, lh);
+    ctx.globalAlpha = 1;
+  }
 
-  ctx.fillStyle = "rgba(255,255,255,0.18)";
-  ctx.font = "500 11px 'Space Grotesk', Arial, sans-serif";
-  ctx.fillText("comidadedragao.com.br", S / 2, S - 34);
+  ctx.fillStyle = "rgba(255,255,255,0.38)";
+  ctx.font = "700 14px 'Space Mono', 'Big Shoulders Display', Arial, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("@COMIDADEDRAGAO  ·  COMIDADEDRAGAO.COM.BR", W / 2, H - 58);
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png")
@@ -356,21 +370,22 @@ async function generateProfileCardBlob(
 ): Promise<Blob> {
   await document.fonts.ready;
 
-  const S = 1080;
+  // Formato 9:16 — stories do Instagram, unificado com result card
+  const W = 1080, H = 1920;
   const canvas = document.createElement("canvas");
-  canvas.width = S;
-  canvas.height = S;
+  canvas.width = W;
+  canvas.height = H;
   const ctx = canvas.getContext("2d")!;
 
   const LIME = "#7BFF00";
   const DARK = "#0A0A0A";
-  const FOOTER_H = 68;
+  const FOOTER_H = 84;
+  const PHOTO_H = 960; // zona duotone ocupa metade superior
 
-  // ── Background preto base
   ctx.fillStyle = DARK;
-  ctx.fillRect(0, 0, S, S);
+  ctx.fillRect(0, 0, W, H);
 
-  // ── Carrega foto do tutor+pet (opcional)
+  // Foto do tutor (opcional)
   let ownerImg: HTMLImageElement | null = null;
   if (ownerPhotoFile) {
     try {
@@ -380,33 +395,28 @@ async function generateProfileCardBlob(
     } catch { ownerImg = null; }
   }
 
-  // ── Foto como BACKDROP duotone fotográfico (preserva tons do pet)
+  // Zona superior: foto duotone LIME (mesma lógica do result card, color diferente)
   if (ownerImg) {
     const offC = document.createElement("canvas");
-    offC.width = S; offC.height = S;
+    offC.width = W; offC.height = PHOTO_H;
     const offCtx = offC.getContext("2d")!;
 
     const iw = ownerImg.naturalWidth, ih = ownerImg.naturalHeight;
-    const sc = Math.max(S / iw, S / ih);
+    const sc = Math.max(W / iw, PHOTO_H / ih);
     const dw = iw * sc, dh = ih * sc;
 
     const isPortrait = ih / iw > 1.15;
-    const overflowY = dh - S;
+    const overflowY = dh - PHOTO_H;
     const dy = isPortrait ? -overflowY * 0.22 : -overflowY * 0.5;
-    offCtx.drawImage(ownerImg, (S - dw) / 2, dy, dw, dh);
+    offCtx.drawImage(ownerImg, (W - dw) / 2, dy, dw, dh);
 
-    // Duotone per-pixel: interpola cada pixel entre SHADOW e HIGHLIGHT
-    // segundo a luminância. Isso preserva tons, textura e volume da foto
-    // em vez de chapar tudo na mesma cor.
-    //   SHADOW   = verde muito escuro (quase preto com tinge lime)
-    //   HIGHLIGHT= lime vibrante da marca
+    // Duotone fotográfico: SHADOW dark green → HIGHLIGHT lime vibrante
     const SHADOW_R = 0x08, SHADOW_G = 0x18, SHADOW_B = 0x02;
     const HIGH_R   = 0x8C, HIGH_G   = 0xFF, HIGH_B   = 0x1C;
 
-    const imgData = offCtx.getImageData(0, 0, S, S);
+    const imgData = offCtx.getImageData(0, 0, W, PHOTO_H);
     const d = imgData.data;
     for (let i = 0; i < d.length; i += 4) {
-      // Luminância percebida (Rec. 601)
       const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
       const t = lum / 255;
       d[i]     = SHADOW_R + (HIGH_R - SHADOW_R) * t;
@@ -415,72 +425,64 @@ async function generateProfileCardBlob(
     }
     offCtx.putImageData(imgData, 0, 0);
 
-    // Desenha com opacidade maior pro pet aparecer (40% vs antes 22%)
-    ctx.globalAlpha = 0.52;
     ctx.drawImage(offC, 0, 0);
-    ctx.globalAlpha = 1;
 
-    // Vignette escurecendo as bordas pra tipografia destacar
-    const vign = ctx.createRadialGradient(
-      S / 2, S * 0.35, S * 0.25,
-      S / 2, S * 0.55, S * 0.85
-    );
-    vign.addColorStop(0, "rgba(0,0,0,0.0)");
-    vign.addColorStop(0.65, "rgba(0,0,0,0.35)");
-    vign.addColorStop(1, "rgba(0,0,0,0.75)");
-    ctx.fillStyle = vign;
-    ctx.fillRect(0, 0, S, S);
+    // Fade inferior pro preto
+    const fadeGrad = ctx.createLinearGradient(0, PHOTO_H - 200, 0, PHOTO_H);
+    fadeGrad.addColorStop(0, "transparent");
+    fadeGrad.addColorStop(1, DARK);
+    ctx.fillStyle = fadeGrad;
+    ctx.fillRect(0, PHOTO_H - 200, W, 200);
 
-    // Escurecimento adicional na zona da tipografia principal (faixa central-esquerda)
-    const textShade = ctx.createLinearGradient(0, 0, S * 0.7, 0);
-    textShade.addColorStop(0, "rgba(0,0,0,0.55)");
-    textShade.addColorStop(1, "rgba(0,0,0,0)");
-    ctx.fillStyle = textShade;
-    ctx.fillRect(0, 130, S * 0.78, S - 200);
+    // Fade topo pra legibilidade do header
+    const topFade = ctx.createLinearGradient(0, 0, 0, 180);
+    topFade.addColorStop(0, "rgba(0,0,0,0.55)");
+    topFade.addColorStop(1, "transparent");
+    ctx.fillStyle = topFade;
+    ctx.fillRect(0, 0, W, 180);
   }
 
-  // ── Accent stripe lateral lime (com sombra pra destacar sobre foto)
+  // Stripe lime lateral — altura completa
   ctx.save();
   ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
   ctx.shadowBlur = 6;
   ctx.shadowOffsetX = 2;
   ctx.fillStyle = LIME;
-  ctx.fillRect(0, 0, 10, S);
+  ctx.fillRect(0, 0, 10, H);
   ctx.restore();
 
-  // ── Logo top-left
+  // Header: logo top-left + tag top-right (mesma estrutura do result card)
   const pLogo = await loadLogoColored("#FAFAFA");
   if (pLogo) {
-    const lw = 128;
-    const lh = pLogo.naturalHeight > 0 ? Math.round(lw * pLogo.naturalHeight / pLogo.naturalWidth) : 44;
+    const lw = 140;
+    const lh = pLogo.naturalHeight > 0 ? Math.round(lw * pLogo.naturalHeight / pLogo.naturalWidth) : 48;
     ctx.globalAlpha = 0.95;
-    ctx.drawImage(pLogo, 36, 32, lw, lh);
+    ctx.drawImage(pLogo, 40, 40, lw, lh);
     ctx.globalAlpha = 1;
   }
 
-  // ── Tag top-right "COMIDA DE DRAGÃO · PERFIL N/8"
   const doneCount = Object.keys(profile.results).length;
   const total = PROFILE_DIMENSIONS.length;
 
-  ctx.font = "700 12px 'Space Mono', 'Big Shoulders Display', Arial, sans-serif";
+  ctx.font = "700 14px 'Space Mono', 'Big Shoulders Display', Arial, sans-serif";
   ctx.textAlign = "right";
   ctx.fillStyle = LIME;
   ctx.fillText(
     `PERFIL DE TUTOR · ${doneCount}/${total}`,
-    S - 36, 54
+    W - 40, 60
   );
 
-  // ── Nome grande (left-aligned, abaixo do logo)
+  // Nome grande, abaixo do header/foto
   const displayName = (profile.name || "TUTOR DRAGÃO").toUpperCase();
-  let nameSize = 92;
+  let nameSize = 108;
   ctx.font = `800 ${nameSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
-  const NAME_X = 48;
-  const maxNameW = S - NAME_X - 48;
-  while (ctx.measureText(displayName).width > maxNameW && nameSize > 48) {
+  const NAME_X = 56;
+  const maxNameW = W - NAME_X - 48;
+  while (ctx.measureText(displayName).width > maxNameW && nameSize > 56) {
     nameSize -= 4;
     ctx.font = `800 ${nameSize}px 'Bebas Neue', 'Big Shoulders Display', Arial, sans-serif`;
   }
-  const nameY = 180;
+  const nameY = ownerImg ? PHOTO_H - 40 : 300;
   ctx.textAlign = "left";
   ctx.fillStyle = "#FAFAFA";
   ctx.shadowColor = "rgba(0,0,0,0.7)";
@@ -488,28 +490,25 @@ async function generateProfileCardBlob(
   ctx.fillText(displayName, NAME_X, nameY);
   ctx.shadowBlur = 0;
 
-  // ── Divisória lime sob o nome
+  // Divisória lime sob o nome
   ctx.fillStyle = LIME;
-  ctx.fillRect(NAME_X, nameY + 12, 86, 4);
+  ctx.fillRect(NAME_X, nameY + 16, 100, 4);
 
-  // ── Label "EU, NA REAL · N/8"
-  ctx.font = "700 13px 'Space Mono', Arial, sans-serif";
+  // Label "EU, NA REAL · N/8"
+  ctx.font = "700 14px 'Space Mono', Arial, sans-serif";
   ctx.textAlign = "left";
   ctx.fillStyle = LIME;
-  ctx.fillText(`EU, NA REAL · ${doneCount}/${total}`, NAME_X, nameY + 58);
+  ctx.fillText(`EU, NA REAL · ${doneCount}/${total}`, NAME_X, nameY + 68);
 
-  // ─────────────────────────────────────────────────────────────────────
-  // MANCHETE — linhas coloridas com prefixo SOU/TÔ/E
-  // ─────────────────────────────────────────────────────────────────────
+  // MANCHETE — corpo no meio/baixo do 9:16
   const manchete = buildIdentityLines(profile, quizzes);
 
-  // Constants layout
   const MCH_LEFT = NAME_X;
-  const MCH_RIGHT = S - 48;
-  const MCH_TOP = nameY + 90;
-  const MCH_BOTTOM = S - FOOTER_H - 60;
+  const MCH_RIGHT = W - 48;
+  const MCH_TOP = nameY + 110;
+  const MCH_BOTTOM = H - FOOTER_H - 80;
   const MCH_HEIGHT = MCH_BOTTOM - MCH_TOP;
-  const PREFIX_W = 90;
+  const PREFIX_W = 110;
   const LABEL_X = MCH_LEFT + PREFIX_W;
   const LABEL_MAX_W = MCH_RIGHT - LABEL_X;
 
@@ -533,13 +532,12 @@ async function generateProfileCardBlob(
   };
 
   // Auto-fit: prefere SEMPRE 1 linha por entrada (sem órfãs de palavra).
-  // Decrementa o labelSize até todas as entradas caberem em 1 linha dentro
-  // do MCH_HEIGHT. Se chegar em 24px e ainda não couber, aceita wrap 2-linhas.
-  const labelSizeMax = 48;
-  const labelSizeSingleLineMin = 24;
-  const labelSizeHardMin = 20;
-  const lineGap = 14;
-  const pendingBlockH = manchete.length < total ? 42 : 0;
+  // Em 9:16 há mais altura, então o tamanho máximo é maior.
+  const labelSizeMax = 76;
+  const labelSizeSingleLineMin = 32;
+  const labelSizeHardMin = 26;
+  const lineGap = 22;
+  const pendingBlockH = manchete.length < total ? 56 : 0;
 
   let labelSize = labelSizeMax;
   let wrappedPerEntry: string[][] = [];
@@ -607,31 +605,29 @@ async function generateProfileCardBlob(
   // ── "+ N VERDADES POR DESCOBRIR"
   if (manchete.length < total) {
     const pending = total - manchete.length;
-    ctx.font = `700 22px 'Bebas Neue', Arial, sans-serif`;
+    ctx.font = `700 32px 'Bebas Neue', Arial, sans-serif`;
     ctx.fillStyle = "rgba(250,250,250,0.42)";
     ctx.textAlign = "left";
     ctx.fillText(
       `+ ${pending} ${pending === 1 ? "VERDADE" : "VERDADES"} POR DESCOBRIR`,
-      LABEL_X, cursorY + 4
+      LABEL_X, cursorY + 8
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────────
   // FOOTER LIME
-  // ─────────────────────────────────────────────────────────────────────
   ctx.fillStyle = LIME;
-  ctx.fillRect(0, S - FOOTER_H, S, FOOTER_H);
+  ctx.fillRect(0, H - FOOTER_H, W, FOOTER_H);
 
   ctx.fillStyle = DARK;
-  ctx.font = "800 15px 'Big Shoulders Display', Arial, sans-serif";
+  ctx.font = "800 18px 'Big Shoulders Display', Arial, sans-serif";
   ctx.textAlign = "left";
   ctx.fillText(
     doneCount === total ? "PERFIL COMPLETO" : `${doneCount}/${total} DIMENSÕES`,
-    30, S - 26
+    36, H - 32
   );
 
   ctx.textAlign = "right";
-  ctx.fillText("@COMIDADEDRAGAO  ·  COMIDADEDRAGAO.COM.BR", S - 30, S - 26);
+  ctx.fillText("@COMIDADEDRAGAO  ·  COMIDADEDRAGAO.COM.BR", W - 36, H - 32);
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png")
@@ -759,6 +755,8 @@ interface QuizModalProps {
 const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
   const [phase, setPhase]         = useState<ModalPhase>("questions");
   const [stepIdx, setStepIdx]     = useState(0);
+  // Feedback visual pós-resposta em quizzes de trivia (right/wrong)
+  const [feedbackPick, setFeedbackPick] = useState<string | null>(null);
   const [answers, setAnswers]     = useState<string[]>([]);
   const [transitioning, setTrans] = useState(false);
   const [resultKey, setResultKey] = useState("");
@@ -773,6 +771,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
   const petPhotoRef = useRef<HTMLInputElement>(null);
 
   const totalSteps = quiz.questions.length;
+  const question = quiz.questions[stepIdx];
   const progressPct =
     phase === "questions" ? (stepIdx / totalSteps) * 100
     : phase === "gate"    ? 85
@@ -783,22 +782,42 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
     setTimeout(() => { fn(); setTrans(false); }, 160);
   }, []);
 
+  // Quiz do tipo trivia: options com values 'right'/'wrong' nesta pergunta
+  const isTriviaQuestion =
+    !!question?.options.some((o) => o.value === "right" || o.value === "wrong");
+
   const selectAnswer = (value: string) => {
+    // Bloqueia clicks extras durante feedback
+    if (feedbackPick !== null) return;
+
     const next = [...answers];
     next[stepIdx] = value;
     setAnswers(next);
 
-    if (stepIdx < totalSteps - 1) {
-      transition(() => setStepIdx((s) => s + 1));
-    } else {
-      const key = quiz.computeResult(next);
-      setResultKey(key);
-      if (!profile) {
-        transition(() => setPhase("gate"));
+    const proceed = () => {
+      if (stepIdx < totalSteps - 1) {
+        transition(() => {
+          setStepIdx((s) => s + 1);
+          setFeedbackPick(null);
+        });
       } else {
-        transition(() => setPhase("result"));
-        onComplete(quiz.id, key);
+        const key = quiz.computeResult(next);
+        setResultKey(key);
+        setFeedbackPick(null);
+        if (!profile) {
+          transition(() => setPhase("gate"));
+        } else {
+          transition(() => setPhase("result"));
+          onComplete(quiz.id, key);
+        }
       }
+    };
+
+    if (isTriviaQuestion) {
+      setFeedbackPick(value);
+      window.setTimeout(proceed, 1500);
+    } else {
+      proceed();
     }
   };
 
@@ -873,7 +892,6 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
   }, [petPhotoPreview]);
 
   const result  = resultKey ? quiz.results[resultKey] : null;
-  const question = quiz.questions[stepIdx];
 
   return (
     <div
@@ -913,16 +931,32 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
             <>
               <div className="qz-question">{stripEmoji(question.question)}</div>
               <div className="qz-options">
-                {question.options.map((opt, i) => (
-                  <button
-                    key={opt.value}
-                    className={`qz-option${answers[stepIdx] === opt.value ? " selected" : ""}`}
-                    onClick={() => selectAnswer(opt.value)}
-                  >
-                    <span className="qz-option-letter">{OPTION_LETTERS[i]}</span>
-                    {stripEmoji(opt.text)}
-                  </button>
-                ))}
+                {question.options.map((opt, i) => {
+                  const isPicked = feedbackPick === opt.value;
+                  const showFeedback = feedbackPick !== null && isTriviaQuestion;
+                  const isRight = opt.value === "right";
+                  const isWrong = opt.value === "wrong";
+
+                  let stateClass = "";
+                  if (answers[stepIdx] === opt.value && !showFeedback) stateClass = " selected";
+                  if (showFeedback) {
+                    if (isRight) stateClass = " correct";
+                    else if (isPicked && isWrong) stateClass = " incorrect";
+                    else stateClass = " dimmed";
+                  }
+
+                  return (
+                    <button
+                      key={`${stepIdx}-${i}-${opt.value}`}
+                      className={`qz-option${stateClass}`}
+                      onClick={() => selectAnswer(opt.value)}
+                      disabled={showFeedback}
+                    >
+                      <span className="qz-option-letter">{OPTION_LETTERS[i]}</span>
+                      {stripEmoji(opt.text)}
+                    </button>
+                  );
+                })}
               </div>
             </>
           )}
@@ -969,75 +1003,92 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
             <div className="qz-result">
               <Confetti />
 
-              <div className="qz-result-emoji-wrap">
-                <span className="qz-result-emoji-big">{result.emoji}</span>
-                <div className="qz-result-glow" />
-              </div>
-
-              <div className="qz-result-tag">SEU PERFIL</div>
-              <div className="qz-result-label">{result.label}</div>
-              <div className="qz-result-profile-label" style={{ color: quiz.accent }}>
-                {result.profileLabel}
-              </div>
-              <div className="qz-result-desc">{result.description}</div>
-
-              {result.coupon && (
-                <div className="qz-result-coupon">
-                  <span className="qz-coupon-label">CUPOM EXCLUSIVO</span>
-                  <span className="qz-coupon-code">{result.coupon}</span>
+              {/* 1) DETALHES primeiro — pessoa lê o que ela é */}
+              <div className="qz-result-details qz-result-details-top">
+                <div className="qz-result-details-head">
+                  <span className="qz-result-tag">SEU PERFIL</span>
+                  <span className="qz-result-label" style={{ color: quiz.accent }}>
+                    {result.label}
+                  </span>
                 </div>
-              )}
+                <p className="qz-result-desc">{result.description}</p>
 
-              {result.ctaLink && (
-                <a
-                  href={result.ctaLink}
-                  target={result.ctaLink.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className="qz-result-cta"
-                  style={{ background: quiz.accent }}
-                >
-                  {result.ctaText || "EXPLORAR →"}
-                </a>
-              )}
-
-              {/* Pet photo upload */}
-              <div className="qz-pet-photo-section">
-                <input
-                  ref={petPhotoRef}
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={handlePetPhotoChange}
-                />
-                {petPhotoPreview ? (
-                  <div className="qz-pet-preview-wrap">
-                    <img src={petPhotoPreview} className="qz-pet-preview-img" alt="Foto do pet" />
-                    <div className="qz-pet-preview-label">Foto do pet no card</div>
-                    <button className="qz-pet-remove-btn" onClick={removePetPhoto}>Remover</button>
+                {result.coupon && (
+                  <div className="qz-result-coupon">
+                    <span className="qz-coupon-label">CUPOM EXCLUSIVO</span>
+                    <span className="qz-coupon-code">{result.coupon}</span>
                   </div>
-                ) : (
-                  <button
-                    className="qz-add-photo-btn"
-                    onClick={() => petPhotoRef.current?.click()}
+                )}
+
+                {result.ctaLink && (
+                  <a
+                    href={result.ctaLink}
+                    target={result.ctaLink.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    className="qz-result-cta"
+                    style={{ background: quiz.accent }}
                   >
-                    + Adicionar foto do pet no card
-                  </button>
+                    {result.ctaText || "EXPLORAR →"}
+                  </a>
                 )}
               </div>
 
-              <div className="qz-result-actions">
-                <button
-                  className={`qz-share-btn${sharing ? " loading" : ""}${shareStatus === "ok" ? " ok" : ""}`}
-                  onClick={handleShare}
-                  disabled={sharing}
-                >
-                  {sharing ? "GERANDO CARD…"
-                    : shareStatus === "ok" ? "CARD GERADO!"
-                    : "COMPARTILHAR RESULTADO"}
-                </button>
-                <button className="qz-result-retry" onClick={retry}>
-                  ← Refazer o quiz
-                </button>
+              {/* 2) CARD PREVIEW — peça de share, embaixo */}
+              <div className="qz-result-share-block">
+                <div className="qz-result-share-label">PRONTO PRA COMPARTILHAR</div>
+                <div className="qz-result-card-preview">
+                  <div className="qz-preview-stripe" />
+                  <div className="qz-preview-head">
+                    <DragonLogo className="qz-preview-logo-top" />
+                    <span className="qz-preview-dim">
+                      {(PROFILE_DIMENSIONS.find((d) => d.quizId === quiz.id)?.title || quiz.title).toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="qz-preview-statement">
+                    {stripEmoji(result.manifestoLine || result.profileLabel).toUpperCase()}
+                  </div>
+                  <div
+                    className="qz-preview-divider"
+                    style={{ background: quiz.accent }}
+                  />
+                  <div className="qz-preview-foot">
+                    <DragonLogo className="qz-preview-logo-bottom" />
+                    <span className="qz-preview-handle">
+                      @COMIDADEDRAGAO · COMIDADEDRAGAO.COM.BR
+                    </span>
+                  </div>
+                </div>
+
+                {/* 3) AÇÕES — share + foto + refazer */}
+                <div className="qz-result-actions">
+                  <button
+                    className={`qz-share-btn${sharing ? " loading" : ""}${shareStatus === "ok" ? " ok" : ""}`}
+                    onClick={handleShare}
+                    disabled={sharing}
+                  >
+                    {sharing ? "GERANDO CARD…"
+                      : shareStatus === "ok" ? "CARD GERADO!"
+                      : "COMPARTILHAR ↗"}
+                  </button>
+
+                  <input
+                    ref={petPhotoRef}
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handlePetPhotoChange}
+                  />
+                  <button
+                    className="qz-pet-change-btn"
+                    onClick={() => petPhotoRef.current?.click()}
+                  >
+                    {petPhotoPreview ? "📷 Trocar foto do pet" : "📷 Adicionar foto do pet"}
+                  </button>
+
+                  <button className="qz-result-retry" onClick={retry}>
+                    ← Refazer o quiz
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -1183,9 +1234,9 @@ const QuizCard = ({ quiz, index, completed, onOpen }: QuizCardProps) => {
         {disabled && (
           <span className="quiz-card-meta quiz-card-meta-soon">Em breve</span>
         )}
-        {!disabled && completed && label && (
+        {!disabled && completed && (
           <span className="quiz-card-meta quiz-card-meta-done">
-            ✓ {label} · refazer →
+            ✓ Refazer →
           </span>
         )}
         {!disabled && !completed && (
