@@ -5,6 +5,7 @@ import ReelsSection from "@/components/ReelsSection";
 import PageMeta from "@/components/PageMeta";
 import portalDogImg from "@/assets/portal-dog.png";
 import lojasCoverImg from "@/assets/lojas-cover.png";
+import emailCoverImg from "@/assets/email-cover.png";
 import "./Portal.css";
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
@@ -1066,14 +1067,8 @@ const Portal = () => {
             className="card card-manifesto card-email-manifesto ratio-3-4"
             style={{ border: "none", font: "inherit", color: "inherit", textAlign: "left", cursor: "pointer" }}
           >
+            <img src={emailCoverImg} alt="" className="card-produtos-cover" draggable={false} />
             <HoverBg imgKey="email" />
-            <div className="card-inner">
-              <div className="card-body">
-                <span className="scratch-mark">// email</span>
-                <div className="card-label">Escreve<br />pro<br />Dragão</div>
-                <div className="card-sub">manda uma mensagem →</div>
-              </div>
-            </div>
             <div className="card-hover-overlay" />
           </button>
         </div>
