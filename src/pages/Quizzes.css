@@ -276,10 +276,15 @@
    PROFILE SECTION
 ════════════════════════════════════════════════ */
 
-.quizzes-page .qz-profile-section {
+.quizzes-page .qz-profile-section,
+.quizzes-page .qz-manchete-section {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 48px 48px;
+}
+
+.quizzes-page .qz-manchete-section {
+  padding-top: 40px;
 }
 
 /* ═══════════════════════════════════════════════
@@ -1108,7 +1113,8 @@
 
 @media (max-width: 768px) {
   .quizzes-page .quiz-grid-wrap { padding: 0 16px 48px; }
-  .quizzes-page .qz-profile-section { padding: 0 16px 40px; }
+  .quizzes-page .qz-profile-section,
+  .quizzes-page .qz-manchete-section { padding: 0 16px 40px; }
 
   .quizzes-page .quiz-grid {
     grid-template-columns: repeat(2, 1fr);

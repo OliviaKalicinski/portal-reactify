@@ -1443,48 +1443,6 @@ const Quizzes = () => {
               </div>
             </div>
 
-            {/* ── MANCHETE DE IDENTIDADE + MARCA-UM-AMIGO ─── */}
-            {completedCount > 0 && (() => {
-              const lines = buildIdentityLines(profile, QUIZZES);
-              const friendText = buildFriendTagText(lines, profile.name);
-              const pending = totalDimensions - lines.length;
-
-              return (
-                <>
-                  <div className="qz-identity">
-                    <div className="qz-identity-label">
-                      EU, NA REAL · {lines.length}/{totalDimensions}
-                    </div>
-                    <div className="qz-identity-stack">
-                      {lines.map((l, idx) => (
-                        <div key={l.quizId} className="qz-identity-line">
-                          <span className="qz-identity-prefix">
-                            {idx === 0 ? "SOU" : idx === lines.length - 1 && lines.length > 1 ? "E" : "·"}
-                          </span>
-                          <span
-                            className="qz-identity-word"
-                            style={{ color: l.accent }}
-                          >
-                            {l.label}
-                          </span>
-                        </div>
-                      ))}
-                      {pending > 0 && (
-                        <div className="qz-identity-line qz-identity-line-pending">
-                          <span className="qz-identity-prefix">+</span>
-                          <span className="qz-identity-word">
-                            {pending} {pending === 1 ? "VERDADE" : "VERDADES"} POR DESCOBRIR
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <FriendTagBlock text={friendText} />
-                </>
-              );
-            })()}
-
           </section>
 
           <div className="parceiros-divider" />
@@ -1523,6 +1481,51 @@ const Quizzes = () => {
           })}
         </div>
       </div>
+
+      {/* MANCHETE DE IDENTIDADE + MARCA-UM-AMIGO
+         Posicionada entre o grid e o CTA final: o grid é a AÇÃO (quizzes
+         a fazer), a manchete é a RECOMPENSA (peça de share). Só aparece
+         pra quem já tem ao menos 1 quiz respondido. */}
+      {profile && completedCount > 0 && (() => {
+        const lines = buildIdentityLines(profile, QUIZZES);
+        const friendText = buildFriendTagText(lines, profile.name);
+        const pending = totalDimensions - lines.length;
+
+        return (
+          <section className="qz-manchete-section">
+            <div className="qz-identity">
+              <div className="qz-identity-label">
+                EU, NA REAL · {lines.length}/{totalDimensions}
+              </div>
+              <div className="qz-identity-stack">
+                {lines.map((l, idx) => (
+                  <div key={l.quizId} className="qz-identity-line">
+                    <span className="qz-identity-prefix">
+                      {idx === 0 ? "SOU" : idx === lines.length - 1 && lines.length > 1 ? "E" : "·"}
+                    </span>
+                    <span
+                      className="qz-identity-word"
+                      style={{ color: l.accent }}
+                    >
+                      {l.label}
+                    </span>
+                  </div>
+                ))}
+                {pending > 0 && (
+                  <div className="qz-identity-line qz-identity-line-pending">
+                    <span className="qz-identity-prefix">+</span>
+                    <span className="qz-identity-word">
+                      {pending} {pending === 1 ? "VERDADE" : "VERDADES"} POR DESCOBRIR
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <FriendTagBlock text={friendText} />
+          </section>
+        );
+      })()}
 
       {/* CTA FINAL */}
       <section className="parceiros-cta-final">
