@@ -380,7 +380,7 @@ async function generateProfileCardBlob(
     } catch { ownerImg = null; }
   }
 
-  // ── Foto duotone lime como BACKDROP full-bleed @ ~20% (anti Ale-style nojo)
+  // ── Foto como BACKDROP duotone fotográfico (preserva tons do pet)
   if (ownerImg) {
     const offC = document.createElement("canvas");
     offC.width = S; offC.height = S;
@@ -395,39 +395,58 @@ async function generateProfileCardBlob(
     const dy = isPortrait ? -overflowY * 0.22 : -overflowY * 0.5;
     offCtx.drawImage(ownerImg, (S - dw) / 2, dy, dw, dh);
 
-    // Grayscale
+    // Duotone per-pixel: interpola cada pixel entre SHADOW e HIGHLIGHT
+    // segundo a luminância. Isso preserva tons, textura e volume da foto
+    // em vez de chapar tudo na mesma cor.
+    //   SHADOW   = verde muito escuro (quase preto com tinge lime)
+    //   HIGHLIGHT= lime vibrante da marca
+    const SHADOW_R = 0x08, SHADOW_G = 0x18, SHADOW_B = 0x02;
+    const HIGH_R   = 0x8C, HIGH_G   = 0xFF, HIGH_B   = 0x1C;
+
     const imgData = offCtx.getImageData(0, 0, S, S);
     const d = imgData.data;
     for (let i = 0; i < d.length; i += 4) {
-      const g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-      d[i] = d[i + 1] = d[i + 2] = g;
+      // Luminância percebida (Rec. 601)
+      const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      const t = lum / 255;
+      d[i]     = SHADOW_R + (HIGH_R - SHADOW_R) * t;
+      d[i + 1] = SHADOW_G + (HIGH_G - SHADOW_G) * t;
+      d[i + 2] = SHADOW_B + (HIGH_B - SHADOW_B) * t;
     }
     offCtx.putImageData(imgData, 0, 0);
 
-    // Lime multiply overlay (duotone)
-    offCtx.globalCompositeOperation = "multiply";
-    offCtx.globalAlpha = 0.88;
-    offCtx.fillStyle = LIME;
-    offCtx.fillRect(0, 0, S, S);
-    offCtx.globalCompositeOperation = "source-over";
-    offCtx.globalAlpha = 1;
-
-    // Desenha backdrop no canvas principal com 22% de opacidade
-    ctx.globalAlpha = 0.22;
+    // Desenha com opacidade maior pro pet aparecer (40% vs antes 22%)
+    ctx.globalAlpha = 0.52;
     ctx.drawImage(offC, 0, 0);
     ctx.globalAlpha = 1;
 
-    // Vignette escuro pra manter tipografia legível mesmo com foto
-    const vign = ctx.createRadialGradient(S / 2, S / 2, S * 0.3, S / 2, S / 2, S * 0.75);
+    // Vignette escurecendo as bordas pra tipografia destacar
+    const vign = ctx.createRadialGradient(
+      S / 2, S * 0.35, S * 0.25,
+      S / 2, S * 0.55, S * 0.85
+    );
     vign.addColorStop(0, "rgba(0,0,0,0.0)");
-    vign.addColorStop(1, "rgba(0,0,0,0.55)");
+    vign.addColorStop(0.65, "rgba(0,0,0,0.35)");
+    vign.addColorStop(1, "rgba(0,0,0,0.75)");
     ctx.fillStyle = vign;
     ctx.fillRect(0, 0, S, S);
+
+    // Escurecimento adicional na zona da tipografia principal (faixa central-esquerda)
+    const textShade = ctx.createLinearGradient(0, 0, S * 0.7, 0);
+    textShade.addColorStop(0, "rgba(0,0,0,0.55)");
+    textShade.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = textShade;
+    ctx.fillRect(0, 130, S * 0.78, S - 200);
   }
 
-  // ── Accent stripe lateral lime
+  // ── Accent stripe lateral lime (com sombra pra destacar sobre foto)
+  ctx.save();
+  ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+  ctx.shadowBlur = 6;
+  ctx.shadowOffsetX = 2;
   ctx.fillStyle = LIME;
-  ctx.fillRect(0, 0, 8, S);
+  ctx.fillRect(0, 0, 10, S);
+  ctx.restore();
 
   // ── Logo top-left
   const pLogo = await loadLogoColored("#FAFAFA");
@@ -513,29 +532,50 @@ async function generateProfileCardBlob(
     return lines;
   };
 
-  // Auto-fit: busca o labelSize que faz tudo caber em MCH_HEIGHT
-  // com no máximo 2 linhas wrapped por entrada
-  let labelSize = 46;
-  let lineGap = 14; // gap entre entradas
-  let wrappedPerEntry: string[][] = [];
-  let pendingBlockH = manchete.length < total ? 42 : 0; // espaço pro "+ N VERDADES"
+  // Auto-fit: prefere SEMPRE 1 linha por entrada (sem órfãs de palavra).
+  // Decrementa o labelSize até todas as entradas caberem em 1 linha dentro
+  // do MCH_HEIGHT. Se chegar em 24px e ainda não couber, aceita wrap 2-linhas.
+  const labelSizeMax = 48;
+  const labelSizeSingleLineMin = 24;
+  const labelSizeHardMin = 20;
+  const lineGap = 14;
+  const pendingBlockH = manchete.length < total ? 42 : 0;
 
-  while (labelSize >= 26) {
+  let labelSize = labelSizeMax;
+  let wrappedPerEntry: string[][] = [];
+  let lineH = 0;
+
+  // Fase 1: busca tamanho onde TUDO cabe em 1 linha (sem wrap)
+  for (; labelSize >= labelSizeSingleLineMin; labelSize -= 2) {
     const labelFont = `800 ${labelSize}px 'Archivo Black', 'Bebas Neue', Arial, sans-serif`;
-    const lineH = Math.round(labelSize * 1.02);
-    wrappedPerEntry = manchete.map((ln) => wrap(ln.label, LABEL_MAX_W, labelFont).slice(0, 2));
-    const totalLines = wrappedPerEntry.reduce((s, w) => s + w.length, 0);
-    const totalH =
-      totalLines * lineH +
-      (manchete.length - 1) * lineGap +
-      pendingBlockH;
-    if (totalH <= MCH_HEIGHT) break;
-    labelSize -= 2;
+    ctx.font = labelFont;
+    const allSingleLine = manchete.every(
+      (ln) => ctx.measureText(ln.label).width <= LABEL_MAX_W
+    );
+    if (!allSingleLine) continue;
+
+    lineH = Math.round(labelSize * 1.02);
+    const totalH = manchete.length * lineH + (manchete.length - 1) * lineGap + pendingBlockH;
+    if (totalH <= MCH_HEIGHT) {
+      wrappedPerEntry = manchete.map((ln) => [ln.label]);
+      break;
+    }
+  }
+
+  // Fase 2: se fase 1 não encontrou solução, permite wrap 2 linhas
+  if (wrappedPerEntry.length === 0) {
+    for (labelSize = labelSizeSingleLineMin; labelSize >= labelSizeHardMin; labelSize -= 2) {
+      const labelFont = `800 ${labelSize}px 'Archivo Black', 'Bebas Neue', Arial, sans-serif`;
+      lineH = Math.round(labelSize * 1.02);
+      wrappedPerEntry = manchete.map((ln) => wrap(ln.label, LABEL_MAX_W, labelFont).slice(0, 2));
+      const totalLines = wrappedPerEntry.reduce((s, w) => s + w.length, 0);
+      const totalH = totalLines * lineH + (manchete.length - 1) * lineGap + pendingBlockH;
+      if (totalH <= MCH_HEIGHT) break;
+    }
   }
 
   const labelFont = `800 ${labelSize}px 'Archivo Black', 'Bebas Neue', Arial, sans-serif`;
   const prefixFont = `700 ${Math.round(labelSize * 0.55)}px 'Bebas Neue', Arial, sans-serif`;
-  const lineH = Math.round(labelSize * 1.02);
 
   let cursorY = MCH_TOP + labelSize; // primeira baseline
 

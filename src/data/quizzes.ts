@@ -891,7 +891,7 @@ const quizEco: QuizDef = {
       description: 'Você já pensa. Já questiona. Já fez algumas mudanças — mas sabe que ainda tem espaço pra evoluir. Esse é o perfil mais comum entre pessoas que realmente chegam a mudar: não é perfeição, é processo.\n\nO Dragão não pede perfeição. Só escolhas melhores, uma de cada vez.',
       emoji: '🌥️',
       profileLabel: 'Tô melhorando, um passo de cada vez',
-      manifestoLine: 'Tô melhorando minha consciência ambiental um passo por vez',
+      manifestoLine: 'Minha consciência ambiental tá em construção',
       stats: [
         { label: 'IMPACTO',      value: 55 },
         { label: 'CONSISTÊNCIA', value: 50 },
@@ -907,7 +907,7 @@ const quizEco: QuizDef = {
       description: 'Você tem consciência, tem intenção e já colocou bastante em prática. O que falta é consistência nos pontos cegos — aquelas áreas onde o hábito ainda fala mais alto que o valor.\n\nO Dragão vê os gaps. E tem uma sugestão pra cada um deles.',
       emoji: '⛅',
       profileLabel: 'Já entendi — agora fecho os gaps',
-      manifestoLine: 'Já entendi a urgência — agora fecho os gaps do meu consumo',
+      manifestoLine: 'Entendi a urgência e fecho os gaps do meu consumo',
       stats: [
         { label: 'IMPACTO',      value: 76 },
         { label: 'CONSISTÊNCIA', value: 68 },
