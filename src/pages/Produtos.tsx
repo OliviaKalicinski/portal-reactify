@@ -545,7 +545,11 @@ const Produtos = () => {
               )}
             </div>
             <div className="produto-card-footer">
-              <div className="produto-card-title">{p.nome}</div>
+              <div className="produto-card-title">
+                {p.nome.split(' ').map((word, i) => (
+                  <span key={i} className="produto-card-title-word">{word}</span>
+                ))}
+              </div>
               <div className="produto-card-meta">
                 {p.tamanho}
                 {p.variante && <> · {p.variante}</>}

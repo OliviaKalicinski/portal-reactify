@@ -161,6 +161,9 @@
   margin-bottom: 8px;
   text-shadow: 2px 2px 0 rgba(255,255,255,0.35);
 }
+.produto-card-title-word {
+  display: block;
+}
 .produto-card-meta {
   font-family: 'Space Mono', monospace;
   font-size: 10px;
