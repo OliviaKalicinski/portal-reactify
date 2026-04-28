@@ -2146,7 +2146,8 @@
   .portal-page .card-video,
   .portal-page .card-biofabrica,
   .portal-page .card-biofabrica-img,
-  .portal-page .card-shop-large {
+  .portal-page .card-shop-large,
+  .portal-page .card-audio {
     grid-column: 1 / -1;
   }
   .portal-page .ratio-16-9 .card-inner::before { padding-top: 75% !important; }
@@ -2177,6 +2178,7 @@
   .portal-page .bio-right { display: none; }
   .portal-page .card-biofabrica .card-inner::before { padding-top: 60% !important; }
   .portal-page .card-quiz { min-height: 420px; }
+  .portal-page .card-audio { min-height: 200px; }
 }
 
 /* ========================

@@ -660,6 +660,24 @@ const Portal = () => {
           .riso { padding: 28px 22px 24px; box-shadow: 0 0 0 2px #0A0A0A, 8px 10px 0 #0A0A0A; }
           .riso-title { font-size: clamp(40px, 10vw, 62px); }
           .riso-pagenum { font-size: 180px; bottom: -20px; right: -10px; }
+
+          /* VIDEO MODAL: tela cheia no mobile */
+          .riso-overlay-video {
+            padding: 0;
+            align-items: flex-start;
+          }
+          .riso-overlay-video .riso-video {
+            max-width: 100%;
+            width: 100%;
+            min-height: 100dvh;
+            max-height: 100dvh;
+            overflow-y: auto;
+            box-shadow: none;
+          }
+          .riso-overlay-video .riso-video-frame {
+            max-height: 62vh;
+            max-width: calc(62vh * 9 / 16);
+          }
         }
 
       `}</style>
@@ -874,6 +892,18 @@ const Portal = () => {
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
           </Link>
 
+          <a href="/biblioteca" className="card card-manifesto ratio-5-4">
+            <HoverBg imgKey="manifesto" />
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="scratch-mark">// biblioteca</span>
+                <div className="card-label">Biblioteca<br />Científica.</div>
+                <div className="card-sub">17 artigos sobre inseto na alimentação pet — a ciência por trás do Dragão</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.04)" }} />
+          </a>
+
           <div onClick={openAudio} style={{ cursor: "pointer" }} className="card card-audio ratio-1-1">
             <HoverBg imgKey="audio" />
             <div className="card-audio-top">
@@ -887,18 +917,6 @@ const Portal = () => {
               <div className="card-sub">Clique e ouça enquanto navega</div>
             </div>
           </div>
-
-          <a href="/biblioteca" className="card card-manifesto ratio-5-4">
-            <HoverBg imgKey="manifesto" />
-            <div className="card-inner">
-              <div className="card-body">
-                <span className="scratch-mark">// biblioteca</span>
-                <div className="card-label">Biblioteca<br />Científica.</div>
-                <div className="card-sub">17 artigos sobre inseto na alimentação pet — a ciência por trás do Dragão</div>
-              </div>
-            </div>
-            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.04)" }} />
-          </a>
         </div>
 
         {/* ROW 3: Quiz + Companion + Perguntas + Lives */}
@@ -1031,7 +1049,7 @@ const Portal = () => {
           <button
             type="button"
             onClick={openEmail}
-            className="card card-manifesto card-email-manifesto ratio-3-4"
+            className="card card-manifesto card-email-manifesto ratio-1-1"
             style={{ border: "none", font: "inherit", color: "inherit", textAlign: "left", cursor: "pointer" }}
           >
             <img src={emailCoverImg} alt="" className="card-produtos-cover" draggable={false} />
@@ -1165,7 +1183,7 @@ const Portal = () => {
       {/* MODAL DRAGÃO FALA — VÍDEO */}
       {modalOpen && (
         <div
-          className="riso-overlay"
+          className="riso-overlay riso-overlay-video"
           onClick={e => { if (e.target === e.currentTarget) closeModal(); }}
         >
           <article className="riso riso-video large" role="dialog">
