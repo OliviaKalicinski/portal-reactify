@@ -419,6 +419,16 @@ const PET_FILTERS: Array<{ key: "todos" | PetType; label: string }> = [
   { key: "repteis", label: "Répteis & Anfíbios" },
 ];
 
+// Helper: extract leading number/percentage for big display
+const parseStat = (val: string): { num: string; rest: string } => {
+  if (!val || val === '—') return { num: '—', rest: '' };
+  const m = val.match(/^([\d,.]+%?)/);
+  if (m) return { num: m[1], rest: val.slice(m[1].length).trim() };
+  const sp = val.indexOf(' ');
+  if (sp !== -1) return { num: val.slice(0, sp), rest: val.slice(sp + 1) };
+  return { num: val, rest: '' };
+};
+
 const Produtos = () => {
   const [filtro, setFiltro] = useState<"todos" | PetType>("todos");
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -580,181 +590,210 @@ const Produtos = () => {
         <div className="footer-tagline">Nojento é o desperdício.</div>
       </footer>
 
-      {/* MODAL DE PRODUTO */}
-      {activeProduto && (
-        <div
-          className="produto-modal-overlay"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) closeProduto();
-          }}
-        >
-          <div className="produto-modal">
-            <button
-              type="button"
-              className="produto-modal-close"
-              onClick={closeProduto}
-              aria-label="Fechar"
-            >
-              ✕
-            </button>
+      {/* MODAL DE PRODUTO — Blueprint Design */}
+      {activeProduto && (() => {
+        const prot = parseStat(activeProduto.proteina);
+        const gord = parseStat(activeProduto.gordura);
+        const ener = parseStat(activeProduto.energia);
+        const prodIdx = PRODUTOS.findIndex((p) => p.id === activeProduto.id);
+        return (
+          <div
+            className="produto-modal-overlay"
+            onClick={(e) => { if (e.target === e.currentTarget) closeProduto(); }}
+          >
+            <div className="produto-modal bp-modal">
+              <button type="button" className="produto-modal-close" onClick={closeProduto} aria-label="Fechar">✕</button>
+              <div className="bp-grid-bg" aria-hidden="true" />
+              <div className="bp-scan-line" aria-hidden="true" />
 
-            <div className="produto-modal-grid">
-              {/* GALERIA */}
-              <div className="produto-modal-galeria">
-                <div className="produto-modal-foto-principal">
-                  {activeProduto.fotos[fotoIdx] ? (
-                    <img
-                      src={activeProduto.fotos[fotoIdx]}
-                      alt={activeProduto.nome}
-                    />
-                  ) : (
-                    <div className="produto-modal-placeholder">
-                      <span>[ ]</span>
-                      <span>foto em breve</span>
-                    </div>
-                  )}
-                </div>
-                {activeProduto.fotos.length > 1 && (
-                  <div className="produto-modal-thumbs">
-                    {activeProduto.fotos.map((f, i) => (
-                      <button
-                        type="button"
-                        key={i}
-                        className={`produto-modal-thumb${i === fotoIdx ? " active" : ""}`}
-                        onClick={() => setFotoIdx(i)}
-                      >
-                        <img src={f} alt="" />
-                      </button>
-                    ))}
+              {/* HEADER */}
+              <div className="bp-header">
+                <div>
+                  <div className="bp-eyebrow">Ficha de Produto · {String(prodIdx + 1).padStart(3, "0")}</div>
+                  <h2 className="bp-hero-title">{activeProduto.nome}</h2>
+                  <div className="bp-hero-sub">
+                    {activeProduto.variante && `${activeProduto.variante} · `}{activeProduto.tamanho}
                   </div>
-                )}
+                </div>
+                <div className="bp-header-right">
+                  <div className="bp-eyebrow">Espécie alvo</div>
+                  <div className="bp-species">{activeProduto.tag}</div>
+                </div>
               </div>
 
-              {/* INFO */}
-              <div className="produto-modal-info">
-                <span
-                  className="produto-modal-tag"
-                  style={{ background: activeProduto.corTag }}
-                >
-                  {activeProduto.tag}
-                </span>
-                <h2 className="produto-modal-nome">{activeProduto.nome}</h2>
-                {activeProduto.variante && (
-                  <div className="produto-modal-variante">{activeProduto.variante}</div>
-                )}
-                <div className="produto-modal-tamanho">{activeProduto.tamanho}</div>
+              <div className="bp-divider" />
 
-                {/* DADOS TÉCNICOS */}
-                <div className="produto-modal-section">
-                  <h3 className="produto-modal-section-titulo">Ficha técnica</h3>
-                  <dl className="produto-modal-dados">
-                    <div>
-                      <dt>Proteína bruta</dt>
-                      <dd>{activeProduto.proteina}</dd>
-                    </div>
-                    <div>
-                      <dt>Gordura</dt>
-                      <dd>{activeProduto.gordura}</dd>
-                    </div>
-                    <div>
-                      <dt>Energia</dt>
-                      <dd>{activeProduto.energia}</dd>
-                    </div>
-                  </dl>
-                </div>
-
-                {/* COMPOSIÇÃO */}
-                <div className="produto-modal-section">
-                  <h3 className="produto-modal-section-titulo">Composição</h3>
-                  <ul className="produto-modal-lista">
-                    {activeProduto.composicao.map((c, i) => (
-                      <li key={i}>{c}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* QUANDO USAR */}
-                <div className="produto-modal-section">
-                  <h3 className="produto-modal-section-titulo">Quando usar</h3>
-                  <ul className="produto-modal-lista check">
-                    {activeProduto.quandoUsar.map((q, i) => (
-                      <li key={i}>{q}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* DOSAGEM */}
-                {activeProduto.dosagem && (
-                  <div className="produto-modal-section">
-                    <h3 className="produto-modal-section-titulo">Dosagem por porte</h3>
-                    <table className="produto-modal-dosagem">
-                      <tbody>
-                        {activeProduto.dosagem.map((d, i) => (
-                          <tr key={i}>
-                            <td>{d.porte}</td>
-                            <td>{d.qtd}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+              {/* MAIN GRID: stats | foto flutuando | stats */}
+              <div className="bp-main-grid">
+                {/* ESQUERDA */}
+                <div className="bp-col bp-col-left">
+                  <div className="bp-stat bp-stat-right">
+                    <div className="bp-stat-label">Proteína bruta</div>
+                    <div className="bp-stat-num bp-lime">{prot.num}</div>
+                    {prot.rest && <div className="bp-stat-unit">{prot.rest}</div>}
                   </div>
-                )}
-
-                {/* DIFERENCIAIS */}
-                <div className="produto-modal-section">
-                  <h3 className="produto-modal-section-titulo">Diferenciais</h3>
-                  <ul className="produto-modal-lista dragon">
-                    {activeProduto.diferenciais.map((d, i) => (
-                      <li key={i}>{d}</li>
-                    ))}
-                  </ul>
+                  <div className="bp-connector" />
+                  <div className="bp-stat bp-stat-right">
+                    <div className="bp-stat-label">Gordura bruta</div>
+                    <div className="bp-stat-num bp-violet">{gord.num}</div>
+                    {gord.rest && <div className="bp-stat-unit">{gord.rest}</div>}
+                  </div>
+                  <div className="bp-connector" />
+                  <div className="bp-stat bp-stat-right">
+                    <div className="bp-stat-label">Composição</div>
+                    <div className="bp-stat-text bp-text-right">{activeProduto.composicao[0]}</div>
+                  </div>
                 </div>
 
-                {activeProduto.alerta && (
-                  <div className="produto-modal-alerta">// ATENÇÃO · {activeProduto.alerta}</div>
-                )}
+                {/* CENTRO: foto flutuando */}
+                <div className="bp-product-col">
+                  <div className="bp-float-wrap">
+                    <div className="bp-product-frame">
+                      <span className="bp-corner bp-tl" /><span className="bp-corner bp-tr" />
+                      <span className="bp-corner bp-bl" /><span className="bp-corner bp-br" />
+                      {activeProduto.fotos[fotoIdx] ? (
+                        <img src={activeProduto.fotos[fotoIdx]} alt={activeProduto.nome} className="bp-product-img" />
+                      ) : (
+                        <span className="bp-product-placeholder">[ ]</span>
+                      )}
+                    </div>
+                    <div className="bp-float-shadow" />
+                  </div>
+                  <div className="bp-status-pill">
+                    <span className="bp-dot" />Em estoque
+                  </div>
+                </div>
 
-                {activeProduto.ficha && (
+                {/* DIREITA */}
+                <div className="bp-col bp-col-right">
+                  <div className="bp-stat">
+                    <div className="bp-stat-label">Energia metabolizável</div>
+                    <div className="bp-stat-num bp-lime">{ener.num}</div>
+                    {ener.rest && <div className="bp-stat-unit">{ener.rest}</div>}
+                  </div>
+                  <div className="bp-connector bp-connector-right" />
+                  <div className="bp-stat">
+                    <div className="bp-stat-label">Diferencial</div>
+                    <div className="bp-stat-text">{activeProduto.diferenciais[0]}</div>
+                  </div>
+                  <div className="bp-connector bp-connector-right" />
+                  <div className="bp-stat">
+                    <div className="bp-stat-label">{activeProduto.dosagem ? "Dosagem mín." : "Embalagem"}</div>
+                    <div className="bp-stat-text">
+                      {activeProduto.dosagem ? activeProduto.dosagem[0].qtd : activeProduto.tamanho}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bp-divider" />
+
+              {/* THUMBNAILS */}
+              {activeProduto.fotos.length > 1 && (
+                <div className="bp-thumbs">
+                  {activeProduto.fotos.map((f, i) => (
+                    <button
+                      type="button"
+                      key={i}
+                      className={`bp-thumb${i === fotoIdx ? " active" : ""}`}
+                      onClick={() => setFotoIdx(i)}
+                    >
+                      <img src={f} alt="" />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* QUANDO USAR */}
+              <div className="bp-desc-section">
+                <div className="bp-section-label">Quando usar</div>
+                <ul className="bp-quando-list">
+                  {activeProduto.quandoUsar.map((q, i) => <li key={i}>{q}</li>)}
+                </ul>
+              </div>
+
+              {/* DOSAGEM */}
+              {activeProduto.dosagem && (
+                <div className="bp-desc-section" style={{ marginTop: "10px" }}>
+                  <div className="bp-section-label">Dosagem por porte</div>
+                  <table className="bp-dosagem-table">
+                    <tbody>
+                      {activeProduto.dosagem.map((d, i) => (
+                        <tr key={i}>
+                          <td className="bp-dosagem-porte">{d.porte}</td>
+                          <td className="bp-dosagem-qtd">{d.qtd}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* FICHA TÉCNICA */}
+              <div className="bp-section-label" style={{ marginTop: "16px" }}>Ficha Técnica</div>
+              <div className="bp-ficha-grid">
+                <div className="bp-ficha-row">
+                  <span className="bp-ficha-key">Proteína bruta</span>
+                  <span className="bp-ficha-val">{activeProduto.proteina}</span>
+                </div>
+                <div className="bp-ficha-row">
+                  <span className="bp-ficha-key">Gordura bruta</span>
+                  <span className="bp-ficha-val">{activeProduto.gordura}</span>
+                </div>
+                <div className="bp-ficha-row">
+                  <span className="bp-ficha-key">Energia</span>
+                  <span className="bp-ficha-val">{activeProduto.energia}</span>
+                </div>
+                {activeProduto.composicao.map((c, i) => (
+                  <div key={i} className="bp-ficha-row bp-ficha-wide">
+                    <span className="bp-ficha-key">Ingrediente {i + 1}</span>
+                    <span className="bp-ficha-val">{c}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* ALERTA */}
+              {activeProduto.alerta && (
+                <div className="bp-alerta">// ATENÇÃO · {activeProduto.alerta}</div>
+              )}
+
+              {/* PDF */}
+              {activeProduto.ficha && (
+                <a href={activeProduto.ficha} target="_blank" rel="noopener noreferrer" className="bp-ficha-btn">
+                  <span className="bp-arrow">↗</span>
+                  Ver ficha técnica completa em PDF
+                </a>
+              )}
+
+              {/* DIFERENCIAIS */}
+              <div className="bp-tags">
+                {activeProduto.diferenciais.map((d, i) => (
+                  <span key={i} className={`bp-tag ${i % 2 === 0 ? "bp-tag-lime" : "bp-tag-violet"}`}>{d}</span>
+                ))}
+              </div>
+
+              {/* ONDE COMPRAR */}
+              <div className="bp-section-label" style={{ marginTop: "20px" }}>Onde comprar</div>
+              <div className="bp-retailers">
+                {RETAILERS.map((r) => (
                   <a
-                    href={activeProduto.ficha}
+                    key={r.name}
+                    href={r.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="produto-modal-ficha-btn"
+                    className="bp-retailer"
+                    style={{ borderColor: r.color }}
                   >
-                    📄 Baixar ficha técnica (PDF)
+                    <span className="bp-retailer-name" style={{ color: r.color }}>{r.name}</span>
+                    <span className="bp-retailer-tag">{r.tag}</span>
+                    <span className="bp-retailer-arrow">↗</span>
                   </a>
-                )}
-
-                {/* ONDE COMPRAR */}
-                <div className="produto-modal-section">
-                  <h3 className="produto-modal-section-titulo">Onde comprar</h3>
-                  <div className="produto-modal-retailers">
-                    {RETAILERS.map((r) => (
-                      <a
-                        key={r.name}
-                        href={r.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="produto-retailer"
-                        style={{ borderColor: r.color }}
-                      >
-                        <span
-                          className="produto-retailer-name"
-                          style={{ color: r.color }}
-                        >
-                          {r.name}
-                        </span>
-                        <span className="produto-retailer-tag">{r.tag}</span>
-                        <span className="produto-retailer-arrow">↗</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 };
