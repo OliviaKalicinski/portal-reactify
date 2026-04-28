@@ -515,6 +515,45 @@
   margin-top: 30px;
   flex-wrap: wrap;
 }
+
+/* Novo bloco: input + frase reativa empilhados */
+.portal-page .hero-name-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  width: 100%;
+}
+.portal-page .hero-name-block .hero-name-input {
+  width: min(360px, 90%);
+  max-width: 360px;
+}
+.portal-page .hero-name-block .hero-tagline-sub {
+  margin-top: 4px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(14px, 1.4vw, 18px);
+  text-transform: none;
+  text-align: center;
+  line-height: 1.4;
+  color: rgba(250,250,250,0.78);
+  max-width: 480px;
+  transition: opacity 0.2s;
+}
+.portal-page .hero-name-block .hero-tagline-sub-empty {
+  color: rgba(250,250,250,0.32);
+  font-style: italic;
+  font-size: 13px;
+}
+.portal-page .hero-name-block .hero-tagline-name {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 900;
+  color: var(--skin-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+  margin-right: 4px;
+}
 .portal-page .hero-name-label {
   font-family: 'Space Mono', monospace;
   font-size: 12px;
@@ -1163,6 +1202,48 @@
 }
 
 /* HOVER BACKGROUND IMAGE */
+/* ============================================================
+   CTA ARROW — setinha que indica que o card é clicável
+   - Desktop: aparece com hover
+   - Mobile/touch: sempre visível
+   ============================================================ */
+.portal-page .card-cta-arrow {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  background: rgba(10,10,10,0.85);
+  color: var(--skin-accent);
+  border: 2px solid var(--skin-accent);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.portal-page .card:hover .card-cta-arrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+/* Mobile e dispositivos sem hover real: sempre visível */
+@media (hover: none), (max-width: 768px) {
+  .portal-page .card-cta-arrow {
+    opacity: 1;
+    bottom: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+}
+
 .portal-page .card-img-hover {
   position: absolute; inset: 0; z-index: 10;
   background-size: cover; background-position: center;
@@ -2015,14 +2096,46 @@
 
 /* RESPONSIVE */
 @media (max-width: 680px) {
-  .portal-page .row { flex-direction: column; }
-  .portal-page .card { flex-grow: unset; }
+  /* MOBILE: 2 colunas em vez de 1 */
+  .portal-page .row,
+  .portal-page .row-equal-h {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .portal-page .row-equal-h .card,
+  .portal-page .row .card {
+    flex: unset;
+    width: 100%;
+    height: auto;
+    min-width: 0;
+  }
+  /* Cards que precisam ocupar a linha inteira (layout horizontal complexo) */
+  .portal-page .card-video,
+  .portal-page .card-biofabrica,
+  .portal-page .card-biofabrica-img {
+    grid-column: 1 / -1;
+  }
   .portal-page .ratio-16-9 .card-inner::before { padding-top: 75% !important; }
   .portal-page .ratio-3-4 .card-inner::before { padding-top: 120% !important; }
   .portal-page .ratio-1-1 .card-inner::before { padding-top: 100% !important; }
   .portal-page .ratio-3-5 .card-inner::before { padding-top: 140% !important; }
   .portal-page .ratio-5-4 .card-inner::before { padding-top: 100% !important; }
   .portal-page .ratio-shop .card-inner::before { padding-top: 80% !important; }
+  /* Reduz tipografia dos cards em mobile pra caber em 2 cols */
+  .portal-page .card .card-label {
+    font-size: clamp(15px, 4vw, 22px) !important;
+    line-height: 1 !important;
+  }
+  .portal-page .card .card-sub {
+    font-size: 10px;
+    line-height: 1.35;
+  }
+  .portal-page .card .card-tag,
+  .portal-page .card .scratch-mark {
+    font-size: 8px;
+  }
+  .portal-page .card-body { padding: 14px 12px !important; }
   .portal-page .controls-bar { gap: 8px; }
   .portal-page .btn-buy { margin-left: 0; }
   .portal-page .stats-strip { flex-wrap: wrap; }

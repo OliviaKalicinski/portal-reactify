@@ -28,6 +28,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   audio:      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm13bXZicTVvNWZncXdubnp5NDU4NTd3Y2t4bTU5bWZhcnZqNm0wYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/521JGiED6zWanTJroD/giphy.gif",
   produtos:   "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmMzczJyY2V0YjRhdG16NXdlMzJxcXNneHpuYTR5aWY1M3hwOHk4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DZ1NZce3T5Q3e/giphy.gif",
   perguntas:  "/assets/images/sus-dog.gif",
+  blog:       "/assets/images/portal-comida-dragao.png",  // TODO: trocar por GIF do Blog quando Bruno escolher
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
   biofabrica_hover: "/assets/images/hover-biofabrica.gif",
   manual:     "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmk2dzZwdTZlemFiZGVkanMzdnZhMXp4bjBsb2VrcHl5NmI4NXc4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z9tvqoD1SEQcomTVaK/giphy.gif",
@@ -40,17 +41,20 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   consumer:   "/assets/images/Frente.png",
   influencer: "/assets/images/poster-punk-converte.png",
   seller:     "/assets/images/poster-punk-gato.png",
-  amazon:     "/assets/images/larva-pets-amam.jpg",
-  ml:         "/assets/images/estranho-cultural.jpg",
+  amazon:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWNlZWR4d3NwdDZ2YndqcTM2aGtpM2NpMDh4NmthMTBwaWRub2ZnbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zkcXND5kY4POU/giphy.gif",
+  ml:         "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGg5cjNnNXdqeWRwajRlNTJjdjlubnZndG0wdHFsd2I1bWE2Z3NoeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ovinMYvSg1TSo/giphy.gif",
   petlove:    "/assets/images/instinto-nao-erra.jpg",
-  oficial:    "/assets/images/logo-preto.png",
+  oficial:    "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXFxcXNrNnd3OWlybzJ5aTZkdHR0NWl3eGVpd3Mxd2JlaXl2amM0diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZCqpHjpPQ7ZvHQytL7/giphy.gif",
 };
 
 const HoverBg = ({ imgKey }: { imgKey: string }) => (
-  <div
-    className="card-img-hover"
-    style={{ backgroundImage: `url('${CARD_HOVER_IMAGES[imgKey]}')` }}
-  />
+  <>
+    <div
+      className="card-img-hover"
+      style={{ backgroundImage: `url('${CARD_HOVER_IMAGES[imgKey]}')` }}
+    />
+    <span className="card-cta-arrow" aria-hidden="true">→</span>
+  </>
 );
 
 const MARQUEE_TOP = [
@@ -96,13 +100,10 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
 const Portal = () => {
   const [skin, setSkin] = useState(1);
   const [heroName, setHeroName] = useState("");
-  const [nameRevealed, setNameRevealed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [manifestoOpen, setManifestoOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [perguntasOpen, setPerguntasOpen] = useState(false);
-  const [nameModalOpen, setNameModalOpen] = useState(false);
-  const [nameGreeting, setNameGreeting] = useState("");
   const [profileJoke, setProfileJoke] = useState<number | null>(null);
 
   // Piadinhas por perfil (aparece quando clica num card do perfil-selector)
@@ -150,24 +151,6 @@ const Portal = () => {
   const closeCatalog = useCallback(() => setCatalogOpen(false), []);
   const openPerguntas = useCallback(() => setPerguntasOpen(true), []);
   const closePerguntas = useCallback(() => setPerguntasOpen(false), []);
-  const closeNameModal = useCallback(() => setNameModalOpen(false), []);
-
-  const triggerNameGreeting = useCallback(() => {
-    const clean = heroName.trim();
-    if (clean.length < 2) return;
-    setNameRevealed(true);
-    const messages = [
-      "o Dragão te esperava. Segue o fio.",
-      "esse nome tem força. Bem-vindo à matilha.",
-      "você chegou no lugar certo. Agora explora.",
-      "seu pet tem sorte. O Dragão aprovou.",
-      "o Dragão me avisou. Já tava de olho em você.",
-      "sabia que você ia aparecer. Tá tudo pronto aí embaixo.",
-    ];
-    const msg = messages[Math.floor(Math.random() * messages.length)];
-    setNameGreeting(msg);
-    setNameModalOpen(true);
-  }, [heroName]);
   const openAudio = useCallback(() => {
     setAudioOpen(true);
     setAudioMinimized(false);
@@ -240,20 +223,20 @@ const Portal = () => {
 
   // Keyboard Escape
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeManifesto(); closeCatalog(); closePerguntas(); closeNameModal(); closeEmail(); } };
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") { closeModal(); closeManifesto(); closeCatalog(); closePerguntas(); closeEmail(); } };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [closeModal, closeEmail]);
 
   // Body overflow lock when any modal is open
   useEffect(() => {
-    if (modalOpen || manifestoOpen || perguntasOpen || nameModalOpen || emailOpen) {
+    if (modalOpen || manifestoOpen || perguntasOpen || emailOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [modalOpen, manifestoOpen, perguntasOpen, nameModalOpen, emailOpen]);
+  }, [modalOpen, manifestoOpen, perguntasOpen, emailOpen]);
 
   // Modal drag
   useEffect(() => {
@@ -708,50 +691,30 @@ const Portal = () => {
             Manifesto, produtos, ciência real, o que a mídia fala, como virar parceiro e as perguntas que ninguém tem coragem de fazer. Tudo num lugar só. <strong>Descobre. Aprende. Se diverte.</strong>
           </p>
 
-          {nameRevealed && nameUpper ? (
-            <div className="hero-name-reveal hero-name-reveal-inline">
-              <p className="hero-tagline-sub hero-tagline-sub-reveal hero-tagline-sub-inline">
+          <div className="hero-name-block">
+            <label className="hero-name-label" htmlFor="hero-name-input">como te chama?</label>
+            <input
+              id="hero-name-input"
+              type="text"
+              className="hero-name-input"
+              placeholder="seu nome"
+              maxLength={16}
+              autoComplete="off"
+              spellCheck={false}
+              value={heroName}
+              onChange={e => setHeroName(e.target.value)}
+            />
+            {nameUpper.length >= 2 ? (
+              <p className="hero-tagline-sub hero-tagline-sub-reveal">
                 <span className="hero-tagline-name">{nameUpper}</span>
-                <span className="hero-tagline-rest">já faz parte da revolução.</span>
+                <span className="hero-tagline-rest"> já faz parte da revolução.</span>
               </p>
-              <button
-                type="button"
-                className="hero-name-edit"
-                onClick={() => { setHeroName(""); setNameRevealed(false); }}
-                aria-label="Trocar nome"
-              >
-                trocar nome ×
-              </button>
-            </div>
-          ) : (
-            <form
-              className="hero-name-wrap hero-name-wrap-inline"
-              onSubmit={e => { e.preventDefault(); triggerNameGreeting(); }}
-            >
-              <span className="hero-name-label">como te chama?</span>
-              <input
-                type="text"
-                className="hero-name-input"
-                placeholder="SEU NOME AQUI"
-                maxLength={16}
-                autoComplete="off"
-                spellCheck={false}
-                value={heroName}
-                onChange={e => setHeroName(e.target.value)}
-                onBlur={() => { if (heroName.trim().length >= 2) setNameRevealed(true); }}
-                autoFocus
-              />
-              <button
-                type="submit"
-                className="hero-name-submit"
-                aria-label="Confirmar nome"
-                disabled={heroName.trim().length < 2}
-              >
-                →
-              </button>
-              <span className="hero-name-hint">aperta enter e segue o fio...</span>
-            </form>
-          )}
+            ) : (
+              <p className="hero-tagline-sub hero-tagline-sub-empty">
+                segue o fio...
+              </p>
+            )}
+          </div>
         </div>
       </section>
 
@@ -988,18 +951,18 @@ const Portal = () => {
           </button>
 
           <a
-            href="https://www.instagram.com/comidadedragao"
+            href="https://comidadedragao.com.br/blogs/news"
             target="_blank"
             rel="noopener noreferrer"
             className="card card-lives ratio-1-1"
           >
+            <HoverBg imgKey="blog" />
             <div className="card-inner">
               <div className="card-body">
-                <span className="lives-badge"><span className="lives-dot" />AO VIVO</span>
-                <span className="card-tag">Agenda</span>
-                <div className="card-label">Lives<br />do Dragão</div>
-                <div className="card-sub">Toda quinta 19h · @comidadedragao</div>
-                <span className="lives-cta">Entra na próxima →</span>
+                <span className="card-tag">Blog</span>
+                <div className="card-label">Blog do<br />Dragão</div>
+                <div className="card-sub">Histórias, ciência e o que o Dragão tá pensando</div>
+                <span className="lives-cta">Ler →</span>
               </div>
             </div>
             <div className="card-hover-overlay" />
@@ -1343,24 +1306,6 @@ const Portal = () => {
           </article>
         </div>
       )}
-      {/* MODAL DRAGÃO RESPONDE AO NOME */}
-      {nameModalOpen && (
-        <div
-          className="dragao-fala-overlay"
-          onClick={e => { if (e.target === e.currentTarget) closeNameModal(); }}
-        >
-          <div className="name-greeting-modal">
-            <button className="name-greeting-close-x" onClick={closeNameModal} aria-label="Fechar">✕</button>
-            <div className="name-greeting-eyebrow">// O DRAGÃO FALA</div>
-            <div className="name-greeting-name">{heroName.trim().toUpperCase()}</div>
-            <div className="name-greeting-msg">...{nameGreeting}</div>
-            <div className="name-greeting-actions">
-              <button className="btn btn-dragon" onClick={closeNameModal}>Bora explorar →</button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* MODAL PERGUNTAS QUE NINGUÉM FAZ — Risograph (violet + lime) */}
       {perguntasOpen && (
         <div

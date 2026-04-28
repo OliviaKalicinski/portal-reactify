@@ -441,8 +441,8 @@ const Produtos = () => {
           <div className="hero-eyebrow">Comida de Dragão — Produtos</div>
           <DragonLogo className="hero-logo" />
           <h1 className="archive-hero-title">
-            A linha completa do
-            <span>Dragão</span>
+            O que tem na
+            <span>despensa?</span>
           </h1>
           <p className="archive-hero-sub">
             {PRODUTOS.length} produtos formulados a partir da mosca soldado negro.
