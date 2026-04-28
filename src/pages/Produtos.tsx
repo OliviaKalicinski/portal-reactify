@@ -39,7 +39,6 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
 const RETAILERS = [
   { name: "Loja Oficial", url: "https://comidadedragao.com.br", tag: "Melhor preço", color: "var(--dragon-lime)" },
   { name: "Amazon", url: "https://www.amazon.com.br/s?k=comida+de+dragao", tag: "Prime", color: "var(--dragon-violet)" },
-  { name: "Petlove", url: "https://www.petlove.com.br", tag: "Especialista pet", color: "var(--dragon-pink)" },
   { name: "Mercado Livre", url: "https://www.mercadolivre.com.br", tag: "Frete grátis", color: "var(--dragon-yellow)" },
 ];
 
