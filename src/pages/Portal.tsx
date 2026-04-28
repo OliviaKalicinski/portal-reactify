@@ -888,14 +888,9 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <Link to="/parceiros" className="card card-pdf card-pdf-dark ratio-1-1">
+          <Link to="/parceiros" className="card card-pdf card-pdf-dark ratio-3-4">
             <HoverBg imgKey="manual" />
-            <div className="card-inner">
-              <div className="card-body">
-                <div className="card-label">Vira<br />Parceiro</div>
-                <div className="card-sub">Entre na matilha →</div>
-              </div>
-            </div>
+            <div className="card-inner" />
             <div className="card-hover-overlay" />
           </Link>
 
