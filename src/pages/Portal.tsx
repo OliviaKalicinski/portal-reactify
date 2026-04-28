@@ -1134,10 +1134,10 @@ const Portal = () => {
       {/* ONDE COMPRAR */}
       <div className="section-label" style={{ marginTop: 40 }}>Onde Comprar</div>
       <div className="content-grid" style={{ paddingTop: 8 }}>
-        <div className="row row-shop">
+        <div className="row">
           {[
             { cls: "card-shop-oficial card-shop-large", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
-            { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Entrega rápida · Prime", hoverKey: "amazon", cover: shopAmazonCover },
+            { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Prime", hoverKey: "amazon", cover: shopAmazonCover },
             { cls: "card-shop-ml", href: "https://www.mercadolivre.com.br", name: "Mercado\nLivre", tag: "Frete Grátis", hoverKey: "ml", cover: shopMlCover },
           ].map((shop, i) => (
             <a key={i} href={shop.href} target="_blank" rel="noopener noreferrer" className={`card card-shop ratio-shop ${shop.cls}`}>
@@ -1156,7 +1156,6 @@ const Portal = () => {
             </a>
           ))}
         </div>
-        <p className="row-shop-hint">← deslize · Amazon · Mercado Livre →</p>
 
         {/* Biofábrica */}
         <div className="row">
