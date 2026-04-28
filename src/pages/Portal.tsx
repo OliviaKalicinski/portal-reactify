@@ -22,7 +22,7 @@ const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DR
  * 4. Substituir abaixo
  * Enquanto não tiver endpoint real, o form mostra mensagem de erro (placeholder).
  */
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/REPLACE_ME";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mlgaqnoz";
 
 const CARD_HOVER_IMAGES: Record<string, string> = {
   manifesto:  "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2FuY2JjbDV0aXdjNWgwOHhvcWZqY3ozZWZoZ3FoaXVtNzZ2aDRuOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mrTjb8ZXFeJdC/giphy.gif",
