@@ -1391,8 +1391,11 @@ const Quizzes = () => {
   const ownerPhotoRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setProfile(loadProfile());
+    const loaded = loadProfile();
+    setProfile(loaded);
     setProfileLoaded(true);
+    // Se o gate já tem foto salva, usa como preview inicial do avatar
+    if (loaded?.photoUrl) setOwnerPhotoPreview(loaded.photoUrl);
   }, []);
 
   useEffect(() => {
