@@ -989,6 +989,64 @@
   transition: filter 0.15s, transform 0.12s;
 }
 .qz-gate-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.qz-gate-btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.qz-gate-btn.loading { animation: qz-pulse 1.4s ease-in-out infinite; }
+@keyframes qz-pulse {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 1; }
+}
+
+/* Foto opcional do tutor com o pet */
+.qz-gate-photo-btn {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.qz-gate-photo-btn:hover {
+  color: var(--quiz-accent, #FF7A00);
+  border-color: var(--quiz-accent, #FF7A00);
+  background: rgba(255, 255, 255, 0.02);
+}
+.qz-gate-photo-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+}
+.qz-gate-photo-preview img {
+  width: 56px; height: 56px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.qz-gate-photo-actions {
+  display: flex; flex-direction: column; gap: 4px; align-items: flex-start;
+}
+.qz-gate-photo-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 0;
+  text-align: left;
+}
+.qz-gate-photo-link:hover { color: var(--quiz-accent, #FF7A00); }
+.qz-gate-photo-link.qz-gate-photo-remove { color: rgba(255, 45, 120, 0.7); }
+.qz-gate-photo-link.qz-gate-photo-remove:hover { color: #FF2D78; }
+
 .qz-gate-privacy {
   font-size: 10px; color: rgba(255, 255, 255, 0.2);
   text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px;

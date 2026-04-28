@@ -8,6 +8,8 @@ import {
   QuizDef,
   PROFILE_DIMENSIONS,
 } from "@/data/quizzes";
+import { submitLead } from "@/lib/leads";
+import { uploadProfilePhoto } from "@/lib/uploads";
 import "./Portal.css";
 import "./Parceiros.css";
 import "./Quizzes.css";
@@ -21,6 +23,8 @@ interface DragonProfile {
   email: string;
   createdAt: string;
   results: Record<string, ProfileResult>;
+  /** URL pública da foto do tutor com o pet (Supabase Storage) */
+  photoUrl?: string;
 }
 
 interface ProfileResult {
@@ -748,7 +752,7 @@ interface QuizModalProps {
   onComplete: (
     quizId: string,
     resultKey: string,
-    gateData?: { name: string; email: string }
+    gateData?: { name: string; email: string; photoUrl?: string | null }
   ) => void;
 }
 
@@ -763,6 +767,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
   const [gateName, setGateName]   = useState(profile?.name || "");
   const [gateEmail, setGateEmail] = useState(profile?.email || "");
   const [gateError, setGateError] = useState("");
+  const [gateSubmitting, setGateSubmitting] = useState(false);
   const [sharing, setSharing]     = useState(false);
   const [shareStatus, setShareStatus] = useState<"idle" | "ok" | "err">("idle");
   const [petPhotoFile, setPetPhotoFile] = useState<File | null>(null);
@@ -821,12 +826,67 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
     }
   };
 
-  const submitGate = () => {
+  const submitGate = async () => {
+    if (gateSubmitting) return;
     if (!gateName.trim()) { setGateError("Coloca seu nome 👆"); return; }
     if (!gateEmail.includes("@")) { setGateError("Email inválido"); return; }
     setGateError("");
+
+    // Resolve o resultado pra mandar junto pro Supabase
+    const result = quiz.results[resultKey];
+
+    // Snapshot completo dos resultados acumulados (pode ter quizzes anteriores
+    // de uma sessão atual mesmo sem profile salvo, mas hoje só tem o atual)
+    const allResults = profile?.results
+      ? {
+          ...profile.results,
+          [quiz.id]: {
+            quizId: quiz.id,
+            resultKey,
+            resultLabel: result?.label || "",
+            profileLabel: result?.profileLabel || "",
+            completedAt: new Date().toISOString(),
+          },
+        }
+      : {
+          [quiz.id]: {
+            quizId: quiz.id,
+            resultKey,
+            resultLabel: result?.label || "",
+            profileLabel: result?.profileLabel || "",
+            completedAt: new Date().toISOString(),
+          },
+        };
+
+    // Se a pessoa subiu foto, espera o upload terminar pra ter a URL
+    // antes de inserir o lead. Se falhar, segue sem foto — nunca trava UX.
+    let photoUrl: string | null = null;
+    if (petPhotoFile) {
+      setGateSubmitting(true);
+      try {
+        const { url } = await uploadProfilePhoto(petPhotoFile);
+        photoUrl = url;
+      } catch {
+        photoUrl = null;
+      } finally {
+        setGateSubmitting(false);
+      }
+    }
+
+    // Fire-and-forget: não esperamos a resposta pra continuar pro resultado.
+    // Falhas são logadas no console (ver leads.ts) — UX não é afetada.
+    void submitLead({
+      email: gateEmail,
+      name: gateName,
+      firstQuizId: quiz.id,
+      firstQuizResultKey: resultKey,
+      firstQuizResultLabel: result?.label || "",
+      allResults,
+      photoUrl,
+    });
+
     transition(() => setPhase("result"));
-    onComplete(quiz.id, resultKey, { name: gateName, email: gateEmail });
+    onComplete(quiz.id, resultKey, { name: gateName, email: gateEmail, photoUrl });
   };
 
   const removePetPhoto = () => {
@@ -985,11 +1045,54 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
                   placeholder="Seu melhor email"
                   value={gateEmail}
                   onChange={(e) => setGateEmail(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === "Enter") submitGate(); }}
+                  onKeyDown={(e) => { if (e.key === "Enter") void submitGate(); }}
                 />
+
+                {/* Foto opcional do tutor com o pet — sobe pro Supabase no submit */}
+                <input
+                  ref={petPhotoRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handlePetPhotoChange}
+                />
+                {petPhotoPreview ? (
+                  <div className="qz-gate-photo-preview">
+                    <img src={petPhotoPreview} alt="Foto com seu pet" />
+                    <div className="qz-gate-photo-actions">
+                      <button
+                        type="button"
+                        className="qz-gate-photo-link"
+                        onClick={() => petPhotoRef.current?.click()}
+                      >
+                        Trocar
+                      </button>
+                      <button
+                        type="button"
+                        className="qz-gate-photo-link qz-gate-photo-remove"
+                        onClick={removePetPhoto}
+                      >
+                        Remover
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className="qz-gate-photo-btn"
+                    onClick={() => petPhotoRef.current?.click()}
+                  >
+                    📷 Adicionar foto sua com seu pet (opcional)
+                  </button>
+                )}
+
                 {gateError && <span className="qz-gate-error">{gateError}</span>}
-                <button className="qz-gate-btn" onClick={submitGate}>
-                  REVELAR MEU RESULTADO
+                <button
+                  className={`qz-gate-btn${gateSubmitting ? " loading" : ""}`}
+                  onClick={() => void submitGate()}
+                  disabled={gateSubmitting}
+                >
+                  {gateSubmitting ? "SALVANDO FOTO…" : "REVELAR MEU RESULTADO"}
                 </button>
                 <span className="qz-gate-privacy">
                   Sem spam. O Dragão respeita sua privacidade.
@@ -1308,7 +1411,11 @@ const Quizzes = () => {
   }, []);
 
   const handleComplete = useCallback(
-    (quizId: string, resultKey: string, gateData?: { name: string; email: string }) => {
+    (
+      quizId: string,
+      resultKey: string,
+      gateData?: { name: string; email: string; photoUrl?: string | null }
+    ) => {
       const quiz = QUIZZES.find((q) => q.id === quizId);
       if (!quiz) return;
       const result = quiz.results[resultKey];
@@ -1323,6 +1430,9 @@ const Quizzes = () => {
         };
         const updated: DragonProfile = {
           ...base,
+          // Só sobrescreve photoUrl se o gate trouxe uma URL nova (não-null).
+          // Mantém a foto antiga em re-runs do quiz que não anexam nova foto.
+          ...(gateData?.photoUrl ? { photoUrl: gateData.photoUrl } : {}),
           results: {
             ...base.results,
             [quizId]: {
