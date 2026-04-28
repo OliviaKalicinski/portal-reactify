@@ -894,7 +894,7 @@ const Portal = () => {
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
           </Link>
 
-          <a href="/biblioteca" className="card card-manifesto ratio-5-4">
+          <Link to="/biblioteca" className="card card-manifesto ratio-5-4">
             <HoverBg imgKey="manifesto" />
             <div className="card-inner">
               <div className="card-body">
@@ -904,7 +904,7 @@ const Portal = () => {
               </div>
             </div>
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.04)" }} />
-          </a>
+          </Link>
 
           <div onClick={openAudio} style={{ cursor: "pointer" }} className="card card-audio ratio-1-1">
             <HoverBg imgKey="audio" />
@@ -923,7 +923,7 @@ const Portal = () => {
 
         {/* ROW 3: Quiz + Blog (par) | Imprensa + Perguntas (par) */}
         <div className="row row-equal-h">
-          <a href="/quizzes" className="card card-quiz ratio-1-1">
+          <Link to="/quizzes" className="card card-quiz ratio-1-1">
             <HoverBg imgKey="quiz" />
             <div className="quiz-bg" />
             <div className="quiz-cta-content">
@@ -933,7 +933,7 @@ const Portal = () => {
                 <span className="quiz-start-btn">MONTAR MEU PERFIL →</span>
               </div>
             </div>
-          </a>
+          </Link>
 
           <a
             href="https://comidadedragao.com.br/blogs/news"
@@ -953,7 +953,7 @@ const Portal = () => {
             <div className="card-hover-overlay" />
           </a>
 
-          <a href="/imprensa" className="card card-quiz-companion card-quiz-companion-video ratio-3-4">
+          <Link to="/imprensa" className="card card-quiz-companion card-quiz-companion-video ratio-3-4">
             <HoverBg imgKey="companion" />
             <video
               className="card-bg-video"
@@ -972,7 +972,7 @@ const Portal = () => {
               </div>
             </div>
             <div className="card-hover-overlay" />
-          </a>
+          </Link>
 
           <button
             type="button"
@@ -1112,7 +1112,7 @@ const Portal = () => {
           {[
             { cls: "card-shop-oficial card-shop-large", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
             { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Prime", hoverKey: "amazon", cover: shopAmazonCover },
-            { cls: "card-shop-ml", href: "https://www.mercadolivre.com.br", name: "Mercado\nLivre", tag: "Frete Grátis", hoverKey: "ml", cover: shopMlCover },
+            { cls: "card-shop-ml", href: "https://lista.mercadolivre.com.br/comida-de-dragao", name: "Mercado\nLivre", tag: "Frete Grátis", hoverKey: "ml", cover: shopMlCover },
           ].map((shop, i) => (
             <a key={i} href={shop.href} target="_blank" rel="noopener noreferrer" className={`card card-shop ratio-shop ${shop.cls}`}>
               {shop.cover && <img src={shop.cover} alt="" className="card-shop-cover" />}
