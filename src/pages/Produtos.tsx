@@ -603,7 +603,6 @@ const Produtos = () => {
             onClick={(e) => { if (e.target === e.currentTarget) closeProduto(); }}
           >
             <div className="produto-modal bp-modal">
-              <button type="button" className="produto-modal-close" onClick={closeProduto} aria-label="Fechar">✕</button>
               <div className="bp-grid-bg" aria-hidden="true" />
               <div className="bp-scan-line" aria-hidden="true" />
 
@@ -626,6 +625,7 @@ const Produtos = () => {
                   <div className="bp-eyebrow">Espécie alvo</div>
                   <div className="bp-species">{activeProduto.tag}</div>
                 </div>
+                <button type="button" className="produto-modal-close" onClick={closeProduto} aria-label="Fechar">✕</button>
               </div>
 
               <div className="bp-divider" />
