@@ -6,6 +6,9 @@ import PageMeta from "@/components/PageMeta";
 import portalDogImg from "@/assets/portal-dog.png";
 import lojasCoverImg from "@/assets/lojas-cover.png";
 import emailCoverImg from "@/assets/email-cover.png";
+import shopAmazonCover from "@/assets/shop-amazon-cover.png";
+import shopMlCover from "@/assets/shop-ml-cover.png";
+import shopPetloveCover from "@/assets/shop-petlove-cover.png";
 import "./Portal.css";
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
@@ -1086,20 +1089,23 @@ const Portal = () => {
       <div className="content-grid" style={{ paddingTop: 8 }}>
         <div className="row">
           {[
-            { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Entrega rápida · Prime", hoverKey: "amazon" },
-            { cls: "card-shop-ml", href: "https://www.mercadolivre.com.br", name: "Mercado\nLivre", tag: "Frete Grátis", hoverKey: "ml" },
-            { cls: "card-shop-petlove", href: "https://www.petlove.com.br", name: "Petlove", tag: "Especialista em pets", hoverKey: "petlove" },
-            { cls: "card-shop-oficial", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial" },
+            { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Entrega rápida · Prime", hoverKey: "amazon", cover: shopAmazonCover },
+            { cls: "card-shop-ml", href: "https://www.mercadolivre.com.br", name: "Mercado\nLivre", tag: "Frete Grátis", hoverKey: "ml", cover: shopMlCover },
+            { cls: "card-shop-petlove", href: "https://www.petlove.com.br", name: "Petlove", tag: "Especialista em pets", hoverKey: "petlove", cover: shopPetloveCover },
+            { cls: "card-shop-oficial", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
           ].map((shop, i) => (
             <a key={i} href={shop.href} target="_blank" rel="noopener noreferrer" className={`card card-shop ratio-shop ${shop.cls}`}>
+              {shop.cover && <img src={shop.cover} alt="" className="card-shop-cover" />}
               <HoverBg imgKey={shop.hoverKey} />
-              <div className="card-inner">
-                <div className="card-body">
-                  <div className="shop-name">{shop.name.split("\n").map((line, j) => j > 0 ? <span key={j}><br />{line}</span> : line)}</div>
-                  <span className="shop-tag">{shop.tag}</span>
-                  <span className="shop-arrow">→</span>
+              {!shop.cover && (
+                <div className="card-inner">
+                  <div className="card-body">
+                    <div className="shop-name">{shop.name.split("\n").map((line, j) => j > 0 ? <span key={j}><br />{line}</span> : line)}</div>
+                    <span className="shop-tag">{shop.tag}</span>
+                    <span className="shop-arrow">→</span>
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
             </a>
           ))}
