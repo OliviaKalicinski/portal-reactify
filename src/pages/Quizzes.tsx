@@ -1508,6 +1508,7 @@ const Quizzes = () => {
       <PageMeta
         title="Quizzes do Dragão · Comida de Dragão"
         description="8 quizzes pra descobrir quem você é como tutor. Personalidade, nojo, consciência ambiental, conhecimento, pet, revolução, estilo e alimentação."
+        image="/assets/images/canal-dragao-cover.png"
       />
       <MarqueeBar items={MARQUEE_TOP} />
 

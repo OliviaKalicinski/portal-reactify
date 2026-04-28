@@ -303,6 +303,7 @@ const Biblioteca = () => {
       <PageMeta
         title="Biblioteca Científica · Comida de Dragão"
         description="17 papers peer-reviewed sobre proteína de inseto BSF na alimentação de cães e gatos. Digestibilidade, microbiota, alergia, reviews — a ciência que embasa o Dragão."
+        image="/assets/images/canal-dragao-cover.png"
       />
       <MarqueeBar items={MARQUEE_TOP} />
 

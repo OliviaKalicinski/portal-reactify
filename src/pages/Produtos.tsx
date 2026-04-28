@@ -474,7 +474,7 @@ const Produtos = () => {
       <PageMeta
         title="Produtos · Comida de Dragão"
         description="7 SKUs de proteína de inseto BSF pra pets. Original, Mordidas, Suplementos e GRUB — pra cães, gatos, répteis e anfíbios. Ficha técnica e compra em um clique."
-        image="/assets/images/produtos/kit-completo.png"
+        image="/assets/images/nossos-produtos.png"
       />
       <MarqueeBar items={MARQUEE_TOP} />
 
