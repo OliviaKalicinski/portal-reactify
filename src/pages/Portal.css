@@ -2184,24 +2184,74 @@
     min-height: 180px !important;
     overflow: hidden;
   }
-  /* Audience cards: 2 colunas compactas */
+  /* Audience cards: 3 colunas compactas */
   .portal-page .audience-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
   }
   .portal-page .audience-card-inner {
-    min-height: 130px !important;
-    padding: 14px 12px 12px !important;
+    min-height: 110px !important;
+    padding: 10px 8px 8px !important;
   }
   .portal-page .aud-desc,
   .portal-page .aud-cta { display: none !important; }
   .portal-page .aud-title {
-    font-size: clamp(18px, 5.5vw, 28px) !important;
-    line-height: 0.9 !important;
+    font-size: clamp(13px, 3.8vw, 20px) !important;
+    line-height: 0.88 !important;
     margin-bottom: 0 !important;
   }
-  .portal-page .aud-bg-num { font-size: 100px !important; }
+  .portal-page .aud-tag {
+    font-size: 7px !important;
+    letter-spacing: 0.08em !important;
+    padding: 2px 5px !important;
+  }
+  .portal-page .aud-bg-num { font-size: 70px !important; }
+}
+
+/* Onde Comprar: scroll horizontal no mobile */
+@media (max-width: 680px) {
+  .portal-page .row-shop {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 10px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .portal-page .row-shop::-webkit-scrollbar { display: none; }
+  .portal-page .row-shop .card-shop {
+    flex: 0 0 84% !important;
+    width: 84% !important;
+    min-height: 190px !important;
+    scroll-snap-align: start;
+    grid-column: unset !important;
+  }
+  .portal-page .row-shop .card-shop .card-shop-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Hint visual abaixo do carrossel */
+  .portal-page .row-shop-hint {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    padding: 8px 0 4px;
+    display: none;
+  }
+}
+@media (max-width: 680px) {
+  .portal-page .row-shop-hint { display: block; }
 }
 
 /* GIF tap-reveal no mobile: 1 toque = gif, 2 toque = navega */
@@ -3073,7 +3123,7 @@
 .portal-page .profile-joke-overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 1600;
   background: rgba(0,0,0,0.72);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);

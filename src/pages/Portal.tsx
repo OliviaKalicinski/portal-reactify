@@ -952,7 +952,7 @@ const Portal = () => {
           </div>
         </div>
 
-        {/* ROW 3: Quiz + Companion + Perguntas + Lives */}
+        {/* ROW 3: Quiz + Blog (par) | Imprensa + Perguntas (par) */}
         <div className="row row-equal-h">
           <a href="/quizzes" className="card card-quiz ratio-1-1">
             <HoverBg imgKey="quiz" />
@@ -964,6 +964,24 @@ const Portal = () => {
                 <span className="quiz-start-btn">MONTAR MEU PERFIL →</span>
               </div>
             </div>
+          </a>
+
+          <a
+            href="https://comidadedragao.com.br/blogs/news"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card card-lives ratio-1-1"
+          >
+            <HoverBg imgKey="blog" />
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="card-tag">Blog</span>
+                <div className="card-label">Blog do<br />Dragão</div>
+                <div className="card-sub">Histórias, ciência e o que o Dragão tá pensando</div>
+                <span className="lives-cta">Ler →</span>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
           </a>
 
           <a href="/imprensa" className="card card-quiz-companion card-quiz-companion-video ratio-3-4">
@@ -1004,24 +1022,6 @@ const Portal = () => {
             </div>
             <div className="card-hover-overlay" />
           </button>
-
-          <a
-            href="https://comidadedragao.com.br/blogs/news"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="card card-lives ratio-1-1"
-          >
-            <HoverBg imgKey="blog" />
-            <div className="card-inner">
-              <div className="card-body">
-                <span className="card-tag">Blog</span>
-                <div className="card-label">Blog do<br />Dragão</div>
-                <div className="card-sub">Histórias, ciência e o que o Dragão tá pensando</div>
-                <span className="lives-cta">Ler →</span>
-              </div>
-            </div>
-            <div className="card-hover-overlay" />
-          </a>
         </div>
       </div>
 
@@ -1139,7 +1139,7 @@ const Portal = () => {
       {/* ONDE COMPRAR */}
       <div className="section-label" style={{ marginTop: 40 }}>Onde Comprar</div>
       <div className="content-grid" style={{ paddingTop: 8 }}>
-        <div className="row">
+        <div className="row row-shop">
           {[
             { cls: "card-shop-oficial card-shop-large", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
             { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Entrega rápida · Prime", hoverKey: "amazon", cover: shopAmazonCover },
@@ -1161,6 +1161,7 @@ const Portal = () => {
             </a>
           ))}
         </div>
+        <p className="row-shop-hint">← deslize · Amazon · Mercado Livre →</p>
 
         {/* Biofábrica */}
         <div className="row">
