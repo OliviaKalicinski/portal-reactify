@@ -681,27 +681,38 @@ const Portal = () => {
           </p>
 
           <div className="hero-name-block">
-            <label className="hero-name-label" htmlFor="hero-name-input">como te chama?</label>
-            <input
-              id="hero-name-input"
-              type="text"
-              className="hero-name-input"
-              placeholder="seu nome"
-              maxLength={16}
-              autoComplete="off"
-              spellCheck={false}
-              value={heroName}
-              onChange={e => setHeroName(e.target.value)}
-            />
             {nameUpper.length >= 2 ? (
-              <p className="hero-tagline-sub hero-tagline-sub-reveal">
-                <span className="hero-tagline-name">{nameUpper}</span>
-                <span className="hero-tagline-rest"> já faz parte da revolução.</span>
-              </p>
+              <>
+                <p className="hero-tagline-sub hero-tagline-sub-reveal">
+                  <span className="hero-tagline-name">{nameUpper}</span>
+                  <span className="hero-tagline-rest"> já faz parte da revolução.</span>
+                </p>
+                <button
+                  type="button"
+                  className="hero-name-edit"
+                  onClick={() => { setHeroName(""); setTimeout(() => document.getElementById("hero-name-input")?.focus(), 50); }}
+                >
+                  trocar nome
+                </button>
+              </>
             ) : (
-              <p className="hero-tagline-sub hero-tagline-sub-empty">
-                segue o fio...
-              </p>
+              <>
+                <label className="hero-name-label" htmlFor="hero-name-input">como te chama?</label>
+                <input
+                  id="hero-name-input"
+                  type="text"
+                  className="hero-name-input"
+                  placeholder="seu nome"
+                  maxLength={16}
+                  autoComplete="off"
+                  spellCheck={false}
+                  value={heroName}
+                  onChange={e => setHeroName(e.target.value)}
+                />
+                <p className="hero-tagline-sub hero-tagline-sub-empty">
+                  segue o fio...
+                </p>
+              </>
             )}
           </div>
         </div>
