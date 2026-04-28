@@ -41,7 +41,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   lojas:      "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExN25zeXliZ2Y5OW1xYzh3bWJnaGFwcnNvanR3MTV1a2x0ODlwdTB0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/132lRaVcrX5lJu/giphy.gif",
   email:      "/assets/images/hover-email.gif",
   consumer:   "https://media.giphy.com/media/ehPAyfmD1QmGkhQ3Mg/giphy.gif",
-  influencer: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2Z5bnR4Mzc1eXdyNGxpNWg5N3M0bWdjOWc1azA3NGdsc2hkOXRkbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lu6GgCzi1vJQsDgSfZ/giphy.gif",
+  influencer: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2Z5bnR4Mzc1eXdyNGxpNWg1N3M0bWdjOWc1azA3NGdsc2hkOXRkbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lu6GgCzi1vJQsDgSfZ/giphy.gif",
   seller:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGdtcWd6emJ1ODNkazNubmczeDh3MWoxNGswZTY2MW43ejIzNmQ1dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9z5BEzVvKeDcI/giphy.gif",
   amazon:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWNlZWR4d3NwdDZ2YndqcTM2aGtpM2NpMDh4NmthMTBwaWRub2ZnbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zkcXND5kY4POU/giphy.gif",
   ml:         "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGg5cjNnNXdqeWRwajRlNTJjdjlubnZndG0wdHFsd2I1bWE2Z3NoeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ovinMYvSg1TSo/giphy.gif",
@@ -107,23 +107,11 @@ const Portal = () => {
   const [perguntasOpen, setPerguntasOpen] = useState(false);
   const [profileJoke, setProfileJoke] = useState<number | null>(null);
 
-  // Piadinhas por perfil (aparece quando clica num card do perfil-selector)
-  const PROFILE_JOKES: Record<number, { tag: string; title: string; text: string }> = {
-    1: {
-      tag: "perfil 01 · curioso",
-      title: "Ei, detetive.",
-      text: "Você é o tipo que googla 'larva desidratada é seguro pra cachorro?' e lê até o último PDF. Boa. A gente tem muita carne nova pro seu cérebro.",
-    },
-    2: {
-      tag: "perfil 02 · nojentinho",
-      title: "Calma aí.",
-      text: "A gente sabe. Da primeira vez também arrepiou. Hoje a gente serve no petisco do filhote. Se liga — nojento mesmo é o desperdício.",
-    },
-    3: {
-      tag: "perfil 03 · estudado",
-      title: "Beleza, nerd.",
-      text: "Proteína 40%, digestibilidade 88,9%, ingrediente único hipoalergênico, 83% menos CO₂. Ficha técnica completa, papers, tudo aqui. Não vamos te insultar com marketing.",
-    },
+  // Piadinhas por perfil — 1 frase por perfil
+  const PROFILE_JOKES: Record<number, string> = {
+    1: "Você googla, lê o PDF e questiona tudo. A gente tem muita carne nova pro seu cérebro.",
+    2: "Da primeira vez a gente também arrepiou. Spoiler: nojento mesmo é o desperdício.",
+    3: "40% proteína. 88,9% digestibilidade. 83% menos CO₂. Pode auditar — a ficha técnica tá toda aqui.",
   };
 
   const [audioOpen, setAudioOpen] = useState(false);
@@ -779,14 +767,8 @@ const Portal = () => {
             >
               ×
             </button>
-            <div className="profile-joke-tag">
-              {PROFILE_JOKES[profileJoke].tag}
-            </div>
-            <div className="profile-joke-title">
-              {PROFILE_JOKES[profileJoke].title}
-            </div>
             <p className="profile-joke-text">
-              {PROFILE_JOKES[profileJoke].text}
+              {PROFILE_JOKES[profileJoke]}
             </p>
             <button
               type="button"
