@@ -1633,6 +1633,16 @@
 .portal-page .card-shop-oficial .shop-tag,
 .portal-page .card-shop-oficial .shop-arrow { color: var(--dragon-black); }
 
+.portal-page .card-shop-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* BIOFÁBRICA */
 .portal-page .card-biofabrica { background: var(--dragon-purple); min-width: calc(100% - 32px); flex-grow: 1; }
 .portal-page .card-biofabrica:hover { border-color: var(--dragon-green) !important; }
