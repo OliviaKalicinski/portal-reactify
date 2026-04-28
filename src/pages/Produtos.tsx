@@ -124,6 +124,12 @@ const PRODUTOS: Produto[] = [
     corCard: "#B9FF33",
     fotos: [
       "/assets/images/produtos/legumes-frente.png",
+      "/assets/images/produtos/legumes-02.png",
+      "/assets/images/produtos/legumes-03.png",
+      "/assets/images/produtos/legumes-04.png",
+      "/assets/images/produtos/legumes-05.png",
+      "/assets/images/produtos/legumes-06.png",
+      "/assets/images/produtos/legumes-07.png",
     ],
     destaques: ["16,7% proteína", "Rico em betacaroteno", "Cúrcuma anti-inflamatória"],
     proteina: "16,7% (mín. 167 g/kg)",
