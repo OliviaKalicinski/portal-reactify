@@ -2178,8 +2178,13 @@
   .portal-page .bio-right { display: none; }
   .portal-page .card-biofabrica .card-inner::before { padding-top: 60% !important; }
   .portal-page .card-quiz { min-height: 300px; }
-  /* Blog card: mostrar título no topo no mobile */
-  .portal-page .card-lives .card-body { justify-content: flex-start !important; }
+  /* Blog card: position absolute para preencher o card e mostrar título */
+  .portal-page .card-lives .card-body {
+    position: absolute !important;
+    inset: 0 !important;
+    justify-content: flex-start !important;
+    padding: 14px !important;
+  }
   /* Audio: banner horizontal fixo — não muda proporção de imagens com capa */
   .portal-page .card-audio {
     height: 180px !important;
@@ -2658,24 +2663,32 @@
     text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
   }
 
-  /* Perfil selector — cards mais compactos */
+  /* Perfil selector — lado a lado no mobile */
   .portal-page .perfil-selector { padding: 0 16px; }
   .portal-page .perfil-selector-grid {
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 6px;
   }
   .portal-page .perfil-card {
-    padding: 10px 14px;
+    padding: 10px 8px;
     min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
   }
   .portal-page .perfil-card .perfil-name {
-    font-size: 18px;
+    font-size: 13px;
     text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
+    line-height: 1.1;
   }
   .portal-page .perfil-card .perfil-num {
-    font-size: 12px;
-    margin-right: 8px;
+    font-size: 10px;
+    margin-right: 0;
+    opacity: 0.4;
   }
+  .portal-page .perfil-card .perfil-cta { display: none; }
 
   /* Cards gerais — label menor, misreg reduzido */
   .portal-page .card .card-label {
