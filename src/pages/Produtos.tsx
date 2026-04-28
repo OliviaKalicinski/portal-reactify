@@ -640,8 +640,8 @@ const Produtos = () => {
                   </div>
                   <div className="bp-connector" />
                   <div className="bp-stat bp-stat-right">
-                    <div className="bp-stat-label">Composição</div>
-                    <div className="bp-stat-text bp-text-right">{activeProduto.composicao[0]}</div>
+                    <div className="bp-stat-label">Destaque</div>
+                    <div className="bp-stat-text bp-text-right">{activeProduto.destaques[2]}</div>
                   </div>
                 </div>
 
@@ -714,7 +714,7 @@ const Produtos = () => {
 
               {/* DOSAGEM */}
               {activeProduto.dosagem && (
-                <div className="bp-desc-section" style={{ marginTop: "10px" }}>
+                <div className="bp-desc-section">
                   <div className="bp-section-label">Dosagem por porte</div>
                   <table className="bp-dosagem-table">
                     <tbody>
@@ -729,6 +729,22 @@ const Produtos = () => {
                 </div>
               )}
 
+              {/* COMPOSIÇÃO */}
+              <div className="bp-desc-section">
+                <div className="bp-section-label">Composição</div>
+                <ul className="bp-quando-list">
+                  {activeProduto.composicao.map((c, i) => <li key={i}>{c}</li>)}
+                </ul>
+              </div>
+
+              {/* DIFERENCIAIS */}
+              <div className="bp-desc-section">
+                <div className="bp-section-label">Diferenciais</div>
+                <ul className="bp-quando-list bp-diferenciais-list">
+                  {activeProduto.diferenciais.map((d, i) => <li key={i}>{d}</li>)}
+                </ul>
+              </div>
+
               {/* FICHA TÉCNICA */}
               <div className="bp-section-label" style={{ marginTop: "16px" }}>Ficha Técnica</div>
               <div className="bp-ficha-grid">
@@ -740,16 +756,10 @@ const Produtos = () => {
                   <span className="bp-ficha-key">Gordura bruta</span>
                   <span className="bp-ficha-val">{activeProduto.gordura}</span>
                 </div>
-                <div className="bp-ficha-row">
-                  <span className="bp-ficha-key">Energia</span>
+                <div className="bp-ficha-row bp-ficha-wide">
+                  <span className="bp-ficha-key">Energia metabolizável</span>
                   <span className="bp-ficha-val">{activeProduto.energia}</span>
                 </div>
-                {activeProduto.composicao.map((c, i) => (
-                  <div key={i} className="bp-ficha-row bp-ficha-wide">
-                    <span className="bp-ficha-key">Ingrediente {i + 1}</span>
-                    <span className="bp-ficha-val">{c}</span>
-                  </div>
-                ))}
               </div>
 
               {/* ALERTA */}
@@ -764,13 +774,6 @@ const Produtos = () => {
                   Ver ficha técnica completa em PDF
                 </a>
               )}
-
-              {/* DIFERENCIAIS */}
-              <div className="bp-tags">
-                {activeProduto.diferenciais.map((d, i) => (
-                  <span key={i} className={`bp-tag ${i % 2 === 0 ? "bp-tag-lime" : "bp-tag-violet"}`}>{d}</span>
-                ))}
-              </div>
 
               {/* ONDE COMPRAR */}
               <div className="bp-section-label" style={{ marginTop: "20px" }}>Onde comprar</div>

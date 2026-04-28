@@ -739,9 +739,10 @@
   background: #080808 !important;
   padding: 40px 36px 36px;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   font-family: 'Space Mono', monospace;
-  max-width: 900px;
+  max-width: 960px;
   border-radius: 0;
 }
 
@@ -822,8 +823,8 @@
 /* MAIN 3-COLUMN GRID */
 .bp-main-grid {
   display: grid;
-  grid-template-columns: 1fr 200px 1fr;
-  gap: 24px;
+  grid-template-columns: 1fr 280px 1fr;
+  gap: 20px;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -891,8 +892,8 @@
   gap: 8px;
 }
 .bp-product-frame {
-  width: 185px;
-  height: 185px;
+  width: 260px;
+  height: 260px;
   border: 1px solid rgba(185,255,51,0.28);
   border-radius: 10px;
   background: #111;
@@ -1030,6 +1031,10 @@
   left: 0;
   color: #B9FF33;
   font-size: 9px;
+}
+.bp-diferenciais-list li::before {
+  content: '>';
+  color: #925AED;
 }
 
 /* DOSAGEM TABLE */
@@ -1213,7 +1218,7 @@
   .bp-stat-right { align-items: flex-start; text-align: left; }
   .bp-text-right { text-align: left; }
   .bp-connector, .bp-connector-right { display: none; }
-  .bp-product-frame { width: 150px; height: 150px; }
+  .bp-product-frame { width: 180px; height: 180px; }
   .bp-retailers { grid-template-columns: 1fr; }
   .bp-ficha-grid { grid-template-columns: 1fr; }
   .bp-ficha-wide { grid-column: 1; }
