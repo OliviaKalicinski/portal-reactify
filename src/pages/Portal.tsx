@@ -1019,7 +1019,7 @@ const Portal = () => {
       {/* COMUNIDADE */}
       <div className="section-label" style={{ marginTop: 40 }}>Comunidade</div>
       <div className="content-grid" style={{ paddingTop: 8 }}>
-        <div className="row row-equal-h">
+        <div className="row row-equal-h" style={{ flexWrap: "nowrap" }}>
           <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-social card-social-ig card-social-ig-img ratio-5-4">
             <HoverBg imgKey="instagram" />
             <div className="card-inner"><div className="card-body">
