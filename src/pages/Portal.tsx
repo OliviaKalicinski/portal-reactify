@@ -526,77 +526,7 @@ const Portal = () => {
         .riso-email .riso-strip::after { background: #FF2D78; }
         .riso-email .riso-btn { background: #FF2D78; color: #FAFAFA; }
 
-        /* COMBO 4 — DRAGÃO FALA VIDEO — estrutura idêntica ao modal de Reels */
-        .riso-video-only {
-          background: #7BFF00 !important;
-          padding: 14px !important;
-          width: min(calc(78vh * 9 / 16), 92vw) !important;
-          max-height: 92vh !important;
-          box-shadow: 0 0 0 2.5px #0A0A0A, 12px 14px 0 0 #0A0A0A !important;
-          overflow: hidden !important;
-          position: relative !important;
-          border: none !important;
-        }
-        .riso-close-video {
-          position: absolute !important;
-          top: 14px !important;
-          right: 14px !important;
-          z-index: 10 !important;
-          background: #FAFAFA !important;
-          border: 2.5px solid #0A0A0A !important;
-          color: #0A0A0A !important;
-          width: 34px !important;
-          height: 34px !important;
-          font-size: 14px !important;
-          font-weight: 700 !important;
-          cursor: pointer !important;
-          padding: 0 !important;
-          transition: transform 0.15s !important;
-          font-family: 'Space Mono', monospace !important;
-          line-height: 1 !important;
-        }
-        .riso-close-video:hover { transform: rotate(90deg) !important; }
-        .riso-video-frame-full {
-          aspect-ratio: 9 / 16 !important;
-          width: 100% !important;
-          max-height: calc(92vh - 28px) !important;
-          border: 3px solid #0A0A0A !important;
-          background: #000 !important;
-          overflow: hidden !important;
-          position: relative !important;
-          display: block !important;
-        }
-        .riso-video-frame-full video {
-          width: 100% !important;
-          height: 100% !important;
-          object-fit: cover !important;
-          display: block !important;
-        }
-        .riso-video-frame-full::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(255,255,255,0.04) 2px 3px);
-          pointer-events: none;
-          z-index: 3;
-        }
-        .video-mute-btn {
-          position: absolute;
-          bottom: 12px;
-          right: 12px;
-          z-index: 6;
-          background: rgba(10,10,10,0.82);
-          border: 1.5px solid #7BFF00;
-          color: #7BFF00;
-          font-family: 'Space Mono', monospace;
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.14em;
-          padding: 5px 10px;
-          cursor: pointer;
-          transition: background 0.15s;
-        }
-        .video-mute-btn:hover { background: rgba(10,10,10,1); }
+        /* COMBO 4 — DRAGÃO FALA VIDEO — usa classes do .reels-riso (ReelsSection.tsx) */
 
         /* COMBO 10 — PERGUNTAS (violet + lime · texto branco) */
         .riso-perguntas { background: #925AED; color: #FAFAFA; }
@@ -755,10 +685,6 @@ const Portal = () => {
           .riso-title { font-size: clamp(40px, 10vw, 62px); }
           .riso-pagenum { font-size: 180px; bottom: -20px; right: -10px; }
 
-          /* VIDEO MODAL mobile: ajuste de sombra */
-          .riso-overlay-video .riso-video-only {
-            box-shadow: 0 0 0 2px #0A0A0A, 8px 10px 0 #0A0A0A !important;
-          }
         }
 
       `}</style>
@@ -1256,26 +1182,28 @@ const Portal = () => {
         <div className="footer-tagline">{footerText}</div>
       </footer>
 
-      {/* MODAL DRAGÃO FALA — VÍDEO */}
+      {/* MODAL DRAGÃO FALA — VÍDEO (usa as mesmas classes do modal de Reels) */}
       {modalOpen && (
         <div
-          className="riso-overlay riso-overlay-video"
+          className="reels-riso-overlay"
           onClick={e => { if (e.target === e.currentTarget) closeModal(); }}
         >
-          <article className="riso riso-video riso-video-only" role="dialog">
-            <button className="riso-close riso-close-video" onClick={closeModal} aria-label="Fechar">×</button>
-            <div className="riso-video-frame riso-video-frame-full">
-              <span className="riso-video-tag">DRAGÃO FALA</span>
+          <article className="reels-riso" role="dialog">
+            <button className="reels-riso-close" onClick={closeModal} aria-label="Fechar">×</button>
+            <div className="reels-riso-frame">
+              <span className="reels-riso-counter">DRAGÃO FALA</span>
               <video
                 autoPlay
                 playsInline
                 loop
                 muted={videoMuted}
                 src="/assets/videos/SharkTank Insta .mp4"
+                className="reels-riso-video"
               />
               <button
-                className="video-mute-btn"
+                className="reels-mute-btn"
                 onClick={() => setVideoMuted(m => !m)}
+                type="button"
                 aria-label={videoMuted ? "Ativar som" : "Mutar"}
               >{videoMuted ? "🔇 SOM" : "🔊 SOM"}</button>
             </div>
