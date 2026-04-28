@@ -753,15 +753,10 @@ const buildIdentityLines = (
   return lines;
 };
 
-// Monta a frase pronta pra "marca um tutor que..." / copiar
-const buildFriendTagText = (lines: IdentityLine[], profileName: string): string => {
-  if (lines.length === 0) return "";
-  const parts = lines.map((l) => l.label.toLowerCase());
-  let joined: string;
-  if (parts.length === 1) joined = parts[0];
-  else if (parts.length === 2) joined = `${parts[0]} e ${parts[1]}`;
-  else joined = `${parts.slice(0, -1).join(", ")} e ${parts[parts.length - 1]}`;
-  return `Marca um tutor que também é ${joined} — vocês formam a matilha 🐉 Faz o teu em comidadedragao.com.br #ComidaDeDragao`;
+// Frase pronta pra "manda pra um amigo / copiar"
+// (a função recebe lines/profileName por compatibilidade, mas usa frase fixa)
+const buildFriendTagText = (_lines: IdentityLine[], _profileName: string): string => {
+  return `pet do futuro? talvez. ou só uma página muito doida que vale você ver — comidadedragao.com.br`;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1716,7 +1711,7 @@ const Quizzes = () => {
       <section className="parceiros-cta-final">
         <h2 className="parceiros-cta-final-titulo">
           {profile && completedCount === totalDimensions
-            ? <>Teu Super Trunfo tá <span>pronto!</span></>
+            ? <>Era isso. <span>Posta aí.</span></>
             : profile
               ? <>Completa teu <span>perfil</span></>
               : <>Começa pelo <span>primeiro quiz</span></>}
