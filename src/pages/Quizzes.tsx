@@ -1711,7 +1711,7 @@ const Quizzes = () => {
       <section className="parceiros-cta-final">
         <h2 className="parceiros-cta-final-titulo">
           {profile && completedCount === totalDimensions
-            ? <>Era isso. <span>Posta aí.</span></>
+            ? <>Curtiu? <span>Posta aí o resultado!</span></>
             : profile
               ? <>Completa teu <span>perfil</span></>
               : <>Começa pelo <span>primeiro quiz</span></>}
