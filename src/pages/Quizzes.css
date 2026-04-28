@@ -45,22 +45,65 @@
 }
 
 /* ════════════════════════════════════════════════
+   QZ PICK HEADER — sinal curto pra puxar pros cards
+   (substitui o bloco redundante de intro)
+════════════════════════════════════════════════ */
+.quizzes-page .qz-pick-header {
+  max-width: 1200px;
+  margin: 8px auto 18px;
+  padding: 0 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.quizzes-page .qz-pick-header-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #0A0A0A;
+  background: var(--dragon-lime, #7BFF00);
+  padding: 8px 14px;
+  display: inline-block;
+}
+.quizzes-page .qz-pick-header-line {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.62);
+  letter-spacing: 0.01em;
+}
+.quizzes-page .qz-pick-header-line span {
+  color: var(--dragon-lime, #7BFF00);
+  font-weight: 700;
+}
+@media (max-width: 600px) {
+  .quizzes-page .qz-pick-header {
+    margin: 4px auto 14px;
+    gap: 10px;
+  }
+  .quizzes-page .qz-pick-header-line { font-size: 13px; }
+}
+
+/* ════════════════════════════════════════════════
    QUIZ GRID — cards coloridos com textura halftone + grain
 ════════════════════════════════════════════════ */
 
 .quizzes-page .quiz-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 14px;
 }
 
 .quizzes-page .quiz-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  aspect-ratio: 4 / 5.2;
-  min-height: 340px;
-  padding: 20px 20px 22px;
+  aspect-ratio: 4 / 4.1;
+  min-height: 230px;
+  padding: 14px 16px 16px;
   background: var(--card-accent, #FF7A00);
   color: #0A0A0A;
   cursor: pointer;
@@ -157,25 +200,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 8px;
+  margin-bottom: 8px;
   position: relative;
   z-index: 4;
   transition: color 0.3s ease;
 }
 
 .quizzes-page .quiz-card-index {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 2.5px solid #0A0A0A;
+  border: 2px solid #0A0A0A;
   color: #0A0A0A;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Bebas Neue', sans-serif;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 14px;
   letter-spacing: 0.02em;
   flex-shrink: 0;
   transition: border-color 0.3s ease, color 0.3s ease;
@@ -184,11 +227,11 @@
 .quizzes-page .quiz-card-tag {
   font-family: 'Space Mono', 'Big Shoulders Display', monospace;
   font-weight: 700;
-  font-size: 10px;
-  letter-spacing: 0.24em;
+  font-size: 9px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #0A0A0A;
-  padding: 6px 10px;
+  padding: 4px 8px;
   border: 1.5px solid rgba(10, 10, 10, 0.75);
   white-space: nowrap;
   overflow: hidden;
@@ -203,13 +246,13 @@
   align-items: center;
   justify-content: center;
   font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
-  font-size: clamp(70px, 8vw, 110px);
+  font-size: clamp(48px, 5.5vw, 76px);
   line-height: 0.8;
   color: rgba(10, 10, 10, 0.72);
-  text-shadow: 4px 4px 0 rgba(10, 10, 10, 0.14);
+  text-shadow: 3px 3px 0 rgba(10, 10, 10, 0.14);
   position: relative;
   z-index: 4;
-  margin: 6px 0 8px;
+  margin: 2px 0 4px;
   user-select: none;
   align-self: flex-start;
 }
@@ -227,13 +270,13 @@
 
 .quizzes-page .quiz-card-title {
   font-family: 'Archivo Black', 'Big Shoulders Display', 'Bebas Neue', sans-serif;
-  font-size: clamp(26px, 2.6vw, 40px);
+  font-size: clamp(20px, 2vw, 30px);
   font-weight: 900;
-  line-height: 0.92;
+  line-height: 0.94;
   letter-spacing: -0.012em;
   text-transform: uppercase;
   margin: 0;
-  text-shadow: 3px 3px 0 rgba(10, 10, 10, 0.28);
+  text-shadow: 2px 2px 0 rgba(10, 10, 10, 0.24);
   /* Nunca deixa o título estourar o card */
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -244,10 +287,10 @@
 
 .quizzes-page .quiz-card-sub {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.3;
-  margin: 4px 0 0;
-  opacity: 0.75;
+  margin: 3px 0 0;
+  opacity: 0.78;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -279,11 +322,11 @@
 .quizzes-page .quiz-card.done::before {
   content: "✓";
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 12px;
+  right: 12px;
   z-index: 5;
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: #0A0A0A;
   color: var(--card-accent, #7BFF00);
@@ -291,7 +334,7 @@
   align-items: center;
   justify-content: center;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 1;
 }
 .quizzes-page .quiz-card.done .quiz-card-tag {
@@ -1338,20 +1381,21 @@
 
   .quizzes-page .quiz-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
   .quizzes-page .quiz-card {
-    padding: 16px 16px 18px;
-    min-height: 260px;
+    padding: 12px 14px 14px;
+    min-height: 200px;
   }
   .quizzes-page .quiz-card-visual {
-    font-size: clamp(90px, 22vw, 140px);
+    font-size: clamp(54px, 13vw, 80px);
+    margin: 2px 0;
   }
   .quizzes-page .quiz-card-title {
-    font-size: clamp(16px, 4.2vw, 22px);
+    font-size: clamp(15px, 3.8vw, 20px);
   }
   .quizzes-page .quiz-card-sub {
-    font-size: 11.5px;
+    font-size: 11px;
   }
 
   .quizzes-page .qz-profile-id {

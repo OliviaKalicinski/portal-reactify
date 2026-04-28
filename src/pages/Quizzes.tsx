@@ -1500,19 +1500,14 @@ const Quizzes = () => {
         </>
       )}
 
-      {/* QUIZ GRID SECTION — só título/intro pra quem ainda não tem perfil */}
+      {/* QUIZ GRID SECTION — header enxuto pra quem ainda não tem perfil
+         (hero acima já apresenta os 8 quizzes — aqui só sinaliza a ação) */}
       {!profile && (
-        <section className="parceiros-secao">
-          <div className="parceiros-tag tag-green">monta teu perfil</div>
-          <h2 className="parceiros-secao-titulo titulo-green">
-            8 quizzes pra <span>descobrir quem você é</span> como tutor
-          </h2>
-          <p className="qz-intro-pitch">
-            Personalidade, nojo, consciência ambiental, conhecimento, perfil do pet,
-            grau de revolução, estilo de cuidado e alimentação.
-            <br />
-            <strong>Responde, monta teu perfil e entra na matilha.</strong>
-          </p>
+        <section className="qz-pick-header">
+          <div className="qz-pick-header-tag">ESCOLHE TEU QUIZ ↓</div>
+          <div className="qz-pick-header-line">
+            o dragão <span>tá te observando.</span>
+          </div>
         </section>
       )}
 
