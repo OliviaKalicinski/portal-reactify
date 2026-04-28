@@ -149,16 +149,11 @@ const ReelsSection = ({
           >‹</button>
 
           <article className="reels-riso" role="dialog">
-            <div className="reels-riso-strip" />
             <button
               className="reels-riso-close"
               onClick={close}
               aria-label="Fechar"
             >×</button>
-            <div className="reels-riso-pagenum">04</div>
-            <span className="reels-riso-eyebrow">
-              REEL {String(activeIdx! + 1).padStart(2, "0")}/{String(reels.length).padStart(2, "0")} · @COMIDADEDRAGAO
-            </span>
 
             <div className="reels-riso-frame">
               <span className="reels-riso-counter">{activeIdx! + 1}/{reels.length}</span>
@@ -171,33 +166,13 @@ const ReelsSection = ({
                 muted={muted}
                 playsInline
                 className="reels-riso-video"
-                onClick={() => setMuted(m => !m)}
               />
-            </div>
-
-            <h3 className="reels-riso-title">{active.title}</h3>
-            {active.caption && (
-              <p className="reels-riso-caption">"{active.caption}"</p>
-            )}
-
-            <div className="reels-riso-actions">
               <button
-                className="reels-riso-btn"
+                className="reels-mute-btn"
                 onClick={() => setMuted(m => !m)}
                 type="button"
-              >
-                {muted ? "SEM SOM · TOQUE PRA OUVIR" : "SOM LIGADO"}
-              </button>
-              {active.link && (
-                <a
-                  href={active.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="reels-riso-btn ghost"
-                >
-                  VER NO IG →
-                </a>
-              )}
+                aria-label={muted ? "Ativar som" : "Mutar"}
+              >{muted ? "🔇 SOM" : "🔊 SOM"}</button>
             </div>
           </article>
 
@@ -400,16 +375,16 @@ const REELS_STYLES = `
 }
 .reels-riso {
   position: relative;
-  width: min(420px, 92vw);
+  width: min(calc(78vh * 9 / 16), 92vw);
   max-height: 92vh;
-  padding: 28px 24px 24px;
+  padding: 14px;
   background: #7BFF00;
   color: #0A0A0A;
   font-family: 'Space Grotesk', sans-serif;
   box-shadow:
     0 0 0 2.5px #0A0A0A,
     12px 14px 0 0 #0A0A0A;
-  overflow-y: auto;
+  overflow: hidden;
   animation: reels-riso-pop 0.24s cubic-bezier(0.2, 0.9, 0.4, 1.4);
 }
 @keyframes reels-riso-pop {
@@ -498,7 +473,8 @@ const REELS_STYLES = `
 
 .reels-riso-frame {
   aspect-ratio: 9 / 16;
-  max-width: 100%;
+  width: 100%;
+  max-height: calc(92vh - 28px);
   border: 3px solid #0A0A0A;
   background: #000;
   position: relative;
@@ -537,62 +513,23 @@ const REELS_STYLES = `
   border: 1.5px solid #FF7A00;
 }
 
-.reels-riso-title {
-  font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
-  font-size: 30px;
-  line-height: 0.9;
-  letter-spacing: -0.015em;
-  text-transform: uppercase;
-  color: #0A0A0A;
-  margin: 14px 0 4px;
-  text-align: center;
-  text-shadow: 2px 2px 0 #FF7A00;
-  font-weight: 900;
-}
-.reels-riso-caption {
-  font-family: 'Space Mono', monospace;
-  font-size: 12px;
-  font-style: italic;
-  color: rgba(10,10,10,0.78);
-  text-align: center;
-  line-height: 1.45;
-  margin-bottom: 14px;
-}
-
-.reels-riso-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-.reels-riso-btn {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 14px;
-  letter-spacing: 0.1em;
-  padding: 9px 16px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  background: #FF7A00;
-  color: #0A0A0A;
-  box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
-  transition: transform 0.12s, box-shadow 0.12s;
-}
-.reels-riso-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
-}
-.reels-riso-btn.ghost {
-  background: transparent;
-  border: 2.5px solid #0A0A0A;
-  box-shadow: none;
-  color: #0A0A0A;
-}
-.reels-riso-btn.ghost:hover {
-  background: #0A0A0A;
+.reels-mute-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 6;
+  background: rgba(10,10,10,0.82);
+  border: 1.5px solid #7BFF00;
   color: #7BFF00;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background 0.15s;
 }
+.reels-mute-btn:hover { background: rgba(10,10,10,1); }
 
 /* Navegação lateral */
 .reels-riso-nav {

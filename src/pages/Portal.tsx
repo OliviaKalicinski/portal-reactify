@@ -106,6 +106,7 @@ const Portal = () => {
   const [manifestoOpen, setManifestoOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [perguntasOpen, setPerguntasOpen] = useState(false);
+  const [videoMuted, setVideoMuted] = useState(true);
   const [profileJoke, setProfileJoke] = useState<number | null>(null);
 
   // Piadinhas por perfil — 1 frase por perfil
@@ -528,12 +529,12 @@ const Portal = () => {
         /* COMBO 4 — DRAGÃO FALA VIDEO — frame verde reel, só vídeo */
         .riso-video-only {
           background: #7BFF00 !important;
-          padding: 20px !important;
+          padding: 14px !important;
           box-shadow: 0 0 0 2.5px #0A0A0A, 12px 14px 0 0 #0A0A0A !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: stretch !important;
-          width: min(400px, 92vw) !important;
+          width: min(calc(78vh * 9 / 16), 92vw) !important;
           max-height: 92vh !important;
           overflow: hidden !important;
           position: relative !important;
@@ -590,6 +591,23 @@ const Portal = () => {
           pointer-events: none;
           z-index: 3;
         }
+        .video-mute-btn {
+          position: absolute;
+          bottom: 12px;
+          right: 12px;
+          z-index: 6;
+          background: rgba(10,10,10,0.82);
+          border: 1.5px solid #7BFF00;
+          color: #7BFF00;
+          font-family: 'Space Mono', monospace;
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          padding: 5px 10px;
+          cursor: pointer;
+          transition: background 0.15s;
+        }
+        .video-mute-btn:hover { background: rgba(10,10,10,1); }
 
         /* COMBO 10 — PERGUNTAS (violet + lime · texto branco) */
         .riso-perguntas { background: #925AED; color: #FAFAFA; }
@@ -1260,11 +1278,17 @@ const Portal = () => {
             <div className="riso-video-frame riso-video-frame-full">
               <span className="riso-video-tag">DRAGÃO FALA</span>
               <video
-                controls
                 autoPlay
                 playsInline
+                loop
+                muted={videoMuted}
                 src="/assets/videos/SharkTank Insta .mp4"
               />
+              <button
+                className="video-mute-btn"
+                onClick={() => setVideoMuted(m => !m)}
+                aria-label={videoMuted ? "Ativar som" : "Mutar"}
+              >{videoMuted ? "🔇 SOM" : "🔊 SOM"}</button>
             </div>
           </article>
         </div>
