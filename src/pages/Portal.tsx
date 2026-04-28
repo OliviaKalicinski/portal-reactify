@@ -8,7 +8,6 @@ import lojasCoverImg from "@/assets/lojas-cover.png";
 import emailCoverImg from "@/assets/email-cover.png";
 import shopAmazonCover from "@/assets/shop-amazon-cover.png";
 import shopMlCover from "@/assets/shop-ml-cover.png";
-import shopPetloveCover from "@/assets/shop-petlove-cover.png";
 import "./Portal.css";
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
@@ -46,7 +45,6 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   seller:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGdtcWd6emJ1ODNkazNubmczeDh3MWoxNGswZTY2MW43ejIzNmQ1dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9z5BEzVvKeDcI/giphy.gif",
   amazon:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWNlZWR4d3NwdDZ2YndqcTM2aGtpM2NpMDh4NmthMTBwaWRub2ZnbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zkcXND5kY4POU/giphy.gif",
   ml:         "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGg5cjNnNXdqeWRwajRlNTJjdjlubnZndG0wdHFsd2I1bWE2Z3NoeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ovinMYvSg1TSo/giphy.gif",
-  petlove:    "/assets/images/petlove-hover.gif",
   oficial:    "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXFxcXNrNnd3OWlybzJ5aTZkdHR0NWl3eGVpd3Mxd2JlaXl2amM0diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZCqpHjpPQ7ZvHQytL7/giphy.gif",
 };
 
@@ -1089,10 +1087,9 @@ const Portal = () => {
       <div className="content-grid" style={{ paddingTop: 8 }}>
         <div className="row">
           {[
+            { cls: "card-shop-oficial card-shop-large", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
             { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Entrega rápida · Prime", hoverKey: "amazon", cover: shopAmazonCover },
             { cls: "card-shop-ml", href: "https://www.mercadolivre.com.br", name: "Mercado\nLivre", tag: "Frete Grátis", hoverKey: "ml", cover: shopMlCover },
-            { cls: "card-shop-petlove", href: "https://www.petlove.com.br", name: "Petlove", tag: "Especialista em pets", hoverKey: "petlove", cover: shopPetloveCover },
-            { cls: "card-shop-oficial", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
           ].map((shop, i) => (
             <a key={i} href={shop.href} target="_blank" rel="noopener noreferrer" className={`card card-shop ratio-shop ${shop.cls}`}>
               {shop.cover && <img src={shop.cover} alt="" className="card-shop-cover" />}

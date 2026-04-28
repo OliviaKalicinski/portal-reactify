@@ -1598,6 +1598,11 @@
 
 /* SHOP CARDS */
 .portal-page .card-shop { min-width: 140px; flex-grow: 1; }
+/* Loja Oficial em destaque: dobro da largura dos outros 2 cards (Amazon, ML),
+   mas a MESMA altura — aspect ratio cai pra metade (36%) pra não esticar
+   os covers do Amazon/ML que foram feitos sob medida pro aspecto 72%. */
+.portal-page .card-shop-large { flex-grow: 2; }
+.portal-page .card-shop-large .card-inner::before { padding-top: 36%; }
 .portal-page .card-shop .card-body {
   background: none; justify-content: center; align-items: center; text-align: center; padding: 16px; gap: 4px;
 }
@@ -2123,7 +2128,8 @@
   /* Cards que precisam ocupar a linha inteira (layout horizontal complexo) */
   .portal-page .card-video,
   .portal-page .card-biofabrica,
-  .portal-page .card-biofabrica-img {
+  .portal-page .card-biofabrica-img,
+  .portal-page .card-shop-large {
     grid-column: 1 / -1;
   }
   .portal-page .ratio-16-9 .card-inner::before { padding-top: 75% !important; }
