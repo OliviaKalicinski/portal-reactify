@@ -2663,25 +2663,34 @@
     text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
   }
 
-  /* Perfil selector — lado a lado no mobile */
+  /* Perfil selector — 3 cols + buy full-width abaixo */
   .portal-page .perfil-selector { padding: 0 16px; }
   .portal-page .perfil-selector-grid {
-    flex-direction: row;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
     gap: 6px;
+  }
+  .portal-page .perfil-buy-link {
+    grid-column: 1 / -1;
+    margin-left: 0;
+    width: auto;
   }
   .portal-page .perfil-card {
     padding: 10px 8px;
     min-width: 0;
     flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    text-align: center;
+    align-items: flex-start;
+    gap: 2px;
+    overflow: hidden;
   }
   .portal-page .perfil-card .perfil-name {
-    font-size: 13px;
+    font-size: 14px;
     text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
-    line-height: 1.1;
+    line-height: 1.05;
+    word-break: break-word;
+    hyphens: auto;
+    white-space: normal;
   }
   .portal-page .perfil-card .perfil-num {
     font-size: 10px;
@@ -2689,6 +2698,7 @@
     opacity: 0.4;
   }
   .portal-page .perfil-card .perfil-cta { display: none; }
+  .portal-page .perfil-card .perfil-indicator { display: none; }
 
   /* Cards gerais — label menor, misreg reduzido */
   .portal-page .card .card-label {

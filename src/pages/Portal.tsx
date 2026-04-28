@@ -35,7 +35,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   biofabrica_hover: "/assets/images/hover-biofabrica.gif",
   manual:     "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmk2dzZwdTZlemFiZGVkanMzdnZhMXp4bjBsb2VrcHl5NmI4NXc4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z9tvqoD1SEQcomTVaK/giphy.gif",
   youtube:    "/assets/images/portal-comida-dragao.png",
-  companion:  "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGF4YzU2Y21wcnZwOWp5azlhbG44ejJ0bm5tb2Uyc3QwdXo5YW4xaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tyEj6eMv4YAgg/giphy.gif",
+  companion:  "https://media.giphy.com/media/HIWNaM05qJAENE1TJM/giphy.gif",
   instagram:  "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2N1NDBpdDdvaWkyaDh5YnNhMXFnNWd6anNjMGJvYmJ6eXptN2FhOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Fu3OjBQiCs3s0ZuLY3/giphy.gif",
   whatsapp:   "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2RzczUzNDA0eHg1ZXg4czhoemg4aXIybXprMGd6eGJrYzdzMm9zMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y0mkt9yBEsrPW/giphy.gif",
   lojas:      "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExN25zeXliZ2Y5OW1xYzh3bWJnaGFwcnNvanR3MTV1a2x0ODlwdTB0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/132lRaVcrX5lJu/giphy.gif",
@@ -110,7 +110,7 @@ const Portal = () => {
 
   // Piadinhas por perfil — 1 frase por perfil
   const PROFILE_JOKES: Record<number, string> = {
-    1: "Você googla, lê o PDF e questiona tudo. A gente tem muita carne nova pro seu cérebro.",
+    1: "Curioso tem prognóstico: vira dragão em menos de 30 dias. A gente nunca viu um que resistisse.",
     2: "Da primeira vez a gente também arrepiou. Spoiler: nojento mesmo é o desperdício.",
     3: "40% proteína. 88,9% digestibilidade. 83% menos CO₂. Pode auditar — a ficha técnica tá toda aqui.",
   };
