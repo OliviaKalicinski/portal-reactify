@@ -525,38 +525,70 @@ const Portal = () => {
         .riso-email .riso-strip::after { background: #FF2D78; }
         .riso-email .riso-btn { background: #FF2D78; color: #FAFAFA; }
 
-        /* COMBO 4 — DRAGÃO FALA VIDEO — tela cheia, só vídeo */
+        /* COMBO 4 — DRAGÃO FALA VIDEO — frame verde reel, só vídeo */
         .riso-video-only {
-          background: #000 !important;
-          padding: 0 !important;
-          box-shadow: none !important;
-          border: none !important;
+          background: #7BFF00 !important;
+          padding: 20px !important;
+          box-shadow: 0 0 0 2.5px #0A0A0A, 12px 14px 0 0 #0A0A0A !important;
           display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          width: 100% !important;
-          max-width: 100vw !important;
-          max-height: 100dvh !important;
-          min-height: 100dvh !important;
+          flex-direction: column !important;
+          align-items: stretch !important;
+          width: min(400px, 92vw) !important;
+          max-height: 92vh !important;
           overflow: hidden !important;
+          position: relative !important;
         }
+        .riso-video-only::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.28 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+          mix-blend-mode: multiply;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .riso-video-only > * { position: relative; z-index: 2; }
         .riso-close-video {
-          position: fixed !important;
+          position: absolute !important;
           top: 14px !important;
           right: 14px !important;
           z-index: 10 !important;
-          background: rgba(10,10,10,0.8) !important;
-          border-color: rgba(255,255,255,0.25) !important;
-          color: #fff !important;
+          background: #FAFAFA !important;
+          border: 2.5px solid #0A0A0A !important;
+          color: #0A0A0A !important;
+          width: 34px !important;
+          height: 34px !important;
+          font-size: 14px !important;
+          font-weight: 700 !important;
+          cursor: pointer !important;
+          padding: 0 !important;
+          transition: transform 0.15s !important;
         }
+        .riso-close-video:hover { transform: rotate(90deg) !important; }
         .riso-video-frame-full {
           margin: 0 !important;
-          border: none !important;
-          box-shadow: none !important;
-          max-height: 100dvh !important;
-          max-width: calc(100dvh * 9 / 16) !important;
+          border: 3px solid #0A0A0A !important;
+          box-shadow: 5px 5px 0 rgba(0,0,0,0.35) !important;
+          aspect-ratio: 9/16 !important;
           width: 100% !important;
-          height: 100dvh !important;
+          max-height: calc(92vh - 40px) !important;
+          background: #000 !important;
+          overflow: hidden !important;
+          position: relative !important;
+        }
+        .riso-video-frame-full video {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
+          display: block !important;
+        }
+        .riso-video-frame-full::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(255,255,255,0.04) 2px 3px);
+          pointer-events: none;
+          z-index: 3;
         }
 
         /* COMBO 10 — PERGUNTAS (violet + lime · texto branco) */
@@ -716,12 +748,9 @@ const Portal = () => {
           .riso-title { font-size: clamp(40px, 10vw, 62px); }
           .riso-pagenum { font-size: 180px; bottom: -20px; right: -10px; }
 
-          /* VIDEO MODAL: tela cheia em todos os dispositivos */
-          .riso-overlay-video {
-            padding: 0;
-            align-items: center;
-            justify-content: center;
-            background: #000;
+          /* VIDEO MODAL mobile: ajuste de sombra */
+          .riso-overlay-video .riso-video-only {
+            box-shadow: 0 0 0 2px #0A0A0A, 8px 10px 0 #0A0A0A !important;
           }
         }
 
