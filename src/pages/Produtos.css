@@ -768,9 +768,13 @@
 }
 @keyframes bp-scan { from { top: 0; } to { top: 100%; } }
 
-.bp-modal > *:not(.bp-grid-bg):not(.bp-scan-line) {
+.bp-modal > *:not(.bp-grid-bg):not(.bp-scan-line):not(.produto-modal-close) {
   position: relative;
   z-index: 1;
+}
+.bp-modal > .produto-modal-close {
+  position: absolute;
+  z-index: 10;
 }
 
 /* HEADER */
