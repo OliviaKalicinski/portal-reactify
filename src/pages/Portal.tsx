@@ -46,7 +46,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   seller:     "/assets/images/poster-punk-gato.png",
   amazon:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWNlZWR4d3NwdDZ2YndqcTM2aGtpM2NpMDh4NmthMTBwaWRub2ZnbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zkcXND5kY4POU/giphy.gif",
   ml:         "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGg5cjNnNXdqeWRwajRlNTJjdjlubnZndG0wdHFsd2I1bWE2Z3NoeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ovinMYvSg1TSo/giphy.gif",
-  petlove:    "/assets/images/instinto-nao-erra.jpg",
+  petlove:    "/assets/images/petlove-hover.gif",
   oficial:    "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXFxcXNrNnd3OWlybzJ5aTZkdHR0NWl3eGVpd3Mxd2JlaXl2amM0diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZCqpHjpPQ7ZvHQytL7/giphy.gif",
 };
 
