@@ -78,6 +78,7 @@ const PRODUTOS: Produto[] = [
     pets: ["caes", "gatos", "repteis"],
     corTag: "var(--dragon-orange)",
     corCard: "#FF6600",
+    corTexto: "#ffffff",
     fotos: [
       "/assets/images/produtos/original-frente.png",
       "/assets/images/produtos/original-02.jpg",
@@ -276,6 +277,7 @@ const PRODUTOS: Produto[] = [
     pets: ["caes"],
     corTag: "var(--dragon-pink)",
     corCard: "#FF0066",
+    corTexto: "#ffffff",
     fotos: [
       "/assets/images/produtos/suplemento-concentrado-frente.png",
       "/assets/images/produtos/concentrado-02.jpg",
