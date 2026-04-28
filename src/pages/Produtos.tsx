@@ -53,7 +53,8 @@ interface Produto {
   tag: string;
   pets: PetType[];
   corTag: string;
-  corCard: string;             // cor de fundo do card (hex) — contraste com texto preto
+  corCard: string;             // cor de fundo do card (hex)
+  corTexto?: string;           // cor do texto — padrão #0A0A0A, use #ffffff para fundos escuros
   fotos: string[];
   destaques: string[];         // 3 bullets curtos no card
   proteina: string;
@@ -326,7 +327,8 @@ const PRODUTOS: Produto[] = [
     tag: "SÓ GATOS",
     pets: ["gatos"],
     corTag: "var(--dragon-violet)",
-    corCard: "#FCBA97",
+    corCard: "#925AED",
+    corTexto: "#ffffff",
     fotos: [
       "/assets/images/produtos/suplemento-felino-frente.png",
       "/assets/images/produtos/felino-02.jpg",
@@ -522,7 +524,7 @@ const Produtos = () => {
             key={p.id}
             className="produto-card"
             onClick={() => openProduto(p.id)}
-            style={{ background: p.corCard }}
+            style={{ background: p.corCard, color: p.corTexto ?? "#0A0A0A" }}
           >
             <div className="produto-card-top">
               <span className="produto-card-index">
