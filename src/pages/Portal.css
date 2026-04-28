@@ -2178,7 +2178,37 @@
   .portal-page .bio-right { display: none; }
   .portal-page .card-biofabrica .card-inner::before { padding-top: 60% !important; }
   .portal-page .card-quiz { min-height: 420px; }
-  .portal-page .card-audio { min-height: 200px; }
+  /* Audio: banner horizontal fixo — não muda proporção de imagens com capa */
+  .portal-page .card-audio {
+    height: 180px !important;
+    min-height: 180px !important;
+    overflow: hidden;
+  }
+  /* Audience cards: 2 colunas compactas */
+  .portal-page .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .portal-page .audience-card-inner {
+    min-height: 130px !important;
+    padding: 14px 12px 12px !important;
+  }
+  .portal-page .aud-desc,
+  .portal-page .aud-cta { display: none !important; }
+  .portal-page .aud-title {
+    font-size: clamp(18px, 5.5vw, 28px) !important;
+    line-height: 0.9 !important;
+    margin-bottom: 0 !important;
+  }
+  .portal-page .aud-bg-num { font-size: 100px !important; }
+}
+
+/* GIF tap-reveal no mobile: 1 toque = gif, 2 toque = navega */
+@media (hover: none) {
+  .portal-page .card.tap-revealed .card-img-hover,
+  .portal-page .audience-card.tap-revealed .card-img-hover { opacity: 1; }
+  .portal-page .audience-card.tap-revealed .audience-card-inner { opacity: 0; }
 }
 
 /* ========================

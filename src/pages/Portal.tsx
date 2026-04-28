@@ -240,6 +240,39 @@ const Portal = () => {
     return () => { document.removeEventListener("mousemove", onMove); document.removeEventListener("mouseup", onUp); };
   }, [dragState.dragging]);
 
+  // Tap-reveal: mobile 1 toque = GIF, 2 toque = navega/abre
+  useEffect(() => {
+    const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    if (!isTouch) return;
+    let lastCard: Element | null = null;
+    const onCapture = (e: MouseEvent) => {
+      const card = (e.target as Element).closest<Element>('.card, .audience-card');
+      if (!card) {
+        if (lastCard) { lastCard.classList.remove('tap-revealed'); lastCard = null; }
+        return;
+      }
+      if (!card.querySelector('.card-img-hover')) return;
+      // Fecha card anterior se diferente
+      if (lastCard && lastCard !== card) {
+        lastCard.classList.remove('tap-revealed');
+        lastCard = null;
+      }
+      if (!card.classList.contains('tap-revealed')) {
+        // Primeiro toque: mostra GIF, bloqueia navegação
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        card.classList.add('tap-revealed');
+        lastCard = card;
+      } else {
+        // Segundo toque: remove classe e deixa o evento prosseguir
+        card.classList.remove('tap-revealed');
+        lastCard = null;
+      }
+    };
+    document.addEventListener('click', onCapture, true);
+    return () => document.removeEventListener('click', onCapture, true);
+  }, []);
+
   const handleTitlebarMouseDown = (e: React.MouseEvent) => {
     const win = modalWindowRef.current;
     if (!win) return;
