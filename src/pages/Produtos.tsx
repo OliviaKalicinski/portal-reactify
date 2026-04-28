@@ -80,9 +80,6 @@ const PRODUTOS: Produto[] = [
     corCard: "#FF6600",
     fotos: [
       "/assets/images/produtos/original-frente.png",
-      "/assets/images/produtos/original-cima.png",
-      "/assets/images/produtos/original-verso.png",
-      "/assets/images/produtos/original-kit.png",
     ],
     destaques: ["40% proteína", "3.507 kcal/kg", "Hipoalergênico"],
     proteina: "40% (mín. 400 g/kg)",
@@ -119,8 +116,6 @@ const PRODUTOS: Produto[] = [
     corCard: "#B9FF33",
     fotos: [
       "/assets/images/produtos/legumes-frente.png",
-      "/assets/images/produtos/legumes-cima.png",
-      "/assets/images/produtos/legumes-verso.png",
     ],
     destaques: ["16,7% proteína", "Rico em betacaroteno", "Cúrcuma anti-inflamatória"],
     proteina: "16,7% (mín. 167 g/kg)",
@@ -166,8 +161,6 @@ const PRODUTOS: Produto[] = [
     corCard: "#33FF99",
     fotos: [
       "/assets/images/produtos/spirulina-frente.png",
-      "/assets/images/produtos/spirulina-cima.png",
-      "/assets/images/produtos/spirulina-verso.png",
     ],
     destaques: ["16,5% proteína", "Rica em ficocianina", "Triglicerídeos de cadeia média"],
     proteina: "16,5% (mín. 165 g/kg)",
@@ -214,8 +207,6 @@ const PRODUTOS: Produto[] = [
     corCard: "#FFCC00",
     fotos: [
       "/assets/images/produtos/suplemento-integral-frente.png",
-      "/assets/images/produtos/suplemento-integral-cima.png",
-      "/assets/images/produtos/suplemento-integral-verso.png",
     ],
     destaques: ["45% proteína", "4.350 kcal/kg", "Hipoalergênico"],
     proteina: "45% (mín. 415 g/kg)",
@@ -259,8 +250,6 @@ const PRODUTOS: Produto[] = [
     corCard: "#FF0066",
     fotos: [
       "/assets/images/produtos/suplemento-concentrado-frente.png",
-      "/assets/images/produtos/suplemento-concentrado-cima.png",
-      "/assets/images/produtos/suplemento-concentrado-verso.png",
     ],
     destaques: ["55% proteína", "Baixa gordura (9,45%)", "Máxima concentração"],
     proteina: "55% (505 g/kg) — MÁXIMA DA LINHA",
@@ -306,8 +295,6 @@ const PRODUTOS: Produto[] = [
     corCard: "#FCBA97",
     fotos: [
       "/assets/images/produtos/suplemento-felino-frente.png",
-      "/assets/images/produtos/suplemento-felino-cima.png",
-      "/assets/images/produtos/suplemento-felino-verso.png",
     ],
     destaques: ["40% proteína", "Taurina 1.520 mg/kg", "Formulação felina"],
     proteina: "40% (mín. 400 g/kg)",
@@ -348,7 +335,6 @@ const PRODUTOS: Produto[] = [
     corCard: "#3FFF33",
     fotos: [
       "/assets/images/produtos/grub-frente.png",
-      "/assets/images/produtos/grub-verso.png",
     ],
     destaques: ["47% proteína", "Ca:P 2,5:1", "3 fontes de inseto"],
     proteina: "47% (mín. 470 g/kg)",
