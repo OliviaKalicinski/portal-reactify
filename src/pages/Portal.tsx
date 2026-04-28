@@ -525,17 +525,39 @@ const Portal = () => {
         .riso-email .riso-strip::after { background: #FF2D78; }
         .riso-email .riso-btn { background: #FF2D78; color: #FAFAFA; }
 
-        /* COMBO 4 — DRAGÃO FALA VIDEO (pink + lime) */
-        .riso-video { background: #FF2D78; padding: 24px 26px 22px; }
-        .riso-video .riso-title {
-          text-shadow: 3px 3px 0 #7BFF00, 6px 6px 0 rgba(0,0,0,0.2);
-          font-size: clamp(38px, 5vw, 56px);
-          margin: 10px 0 14px;
+        /* COMBO 4 — DRAGÃO FALA VIDEO — tela cheia, só vídeo */
+        .riso-video-only {
+          background: #000 !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+          border: none !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          width: 100% !important;
+          max-width: 100vw !important;
+          max-height: 100dvh !important;
+          min-height: 100dvh !important;
+          overflow: hidden !important;
         }
-        .riso-video .riso-strip::after { background: #7BFF00; }
-        .riso-video .riso-btn { background: #7BFF00; color: #0A0A0A; }
-        .riso-video .riso-body p { font-size: 13.5px; line-height: 1.5; }
-        .riso-video .riso-signature { margin-top: 8px; }
+        .riso-close-video {
+          position: fixed !important;
+          top: 14px !important;
+          right: 14px !important;
+          z-index: 10 !important;
+          background: rgba(10,10,10,0.8) !important;
+          border-color: rgba(255,255,255,0.25) !important;
+          color: #fff !important;
+        }
+        .riso-video-frame-full {
+          margin: 0 !important;
+          border: none !important;
+          box-shadow: none !important;
+          max-height: 100dvh !important;
+          max-width: calc(100dvh * 9 / 16) !important;
+          width: 100% !important;
+          height: 100dvh !important;
+        }
 
         /* COMBO 10 — PERGUNTAS (violet + lime · texto branco) */
         .riso-perguntas { background: #925AED; color: #FAFAFA; }
@@ -694,22 +716,12 @@ const Portal = () => {
           .riso-title { font-size: clamp(40px, 10vw, 62px); }
           .riso-pagenum { font-size: 180px; bottom: -20px; right: -10px; }
 
-          /* VIDEO MODAL: tela cheia no mobile */
+          /* VIDEO MODAL: tela cheia em todos os dispositivos */
           .riso-overlay-video {
             padding: 0;
-            align-items: flex-start;
-          }
-          .riso-overlay-video .riso-video {
-            max-width: 100%;
-            width: 100%;
-            min-height: 100dvh;
-            max-height: 100dvh;
-            overflow-y: auto;
-            box-shadow: none;
-          }
-          .riso-overlay-video .riso-video-frame {
-            max-height: 62vh;
-            max-width: calc(62vh * 9 / 16);
+            align-items: center;
+            justify-content: center;
+            background: #000;
           }
         }
 
@@ -1214,13 +1226,9 @@ const Portal = () => {
           className="riso-overlay riso-overlay-video"
           onClick={e => { if (e.target === e.currentTarget) closeModal(); }}
         >
-          <article className="riso riso-video large" role="dialog">
-            <div className="riso-strip" />
-            <button className="riso-close" onClick={closeModal} aria-label="Fechar">×</button>
-            <div className="riso-pagenum">03</div>
-            <span className="riso-eyebrow">RECADO · DO DRAGÃO PRA VOCÊ</span>
-            <h2 className="riso-title">Bem-<br/>vindo.</h2>
-            <div className="riso-video-frame">
+          <article className="riso riso-video riso-video-only" role="dialog">
+            <button className="riso-close riso-close-video" onClick={closeModal} aria-label="Fechar">×</button>
+            <div className="riso-video-frame riso-video-frame-full">
               <span className="riso-video-tag">DRAGÃO FALA</span>
               <video
                 controls
@@ -1229,11 +1237,6 @@ const Portal = () => {
                 src="/assets/videos/SharkTank Insta .mp4"
               />
             </div>
-            <div className="riso-body">
-              <p className="meta">MENSAGEM · DIRETO DA BIOFÁBRICA</p>
-              <p>Dois bilhões de pessoas no mundo já comem inseto. Pet food é só o começo da revolução. O Dragão te conta tudo — aperta o play.</p>
-            </div>
-            <div className="riso-signature">— O DRAGÃO · CACHOEIRAS DE MACACU</div>
           </article>
         </div>
       )}
