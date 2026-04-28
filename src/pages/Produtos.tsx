@@ -616,6 +616,12 @@ const Produtos = () => {
                   <div className="bp-hero-sub">
                     {activeProduto.variante && `${activeProduto.variante} · `}{activeProduto.tamanho}
                   </div>
+                  {activeProduto.ficha && (
+                    <a href={activeProduto.ficha} target="_blank" rel="noopener noreferrer" className="bp-ficha-btn bp-ficha-btn-header">
+                      <span className="bp-arrow">↗</span>
+                      Ver ficha técnica em PDF
+                    </a>
+                  )}
                 </div>
                 <div className="bp-header-right">
                   <div className="bp-eyebrow">Espécie alvo</div>
@@ -772,14 +778,6 @@ const Produtos = () => {
               {/* ALERTA */}
               {activeProduto.alerta && (
                 <div className="bp-alerta">// ATENÇÃO · {activeProduto.alerta}</div>
-              )}
-
-              {/* PDF */}
-              {activeProduto.ficha && (
-                <a href={activeProduto.ficha} target="_blank" rel="noopener noreferrer" className="bp-ficha-btn">
-                  <span className="bp-arrow">↗</span>
-                  Ver ficha técnica completa em PDF
-                </a>
               )}
 
               {/* ONDE COMPRAR */}
