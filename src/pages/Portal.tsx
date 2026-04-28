@@ -101,6 +101,7 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
 const Portal = () => {
   const [skin, setSkin] = useState(1);
   const [heroName, setHeroName] = useState("");
+  const [nameConfirmed, setNameConfirmed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [manifestoOpen, setManifestoOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
@@ -681,7 +682,7 @@ const Portal = () => {
           </p>
 
           <div className="hero-name-block">
-            {nameUpper.length >= 2 ? (
+            {nameConfirmed && nameUpper.length >= 2 ? (
               <>
                 <p className="hero-tagline-sub hero-tagline-sub-reveal">
                   <span className="hero-tagline-name">{nameUpper}</span>
@@ -690,7 +691,7 @@ const Portal = () => {
                 <button
                   type="button"
                   className="hero-name-edit"
-                  onClick={() => { setHeroName(""); setTimeout(() => document.getElementById("hero-name-input")?.focus(), 50); }}
+                  onClick={() => { setHeroName(""); setNameConfirmed(false); setTimeout(() => document.getElementById("hero-name-input")?.focus(), 50); }}
                 >
                   trocar nome
                 </button>
@@ -707,11 +708,20 @@ const Portal = () => {
                   autoComplete="off"
                   spellCheck={false}
                   value={heroName}
-                  onChange={e => setHeroName(e.target.value)}
+                  onChange={e => { setHeroName(e.target.value); setNameConfirmed(false); }}
+                  onKeyDown={e => { if (e.key === "Enter" && nameUpper.length >= 2) setNameConfirmed(true); }}
                 />
-                <p className="hero-tagline-sub hero-tagline-sub-empty">
-                  segue o fio...
-                </p>
+                {nameUpper.length >= 2 ? (
+                  <p className="hero-tagline-sub hero-tagline-sub-preview">
+                    <span className="hero-tagline-name">{nameUpper}</span>
+                    <span className="hero-tagline-rest"> já faz parte da revolução.</span>
+                    <span className="hero-tagline-fio">↵ enter pra confirmar</span>
+                  </p>
+                ) : (
+                  <p className="hero-tagline-sub hero-tagline-sub-empty">
+                    segue o fio...
+                  </p>
+                )}
               </>
             )}
           </div>

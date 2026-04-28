@@ -1598,9 +1598,7 @@
 
 /* SHOP CARDS */
 .portal-page .card-shop { min-width: 140px; flex-grow: 1; }
-/* Loja Oficial em destaque: dobro da largura dos outros 2 cards (Amazon, ML),
-   mas a MESMA altura — aspect ratio cai pra metade (36%) pra não esticar
-   os covers do Amazon/ML que foram feitos sob medida pro aspecto 72%. */
+/* Loja Oficial em destaque: dobro da largura, mesma altura */
 .portal-page .card-shop-large { flex-grow: 2; }
 .portal-page .card-shop-large .card-inner::before { padding-top: 36%; }
 .portal-page .card-shop .card-body {
@@ -1632,11 +1630,27 @@
 .portal-page .card-shop-petlove .shop-name,
 .portal-page .card-shop-petlove .shop-arrow { color: var(--dragon-white); }
 .portal-page .card-shop-petlove .shop-tag { color: rgba(255,255,255,0.7); }
-.portal-page .card-shop-oficial { background: var(--dragon-green); }
-.portal-page .card-shop-oficial:hover { border-color: var(--dragon-white) !important; }
-.portal-page .card-shop-oficial .shop-name,
-.portal-page .card-shop-oficial .shop-tag,
-.portal-page .card-shop-oficial .shop-arrow { color: var(--dragon-black); }
+.portal-page .card-shop-oficial {
+  background: var(--dragon-black) !important;
+  background-image: none !important;
+  border: 2px solid #39FF14 !important;
+}
+.portal-page .card-shop-oficial:hover { border-color: #39FF14 !important; }
+.portal-page .card-shop-oficial .shop-name {
+  color: #39FF14;
+  text-shadow: 0 0 8px rgba(57,255,20,0.6), 0 0 16px rgba(57,255,20,0.35);
+}
+.portal-page .card-shop-oficial .shop-tag {
+  color: #39FF14;
+  font-size: 1rem !important;
+  letter-spacing: 0.08em;
+}
+.portal-page .card-shop-oficial .shop-arrow {
+  color: #39FF14;
+  font-size: 2.25rem !important;
+  font-weight: 900;
+  -webkit-text-stroke: 1.5px #39FF14;
+}
 
 .portal-page .card-shop-cover {
   position: absolute;
@@ -2074,6 +2088,9 @@
 .portal-page .audience-card.aud-seller .aud-desc { color: rgba(255,255,255,0.6); }
 .portal-page .audience-card.aud-seller .aud-tag { background: var(--dragon-lime); color: var(--dragon-black); }
 .portal-page .audience-card.aud-seller .aud-bg-num { color: rgba(255,255,255,0.05); }
+.portal-page .audience-card.aud-seller .aud-title {
+  text-shadow: 3px 3px 0 var(--dragon-black) !important;
+}
 
 .portal-page .aud-bg-num {
   position: absolute; top: -10px; right: 16px;
@@ -2713,6 +2730,40 @@
   margin-top: 28px;
   animation: heroNameReveal 0.45s ease-out both;
 }
+/* Preview enquanto digita — nome menor, hint de Enter */
+.portal-page .hero-tagline-sub-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+  opacity: 0.82;
+  animation: heroNameReveal 0.25s ease-out both;
+}
+.portal-page .hero-tagline-sub-preview .hero-tagline-name {
+  font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+  font-weight: 900;
+  font-size: clamp(22px, 3vw, 40px);
+  color: var(--skin-accent);
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.portal-page .hero-tagline-sub-preview .hero-tagline-rest {
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.7);
+}
+.portal-page .hero-tagline-sub-preview .hero-tagline-fio {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(250,250,250,0.3);
+  letter-spacing: 0.15em;
+  margin-top: 4px;
+}
+
 .portal-page .hero-tagline-sub-reveal {
   display: flex;
   flex-direction: column;
@@ -2941,8 +2992,8 @@
   color: var(--dragon-black);
 }
 .portal-page .btn-dragon-hero:hover .btn-dragon-hero-title {
-  color: var(--dragon-black);
-  text-shadow: 4px 4px 0 rgba(0,0,0,0.12);
+  color: var(--dragon-white);
+  text-shadow: 4px 4px 0 rgba(0,0,0,0.35);
 }
 .portal-page .btn-dragon-hero:hover .btn-dragon-hero-eyebrow,
 .portal-page .btn-dragon-hero:hover .btn-dragon-hero-sub {
