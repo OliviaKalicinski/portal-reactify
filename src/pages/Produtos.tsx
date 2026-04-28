@@ -433,6 +433,7 @@ const Produtos = () => {
   const [filtro, setFiltro] = useState<"todos" | PetType>("todos");
   const [activeId, setActiveId] = useState<string | null>(null);
   const [fotoIdx, setFotoIdx] = useState(0);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   const filtrados = useMemo(() => {
     if (filtro === "todos") return PRODUTOS;
@@ -447,6 +448,7 @@ const Produtos = () => {
   const openProduto = useCallback((id: string) => {
     setActiveId(id);
     setFotoIdx(0);
+    setImgLoaded(false);
   }, []);
   const closeProduto = useCallback(() => setActiveId(null), []);
 
@@ -648,11 +650,18 @@ const Produtos = () => {
                 {/* CENTRO: foto flutuando */}
                 <div className="bp-product-col">
                   <div className="bp-float-wrap">
-                    <div className="bp-product-frame">
+                    <div className={`bp-product-frame${imgLoaded ? " bp-img-ready" : ""}`}>
                       <span className="bp-corner bp-tl" /><span className="bp-corner bp-tr" />
                       <span className="bp-corner bp-bl" /><span className="bp-corner bp-br" />
                       {activeProduto.fotos[fotoIdx] ? (
-                        <img src={activeProduto.fotos[fotoIdx]} alt={activeProduto.nome} className="bp-product-img" />
+                        <img
+                          key={`${activeProduto.id}-${fotoIdx}`}
+                          src={activeProduto.fotos[fotoIdx]}
+                          alt={activeProduto.nome}
+                          className={`bp-product-img${imgLoaded ? " bp-img-visible" : ""}`}
+                          loading="eager"
+                          onLoad={() => setImgLoaded(true)}
+                        />
                       ) : (
                         <span className="bp-product-placeholder">[ ]</span>
                       )}
@@ -696,7 +705,7 @@ const Produtos = () => {
                       type="button"
                       key={i}
                       className={`bp-thumb${i === fotoIdx ? " active" : ""}`}
-                      onClick={() => setFotoIdx(i)}
+                      onClick={() => { setFotoIdx(i); setImgLoaded(false); }}
                     >
                       <img src={f} alt="" />
                     </button>
@@ -704,45 +713,43 @@ const Produtos = () => {
                 </div>
               )}
 
-              {/* QUANDO USAR */}
-              <div className="bp-desc-section">
-                <div className="bp-section-label">Quando usar</div>
-                <ul className="bp-quando-list">
-                  {activeProduto.quandoUsar.map((q, i) => <li key={i}>{q}</li>)}
-                </ul>
-              </div>
-
-              {/* DOSAGEM */}
-              {activeProduto.dosagem && (
+              {/* INFO 3 COLUNAS */}
+              <div className="bp-info-grid">
                 <div className="bp-desc-section">
-                  <div className="bp-section-label">Dosagem por porte</div>
-                  <table className="bp-dosagem-table">
-                    <tbody>
-                      {activeProduto.dosagem.map((d, i) => (
-                        <tr key={i}>
-                          <td className="bp-dosagem-porte">{d.porte}</td>
-                          <td className="bp-dosagem-qtd">{d.qtd}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  <div className="bp-section-label">Quando usar</div>
+                  <ul className="bp-quando-list">
+                    {activeProduto.quandoUsar.map((q, i) => <li key={i}>{q}</li>)}
+                  </ul>
                 </div>
-              )}
 
-              {/* COMPOSIÇÃO */}
-              <div className="bp-desc-section">
-                <div className="bp-section-label">Composição</div>
-                <ul className="bp-quando-list">
-                  {activeProduto.composicao.map((c, i) => <li key={i}>{c}</li>)}
-                </ul>
-              </div>
+                <div className="bp-desc-section">
+                  <div className="bp-section-label">Composição</div>
+                  <ul className="bp-quando-list">
+                    {activeProduto.composicao.map((c, i) => <li key={i}>{c}</li>)}
+                  </ul>
+                </div>
 
-              {/* DIFERENCIAIS */}
-              <div className="bp-desc-section">
-                <div className="bp-section-label">Diferenciais</div>
-                <ul className="bp-quando-list bp-diferenciais-list">
-                  {activeProduto.diferenciais.map((d, i) => <li key={i}>{d}</li>)}
-                </ul>
+                <div className="bp-desc-section">
+                  <div className="bp-section-label">Diferenciais</div>
+                  <ul className="bp-quando-list bp-diferenciais-list">
+                    {activeProduto.diferenciais.map((d, i) => <li key={i}>{d}</li>)}
+                  </ul>
+                  {activeProduto.dosagem && (
+                    <>
+                      <div className="bp-section-label" style={{ marginTop: "14px" }}>Dosagem por porte</div>
+                      <table className="bp-dosagem-table">
+                        <tbody>
+                          {activeProduto.dosagem.map((d, i) => (
+                            <tr key={i}>
+                              <td className="bp-dosagem-porte">{d.porte}</td>
+                              <td className="bp-dosagem-qtd">{d.qtd}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </>
+                  )}
+                </div>
               </div>
 
               {/* FICHA TÉCNICA */}
