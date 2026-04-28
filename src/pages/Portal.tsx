@@ -526,29 +526,17 @@ const Portal = () => {
         .riso-email .riso-strip::after { background: #FF2D78; }
         .riso-email .riso-btn { background: #FF2D78; color: #FAFAFA; }
 
-        /* COMBO 4 — DRAGÃO FALA VIDEO — frame verde reel, só vídeo */
+        /* COMBO 4 — DRAGÃO FALA VIDEO — estrutura idêntica ao modal de Reels */
         .riso-video-only {
           background: #7BFF00 !important;
           padding: 14px !important;
-          box-shadow: 0 0 0 2.5px #0A0A0A, 12px 14px 0 0 #0A0A0A !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: stretch !important;
           width: min(calc(78vh * 9 / 16), 92vw) !important;
           max-height: 92vh !important;
+          box-shadow: 0 0 0 2.5px #0A0A0A, 12px 14px 0 0 #0A0A0A !important;
           overflow: hidden !important;
           position: relative !important;
+          border: none !important;
         }
-        .riso-video-only::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.28 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-          mix-blend-mode: multiply;
-          pointer-events: none;
-          z-index: 1;
-        }
-        .riso-video-only > * { position: relative; z-index: 2; }
         .riso-close-video {
           position: absolute !important;
           top: 14px !important;
@@ -564,18 +552,19 @@ const Portal = () => {
           cursor: pointer !important;
           padding: 0 !important;
           transition: transform 0.15s !important;
+          font-family: 'Space Mono', monospace !important;
+          line-height: 1 !important;
         }
         .riso-close-video:hover { transform: rotate(90deg) !important; }
         .riso-video-frame-full {
-          margin: 0 !important;
-          border: 3px solid #0A0A0A !important;
-          box-shadow: 5px 5px 0 rgba(0,0,0,0.35) !important;
-          aspect-ratio: 9/16 !important;
+          aspect-ratio: 9 / 16 !important;
           width: 100% !important;
-          max-height: calc(92vh - 40px) !important;
+          max-height: calc(92vh - 28px) !important;
+          border: 3px solid #0A0A0A !important;
           background: #000 !important;
           overflow: hidden !important;
           position: relative !important;
+          display: block !important;
         }
         .riso-video-frame-full video {
           width: 100% !important;
