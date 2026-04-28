@@ -1027,7 +1027,7 @@ const Portal = () => {
       <div className="stats-strip">
         {[
           { num: <>83<span className="stat-unit">%</span></>,     label: <>menos <em>carbono</em></>,      hint: "~500g CO₂/kg (BSF) vs ~2.850g/kg (boi)." },
-          { num: <>3140<span className="stat-unit">×</span></>,   label: <>mais <em>eficiente</em></>,     hint: "Agregado: menos água + menos terra + mais proteína por kg vs. gado." },
+          { num: <>3140<span className="stat-unit">×</span></>,   label: <>mais <em>eficiente</em></>,     hint: "3140× menos terra do que carne bovina para produzir a mesma quantidade de proteína." },
           { num: <>88,9<span className="stat-unit">%</span></>,   label: <>de <em>digestibilidade</em></>, hint: "Proteína de BSF é quase totalmente absorvida — superior à maioria das fontes convencionais em cães." },
           { num: <>45<span className="stat-unit">%</span></>,     label: <>de <em>proteína</em></>,        hint: "Alta densidade proteica — quase o dobro da maioria das rações convencionais." },
         ].map((s, i) => (

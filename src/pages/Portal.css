@@ -1781,7 +1781,7 @@
 .portal-page .modal-cta { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
 
 /* SKIN THEMING */
-.portal-page.skin-2 .marquee-bar { background: var(--dragon-green); }
+/* marquee-bar usa var(--skin-marquee-top/bottom) definidos por skin — não sobrescreve aqui */
 .portal-page.skin-2 .hero-bg { background: radial-gradient(ellipse 70% 60% at 50% 110%, rgba(0,255,135,0.12) 0%, transparent 70%), var(--dragon-black); }
 .portal-page.skin-2 .hero-title .accent,
 .portal-page.skin-2 .hero-eyebrow { color: var(--dragon-green); }
@@ -1797,7 +1797,7 @@
 .portal-page.skin-2 .modal-window { border-color: var(--dragon-green); box-shadow: 8px 8px 0 var(--dragon-green); }
 .portal-page.skin-2 .hero-name-input { caret-color: var(--dragon-green); }
 
-.portal-page.skin-3 .marquee-bar { background: var(--dragon-pink); }
+/* marquee-bar skin-3 usa var(--skin-marquee-top/bottom) — não sobrescreve aqui */
 .portal-page.skin-3 .hero-bg { background: radial-gradient(ellipse 70% 60% at 50% 110%, rgba(255,45,120,0.14) 0%, transparent 70%), var(--dragon-black); }
 .portal-page.skin-3 .hero-title .accent,
 .portal-page.skin-3 .hero-eyebrow { color: var(--dragon-pink); }
@@ -1816,21 +1816,21 @@
 
 /* FOOTER */
 .portal-page .portal-footer {
-  border-top: 2px solid var(--dragon-gray-mid); padding: 28px 24px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 14px;
+  border-top: 2px solid var(--dragon-gray-mid); padding: 32px 24px 28px;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; text-align: center;
 }
 .portal-page .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--dragon-white); letter-spacing: 0.04em; }
 .portal-page .footer-logo span { color: var(--dragon-orange); }
 .portal-page .footer-logo-svg {
-  width: 200px;
+  width: 120px;
   height: auto;
   color: #ffffff;
   display: block;
 }
-.portal-page .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.portal-page .footer-links { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
 .portal-page .footer-links a {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
   color: rgba(250,250,250,0.45); text-decoration: none; transition: color 0.15s;
 }
 .portal-page .footer-links a:hover { color: var(--dragon-orange); }
@@ -2177,7 +2177,9 @@
   .portal-page .card-biofabrica .card-body { flex-direction: column; padding: 28px 24px; align-items: flex-start; }
   .portal-page .bio-right { display: none; }
   .portal-page .card-biofabrica .card-inner::before { padding-top: 60% !important; }
-  .portal-page .card-quiz { min-height: 420px; }
+  .portal-page .card-quiz { min-height: 300px; }
+  /* Blog card: mostrar título no topo no mobile */
+  .portal-page .card-lives .card-body { justify-content: flex-start !important; }
   /* Audio: banner horizontal fixo — não muda proporção de imagens com capa */
   .portal-page .card-audio {
     height: 180px !important;
