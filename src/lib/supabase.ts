@@ -3,19 +3,27 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 /**
  * SUPABASE CLIENT — singleton.
  *
- * Lê env vars expostas pelo Vite:
+ * Tenta ler env vars expostas pelo Vite primeiro:
  *   VITE_SUPABASE_URL       — ex: https://abc123.supabase.co
  *   VITE_SUPABASE_ANON_KEY  — publishable key (sb_publishable_*)
  *
- * Em dev, vem de .env.local. Em produção, configurar no host
- * (Vercel / Netlify / Lovable Project Settings).
+ * Se não achar (ex: Lovable não setou env vars no build), cai no
+ * fallback hard-coded abaixo. A chave é PUBLISHABLE — o próprio Supabase
+ * confirma "Publishable keys can be safely shared publicly". A segurança
+ * dos dados é garantida pelas RLS policies (anon só faz INSERT em
+ * dragon_leads / dragon-photos, nunca SELECT/UPDATE/DELETE).
  *
- * Se faltar env, `supabase` é null — código que usa precisa lidar
- * com isso (modo offline / sem persistência).
+ * Em dev local, .env.local sobrescreve o fallback (permite apontar pra
+ * outro projeto Supabase de staging sem mexer no código).
  */
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+const FALLBACK_URL = "https://pnqfpxvfjfyfdycrqlqb.supabase.co";
+const FALLBACK_ANON_KEY = "sb_publishable_vkKJsKNAxZOFa4UBLEZXfw_pPeDLjqE";
+
+const SUPABASE_URL =
+  (import.meta.env.VITE_SUPABASE_URL as string | undefined) || FALLBACK_URL;
+const SUPABASE_ANON_KEY =
+  (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined) || FALLBACK_ANON_KEY;
 
 export const supabase: SupabaseClient | null =
   SUPABASE_URL && SUPABASE_ANON_KEY
@@ -29,12 +37,3 @@ export const supabase: SupabaseClient | null =
         },
       })
     : null;
-
-/** Utilitário pra logar 1x se faltou env (ajuda no debug em dev). */
-if (!supabase && typeof window !== "undefined") {
-  // eslint-disable-next-line no-console
-  console.warn(
-    "[supabase] VITE_SUPABASE_URL ou VITE_SUPABASE_ANON_KEY ausentes — " +
-      "lead capture e perfil cross-device desativados. Confere .env.local."
-  );
-}

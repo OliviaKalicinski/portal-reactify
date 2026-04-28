@@ -20,7 +20,8 @@ import "./Quizzes.css";
 
 interface DragonProfile {
   name: string;
-  email: string;
+  /** Telefone com máscara BR: (11) 91234-5678 — só dígitos vão pro Supabase */
+  phone: string;
   createdAt: string;
   results: Record<string, ProfileResult>;
   /** URL pública da foto do tutor com o pet (Supabase Storage) */
@@ -68,6 +69,30 @@ const stripEmoji = (s: string): string =>
   s.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B00}-\u{2BFF}\u{1F300}-\u{1FAFF}\u24C2\uFE0F\u20E3]/gu, "")
    .replace(/\s{2,}/g, " ")
    .trim();
+
+/**
+ * Aplica máscara BR no telefone enquanto a pessoa digita.
+ *  - Aceita só dígitos (descarta o resto)
+ *  - Limita a 11 dígitos (DDD + 9 + 8)
+ *  - Formata progressivamente: (11) → (11) 9 → (11) 91234-5678
+ *
+ * Aceita 10 dígitos também (fixo antigo: (11) 1234-5678) caso alguém
+ * digite menos — validação do gate exige 10 ou 11.
+ */
+const formatPhone = (raw: string): string => {
+  const d = raw.replace(/\D/g, "").slice(0, 11);
+  if (d.length === 0) return "";
+  if (d.length <= 2) return `(${d}`;
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+};
+
+/** True se o telefone tem 10 ou 11 dígitos válidos. */
+const isValidPhone = (raw: string): boolean => {
+  const d = raw.replace(/\D/g, "");
+  return d.length === 10 || d.length === 11;
+};
 
 const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
   const doubled = [...items, ...items];
@@ -752,7 +777,7 @@ interface QuizModalProps {
   onComplete: (
     quizId: string,
     resultKey: string,
-    gateData?: { name: string; email: string; photoUrl?: string | null }
+    gateData?: { name: string; phone: string; photoUrl?: string | null }
   ) => void;
 }
 
@@ -765,7 +790,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
   const [transitioning, setTrans] = useState(false);
   const [resultKey, setResultKey] = useState("");
   const [gateName, setGateName]   = useState(profile?.name || "");
-  const [gateEmail, setGateEmail] = useState(profile?.email || "");
+  const [gatePhone, setGatePhone] = useState(profile?.phone || "");
   const [gateError, setGateError] = useState("");
   const [gateSubmitting, setGateSubmitting] = useState(false);
   const [sharing, setSharing]     = useState(false);
@@ -829,7 +854,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
   const submitGate = async () => {
     if (gateSubmitting) return;
     if (!gateName.trim()) { setGateError("Coloca seu nome 👆"); return; }
-    if (!gateEmail.includes("@")) { setGateError("Email inválido"); return; }
+    if (!isValidPhone(gatePhone)) { setGateError("Telefone precisa ter DDD + número"); return; }
     setGateError("");
 
     // Resolve o resultado pra mandar junto pro Supabase
@@ -876,7 +901,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
     // Fire-and-forget: não esperamos a resposta pra continuar pro resultado.
     // Falhas são logadas no console (ver leads.ts) — UX não é afetada.
     void submitLead({
-      email: gateEmail,
+      phone: gatePhone,
       name: gateName,
       firstQuizId: quiz.id,
       firstQuizResultKey: resultKey,
@@ -886,7 +911,7 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
     });
 
     transition(() => setPhase("result"));
-    onComplete(quiz.id, resultKey, { name: gateName, email: gateEmail, photoUrl });
+    onComplete(quiz.id, resultKey, { name: gateName, phone: gatePhone, photoUrl });
   };
 
   const removePetPhoto = () => {
@@ -1027,8 +1052,8 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
               <DragonLogo className="qz-gate-logo" />
               <div className="qz-gate-title">O DRAGÃO TEM SEU RESULTADO</div>
               <div className="qz-gate-sub">
-                Deixa seu email pra revelar — e salvar<br />
-                seu perfil pra sempre.
+                Deixa seu WhatsApp pra revelar —<br />
+                tem coisa maneirona vindo pra você.
               </div>
               <div className="qz-gate-form">
                 <input
@@ -1041,11 +1066,14 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
                 />
                 <input
                   className="qz-gate-input"
-                  type="email"
-                  placeholder="Seu melhor email"
-                  value={gateEmail}
-                  onChange={(e) => setGateEmail(e.target.value)}
+                  type="tel"
+                  inputMode="numeric"
+                  autoComplete="tel"
+                  placeholder="(11) 91234-5678"
+                  value={gatePhone}
+                  onChange={(e) => setGatePhone(formatPhone(e.target.value))}
                   onKeyDown={(e) => { if (e.key === "Enter") void submitGate(); }}
+                  maxLength={16}
                 />
 
                 {/* Foto opcional do tutor com o pet — sobe pro Supabase no submit */}
@@ -1095,7 +1123,8 @@ const QuizModal = ({ quiz, profile, onClose, onComplete }: QuizModalProps) => {
                   {gateSubmitting ? "SALVANDO FOTO…" : "REVELAR MEU RESULTADO"}
                 </button>
                 <span className="qz-gate-privacy">
-                  Sem spam. O Dragão respeita sua privacidade.
+                  O Dragão vai usar seu WhatsApp pra mandar drops,
+                  achados e coisa maneirona — nunca spam.
                 </span>
               </div>
             </div>
@@ -1414,7 +1443,7 @@ const Quizzes = () => {
     (
       quizId: string,
       resultKey: string,
-      gateData?: { name: string; email: string; photoUrl?: string | null }
+      gateData?: { name: string; phone: string; photoUrl?: string | null }
     ) => {
       const quiz = QUIZZES.find((q) => q.id === quizId);
       if (!quiz) return;
@@ -1424,7 +1453,7 @@ const Quizzes = () => {
       setProfile((prev) => {
         const base: DragonProfile = prev || {
           name: gateData?.name?.trim() || "Tutor Dragão",
-          email: gateData?.email?.trim().toLowerCase() || "",
+          phone: gateData?.phone?.trim() || "",
           createdAt: new Date().toISOString(),
           results: {},
         };
@@ -1541,8 +1570,8 @@ const Quizzes = () => {
               <div className="qz-profile-meta">
                 <div className="qz-profile-role">PERFIL DE TUTOR — SUPER TRUNFO</div>
                 <div className="qz-profile-name-big">{profile.name}</div>
-                {profile.email && (
-                  <div className="qz-profile-email">{profile.email}</div>
+                {profile.phone && (
+                  <div className="qz-profile-email">{formatPhone(profile.phone)}</div>
                 )}
                 {!ownerPhotoPreview && (
                   <button

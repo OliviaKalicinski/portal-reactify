@@ -11,7 +11,8 @@ import { supabase } from "./supabase";
  * então a pessoa mantém o perfil dela. Olivia só perde o ping pra ela.
  */
 export interface LeadPayload {
-  email: string;
+  /** Telefone só com dígitos: DDD + 9 (celular) + 8. Ex: 11912345678 */
+  phone: string;
   name: string;
   firstQuizId: string;
   firstQuizResultKey: string;
@@ -29,7 +30,7 @@ export async function submitLead(payload: LeadPayload): Promise<{ ok: boolean; e
 
   try {
     const { error } = await supabase.from("dragon_leads").insert({
-      email: payload.email.trim().toLowerCase(),
+      phone: payload.phone.replace(/\D/g, ""), // só dígitos pro banco
       name: payload.name.trim(),
       first_quiz_id: payload.firstQuizId,
       first_quiz_result_key: payload.firstQuizResultKey,
