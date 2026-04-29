@@ -1077,16 +1077,16 @@ const Portal = () => {
           </Link>
 
           {/* Influenciador */}
-          <a href="mailto:somos@letsfly.com.br?subject=Quero ser criador de conteúdo Comida de Dragão" className="audience-card aud-influencer">
+          <Link to="/quero-ser-dragao" className="audience-card aud-influencer">
             <HoverBg imgKey="influencer" />
             <div className="audience-card-inner">
               <div className="aud-bg-num">02</div>
               <div className="aud-tag">Criador de conteúdo</div>
               <div className="aud-title">Quero<br />ser<br />dragão.</div>
-              <div className="aud-desc">Manual de marca, kit de assets, briefings e links rastreados.</div>
-              <div className="aud-cta">Ver kit →</div>
+              <div className="aud-desc">Produtos pra testar, cupom exclusivo e comissão por venda. Entra na matilha.</div>
+              <div className="aud-cta">Quero ser parceiro →</div>
             </div>
-          </a>
+          </Link>
 
           {/* Vendedor */}
           <a href="mailto:somos@letsfly.com.br?subject=Quero revender Comida de Dragão" className="audience-card aud-seller">
