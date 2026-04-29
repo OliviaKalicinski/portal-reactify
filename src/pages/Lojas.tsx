@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PageMeta from "@/components/PageMeta";
 import DragonLogo from "@/components/DragonLogo";
+import "./Portal.css";
 import "./Lojas.css";
 
 interface Loja {
@@ -81,21 +82,21 @@ export default function Lojas() {
         image="/assets/images/canal-dragao-cover.png"
       />
 
-      {/* HEADER */}
-      <header className="lojas-header">
-        <Link to="/portal" className="lojas-back">← Portal</Link>
-        <DragonLogo className="lojas-logo" />
-      </header>
-
-      {/* HERO */}
-      <section className="lojas-hero">
-        <div className="lojas-hero-eyebrow">// onde encontrar</div>
-        <h1 className="lojas-hero-title">
-          +30 lojas<br /><span className="lojas-hero-accent">parceiras</span>
-        </h1>
-        <p className="lojas-hero-sub">
-          Comida de Dragão em pet shops, lojas naturais e online — pelo Brasil todo.
-        </p>
+      {/* HERO — padrão portal */}
+      <section className="archive-hero">
+        <div className="archive-hero-bg" />
+        <div className="dragon-silhouette" aria-hidden="true" />
+        <div className="archive-hero-content">
+          <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
+          <div className="hero-eyebrow">Comida de Dragão — Onde Encontrar</div>
+          <DragonLogo className="hero-logo" />
+          <h1 className="archive-hero-title">
+            +30 lojas <span>parceiras</span>
+          </h1>
+          <p className="archive-hero-sub">
+            Comida de Dragão em pet shops, lojas naturais e online — pelo Brasil todo.
+          </p>
+        </div>
       </section>
 
       {/* FILTROS */}
