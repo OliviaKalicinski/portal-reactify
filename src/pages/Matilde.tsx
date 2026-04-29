@@ -92,6 +92,11 @@ export default function Matilde() {
         </div>
       </section>
 
+      {/* Mobile-only: pet photo logo abaixo do hero */}
+      <div className="m-hero-pet-mobile">
+        <img src="/assets/images/matilde/6.png" alt="Matilde" />
+      </div>
+
       {/* ══ 2. BENEFÍCIOS ════════════════════════════════════════ */}
       <section className="m-benefits">
         <div className="m-benefit">
