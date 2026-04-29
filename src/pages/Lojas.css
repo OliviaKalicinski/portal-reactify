@@ -4,13 +4,25 @@
   font-family: 'Space Grotesk', sans-serif;
 }
 
-/* Hero usa as classes globais archive-hero do Portal.css — nada extra necessário aqui */
+/* Hero: menos espaço abaixo do subtítulo antes da linha laranja */
+.lojas-page .archive-hero {
+  padding-bottom: 28px;
+}
+.portal-page.lojas-page .archive-hero-content {
+  max-width: 1100px;
+}
+.portal-page.lojas-page .archive-hero-title {
+  font-size: clamp(16px, 5.5vw, 64px);
+  white-space: nowrap;
+}
+
+/* Filtros: mais espaço acima da caixa de busca depois da linha */
 
 /* FILTROS */
 .lojas-filters-wrap {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 28px 28px;
+  padding: 40px 28px 28px;
   display: flex;
   flex-direction: column;
   gap: 14px;

@@ -1065,7 +1065,7 @@ const Portal = () => {
         <div className="audience-grid">
 
           {/* Consumidor */}
-          <a href="https://comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="audience-card aud-consumer">
+          <Link to="/matilde" className="audience-card aud-consumer">
             <HoverBg imgKey="consumer" />
             <div className="audience-card-inner">
               <div className="aud-bg-num">01</div>
@@ -1074,7 +1074,7 @@ const Portal = () => {
               <div className="aud-desc">Produtos, quiz de recomendação, onde comprar. O Dragão te guia.</div>
               <div className="aud-cta">Ver produtos →</div>
             </div>
-          </a>
+          </Link>
 
           {/* Influenciador */}
           <a href="mailto:somos@letsfly.com.br?subject=Quero ser criador de conteúdo Comida de Dragão" className="audience-card aud-influencer">
