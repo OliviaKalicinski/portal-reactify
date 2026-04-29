@@ -96,22 +96,22 @@ export default function Matilde() {
       <section className="m-benefits">
         <div className="m-benefit">
           <div className="m-benefit-body">
-            <div className="m-benefit-stat">45% <span>de proteína</span></div>
-            <p>88,9% de digestibilidade. Seu pet absorve de verdade — não só ingere. Análise garantida por lote.</p>
+            <div className="m-benefit-stat">88,9% <span>de digestibilidade proteica</span></div>
+            <p>Estudos com cães mostram que a larva BSF é absorvida em até 88,9% — superando fontes clássicas como farinha de aves. Seu pet não só ingere: aproveita de verdade.</p>
           </div>
         </div>
         <div className="m-benefit-divider" />
         <div className="m-benefit">
           <div className="m-benefit-body">
             <div className="m-benefit-stat">1 <span>único ingrediente</span></div>
-            <p>Larva BSF desidratada. Rastreável do início ao fim. Sem conservante, sem corante, sem lista pra decifrar.</p>
+            <p>Larva BSF desidratada — e só isso. Perfil de aminoácidos comparável a peixe e carne, sem precisar misturar nada. Você lê o rótulo inteiro em três segundos.</p>
           </div>
         </div>
         <div className="m-benefit-divider" />
         <div className="m-benefit">
           <div className="m-benefit-body">
             <div className="m-benefit-stat">Zero <span>conservante · hipoalergênico</span></div>
-            <p>Sem químico artificial, sem aditivo, sem ingrediente que você não reconhece. Ideal para pets sensíveis.</p>
+            <p>Proteína diferente das rações convencionais: ideal para pets com sensibilidade alimentar. Nenhum estudo registrou efeito negativo na saúde de cães alimentados com larva BSF.</p>
           </div>
         </div>
       </section>
@@ -147,7 +147,7 @@ export default function Matilde() {
         </div>
         <div className="m-problem-text">
           <h2 className="m-problem-title">
-            Esse incômodo tem um nome: você se importa.
+            Esse incômodo tem um nome: <span className="m-txt-pink">você se importa.</span>
           </h2>
           <p className="m-problem-body">
             Tutores que pesquisam chegam sempre à mesma conclusão — 30 ingredientes que ninguém
