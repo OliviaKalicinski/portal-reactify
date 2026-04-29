@@ -44,7 +44,7 @@ const DEFAULT_REELS: Reel[] = [
     title: "Do resíduo à proteína",
     caption: "Bastidor real — 45 dias da BSF até o pote.",
     link: "https://www.instagram.com/comidadedragao",
-    previewStart: 8,
+    previewStart: 3,
   },
   {
     id: "r3",

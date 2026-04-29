@@ -45,7 +45,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   seller:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGdtcWd6emJ1ODNkazNubmczeDh3MWoxNGswZTY2MW43ejIzNmQ1dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9z5BEzVvKeDcI/giphy.gif",
   amazon:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWNlZWR4d3NwdDZ2YndqcTM2aGtpM2NpMDh4NmthMTBwaWRub2ZnbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zkcXND5kY4POU/giphy.gif",
   ml:         "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGg5cjNnNXdqeWRwajRlNTJjdjlubnZndG0wdHFsd2I1bWE2Z3NoeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ovinMYvSg1TSo/giphy.gif",
-  oficial:    "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXFxcXNrNnd3OWlybzJ5aTZkdHR0NWl3eGVpd3Mxd2JlaXl2amM0diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZCqpHjpPQ7ZvHQytL7/giphy.gif",
+  oficial:    "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWF6ZmoyOTMwa3BpNGNuZnMzczMyNjVneXplNndqcG1ua3g4anp3MCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U2ii5GIzMGU3m/giphy.gif",
 };
 
 const HoverBg = ({ imgKey }: { imgKey: string }) => (
