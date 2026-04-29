@@ -19,11 +19,12 @@ import { useState, useRef, useEffect, useCallback } from "react";
 
 export interface Reel {
   id: string;
-  src: string;      // ex: /assets/videos/reels/reel-01.mp4
-  poster?: string;  // primeira frame opcional (acelera carregamento)
+  src: string;        // ex: /assets/videos/reels/reel-01.mp4
+  poster?: string;    // primeira frame opcional (acelera carregamento)
   title: string;
   caption?: string;
-  link?: string;    // link pro post original no Instagram/TikTok
+  link?: string;      // link pro post original no Instagram/TikTok
+  previewStart?: number; // segundo do vídeo usado como thumbnail e início do hover (default: 5)
 }
 
 // Reels que estão na pasta /public/assets/videos/
@@ -35,6 +36,7 @@ const DEFAULT_REELS: Reel[] = [
     title: "Influenciador experimenta",
     caption: "Cara de quem nunca viu inseto até ver o pet devorando.",
     link: "https://www.instagram.com/comidadedragao",
+    previewStart: 5,
   },
   {
     id: "r2",
@@ -42,6 +44,7 @@ const DEFAULT_REELS: Reel[] = [
     title: "Do resíduo à proteína",
     caption: "Bastidor real — 45 dias da BSF até o pote.",
     link: "https://www.instagram.com/comidadedragao",
+    previewStart: 8,
   },
   {
     id: "r3",
@@ -49,6 +52,7 @@ const DEFAULT_REELS: Reel[] = [
     title: "Reação real",
     caption: "Quando o pet aprova antes da gente terminar de falar.",
     link: "https://www.instagram.com/comidadedragao",
+    previewStart: 10,
   },
   {
     id: "r4",
@@ -56,6 +60,7 @@ const DEFAULT_REELS: Reel[] = [
     title: "O dragão chegou",
     caption: "Influenciador encontra o Dragão pela primeira vez.",
     link: "https://www.instagram.com/comidadedragao",
+    previewStart: 6,
   },
   {
     id: "r5",
@@ -63,6 +68,7 @@ const DEFAULT_REELS: Reel[] = [
     title: "The One — Parte 2",
     caption: "A história continua. O Dragão não para.",
     link: "https://www.instagram.com/comidadedragao",
+    previewStart: 12,
   },
 ];
 
@@ -212,12 +218,19 @@ const ReelsSection = ({
 const ReelCard = ({ reel, onClick }: { reel: Reel; onClick: () => void }) => {
   const vidRef = useRef<HTMLVideoElement>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const startAt = reel.previewStart ?? 5;
+
+  // Após carregar metadata, posiciona no frame de preview
+  const handleMetadata = () => {
+    const v = vidRef.current;
+    if (v) v.currentTime = startAt;
+  };
 
   const handleEnter = () => {
     setIsHovering(true);
     const v = vidRef.current;
     if (v) {
-      v.currentTime = 0;
+      v.currentTime = startAt;
       v.play().catch(() => {});
     }
   };
@@ -226,7 +239,7 @@ const ReelCard = ({ reel, onClick }: { reel: Reel; onClick: () => void }) => {
     const v = vidRef.current;
     if (v) {
       v.pause();
-      v.currentTime = 0;
+      v.currentTime = startAt;
     }
   };
 
@@ -248,6 +261,7 @@ const ReelCard = ({ reel, onClick }: { reel: Reel; onClick: () => void }) => {
         playsInline
         preload="metadata"
         className="reel-card-video"
+        onLoadedMetadata={handleMetadata}
       />
       <div className={`reel-card-overlay${isHovering ? " hovering" : ""}`}>
         <div className="reel-card-play">▶</div>
