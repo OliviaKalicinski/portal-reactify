@@ -75,7 +75,7 @@ export default function Lojas() {
   const online  = lojasFiltradas.filter(l => l.tipo === "online" || l.tipo === "eventos").length;
 
   return (
-    <div className="lojas-page">
+    <div className="portal-page lojas-page skin-1">
       <PageMeta
         title="Onde Encontrar — Comida de Dragão"
         description="+30 lojas parceiras em SP, RJ e todo o Brasil. Encontre Comida de Dragão perto de você."
