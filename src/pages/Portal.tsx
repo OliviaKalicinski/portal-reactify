@@ -724,28 +724,26 @@ const Portal = () => {
             ) : (
               <>
                 <label className="hero-name-label" htmlFor="hero-name-input">como te chama?</label>
-                <input
-                  id="hero-name-input"
-                  type="text"
-                  className="hero-name-input"
-                  placeholder="seu nome"
-                  maxLength={16}
-                  autoComplete="off"
-                  spellCheck={false}
-                  value={heroName}
-                  onChange={e => { setHeroName(e.target.value); setNameConfirmed(false); }}
-                  onKeyDown={e => { if (e.key === "Enter" && nameUpper.length >= 2) setNameConfirmed(true); }}
-                />
-                {nameUpper.length >= 2 ? (
-                  <p className="hero-tagline-sub hero-tagline-sub-preview">
-                    <span className="hero-tagline-name">{nameUpper}</span>
-                    <span className="hero-tagline-rest"> já faz parte da revolução.</span>
-                    <span className="hero-tagline-fio">↵ enter pra confirmar</span>
-                  </p>
-                ) : (
-                  <p className="hero-tagline-sub hero-tagline-sub-empty">
-                    segue o fio...
-                  </p>
+                <div className={`hero-name-input-wrap${nameUpper.length >= 2 ? " has-name" : ""}`}>
+                  <input
+                    id="hero-name-input"
+                    type="text"
+                    className="hero-name-input"
+                    placeholder="seu nome"
+                    maxLength={16}
+                    autoComplete="off"
+                    spellCheck={false}
+                    value={heroName}
+                    onChange={e => { setHeroName(e.target.value); setNameConfirmed(false); }}
+                    onKeyDown={e => { if (e.key === "Enter" && nameUpper.length >= 2) setNameConfirmed(true); }}
+                    style={nameUpper.length >= 2 ? { width: `${Math.max(heroName.length + 2, 6)}ch` } : undefined}
+                  />
+                  {nameUpper.length >= 2 && (
+                    <span className="hero-tagline-inline-phrase">já faz parte da revolução.</span>
+                  )}
+                </div>
+                {nameUpper.length < 2 && (
+                  <p className="hero-tagline-sub hero-tagline-sub-empty">segue o fio...</p>
                 )}
               </>
             )}

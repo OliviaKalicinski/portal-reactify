@@ -2880,6 +2880,35 @@
   font-style: italic;
   letter-spacing: 0.06em;
 }
+/* Input + frase inline — quando o usuário começa a digitar */
+.portal-page .hero-name-input-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  transition: gap 0.2s ease;
+}
+.portal-page .hero-name-input-wrap.has-name {
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.portal-page .hero-name-input-wrap.has-name .hero-name-input {
+  max-width: none;
+  min-width: 60px;
+  flex-shrink: 0;
+  text-align: left;
+}
+.portal-page .hero-tagline-inline-phrase {
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-weight: 700;
+  color: rgba(250,250,250,0.82);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  animation: heroNameReveal 0.22s ease-out both;
+}
+
 .portal-page .hero-name-edit {
   font-family: 'Space Mono', monospace;
   font-size: 10px;
