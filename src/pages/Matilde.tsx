@@ -193,22 +193,20 @@ export default function Matilde() {
         </div>
         <div className="m-discovery-text">
           <h2 className="m-section-title m-discovery-title">
-            E então encontraram<br />algo diferente.
+            E então encontraram<br />a resposta mais improvável.
           </h2>
           <p className="m-discovery-body">
-            Com o compromisso de cuidar dela, começou uma pesquisa que a maioria dos tutores
-            nunca faz. O resultado foi pesado: rações com conservantes que nenhum veterinário
-            explica, corantes artificiais, embalagens com "natural" na frente e lista de 30
-            ingredientes atrás.
+            A pesquisa levou a um lugar inesperado: entomologia aplicada à nutrição animal.
+            Um único ingrediente — larva BSF desidratada. 45% de proteína mínima.
+            88,9% de digestibilidade. Rastreável do início ao fim.
           </p>
           <p className="m-discovery-body m-discovery-quote">
-            "Chegamos à conclusão que a maioria das rações e petiscos são muito ruins."
-            Precisavam de outra resposta.
+            A primeira reação foi: <em>"inseto?"</em><br />
+            A segunda: <em>"vou ler tudo."</em><br />
+            A terceira: <em>"por que não existe isso em mais lugares?"</em>
           </p>
-          <p className="m-discovery-body"><strong>E encontraram.</strong></p>
           <p className="m-discovery-body">
-            Um petisco com ingrediente único. Só larva BSF desidratada. Sem mais nada.
-            A primeira reação foi: <em>"inseto?"</em> A segunda foi: <em>"vou ler tudo."</em>
+            Não existia. Então eles construíram.
           </p>
         </div>
       </section>

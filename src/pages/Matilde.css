@@ -420,18 +420,7 @@
   transition: background 0.2s;
 }
 .m-benefit:hover { background: rgba(123,255,0,0.04); }
-.m-benefit-num {
-  font-family: 'Big Shoulders Display', sans-serif;
-  font-weight: 900;
-  font-size: clamp(36px, 3.5vw, 52px);
-  line-height: 1;
-  color: var(--m-lime);
-  opacity: 0.35;
-  flex-shrink: 0;
-  letter-spacing: -0.03em;
-  align-self: flex-start;
-  min-width: 56px;
-}
+
 .m-benefit-body { display: flex; flex-direction: column; gap: 10px; }
 .m-benefit-stat {
   font-family: 'Big Shoulders Display', sans-serif;
@@ -1189,8 +1178,8 @@
   position: absolute;
   top: 28px;
   left: 32px;
-  width: 52%;
-  max-width: 240px;
+  width: 34%;
+  max-width: 160px;
   height: auto;
   object-fit: contain;
   transform: rotate(-3deg);
