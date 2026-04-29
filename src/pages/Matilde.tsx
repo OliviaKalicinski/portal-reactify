@@ -16,28 +16,28 @@ const PRESS_LOGOS = [
 
 const FAQ_ITEMS = [
   {
-    q: "O que convenceu os tutores da Matilde a testar larva?",
-    a: "A pesquisa. Quando você lê de verdade o que tem dentro das rações convencionais — conservantes, corantes, proteínas de origem duvidosa — a larva BSF deixa de ser estranha e vira a resposta mais óbvia do mundo.",
+    q: "Por que larva, de todos os ingredientes?",
+    a: "Porque é o que faz sentido quando você para de aceitar qualquer coisa. A larva BSF tem 45% de proteína, 88,9% de digestibilidade e um único ingrediente. Quando você lê o rótulo das rações convencionais — conservantes, corantes, proteínas de origem duvidosa — a larva deixa de ser estranha e vira a resposta mais óbvia do mundo.",
   },
   {
     q: "Tem conservante, corante ou químico artificial?",
-    a: "Zero. Um ingrediente: larva BSF desidratada. Leia o rótulo — você lê em menos de três segundos e entende tudo.",
+    a: "Zero. Um ingrediente: larva BSF desidratada. Leia o rótulo — você lê em menos de três segundos e entende tudo. Não tem nada pra esconder.",
   },
   {
-    q: "Meu cachorro vai querer comer larva?",
-    a: "A maioria aprova na hora. A palatabilidade da larva BSF é naturalmente alta — o cheiro e o sabor são muito atraentes para cães. Se o seu não gostar na primeira vez, misture com o alimento habitual.",
+    q: "Meu pet vai realmente querer comer isso?",
+    a: "A maioria aprova na hora. A palatabilidade da larva BSF é naturalmente alta — o cheiro e o sabor são muito atraentes para cães e gatos. Se o seu não gostar na primeira vez, misture com o alimento habitual por alguns dias.",
   },
   {
-    q: "É seguro? Tem fiscalização?",
-    a: "Sim. Nossa biofábrica é registrada no MAPA (Ministério da Agricultura, Pecuária e Abastecimento), no estado do Rio de Janeiro. Cada lote é rastreável. Cada embalagem tem análise garantida.",
+    q: "É regulamentado? Tem quem fiscalize?",
+    a: "Sim. Nossa biofábrica é a primeira registrada no MAPA no estado do Rio de Janeiro. Cada lote é rastreável do início ao fim. Cada embalagem tem análise garantida — não é promessa de embalagem.",
   },
   {
-    q: "Para quais animais serve?",
-    a: "Desenvolvido para cães, mas também usado com gatos, galinhas, peixes e répteis. Se o animal come proteína, come Comida de Dragão.",
+    q: "Serve só pra cachorro?",
+    a: "Desenvolvido para cães, mas aprovado também por gatos, galinhas, peixes e répteis. Se o animal come proteína, come Comida de Dragão. A Matilde aprovou — e ela é bem exigente.",
   },
   {
-    q: "Vale o preço?",
-    a: "Para quem pesquisa, sim. Um único petisco de qualidade vale mais do que uma sacola de produto com lista de ingredientes que você não reconhece.",
+    q: "Vale mais do que a ração comum?",
+    a: "Para quem pesquisa, sim. Um petisco com ingrediente único, rastreável e analisado por lote vale mais do que uma sacola com 30 ingredientes que você não reconhece. E custa menos do que uma consulta veterinária evitável.",
   },
 ];
 
@@ -141,17 +141,19 @@ export default function Matilde() {
       {/* ══ 3. PROBLEMA ══════════════════════════════════════════ */}
       <section className="m-problem">
         <div className="m-problem-photo">
-          <img src="/assets/images/matilde/1.png" alt="Matilde" />
+          <img src="/assets/images/matilde/1.png" alt="Cansado de ler rótulo?" />
+          {/* Matilde overlay — canto inferior esquerdo */}
+          <img src="/assets/images/matilde/matilde-portrait.png" alt="Matilde" className="m-problem-matilde" />
         </div>
         <div className="m-problem-text">
           <h2 className="m-problem-title">
-            Você já leu um rótulo e não reconheceu nenhum ingrediente.
+            Esse incômodo tem um nome: você se importa.
           </h2>
           <p className="m-problem-body">
-            Você não está exagerando — você está prestando atenção. Conservantes que nenhum
-            veterinário explica. Corantes artificiais. Listas com 30 ingredientes que você
-            não pronuncia. Quanto mais você pesquisa, mais pesado fica. Mas o pote ainda
-            precisa ser preenchido. Com algo que você realmente entende.
+            Tutores que pesquisam chegam sempre à mesma conclusão — 30 ingredientes que ninguém
+            reconhece, conservantes que nenhum veterinário explica, e um "natural" na frente
+            da embalagem que não significa nada. O pote ainda precisa ser preenchido.
+            Só que agora você já sabe o que não quer.
           </p>
           <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-outline">
             Existe uma alternativa →
@@ -469,7 +471,7 @@ export default function Matilde() {
               <div key={i} className={`m-faq-item${openFaq === i ? " open" : ""}`}>
                 <button className="m-faq-q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
                   <span>{item.q}</span>
-                  <span className="m-faq-icon">{openFaq === i ? "−" : "+"}</span>
+                  <span className="m-faq-icon">+</span>
                 </button>
                 {openFaq === i && <div className="m-faq-a">{item.a}</div>}
               </div>
