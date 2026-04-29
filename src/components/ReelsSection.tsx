@@ -43,6 +43,27 @@ const DEFAULT_REELS: Reel[] = [
     caption: "Bastidor real — 45 dias da BSF até o pote.",
     link: "https://www.instagram.com/comidadedragao",
   },
+  {
+    id: "r3",
+    src: "/assets/videos/REELS_INFLUENCERS_0305_5_B_V1.mp4",
+    title: "Reação real",
+    caption: "Quando o pet aprova antes da gente terminar de falar.",
+    link: "https://www.instagram.com/comidadedragao",
+  },
+  {
+    id: "r4",
+    src: "/assets/videos/IFLUS_0416_5_V2.mp4",
+    title: "O dragão chegou",
+    caption: "Influenciador encontra o Dragão pela primeira vez.",
+    link: "https://www.instagram.com/comidadedragao",
+  },
+  {
+    id: "r5",
+    src: "/assets/videos/THEONE_PT2_LOWRES.mp4",
+    title: "The One — Parte 2",
+    caption: "A história continua. O Dragão não para.",
+    link: "https://www.instagram.com/comidadedragao",
+  },
 ];
 
 interface Props {
