@@ -5,7 +5,8 @@ import DragonLogo from "@/components/DragonLogo";
 import "./Portal.css";
 import "./Matilde.css";
 
-const ML_URL = "https://www.comidadedragao.com.br/discount/BORALA?redirect=%2Fproducts%2Fcomida-de-dragao-original";
+// Yampi: vai direto ao checkout com o produto + cupom BORALA já aplicado
+const ML_URL = "https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X:1?promocode=BORALA";
 const REVIEWS = [3, 4, 5, 6, 7, 8, 9, 10];
 const PRESS_LOGOS = [
   "logo-1.png","logo-3.png","logo-4.png","logo-5.png",
@@ -76,25 +77,48 @@ export default function Matilde() {
           <DragonLogo className="m-hero-logo" />
           <div className="m-hero-eyebrow">Para cachorros e gatos 🐶🐱</div>
           <h1 className="m-hero-title">
-            Um ingrediente.<br />
-            45% de proteína.<br />
-            <span>Zero conservante.</span>
+            Você não aceita<br />
+            qualquer coisa<br />
+            <span>na tigela do seu pet.</span>
           </h1>
+          <p className="m-hero-naoe">Não é mesmo?</p>
           <p className="m-hero-sub">
-            O petisco que tutores que pesquisam escolhem e aprovam —
-            depois de lerem muita porcaria por aí.
+            Existe um petisco com ingrediente único, rastreável do início ao fim —
+            feito para quem pesquisa antes de comprar.
           </p>
           <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-pink">
-            Quero experimentar →
+            Quero dar o melhor pro meu pet →
           </a>
         </div>
       </section>
 
       {/* ══ 2. BENEFÍCIOS ════════════════════════════════════════ */}
+      <section className="m-benefits">
+        <div className="m-benefit">
+          <div className="m-benefit-body">
+            <div className="m-benefit-stat">45% <span>de proteína</span></div>
+            <p>88,9% de digestibilidade. Seu pet absorve de verdade — não só ingere. Análise garantida por lote.</p>
+          </div>
+        </div>
+        <div className="m-benefit-divider" />
+        <div className="m-benefit">
+          <div className="m-benefit-body">
+            <div className="m-benefit-stat">1 <span>único ingrediente</span></div>
+            <p>Larva BSF desidratada. Rastreável do início ao fim. Sem conservante, sem corante, sem lista pra decifrar.</p>
+          </div>
+        </div>
+        <div className="m-benefit-divider" />
+        <div className="m-benefit">
+          <div className="m-benefit-body">
+            <div className="m-benefit-stat">Zero <span>conservante · hipoalergênico</span></div>
+            <p>Sem químico artificial, sem aditivo, sem ingrediente que você não reconhece. Ideal para pets sensíveis.</p>
+          </div>
+        </div>
+      </section>
       <div className="m-benefits-marquee-wrap">
         <div className="m-benefits-marquee">
-          {["Porque tutores que pesquisam chegam até aqui", "Proteína real", "Zero conservante", "Um ingrediente", "83% menos carbono", "88,9% digestibilidade"].concat(
-            ["Porque tutores que pesquisam chegam até aqui", "Proteína real", "Zero conservante", "Um ingrediente", "83% menos carbono", "88,9% digestibilidade"]
+          {["45% de proteína mínima", "Um ingrediente", "Zero conservante", "Hipoalergênico", "88,9% digestibilidade", "83% menos carbono", "Rastreável por lote"].concat(
+            ["45% de proteína mínima", "Um ingrediente", "Zero conservante", "Hipoalergênico", "88,9% digestibilidade", "83% menos carbono", "Rastreável por lote"]
           ).map((item, i) => (
             <span key={i} className="m-benefits-marquee-item">
               {item} <span className="m-marquee-sep">✦</span>
@@ -102,31 +126,17 @@ export default function Matilde() {
           ))}
         </div>
       </div>
-      <section className="m-benefits">
-        <div className="m-benefit">
-          <div className="m-benefit-num">01</div>
-          <div className="m-benefit-body">
-            <h3>Proteína real, não promessa</h3>
-            <p>88,9% de digestibilidade. Seu pet absorve de verdade — não só ingere.</p>
-          </div>
+
+      {/* ══ CTA RÁPIDO entre benefícios e história ══════════════ */}
+      <div className="m-quick-cta">
+        <div className="m-quick-cta-left">
+          <span className="m-quick-cta-eyebrow">Já convencido?</span>
+          <span className="m-quick-cta-headline">Pula a história e vai direto.</span>
         </div>
-        <div className="m-benefit-divider" />
-        <div className="m-benefit">
-          <div className="m-benefit-num">02</div>
-          <div className="m-benefit-body">
-            <h3>Um ingrediente. Só um.</h3>
-            <p>Larva BSF desidratada. Rastreável do início ao fim. Sem conservante, sem corante, sem lista pra decifrar.</p>
-          </div>
-        </div>
-        <div className="m-benefit-divider" />
-        <div className="m-benefit">
-          <div className="m-benefit-num">03</div>
-          <div className="m-benefit-body">
-            <h3>83% menos carbono</h3>
-            <p>Comparado à proteína animal convencional. 15.000 litros menos de água por quilo produzido.</p>
-          </div>
-        </div>
-      </section>
+        <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime">
+          🛒 Comprar agora com 10% OFF →
+        </a>
+      </div>
 
       {/* ══ 3. PROBLEMA ══════════════════════════════════════════ */}
       <section className="m-problem">
@@ -135,16 +145,16 @@ export default function Matilde() {
         </div>
         <div className="m-problem-text">
           <h2 className="m-problem-title">
-            "A maioria das rações e petiscos são muito ruins."
+            Você já leu um rótulo e não reconheceu nenhum ingrediente.
           </h2>
           <p className="m-problem-body">
-            Não é exagero — é o que qualquer tutor que pesquisa de verdade descobre.
-            Conservantes que nenhum veterinário explica. Corantes artificiais. Listas com
-            30 ingredientes que você nem pronuncia. Quanto mais você lê, menos você quer dar.
-            Mas o pote precisa ser preenchido — de preferência com algo que faça bem de verdade.
+            Você não está exagerando — você está prestando atenção. Conservantes que nenhum
+            veterinário explica. Corantes artificiais. Listas com 30 ingredientes que você
+            não pronuncia. Quanto mais você pesquisa, mais pesado fica. Mas o pote ainda
+            precisa ser preenchido. Com algo que você realmente entende.
           </p>
           <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-outline">
-            Conhecer a alternativa →
+            Existe uma alternativa →
           </a>
         </div>
       </section>
@@ -152,15 +162,16 @@ export default function Matilde() {
       {/* ══ 4. HISTÓRIA DA MATILDE ════════════════════════════════ */}
       <section className="m-history">
         <div className="m-history-text">
-          <div className="m-history-eyebrow">A história da Matilde</div>
-          <h2 className="m-history-title">Ela chegou<br /><span>desnutrida.</span></h2>
+          <div className="m-history-eyebrow">Como chegamos até aqui</div>
+          <h2 className="m-history-title">Dois tutores que<br /><span>não aceitavam qualquer coisa.</span></h2>
           <p className="m-history-body">
-            Há três anos, dois tutores adotaram uma cadelinha, a Matilde. Ela mal conseguia ficar
-            de pé. Ela chegou subnutrida, cheia de problemas de saúde — e precisou de cirurgia
-            antes de dar os primeiros passos com segurança.
+            Há três anos, adotamos a Matilde. Ela chegou subnutrida, mal conseguia ficar de pé —
+            e nós fizemos o que qualquer tutor que se preocupa faz: pesquisamos. Muito. O que
+            encontramos foi pesado. Rações com conservantes que a gente não reconhecia, corantes
+            artificiais, listas com 30 ingredientes que ninguém explica. Não dava.
           </p>
           <p className="m-history-bold">
-            Naquele dia, uma coisa ficou decidida: a saúde dela viria em primeiro lugar. Sempre.
+            Foi aí que chegamos à mesma conclusão que você provavelmente está chegando agora.
           </p>
         </div>
         <div className="m-history-photo">
@@ -329,13 +340,23 @@ export default function Matilde() {
             onMouseLeave={onReviewMouseUp}
           >
             {REVIEWS.map(n => (
-              <img
-                key={n}
-                src={`/assets/images/reviews/${n}.png`}
-                alt={`Review ${n}`}
-                className="m-review-img"
-              />
+              <div key={n} className="m-review-item">
+                <img
+                  src={`/assets/images/reviews/${n}.png`}
+                  alt={`Review ${n}`}
+                  className="m-review-img"
+                />
+              </div>
             ))}
+          </div>
+          <div className="m-reviews-arrow">
+            <div className="m-reviews-arrow-icon">
+              <span /><span /><span />
+            </div>
+            arraste para ver mais
+            <div className="m-reviews-arrow-icon">
+              <span /><span /><span />
+            </div>
           </div>
         </div>
 
@@ -349,8 +370,8 @@ export default function Matilde() {
         </div>
         <div className="m-ba-cols">
           <div className="m-ba-col m-ba-antes">
-            <div className="m-ba-tag m-ba-tag-antes">✗ Antes</div>
             <div className="m-ba-photo-wrap">
+              <div className="m-ba-tag m-ba-tag-antes">✗ Antes</div>
               <div className="m-ba-polaroid">
                 <img src="/assets/images/matilde/3.png" alt="Antes — Matilde subnutrida" />
               </div>
@@ -359,8 +380,8 @@ export default function Matilde() {
           </div>
           <div className="m-ba-vs">VS</div>
           <div className="m-ba-col m-ba-depois">
-            <div className="m-ba-tag m-ba-tag-depois">✓ Depois</div>
             <div className="m-ba-photo-wrap">
+              <div className="m-ba-tag m-ba-tag-depois">✓ Depois</div>
               <div className="m-ba-polaroid">
                 <img src="/assets/images/matilde/4.png" alt="Depois — Matilde saudável" />
               </div>
