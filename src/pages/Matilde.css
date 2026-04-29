@@ -517,8 +517,11 @@
 }
 .m-buy-2 {
   background:
-    radial-gradient(ellipse 80% 60% at 20% 50%, rgba(255,45,120,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 20% 50%, rgba(255,45,120,0.07) 0%, transparent 70%),
     linear-gradient(140deg, #100a0e 0%, #160e13 100%);
+  border-top: 4px solid var(--m-pink);
+  border-bottom: 4px solid var(--m-pink);
+  padding: 80px 40px;
 }
 .m-buy-wrap {
   max-width: 1040px;
@@ -1085,7 +1088,7 @@
   min-height: 420px;
 }
 .m-history-text {
-  padding: 48px 16px 48px 56px;
+  padding: 48px 0 48px 40px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -1120,7 +1123,6 @@
   color: rgba(250,250,250,0.55);
   line-height: 1.7;
   margin: 0;
-  max-width: 460px;
 }
 .m-history-bold {
   font-family: 'Big Shoulders Display', sans-serif;
@@ -1132,13 +1134,12 @@
   border-left: 3px solid var(--m-lime);
   padding-left: 14px;
   line-height: 1.35;
-  max-width: 440px;
 }
 .m-history-photo {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 40px 32px 8px;
+  padding: 32px 40px 32px 16px;
 }
 .m-history-photo img {
   width: 100%;

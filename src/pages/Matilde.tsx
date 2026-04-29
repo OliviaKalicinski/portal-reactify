@@ -444,10 +444,8 @@ export default function Matilde() {
               <div className="m-buy-label">Por que escolher</div>
               <ul className="m-buy-check">
                 <li>Ingrediente único — larva BSF desidratada</li>
-                <li>100% natural, sem conservante, sem corante, sem aditivo</li>
-                <li>Hipoalergênico — rastreável do início ao fim</li>
-                <li>Todas as idades e portes</li>
-                <li>88,9% de digestibilidade proteica</li>
+                <li>100% natural, sem corante nem aditivo</li>
+                <li>Hipoalergênico e rastreável</li>
                 <li>Biofábrica registrada no MAPA/RJ</li>
               </ul>
 
@@ -456,6 +454,7 @@ export default function Matilde() {
               <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime m-btn-full">
                 🛒 Comprar agora com 10% OFF
               </a>
+              <div className="m-buy-cupom">Cupom BORALA aplicado automaticamente · vai direto para o checkout</div>
             </div>
           </div>
 
