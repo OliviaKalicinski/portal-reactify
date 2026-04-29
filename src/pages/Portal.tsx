@@ -1039,11 +1039,11 @@ const Portal = () => {
             <div className="card-hover-overlay" style={{ background: "rgba(0,255,135,0.06)" }} />
           </a>
 
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="card card-social card-social-map ratio-1-1">
+          <Link to="/lojas" className="card card-social card-social-map ratio-1-1">
             <img src={lojasCoverImg} alt="" className="card-produtos-cover" draggable={false} />
             <HoverBg imgKey="lojas" />
             <div className="card-hover-overlay" />
-          </a>
+          </Link>
 
 
           <button

@@ -1,0 +1,276 @@
+/* ===== LOJAS PAGE ===== */
+.lojas-page {
+  min-height: 100vh;
+  background: #0A0A0A;
+  color: #FAFAFA;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* HEADER */
+.lojas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.lojas-back {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.lojas-back:hover { color: #FF7A00; }
+.lojas-logo { width: 80px; opacity: 0.7; }
+
+/* HERO */
+.lojas-hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px 28px 32px;
+}
+.lojas-hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #FF7A00;
+  margin-bottom: 16px;
+}
+.lojas-hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 8vw, 110px);
+  line-height: 0.92;
+  margin: 0 0 20px;
+  color: #FAFAFA;
+}
+.lojas-hero-accent { color: #7BFF00; }
+.lojas-hero-sub {
+  font-size: clamp(14px, 1.4vw, 17px);
+  color: rgba(255,255,255,0.55);
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+/* FILTROS */
+.lojas-filters-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.lojas-search-wrap { width: 100%; max-width: 400px; }
+.lojas-search {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.12);
+  color: #FAFAFA;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  padding: 10px 16px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.lojas-search:focus { border-color: #FF7A00; }
+.lojas-search::placeholder { color: rgba(255,255,255,0.3); }
+
+.lojas-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.lojas-chip {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 2px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.lojas-chip:hover { border-color: #FF7A00; color: #FF7A00; }
+.lojas-chip.active {
+  background: #FF7A00;
+  border-color: #FF7A00;
+  color: #0A0A0A;
+}
+
+.lojas-count {
+  display: flex;
+  gap: 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+/* GRID */
+.lojas-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 28px 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* CARD */
+.loja-card {
+  background: #111;
+  border: 2px solid rgba(255,255,255,0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s, transform 0.15s;
+  position: relative;
+}
+.loja-card:hover { border-color: rgba(255,255,255,0.22); transform: translateY(-2px); }
+.loja-card-fisica:hover  { border-color: #7BFF00; }
+.loja-card-online:hover  { border-color: #925AED; }
+.loja-card-eventos:hover { border-color: #FF7A00; }
+
+.loja-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.loja-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1.5px solid;
+}
+.loja-tag-fisica  { color: #7BFF00; border-color: #7BFF00; }
+.loja-tag-online  { color: #925AED; border-color: #925AED; }
+.loja-tag-eventos { color: #FF7A00; border-color: #FF7A00; }
+
+.loja-estado {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.loja-nome {
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 900;
+  line-height: 1;
+  color: #FAFAFA;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.loja-endereco, .loja-telefone {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.45;
+}
+
+.loja-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.loja-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 7px 14px;
+  border: 2px solid;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.loja-btn-maps {
+  background: #7BFF00;
+  border-color: #7BFF00;
+  color: #0A0A0A;
+}
+.loja-btn-maps:hover {
+  background: transparent;
+  color: #7BFF00;
+}
+.loja-btn-wa {
+  background: transparent;
+  border-color: #00A550;
+  color: #00A550;
+}
+.loja-btn-wa:hover {
+  background: #00A550;
+  color: #0A0A0A;
+}
+
+.lojas-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255,255,255,0.3);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+/* FOOTER */
+.lojas-footer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 28px 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+}
+.lojas-footer a {
+  color: #FF7A00;
+  text-decoration: none;
+}
+.lojas-footer a:hover { text-decoration: underline; }
+.lojas-back-bottom {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35) !important;
+  transition: color 0.2s;
+}
+.lojas-back-bottom:hover { color: #FF7A00 !important; text-decoration: none !important; }
+
+/* MOBILE */
+@media (max-width: 640px) {
+  .lojas-header { padding: 16px 20px; }
+  .lojas-hero   { padding: 32px 20px 24px; }
+  .lojas-filters-wrap { padding: 0 20px 20px; }
+  .lojas-grid   { padding: 0 20px 40px; grid-template-columns: 1fr; }
+  .lojas-footer { padding: 20px; flex-direction: column; align-items: flex-start; }
+}
