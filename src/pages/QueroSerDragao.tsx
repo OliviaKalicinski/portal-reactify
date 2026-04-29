@@ -119,7 +119,7 @@ const QueroSerDragao = () => {
       <PageMeta
         title="Quero ser Dragão — Comida de Dragão"
         description="Seja parceiro Comida de Dragão. Produtos pra testar, cupom exclusivo e comissão por venda. Entra na matilha."
-        image="/assets/images/poster-punk-converte.png"
+        image="/assets/images/poster-punk-converte.webp"
       />
       <MarqueeBar items={MARQUEE_TOP} />
 

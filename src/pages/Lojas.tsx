@@ -79,7 +79,7 @@ export default function Lojas() {
       <PageMeta
         title="Onde Encontrar — Comida de Dragão"
         description="+30 lojas parceiras em SP, RJ e todo o Brasil. Encontre Comida de Dragão perto de você."
-        image="/assets/images/canal-dragao-cover.png"
+        image="/assets/images/canal-dragao-cover.webp"
       />
 
       {/* HERO — padrão portal */}

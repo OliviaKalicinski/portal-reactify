@@ -66,7 +66,7 @@ export default function Matilde() {
       <PageMeta
         title="Quero Alimentar Bem — Matilde & Comida de Dragão"
         description="Um ingrediente. 45% de proteína. Zero conservante. O petisco que tutores que pesquisam escolhem."
-        image="/assets/images/matilde/7.png"
+        image="/assets/images/matilde/7.webp"
       />
 
       {/* ══ 1. HERO ═══════════════════════════════════════════════ */}
@@ -94,7 +94,7 @@ export default function Matilde() {
 
       {/* Mobile-only: pet photo logo abaixo do hero */}
       <div className="m-hero-pet-mobile">
-        <img src="/assets/images/matilde/6.png" alt="Matilde" />
+        <img loading="lazy" src="/assets/images/matilde/6.webp" alt="Matilde" />
       </div>
 
       {/* ══ 2. BENEFÍCIOS ════════════════════════════════════════ */}
@@ -146,9 +146,9 @@ export default function Matilde() {
       {/* ══ 3. PROBLEMA ══════════════════════════════════════════ */}
       <section className="m-problem">
         <div className="m-problem-photo">
-          <img src="/assets/images/matilde/1.png" alt="Cansado de ler rótulo?" />
+          <img loading="lazy" src="/assets/images/matilde/1.webp" alt="Cansado de ler rótulo?" />
           {/* Matilde overlay — canto inferior esquerdo */}
-          <img src="/assets/images/matilde/matilde-portrait.png" alt="Matilde" className="m-problem-matilde" />
+          <img loading="lazy" src="/assets/images/matilde/matilde-portrait.webp" alt="Matilde" className="m-problem-matilde" />
         </div>
         <div className="m-problem-text">
           <h2 className="m-problem-title">
@@ -182,14 +182,14 @@ export default function Matilde() {
           </p>
         </div>
         <div className="m-history-photo">
-          <img src="/assets/images/matilde/2.png" alt="Tutores da Matilde" />
+          <img loading="lazy" src="/assets/images/matilde/2.webp" alt="Tutores da Matilde" />
         </div>
       </section>
 
       {/* ══ 5. DESCOBERTA ════════════════════════════════════════ */}
       <section className="m-discovery">
         <div className="m-discovery-photo">
-          <img src="/assets/images/matilde/6.png" alt="Matilde descobrindo a larva BSF" />
+          <img loading="lazy" src="/assets/images/matilde/6.webp" alt="Matilde descobrindo a larva BSF" />
         </div>
         <div className="m-discovery-text">
           <h2 className="m-section-title m-discovery-title">
@@ -225,7 +225,7 @@ export default function Matilde() {
             {/* — esquerda: imagem + tags — */}
             <div className="m-buy-left">
               <div className="m-buy-product">
-                <img src="/assets/images/matilde/5.png" alt="Comida de Dragão Original" />
+                <img loading="lazy" src="/assets/images/matilde/5.webp" alt="Comida de Dragão Original" />
               </div>
               <div className="m-buy-tags">
                 <span className="m-buy-tag">Todos os pets</span>
@@ -378,7 +378,7 @@ export default function Matilde() {
             <div className="m-ba-photo-wrap">
               <div className="m-ba-tag m-ba-tag-antes">✗ Antes</div>
               <div className="m-ba-polaroid">
-                <img src="/assets/images/matilde/3.png" alt="Antes — Matilde subnutrida" />
+                <img loading="lazy" src="/assets/images/matilde/3.webp" alt="Antes — Matilde subnutrida" />
               </div>
               <p className="m-ba-caption">Chegou subnutrida, precisou de cirurgia</p>
             </div>
@@ -388,7 +388,7 @@ export default function Matilde() {
             <div className="m-ba-photo-wrap">
               <div className="m-ba-tag m-ba-tag-depois">✓ Depois</div>
               <div className="m-ba-polaroid">
-                <img src="/assets/images/matilde/4.png" alt="Depois — Matilde saudável" />
+                <img loading="lazy" src="/assets/images/matilde/4.webp" alt="Depois — Matilde saudável" />
               </div>
               <p className="m-ba-caption">Saudável, no peso ideal, ativa</p>
             </div>
@@ -424,7 +424,7 @@ export default function Matilde() {
             {/* — esquerda: imagem + tags — */}
             <div className="m-buy-left">
               <div className="m-buy-product">
-                <img src="/assets/images/matilde/5.png" alt="Comida de Dragão Original" />
+                <img loading="lazy" src="/assets/images/matilde/5.webp" alt="Comida de Dragão Original" />
               </div>
               <div className="m-buy-tags">
                 <span className="m-buy-tag">Todos os pets</span>
@@ -485,7 +485,7 @@ export default function Matilde() {
       {/* ══ ÚLTIMO. APROVADO PELA MATILDE ════════════════════════ */}
       <section className="m-aprovado">
         <div className="m-aprovado-photo">
-          <img src="/assets/images/matilde/9.png" alt="Aprovado pela Matilde" />
+          <img loading="lazy" src="/assets/images/matilde/9.webp" alt="Aprovado pela Matilde" />
         </div>
         <div className="m-aprovado-card-wrap">
           <div className="m-aprovado-card">

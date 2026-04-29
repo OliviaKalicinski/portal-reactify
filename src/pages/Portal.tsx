@@ -34,7 +34,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   biofabrica: "/assets/images/biofabrica-exterior.jpeg",
   biofabrica_hover: "/assets/images/hover-biofabrica.gif",
   manual:     "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmk2dzZwdTZlemFiZGVkanMzdnZhMXp4bjBsb2VrcHl5NmI4NXc4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z9tvqoD1SEQcomTVaK/giphy.gif",
-  youtube:    "/assets/images/portal-comida-dragao.png",
+  youtube:    "/assets/images/portal-comida-dragao.webp",
   companion:  "https://media.giphy.com/media/HIWNaM05qJAENE1TJM/giphy.gif",
   instagram:  "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2N1NDBpdDdvaWkyaDh5YnNhMXFnNWd6anNjMGJvYmJ6eXptN2FhOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Fu3OjBQiCs3s0ZuLY3/giphy.gif",
   whatsapp:   "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2RzczUzNDA0eHg1ZXg4czhoemg4aXIybXprMGd6eGJrYzdzMm9zMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y0mkt9yBEsrPW/giphy.gif",
@@ -295,7 +295,7 @@ const Portal = () => {
       <PageMeta
         title="Comida de Dragão — Hub do Dragão"
         description="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade, feita na nossa biofábrica em Cachoeiras de Macacu. Mais que um alimento, uma revolução."
-        image="/assets/images/canal-dragao-cover.png"
+        image="/assets/images/canal-dragao-cover.webp"
       />
       <style>{`
         .card-img-hover {
@@ -881,7 +881,7 @@ const Portal = () => {
         {/* ROW 2 */}
         <div className="row">
           <Link to="/produtos" className="card card-produtos ratio-1-1">
-            <img src="/assets/images/nossos-produtos.png" alt="" className="card-produtos-cover" draggable={false} />
+            <img src="/assets/images/nossos-produtos.webp" alt="" className="card-produtos-cover" draggable={false} />
             <HoverBg imgKey="produtos" />
             <div className="card-inner">
               <div className="card-body">
@@ -1424,7 +1424,7 @@ const Portal = () => {
               }}
             >✕</button>
             <img
-              src="/assets/images/Frente.png"
+              src="/assets/images/Frente.webp"
               alt="Catálogo Comida de Dragão"
               style={{
                 maxWidth: "100%",

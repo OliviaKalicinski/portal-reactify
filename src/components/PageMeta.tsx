@@ -23,7 +23,7 @@ interface Props {
 }
 
 const SITE_URL = "https://comidadedragao.com.br";
-const DEFAULT_IMAGE = "/assets/images/canal-dragao-cover.png";
+const DEFAULT_IMAGE = "/assets/images/canal-dragao-cover.webp";
 
 const abs = (path: string) => {
   if (path.startsWith("http")) return path;

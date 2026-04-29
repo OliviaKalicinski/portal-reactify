@@ -80,7 +80,7 @@
 .m-hero-bg {
   position: absolute;
   inset: 0;
-  background: url('/assets/images/matilde/8.png') center/cover no-repeat;
+  background: url('/assets/images/matilde/8.webp') center/cover no-repeat;
   z-index: 0;
 }
 .m-hero-content {

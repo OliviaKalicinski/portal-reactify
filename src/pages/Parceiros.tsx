@@ -124,7 +124,7 @@ const Parceiros = () => {
       <PageMeta
         title="Parceiros · Comida de Dragão"
         description="Seja criador de conteúdo Comida de Dragão. 30% de comissão, produtos mensais, cupom exclusivo e liberdade criativa. Entra na matilha."
-        image="/assets/images/poster-punk-converte.png"
+        image="/assets/images/poster-punk-converte.webp"
       />
       <MarqueeBar items={MARQUEE_TOP} />
 

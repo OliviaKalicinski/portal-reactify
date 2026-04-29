@@ -328,7 +328,7 @@ const Imprensa = () => {
       <PageMeta
         title="Imprensa & Cobertura · Comida de Dragão"
         description="20+ links curados — Globo, G1, BBC, Exame, ArchDaily. O que falam sobre a Comida de Dragão, a Lets Fly e o inseto que tá mudando o jogo."
-        image="/assets/images/canal-dragao-cover.png"
+        image="/assets/images/canal-dragao-cover.webp"
       />
       <MarqueeBar items={MARQUEE_TOP} />
 
