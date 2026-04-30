@@ -867,11 +867,12 @@ const Portal = () => {
           </Link>
 
           <div onClick={openManifesto} style={{ cursor: "pointer" }} className="card card-manifesto-cta ratio-3-4">
+            <img src="/assets/images/team.gif" alt="A equipe Comida de Dragão" className="card-produtos-cover" draggable={false} />
             <div className="card-inner">
               <div className="card-body">
-                <span className="card-tag">Manifesto</span>
-                <div className="card-label">Leia o<br />Manifesto</div>
-                <div className="card-sub">O que o Dragão acredita — em 5 parágrafos</div>
+                <span className="card-tag">A Matilha</span>
+                <div className="card-label">Quem faz<br />acontecer</div>
+                <div className="card-sub">Conheça quem está por trás do Dragão</div>
               </div>
             </div>
             <div className="card-hover-overlay" />
@@ -1208,7 +1209,7 @@ const Portal = () => {
           </article>
         </div>
       )}
-      {/* MODAL MANIFESTO — Risograph (laranja + pink) */}
+      {/* MODAL EQUIPE — Risograph (laranja + pink) */}
       {manifestoOpen && (
         <div
           className="riso-overlay"
@@ -1218,15 +1219,14 @@ const Portal = () => {
             <div className="riso-strip" />
             <button className="riso-close" onClick={closeManifesto} aria-label="Fechar">×</button>
             <div className="riso-pagenum">01</div>
-            <span className="riso-eyebrow">MANIFESTO · O DRAGÃO</span>
-            <h2 id="manifesto-title" className="riso-title">Nojento é<br/>o desper-<br/>dício.</h2>
+            <span className="riso-eyebrow">A MATILHA · LET'S FLY</span>
+            <h2 id="manifesto-title" className="riso-title">Quem faz<br/>aconte-<br/>cer.</h2>
             <div className="riso-body">
-              <p>Nasci do elo entre a vitalidade da terra e o saber ancestral. Sou milenar e atemporal, carregando a memória dos antigos e a chama que ilumina o caminho para nossa verdadeira natureza.</p>
-              <p className="pull">Meu sopro é de cura. Minha força regenera.</p>
-              <p>Trago o elixir da regeneração, o néctar que nutre e harmoniza os seres vivos.</p>
-              <p className="strong">Mais do que um alimento, uma revolução.</p>
+              <img src="/assets/images/team.gif" alt="Equipe Comida de Dragão" style={{ width: "100%", borderRadius: 4, marginBottom: 12 }} />
+              <p>Somos a Let's Fly — um time que acredita que comida boa pra pet não precisa destruir o planeta. A Comida de Dragão nasceu aqui, no Rio de Janeiro, com muita pesquisa, um cachorro preto e zero medo de ser diferente.</p>
+              <p className="pull">Nojento é o desperdício. A gente faz ao contrário.</p>
             </div>
-            <div className="riso-signature">— O DRAGÃO · CACHOEIRAS DE MACACU · 2026</div>
+            <div className="riso-signature">— LET'S FLY · CACHOEIRAS DE MACACU · RJ</div>
             <a href="https://comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="riso-btn">VER PRODUTOS →</a>
             <button className="riso-btn ghost" onClick={closeManifesto}>FECHAR</button>
           </article>
