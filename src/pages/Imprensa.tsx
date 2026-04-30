@@ -39,7 +39,7 @@ const getVeiculo = (meta?: string) => {
 
 const MARQUEE_TOP = [
   "IMPRENSA & COBERTURA",
-  "O QUE FALAM SOBRE O DRAGÃO",
+  "O DRAGÃO NA MÍDIA",
   "NA MÍDIA · VÍDEOS · ECOSSISTEMA BSF",
   "BBC · G1 · EXAME · ARCHDAILY",
   "A REVOLUÇÃO DO INSETO",
@@ -341,8 +341,8 @@ const Imprensa = () => {
           <div className="hero-eyebrow">Comida de Dragão — Imprensa & Cobertura</div>
           <DragonLogo className="hero-logo" />
           <h1 className="archive-hero-title">
-            O que falam sobre o
-            <span>Dragão</span>
+            O Dragão
+            <span>na Mídia</span>
           </h1>
           <p className="archive-hero-sub">
             {LINKS.length} links curados — matérias, vídeos, produtos e referências
