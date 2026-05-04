@@ -5,8 +5,29 @@ import DragonLogo from "@/components/DragonLogo";
 import "./Portal.css";
 import "./Matilde.css";
 
-// Yampi: vai direto ao checkout com o produto + cupom BORALA já aplicado
-const ML_URL = "https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X:1?promocode=BORALA";
+/* Checkout Yampi do Original 90g (Buy Now URL: /r/TQT4HOZK7X).
+   Antes estava `/r/TQT4HOZK7X:1?promocode=BORALA` — o `:1` era resíduo
+   do tokenReference de transação e quebrava o link; `promocode=` não é
+   parâmetro reconhecido pela Yampi (correto é `coupon=`).
+   utm_content varia por posição do CTA pra você ver no Analytics
+   qual seção da Matilde converte mais. */
+const COUPON = "BORALA";
+const CHECKOUT_BASE =
+  `https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X` +
+  `?coupon=${COUPON}` +
+  `&utm_source=meta` +
+  `&utm_medium=cpc` +
+  `&utm_campaign=lp-matilde-borala`;
+
+const ctaUrl = (cta:
+  | "hero"
+  | "quick"
+  | "problema"
+  | "compra-1"
+  | "quote"
+  | "compra-2"
+  | "aprovado"
+) => `${CHECKOUT_BASE}&utm_content=${cta}`;
 const REVIEWS = [3, 4, 5, 6, 7, 8, 9, 10];
 const PRESS_LOGOS = [
   "logo-1.png","logo-3.png","logo-4.png","logo-5.png",
@@ -86,7 +107,7 @@ export default function Matilde() {
             Existe um petisco com ingrediente único, rastreável do início ao fim —
             feito para quem pesquisa antes de comprar.
           </p>
-          <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-pink">
+          <a href={ctaUrl("hero")} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-pink">
             Quero dar o melhor pro meu pet →
           </a>
         </div>
@@ -138,7 +159,7 @@ export default function Matilde() {
           <span className="m-quick-cta-eyebrow">Já convencido?</span>
           <span className="m-quick-cta-headline">Pula a história e vai direto.</span>
         </div>
-        <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime">
+        <a href={ctaUrl("quick")} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime">
           🛒 Comprar agora com 10% OFF →
         </a>
       </div>
@@ -160,7 +181,7 @@ export default function Matilde() {
             da embalagem que não significa nada. O pote ainda precisa ser preenchido.
             Só que agora você já sabe o que não quer.
           </p>
-          <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-outline">
+          <a href={ctaUrl("problema")} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-outline">
             Existe uma alternativa →
           </a>
         </div>
@@ -255,7 +276,7 @@ export default function Matilde() {
 
               <div className="m-buy-sep" />
               <div className="m-buy-price">R$ 38,90</div>
-              <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime m-btn-full">
+              <a href={ctaUrl("compra-1")} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime m-btn-full">
                 🛒 Comprar agora com 10% OFF
               </a>
               <div className="m-buy-cupom">Cupom BORALA aplicado automaticamente · vai direto para o checkout</div>
@@ -306,7 +327,7 @@ export default function Matilde() {
             — e aprovado pela Matilde."
           </blockquote>
           <div className="m-quote-attr">— Pai da Matilde, Rio de Janeiro</div>
-          <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime">
+          <a href={ctaUrl("quote")} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime">
             Sim, eu quero experimentar
           </a>
         </div>
@@ -454,7 +475,7 @@ export default function Matilde() {
 
               <div className="m-buy-sep" />
               <div className="m-buy-price">R$ 38,90</div>
-              <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime m-btn-full">
+              <a href={ctaUrl("compra-2")} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime m-btn-full">
                 🛒 Comprar agora com 10% OFF
               </a>
               <div className="m-buy-cupom">Cupom BORALA aplicado automaticamente · vai direto para o checkout</div>
@@ -494,7 +515,7 @@ export default function Matilde() {
               Natural, nutritivo, ingrediente único. Sem conservantes.
               Só o que seu pet precisa.
             </p>
-            <a href={ML_URL} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime">
+            <a href={ctaUrl("aprovado")} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime">
               Só gente legal clica aqui!
             </a>
           </div>
