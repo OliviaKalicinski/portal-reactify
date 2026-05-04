@@ -695,15 +695,15 @@ const Portal = () => {
       <section className="hero">
         <div className="hero-bg" />
         <div className="hero-content">
-          <div className="hero-eyebrow">Alimento pet · Proteína de inseto BSF</div>
+          <div className="hero-eyebrow">Bem-vindo à caverna.</div>
           <DragonLogo className="hero-logo" />
 
           <h1 className="hero-title hero-title-inline">
-            Bem-vindo à caverna.
+            Alimento para pets
           </h1>
 
           <p className="hero-produto-line">
-            Petisco de inseto pra <strong>cão</strong>, <strong>gato</strong>, <strong>réptil</strong> e <strong>exótico</strong> — nutritivo, sustentável e diferente de tudo.
+            Proteína de inseto BSF
           </p>
 
           <p className="hero-descricao">
