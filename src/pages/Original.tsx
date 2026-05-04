@@ -22,13 +22,14 @@ import "./Original.css";
 /* Checkout Yampi do Original 90g.
    /r/TQT4HOZK7X é o "Buy Now URL" oficial do produto — adiciona o
    Original ao carrinho automaticamente e leva direto ao checkout.
-   coupon=BORALA aplica os 10% off automaticamente (testar em anônimo).
-   UTMs marcam tráfego como Meta Ads + utm_content varia por CTA
-   pra você ver no Analytics qual posição da LP converte mais. */
+   cupom=BORALA é o parâmetro Yampi BR. Passamos `coupon=` também
+   como fallback caso a versão da plataforma reconheça o nome em inglês.
+   UTMs marcam tráfego como Meta Ads + utm_content varia por CTA. */
 const COUPON = "BORALA";
 const CHECKOUT_BASE =
   `https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X` +
-  `?coupon=${COUPON}` +
+  `?cupom=${COUPON}` +
+  `&coupon=${COUPON}` +
   `&utm_source=meta` +
   `&utm_medium=cpc` +
   `&utm_campaign=lp-original-borala`;
