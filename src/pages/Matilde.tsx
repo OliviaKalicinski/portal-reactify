@@ -6,15 +6,14 @@ import "./Portal.css";
 import "./Matilde.css";
 
 /* Checkout Yampi do Original 90g (Buy Now URL: /r/TQT4HOZK7X).
-   cupom=BORALA é o parâmetro Yampi BR; coupon= vai como fallback
-   pra cobrir eventual versão em inglês da plataforma.
+   ?promocode=BORALA é o parâmetro Yampi pra aplicar cupom automaticamente
+   (confirmado pela docs oficial Yampi).
    utm_content varia por posição do CTA pra você ver no Analytics
    qual seção da Matilde converte mais. */
 const COUPON = "BORALA";
 const CHECKOUT_BASE =
   `https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X` +
-  `?cupom=${COUPON}` +
-  `&coupon=${COUPON}` +
+  `?promocode=${COUPON}` +
   `&utm_source=meta` +
   `&utm_medium=cpc` +
   `&utm_campaign=lp-matilde-borala`;
