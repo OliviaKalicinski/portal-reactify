@@ -1721,7 +1721,7 @@
 }
 .portal-page .quiz-cta-content {
   position: absolute; inset: 0; display: flex; flex-direction: column;
-  align-items: flex-start; justify-content: flex-start; padding: 28px 28px; text-align: left;
+  align-items: flex-start; justify-content: flex-end; padding: 28px 28px; text-align: left;
   z-index: 1;
 }
 .portal-page .quiz-dragon-big { font-size: 52px; margin-bottom: 10px; }
@@ -1741,13 +1741,13 @@
 }
 .portal-page .quiz-start-btn {
   display: inline-block;
-  background: transparent; border: 2px solid var(--dragon-green); color: var(--dragon-green);
+  background: transparent; border: 2px solid #c6ff3d; color: #c6ff3d;
   font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px;
   letter-spacing: 0.15em; text-transform: uppercase; padding: 11px 24px;
   transition: background 0.2s, color 0.2s;
 }
 .portal-page .card-quiz:hover .quiz-start-btn {
-  background: var(--dragon-green); color: var(--dragon-black);
+  background: #c6ff3d; color: var(--dragon-black);
 }
 
 /* Quiz companion */
