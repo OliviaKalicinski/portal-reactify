@@ -1721,7 +1721,7 @@
 }
 .portal-page .quiz-cta-content {
   position: absolute; inset: 0; display: flex; flex-direction: column;
-  align-items: flex-end; justify-content: flex-start; padding: 28px 28px; text-align: right;
+  align-items: flex-start; justify-content: flex-start; padding: 28px 28px; text-align: left;
   z-index: 1;
 }
 .portal-page .quiz-dragon-big { font-size: 52px; margin-bottom: 10px; }
@@ -1730,9 +1730,9 @@
   color: rgba(250,250,250,0.25); margin-bottom: 8px;
 }
 .portal-page .quiz-inner-box {
-  border: 1.5px dashed rgba(255,255,255,0.25);
-  padding: 20px 24px;
-  display: flex; flex-direction: column; align-items: flex-end;
+  border: none;
+  padding: 0;
+  display: flex; flex-direction: column; align-items: flex-start;
   gap: 18px;
 }
 .portal-page .quiz-intro-title {
