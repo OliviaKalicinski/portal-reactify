@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
 import PageMeta from "@/components/PageMeta";
@@ -218,6 +218,17 @@ const Portal = () => {
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [closeModal, closeEmail]);
+
+  // Deep link: abre modais via querystring
+  // Ex: /portal?modal=manifesto → abre o pop-up "quem faz acontecer"
+  // Usado pela página /obrigado pra puxar o cliente direto pro manifesto.
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    const modal = searchParams.get("modal");
+    if (modal === "manifesto") setManifestoOpen(true);
+    if (modal === "catalogo") setCatalogOpen(true);
+    if (modal === "perguntas") setPerguntasOpen(true);
+  }, [searchParams]);
 
   // Body overflow lock when any modal is open
   useEffect(() => {
