@@ -1721,7 +1721,7 @@
 }
 .portal-page .quiz-cta-content {
   position: absolute; inset: 0; display: flex; flex-direction: column;
-  align-items: flex-start; justify-content: flex-end; padding: 28px 28px; text-align: left;
+  align-items: flex-start; justify-content: flex-start; padding: 28px 28px; text-align: left;
   z-index: 1;
 }
 .portal-page .quiz-dragon-big { font-size: 52px; margin-bottom: 10px; }
@@ -1734,6 +1734,7 @@
   padding: 0;
   display: flex; flex-direction: column; align-items: flex-start;
   gap: 18px;
+  margin-top: auto;
 }
 .portal-page .quiz-intro-title {
   font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px, 4vw, 52px);
