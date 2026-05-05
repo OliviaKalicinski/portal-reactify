@@ -20,6 +20,7 @@ const Lojas = lazy(() => import("./pages/Lojas.tsx"));
 const Matilde = lazy(() => import("./pages/Matilde.tsx"));
 const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
+const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 const queryClient = new QueryClient();
@@ -45,6 +46,8 @@ const App = () => (
               <Route path="/quero-ser-dragao" element={<QueroSerDragao />} />
               {/* LPs de produto — tráfego pago, fora do portal */}
               <Route path="/original" element={<Original />} />
+              {/* Página de obrigado pós-checkout Yampi */}
+              <Route path="/obrigado" element={<Obrigado />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
