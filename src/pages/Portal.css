@@ -1713,8 +1713,8 @@
 .portal-page .quiz-bg {
   position: absolute; inset: 0;
   background:
-    linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 100%),
-    url('/assets/images/bg-dragao-conhece.webp');
+    linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.45) 100%),
+    url('/assets/images/quiz-cover.png');
   background-size: cover;
   background-position: center;
   pointer-events: none;
