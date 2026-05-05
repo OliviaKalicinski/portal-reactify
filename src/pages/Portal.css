@@ -1734,6 +1734,7 @@
   padding: 0;
   display: flex; flex-direction: column; align-items: flex-start;
   gap: 18px;
+  margin-top: auto;
 }
 .portal-page .quiz-intro-title {
   font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px, 4vw, 52px);
@@ -1741,13 +1742,13 @@
 }
 .portal-page .quiz-start-btn {
   display: inline-block;
-  background: transparent; border: 2px solid var(--dragon-green); color: var(--dragon-green);
+  background: transparent; border: 2px solid #c6ff3d; color: #c6ff3d;
   font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px;
   letter-spacing: 0.15em; text-transform: uppercase; padding: 11px 24px;
   transition: background 0.2s, color 0.2s;
 }
 .portal-page .card-quiz:hover .quiz-start-btn {
-  background: var(--dragon-green); color: var(--dragon-black);
+  background: #c6ff3d; color: var(--dragon-black);
 }
 
 /* Quiz companion */
