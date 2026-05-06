@@ -1,52 +1,30 @@
 /* ================================
    PÁGINA DE OBRIGADO — /obrigado
    Comida de Dragão · pós-checkout Yampi
-   ────────────────────────────────
-   Conceito: rito de passagem. Cliente atravessou o portal,
-   entrou na caverna. Convite pra explorar o ecossistema da marca.
 
-   Theme: DARK BRUTALIST CAVERNA — diferente do light zine das LPs.
-   Cria narrativa visual: rua iluminada (LP) → caverna escura (interior).
-
-   LP autocontida — não importa Portal.css/Parceiros.css.
+   FASE BOOT: pop-up flutuante do @dragao escaneando o cliente
+   FASE READY: 3 portas lado a lado · escolha uma · todas levam ao /portal
 ================================ */
 
 .obg-page {
-  /* ─── tokens dark caverna ─── */
-  --obg-black:    #0A0A0A;
-  --obg-gray:     #141414;
-  --obg-gray-mid: #1A1A1A;
-  --obg-white:    #FAFAFA;
-  --obg-lime:     #7BFF00;
-  --obg-pink:     #FF2D78;
-  --obg-yellow:   #FFE600;
+  --obg-black: #0A0A0A;
+  --obg-deep:  #050505;
+  --obg-white: #FAFAFA;
+  --obg-lime:  #7BFF00;
+  --obg-pink:  #FF2D78;
+  --obg-yellow:#FFE600;
 
-  --obg-text-dim: rgba(250, 250, 250, 0.65);
-  --obg-text-muted: rgba(250, 250, 250, 0.42);
-  --obg-border-dim: rgba(250, 250, 250, 0.12);
-  --obg-glow-lime: 0 0 28px rgba(123, 255, 0, 0.35);
-
-  background: var(--obg-black);
-  color: var(--obg-white);
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  line-height: 1.5;
+  background: var(--obg-deep);
+  color: var(--obg-lime);
+  font-family: 'Space Mono', ui-monospace, monospace;
   min-height: 100vh;
-  overflow-x: hidden;
   position: relative;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
+.obg-page * { box-sizing: border-box; }
 
-.obg-page *,
-.obg-page *::before,
-.obg-page *::after { box-sizing: border-box; }
-.obg-page p, .obg-page ol, .obg-page ul { margin: 0; padding: 0; }
-
-.obg-page h1, .obg-page h2, .obg-page h3 {
-  margin: 0;
-  color: var(--obg-white);
-}
-
-/* ── scanlines CRT escopadas na página ── */
+/* scanlines CRT */
 .obg-page::before {
   content: '';
   position: fixed;
@@ -55,202 +33,296 @@
   z-index: 1000;
   background: repeating-linear-gradient(
     0deg,
-    rgba(255, 255, 255, 0.022) 0px,
-    rgba(255, 255, 255, 0.022) 1px,
+    rgba(255, 255, 255, 0.04) 0px,
+    rgba(255, 255, 255, 0.04) 1px,
     transparent 1px,
-    transparent 4px
+    transparent 3px
   );
 }
 
-/* ── radial soft no fundo (glow lime sutil pra vibe caverna profunda) ── */
+/* vinheta dark */
 .obg-page::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(123, 255, 0, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(255, 45, 120, 0.06) 0%, transparent 60%);
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 50%,
+    transparent 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
 }
 
-.obg-wrap {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 32px 24px 64px;
+/* ═══════════════════════════════════════════════════════
+   FASE BOOT — pop-up flutuante centralizado
+═══════════════════════════════════════════════════════ */
+.obg-boot {
   position: relative;
   z-index: 1;
-}
-
-/* ========= TOP BAR ========= */
-.obg-topbar {
+  min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: obg-fade-in 0.3s ease both;
+}
+@keyframes obg-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.obg-boot-window {
+  width: 100%;
+  max-width: 580px;
+  background: var(--obg-deep);
+  border: 2px solid var(--obg-lime);
+  box-shadow:
+    8px 8px 0 var(--obg-pink),
+    0 0 36px rgba(123, 255, 0, 0.2);
+  position: relative;
+  animation: obg-window-pop 0.32s cubic-bezier(0.2, 0.9, 0.4, 1.4) both;
+}
+@keyframes obg-window-pop {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.obg-boot-titlebar {
+  display: flex;
   justify-content: space-between;
-  padding-bottom: 20px;
-  margin-bottom: 28px;
-  border-bottom: 1px solid var(--obg-border-dim);
-}
-.obg-badge {
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px dashed rgba(123, 255, 0, 0.3);
   font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  color: var(--obg-lime);
-  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.04em;
 }
-.obg-topbar a {
-  color: var(--obg-text-dim);
+.obg-boot-handle {
+  color: var(--obg-lime);
+  font-weight: 700;
+  text-shadow: 0 0 12px rgba(123, 255, 0, 0.5);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+.obg-boot-dots {
+  color: rgba(123, 255, 0, 0.6);
+  letter-spacing: 0.18em;
+  font-size: 10px;
+}
+
+.obg-boot-inner {
+  padding: 22px 22px 26px;
+  font-size: 14px;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 10px rgba(123, 255, 0, 0.4);
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 280px;
+}
+
+.obg-boot-line {
+  display: block;
+  color: var(--obg-lime);
+}
+
+.obg-boot-progress {
+  margin-top: 12px;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: var(--obg-lime);
+}
+
+.obg-boot-final {
+  margin-top: 16px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--obg-lime);
+  text-shadow:
+    0 0 14px rgba(123, 255, 0, 0.7),
+    0 0 28px rgba(123, 255, 0, 0.35);
+  animation: obg-line-in 0.25s ease both;
+}
+
+.obg-boot-redirect {
+  margin-top: 4px;
+  color: rgba(123, 255, 0, 0.7);
+  font-size: 13px;
+  animation: obg-line-in 0.25s ease both;
+}
+
+@keyframes obg-line-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.obg-cursor,
+.obg-cursor-blink {
+  display: inline-block;
+  color: var(--obg-lime);
+  animation: obg-cursor-pulse 1s steps(1) infinite;
+}
+@keyframes obg-cursor-pulse {
+  0%, 50%   { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.obg-skip {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 5;
+  background: transparent;
+  border: 1px solid rgba(123, 255, 0, 0.35);
+  color: rgba(123, 255, 0, 0.65);
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.18em;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: color 0.15s;
+  text-transform: lowercase;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
 }
-.obg-topbar a:hover { color: var(--obg-lime); }
+.obg-skip:hover {
+  color: var(--obg-lime);
+  border-color: var(--obg-lime);
+  background: rgba(123, 255, 0, 0.08);
+  text-shadow: 0 0 12px rgba(123, 255, 0, 0.5);
+}
+.obg-skip:focus-visible {
+  outline: 2px solid var(--obg-lime);
+  outline-offset: 2px;
+}
 
-/* ========= HERO — RITO DE PASSAGEM ========= */
-.obg-hero {
+/* ═══════════════════════════════════════════════════════
+   FASE READY — escolha uma porta
+   Layout 100vh: nada precisa scroll. 4 áreas verticais:
+   header (auto) / portas (flex:1) / cupom (auto) / footer (auto)
+═══════════════════════════════════════════════════════ */
+.obg-ready {
   position: relative;
-  margin-bottom: 56px;
-  padding: 56px 36px 48px;
-  background: var(--obg-gray);
-  border: 2px solid var(--obg-lime);
-  box-shadow: 10px 10px 0 var(--obg-pink);
+  z-index: 1;
+  height: 100vh;
+  min-height: 640px; /* fallback pra telas muito baixas */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 28px 24px 18px;
+  gap: 16px;
   overflow: hidden;
+  animation: obg-ready-fade 0.8s ease both;
 }
-/* glow lime atrás do título — vibe terminal/caverna */
-.obg-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 70% 60% at 30% 50%, rgba(123, 255, 0, 0.12) 0%, transparent 60%);
-  pointer-events: none;
+@keyframes obg-ready-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.obg-hero > * { position: relative; z-index: 1; }
 
-.obg-hero-logo {
-  width: 80px;
+.obg-ready-logo {
+  width: 56px;
   height: auto;
   color: var(--obg-lime);
-  display: block;
-  margin-bottom: 22px;
-  filter:
-    drop-shadow(0 0 14px rgba(123, 255, 0, 0.35))
-    drop-shadow(0 4px 0 var(--obg-black));
-}
-
-.obg-eyebrow {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-  color: var(--obg-lime);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  display: inline-block;
-}
-
-.obg-title {
-  font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;
-  font-weight: 900;
-  font-size: clamp(48px, 8.5vw, 96px);
-  line-height: 0.88;
-  letter-spacing: -0.005em;
-  text-transform: uppercase;
-  color: var(--obg-white);
-  text-shadow: 4px 4px 0 var(--obg-black);
-  margin: 0 0 18px;
-}
-/* RISOGRAPH cirúrgico — só na palavra "PORTAL" */
-.obg-title em {
-  font-style: normal;
-  color: var(--obg-lime);
-  text-shadow:
-    4px 4px 0 var(--obg-black),
-    0 0 24px rgba(123, 255, 0, 0.5);
-}
-
-/* sub menor com info do pedido (separa visualmente da frase principal) */
-.obg-sub-info {
-  font-family: 'Space Mono', monospace;
-  font-size: 13px;
-  line-height: 1.55;
-  letter-spacing: 0.04em;
-  color: var(--obg-text-muted);
-  max-width: 640px;
   margin-bottom: 14px;
-  padding-left: 14px;
-  border-left: 2px solid rgba(123, 255, 0, 0.4);
+  filter: drop-shadow(0 0 18px rgba(123, 255, 0, 0.55));
+  animation: obg-glow-pulse 3s ease-in-out infinite;
+  flex-shrink: 0;
 }
-.obg-sub-info strong { color: var(--obg-lime); font-weight: 700; }
-
-.obg-sub {
-  font-size: 17px;
-  line-height: 1.55;
-  color: var(--obg-text-dim);
-  max-width: 640px;
+@keyframes obg-glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 24px rgba(123, 255, 0, 0.55)); }
+  50%      { filter: drop-shadow(0 0 36px rgba(123, 255, 0, 0.8)); }
 }
-.obg-sub strong { color: var(--obg-white); }
 
-/* ========= SEÇÕES ========= */
-.obg-section { margin-bottom: 56px; }
+/* bloco do header (logo + eyebrow + title + sub) — flex shrink controlado */
+.obg-ready-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
 
-.obg-head {
+.obg-ready-eyebrow {
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.32em;
   color: var(--obg-lime);
   text-transform: uppercase;
-  border-bottom: 1px solid rgba(123, 255, 0, 0.22);
-  padding-bottom: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 12px rgba(123, 255, 0, 0.4);
 }
 
-.obg-h2 {
+.obg-ready-title {
   font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;
   font-weight: 900;
-  font-size: clamp(36px, 5.5vw, 56px);
-  line-height: 0.95;
-  letter-spacing: -0.005em;
+  font-size: clamp(36px, 5.5vw, 64px);
+  line-height: 0.92;
+  letter-spacing: -0.015em;
   color: var(--obg-white);
   text-transform: uppercase;
-  margin: 0 0 28px;
+  margin: 0 0 10px;
+  text-shadow:
+    3px 3px 0 var(--obg-lime),
+    0 0 32px rgba(123, 255, 0, 0.18);
 }
-.obg-h2 em {
+.obg-ready-title em {
   font-style: normal;
+  display: inline-block;
   color: var(--obg-lime);
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.7);
 }
 
-/* ========= CARDS DAS SALAS DA CAVERNA =========
-   Mesmo padrão visual do portal: GIF aparece em background no hover,
-   conteúdo de texto faz fade-out, setinha aparece no canto inferior
-   direito. Em mobile (sem hover), texto sempre visível e GIF sutil. */
-.obg-salas {
+.obg-ready-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.005em;
+  color: rgba(250, 250, 250, 0.72);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════
+   3 PORTAS — cards verticais lado a lado, hover GIF
+   bloco central do flex; max-height controla o tamanho
+═══════════════════════════════════════════════════════ */
+.obg-doors {
+  flex: 1 1 auto;
+  min-height: 0; /* permite shrink em flex-column */
   display: grid;
-  gap: 16px;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  align-items: center;
+  justify-items: stretch;
 }
 
-.obg-sala {
+.obg-door {
   position: relative;
-  background: var(--obg-gray);
-  border: 2px solid var(--obg-border-dim);
-  padding: 26px 24px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
+  border: 3px solid var(--obg-black);
+  overflow: hidden;
   text-decoration: none;
   color: inherit;
-  display: block;
-  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.22s ease;
-  overflow: hidden;
-  min-height: 220px;
   isolation: isolate;
+  box-shadow: 6px 6px 0 var(--obg-black);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-/* GIF preview no hover (espelho de .card-img-hover do Portal) */
-.obg-sala-bg {
+.obg-door:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0 var(--obg-black);
+}
+
+/* GIF preview no hover */
+.obg-door-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -258,217 +330,216 @@
   background-position: center;
   opacity: 0;
   transition: opacity 0.4s ease;
-  pointer-events: none;
+}
+.obg-door:hover .obg-door-bg {
+  opacity: 1;
 }
 
-.obg-sala-content {
+/* conteúdo da porta — esconde no hover pra GIF aparecer limpo */
+.obg-door-content {
   position: relative;
   z-index: 1;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 12px 16px;
+  text-align: center;
   transition: opacity 0.3s ease;
 }
-
-.obg-sala-num {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  color: var(--obg-lime);
-  text-transform: uppercase;
+.obg-door:hover .obg-door-content {
+  opacity: 0;
 }
 
-.obg-sala-titulo {
-  font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;
-  font-weight: 900;
-  font-size: clamp(30px, 3.6vw, 42px);
-  line-height: 0.95;
-  letter-spacing: -0.005em;
-  color: var(--obg-white);
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.obg-sala-desc {
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--obg-text-dim);
-  margin-top: 4px;
-}
-
-/* setinha no canto inferior direito (espelho de .card-cta-arrow) */
-.obg-sala-arrow {
+/* botãozinho "entrar" que aparece no hover da porta */
+.obg-door::after {
+  content: 'entrar →';
   position: absolute;
-  bottom: 12px;
-  right: 14px;
   z-index: 2;
-  background: rgba(10, 10, 10, 0.85);
-  color: var(--obg-lime);
-  border: 2px solid var(--obg-lime);
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  line-height: 1;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--obg-black);
+  background: var(--obg-white);
+  padding: 5px 12px;
+  border: 1.5px solid var(--obg-black);
+  box-shadow: 2px 2px 0 var(--obg-black);
   opacity: 0;
   transition: opacity 0.18s ease, transform 0.18s ease;
   pointer-events: none;
-}
-
-/* HOVER: GIF aparece, conteúdo some, setinha pula */
-.obg-sala:hover {
-  transform: translate(-3px, -3px);
-  border-color: var(--obg-lime);
-  box-shadow:
-    8px 8px 0 var(--obg-pink),
-    0 0 28px rgba(123, 255, 0, 0.18);
-}
-.obg-sala:hover .obg-sala-bg { opacity: 1; }
-.obg-sala:hover .obg-sala-content { opacity: 0; }
-.obg-sala:hover .obg-sala-arrow {
-  opacity: 1;
-  transform: translateX(3px);
-}
-
-/* MOBILE / sem hover: texto sempre visível, setinha sempre visível,
-   GIF não aparece (não distrai a leitura) */
-@media (hover: none), (max-width: 768px) {
-  .obg-sala-arrow { opacity: 1; bottom: 10px; right: 10px; width: 32px; height: 32px; font-size: 18px; }
-  .obg-sala:hover .obg-sala-bg { opacity: 0; }
-  .obg-sala:hover .obg-sala-content { opacity: 1; }
-}
-
-/* ========= MARQUEE ========= */
-.obg-marquee {
-  background: var(--obg-lime);
-  color: var(--obg-black);
-  padding: 14px 0;
-  overflow: hidden;
-  font-family: 'Space Mono', monospace;
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  border-top: 2px solid var(--obg-black);
-  border-bottom: 2px solid var(--obg-black);
-  margin: 0 -24px 56px;
-}
-.obg-marquee-track {
-  display: inline-flex;
   white-space: nowrap;
-  animation: obg-scroll 32s linear infinite;
 }
-.obg-marquee-track span { display: inline-block; padding: 0 28px; }
-.obg-marquee-track span::after { content: '·'; margin-left: 28px; }
-@keyframes obg-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+.obg-door:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
 }
 
-/* ========= CUPOM — SELO DA MATILHA (mais discreto) ========= */
-.obg-selo {
-  background: var(--obg-gray);
-  border: 2px dashed var(--obg-lime);
-  padding: 26px 24px;
-  text-align: center;
-  margin-bottom: 56px;
-  position: relative;
-  overflow: hidden;
-}
-.obg-selo::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(123, 255, 0, 0.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-.obg-selo > * { position: relative; z-index: 1; }
-.obg-selo-eyebrow {
+.obg-door-eyebrow {
   font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-  color: var(--obg-lime);
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.obg-selo-titulo {
-  font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;
-  font-weight: 900;
-  font-size: clamp(28px, 4vw, 40px);
-  line-height: 1;
-  letter-spacing: -0.005em;
-  color: var(--obg-white);
-  text-transform: uppercase;
-  margin: 0 0 14px;
-}
-.obg-selo-titulo em {
-  font-style: normal;
-  color: var(--obg-lime);
-}
-.obg-selo-codigo {
-  display: inline-block;
-  font-family: 'Space Mono', monospace;
-  font-size: 22px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.22em;
-  background: var(--obg-black);
-  color: var(--obg-lime);
-  padding: 12px 22px;
-  border: 2px solid var(--obg-lime);
-  margin: 6px 0 12px;
-  user-select: all;
-}
-.obg-selo-small {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
+  color: rgba(0, 0, 0, 0.65);
   text-transform: uppercase;
-  color: var(--obg-text-dim);
 }
 
-/* ========= FOOTER ========= */
-.obg-footer {
-  border-top: 1px solid var(--obg-border-dim);
-  padding-top: 28px;
-  text-align: center;
-  color: var(--obg-text-muted);
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  line-height: 1.7;
-}
-.obg-footer-tagline {
+.obg-door-num {
   font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;
   font-weight: 900;
-  font-size: 22px;
-  letter-spacing: -0.005em;
+  font-size: clamp(64px, 11vw, 130px);
+  line-height: 1;
+  color: var(--obg-black);
+  letter-spacing: -0.04em;
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+.obg-door-arrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+/* cores das 3 portas — cada uma com sua identidade */
+.obg-door-lime   { background: var(--obg-lime);   }
+.obg-door-pink   { background: var(--obg-pink);   }
+.obg-door-yellow { background: var(--obg-yellow); }
+
+/* ═══════════════════════════════════════════════════════
+   FAIXA HORIZONTAL DO CUPOM — embaixo das portas
+   Info discreta, não protagonista. Largura combina com o grid.
+═══════════════════════════════════════════════════════ */
+.obg-coupon-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  gap: 12px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  border: 2px dashed var(--obg-lime);
+  background: rgba(123, 255, 0, 0.04);
+}
+
+.obg-coupon-bar-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
   color: var(--obg-lime);
   text-transform: uppercase;
-  margin-bottom: 14px;
+  text-shadow: 0 0 10px rgba(123, 255, 0, 0.4);
 }
 
-/* ========= RESPONSIVE ========= */
-@media (min-width: 720px) {
-  .obg-salas { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.obg-coupon-bar-divider {
+  color: rgba(123, 255, 0, 0.4);
+  font-size: 16px;
+  user-select: none;
 }
 
-@media (min-width: 1080px) {
-  /* 6 cards em grid 3x2 no desktop */
-  .obg-salas { grid-template-columns: repeat(3, 1fr); }
+.obg-coupon-bar-code {
+  font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: 0.12em;
+  color: var(--obg-lime);
+  line-height: 1;
+  text-shadow: 0 0 14px rgba(123, 255, 0, 0.5);
+  user-select: all;
+  cursor: text;
 }
 
+.obg-coupon-bar-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.72);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════ */
+.obg-ready-footer {
+  flex-shrink: 0;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 250, 0.3);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
 @media (max-width: 600px) {
-  .obg-wrap { padding: 24px 16px 56px; }
-  .obg-hero {
-    padding: 40px 24px 36px;
-    box-shadow: 6px 6px 0 var(--obg-pink);
+  .obg-boot { padding: 20px 16px; }
+  .obg-boot-window { box-shadow: 6px 6px 0 var(--obg-pink), 0 0 24px rgba(123, 255, 0, 0.18); }
+  .obg-boot-inner { padding: 18px 16px 22px; font-size: 12.5px; min-height: 240px; }
+  .obg-boot-titlebar { padding: 8px 14px; font-size: 11px; }
+  .obg-boot-progress { font-size: 12.5px; }
+  .obg-boot-final { font-size: 13.5px; }
+  .obg-skip { bottom: 16px; right: 16px; font-size: 10px; }
+
+  .obg-ready {
+    padding: 20px 14px 14px;
+    min-height: 560px;
+    gap: 12px;
   }
-  .obg-marquee { margin: 0 -16px 40px; }
-  .obg-section { margin-bottom: 44px; }
+  .obg-ready-logo { width: 44px; margin-bottom: 8px; }
+  .obg-ready-eyebrow { font-size: 10px; margin-bottom: 8px; }
+  .obg-ready-sub { font-size: 13px; line-height: 1.45; }
+
+  .obg-doors {
+    gap: 8px;
+    max-width: 100%;
+  }
+  .obg-door {
+    box-shadow: 4px 4px 0 var(--obg-black);
+    max-height: 280px;
+  }
+  .obg-door:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--obg-black); }
+  .obg-door-content { padding: 12px 8px 10px; }
+  .obg-door-eyebrow { font-size: 8px; letter-spacing: 0.18em; }
+  .obg-door-arrow { font-size: 9px; letter-spacing: 0.14em; }
+  .obg-door::after { font-size: 10px; padding: 4px 9px; bottom: 8px; box-shadow: 1.5px 1.5px 0 var(--obg-black); }
+
+  .obg-coupon-bar {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+  .obg-coupon-bar-code { font-size: 22px; }
+  .obg-coupon-bar-label,
+  .obg-coupon-bar-meta { font-size: 10px; letter-spacing: 0.16em; }
+}
+
+/* respeita reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .obg-ready,
+  .obg-ready-logo,
+  .obg-cursor,
+  .obg-cursor-blink,
+  .obg-boot-window,
+  .obg-boot-final,
+  .obg-boot-redirect,
+  .obg-boot,
+  .obg-door,
+  .obg-door-bg,
+  .obg-door-content {
+    animation: none !important;
+    transition: none !important;
+  }
 }

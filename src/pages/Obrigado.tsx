@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
@@ -7,220 +8,241 @@ import "./Obrigado.css";
    PÁGINA DE OBRIGADO — /obrigado
    Comida de Dragão · destino do redirecionamento Yampi pós-compra
 
-   Conceito: rito de passagem. O cliente atravessou o portal —
-   agora é convidado a explorar a caverna (o ecossistema da marca).
-
-   Design: dark brutalist caverna · alinhado com o Portal principal,
-   intencionalmente diferente das LPs (que são light zine paper).
-   Cards com GIF hover preview no padrão do Portal.
+   Conceito: INICIAÇÃO. Pop-up flutuante simula o @dragao escaneando
+   o cliente. Ao terminar, redireciona automaticamente pra tela com
+   3 PORTAS lado a lado — escolha uma, todas levam pra /portal.
+   Brincadeira do dragão.
 
    ⚠️ Configurar redirecionamento em:
-      Yampi admin → Checkout → Redirecionamento (por método de pagamento)
-   ⚠️ Pix simples NÃO redireciona — limitação da plataforma.
+      Yampi admin → Checkout → Redirecionamento
+   ⚠️ Pix simples NÃO redireciona — limitação Yampi.
 ────────────────────────────────────────────────────────────── */
 
-const COUPON = "VOLTOU10";
+const BOOT_LINES = [
+  "> escaneando perfil...",
+  "> sem nojinho............... [✓]",
+  "> coragem de comer larva.... [✓]",
+  "> revolucionário............ [✓]",
+  "> matilha avisada........... [✓]",
+  "> selo bônus separado....... [✓]",
+  "> tô feliz pra caramba...... [✓]",
+];
 
-/** GIFs reusados do Portal — mesmo arsenal visual da marca */
-const GIF = {
-  manifesto:  "/assets/images/team.gif", // local — pop-up quem faz acontecer
-  biblioteca: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2FuY2JjbDV0aXdjNWgwOHhvcWZqY3ozZWZoZ3FoaXVtNzZ2aDRuOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mrTjb8ZXFeJdC/giphy.gif",
-  quiz:       "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzJxNHpkYTNjYmI2cTlpOTV4ZTQxZG5ia3VpMnpvamNuZjBzdWEwZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1kkxWqT5nvLXupUTwK/giphy.gif",
-  midia:      "https://media.giphy.com/media/HIWNaM05qJAENE1TJM/giphy.gif",
-  instagram:  "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2N1NDBpdDdvaWkyaDh5YnNhMXFnNWd6anNjMGJvYmJ6eXptN2FhOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Fu3OjBQiCs3s0ZuLY3/giphy.gif",
-  whatsapp:   "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2RzczUzNDA0eHg1ZXg4czhoemg4aXIybXprMGd6eGJrYzdzMm9zMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y0mkt9yBEsrPW/giphy.gif",
-};
+const BAR_WIDTH = 14;
+const TYPE_SPEED = 12;
+const PAUSE_BETWEEN_LINES = 140;
+const PROGRESS_STEP_MS = 40;
+const PROGRESS_STEP_PCT = 8;
 
-type Sala = {
-  num: string;
-  titulo: React.ReactNode;
-  desc: string;
-  url: string;
-  arrow: string;
-  gif: string;
-  external: boolean;
-};
-
-const SALAS: Sala[] = [
+/* 3 portas — GIF aparece só no hover (segredo).
+   Todas levam pra /portal. */
+const DOORS = [
   {
     num: "01",
-    titulo: <>Quem faz<br />acontecer.</>,
-    desc: "A matilha por trás do Dragão. Quem cozinha, quem decide, quem topa.",
-    url: "/portal?modal=manifesto",
-    arrow: "Conhecer a matilha",
-    gif: GIF.manifesto,
-    external: false,
+    color: "lime",
+    gif: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3FmZGNiZmQxaHRibXIwd2Roamc0ajFubWd3YmF2eGZydGZjanRnNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/12imoV28oMnSso/giphy.gif",
   },
   {
     num: "02",
-    titulo: <>Biblioteca<br />científica.</>,
-    desc: "17 artigos sobre inseto na alimentação pet — a ciência por trás do Dragão.",
-    url: "/biblioteca",
-    arrow: "Entrar na biblioteca",
-    gif: GIF.biblioteca,
-    external: false,
+    color: "pink",
+    gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYm13YW9qc3lrN2U0MjdnN3Y4M2h0dXQ5a203OTE4Z3lzeGl3dHZrbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zC1zVPHa88G8E/giphy.gif",
   },
   {
     num: "03",
-    titulo: <>O Dragão quer<br />te conhecer.</>,
-    desc: "Quizz rápido pra montar seu perfil de tutor — em 1 minuto.",
-    url: "/quizzes",
-    arrow: "Fazer o quiz",
-    gif: GIF.quiz,
-    external: false,
-  },
-  {
-    num: "04",
-    titulo: <>Na<br />mídia.</>,
-    desc: "O Dragão saiu na imprensa. Vê o que andam falando da gente.",
-    url: "/imprensa",
-    arrow: "Ler matérias",
-    gif: GIF.midia,
-    external: false,
-  },
-  {
-    num: "05",
-    titulo: <>@comida<br />dedragao</>,
-    desc: "Posts, stories, reels e o Dragão provocando todo dia.",
-    url: "https://instagram.com/comidadedragao",
-    arrow: "Abrir Instagram",
-    gif: GIF.instagram,
-    external: true,
-  },
-  {
-    num: "06",
-    titulo: <>Fala com<br />a gente.</>,
-    desc: "WhatsApp SAC (21) 3950-0576 — o Dragão não abandona ninguém.",
-    url: "https://wa.me/552139500576",
-    arrow: "Abrir WhatsApp",
-    gif: GIF.whatsapp,
-    external: true,
+    color: "yellow",
+    gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzJnZnhwY3J1ZGt0MXV5Y3VhdWlnZzY0Yzl5NXpsb3FvdDZ0bzJvbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/12YNzT14K3bf8Y/giphy.gif",
   },
 ];
-
-const MARQUEE_PHRASES = [
-  "ACESSO LIBERADO",
-  "A MATILHA TE VIU",
-  "NOJENTO É O DESPERDÍCIO",
-  "BIOFÁBRICA RJ 001924-0",
-  "88,9% DIGESTIBILIDADE",
-];
-
-/** Card reutilizável com GIF hover (mesmo padrão visual do portal). */
-const SalaCard = ({ sala }: { sala: Sala }) => {
-  const inner = (
-    <>
-      <div
-        className="obg-sala-bg"
-        style={{ backgroundImage: `url('${sala.gif}')` }}
-        aria-hidden="true"
-      />
-      <div className="obg-sala-content">
-        <div className="obg-sala-num">// {sala.num}</div>
-        <h3 className="obg-sala-titulo">{sala.titulo}</h3>
-        <p className="obg-sala-desc">{sala.desc}</p>
-      </div>
-      <span className="obg-sala-arrow" aria-hidden="true">→</span>
-    </>
-  );
-
-  if (sala.external) {
-    return (
-      <a
-        className="obg-sala"
-        href={sala.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={sala.arrow}
-      >
-        {inner}
-      </a>
-    );
-  }
-  return (
-    <Link className="obg-sala" to={sala.url} aria-label={sala.arrow}>
-      {inner}
-    </Link>
-  );
-};
 
 export default function Obrigado() {
+  const [phase, setPhase] = useState<"boot" | "ready">("boot");
+  const [completedLines, setCompletedLines] = useState<string[]>([]);
+  const [currentLine, setCurrentLine] = useState("");
+  const [typedChars, setTypedChars] = useState(0);
+  const [lineIndex, setLineIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [showFinal, setShowFinal] = useState(false);
+  const [showRedirect, setShowRedirect] = useState(false);
+
+  /* respeita prefers-reduced-motion: pula direto pra ready */
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) setPhase("ready");
+  }, []);
+
+  /* máquina do boot */
+  useEffect(() => {
+    if (phase !== "boot") return;
+
+    if (lineIndex < BOOT_LINES.length) {
+      const target = BOOT_LINES[lineIndex];
+      if (typedChars < target.length) {
+        const t = setTimeout(() => {
+          setTypedChars(typedChars + 1);
+          setCurrentLine(target.slice(0, typedChars + 1));
+        }, TYPE_SPEED);
+        return () => clearTimeout(t);
+      }
+      const t = setTimeout(() => {
+        setCompletedLines((prev) => [...prev, target]);
+        setCurrentLine("");
+        setTypedChars(0);
+        setLineIndex(lineIndex + 1);
+      }, PAUSE_BETWEEN_LINES);
+      return () => clearTimeout(t);
+    }
+
+    if (progress < 100) {
+      const t = setTimeout(() => {
+        setProgress(Math.min(100, progress + PROGRESS_STEP_PCT));
+      }, PROGRESS_STEP_MS);
+      return () => clearTimeout(t);
+    }
+
+    if (!showFinal) {
+      const t = setTimeout(() => setShowFinal(true), 280);
+      return () => clearTimeout(t);
+    }
+
+    if (!showRedirect) {
+      const t = setTimeout(() => setShowRedirect(true), 700);
+      return () => clearTimeout(t);
+    }
+
+    const t = setTimeout(() => setPhase("ready"), 900);
+    return () => clearTimeout(t);
+  }, [phase, lineIndex, typedChars, progress, showFinal, showRedirect]);
+
+  const skip = useCallback(() => setPhase("ready"), []);
+
+  const filled = Math.floor((progress / 100) * BAR_WIDTH);
+  const empty = BAR_WIDTH - filled;
+  const progressBar = "█".repeat(filled) + "░".repeat(empty);
+
   return (
-    <div className="obg-page">
+    <div className="obg-page" data-phase={phase}>
       <Helmet>
-        <title>Bem-vindo à caverna · Comida de Dragão</title>
+        <title>Acesso liberado · Comida de Dragão</title>
         <meta
           name="description"
-          content="Você entrou na caverna do dragão. Vem conhecer o que tem aqui dentro."
+          content="Você está dentro da caverna do Dragão."
         />
         <meta name="robots" content="noindex,nofollow" />
       </Helmet>
 
-      <div className="obg-wrap">
-        {/* ════ TOP BAR ═══════════════════════════════════════════ */}
-        <div className="obg-topbar">
-          <div className="obg-badge">// 01 · acesso liberado</div>
-          <a href="https://comidadedragao.com.br">← voltar pra loja</a>
-        </div>
+      {/* ════ FASE BOOT — pop-up flutuante do @dragao ═══════════ */}
+      {phase === "boot" && (
+        <main className="obg-boot" aria-live="polite">
+          <div className="obg-boot-window">
+            <div className="obg-boot-titlebar">
+              <span className="obg-boot-handle">
+                @dragao
+                <span className="obg-cursor-blink">_</span>
+              </span>
+              <span className="obg-boot-dots" aria-hidden="true">●●●</span>
+            </div>
 
-        {/* ════ HERO — RITO DE PASSAGEM ═══════════════════════════ */}
-        <section className="obg-hero">
-          <DragonLogo className="obg-hero-logo" />
-          <div className="obg-eyebrow">// o dragão te viu</div>
-          <h1 className="obg-title">
-            Você entrou na<br />
-            caverna do <em>dragão</em>.
-          </h1>
+            <div className="obg-boot-inner">
+              {completedLines.map((line, i) => (
+                <div key={i} className="obg-boot-line">{line}</div>
+              ))}
 
-          <p className="obg-sub-info">
-            Sobre o seu pedido: <strong>a gente registrou</strong>. Já já você
-            recebe o código de rastreio.
-          </p>
-          <p className="obg-sub">
-            <strong>Essa é a nossa casa.</strong> Vem conhecer o que tem aqui dentro.
-          </p>
-        </section>
+              {lineIndex < BOOT_LINES.length && (
+                <div className="obg-boot-line">
+                  {currentLine}
+                  <span className="obg-cursor">_</span>
+                </div>
+              )}
 
-        {/* ════ 6 SALAS DA CAVERNA — peça-chave ══════════════════ */}
-        <section className="obg-section">
-          <div className="obg-head">// 02 · o que tem lá dentro</div>
-          <h2 className="obg-h2">
-            Explore a <em>caverna</em>.
-          </h2>
+              {lineIndex >= BOOT_LINES.length && (
+                <div className="obg-boot-line obg-boot-progress">
+                  {`> ${progressBar} ${progress}%`}
+                </div>
+              )}
 
-          <div className="obg-salas">
-            {SALAS.map((sala) => <SalaCard key={sala.num} sala={sala} />)}
+              {showFinal && (
+                <div className="obg-boot-line obg-boot-final">
+                  &gt; aprovado pra saber do segredo
+                </div>
+              )}
+
+              {showRedirect && (
+                <div className="obg-boot-line obg-boot-redirect">
+                  &gt; abrindo portal
+                  <span className="obg-cursor">_</span>
+                </div>
+              )}
+            </div>
           </div>
-        </section>
 
-        {/* ════ MARQUEE ═══════════════════════════════════════════ */}
-        <div className="obg-marquee" aria-hidden="true">
-          <div className="obg-marquee-track">
-            {[...MARQUEE_PHRASES, ...MARQUEE_PHRASES, ...MARQUEE_PHRASES].map(
-              (phrase, i) => <span key={i}>{phrase}</span>
-            )}
+          <button
+            type="button"
+            className="obg-skip"
+            onClick={skip}
+            aria-label="Pular animação"
+          >
+            pular intro ››
+          </button>
+        </main>
+      )}
+
+      {/* ════ FASE READY — escolha uma porta ═════════════════════ */}
+      {phase === "ready" && (
+        <main className="obg-ready">
+          <div className="obg-ready-header">
+            <DragonLogo className="obg-ready-logo" />
+            <div className="obg-ready-eyebrow">// você foi convidado</div>
+            <h1 className="obg-ready-title">
+              Entre na caverna<br />
+              do <em>dragão.</em>
+            </h1>
+            <p className="obg-ready-sub">
+              Tudo o que a gente tem de bom tá aqui dentro, do nosso jeito.
+              Escolha a porta que mais te chama — passa o mouse e espia.
+            </p>
           </div>
-        </div>
 
-        {/* ════ SELO DA MATILHA — cupom mais discreto ════════════ */}
-        <section className="obg-selo">
-          <div className="obg-selo-eyebrow">// selo da matilha</div>
-          <h2 className="obg-selo-titulo">
-            10% off na sua <em>próxima.</em>
-          </h2>
-          <div className="obg-selo-codigo">{COUPON}</div>
-          <div className="obg-selo-small">
-            válido por 30 dias · 1 uso por cliente
+          {/* 3 portas com hover GIF */}
+          <div className="obg-doors">
+            {DOORS.map((door) => (
+              <Link
+                key={door.num}
+                to="/portal"
+                className={`obg-door obg-door-${door.color}`}
+                aria-label={`Porta ${door.num} — entrar no portal`}
+              >
+                <div
+                  className="obg-door-bg"
+                  style={{ backgroundImage: `url('${door.gif}')` }}
+                  aria-hidden="true"
+                />
+                <div className="obg-door-content">
+                  <span className="obg-door-eyebrow">// porta {door.num}</span>
+                  <span className="obg-door-num">{door.num}</span>
+                  <span className="obg-door-arrow" aria-hidden="true">entrar →</span>
+                </div>
+              </Link>
+            ))}
           </div>
-        </section>
 
-        {/* ════ FOOTER ════════════════════════════════════════════ */}
-        <footer className="obg-footer">
-          <div className="obg-footer-tagline">Nojento é o desperdício.</div>
-          Comida de Dragão · Lets Fly Sustentável<br />
-          Biofábrica registrada no MAPA — RJ 001924-0
-        </footer>
-      </div>
+          {/* Faixa horizontal embaixo das portas — cupom como info discreta,
+              não como protagonista. Largura combina com o grid das portas. */}
+          <div className="obg-coupon-bar">
+            <span className="obg-coupon-bar-label">// selo bônus</span>
+            <span className="obg-coupon-bar-divider" aria-hidden="true">·</span>
+            <span className="obg-coupon-bar-code">QUEROMAIS</span>
+            <span className="obg-coupon-bar-divider" aria-hidden="true">·</span>
+            <span className="obg-coupon-bar-meta">15% off</span>
+            <span className="obg-coupon-bar-divider" aria-hidden="true">·</span>
+            <span className="obg-coupon-bar-meta">válido 30 dias</span>
+          </div>
+
+          <footer className="obg-ready-footer">
+            comida de dragão · let's fly sustentável<br />
+            biofábrica MAPA — RJ 001924-0
+          </footer>
+        </main>
+      )}
     </div>
   );
 }
