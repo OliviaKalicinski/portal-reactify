@@ -45,7 +45,7 @@ const DOORS = [
   {
     num: "02",
     color: "pink",
-    gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYm13YW9qc3lrN2U0MjdnN3Y4M2h0dXQ5a203OTE4Z3lzeGl3dHZrbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zC1zVPHa88G8E/giphy.gif",
+    gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXV4aHpkMmd4OGh1cmp2ZGg4amI0NXRsNzJrbTZrcmRpNTNjampxcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QU3K7Pe6sWIz6Ul5cp/giphy.gif",
   },
   {
     num: "03",
