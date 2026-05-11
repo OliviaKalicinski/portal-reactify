@@ -21,6 +21,7 @@ const Matilde = lazy(() => import("./pages/Matilde.tsx"));
 const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
 const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
+const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 const queryClient = new QueryClient();
@@ -48,6 +49,8 @@ const App = () => (
               <Route path="/original" element={<Original />} />
               {/* Página de obrigado pós-checkout Yampi */}
               <Route path="/obrigado" element={<Obrigado />} />
+              {/* Manual do Criador · Casa de Lives — link direto, fora do portal */}
+              <Route path="/onboarding" element={<Onboarding />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
