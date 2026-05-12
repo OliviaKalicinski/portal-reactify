@@ -22,6 +22,7 @@ const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
 const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
 const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
+const Ciencia = lazy(() => import("./pages/Ciencia.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 const queryClient = new QueryClient();
@@ -51,6 +52,8 @@ const App = () => (
               <Route path="/obrigado" element={<Obrigado />} />
               {/* Manual do Criador · Casa de Lives — link direto, fora do portal */}
               <Route path="/onboarding" element={<Onboarding />} />
+              {/* LP 10 motivos científicos — material pra enviar a clientes */}
+              <Route path="/ciencia" element={<Ciencia />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
