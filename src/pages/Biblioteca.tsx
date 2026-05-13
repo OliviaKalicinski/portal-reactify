@@ -6,7 +6,7 @@ import "./Portal.css";
 import "./Parceiros.css";
 import "./Biblioteca.css";
 
-const PDF_BASE = "/assets/pdfs/artigos%20cientificos/";
+const PDF_BASE = "/assets/pdfs/artigos-cientificos/";
 
 // Cores dos dots dos destaques (CSS vars, funcionam com --dragon-* do theme)
 const CATEGORY_COLORS: Record<string, string> = {
