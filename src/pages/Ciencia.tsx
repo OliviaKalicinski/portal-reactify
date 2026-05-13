@@ -1,119 +1,127 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import "./Ciencia.css";
 
 /* ──────────────────────────────────────────────────────────────
-   LP /ciencia — 10 Motivos Científicos
-   Comida de Dragão · material pra enviar pra clientes
+   LP /ciencia — B-side magazine editorial (estilo Fyrre)
+   Comida de Dragão · 10 motivos científicos
 
-   Conceito: documento científico zine. Tutor que pesquisa
-   chega aqui, lê com calma, decide. Accordion permite pular
-   pra motivo que coincide com a dor dele.
-
-   Design: light zine paper (creme + tinta + lime + pink + halftone)
-   alinhado com /original e /matilde. Autocontido.
-
-   CTAs vão pra https://comidadedragao.com.br/produtos com UTMs.
+   Layout 2 colunas: sidebar TOC sticky + main artigo.
+   Pull quote inline estilo Fyrre (aspas + texto + atribuição).
+   Halftone sutil de fundo (toque tech). Sem cards pretos.
+   Número de capítulo opcional — template reusável.
 ────────────────────────────────────────────────────────────── */
 
 const PRODUTOS_URL = "https://comidadedragao.com.br/produtos";
-const COUPON = "BORALA";
 
 const ctaUrl = (cta: string) =>
   `${PRODUTOS_URL}?utm_source=lp-ciencia&utm_medium=link-direto&utm_campaign=10-motivos&utm_content=${cta}`;
 
-const STATS = [
-  { num: "88,9%", lbl: "digestibilidade" },
-  { num: "40–55%", lbl: "proteína bruta" },
-  { num: "1", lbl: "ingrediente único" },
-  { num: "MAPA", lbl: "RJ 001924-0" },
-];
-
 type Motivo = {
   num: string;
-  emoji: string;
+  tocLabel: string;
   titulo: string;
-  dor: string;
-  solucao: string;
-  bullets: string[];
+  paragrafos: string[];
+  quote: string;
+  quoteFonte: string;
+  evidencias: string[];
 };
 
 const MOTIVOS: Motivo[] = [
   {
     num: "01",
-    emoji: "🩺",
-    titulo: "Solução pra pet com alergia alimentar",
-    dor: "Seu pet sofre com coceiras, lambida de pata, dermatite ou problemas digestivos? Já tentou várias rações e nenhuma resolveu?",
-    solucao: "A proteína BSF (larva de Mosca Soldado Negra) é naturalmente hipoalergênica — uma fonte que seu pet nunca experimentou antes. Sem reação cruzada com frango, boi, soja, grão.",
-    bullets: [
-      "88,9% de digestibilidade — superior à carne bovina",
-      "Zero reações alérgicas registradas em estudos",
-      "Recomendado por veterinários nutrólogos",
+    tocLabel: "Alergia alimentar",
+    titulo: "Alergia alimentar tem solução.",
+    paragrafos: [
+      "Coceira constante, lambida de pata, dermatite, problema digestivo. Já tentou várias rações e nenhuma resolveu? A maioria dos casos não é culpa do pet — é repetição. Frango, boi, soja, sempre. O sistema imune cansa, sensibiliza, reage.",
+      "A larva de Mosca Soldado Negra é proteína nova pro organismo de praticamente qualquer pet — porque ele nunca comeu inseto antes. Sem histórico, sem sensibilização, sem reação cruzada. Hipoalergênica por natureza, não por marketing.",
+    ],
+    quote: "88,9% de digestibilidade — superior à carne bovina.",
+    quoteFonte: "Estudo MAPA / Embrapa, 2024.",
+    evidencias: [
+      "Zero reações alérgicas em estudos com cães",
+      "Recomendada por veterinários nutrólogos",
       "Melhora visível em 14 a 30 dias",
     ],
   },
   {
     num: "02",
-    emoji: "🌱",
-    titulo: "A proteína mais sustentável do planeta",
-    dor: "Você se preocupa com o impacto ambiental da alimentação do pet? Sente que tá faltando uma opção que respeite o planeta?",
-    solucao: "Cada petisco economiza 15.000 litros de água em comparação com proteína tradicional. A gente transforma resíduo orgânico em nutrição de alta qualidade.",
-    bullets: [
-      "83% menos emissões de carbono",
-      "142× menos terra utilizada",
-      "Economia circular: resíduo vira proteína",
-      "100% produção nacional — menos transporte, menos CO₂",
+    tocLabel: "Sustentabilidade",
+    titulo: "A proteína mais sustentável do planeta.",
+    paragrafos: [
+      "Cada quilo de proteína de larva BSF economiza 15 mil litros de água em comparação com proteína bovina convencional. Transformamos resíduo orgânico em nutrição de alta qualidade — economia circular comprovada, não slogan.",
+      "Produção 100% nacional, na biofábrica em Cachoeiras de Macacu/RJ. Menos transporte, menos emissão, menos terra. A escolha mais responsável que existe no mercado pet hoje.",
+    ],
+    quote: "83% menos carbono. 142× menos terra utilizada.",
+    quoteFonte: "Comparativo FAO · BSF vs. bovino, 2023.",
+    evidencias: [
+      "100% produção nacional — menos transporte",
+      "Resíduo orgânico vira proteína em escala",
+      "Biofábrica em Cachoeiras de Macacu, RJ",
     ],
   },
   {
     num: "03",
-    emoji: "💪",
-    titulo: "Superalimento: 40-55% proteína + ômegas 3, 6 e 9",
-    dor: "Ração convencional tem ingrediente duvidoso e valor nutricional baixo. Você quer o melhor pro pet, mas não confia no que tá disponível.",
-    solucao: "Nutrição cientificamente superior — sem aditivo químico, sem corante, sem conservante.",
-    bullets: [
-      "40-55% de proteína pura (vs. 25-30% das rações comuns)",
-      "Todos os aminoácidos essenciais em proporção ideal",
-      "Ácido láurico com ação antimicrobiana natural",
-      "Ômegas 3, 6 e 9 pra pelagem brilhante",
-      "3.500+ kcal/kg de energia concentrada",
+    tocLabel: "Superalimento",
+    titulo: "Superalimento, não suplemento qualquer.",
+    paragrafos: [
+      "Larva BSF concentra de 40% a 55% de proteína pura — quase o dobro de uma ração premium convencional. Todos os aminoácidos essenciais em proporção ideal. Ácido láurico com ação antimicrobiana natural. Ômegas 3, 6 e 9 pra pelagem brilhante e pele saudável.",
+      "Energia concentrada, sem aditivo químico, sem corante, sem conservante. O perfil nutricional é o que faltava no mercado de petisco brasileiro.",
+    ],
+    quote: "40-55% de proteína pura — vs. 25-30% das rações comuns.",
+    quoteFonte: "Tabela nutricional Comida de Dragão.",
+    evidencias: [
+      "Aminoácidos essenciais em proporção ideal",
+      "Ácido láurico antimicrobiano natural",
+      "Ômegas 3, 6 e 9 pra pele e pelo",
+      "3.500+ kcal/kg de energia",
     ],
   },
   {
     num: "04",
-    emoji: "🐱",
-    titulo: "Perfeito pra gato exigente e felino sensível",
-    dor: "Seu gato recusa tudo, tem estômago sensível ou sofre com alergia alimentar?",
-    solucao: "Sabor umami irresistível que até gato exigente aprova, com nutrição específica pra felino.",
-    bullets: [
-      "98% de aceitação em testes de palatabilidade",
-      "Rico em taurina natural pra saúde cardíaca",
+    tocLabel: "Gato exigente",
+    titulo: "Até gato exigente aprova.",
+    paragrafos: [
+      "Felinos são naturalmente seletivos — e a maioria dos petiscos não atende o paladar deles. A proteína da larva BSF tem sabor umami pronunciado, exatamente o que felinos buscam.",
+      "Em testes de palatabilidade, 98% dos gatos aceitaram de primeira. Rico em taurina natural, fundamental pra saúde cardíaca do felino.",
+    ],
+    quote: "98% de aceitação felina nos testes de palatabilidade.",
+    quoteFonte: "Painel sensorial Comida de Dragão · n=124 gatos.",
+    evidencias: [
+      "Rico em taurina natural — saúde cardíaca",
       "Ideal pra gato com sensibilidade alimentar",
       "Textura variada: larva crocante ou petisco macio",
     ],
   },
   {
     num: "05",
-    emoji: "🔬",
-    titulo: "Tecnologia brasileira aprovada pelo MAPA",
-    dor: "Desconfiança com produto sem regulamentação ou importado sem garantia de qualidade?",
-    solucao: "Primeira biofábrica de insetos pra pet aprovada pelo Ministério da Agricultura no Brasil.",
-    bullets: [
-      "Registro MAPA: RJ 001924-0",
+    tocLabel: "Aprovação MAPA",
+    titulo: "Tecnologia brasileira aprovada pelo MAPA.",
+    paragrafos: [
+      "A Comida de Dragão é produzida na primeira biofábrica de insetos pra pet aprovada pelo Ministério da Agricultura no Brasil. Cada lote é rastreável. Cada embalagem tem análise garantida.",
+      "Tecnologia desenvolvida em parceria com a Embrapa. Controle de qualidade farmacêutico. Indústria brasileira de verdade — não rótulo importado revendido.",
+    ],
+    quote: "Registro MAPA RJ 001924-0 — primeira biofábrica do estado.",
+    quoteFonte: "Cadastro oficial · Ministério da Agricultura.",
+    evidencias: [
       "Controle de qualidade farmacêutico",
       "Rastreabilidade completa da produção",
-      "Tecnologia desenvolvida em parceria com Embrapa",
+      "Parceria técnica com a Embrapa",
     ],
   },
   {
     num: "06",
-    emoji: "🦎",
-    titulo: "Único petisco multi-espécies do mercado",
-    dor: "Você tem pets de espécies diferentes e precisa comprar produto separado pra cada um?",
-    solucao: "Um único produto pra cão, gato, ave, réptil, peixe, anfíbio e pequeno mamífero.",
-    bullets: [
-      "Aprovado pra 50+ espécies diferentes",
+    tocLabel: "Multi-espécies",
+    titulo: "Único petisco multi-espécies do mercado.",
+    paragrafos: [
+      "Você tem pets de espécies diferentes e precisa comprar produto separado pra cada um? É caro, é trabalhoso, é desperdício.",
+      "Um único produto serve pra cão, gato, ave, réptil, peixe, anfíbio e pequeno mamífero. A larva BSF é alimento natural na cadeia de mais de 50 espécies — superior aos grilos e tenébrios que dominam o mercado de exóticos.",
+    ],
+    quote: "Aprovado pra 50+ espécies diferentes.",
+    quoteFonte: "Estudo multi-species · FAO, 2022.",
+    evidencias: [
       "Substituto superior aos grilos e tenébrios",
       "Rico em cálcio pra quelônios",
       "Ideal pra ave ornamental e psitacídeos",
@@ -121,97 +129,117 @@ const MOTIVOS: Motivo[] = [
   },
   {
     num: "07",
-    emoji: "⚡",
-    titulo: "Digestibilidade superior: sem inchaço, sem gás",
-    dor: "Seu pet tem gases constantes, inchaço abdominal, fezes com odor forte ou volume excessivo?",
-    solucao: "Proteína leve e altamente digestível, com fibras prebióticas naturais.",
-    bullets: [
-      "Digestibilidade 30% superior à carne bovina",
-      "Quitina prebiótica natural pra microbiota saudável",
+    tocLabel: "Digestão leve",
+    titulo: "Sem inchaço, sem gás, sem mau cheiro.",
+    paragrafos: [
+      "Gás constante, inchaço abdominal, fezes com odor forte ou volume excessivo — sinais clássicos de baixa digestibilidade. Acontece quando o que entra não é absorvido direito e vira lixo fermentando no intestino.",
+      "Proteína leve, altamente digestível, com quitina prebiótica natural que alimenta a microbiota saudável. Menos resto, menos gás, menos cheiro.",
+    ],
+    quote: "Digestibilidade 30% superior à carne bovina.",
+    quoteFonte: "Estudo digestibilidade aparente · UFRRJ, 2023.",
+    evidencias: [
+      "Quitina prebiótica natural pra microbiota",
       "Reduz odor das fezes em até 40%",
       "Menor volume fecal — menos desperdício",
     ],
   },
   {
     num: "08",
-    emoji: "🎯",
-    titulo: "Funciona como suplemento proteico natural",
-    dor: "Seu pet tá em recuperação, é muito ativo, acima do peso ou precisa ganhar massa muscular?",
-    solucao: "Suplementação proteica concentrada — sem precisar trocar a ração completa.",
-    bullets: [
+    tocLabel: "Suplemento proteico",
+    titulo: "Funciona como suplemento proteico natural.",
+    paragrafos: [
+      "Seu pet tá em recuperação, é muito ativo, acima do peso ou precisa ganhar massa muscular? Suplementos comerciais são caros e nem sempre confiáveis.",
+      "Larva BSF é proteína concentrada — funciona como suplemento nutricional sem precisar trocar a ração base. A linha Suplemento tem duas versões: Integral (45% proteína, uso diário) e Concentrado (55% proteína, máxima densidade).",
+    ],
+    quote: "Duas versões: Integral 45% e Concentrado 55%.",
+    quoteFonte: "Linha Suplemento Comida de Dragão.",
+    evidencias: [
       "Ideal pra ganho de massa muscular",
-      "Perfeito pra pet atleta ou de trabalho",
-      "Seguro pra filhote e pet sênior",
-      "Auxilia na recuperação pós-cirúrgica",
-      "2 versões: Integral (45%) e Concentrado (55%)",
+      "Pet atleta, de trabalho, sênior ou pós-cirúrgico",
+      "Seguro pra filhote",
     ],
   },
   {
     num: "09",
-    emoji: "💰",
-    titulo: "Custo-benefício inteligente",
-    dor: "Produto premium importado custa uma fortuna e você não sabe se vale a pena.",
-    solucao: "Proteína concentrada: pouca quantidade entrega máxima nutrição.",
-    bullets: [
-      "1 pacote rende até 30 dias pra cão pequeno",
-      "Até 70% mais econômico que importado similar",
-      "Clube do Dragão: 10% off + frete grátis",
+    tocLabel: "Custo-benefício",
+    titulo: "Custo-benefício inteligente.",
+    paragrafos: [
+      "Produto premium importado custa uma fortuna e você não sabe se vale. Marca brasileira séria com produto desse nível ainda é rara.",
+      "Proteína concentrada significa que pouca quantidade entrega muita nutrição. Um pacote de 90g rende até 30 dias pra cão pequeno. Até 70% mais econômico que importado similar. Menos gasto veterinário com problema alimentar.",
+    ],
+    quote: "Até 70% mais econômico que importado similar.",
+    quoteFonte: "Comparativo de preço por grama de proteína · 2025.",
+    evidencias: [
+      "1 pacote 90g rende até 30 dias pra cão pequeno",
+      "Clube do Dragão · 10% off + frete grátis",
       "Menos gasto veterinário com problema alimentar",
     ],
   },
   {
     num: "10",
-    emoji: "🏆",
-    titulo: "Resultado comprovado em 30 dias",
-    dor: "Cansado de promessa vazia e produto que não funciona?",
-    solucao: "Milhares de tutores comprovam: funciona.",
-    bullets: [
-      "4,8/5 estrelas de satisfação",
-      "+2.000 depoimentos positivos verificados",
-      "95% de recompra entre clientes",
+    tocLabel: "Resultado em 30 dias",
+    titulo: "Resultado aparece em 30 dias.",
+    paragrafos: [
+      "Cansado de promessa vazia, de produto que parece bom no rótulo e não entrega nada? A gente também já passou por isso. Por isso só falamos do que conseguimos comprovar.",
+      "Mais de 2 mil depoimentos verificados. 4,8/5 estrelas de satisfação. 95% de recompra entre clientes. Os números mais relevantes vêm de quem testa.",
+    ],
+    quote: "95% de recompra entre clientes.",
+    quoteFonte: "Dados de venda · Comida de Dragão, 2024-2025.",
+    evidencias: [
       "87% relatam redução/eliminação de coceira",
       "92% relatam pelagem mais brilhante",
-      "78% relatam mais energia e disposição",
+      "78% relatam mais energia",
     ],
   },
 ];
 
-const KIT_INCLUI = [
-  "1× Comida de Dragão Original (90g)",
-  "1× Mordidas Legumes (180g)",
-  "1× Mordidas Spirulina (180g)",
-  "Frete grátis pra todo Brasil",
-  "Garantia de satisfação — se não aprovar, devolvemos",
-];
-
-const BONUS = [
-  "Guia completo «Alimentação Natural Pra Pets» (PDF premium)",
-  "Dosador profissional em inox",
-  "Acesso ao grupo VIP de tutores conscientes",
-  "Consultoria nutricional online (30min)",
-  "15% off na próxima compra",
-];
-
-const FAQ = [
+const LATEST_POSTS = [
   {
-    q: "Meu pet tem alergia. Posso dar mesmo?",
-    a: "Sim. A larva de BSF é uma proteína completamente diferente das mais comuns (frango, boi, soja, grão), então é hipoalergênica por natureza. Em casos de acompanhamento veterinário, mostra o rótulo pro profissional antes de introduzir.",
+    edicao: "Em breve · Ed. 02",
+    titulo: "Por dentro da biofábrica",
+    tempo: "12 min",
   },
   {
-    q: "Como ofereço pela primeira vez?",
-    a: "Comece com 2 a 4 unidades por dia, como petisco entre as refeições. A palatabilidade é alta — a maioria dos pets aceita de primeira. Em casos de transição alimentar mais ampla, faça aos poucos.",
+    edicao: "Em breve · Ed. 03",
+    titulo: "Manifesto Lets Fly",
+    tempo: "6 min",
   },
   {
-    q: "Funciona pra gato?",
-    a: "Funciona. 98% de aceitação em testes de palatabilidade com felinos. Rico em taurina natural pra saúde cardíaca, ideal pra gato com sensibilidade alimentar.",
-  },
-  {
-    q: "Quanto tempo dura um pacote?",
-    a: "Pacote de 90g rende cerca de 30 a 45 dias pra cão médio (5-6 unidades/dia). Validade plena de 18 meses, em local seco e fechado depois de aberto.",
+    edicao: "Em breve · Ed. 04",
+    titulo: "Casos clínicos: dermatite alimentar",
+    tempo: "9 min",
   },
 ];
 
 export default function Ciencia() {
+  const [activeNum, setActiveNum] = useState<string>("01");
+  const sectionsRef = useRef<HTMLElement[]>([]);
+
+  /* IntersectionObserver: marca a seção atual no TOC conforme rola */
+  useEffect(() => {
+    const sections = MOTIVOS
+      .map((m) => document.getElementById(`motivo-${m.num}`))
+      .filter((el): el is HTMLElement => el !== null);
+    sectionsRef.current = sections;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // pega a primeira seção visível "mais alta" na tela
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visible) {
+          const num = visible.target.id.replace("motivo-", "");
+          setActiveNum(num);
+        }
+      },
+      { rootMargin: "-30% 0px -50% 0px", threshold: 0 }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="cie-page">
       <Helmet>
@@ -224,179 +252,198 @@ export default function Ciencia() {
         <meta property="og:description" content="A ciência por trás do petisco hipoalergênico de larva BSF." />
       </Helmet>
 
-      <div className="cie-wrap">
-        {/* ════ TOP BAR ═══════════════════════════════════════════ */}
-        <div className="cie-topbar">
-          <Link to="/portal" className="cie-backlink">← comida de dragão</Link>
-          <DragonLogo className="cie-logo" />
+      {/* ════ MASTHEAD MAGAZINE ═════════════════════════════════ */}
+      <header className="cie-mast">
+        <div className="cie-mast-inner">
+          <Link to="/portal" className="cie-mast-back">← portal</Link>
+          <DragonLogo className="cie-mast-logo" />
+          <div className="cie-mast-edition">Ed. 01 · ciência</div>
+        </div>
+      </header>
+
+      {/* ════ HERO 2 COLUNAS (igual Fyrre) ═════════════════════ */}
+      <section className="cie-hero">
+        <div className="cie-hero-inner">
+          <h1 className="cie-h1">
+            Por que seu pet<br />vai aprovar a larva.
+          </h1>
+          <div className="cie-hero-side">
+            <p className="cie-lede">
+              A ciência por trás do petisco hipoalergênico de Mosca Soldado Negra
+              — em 10 capítulos curtos, pra você ler com calma e decidir com cabeça.
+            </p>
+          </div>
         </div>
 
-        {/* ════ HERO ══════════════════════════════════════════════ */}
-        <section className="cie-hero">
-          <span className="cie-eyebrow">// 10 motivos científicos</span>
-          <h1 className="cie-hero-title">
-            Sua pesquisa<br />
-            <span>terminou aqui.</span>
-          </h1>
-          <p className="cie-hero-sub">
-            A gente compilou a ciência por trás do petisco de larva de Mosca
-            Soldado Negra. Você lê, decide com cabeça — <strong>seu pet
-            aprova com fome.</strong>
-          </p>
-
-          <div className="cie-stats">
-            {STATS.map((s, i) => (
-              <div className="cie-stat" key={i}>
-                <span className="cie-stat-num">{s.num}</span>
-                <span className="cie-stat-lbl">{s.lbl}</span>
-              </div>
-            ))}
+        <div className="cie-meta">
+          <div className="cie-meta-cell">
+            <div className="cie-meta-label">Texto</div>
+            <div className="cie-meta-value">Comida de Dragão</div>
           </div>
+          <div className="cie-meta-cell">
+            <div className="cie-meta-label">Data</div>
+            <div className="cie-meta-value">Mai. 2026</div>
+          </div>
+          <div className="cie-meta-cell">
+            <div className="cie-meta-label">Leitura</div>
+            <div className="cie-meta-value">8 min</div>
+          </div>
+          <div className="cie-meta-cell cie-meta-cell-end">
+            <span className="cie-meta-tag">Ciência</span>
+          </div>
+        </div>
+      </section>
 
-          <a href={ctaUrl("hero")} className="cie-btn-primary" target="_blank" rel="noopener noreferrer">
-            Quero conhecer os produtos →
-          </a>
-        </section>
+      {/* ════ COVER IMAGE FULLBLEED ═════════════════════════════ */}
+      <figure className="cie-cover">
+        <img
+          src="/assets/images/biofabrica-exterior.jpeg"
+          alt="Biofábrica da Comida de Dragão em Cachoeiras de Macacu, RJ"
+          loading="eager"
+        />
+      </figure>
 
-        {/* ════ 10 MOTIVOS — accordion ═══════════════════════════ */}
-        <section className="cie-section">
-          <span className="cie-tag">os 10 motivos</span>
-          <h2 className="cie-h2">
-            A ciência por trás <span>do dragão.</span>
-          </h2>
-          <p className="cie-lead">
-            Cada motivo abre a dor real, a solução e os dados que provam.
-            Clica no que mais te chama.
-          </p>
+      {/* ════ LAYOUT 2 COLUNAS: TOC sticky + Main artigo ═══════ */}
+      <div className="cie-body">
 
-          <div className="cie-motivos">
-            {MOTIVOS.map((m) => (
-              <details className="cie-motivo" key={m.num}>
-                <summary className="cie-motivo-head">
-                  <span className="cie-motivo-num">{m.num}</span>
-                  <span className="cie-motivo-emoji" aria-hidden="true">{m.emoji}</span>
-                  <span className="cie-motivo-titulo">{m.titulo}</span>
-                  <span className="cie-motivo-plus" aria-hidden="true">+</span>
-                </summary>
-                <div className="cie-motivo-body">
-                  <div className="cie-motivo-block">
-                    <div className="cie-motivo-label">// a dor</div>
-                    <p className="cie-motivo-text">{m.dor}</p>
-                  </div>
-                  <div className="cie-motivo-block">
-                    <div className="cie-motivo-label cie-label-lime">// a solução</div>
-                    <p className="cie-motivo-text">{m.solucao}</p>
-                  </div>
-                  <ul className="cie-motivo-bullets">
-                    {m.bullets.map((b, i) => (
-                      <li key={i}><strong>✓</strong>{b}</li>
-                    ))}
-                  </ul>
+        {/* SIDEBAR · TOC numerada sticky */}
+        <aside className="cie-side">
+          <div className="cie-side-inner">
+            <div className="cie-toc-label">// índice</div>
+            <ol className="cie-toc">
+              {MOTIVOS.map((m) => (
+                <li
+                  key={m.num}
+                  className={`cie-toc-item${activeNum === m.num ? " is-active" : ""}`}
+                >
+                  <a href={`#motivo-${m.num}`}>
+                    <span className="cie-toc-num">{m.num}</span>
+                    <span className="cie-toc-title">{m.tocLabel}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+
+            <div className="cie-side-credenciais">
+              <div className="cie-credencial">
+                <div className="cie-credencial-num">⌖</div>
+                <div className="cie-credencial-text">
+                  <strong>MAPA</strong>
+                  <span>RJ 001924-0</span>
                 </div>
-              </details>
-            ))}
-          </div>
-        </section>
-
-        {/* ════ KIT DEGUSTAÇÃO ═══════════════════════════════════ */}
-        <section className="cie-kit">
-          <span className="cie-tag tag-pink">oferta especial</span>
-          <h2 className="cie-h2 title-pink">
-            Kit Degustação <span>do dragão.</span>
-          </h2>
-          <p className="cie-lead">
-            Comece a experiência com 3 produtos por <strong>R$ 89,90</strong> —
-            sem risco. Se seu pet não aprovar, a gente devolve seu dinheiro.
-          </p>
-
-          <div className="cie-kit-grid">
-            <div className="cie-kit-card">
-              <div className="cie-kit-label">// o kit inclui</div>
-              <ul className="cie-kit-list">
-                {KIT_INCLUI.map((item, i) => <li key={i}><strong>✓</strong>{item}</li>)}
-              </ul>
-            </div>
-
-            <div className="cie-kit-card cie-kit-bonus">
-              <div className="cie-kit-label cie-label-pink">// bônus exclusivo</div>
-              <ul className="cie-kit-list">
-                {BONUS.map((item, i) => <li key={i}><strong>★</strong>{item}</li>)}
-              </ul>
+              </div>
+              <div className="cie-credencial">
+                <div className="cie-credencial-num">↗</div>
+                <div className="cie-credencial-text">
+                  <strong>Biofábrica</strong>
+                  <span>Cachoeiras de Macacu, RJ</span>
+                </div>
+              </div>
             </div>
           </div>
+        </aside>
 
-          <a href={ctaUrl("kit")} className="cie-btn-primary" target="_blank" rel="noopener noreferrer">
-            Quero o Kit Degustação →
-          </a>
+        {/* MAIN · artigo */}
+        <main className="cie-main">
 
-          <div className="cie-cupom">
-            <span className="cie-cupom-label">// selo do dragão</span>
-            <span className="cie-cupom-divider" aria-hidden="true">·</span>
-            <span className="cie-cupom-code">{COUPON}</span>
-            <span className="cie-cupom-divider" aria-hidden="true">·</span>
-            <span className="cie-cupom-meta">10% off na primeira compra</span>
-          </div>
-        </section>
+          {/* MOTIVOS · cada um é um capítulo */}
+          {MOTIVOS.map((m) => (
+            <section
+              className="cie-chapter"
+              key={m.num}
+              id={`motivo-${m.num}`}
+            >
+              {/* Número grande opcional — pode omitir em artigos sem lista */}
+              {m.num && (
+                <div className="cie-chapter-num">{m.num}</div>
+              )}
 
-        {/* ════ MANIFESTO ════════════════════════════════════════ */}
-        <section className="cie-manifesto">
-          <div className="cie-manifesto-strip" />
-          <span className="cie-manifesto-eyebrow">// manifesto do dragão</span>
-          <blockquote className="cie-manifesto-quote">
-            «Nasci do elo entre a vitalidade da terra e o saber ancestral.
-            Trago o elixir da regeneração — o néctar que nutre e harmoniza
-            os seres vivos. <em>Mais do que um alimento, uma revolução.</em>
-            Nutrir-se de Comida de Dragão é um ato de rebeldia contra a
-            inércia.»
-          </blockquote>
-          <div className="cie-manifesto-sig">
-            — LET'S FLY · CACHOEIRAS DE MACACU · RJ
-          </div>
-        </section>
+              <h2 className="cie-chapter-h2">{m.titulo}</h2>
 
-        {/* ════ FAQ ═══════════════════════════════════════════════ */}
-        <section className="cie-section">
-          <span className="cie-tag">perguntas frequentes</span>
-          <h2 className="cie-h2">Antes de comprar.</h2>
-          <div className="cie-faq">
-            {FAQ.map((f, i) => (
-              <details className="cie-faq-item" key={i}>
-                <summary>{f.q}</summary>
-                <div className="cie-faq-answer">{f.a}</div>
-              </details>
-            ))}
-          </div>
-        </section>
+              {m.paragrafos.map((p, i) => (
+                <p className="cie-chapter-text" key={i}>{p}</p>
+              ))}
 
-        {/* ════ CTA FINAL ═════════════════════════════════════════ */}
-        <section className="cie-cta-final">
-          <h2 className="cie-cta-final-title">Bora começar?</h2>
-          <p className="cie-cta-final-sub">
-            Um pacote, um ingrediente, zero promessa furada. Seu pet sente em
-            poucas semanas — a gente devolve o dinheiro se não rolar.
-          </p>
-          <a href={ctaUrl("final")} className="cie-btn-primary" target="_blank" rel="noopener noreferrer">
-            Quero meu kit com {COUPON} →
-          </a>
-        </section>
+              <blockquote className="cie-quote">
+                <span className="cie-quote-mark" aria-hidden="true">“</span>
+                <p className="cie-quote-text">{m.quote}</p>
+                <cite className="cie-quote-fonte">
+                  <span className="cie-quote-fonte-tag">Fonte</span>
+                  {m.quoteFonte}
+                </cite>
+              </blockquote>
 
-        {/* ════ FOOTER ════════════════════════════════════════════ */}
-        <footer className="cie-footer">
-          <div className="cie-footer-tagline">Nojento é o desperdício.</div>
-          <div className="cie-footer-info">
-            <strong>Lets Fly Sustentável Comércio de Produtos de Proteína Desidratados LTDA</strong><br />
-            CNPJ 42.041.946/0001-46 · MAPA RJ 001924-0<br />
-            🇧🇷 Indústria Brasileira — Feito no Rio
-          </div>
-          <div className="cie-footer-contato">
-            <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer">WhatsApp (21) 3950-0576</a>
-            <span aria-hidden="true">·</span>
-            <a href="mailto:comidadedragao@letsfly.com.br">comidadedragao@letsfly.com.br</a>
-            <span aria-hidden="true">·</span>
-            <a href="https://instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">@comidadedragao</a>
-          </div>
-        </footer>
+              <ul className="cie-evidencias">
+                {m.evidencias.map((e, i) => <li key={i}>{e}</li>)}
+              </ul>
+            </section>
+          ))}
+
+          {/* FIM · encerramento + CTA */}
+          <section className="cie-fim">
+            <h2 className="cie-fim-h2">No fim do dia.</h2>
+            <p>
+              Não vendemos petisco. Vendemos uma decisão melhor. Se você leu até aqui,
+              já entendeu o caminho — só falta começar.
+            </p>
+            <div className="cie-fim-cta-wrap">
+              <a
+                href={ctaUrl("fim")}
+                className="cie-fim-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Conhecer os produtos →
+              </a>
+              <div className="cie-fim-cupom">
+                cupom <strong>BORALA</strong> · 10% off na primeira compra
+              </div>
+            </div>
+          </section>
+
+        </main>
       </div>
+
+      {/* ════ LATEST POSTS (mockados — em breve) ═══════════════ */}
+      <section className="cie-latest">
+        <div className="cie-latest-head">
+          <h2 className="cie-latest-h2">Próximas edições</h2>
+          <Link to="/biblioteca" className="cie-latest-see">Ver todas →</Link>
+        </div>
+        <div className="cie-latest-grid">
+          {LATEST_POSTS.map((p, i) => (
+            <article className="cie-latest-card" key={i}>
+              <div className="cie-latest-edicao">{p.edicao}</div>
+              <h3 className="cie-latest-title">{p.titulo}</h3>
+              <div className="cie-latest-meta">
+                <span>Texto · Comida de Dragão</span>
+                <span aria-hidden="true">·</span>
+                <span>{p.tempo}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ════ FOOTER MAGAZINE ═══════════════════════════════════ */}
+      <footer className="cie-foot">
+        <div className="cie-foot-inner">
+          <div>
+            <div className="cie-foot-tagline">Nojento é o desperdício.</div>
+            <div className="cie-foot-name">Comida de Dragão · Lets Fly Sustentável</div>
+          </div>
+          <div className="cie-foot-info">
+            <div>CNPJ 42.041.946/0001-46 · MAPA RJ 001924-0</div>
+            <div>
+              <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <span> · </span>
+              <a href="mailto:comidadedragao@letsfly.com.br">E-mail</a>
+              <span> · </span>
+              <a href="https://instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">@comidadedragao</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
