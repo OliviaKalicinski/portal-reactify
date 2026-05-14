@@ -316,8 +316,8 @@ const Biblioteca = () => {
           <div className="hero-eyebrow">Comida de Dragão — Biblioteca Científica</div>
           <DragonLogo className="hero-logo" />
           <h1 className="archive-hero-title">
-            A ciência por trás do
-            <span>Dragão</span>
+            A ciência por trás
+            <span>do Dragão</span>
           </h1>
           <p className="archive-hero-sub">
             {ARTIGOS.length} papers peer-reviewed sobre a larva da mosca soldado negro
