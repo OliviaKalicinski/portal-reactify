@@ -20,6 +20,7 @@ const Lojas = lazy(() => import("./pages/Lojas.tsx"));
 const Matilde = lazy(() => import("./pages/Matilde.tsx"));
 const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
+const Suplemento = lazy(() => import("./pages/Suplemento.tsx"));
 const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
 const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 const Ciencia = lazy(() => import("./pages/Ciencia.tsx"));
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/quero-ser-dragao" element={<QueroSerDragao />} />
               {/* LPs de produto — tráfego pago, fora do portal */}
               <Route path="/original" element={<Original />} />
+              <Route path="/suplemento" element={<Suplemento />} />
               {/* Página de obrigado pós-checkout Yampi */}
               <Route path="/obrigado" element={<Obrigado />} />
               {/* Manual do Criador · Casa de Lives — link direto, fora do portal */}
