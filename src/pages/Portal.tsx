@@ -43,6 +43,7 @@ const CARD_HOVER_IMAGES: Record<string, string> = {
   consumer:   "https://media.giphy.com/media/ehPAyfmD1QmGkhQ3Mg/giphy.gif",
   influencer: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2Z5bnR4Mzc1eXdyNGxpNWg1N3M0bWdjOWc1azA3NGdsc2hkOXRkbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lu6GgCzi1vJQsDgSfZ/giphy.gif",
   seller:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGdtcWd6emJ1ODNkazNubmczeDh3MWoxNGswZTY2MW43ejIzNmQ1dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9z5BEzVvKeDcI/giphy.gif",
+  vet:        "https://media.giphy.com/media/HIWNaM05qJAENE1TJM/giphy.gif",
   amazon:     "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWNlZWR4d3NwdDZ2YndqcTM2aGtpM2NpMDh4NmthMTBwaWRub2ZnbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zkcXND5kY4POU/giphy.gif",
   ml:         "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGg5cjNnNXdqeWRwajRlNTJjdjlubnZndG0wdHFsd2I1bWE2Z3NoeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ovinMYvSg1TSo/giphy.gif",
   oficial:    "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWF6ZmoyOTMwa3BpNGNuZnMzczMyNjVneXplNndqcG1ua3g4anp3MCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U2ii5GIzMGU3m/giphy.gif",
@@ -1115,6 +1116,18 @@ const Portal = () => {
               <div className="aud-cta" style={{ color: "var(--dragon-lime)" }}>Ver catálogo →</div>
             </div>
           </a>
+
+          {/* Veterinário */}
+          <Link to="/veterinarios" className="audience-card aud-vet">
+            <HoverBg imgKey="vet" />
+            <div className="audience-card-inner">
+              <div className="aud-bg-num">04</div>
+              <div className="aud-tag">Veterinário</div>
+              <div className="aud-title">Quero<br />indicar<br />certo.</div>
+              <div className="aud-desc">Amostras pra pacientes, cupom exclusivo, comissão e treinamento técnico. Vem pro time.</div>
+              <div className="aud-cta">Quero ser vet parceiro →</div>
+            </div>
+          </Link>
 
         </div>
       </div>

@@ -19,6 +19,7 @@ const Produtos = lazy(() => import("./pages/Produtos.tsx"));
 const Lojas = lazy(() => import("./pages/Lojas.tsx"));
 const Matilde = lazy(() => import("./pages/Matilde.tsx"));
 const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
+const Veterinarios = lazy(() => import("./pages/Veterinarios.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
 const Suplemento = lazy(() => import("./pages/Suplemento.tsx"));
 const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="/lojas" element={<Lojas />} />
               <Route path="/matilde" element={<Matilde />} />
               <Route path="/quero-ser-dragao" element={<QueroSerDragao />} />
+              <Route path="/veterinarios" element={<Veterinarios />} />
               {/* LPs de produto — tráfego pago, fora do portal */}
               <Route path="/original" element={<Original />} />
               <Route path="/suplemento" element={<Suplemento />} />

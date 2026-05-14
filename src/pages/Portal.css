@@ -2104,6 +2104,21 @@
   text-shadow: 3px 3px 0 var(--dragon-black) !important;
 }
 
+/* Veterinário — pink */
+.portal-page .audience-card.aud-vet {
+  background: var(--dragon-pink);
+  border-color: var(--dragon-pink);
+}
+.portal-page .audience-card.aud-vet:hover { border-color: var(--dragon-yellow); }
+.portal-page .audience-card.aud-vet .aud-title { color: var(--dragon-white); }
+.portal-page .audience-card.aud-vet .aud-desc { color: rgba(255,255,255,0.7); }
+.portal-page .audience-card.aud-vet .aud-cta { color: var(--dragon-white); }
+.portal-page .audience-card.aud-vet .aud-tag { background: var(--dragon-black); color: var(--dragon-pink); }
+.portal-page .audience-card.aud-vet .aud-bg-num { color: rgba(255,255,255,0.07); }
+.portal-page .audience-card.aud-vet .aud-title {
+  text-shadow: 3px 3px 0 var(--dragon-black) !important;
+}
+
 .portal-page .aud-bg-num {
   position: absolute; top: -10px; right: 16px;
   font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 14vw, 160px);
@@ -2203,10 +2218,10 @@
     min-height: 180px !important;
     overflow: hidden;
   }
-  /* Audience cards: 3 colunas compactas */
+  /* Audience cards: 2x2 compacto (4 perfis) */
   .portal-page .audience-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 6px;
   }
   .portal-page .audience-card-inner {
