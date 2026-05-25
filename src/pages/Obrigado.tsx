@@ -18,21 +18,48 @@ import "./Obrigado.css";
    ⚠️ Pix simples NÃO redireciona — limitação Yampi.
 ────────────────────────────────────────────────────────────── */
 
+/* Destaque principal — PRIMEIRA coisa que aparece, antes de tudo.
+   Confirma pagamento + pedido recebido com ênfase. */
+const PAYMENT = {
+  mark: "[✓]",
+  title: "pagamento confirmado",
+  sub: "pedido recebido — tá tudo certo por aqui",
+};
+
+/* Linhas de scan do @dragao — entram DEPOIS do destaque de pagamento. */
 const BOOT_LINES = [
   "> escaneando perfil...",
   "> sem nojinho............... [✓]",
   "> coragem de comer larva.... [✓]",
   "> revolucionário............ [✓]",
   "> matilha avisada........... [✓]",
-  "> selo bônus separado....... [✓]",
   "> tô feliz pra caramba...... [✓]",
 ];
 
+/* Próximos passos do pedido — exibidos depois da barra de progresso.
+   Comunica o que vem a seguir: separando → em breve enviado. */
+const ORDER_STATUS = [
+  {
+    state: "doing",
+    mark: "[⟳]",
+    title: "separando teu pedido",
+    sub: "a matilha já tá montando tua caixa na biofábrica",
+  },
+  {
+    state: "next",
+    mark: "[»]",
+    title: "em breve a caminho",
+    sub: "assim que enviar, o código de rastreio chega no teu e-mail",
+  },
+];
+
 const BAR_WIDTH = 14;
-const TYPE_SPEED = 12;
-const PAUSE_BETWEEN_LINES = 140;
-const PROGRESS_STEP_MS = 40;
-const PROGRESS_STEP_PCT = 8;
+const TYPE_SPEED = 20;
+const PAUSE_BETWEEN_LINES = 210;
+const PROGRESS_STEP_MS = 60;
+const PROGRESS_STEP_PCT = 6;
+/* tempo que o destaque de pagamento fica sozinho em cena antes do resto entrar */
+const PAYMENT_HOLD_MS = 1100;
 
 /* 3 portas — GIF aparece só no hover (segredo).
    Todas levam pra /portal. */
@@ -56,6 +83,8 @@ const DOORS = [
 
 export default function Obrigado() {
   const [phase, setPhase] = useState<"boot" | "ready">("boot");
+  const [showPayment, setShowPayment] = useState(false);
+  const [paymentSettled, setPaymentSettled] = useState(false);
   const [completedLines, setCompletedLines] = useState<string[]>([]);
   const [currentLine, setCurrentLine] = useState("");
   const [typedChars, setTypedChars] = useState(0);
@@ -74,6 +103,19 @@ export default function Obrigado() {
   useEffect(() => {
     if (phase !== "boot") return;
 
+    /* 1. destaque do pagamento aparece PRIMEIRO */
+    if (!showPayment) {
+      const t = setTimeout(() => setShowPayment(true), 350);
+      return () => clearTimeout(t);
+    }
+
+    /* 2. segura o destaque um instante, sozinho em cena, pra dar ênfase */
+    if (!paymentSettled) {
+      const t = setTimeout(() => setPaymentSettled(true), PAYMENT_HOLD_MS);
+      return () => clearTimeout(t);
+    }
+
+    /* 3. só depois entram as linhas de scan (o "resto") */
     if (lineIndex < BOOT_LINES.length) {
       const target = BOOT_LINES[lineIndex];
       if (typedChars < target.length) {
@@ -100,18 +142,27 @@ export default function Obrigado() {
     }
 
     if (!showFinal) {
-      const t = setTimeout(() => setShowFinal(true), 280);
+      const t = setTimeout(() => setShowFinal(true), 420);
       return () => clearTimeout(t);
     }
 
     if (!showRedirect) {
-      const t = setTimeout(() => setShowRedirect(true), 700);
+      const t = setTimeout(() => setShowRedirect(true), 950);
       return () => clearTimeout(t);
     }
 
-    const t = setTimeout(() => setPhase("ready"), 900);
+    const t = setTimeout(() => setPhase("ready"), 1200);
     return () => clearTimeout(t);
-  }, [phase, lineIndex, typedChars, progress, showFinal, showRedirect]);
+  }, [
+    phase,
+    showPayment,
+    paymentSettled,
+    lineIndex,
+    typedChars,
+    progress,
+    showFinal,
+    showRedirect,
+  ]);
 
   const skip = useCallback(() => setPhase("ready"), []);
 
@@ -143,6 +194,20 @@ export default function Obrigado() {
             </div>
 
             <div className="obg-boot-inner">
+              {showPayment && (
+                <div className="obg-boot-payment" role="status">
+                  <span className="obg-boot-payment-mark" aria-hidden="true">
+                    {PAYMENT.mark}
+                  </span>
+                  <span className="obg-boot-payment-text">
+                    <strong className="obg-boot-payment-title">
+                      {PAYMENT.title}
+                    </strong>
+                    <span className="obg-boot-payment-sub">{PAYMENT.sub}</span>
+                  </span>
+                </div>
+              )}
+
               {completedLines.map((line, i) => (
                 <div key={i} className="obg-boot-line">{line}</div>
               ))}
@@ -161,8 +226,25 @@ export default function Obrigado() {
               )}
 
               {showFinal && (
-                <div className="obg-boot-line obg-boot-final">
-                  &gt; aprovado pra saber do segredo
+                <div className="obg-boot-status" role="status">
+                  <div className="obg-boot-status-head">
+                    &gt; próximos passos
+                  </div>
+                  {ORDER_STATUS.map((step, i) => (
+                    <div
+                      key={i}
+                      className={`obg-boot-status-step obg-step-${step.state}`}
+                      style={{ animationDelay: `${i * 0.18}s` }}
+                    >
+                      <span className="obg-step-mark" aria-hidden="true">
+                        {step.mark}
+                      </span>
+                      <span className="obg-step-text">
+                        <strong className="obg-step-title">{step.title}</strong>
+                        <span className="obg-step-sub">{step.sub}</span>
+                      </span>
+                    </div>
+                  ))}
                 </div>
               )}
 

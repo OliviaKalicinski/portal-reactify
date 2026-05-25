@@ -128,6 +128,56 @@
   color: var(--obg-lime);
 }
 
+/* ── destaque do pagamento — PRIMEIRO e em evidência ──────── */
+.obg-boot-payment {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border: 2px solid var(--obg-lime);
+  background: rgba(123, 255, 0, 0.07);
+  box-shadow: 0 0 28px rgba(123, 255, 0, 0.25);
+  animation: obg-payment-pop 0.42s cubic-bezier(0.2, 0.9, 0.4, 1.4) both;
+}
+@keyframes obg-payment-pop {
+  from { opacity: 0; transform: scale(0.96) translateY(-6px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.obg-boot-payment-mark {
+  flex-shrink: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--obg-lime);
+  text-shadow: 0 0 16px rgba(123, 255, 0, 0.8);
+}
+
+.obg-boot-payment-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.obg-boot-payment-title {
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--obg-lime);
+  line-height: 1.05;
+  text-shadow:
+    0 0 16px rgba(123, 255, 0, 0.7),
+    0 0 32px rgba(123, 255, 0, 0.35);
+}
+
+.obg-boot-payment-sub {
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+  color: rgba(123, 255, 0, 0.72);
+}
+
 .obg-boot-progress {
   margin-top: 12px;
   font-size: 14px;
@@ -147,8 +197,79 @@
   animation: obg-line-in 0.25s ease both;
 }
 
+/* ── bloco de status do pedido ──────────────────────────── */
+.obg-boot-status {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(123, 255, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.obg-boot-status-head {
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--obg-lime);
+  text-shadow:
+    0 0 14px rgba(123, 255, 0, 0.7),
+    0 0 28px rgba(123, 255, 0, 0.35);
+  margin-bottom: 2px;
+}
+
+.obg-boot-status-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.35;
+  animation: obg-line-in 0.3s ease both;
+}
+
+.obg-step-mark {
+  flex-shrink: 0;
+  font-weight: 700;
+  color: var(--obg-lime);
+}
+
+.obg-step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.obg-step-title {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--obg-lime);
+}
+
+.obg-step-sub {
+  font-size: 11.5px;
+  letter-spacing: 0.01em;
+  color: rgba(123, 255, 0, 0.55);
+  text-shadow: none;
+}
+
+/* passo concluído — brilho cheio */
+.obg-step-done .obg-step-title {
+  text-shadow: 0 0 12px rgba(123, 255, 0, 0.5);
+}
+
+/* passo em andamento — marcador pulsa */
+.obg-step-doing .obg-step-mark {
+  animation: obg-cursor-pulse 1.1s steps(1) infinite;
+}
+
+/* próximo passo — levemente esmaecido */
+.obg-step-next {
+  opacity: 0.78;
+}
+
 .obg-boot-redirect {
-  margin-top: 4px;
+  margin-top: 14px;
   color: rgba(123, 255, 0, 0.7);
   font-size: 13px;
   animation: obg-line-in 0.25s ease both;
@@ -492,6 +613,13 @@
   .obg-boot-titlebar { padding: 8px 14px; font-size: 11px; }
   .obg-boot-progress { font-size: 12.5px; }
   .obg-boot-final { font-size: 13.5px; }
+  .obg-boot-payment { padding: 12px 13px; margin-bottom: 16px; gap: 10px; }
+  .obg-boot-payment-mark { font-size: 20px; }
+  .obg-boot-payment-title { font-size: 16px; }
+  .obg-boot-payment-sub { font-size: 11.5px; }
+  .obg-boot-status-head { font-size: 11px; }
+  .obg-step-title { font-size: 12.5px; }
+  .obg-step-sub { font-size: 10.5px; }
   .obg-skip { bottom: 16px; right: 16px; font-size: 10px; }
 
   .obg-ready {
@@ -534,6 +662,9 @@
   .obg-cursor-blink,
   .obg-boot-window,
   .obg-boot-final,
+  .obg-boot-payment,
+  .obg-boot-status-step,
+  .obg-step-doing .obg-step-mark,
   .obg-boot-redirect,
   .obg-boot,
   .obg-door,
