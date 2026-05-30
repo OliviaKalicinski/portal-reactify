@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
@@ -30,16 +32,18 @@ import "./Suplemento.css";
    aplicar o cupom automaticamente.
    UTMs marcam tráfego como Meta Ads + utm_content varia por CTA. */
 const COUPON = "BORALA";
-const CHECKOUT_BASE =
-  `https://comida-de-dragao.pay.yampi.com.br/r/BII063ST2H` +
-  `?promocode=${COUPON}` +
-  `&utm_source=meta` +
-  `&utm_medium=cpc` +
-  `&utm_campaign=lp-suplemento-borala`;
+const PRODUCT_URL = `https://comida-de-dragao.pay.yampi.com.br/r/BII063ST2H?promocode=${COUPON}`;
 
-/** Monta a URL final do checkout com utm_content variando por CTA. */
+/** Fallback usado SO quando o anuncio nao trouxe utm_ (trafego direto/organico). */
+const UTM_FALLBACK = {
+  utm_source: "lp-suplemento",
+  utm_medium: "cpc",
+  utm_campaign: "lp-suplemento-borala",
+};
+
+/** Repassa a UTM de entrada (do anuncio); posicao do botao vai em cta_pos. */
 const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
-  `${CHECKOUT_BASE}&utm_content=${cta}`;
+  buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 const HERO_IMG = "/assets/images/produtos/suplemento-integral-frente.webp";
 
@@ -113,6 +117,7 @@ const FAQ = [
 ];
 
 const Suplemento = () => {
+  useEffect(() => { captureEntryUtms(); }, []);
   return (
     <div className="suplemento-lp">
       <PageMeta

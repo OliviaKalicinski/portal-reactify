@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import PageMeta from "@/components/PageMeta";
@@ -11,12 +13,14 @@ import "./Matilde.css";
    utm_content varia por posição do CTA pra você ver no Analytics
    qual seção da Matilde converte mais. */
 const COUPON = "BORALA";
-const CHECKOUT_BASE =
-  `https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X` +
-  `?promocode=${COUPON}` +
-  `&utm_source=meta` +
-  `&utm_medium=cpc` +
-  `&utm_campaign=lp-matilde-borala`;
+const PRODUCT_URL = `https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
+
+/** Fallback usado SO quando o anuncio nao trouxe utm_. */
+const UTM_FALLBACK = {
+  utm_source: "lp-matilde",
+  utm_medium: "cpc",
+  utm_campaign: "lp-matilde-borala",
+};
 
 const ctaUrl = (cta:
   | "hero"
@@ -26,7 +30,7 @@ const ctaUrl = (cta:
   | "quote"
   | "compra-2"
   | "aprovado"
-) => `${CHECKOUT_BASE}&utm_content=${cta}`;
+) => buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 const REVIEWS = [3, 4, 5, 6, 7, 8, 9, 10];
 const PRESS_LOGOS = [
   "logo-1.png","logo-3.png","logo-4.png","logo-5.png",
@@ -62,6 +66,7 @@ const FAQ_ITEMS = [
 ];
 
 export default function Matilde() {
+  useEffect(() => { captureEntryUtms(); }, []);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ dragging: false, startX: 0, scrollLeft: 0 });
