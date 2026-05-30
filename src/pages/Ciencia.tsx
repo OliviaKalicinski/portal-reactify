@@ -1,3 +1,4 @@
+import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -16,8 +17,14 @@ import "./Ciencia.css";
 
 const PRODUTOS_URL = "https://comidadedragao.com.br/produtos";
 
+const UTM_FALLBACK = {
+  utm_source: "lp-ciencia",
+  utm_medium: "link-direto",
+  utm_campaign: "10-motivos",
+};
+
 const ctaUrl = (cta: string) =>
-  `${PRODUTOS_URL}?utm_source=lp-ciencia&utm_medium=link-direto&utm_campaign=10-motivos&utm_content=${cta}`;
+  buildCheckoutUrl(PRODUTOS_URL, UTM_FALLBACK, cta);
 
 type Motivo = {
   num: string;
@@ -212,6 +219,7 @@ const LATEST_POSTS = [
 ];
 
 export default function Ciencia() {
+  useEffect(() => { captureEntryUtms(); }, []);
   const [activeNum, setActiveNum] = useState<string>("01");
   const sectionsRef = useRef<HTMLElement[]>([]);
 
