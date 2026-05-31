@@ -25,6 +25,7 @@ const Suplemento = lazy(() => import("./pages/Suplemento.tsx"));
 const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
 const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 const Ciencia = lazy(() => import("./pages/Ciencia.tsx"));
+const PlanetaDragao = lazy(() => import("./pages/PlanetaDragao.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 const queryClient = new QueryClient();
@@ -58,6 +59,8 @@ const App = () => (
               <Route path="/onboarding" element={<Onboarding />} />
               {/* LP 10 motivos científicos — material pra enviar a clientes */}
               <Route path="/ciencia" element={<Ciencia />} />
+              {/* Campanha meio ambiente — jogo 8-bit + consumo consciente */}
+              <Route path="/planeta-dragao" element={<PlanetaDragao />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
