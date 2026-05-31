@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+
+/* ================================
+   LP PLANETA DRAGÃO — DESKTOP RETRO-OS · MONO-VERDE
+   Cada seção é uma "janela". Hero = jogo. Recado: bom pro pet + planeta.
+   Tipografia do portal (Big Shoulders / Space Grotesk / Space Mono).
+   LP AUTOCONTIDA.
+================================ */
+
+.planeta-lp {
+  --desk:      #2BA68C;   /* desktop teal-verde */
+  --desk-2:    #1F8E78;
+  --win-body:  #E7FFE6;   /* green-lightest */
+  --win-body2: #D2F8CF;
+  --title-bg:  #0F5A3C;   /* barra de título */
+  --title-ink: #E7FFE6;
+  --border:    #093E2D;   /* green-darker */
+  --ink:       #0B2E20;
+  --ink-mut:   rgba(11,46,32,0.66);
+  --ink-fade:  rgba(11,46,32,0.45);
+  --neon:      #1CA356;   /* verde sólido p/ ações */
+  --neon-hi:   #16864A;
+  --lime:      #2E7D32;
+  --shadow:    #06251A;
+  --font-pixel: 'Silkscreen', 'Space Mono', monospace;
+  --font-type: 'Courier Prime', 'Courier New', monospace;
+
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 84px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.04) 0 1px, transparent 1px 4px),
+    linear-gradient(180deg, var(--desk) 0%, var(--desk-2) 100%);
+  color: var(--ink);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.planeta-lp *, .planeta-lp *::before, .planeta-lp *::after { box-sizing: border-box; }
+.planeta-lp p { margin: 0; }
+.planeta-lp a { color: inherit; text-decoration: none; }
+.planeta-lp b, .planeta-lp strong { color: var(--lime); font-weight: 700; }
+
+/* ── menu bar topo ── */
+.os-menubar {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 6px 14px;
+  background: var(--title-bg); color: var(--title-ink);
+  border-bottom: 2px solid var(--border);
+  font-family: var(--font-pixel); font-size: 12px; letter-spacing: 0.04em;
+}
+.os-menu-brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; }
+.os-menu-logo { width: 22px; height: auto; color: var(--title-ink); }
+.os-menu-link { color: var(--title-ink); opacity: 0.85; }
+.os-menu-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── desktop / coluna central ── */
+.os-desktop {
+  max-width: 780px; margin: 0 auto; padding: 22px 16px 0;
+  display: flex; flex-direction: column; gap: 22px;
+}
+
+/* recado do hero — centralizado, fonte pixel */
+.os-hero-msg {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  color: #062018; padding: 12px 4px 4px;
+}
+.os-hero-msg h1 {
+  font-family: var(--font-pixel); font-weight: 700;
+  text-transform: uppercase; line-height: 1.25; margin: 0;
+  font-size: clamp(16px, 5.4vw, 30px);
+  white-space: nowrap; letter-spacing: -0.02em;
+  text-shadow: 2px 2px 0 rgba(255,255,255,0.25);
+}
+.os-hero-msg h1 span { display: block; color: #E7FFE6; text-shadow: 2px 2px 0 var(--border); }
+@media (min-width: 700px) {
+  .os-hero-msg h1 { font-size: clamp(20px, 3vw, 26px); line-height: 1; }
+  .os-hero-msg h1 span { display: inline; }
+}
+
+/* ── JANELA ── */
+.os-win {
+  background: var(--win-body);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 5px 5px 0 var(--shadow);
+  overflow: hidden;
+}
+.os-win-accent { box-shadow: 5px 5px 0 var(--border); }
+.os-titlebar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px; background: var(--title-bg); color: var(--title-ink);
+  border-bottom: 2px solid var(--border);
+  font-family: var(--font-pixel); font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+}
+.os-tb-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.os-tb-ctrls { display: inline-flex; gap: 4px; flex: none; }
+.os-c {
+  width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;
+  background: var(--win-body); color: var(--border); border: 1px solid var(--border);
+  font-style: normal; font-size: 11px; line-height: 1;
+}
+.os-x { background: #C0392B; color: #fff; }
+.os-body { padding: 18px; }
+
+/* grid 2 janelas (pet | planeta) */
+.os-grid2 { display: grid; grid-template-columns: 1fr; gap: 22px; }
+@media (min-width: 700px) { .os-grid2 { grid-template-columns: 1fr 1fr; } }
+
+/* ── HUD do jogo ── */
+.os-hud { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+.os-hud-item {
+  border: 2px solid var(--border); background: var(--win-body2);
+  padding: 6px 4px; display: flex; flex-direction: column; gap: 2px; text-align: center;
+}
+.os-hud-item span { font-family: var(--font-pixel); font-size: 10px; color: var(--ink-mut); letter-spacing: 0.06em; }
+.os-hud-item b { font-family: var(--font-pixel); font-weight: 900; font-size: 22px; color: var(--lime); }
+
+.os-bar {
+  position: relative; height: 22px; border: 2px solid var(--border);
+  background: #fff; overflow: hidden; margin-bottom: 12px;
+}
+.os-bar-fill {
+  position: absolute; inset: 0 auto 0 0; height: 100%; width: 0;
+  background: repeating-linear-gradient(90deg, var(--neon) 0 10px, var(--neon-hi) 10px 20px);
+  transition: width 0.3s ease;
+}
+.os-bar-txt {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-pixel); font-size: 10px; letter-spacing: 0.14em;
+  color: var(--ink); mix-blend-mode: hard-light;
+}
+
+/* tela do jogo */
+.pl-screen {
+  position: relative; width: 100%; line-height: 0;
+  border: 2px solid var(--border); background: #A6E59A; overflow: hidden;
+}
+.pl-canvas { display: block; width: 100%; cursor: pointer; touch-action: manipulation; }
+.os-game-hint {
+  margin-top: 10px; text-align: center;
+  font-family: var(--font-pixel); font-size: 12px; color: var(--ink-mut);
+}
+
+/* overlays do jogo */
+.pl-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  gap: 16px; padding: 34px 18px 18px; text-align: center; line-height: 1.45;
+  background: rgba(6,37,26,0.82); color: #E7FFE6;
+}
+.pl-ov-title { font-family: var(--font-pixel); font-weight: 900; text-transform: uppercase; font-size: 30px; color: #B9FF33; }
+.pl-over { color: #FFE08A; }
+.pl-win { color: #B9FF33; text-shadow: 0 0 22px rgba(185,255,51,0.5); }
+.pl-ov-txt { font-size: clamp(16px, 4.4vw, 21px); font-weight: 700; color: #E7FFE6; text-shadow: 0 2px 6px rgba(0,0,0,0.45); }
+.pl-ov-txt b { color: #B9FF33; }
+.pl-coupon { color: #B9FF33; }
+.pl-replay { margin-top: 2px; background: none; border: none; cursor: pointer; color: rgba(231,255,230,0.7); font-family: var(--font-pixel); font-size: 13px; text-decoration: underline; }
+.pl-replay:hover { color: #B9FF33; }
+
+/* ── BOTÕES ── */
+.pl-btn {
+  display: inline-block; cursor: pointer;
+  font-family: var(--font-pixel); font-weight: 900; text-transform: uppercase;
+  letter-spacing: 0.04em; font-size: 19px; padding: 11px 24px;
+  border: 2px solid var(--border); border-radius: 2px;
+  color: #E7FFE6; background: var(--neon); box-shadow: 3px 3px 0 var(--border);
+  transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+}
+.pl-btn:hover { background: var(--neon-hi); }
+.pl-btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--border); }
+.pl-btn-buy { background: #126B3E; }
+.pl-btn-buy:hover { background: #0F5A33; }
+
+/* leads de seção */
+.os-section-lead { font-size: 16px; color: var(--ink-mut); margin-bottom: 16px; }
+
+/* listas de benefício */
+.os-benef { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.os-benef li { display: flex; gap: 12px; align-items: flex-start; }
+.os-benef-ico {
+  flex: none; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; background: var(--win-body2); border: 2px solid var(--border);
+}
+.os-benef-ico img { width: 24px; height: 24px; object-fit: contain; }
+.os-benef b { display: block; font-size: 16px; color: var(--ink); margin-bottom: 2px; }
+.os-benef p { font-size: 14px; color: var(--ink-mut); }
+
+/* loop como funciona */
+.os-loop { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; }
+.os-loop-step { display: flex; align-items: center; gap: 6px; }
+.os-loop-ico {
+  width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
+  background: var(--win-body2); border: 2px solid var(--border); padding: 6px;
+}
+.os-loop-ico img { width: 100%; height: 100%; object-fit: contain; }
+.os-loop-t { display: none; }
+.os-loop-arrow { color: var(--neon); font-weight: 900; font-size: 20px; }
+@media (min-width: 620px) {
+  .os-loop-step { flex-direction: column; }
+  .os-loop-t { display: block; font-family: var(--font-pixel); font-size: 11px; color: var(--ink-mut); text-align: center; max-width: 80px; }
+  .os-loop-arrow { display: none; }
+  .os-loop { gap: 18px; }
+  .os-loop-step::after { content: "→"; position: absolute; }
+}
+.os-loop-note { text-align: center; margin-top: 16px; font-size: 16px; }
+
+/* reviews */
+.os-reviews {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 70%;
+  gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;
+  padding-bottom: 6px; -webkit-overflow-scrolling: touch;
+}
+@media (min-width: 620px) { .os-reviews { grid-auto-columns: 40%; } }
+.os-review { margin: 0; scroll-snap-align: start; border: 2px solid var(--border); background: #fff; }
+.os-review img { display: block; width: 100%; height: auto; }
+.os-reviews-hint { text-align: center; margin-top: 8px; font-family: var(--font-pixel); font-size: 11px; color: var(--ink-fade); }
+
+/* oferta / system message */
+.os-offer { text-align: center; }
+.os-offer-head { font-family: var(--font-pixel); font-size: 13px; color: var(--ink-mut); margin-bottom: 14px; }
+.os-coupon {
+  border: 2px dashed var(--border); background: var(--win-body2);
+  padding: 16px; margin: 0 auto 16px; max-width: 360px;
+}
+.os-coupon-label { display: block; font-family: var(--font-pixel); font-size: 11px; letter-spacing: 0.2em; color: var(--ink-mut); }
+.os-coupon-code {
+  display: block; font-family: var(--font-pixel); font-weight: 900;
+  font-size: 46px; letter-spacing: 3px; color: var(--lime); line-height: 1; margin: 4px 0;
+}
+.os-coupon-desc { display: block; font-size: 13px; color: var(--ink-mut); }
+.os-store-link { display: inline-block; margin-top: 14px; font-size: 14px; color: var(--neon-hi); text-decoration: underline; }
+
+/* faq */
+.os-faq { display: flex; flex-direction: column; gap: 8px; }
+.os-faq-item { border: 2px solid var(--border); background: var(--win-body2); }
+.os-faq-item summary {
+  cursor: pointer; list-style: none; padding: 12px 14px; font-weight: 700; color: var(--ink);
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+}
+.os-faq-item summary::-webkit-details-marker { display: none; }
+.os-faq-item summary::after { content: "+"; font-family: var(--font-pixel); color: var(--neon-hi); }
+.os-faq-item[open] summary::after { content: "−"; }
+.os-faq-a { padding: 0 14px 14px; font-size: 14px; color: var(--ink-mut); }
+
+/* garantia */
+.os-garantia {
+  display: flex; gap: 12px; align-items: flex-start; margin-top: 16px;
+  border: 2px solid var(--border); background: var(--win-body2); padding: 14px;
+}
+.os-garantia-ico { font-size: 26px; flex: none; }
+.os-garantia b { display: block; color: var(--ink); margin-bottom: 2px; }
+.os-garantia p { font-size: 14px; color: var(--ink-mut); }
+
+/* final */
+.os-final { text-align: center; }
+.os-final h2 {
+  font-family: var(--font-pixel); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(30px, 7vw, 48px); line-height: 0.95; color: var(--ink); margin-bottom: 10px;
+}
+.os-final h2 span { color: var(--neon-hi); }
+.os-final p { font-size: 16px; color: var(--ink-mut); margin: 0 auto 14px; max-width: 460px; }
+.os-final-note { font-family: var(--font-pixel); font-size: 11px; color: var(--lime); margin: 0 auto 18px; }
+
+/* taskbar / footer */
+.os-taskbar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px;
+  padding: 18px; margin-bottom: 8px;
+  border: 2px solid var(--border); background: var(--title-bg); color: var(--title-ink);
+  box-shadow: 5px 5px 0 var(--shadow);
+}
+.os-task-logo { width: 40px; height: auto; color: var(--title-ink); opacity: 0.85; }
+.os-task-links { display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px; }
+.os-task-links a:hover { text-decoration: underline; }
+.os-task-legal { width: 100%; text-align: center; font-family: var(--font-pixel); font-size: 11px; opacity: 0.7; }
+
+/* sticky compra */
+.os-sticky {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 14px; background: var(--title-bg); color: var(--title-ink);
+  border-top: 2px solid var(--border); box-shadow: 0 -4px 0 var(--shadow);
+}
+.os-sticky-info { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.os-sticky-name { font-family: var(--font-pixel); font-size: 13px; font-weight: 700; }
+.os-sticky-price { font-family: var(--font-pixel); font-size: 11px; opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.os-sticky a {
+  flex: none; font-family: var(--font-pixel); font-weight: 900; text-transform: uppercase;
+  font-size: 18px; padding: 9px 20px; background: #B9FF33; color: var(--border);
+  border: 2px solid var(--border); border-radius: 2px;
+}
+.os-sticky a:active { transform: translateY(2px); }
+
+/* mobile: jogo ocupa a largura toda e fica grande */
+@media (max-width: 699px) {
+  .os-desktop { padding: 10px 10px 0; gap: 14px; }
+  .os-hero-msg { padding: 4px 4px 0; }
+  .os-game-win .os-body { padding: 8px; }
+  .os-game-win .os-game-hint { padding: 8px 4px 0; margin: 0; }
+  .os-menubar { font-size: 10px; }
+  .os-back-txt { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .os-bar-fill, .pl-btn { transition: none; }
+}
