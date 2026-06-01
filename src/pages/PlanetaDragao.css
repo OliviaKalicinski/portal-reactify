@@ -163,17 +163,17 @@
 
 /* ── BOTÕES ── */
 .pl-btn {
-  display: inline-block; cursor: pointer;
+  display: inline-block; cursor: pointer; white-space: nowrap;
   font-family: var(--font-pixel); font-weight: 900; text-transform: uppercase;
   letter-spacing: 0.04em; font-size: 19px; padding: 11px 24px;
   border: 2px solid var(--border); border-radius: 2px;
-  color: #E7FFE6; background: var(--neon); box-shadow: 3px 3px 0 var(--border);
+  color: #000; background: #B9FF33; box-shadow: 3px 3px 0 var(--border);
   transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
 }
-.pl-btn:hover { background: var(--neon-hi); }
+.pl-btn:hover { background: #A8F018; }
 .pl-btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--border); }
-.pl-btn-buy { background: #126B3E; }
-.pl-btn-buy:hover { background: #0F5A33; }
+.pl-btn-buy { background: #B9FF33; color: #000; }
+.pl-btn-buy:hover { background: #A8F018; }
 
 /* leads de seção */
 .os-section-lead { font-size: 16px; color: var(--ink-mut); margin-bottom: 16px; }
@@ -302,6 +302,7 @@
   .os-game-win .os-game-hint { padding: 8px 4px 0; margin: 0; }
   .os-menubar { font-size: 10px; }
   .os-back-txt { display: none; }
+  .pl-btn { font-size: 14px; padding: 11px 14px; letter-spacing: 0.02em; }
 }
 
 @media (prefers-reduced-motion: reduce) {

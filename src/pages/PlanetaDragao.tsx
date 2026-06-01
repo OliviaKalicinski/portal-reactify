@@ -54,6 +54,14 @@ interface Hole { x: number; w: number; }
 interface Particle { x: number; y: number; vx: number; vy: number; life: number; }
 interface Popup { x: number; y: number; t: number; }
 
+/* ── nuvem pixel simples (usada no céu do jogo) ── */
+function drawCloud(ctx: CanvasRenderingContext2D, x: number, y: number) {
+  ctx.fillStyle = "#FFFFFF";
+  ([[0, 10, 14], [16, 4, 18], [36, 10, 14], [13, 15, 16]] as const).forEach(([dx, dy, r]) => {
+    ctx.beginPath(); ctx.arc(x + dx, y + dy, r, 0, Math.PI * 2); ctx.fill();
+  });
+}
+
 /* ── Janela retro-OS reutilizável ── */
 const Win = ({ name, children, className, accent }: {
   name: string; children: ReactNode; className?: string; accent?: boolean;
@@ -149,6 +157,28 @@ const PlanetaDragao = () => {
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, w, h);
 
+    // sol (preenche o céu)
+    const sunX = w * 0.84, sunY = h * 0.14, sunR = Math.max(18, h * 0.05);
+    ctx.strokeStyle = "rgba(255,206,64,0.55)"; ctx.lineWidth = 3;
+    for (let r = 0; r < 8; r++) {
+      const a = (r / 8) * Math.PI * 2 + dist * 0.002;
+      ctx.beginPath();
+      ctx.moveTo(sunX + Math.cos(a) * (sunR + 6), sunY + Math.sin(a) * (sunR + 6));
+      ctx.lineTo(sunX + Math.cos(a) * (sunR + 15), sunY + Math.sin(a) * (sunR + 15));
+      ctx.stroke();
+    }
+    ctx.fillStyle = "#FFE24D";
+    ctx.beginPath(); ctx.arc(sunX, sunY, sunR, 0, Math.PI * 2); ctx.fill();
+
+    // nuvens (parallax lento, espalhadas pelo céu)
+    const cspan = w + 220;
+    const cloudOff = (dist * 0.2) % cspan;
+    const cloudYs = [0.12, 0.26, 0.18, 0.34, 0.22];
+    for (let i = 0; i < 5; i++) {
+      const cx = ((i * cspan / 5) - cloudOff + cspan) % cspan - 70;
+      drawCloud(ctx, cx, h * cloudYs[i]);
+    }
+
     // prédios scroll (parallax)
     const blds = [[0.34, 0.13], [0.46, 0.11], [0.30, 0.14], [0.50, 0.12], [0.36, 0.13], [0.46, 0.15], [0.40, 0.12]];
     const period = w * 1.2;
@@ -235,8 +265,11 @@ const PlanetaDragao = () => {
       ctx.font = "700 14px 'Silkscreen', monospace";
       ctx.textBaseline = "top"; ctx.textAlign = "left";
       const txt = `LIXO x0${collectedRef.current}/0${GOAL_TRASH}`;
-      ctx.lineWidth = 4; ctx.strokeStyle = "#000"; ctx.strokeText(txt, 12, 10);
-      ctx.fillStyle = "#fff"; ctx.fillText(txt, 12, 10);
+      const tw = ctx.measureText(txt).width;
+      ctx.fillStyle = "rgba(6,37,26,0.82)";
+      ctx.fillRect(8, 6, tw + 18, 26);
+      ctx.strokeStyle = "#B9FF33"; ctx.lineWidth = 2; ctx.strokeRect(8, 6, tw + 18, 26);
+      ctx.fillStyle = "#B9FF33"; ctx.fillText(txt, 17, 12);
     }
   }, []);
 
@@ -477,7 +510,7 @@ const PlanetaDragao = () => {
       />
 
       <div className="os-menubar">
-        <span className="os-menu-brand"><DragonLogo className="os-menu-logo" /> 🌱 Semana do Meio Ambiente · 1–5 jun</span>
+        <span className="os-menu-brand"><DragonLogo className="os-menu-logo" /> 🌱 Semana do Meio Ambiente · 5–12 jun</span>
         <Link to="/portal" className="os-menu-link"><span className="os-back-arrow">←</span> <span className="os-back-txt">comida de dragão</span></Link>
       </div>
 
@@ -624,8 +657,8 @@ const PlanetaDragao = () => {
 
       <div className="os-sticky">
         <div className="os-sticky-info">
-          <span className="os-sticky-name">🐉 Comida de Dragão</span>
-          <span className="os-sticky-price">cupom {COUPON} · bom pro pet e pro planeta</span>
+          <span className="os-sticky-name">🐉 Comprar o Original</span>
+          <span className="os-sticky-price">cupom {COUPON} · 10% OFF</span>
         </div>
         <a href={buyUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
