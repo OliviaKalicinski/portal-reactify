@@ -39,9 +39,9 @@ const UTM_FALLBACK = {
 const productUrl = (cta: string) => buildCheckoutUrl(PRODUCT_PAGE, UTM_FALLBACK, cta);
 const buyUrl = (cta: string) => buildCheckoutUrl(DIRECT_BUY, UTM_FALLBACK, cta);
 
-// Kits cão/gato — compra direta (carrinho Shopify) com cupom + UTM
-const DOG_BUY = `https://www.comidadedragao.com.br/cart/57996588319023:1?discount=${COUPON}`;
-const CAT_BUY = `https://www.comidadedragao.com.br/cart/54285930561839:1?discount=${COUPON}`;
+// Kits cão/gato — checkout direto Yampi (Buy Now) com cupom + UTM
+const DOG_BUY = `https://comida-de-dragao.pay.yampi.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
+const CAT_BUY = `https://comida-de-dragao.pay.yampi.com.br/r/N9DLSJ6M4J?promocode=${COUPON}`;
 const dogUrl = (cta: string) => buildCheckoutUrl(DOG_BUY, UTM_FALLBACK, cta);
 const catUrl = (cta: string) => buildCheckoutUrl(CAT_BUY, UTM_FALLBACK, cta);
 const DOG_IMG = "/assets/images/produtos/kit-caes.png";   // composto transparente (Original + Suplemento Integral)
@@ -472,7 +472,7 @@ const PlanetaDragao = () => {
 
   /* ── conteúdo: duplo benefício ── */
   const PET = [
-    { ico: "🛡️", t: "Hipoalergênico de verdade", d: "1 ingrediente só. Cães alérgicos a frango, aves ou proteína animal comem sem reação — o relato que mais se repete." },
+    { ico: "🛡️", t: "Proteína hipoalergênica", d: "1 ingrediente só. Cães alérgicos a frango, aves ou proteína animal comem sem reação — o relato que mais se repete." },
     { ico: "🐾", t: "A coceira dá trégua", d: "Tutores contam o pet se coçando bem menos, mais calmo e tranquilo em poucas semanas." },
     { ico: "🌿", t: "Cai bem no intestino", d: "Fezes menores e firmes, sem dor de barriga — petisco que até pet sensível pode comer." },
     { ico: "😋", t: "Até o enjoado se rende", d: "Vira festa: o pet ama, esconde o pacote e até os mais exigentes aceitam de primeira." },
@@ -513,37 +513,56 @@ const PlanetaDragao = () => {
       </div>
 
       <div className="os-desktop">
-        <div className="os-hero-msg">
-          <h1>Bom pro pet. <span>Bom pro planeta.</span></h1>
+        {/* HERO em janela — destaque + contexto pro público frio */}
+        <Win name="🐉 COMIDA DE DRAGÃO" accent className="os-hero-win">
+          <div className="os-hero-msg">
+            <h1>Bom pro pet. <span>Bom pro planeta.</span></h1>
+            <p className="os-hero-trust">reg. mapa · +5 mil pets · 4,89★ · entenda mais ↓</p>
+          </div>
+        </Win>
+
+        {/* POR QUE — bom pro pet / bom pro planeta */}
+        <div className="os-grid2">
+          <Win name="🐾 BOM_PRO_PET.txt">
+            <ul className="os-benef">
+              {PET.map((b, i) => (<li key={i}><span className="os-benef-ico">{b.ico}</span><div><b>{b.t}</b><p>{b.d}</p></div></li>))}
+            </ul>
+          </Win>
+          <Win name="🌍 BOM_PRO_PLANETA.txt">
+            <ul className="os-benef">
+              {PLANETA.map((b, i) => (<li key={i}><span className="os-benef-ico">{b.img ? <img src={b.img} alt="" /> : b.ico}</span><div><b>{b.t}</b><p>{b.d}</p></div></li>))}
+            </ul>
+          </Win>
         </div>
 
-        {/* CONTATO COM O PRODUTO — escolha do kit, de cara */}
-        <Win name="🐉 ESCOLHA O KIT DO SEU PET" accent>
-          <p className="os-kits-lead">Original + Suplemento, hipoalergênico — feito pro seu pet. <b>25% OFF + cupom PLANETA 10%.</b></p>
-          <div className="os-kits">
+        {/* DOIS KITS — uma janela por pet */}
+        <div className="os-grid2">
+          <Win name="🐶 KIT PARA CÃES" accent className="os-kit-win">
             <div className="os-kit">
               <div className="os-kit-imgwrap">
                 <span className="os-kit-badge">25% OFF</span>
                 <img src={DOG_IMG} alt="Kit Comida de Dragão para Cães" loading="eager" />
               </div>
-              <span className="os-kit-pet">🐶 Pra cães</span>
+              <span className="os-kit-name">Original + Suplemento · proteína hipoalergênica</span>
               <div className="os-kit-price"><span className="os-kit-from">R$ 145</span><b>R$ 108,75</b></div>
               <span className="os-kit-bonus">+ cupom PLANETA: 10%</span>
               <a href={dogUrl("hero-dog")} className="pl-btn pl-btn-buy" data-cta="hero-dog">COMPRAR →</a>
             </div>
+          </Win>
+          <Win name="🐱 KIT PARA GATOS" accent className="os-kit-win">
             <div className="os-kit">
               <div className="os-kit-imgwrap">
                 <span className="os-kit-badge">25% OFF</span>
                 <img src={CAT_IMG} alt="Kit Comida de Dragão para Gatos" loading="eager" />
               </div>
-              <span className="os-kit-pet">🐱 Pra gatos</span>
+              <span className="os-kit-name">Original + Suplemento · proteína hipoalergênica</span>
               <div className="os-kit-price"><span className="os-kit-from">R$ 145</span><b>R$ 108,75</b></div>
               <span className="os-kit-bonus">+ cupom PLANETA: 10%</span>
               <a href={catUrl("hero-cat")} className="pl-btn pl-btn-buy" data-cta="hero-cat">COMPRAR →</a>
             </div>
-          </div>
-          <div className="os-prod-chips os-kit-chips"><span>🛡️ Reg. MAPA</span><span>🚚 Brasil</span><span>💚 Garantia 14 dias</span></div>
-        </Win>
+          </Win>
+        </div>
+        <div className="os-prod-chips os-kit-chips"><span>🛡️ Reg. MAPA</span><span>🚚 Entrega Brasil</span><span>💚 Garantia 14 dias</span></div>
 
         <p className="os-game-cap">🎮 Ou jogue, vire o Drakão e ganhe o cupom PLANETA</p>
 
@@ -588,20 +607,6 @@ const PlanetaDragao = () => {
             </p>
           )}
         </Win>
-
-        {/* DUPLO BENEFÍCIO */}
-        <div className="os-grid2">
-          <Win name="🐾 BOM_PRO_PET.txt">
-            <ul className="os-benef">
-              {PET.map((b, i) => (<li key={i}><span className="os-benef-ico">{b.ico}</span><div><b>{b.t}</b><p>{b.d}</p></div></li>))}
-            </ul>
-          </Win>
-          <Win name="🌍 BOM_PRO_PLANETA.txt">
-            <ul className="os-benef">
-              {PLANETA.map((b, i) => (<li key={i}><span className="os-benef-ico">{b.img ? <img src={b.img} alt="" /> : b.ico}</span><div><b>{b.t}</b><p>{b.d}</p></div></li>))}
-            </ul>
-          </Win>
-        </div>
 
         {/* COMO FUNCIONA */}
         <Win name="♻️ COMO_FUNCIONA.exe">

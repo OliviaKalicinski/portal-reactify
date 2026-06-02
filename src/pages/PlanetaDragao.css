@@ -70,15 +70,30 @@
 }
 .os-hero-msg h1 {
   font-family: var(--font-pixel); font-weight: 700;
-  text-transform: uppercase; line-height: 1.25; margin: 0;
-  font-size: clamp(16px, 5.4vw, 30px);
+  text-transform: uppercase; line-height: 1.1; margin: 0;
+  font-size: clamp(15px, 5vw, 28px);
   white-space: nowrap; letter-spacing: -0.02em;
   text-shadow: 2px 2px 0 rgba(255,255,255,0.25);
 }
-.os-hero-msg h1 span { display: block; color: #E7FFE6; text-shadow: 2px 2px 0 var(--border); }
+.os-hero-msg h1 span { display: block; color: #16864A; text-shadow: 2px 2px 0 rgba(9,62,45,0.18); }
 @media (min-width: 700px) {
   .os-hero-msg h1 { font-size: clamp(20px, 3vw, 26px); line-height: 1; }
   .os-hero-msg h1 span { display: inline; }
+}
+.os-hero-why {
+  max-width: 500px; margin: 12px auto 2px;
+  display: flex; flex-direction: column; gap: 7px; text-align: left;
+}
+.os-hero-why p { font-family: 'Space Grotesk', sans-serif; font-size: 15px; line-height: 1.4; color: #0A2A1C; }
+.os-hero-why b { color: #0F5A3C; font-weight: 700; background: rgba(124,255,0,0.30); padding: 0 3px; border-radius: 2px; }
+.os-hero-why .why-label { color: var(--lime); background: none; padding: 0; }
+.os-hero-trust {
+  font-family: var(--font-pixel); font-size: 9px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--neon-hi); margin: 8px 0 0;
+}
+.os-hero-foot {
+  font-family: 'Space Grotesk', sans-serif; font-size: 10px; line-height: 1.3;
+  color: var(--ink-fade); max-width: 460px; margin: 4px auto 0; text-align: center;
 }
 
 /* ── JANELA ── */
@@ -189,7 +204,11 @@
   font-family: var(--font-pixel); font-size: 9px; color: #000; background: #B9FF33;
   border: 2px solid var(--border); box-shadow: 2px 2px 0 var(--shadow); padding: 4px 7px;
 }
-.os-kit img { width: 100%; max-width: 190px; height: auto; filter: drop-shadow(0 4px 10px rgba(6,37,26,0.2)); }
+.os-kit img { width: 100%; max-width: 220px; height: auto; filter: drop-shadow(0 4px 10px rgba(6,37,26,0.2)); }
+/* hero em janela + janelas de kit */
+.os-hero-win .os-body { padding: 14px 16px; }
+.os-hero-win .os-hero-msg { padding: 0; }
+.os-kit-win .os-body { padding: 16px 12px; }
 .os-kit-pet { font-family: var(--font-pixel); font-size: 11px; color: var(--neon-hi); }
 .os-kit-name { font-size: 12px; color: var(--ink-mut); }
 .os-kit-price { display: flex; flex-direction: row; align-items: baseline; justify-content: center; gap: 7px; margin: 2px 0 0; }
