@@ -39,6 +39,14 @@ const UTM_FALLBACK = {
 const productUrl = (cta: string) => buildCheckoutUrl(PRODUCT_PAGE, UTM_FALLBACK, cta);
 const buyUrl = (cta: string) => buildCheckoutUrl(DIRECT_BUY, UTM_FALLBACK, cta);
 
+// Kits cão/gato — compra direta (carrinho Shopify) com cupom + UTM
+const DOG_BUY = `https://www.comidadedragao.com.br/cart/57996588319023:1?discount=${COUPON}`;
+const CAT_BUY = `https://www.comidadedragao.com.br/cart/54285930561839:1?discount=${COUPON}`;
+const dogUrl = (cta: string) => buildCheckoutUrl(DOG_BUY, UTM_FALLBACK, cta);
+const catUrl = (cta: string) => buildCheckoutUrl(CAT_BUY, UTM_FALLBACK, cta);
+const DOG_IMG = "/assets/images/produtos/kit-caes.png";   // composto transparente (Original + Suplemento Integral)
+const CAT_IMG = "/assets/images/produtos/kit-gatos.png";  // composto transparente (Original + Suplemento Felino)
+
 const DRAGA_SPRITE = "/assets/games/planeta/draga_color.png";
 const DRAKAO_SPRITE = "/assets/games/planeta/drakao_color.png";
 const POTE_SPRITE = "/assets/images/produtos/original-frente.webp";
@@ -278,19 +286,9 @@ const PlanetaDragao = () => {
     const wrap = wrapRef.current;
     if (!canvas || !wrap) return;
     const w = Math.min(wrap.clientWidth, 760);
+    // jogo deixou de ser o hero inteiro → proporção normal
     const mobile = window.innerWidth < 700;
-    let h: number;
-    if (mobile) {
-      // preenche da borda superior do jogo até logo acima do sticky (sem scroll)
-      const rectTop = wrap.getBoundingClientRect().top;
-      const top = rectTop > 4 ? rectTop : 150;
-      const STICKY = 54, FOLGA = 12;
-      h = Math.round(window.innerHeight - top - STICKY - FOLGA);
-      h = Math.max(h, Math.round(w * 0.7));
-      h = Math.min(h, Math.round(w * 1.9));
-    } else {
-      h = Math.round(w * 0.5);
-    }
+    const h = mobile ? Math.round(w * 0.92) : Math.round(w * 0.5);
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = w * dpr;
     canvas.height = h * dpr;
@@ -519,7 +517,37 @@ const PlanetaDragao = () => {
           <h1>Bom pro pet. <span>Bom pro planeta.</span></h1>
         </div>
 
-        {/* HERO = JOGO */}
+        {/* CONTATO COM O PRODUTO — escolha do kit, de cara */}
+        <Win name="🐉 ESCOLHA O KIT DO SEU PET" accent>
+          <p className="os-kits-lead">Original + Suplemento, hipoalergênico — feito pro seu pet. <b>25% OFF + cupom PLANETA 10%.</b></p>
+          <div className="os-kits">
+            <div className="os-kit">
+              <div className="os-kit-imgwrap">
+                <span className="os-kit-badge">25% OFF</span>
+                <img src={DOG_IMG} alt="Kit Comida de Dragão para Cães" loading="eager" />
+              </div>
+              <span className="os-kit-pet">🐶 Pra cães</span>
+              <div className="os-kit-price"><span className="os-kit-from">R$ 145</span><b>R$ 108,75</b></div>
+              <span className="os-kit-bonus">+ cupom PLANETA: 10%</span>
+              <a href={dogUrl("hero-dog")} className="pl-btn pl-btn-buy" data-cta="hero-dog">COMPRAR →</a>
+            </div>
+            <div className="os-kit">
+              <div className="os-kit-imgwrap">
+                <span className="os-kit-badge">25% OFF</span>
+                <img src={CAT_IMG} alt="Kit Comida de Dragão para Gatos" loading="eager" />
+              </div>
+              <span className="os-kit-pet">🐱 Pra gatos</span>
+              <div className="os-kit-price"><span className="os-kit-from">R$ 145</span><b>R$ 108,75</b></div>
+              <span className="os-kit-bonus">+ cupom PLANETA: 10%</span>
+              <a href={catUrl("hero-cat")} className="pl-btn pl-btn-buy" data-cta="hero-cat">COMPRAR →</a>
+            </div>
+          </div>
+          <div className="os-prod-chips os-kit-chips"><span>🛡️ Reg. MAPA</span><span>🚚 Brasil</span><span>💚 Garantia 14 dias</span></div>
+        </Win>
+
+        <p className="os-game-cap">🎮 Ou jogue, vire o Drakão e ganhe o cupom PLANETA</p>
+
+        {/* JOGO = gancho do cupom */}
         <Win name="🎮 DRAGA_LIMPA_A_CIDADE.EXE" accent className="os-game-win">
           <div className="pl-screen" ref={wrapRef}>
             <canvas
@@ -657,10 +685,10 @@ const PlanetaDragao = () => {
 
       <div className="os-sticky">
         <div className="os-sticky-info">
-          <span className="os-sticky-name">🐉 Comprar o Original</span>
-          <span className="os-sticky-price">cupom {COUPON} · 10% OFF</span>
+          <span className="os-sticky-name">🐉 Comida de Dragão</span>
+          <span className="os-sticky-price">cupom {COUPON} em todos os produtos</span>
         </div>
-        <a href={buyUrl("sticky")} data-cta="sticky">Comprar →</a>
+        <a href={productUrl("sticky")} data-cta="sticky">Ver no site →</a>
       </div>
     </div>
   );

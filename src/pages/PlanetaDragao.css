@@ -175,6 +175,57 @@
 .pl-btn-buy { background: #B9FF33; color: #000; }
 .pl-btn-buy:hover { background: #A8F018; }
 
+/* seletor de kits (hero) */
+.os-kits-lead { text-align: center; font-size: 14px; color: var(--ink-mut); margin-bottom: 14px; }
+.os-kits-lead b { color: var(--lime); }
+.os-kits { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.os-kit {
+  border: 2px solid var(--border); background: var(--win-body2);
+  padding: 12px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+}
+.os-kit-imgwrap { position: relative; width: 100%; display: flex; justify-content: center; }
+.os-kit-badge {
+  position: absolute; top: 2px; left: 6px;
+  font-family: var(--font-pixel); font-size: 9px; color: #000; background: #B9FF33;
+  border: 2px solid var(--border); box-shadow: 2px 2px 0 var(--shadow); padding: 4px 7px;
+}
+.os-kit img { width: 100%; max-width: 190px; height: auto; filter: drop-shadow(0 4px 10px rgba(6,37,26,0.2)); }
+.os-kit-pet { font-family: var(--font-pixel); font-size: 11px; color: var(--neon-hi); }
+.os-kit-name { font-size: 12px; color: var(--ink-mut); }
+.os-kit-price { display: flex; flex-direction: row; align-items: baseline; justify-content: center; gap: 7px; margin: 2px 0 0; }
+.os-kit-from { font-size: 12px; color: var(--ink-fade); text-decoration: line-through; }
+.os-kit-price b { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 22px; color: var(--lime); line-height: 1; }
+.os-kit-bonus { font-family: var(--font-pixel); font-size: 8px; color: var(--neon-hi); }
+.os-kit .pl-btn { width: 100%; font-size: 13px; padding: 10px 6px; letter-spacing: 0.02em; margin-top: 6px; }
+.os-kit-chips { margin-top: 14px; justify-content: center; }
+
+/* card do produto antigo (mantido por reuso) */
+.os-prod { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+@media (min-width: 540px) { .os-prod { flex-direction: row; text-align: left; align-items: center; gap: 20px; } }
+.os-prod-img { width: 130px; height: auto; flex: none; filter: drop-shadow(0 6px 14px rgba(6,37,26,0.22)); }
+.os-prod-info { display: flex; flex-direction: column; gap: 8px; align-items: inherit; }
+.os-prod-tag {
+  font-family: var(--font-pixel); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--neon-hi);
+}
+.os-prod-name { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 22px; color: var(--ink); line-height: 1.05; }
+.os-prod-desc { font-size: 14px; color: var(--ink-mut); max-width: 360px; }
+.os-prod-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; margin-top: 2px; }
+.os-prod-price span { font-size: 12px; color: var(--ink-mut); }
+.os-prod-price b { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 26px; color: var(--ink); }
+.os-prod-price small { font-family: var(--font-pixel); font-size: 9px; color: var(--neon-hi); }
+.os-prod .pl-btn { margin-top: 6px; align-self: center; }
+@media (min-width: 540px) { .os-prod .pl-btn { align-self: flex-start; } }
+.os-prod-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 4px; }
+@media (min-width: 540px) { .os-prod-chips { justify-content: flex-start; } }
+.os-prod-chips span { font-family: var(--font-pixel); font-size: 9px; color: var(--ink-mut); border: 1px solid var(--line); padding: 4px 7px; }
+
+/* legenda do jogo (gancho) */
+.os-game-cap {
+  text-align: center; font-family: var(--font-pixel); font-size: 11px; line-height: 1.5;
+  color: #0B2E20; margin: -4px 0 0;
+}
+
 /* leads de seção */
 .os-section-lead { font-size: 16px; color: var(--ink-mut); margin-bottom: 16px; }
 
