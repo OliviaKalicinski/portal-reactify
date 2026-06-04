@@ -521,20 +521,6 @@ const PlanetaDragao = () => {
           </div>
         </Win>
 
-        {/* POR QUE — bom pro pet / bom pro planeta */}
-        <div className="os-grid2">
-          <Win name="🐾 BOM_PRO_PET.txt">
-            <ul className="os-benef">
-              {PET.map((b, i) => (<li key={i}><span className="os-benef-ico">{b.ico}</span><div><b>{b.t}</b><p>{b.d}</p></div></li>))}
-            </ul>
-          </Win>
-          <Win name="🌍 BOM_PRO_PLANETA.txt">
-            <ul className="os-benef">
-              {PLANETA.map((b, i) => (<li key={i}><span className="os-benef-ico">{b.img ? <img src={b.img} alt="" /> : b.ico}</span><div><b>{b.t}</b><p>{b.d}</p></div></li>))}
-            </ul>
-          </Win>
-        </div>
-
         {/* DOIS KITS — uma janela por pet */}
         <div className="os-grid2">
           <Win name="🐶 KIT PARA CÃES" accent className="os-kit-win">
@@ -563,6 +549,20 @@ const PlanetaDragao = () => {
           </Win>
         </div>
         <div className="os-prod-chips os-kit-chips"><span>🛡️ Reg. MAPA</span><span>🚚 Entrega Brasil</span><span>💚 Garantia 14 dias</span></div>
+
+        {/* POR QUE — bom pro pet / bom pro planeta */}
+        <div className="os-grid2">
+          <Win name="🐾 BOM_PRO_PET.txt">
+            <ul className="os-benef">
+              {PET.map((b, i) => (<li key={i}><span className="os-benef-ico">{b.ico}</span><div><b>{b.t}</b><p>{b.d}</p></div></li>))}
+            </ul>
+          </Win>
+          <Win name="🌍 BOM_PRO_PLANETA.txt">
+            <ul className="os-benef">
+              {PLANETA.map((b, i) => (<li key={i}><span className="os-benef-ico">{b.img ? <img src={b.img} alt="" /> : b.ico}</span><div><b>{b.t}</b><p>{b.d}</p></div></li>))}
+            </ul>
+          </Win>
+        </div>
 
         <p className="os-game-cap">🎮 Ou jogue, vire o Drakão e ganhe o cupom PLANETA</p>
 
