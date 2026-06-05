@@ -19,6 +19,11 @@ import "./Original.css";
    ─ Helmet faz preload da hero image (LCP)
 
    ⚠️ Trocar `REVIEWS` por imagens reais quando vocês tiverem.
+
+   🌱 SEMANA DO MEIO AMBIENTE (5–12 jun): faixa no topo + seção de
+   kits 25% OFF. Cupom segue BORALA (rastreabilidade dos ads).
+   ⚠️ Reverter após 12/jun: remover faixa, seção de kits e
+   restaurar tokens --bg-page/--bg-elevated no Original.css.
 ────────────────────────────────────────────────────────────── */
 
 /* Checkout Yampi do Original 90g.
@@ -40,6 +45,30 @@ const UTM_FALLBACK = {
 /** Repassa a UTM de entrada (do anuncio); posicao do botao vai em cta_pos. */
 const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
   buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
+
+/* ── SEMANA DO MEIO AMBIENTE — kits cão/gato (remover após 12/jun) ──
+   25% OFF já embutido no preço do kit + cupom BORALA (10%, 1ª compra).
+   Checkout direto Yampi (Buy Now /r/ — mesmo formato do PRODUCT_URL). */
+const KITS = [
+  {
+    name: "Kit pra Cães",
+    desc: "Original + Suplemento Integral",
+    img: "/assets/images/produtos/kit-caes.png",
+    alt: "Kit Comida de Dragão para Cães — Original + Suplemento Integral",
+    url: `https://comida-de-dragao.pay.yampi.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`,
+    cta: "kit-dog",
+  },
+  {
+    name: "Kit pra Gatos",
+    desc: "Original + Suplemento Felino",
+    img: "/assets/images/produtos/kit-gatos.png",
+    alt: "Kit Comida de Dragão para Gatos — Original + Suplemento Felino",
+    url: `https://comida-de-dragao.pay.yampi.com.br/r/N9DLSJ6M4J?promocode=${COUPON}`,
+    cta: "kit-cat",
+  },
+];
+const kitUrl = (kit: (typeof KITS)[number]) =>
+  buildCheckoutUrl(kit.url, UTM_FALLBACK, kit.cta);
 
 const HERO_IMG = "/assets/images/produtos/original-frente.webp";
 
@@ -124,6 +153,11 @@ const Original = () => {
       <Helmet>
         <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
       </Helmet>
+
+      {/* ════ FAIXA · SEMANA DO MEIO AMBIENTE (remover após 12/jun) */}
+      <div className="olp-campanha-bar">
+        🌱 Semana do Meio Ambiente · 5–12 jun — kits com 25% OFF · <a href="#kits">ver kits ↓</a>
+      </div>
 
       {/* ════ HERO ═══════════════════════════════════════════════ */}
       <section className="olp-hero">
@@ -293,6 +327,35 @@ const Original = () => {
           <p className="olp-hero-note" style={{ marginTop: 16 }}>
             Cupom aplica sozinho no checkout · Só na primeira compra
           </p>
+        </div>
+      </section>
+
+      {/* ════ KITS · SEMANA DO MEIO AMBIENTE (remover após 12/jun) */}
+      <section className="olp-section olp-kits-section" id="kits">
+        <div className="olp-section-inner">
+          <span className="olp-tag tag-lime">🌱 semana do meio ambiente · 5–12 jun</span>
+          <h2 className="olp-section-title">
+            Quer ir de vez?<br /><span>Kits com 25% OFF.</span>
+          </h2>
+          <p className="olp-section-lead">
+            Só até 12/jun: Original + Suplemento do seu pet com <strong>25% de
+            desconto</strong> — e o cupom {COUPON} ainda dá 10% na primeira compra.
+          </p>
+
+          <div className="olp-kits">
+            {KITS.map((k) => (
+              <div className="olp-kit-card" key={k.cta}>
+                <span className="olp-kit-off">25% OFF</span>
+                <img src={k.img} alt={k.alt} width={400} height={400} loading="lazy" decoding="async" />
+                <div className="olp-kit-name">{k.name}</div>
+                <div className="olp-kit-desc">{k.desc}</div>
+                <div className="olp-kit-price"><s>R$ 145</s><b>R$ 108,75</b></div>
+                <a href={kitUrl(k)} className="olp-btn-primary olp-kit-btn" data-cta={k.cta}>
+                  Quero o kit →
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
