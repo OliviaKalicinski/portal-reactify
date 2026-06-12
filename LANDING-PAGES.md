@@ -13,6 +13,7 @@
 | `/matilde` | `Matilde.tsx` | Campanha influência (Matilde) → Original | BORALA (10%) | TQT4HOZK7X | ✅ Ativa |
 | `/planeta-dragao` | `PlanetaDragao.tsx` | **Campanha Semana do Meio Ambiente (5–12 jun)** — kits cão/gato + jogo "Draga Limpa a Cidade" | PLANETA | TQT4HOZK7X · KQXZ5J7LWK (cães) · N9DLSJ6M4J (gatos) | ⏳ **Sazonal** — tirar do ar após 12/jun |
 | `/ciencia` | `Ciencia.tsx` | 10 motivos científicos (material p/ clientes) | — | leva à loja | ✅ Ativa |
+| `/alergia` | `Alergia.tsx` | **Campanha ALERGIA** → Kit Cachorro (Original + Suplemento) | ALIVIO (10%) | KQXZ5J7LWK | ✅ Ativa |
 
 ## 📣 Captação / institucional (sem checkout direto)
 
