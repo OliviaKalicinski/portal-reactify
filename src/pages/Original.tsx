@@ -36,7 +36,7 @@ import "./Original.css";
    automaticamente (confirmado pela docs oficial Yampi).
    UTMs marcam tráfego como Meta Ads + utm_content varia por CTA. */
 const COUPON = "BORALA";
-const PRODUCT_URL = `https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
 
 /** Fallback usado SO quando o anuncio nao trouxe utm_ (trafego direto/organico). */
 const UTM_FALLBACK = {
@@ -59,7 +59,7 @@ const KITS = [
     desc: "Original + Suplemento Integral",
     img: "/assets/images/produtos/kit-caes.png",
     alt: "Kit Comida de Dragão para Cães — Original + Suplemento Integral",
-    url: `https://comida-de-dragao.pay.yampi.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`,
+    url: `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`,
     cta: "kit-dog",
   },
   {
@@ -68,7 +68,7 @@ const KITS = [
     desc: "Original + Suplemento Felino",
     img: "/assets/images/produtos/kit-gatos.png",
     alt: "Kit Comida de Dragão para Gatos — Original + Suplemento Felino",
-    url: `https://comida-de-dragao.pay.yampi.com.br/r/N9DLSJ6M4J?promocode=${COUPON}`,
+    url: `https://seguro.comidadedragao.com.br/r/N9DLSJ6M4J?promocode=${COUPON}`,
     cta: "kit-cat",
   },
 ];
