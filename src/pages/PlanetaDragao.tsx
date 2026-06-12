@@ -7,6 +7,10 @@ import "./PlanetaDragao.css";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — PLANETA DRAGÃO · /planeta-dragao
+   ⏳ STATUS: SAZONAL — Semana do Meio Ambiente (5–12 jun).
+   Pra TIRAR DO AR após 12/jun: comentar o lazy import + a rota no
+   App.tsx (a página fica no código pra reativar). Ver LANDING-PAGES.md.
+   ──────────────────────────────────────────────────────────────
    Desktop retro-OS verde. Hero = jogo. Recado: bom pro pet + planeta.
    Semana do Meio Ambiente.
 
