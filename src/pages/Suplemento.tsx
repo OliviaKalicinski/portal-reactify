@@ -32,7 +32,7 @@ import "./Suplemento.css";
    aplicar o cupom automaticamente.
    UTMs marcam tráfego como Meta Ads + utm_content varia por CTA. */
 const COUPON = "BORALA";
-const PRODUCT_URL = `https://comida-de-dragao.pay.yampi.com.br/r/BII063ST2H?promocode=${COUPON}`;
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/BII063ST2H?promocode=${COUPON}`;
 
 /** Fallback usado SO quando o anuncio nao trouxe utm_ (trafego direto/organico). */
 const UTM_FALLBACK = {

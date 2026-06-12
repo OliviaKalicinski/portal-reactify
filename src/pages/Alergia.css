@@ -1,8 +1,8 @@
 /* ================================
-   LP PRODUTO — ORIGINAL · LIGHT THEME
+   LP PRODUTO — SUPLEMENTO INTEGRAL · LIGHT THEME
    Comida de Dragão · página satélite
    Tráfego pago Meta Ads · público frio
-   Foco: saúde, longevidade, hipoalergênico
+   Foco: boost proteico diário, hipoalergênico, só cães
    ────────────────────────────────
    THEME: paper / zine / serigrafia
    Inspirado no .theme-light do Portal.css.
@@ -10,9 +10,11 @@
    radial soft em pêssego/lima.
 
    LP é AUTOCONTIDA — não importa Portal.css/Parceiros.css.
+   Espelho exato da LP do Original (Original.css), só com
+   prefixos próprios (.alergia-lp / alp-) pra não colidir.
 ================================ */
 
-.original-lp {
+.alergia-lp {
   /* ─── Tokens light alinhados com .theme-light do portal ─── */
   --bg-page:       #FFFBED;   /* creme Cores do Dragão — papel */
   --bg-card:       #FFFFFF;
@@ -39,12 +41,12 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.original-lp *, .original-lp *::before, .original-lp *::after { box-sizing: border-box; }
-.original-lp p, .original-lp ul, .original-lp ol { margin: 0; }
+.alergia-lp *, .alergia-lp *::before, .alergia-lp *::after { box-sizing: border-box; }
+.alergia-lp p, .alergia-lp ul, .alergia-lp ol { margin: 0; }
 
-.original-lp h1,
-.original-lp h2,
-.original-lp h3 {
+.alergia-lp h1,
+.alergia-lp h2,
+.alergia-lp h3 {
   font-family: 'Bebas Neue', sans-serif;
   letter-spacing: 0.5px;
   margin: 0;
@@ -52,9 +54,9 @@
   color: var(--ink-primary);
 }
 
-.original-lp a { color: inherit; }
+.alergia-lp a { color: inherit; }
 
-.olp-backlink {
+.alp-backlink {
   display: inline-block;
   font-family: 'Space Mono', monospace;
   font-size: 11px;
@@ -64,16 +66,16 @@
   text-decoration: none;
   transition: color 0.18s;
 }
-.olp-backlink:hover { color: var(--dragon-pink); }
+.alp-backlink:hover { color: var(--dragon-pink); }
 
 /* logo SVG */
-.olp-hero-logo {
+.alp-hero-logo {
   width: 100px;
   height: auto;
   color: var(--ink-primary);
   filter: drop-shadow(0 4px 14px rgba(22, 33, 26, 0.18));
 }
-.olp-footer-logo-svg {
+.alp-footer-logo-svg {
   width: 80px;
   height: auto;
   color: var(--ink-primary);
@@ -83,7 +85,7 @@
 }
 
 /* ============= HERO ============= */
-.olp-hero {
+.alp-hero {
   position: relative;
   background: var(--bg-page);
   padding: 24px 20px 40px;
@@ -91,7 +93,7 @@
   overflow: hidden;
 }
 /* camadas: radial lime embaixo + pink no topo (4 cores total: preto/verde/pink/creme) */
-.olp-hero::before {
+.alp-hero::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -101,7 +103,7 @@
   pointer-events: none;
   z-index: 0;
 }
-.olp-hero::after {
+.alp-hero::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -111,21 +113,21 @@
   z-index: 1;
   mix-blend-mode: multiply;
 }
-.olp-hero-inner {
+.alp-hero-inner {
   position: relative;
   z-index: 2;
   max-width: 980px;
   margin: 0 auto;
   text-align: center;
 }
-.olp-hero-top {
+.alp-hero-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
 }
 
-.olp-hero-eyebrow {
+.alp-hero-eyebrow {
   display: inline-block;
   background: rgba(123, 255, 0, 0.22);
   border: 1px solid var(--dragon-pink);
@@ -143,7 +145,7 @@
    Linha 1: preto/tinta puro, leitura limpa.
    Linha 2 (parte mais importante): preto + sombra LIME deslocada
    = clássico off-register de 2 tintas (preto + verde). */
-.olp-hero-title {
+.alp-hero-title {
   font-size: clamp(42px, 9.5vw, 82px);
   line-height: 0.88;
   letter-spacing: 0.01em;
@@ -151,22 +153,22 @@
   text-transform: uppercase;
   margin-bottom: 16px;
 }
-.olp-hero-title span {
+.alp-hero-title span {
   color: var(--ink-primary);
   display: block;
   text-shadow: 4px 4px 0 var(--dragon-lime);
 }
 
-.olp-hero-sub {
+.alp-hero-sub {
   font-size: clamp(15px, 2vw, 18px);
   line-height: 1.55;
   color: var(--ink-secondary);
   max-width: 540px;
   margin: 0 auto 24px;
 }
-.olp-hero-sub strong { color: var(--ink-primary); }
+.alp-hero-sub strong { color: var(--ink-primary); }
 
-.olp-hero-product {
+.alp-hero-product {
   display: block;
   width: 100%;
   max-width: 360px;
@@ -180,34 +182,34 @@
     drop-shadow(0 18px 32px rgba(22, 33, 26, 0.22));
 }
 
-.olp-hero-price {
+.alp-hero-price {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
   margin-bottom: 16px;
 }
-.olp-price-from {
+.alp-price-from {
   font-family: 'Space Mono', monospace;
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-muted);
 }
-.olp-price-now {
+.alp-price-now {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(40px, 7vw, 56px);
   line-height: 1;
   color: var(--dragon-pink);
   letter-spacing: 0.5px;
 }
-.olp-price-now small {
+.alp-price-now small {
   font-size: 0.42em;
   vertical-align: super;
   margin-right: 2px;
   color: var(--ink-muted);
 }
-.olp-price-installment {
+.alp-price-installment {
   font-family: 'Space Mono', monospace;
   font-size: 12px;
   color: var(--ink-muted);
@@ -215,7 +217,7 @@
 }
 
 /* cupom da hero — pink sólido pequeno (versão mini do cupom da oferta) */
-.olp-hero-coupon {
+.alp-hero-coupon {
   position: relative;
   display: inline-block;
   background: var(--dragon-pink);
@@ -230,10 +232,10 @@
   border: 2px dashed #FFFFFF;
   box-shadow: 4px 4px 0 var(--ink-primary);
 }
-.olp-hero-coupon b { font-size: 14px; letter-spacing: 0.18em; }
+.alp-hero-coupon b { font-size: 14px; letter-spacing: 0.18em; }
 
 /* trust chips inline */
-.olp-hero-chips {
+.alp-hero-chips {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -241,7 +243,7 @@
   margin: 18px auto 0;
   max-width: 540px;
 }
-.olp-chip {
+.alp-chip {
   font-family: 'Space Mono', monospace;
   font-size: 10px;
   font-weight: 700;
@@ -257,7 +259,7 @@
    Lime sólido + texto tinta + sombra tinta — mesmíssimo padrão
    do .parceiros-btn-primary do portal.
    Conecta visualmente com as bordas lime das fotos UGC e reviews. */
-.olp-btn-primary {
+.alp-btn-primary {
   display: inline-block;
   background: var(--dragon-lime);
   color: var(--ink-primary);
@@ -272,16 +274,16 @@
   transition: transform 0.12s ease, box-shadow 0.12s ease;
   cursor: pointer;
 }
-.olp-btn-primary:hover {
+.alp-btn-primary:hover {
   transform: translate(-2px, -2px);
   box-shadow: 8px 8px 0 var(--ink-primary);
 }
-.olp-btn-primary:active {
+.alp-btn-primary:active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--ink-primary);
 }
 
-.olp-hero-note {
+.alp-hero-note {
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.14em;
@@ -291,13 +293,13 @@
 }
 
 /* ============= SECTIONS ============= */
-.olp-section {
+.alp-section {
   position: relative;
   padding: 56px 20px;
   border-bottom: 1px solid var(--ink-border);
   background: var(--bg-page);
 }
-.olp-section-inner {
+.alp-section-inner {
   max-width: 720px;
   margin: 0 auto;
   position: relative;
@@ -305,7 +307,7 @@
 }
 
 /* tag estilo "scratch-mark" do portal — lime translúcido + texto verde leitura */
-.olp-tag {
+.alp-tag {
   display: inline-block;
   background: rgba(123, 255, 0, 0.22);
   border: 1px solid var(--dragon-pink);
@@ -318,12 +320,12 @@
   padding: 4px 12px;
   margin-bottom: 14px;
 }
-.olp-tag.tag-pink {
+.alp-tag.tag-pink {
   background: rgba(255, 0, 102, 0.10);
   border-color: var(--dragon-pink);
   color: var(--dragon-pink);
 }
-.olp-tag.tag-lime {
+.alp-tag.tag-lime {
   background: var(--dragon-lime);
   border-color: var(--ink-primary);
   color: var(--ink-primary);
@@ -331,7 +333,7 @@
 
 /* Section titles — limpos, sem efeito riso.
    Só o hero span tem text-shadow (foco máximo na headline principal). */
-.olp-section-title {
+.alp-section-title {
   font-size: clamp(36px, 6.5vw, 56px);
   line-height: 0.92;
   letter-spacing: 0.01em;
@@ -339,26 +341,26 @@
   text-transform: uppercase;
   margin-bottom: 20px;
 }
-.olp-section-title span { color: var(--dragon-pink); }
-.olp-section-title.title-pink span { color: var(--dragon-pink); }
-.olp-section-title.title-lime span { color: var(--dragon-pink); }
+.alp-section-title span { color: var(--dragon-pink); }
+.alp-section-title.title-pink span { color: var(--dragon-pink); }
+.alp-section-title.title-lime span { color: var(--dragon-pink); }
 
-.olp-section-lead {
+.alp-section-lead {
   font-size: 16px;
   line-height: 1.6;
   color: var(--ink-secondary);
   margin-bottom: 24px;
 }
-.olp-section-lead strong { color: var(--ink-primary); }
+.alp-section-lead strong { color: var(--ink-primary); }
 
 /* ============= PROBLEMA ============= */
-.olp-problemas-list {
+.alp-problemas-list {
   list-style: none;
   padding: 0;
   display: grid;
   gap: 10px;
 }
-.olp-problema-item {
+.alp-problema-item {
   background: var(--bg-card);
   border: 1px solid var(--ink-border);
   border-left: 3px solid var(--dragon-pink);
@@ -367,15 +369,15 @@
   line-height: 1.5;
   color: var(--ink-primary);
 }
-.olp-problema-item b { color: var(--dragon-pink); font-weight: 700; }
+.alp-problema-item b { color: var(--dragon-pink); font-weight: 700; }
 
 /* ============= BENEFÍCIOS ============= */
-.olp-beneficios {
+.alp-beneficios {
   display: grid;
   gap: 14px;
   grid-template-columns: 1fr;
 }
-.olp-beneficio {
+.alp-beneficio {
   background: var(--bg-card);
   border: 1px solid var(--ink-border);
   padding: 22px 20px;
@@ -386,7 +388,7 @@
   overflow: hidden;
 }
 /* hachura sutil no canto inferior direito (estilo canteiro de obras) */
-.olp-beneficio::after {
+.alp-beneficio::after {
   content: '';
   position: absolute;
   right: 0; bottom: 0;
@@ -398,34 +400,34 @@
   );
   pointer-events: none;
 }
-.olp-beneficio-stat {
+.alp-beneficio-stat {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 36px;
   line-height: 1;
   color: var(--dragon-pink);
   letter-spacing: 0.02em;
 }
-.olp-beneficio-title {
+.alp-beneficio-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 22px;
   letter-spacing: 0.04em;
   color: var(--ink-primary);
 }
-.olp-beneficio-desc {
+.alp-beneficio-desc {
   font-size: 14px;
   line-height: 1.55;
   color: var(--ink-secondary);
 }
-.olp-beneficio-desc strong { color: var(--ink-primary); }
+.alp-beneficio-desc strong { color: var(--ink-primary); }
 
 /* ============= SLIDER ============= */
-.olp-slider-wrap {
+.alp-slider-wrap {
   position: relative;
   margin-left: -20px;
   margin-right: -20px;
   padding: 0 20px;
 }
-.olp-slider {
+.alp-slider {
   display: flex;
   gap: 12px;
   overflow-x: auto;
@@ -436,8 +438,8 @@
   scrollbar-width: none;
   padding: 4px 0 12px;
 }
-.olp-slider::-webkit-scrollbar { display: none; }
-.olp-slide {
+.alp-slider::-webkit-scrollbar { display: none; }
+.alp-slide {
   flex: 0 0 78%;
   scroll-snap-align: start;
   aspect-ratio: 1 / 1;
@@ -447,13 +449,13 @@
   position: relative;
   box-shadow: 4px 4px 0 var(--ink-primary);
 }
-.olp-slide img {
+.alp-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-.olp-slide-tag {
+.alp-slide-tag {
   position: absolute;
   left: 10px;
   top: 10px;
@@ -469,12 +471,12 @@
 }
 /* tag "pet real" — lime sólido com tinta. Conecta visualmente
    com as próprias bordas lime das fotos UGC. */
-.olp-slide-tag.tag-orange {
+.alp-slide-tag.tag-orange {
   background: var(--dragon-lime);
   color: var(--ink-primary);
   border-color: var(--ink-primary);
 }
-.olp-slider-hint {
+.alp-slider-hint {
   text-align: center;
   margin-top: 10px;
   font-family: 'Space Mono', monospace;
@@ -485,7 +487,7 @@
 }
 
 /* ============= OFERTA ============= */
-.olp-oferta {
+.alp-oferta {
   position: relative;
   background: var(--bg-elevated);
   border-top: 4px solid var(--dragon-lime);
@@ -495,7 +497,7 @@
   overflow: hidden;
 }
 /* halftone sutil no fundo da oferta */
-.olp-oferta::before {
+.alp-oferta::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -503,11 +505,11 @@
   background-size: 10px 10px;
   pointer-events: none;
 }
-.olp-oferta-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+.alp-oferta-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
 
 /* CUPOM BOX — pink sólido, estilo "ticket" limpo.
    Borda dashed + sombra deslocada mantém DNA zine sem ruído visual. */
-.olp-oferta-coupon-box {
+.alp-oferta-coupon-box {
   position: relative;
   background: var(--dragon-pink);
   color: #FFFFFF;
@@ -516,7 +518,7 @@
   margin: 24px 0;
   box-shadow: 8px 8px 0 var(--ink-primary);
 }
-.olp-oferta-coupon-label {
+.alp-oferta-coupon-label {
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   font-weight: 700;
@@ -525,7 +527,7 @@
   margin-bottom: 8px;
   opacity: 0.85;
 }
-.olp-oferta-coupon-code {
+.alp-oferta-coupon-code {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 56px;
   line-height: 1;
@@ -535,7 +537,7 @@
   /* leve sombra branca pra dar peso ao texto sobre pink */
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
 }
-.olp-oferta-coupon-desc {
+.alp-oferta-coupon-desc {
   font-family: 'Space Mono', monospace;
   font-size: 12px;
   font-weight: 700;
@@ -544,15 +546,15 @@
 }
 
 /* ============= FAQ ============= */
-.olp-faq {
+.alp-faq {
   display: grid;
   gap: 8px;
 }
-.olp-faq-item {
+.alp-faq-item {
   background: var(--bg-card);
   border: 1px solid var(--ink-border);
 }
-.olp-faq-item summary {
+.alp-faq-item summary {
   cursor: pointer;
   list-style: none;
   padding: 16px 18px;
@@ -565,8 +567,8 @@
   align-items: center;
   gap: 12px;
 }
-.olp-faq-item summary::-webkit-details-marker { display: none; }
-.olp-faq-item summary::after {
+.alp-faq-item summary::-webkit-details-marker { display: none; }
+.alp-faq-item summary::after {
   content: '+';
   font-family: 'Bebas Neue', sans-serif;
   font-size: 24px;
@@ -574,18 +576,18 @@
   flex-shrink: 0;
   transition: transform 0.18s;
 }
-.olp-faq-item[open] summary::after { transform: rotate(45deg); }
-.olp-faq-item[open] summary { border-bottom: 1px solid var(--ink-border); }
-.olp-faq-answer {
+.alp-faq-item[open] summary::after { transform: rotate(45deg); }
+.alp-faq-item[open] summary { border-bottom: 1px solid var(--ink-border); }
+.alp-faq-answer {
   padding: 14px 18px 18px;
   font-size: 14px;
   line-height: 1.6;
   color: var(--ink-secondary);
 }
-.olp-faq-answer strong { color: var(--ink-primary); }
+.alp-faq-answer strong { color: var(--ink-primary); }
 
 /* ============= GARANTIA ============= */
-.olp-garantia {
+.alp-garantia {
   display: flex;
   gap: 16px;
   align-items: flex-start;
@@ -597,7 +599,7 @@
   overflow: hidden;
 }
 /* hachura sutil verde */
-.olp-garantia::after {
+.alp-garantia::after {
   content: '';
   position: absolute;
   right: 0; top: 0;
@@ -609,9 +611,9 @@
   );
   pointer-events: none;
 }
-.olp-garantia-icon { font-size: 36px; line-height: 1; flex-shrink: 0; position: relative; }
-.olp-garantia-body { position: relative; }
-.olp-garantia-body strong {
+.alp-garantia-icon { font-size: 36px; line-height: 1; flex-shrink: 0; position: relative; }
+.alp-garantia-body { position: relative; }
+.alp-garantia-body strong {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 22px;
   letter-spacing: 0.04em;
@@ -619,7 +621,7 @@
   display: block;
   margin-bottom: 4px;
 }
-.olp-garantia-body span {
+.alp-garantia-body span {
   font-size: 14px;
   line-height: 1.55;
   color: var(--ink-secondary);
@@ -627,14 +629,14 @@
 }
 
 /* ============= CTA FINAL ============= */
-.olp-cta-final {
+.alp-cta-final {
   position: relative;
   text-align: center;
   padding: 64px 20px 48px;
   background: var(--bg-elevated);
   overflow: hidden;
 }
-.olp-cta-final::before {
+.alp-cta-final::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -644,8 +646,8 @@
   background-size: auto, 9px 9px;
   pointer-events: none;
 }
-.olp-cta-final > * { position: relative; z-index: 1; }
-.olp-cta-final h2 {
+.alp-cta-final > * { position: relative; z-index: 1; }
+.alp-cta-final h2 {
   font-size: clamp(42px, 8.5vw, 72px);
   line-height: 0.9;
   letter-spacing: 0.01em;
@@ -653,11 +655,11 @@
   text-transform: uppercase;
   margin-bottom: 16px;
 }
-.olp-cta-final h2 span {
+.alp-cta-final h2 span {
   color: var(--dragon-pink);
   display: block;
 }
-.olp-cta-final p {
+.alp-cta-final p {
   font-size: 15px;
   line-height: 1.6;
   color: var(--ink-secondary);
@@ -666,7 +668,7 @@
 }
 
 /* ============= STICKY CTA (mobile) ============= */
-.olp-sticky-cta {
+.alp-sticky-cta {
   position: fixed;
   left: 0; right: 0; bottom: 0;
   z-index: 50;
@@ -678,15 +680,15 @@
   gap: 12px;
   box-shadow: 0 -10px 24px rgba(22, 33, 26, 0.12);
 }
-.olp-sticky-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-.olp-sticky-name {
+.alp-sticky-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.alp-sticky-name {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 16px;
   letter-spacing: 0.04em;
   color: var(--ink-primary);
   line-height: 1;
 }
-.olp-sticky-price {
+.alp-sticky-price {
   font-family: 'Space Mono', monospace;
   font-size: 12px;
   color: var(--dragon-pink);
@@ -694,7 +696,7 @@
   letter-spacing: 0.06em;
   margin-top: 4px;
 }
-.olp-sticky-cta a {
+.alp-sticky-cta a {
   flex-shrink: 0;
   background: var(--dragon-lime);
   color: var(--ink-primary);
@@ -709,20 +711,20 @@
 }
 
 /* ============= FOOTER ============= */
-.olp-footer {
+.alp-footer {
   text-align: center;
   padding: 48px 20px 32px;
   background: var(--bg-page);
   border-top: 1px solid var(--ink-border);
 }
-.olp-footer-links {
+.alp-footer-links {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 14px 22px;
   margin-bottom: 18px;
 }
-.olp-footer-links a {
+.alp-footer-links a {
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.14em;
@@ -731,14 +733,14 @@
   text-decoration: none;
   transition: color 0.15s;
 }
-.olp-footer-links a:hover { color: var(--dragon-pink); }
-.olp-footer-tagline {
+.alp-footer-links a:hover { color: var(--dragon-pink); }
+.alp-footer-tagline {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 18px;
   letter-spacing: 0.06em;
   color: var(--dragon-pink);
 }
-.olp-footer-legal {
+.alp-footer-legal {
   font-family: 'Space Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.1em;
@@ -748,39 +750,39 @@
 
 /* ============= RESPONSIVE ============= */
 @media (min-width: 720px) {
-  .olp-hero { padding: 32px 32px 56px; }
-  .olp-section { padding: 80px 32px; }
-  .olp-beneficios { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
-  .olp-slide { flex-basis: 32%; }
-  .olp-slider-hint { display: none; }
-  .olp-oferta { padding: 88px 32px; }
-  .olp-cta-final { padding: 96px 32px 64px; }
+  .alp-hero { padding: 32px 32px 56px; }
+  .alp-section { padding: 80px 32px; }
+  .alp-beneficios { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+  .alp-slide { flex-basis: 32%; }
+  .alp-slider-hint { display: none; }
+  .alp-oferta { padding: 88px 32px; }
+  .alp-cta-final { padding: 96px 32px 64px; }
 
-  .olp-sticky-cta { display: none; }
-  .original-lp { padding-bottom: 0; }
+  .alp-sticky-cta { display: none; }
+  .alergia-lp { padding-bottom: 0; }
 }
 
 @media (min-width: 980px) {
-  .olp-hero-inner {
+  .alp-hero-inner {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
     gap: 48px;
     align-items: center;
     text-align: left;
   }
-  .olp-hero-top { grid-column: 1 / -1; }
-  .olp-hero-product {
+  .alp-hero-top { grid-column: 1 / -1; }
+  .alp-hero-product {
     grid-row: 2 / span 6;
     max-width: 440px;
     margin: 0;
     align-self: center;
   }
-  .olp-hero-eyebrow,
-  .olp-hero-title,
-  .olp-hero-sub,
-  .olp-hero-price,
-  .olp-hero-coupon,
-  .olp-hero-cta-wrap { justify-self: start; }
-  .olp-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
-  .olp-section-title, .olp-cta-final h2 { font-size: 60px; }
+  .alp-hero-eyebrow,
+  .alp-hero-title,
+  .alp-hero-sub,
+  .alp-hero-price,
+  .alp-hero-coupon,
+  .alp-hero-cta-wrap { justify-self: start; }
+  .alp-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
+  .alp-section-title, .alp-cta-final h2 { font-size: 60px; }
 }

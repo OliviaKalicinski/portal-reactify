@@ -24,7 +24,9 @@ const Suplemento = lazy(() => import("./pages/Suplemento.tsx"));
 const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
 const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 const Ciencia = lazy(() => import("./pages/Ciencia.tsx"));
-const PlanetaDragao = lazy(() => import("./pages/PlanetaDragao.tsx"));
+const Alergia = lazy(() => import("./pages/Alergia.tsx"));
+// FORA DO AR (campanha sazonal Semana M.A. 5–12 jun) — descomentar pra reativar:
+// const PlanetaDragao = lazy(() => import("./pages/PlanetaDragao.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 const queryClient = new QueryClient();
@@ -58,9 +60,12 @@ const App = () => (
               <Route path="/onboarding" element={<Onboarding />} />
               {/* LP 10 motivos científicos — material pra enviar a clientes */}
               <Route path="/ciencia" element={<Ciencia />} />
-              {/* Campanha meio ambiente — jogo 8-bit + consumo consciente */}
-              <Route path="/planeta-dragao" element={<PlanetaDragao />} />
+              {/* CAMPANHA SAZONAL · Semana do Meio Ambiente (5–12 jun). Tirar do ar apos 12/jun: comentar esta rota + o lazy import do PlanetaDragao. Ver LANDING-PAGES.md */}
+              {/* FORA DO AR — reativar: descomentar esta rota + o lazy import acima
+              <Route path="/planeta-dragao" element={<PlanetaDragao />} /> */}
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              {/* LP campanha ALERGIA — Kit Cachorro */}
+              <Route path="/alergia" element={<Alergia />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

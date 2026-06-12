@@ -7,6 +7,10 @@ import "./PlanetaDragao.css";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — PLANETA DRAGÃO · /planeta-dragao
+   ⏳ STATUS: SAZONAL — Semana do Meio Ambiente (5–12 jun).
+   Pra TIRAR DO AR após 12/jun: comentar o lazy import + a rota no
+   App.tsx (a página fica no código pra reativar). Ver LANDING-PAGES.md.
+   ──────────────────────────────────────────────────────────────
    Desktop retro-OS verde. Hero = jogo. Recado: bom pro pet + planeta.
    Semana do Meio Ambiente.
 
@@ -27,7 +31,7 @@ const COUPON = "PLANETA";
 const PRODUCT_PAGE = "https://www.comidadedragao.com.br/collections/produtos";
 // Compra direta (checkout Yampi) — "Buy Now" do Original 90g com cupom já aplicado.
 // Usado no "Quero experimentar" e no sticky.
-const DIRECT_BUY = `https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
+const DIRECT_BUY = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
 const STORE_URL = "https://www.comidadedragao.com.br/collections/produtos";
 
 const UTM_FALLBACK = {
@@ -40,8 +44,8 @@ const productUrl = (cta: string) => buildCheckoutUrl(PRODUCT_PAGE, UTM_FALLBACK,
 const buyUrl = (cta: string) => buildCheckoutUrl(DIRECT_BUY, UTM_FALLBACK, cta);
 
 // Kits cão/gato — checkout direto Yampi (Buy Now) com cupom + UTM
-const DOG_BUY = `https://comida-de-dragao.pay.yampi.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
-const CAT_BUY = `https://comida-de-dragao.pay.yampi.com.br/r/N9DLSJ6M4J?promocode=${COUPON}`;
+const DOG_BUY = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
+const CAT_BUY = `https://seguro.comidadedragao.com.br/r/N9DLSJ6M4J?promocode=${COUPON}`;
 const dogUrl = (cta: string) => buildCheckoutUrl(DOG_BUY, UTM_FALLBACK, cta);
 const catUrl = (cta: string) => buildCheckoutUrl(CAT_BUY, UTM_FALLBACK, cta);
 const DOG_IMG = "/assets/images/produtos/kit-caes.png";   // composto transparente (Original + Suplemento Integral)

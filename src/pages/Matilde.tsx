@@ -13,7 +13,7 @@ import "./Matilde.css";
    utm_content varia por posição do CTA pra você ver no Analytics
    qual seção da Matilde converte mais. */
 const COUPON = "BORALA";
-const PRODUCT_URL = `https://comida-de-dragao.pay.yampi.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
 
 /** Fallback usado SO quando o anuncio nao trouxe utm_. */
 const UTM_FALLBACK = {
