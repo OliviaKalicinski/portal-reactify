@@ -152,7 +152,7 @@ const LINKS: StripeItem[] = [
     summary:
       "Matéria institucional detalhando o modelo de negócio da Lets Fly, o uso de BSF como matéria-prima, o perfil dos fundadores e o apoio via linha Inovacred do Finep.",
     href:
-      "http://www.finep.gov.br/noticias/todas-noticias/6582-startup-lets-fly-apoiada-pelo-finep-inovacred-vai-produzir-alimento-sustentavel-para-pets-e-peixes-a-partir-de-larvas-de-inseto",
+      "https://www.finep.gov.br/noticias/todas-noticias/6582-startup-lets-fly-apoiada-pelo-finep-inovacred-vai-produzir-alimento-sustentavel-para-pets-e-peixes-a-partir-de-larvas-de-inseto",
   },
   {
     id: 9,
@@ -422,7 +422,7 @@ const Imprensa = () => {
           <Link to="/biblioteca">Biblioteca</Link>
           <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>
         </nav>
         <div className="footer-tagline">O Dragão é notícia. O Dragão é ciência. O Dragão é agora.</div>

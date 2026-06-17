@@ -15,11 +15,11 @@ import "./Ciencia.css";
    Número de capítulo opcional — template reusável.
 ────────────────────────────────────────────────────────────── */
 
-const PRODUTOS_URL = "https://comidadedragao.com.br/produtos";
+const PRODUTOS_URL = "https://www.comidadedragao.com.br/collections/produtos";
 
 const UTM_FALLBACK = {
   utm_source: "lp-ciencia",
-  utm_medium: "link-direto",
+  utm_medium: "lp",
   utm_campaign: "10-motivos",
 };
 

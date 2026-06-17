@@ -195,7 +195,7 @@ const quizPersonality: QuizDef = {
         { label: 'EQUILÍBRIO',  value: 48 },
       ],
       ctaText: 'VER O TOPO DA LINHA →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     smaug: {
       label: 'SMAUG',
@@ -227,7 +227,7 @@ const quizPersonality: QuizDef = {
         { label: 'ESPETÁCULO',  value: 12 },
       ],
       ctaText: 'ESCOLHER COM CONSCIÊNCIA →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     shrek: {
       label: 'DRAGOA DO SHREK',
@@ -243,7 +243,7 @@ const quizPersonality: QuizDef = {
         { label: 'DECLARAÇÃO',  value: 96 },
       ],
       ctaText: 'VER O QUE ELE MERECE →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     mushu: {
       label: 'MUSHU',
@@ -259,7 +259,7 @@ const quizPersonality: QuizDef = {
         { label: 'RESILIÊNCIA', value: 85 },
       ],
       ctaText: 'DAR UM UPGRADE NO SHOW →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     haku: {
       label: 'HAKU',
@@ -275,7 +275,7 @@ const quizPersonality: QuizDef = {
         { label: 'DEPENDÊNCIA', value: 15 },
       ],
       ctaText: 'SENTIR ANTES DE PENSAR →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
   },
   computeResult: (answers) => {
@@ -378,7 +378,7 @@ const quizNojo: QuizDef = {
         { label: 'CONVICÇÃO',  value: 62 },
       ],
       ctaText: 'VER O QUE SEU PET JÁ SABE →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     funcional: {
       label: 'NOJENTO FUNCIONAL',
@@ -394,7 +394,7 @@ const quizNojo: QuizDef = {
         { label: 'CONVICÇÃO',  value: 68 },
       ],
       ctaText: 'DAR O PRIMEIRO PASSO →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     transicao: {
       label: 'EM TRANSIÇÃO',
@@ -426,7 +426,7 @@ const quizNojo: QuizDef = {
         { label: 'CONVICÇÃO',  value: 82 },
       ],
       ctaText: 'TÁ ESPERANDO O QUÊ? →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     dragao: {
       label: 'DRAGÃO DE VERDADE',
@@ -443,7 +443,7 @@ const quizNojo: QuizDef = {
       ],
       coupon: 'DRAGAOVERDADE',
       ctaText: 'VER A LINHA COMPLETA →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
   },
   computeResult: (answers) => {
@@ -549,7 +549,7 @@ const quizKnowledge: QuizDef = {
         { label: 'CONSCIÊNCIA',  value: 42 },
       ],
       ctaText: 'CONHECER A COMIDA DE DRAGÃO →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     consciente: {
       label: 'TUTOR CONSCIENTE',
@@ -580,7 +580,7 @@ const quizKnowledge: QuizDef = {
       ],
       coupon: 'TUTORDRAGAO',
       ctaText: 'VER A LINHA COMPLETA →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
   },
   computeResult: (answers) => {
@@ -685,7 +685,7 @@ const quizProduto: QuizDef = {
       ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR ORIGINAL →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     legumes: {
       label: 'MORDIDA — LEGUMES',
@@ -702,7 +702,7 @@ const quizProduto: QuizDef = {
       ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR MORDIDA LEGUMES →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     spirulina: {
       label: 'MORDIDA — SPIRULINA',
@@ -719,7 +719,7 @@ const quizProduto: QuizDef = {
       ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR MORDIDA SPIRULINA →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     integral: {
       label: 'SUPLEMENTO INTEGRAL',
@@ -736,7 +736,7 @@ const quizProduto: QuizDef = {
       ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR SUPLEMENTO INTEGRAL →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     concentrado: {
       label: 'SUPLEMENTO CONCENTRADO',
@@ -753,7 +753,7 @@ const quizProduto: QuizDef = {
       ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR SUPLEMENTO CONCENTRADO →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     felino: {
       label: 'SUPLEMENTO FELINO',
@@ -770,7 +770,7 @@ const quizProduto: QuizDef = {
       ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR SUPLEMENTO FELINO →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     grub: {
       label: 'GRUB — ALIMENTO EM GEL',
@@ -787,7 +787,7 @@ const quizProduto: QuizDef = {
       ],
       coupon: 'PRIMEIRODRAGO',
       ctaText: 'COMPRAR GRUB →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
   },
   computeResult: (answers) => {
@@ -897,7 +897,7 @@ const quizEco: QuizDef = {
         { label: 'CULPA',        value: 42 },
       ],
       ctaText: 'UMA MUDANÇA PRA COMEÇAR →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     building: {
       label: 'ECOLOGISTA DE FIM DE SEMANA',
@@ -913,7 +913,7 @@ const quizEco: QuizDef = {
         { label: 'AÇÃO',         value: 48 },
       ],
       ctaText: 'UMA ESCOLHA QUE VIRA HÁBITO →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     almostConsistent: {
       label: 'BOAS INTENÇÕES COM GAPS',
@@ -929,7 +929,7 @@ const quizEco: QuizDef = {
         { label: 'CONVICÇÃO',    value: 78 },
       ],
       ctaText: 'FECHAR OS GAPS →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     almostThere: {
       label: 'DRAGÃO DISCRETO',
@@ -945,7 +945,7 @@ const quizEco: QuizDef = {
         { label: 'INFLUÊNCIA',   value: 55 },
       ],
       ctaText: 'MOSTRAR O QUE VOCÊ FAZ →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     greenDragon: {
       label: 'DRAGÃO VERDE',
@@ -962,7 +962,7 @@ const quizEco: QuizDef = {
       ],
       coupon: 'DRAGAOVERDE',
       ctaText: 'A PROTEÍNA QUE PENSA IGUAL A VOCÊ →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
   },
   computeResult: (answers) => {
@@ -1072,7 +1072,7 @@ const quizRevolucao: QuizDef = {
         { label: 'INFLUÊNCIA',      value: 48 },
       ],
       ctaText: 'O PRÓXIMO PASSO →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     revolucionario: {
       label: 'REVOLUCIONÁRIO',
@@ -1088,7 +1088,7 @@ const quizRevolucao: QuizDef = {
         { label: 'INFLUÊNCIA',      value: 92 },
       ],
       ctaText: 'VER A LINHA COMPLETA →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
   },
   computeResult: (answers) => {
@@ -1224,7 +1224,7 @@ const quizTipoTutor: QuizDef = {
         { label: 'INTUIÇÃO',     value: 72 },
       ],
       ctaText: 'VER O QUE OUTROS TUTORES FALAM →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     intuitivo: {
       label: 'TUTOR INTUITIVO',
@@ -1240,7 +1240,7 @@ const quizTipoTutor: QuizDef = {
         { label: 'INTUIÇÃO',     value: 99 },
       ],
       ctaText: 'DEIXA O PET DECIDIR →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
   },
   computeResult: (answers) => {
@@ -1336,7 +1336,7 @@ const quizVoceOuPet: QuizDef = {
         { label: 'HUMOR',          value: 65 },
       ],
       ctaText: 'ELEVAR O PET AO SEU NÍVEL →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     empate: {
       label: 'EMPATE TÉCNICO',
@@ -1351,7 +1351,7 @@ const quizVoceOuPet: QuizDef = {
         { label: 'HUMOR',          value: 82 },
       ],
       ctaText: 'COMEÇAR PELO PRATO DO PET →',
-      ctaLink: 'https://comidadedragao.com.br',
+      ctaLink: 'https://www.comidadedragao.com.br',
     },
     pet_ganhando: {
       label: 'SEU PET ESTÁ GANHANDO',
@@ -1382,7 +1382,7 @@ const quizVoceOuPet: QuizDef = {
         { label: 'HUMOR',          value: 95 },
       ],
       ctaText: 'O PETISCO QUE FAZ DIFERENÇA →',
-      ctaLink: 'https://comidadedragao.com.br/collections/produtos',
+      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
   },
   computeResult: (answers) => {

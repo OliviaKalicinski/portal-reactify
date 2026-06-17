@@ -37,7 +37,7 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
 
 // ================ RETAILERS ================
 const RETAILERS = [
-  { name: "Loja Oficial", url: "https://comidadedragao.com.br", tag: "Melhor preço", color: "var(--dragon-lime)" },
+  { name: "Loja Oficial", url: "https://www.comidadedragao.com.br", tag: "Melhor preço", color: "var(--dragon-lime)" },
   { name: "Amazon", url: "https://www.amazon.com.br/s?k=comida+de+dragao", tag: "Prime", color: "var(--dragon-violet)" },
   { name: "Mercado Livre", url: "https://www.mercadolivre.com.br", tag: "Frete grátis", color: "var(--dragon-yellow)" },
 ];
@@ -572,7 +572,7 @@ const Produtos = () => {
           O menor preço, o catálogo completo e entrega direto da biofábrica.
         </p>
         <a
-          href="https://comidadedragao.com.br"
+          href="https://www.comidadedragao.com.br"
           target="_blank"
           rel="noopener noreferrer"
           className="produtos-btn-primary"
@@ -593,7 +593,7 @@ const Produtos = () => {
           <Link to="/imprensa">Imprensa</Link>
           <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>
         </nav>
         <div className="footer-tagline">Nojento é o desperdício.</div>

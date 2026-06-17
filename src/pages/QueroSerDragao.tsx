@@ -267,7 +267,7 @@ const QueroSerDragao = () => {
           <Link to="/imprensa">Imprensa</Link>
           <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>
         </nav>
         <div className="footer-tagline">Nojento é o desperdício.</div>

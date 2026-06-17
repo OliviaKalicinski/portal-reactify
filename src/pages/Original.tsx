@@ -33,7 +33,7 @@ const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode
 /** Fallback usado SO quando o anuncio nao trouxe utm_ (trafego direto/organico). */
 const UTM_FALLBACK = {
   utm_source: "lp-original",
-  utm_medium: "cpc",
+  utm_medium: "lp",
   utm_campaign: "lp-original-borala",
 };
 
@@ -338,7 +338,7 @@ const Original = () => {
       <footer className="olp-footer">
         <DragonLogo className="olp-footer-logo-svg" />
         <nav className="olp-footer-links">
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
           <Link to="/produtos">Linha completa</Link>
           <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>

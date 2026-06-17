@@ -22,7 +22,7 @@ interface Props {
   noindex?: boolean;   // true pra 404 e páginas internas
 }
 
-const SITE_URL = "https://comidadedragao.com.br";
+const SITE_URL = "https://www.comidadedragao.com.br";
 const DEFAULT_IMAGE = "/assets/images/canal-dragao-cover.webp";
 
 const abs = (path: string) => {

@@ -18,7 +18,7 @@ const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode
 /** Fallback usado SO quando o anuncio nao trouxe utm_. */
 const UTM_FALLBACK = {
   utm_source: "lp-matilde",
-  utm_medium: "cpc",
+  utm_medium: "lp",
   utm_campaign: "lp-matilde-borala",
 };
 

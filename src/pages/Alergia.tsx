@@ -30,7 +30,7 @@ const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode
 
 const UTM_FALLBACK = {
   utm_source: "lp-alergia",
-  utm_medium: "cpc",
+  utm_medium: "lp",
   utm_campaign: "lp-alergia-kit-caes",
 };
 
@@ -323,7 +323,7 @@ const Alergia = () => {
       <footer className="alp-footer">
         <DragonLogo className="alp-footer-logo-svg" />
         <nav className="alp-footer-links">
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
           <Link to="/produtos">Linha completa</Link>
           <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>

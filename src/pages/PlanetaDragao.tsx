@@ -36,7 +36,7 @@ const STORE_URL = "https://www.comidadedragao.com.br/collections/produtos";
 
 const UTM_FALLBACK = {
   utm_source: "lp-planeta",
-  utm_medium: "campanha",
+  utm_medium: "lp",
   utm_campaign: "planeta-dragao-pet-planeta",
 };
 // repassa a UTM de entrada (first-touch) + posição do CTA pra qualquer URL
@@ -683,7 +683,7 @@ const PlanetaDragao = () => {
         <footer className="os-taskbar">
           <DragonLogo className="os-task-logo" />
           <nav className="os-task-links">
-            <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
+            <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
             <Link to="/produtos">Linha completa</Link>
             <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a href="mailto:somos@letsfly.com.br">Contato</a>

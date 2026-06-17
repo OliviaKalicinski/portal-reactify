@@ -790,7 +790,7 @@ const Portal = () => {
             </button>
           ))}
           <a
-            href="https://comidadedragao.com.br"
+            href="https://www.comidadedragao.com.br"
             target="_blank"
             rel="noopener noreferrer"
             className="perfil-buy-link"
@@ -951,7 +951,7 @@ const Portal = () => {
           </Link>
 
           <a
-            href="https://comidadedragao.com.br/blogs/news"
+            href="https://www.comidadedragao.com.br/blogs/news"
             target="_blank"
             rel="noopener noreferrer"
             className="card card-lives ratio-1-1"
@@ -1137,7 +1137,7 @@ const Portal = () => {
       <div className="content-grid" style={{ paddingTop: 8 }}>
         <div className="row">
           {[
-            { cls: "card-shop-oficial card-shop-large", href: "https://comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
+            { cls: "card-shop-oficial card-shop-large", href: "https://www.comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
             { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Prime", hoverKey: "amazon", cover: shopAmazonCover },
             { cls: "card-shop-ml", href: "https://lista.mercadolivre.com.br/comida-de-dragao", name: "Mercado\nLivre", tag: "Frete Grátis", hoverKey: "ml", cover: shopMlCover },
           ].map((shop, i) => (
@@ -1203,7 +1203,7 @@ const Portal = () => {
           <Link to="/imprensa">Imprensa</Link>
           <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
           <a href="mailto:somos@letsfly.com.br">Contato</a>
         </nav>
         <div className="footer-tagline">{footerText}</div>
@@ -1255,7 +1255,7 @@ const Portal = () => {
               <p className="pull">Nojento é o desperdício. A gente faz ao contrário.</p>
             </div>
             <div className="riso-signature">— LET'S FLY · CACHOEIRAS DE MACACU · RJ</div>
-            <a href="https://comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="riso-btn">VER PRODUTOS →</a>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="riso-btn">VER PRODUTOS →</a>
             <button className="riso-btn ghost" onClick={closeManifesto}>FECHAR</button>
           </article>
         </div>
@@ -1463,7 +1463,7 @@ const Portal = () => {
               }}
             />
             <a
-              href="https://comidadedragao.com.br/collections/produtos"
+              href="https://www.comidadedragao.com.br/collections/produtos"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-dragon"
