@@ -17,14 +17,15 @@ import "./Alergia.css";
    Espelha a estrutura da LP Suplemento (mesmas seções), com prefixo
    próprio (.alergia-lp / alp-) e copy/produto de alergia.
 
-   ⚠️ AÇÃO: cadastrar o cupom ALIVIO (10% off, 1ª compra) na Yampi.
-   - Kit Cachorro: token KQXZ5J7LWK · R$ 145,00 → R$ 130,50 com ALIVIO.
+   ⚠️ PREÇO FIXO (atualizar à mão se a loja mudar):
+   - Kit Cachorro · token KQXZ5J7LWK · de R$ 145 → R$ 116 no site (−20%) → R$ 104,40 com ALIVIO.
+   - Shopify hoje: preço R$ 116,00 / compare-at R$ 145,00. ALIVIO (10%) entra no checkout Yampi.
    - Trocar imagens de review por screenshots de alergia reais quando tiver.
 ────────────────────────────────────────────────────────────── */
 
 const COUPON = "ALIVIO";      // ⚠️ cadastrar na Yampi: 10% off (1ª compra)
-const PRICE = "145,00";       // Kit Cachorro (Original + Suplemento Integral) — preço cheio
-const PRICE_OFF = "130,50";   // com ALIVIO (10% off)
+const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
+const PRICE_OFF = "104,40";   // "por" — preço de loja R$116 (−20%) com ALIVIO (−10%)
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
 
@@ -156,7 +157,7 @@ const Alergia = () => {
           <div className="alp-hero-price">
             <span className="alp-price-from">Kit Cachorro · de R$ {PRICE}</span>
             <span className="alp-price-now"><small>R$</small>{PRICE_OFF}</span>
-            <span className="alp-price-installment">com o cupom <b>{COUPON}</b> (10% off) · 4× sem juros</span>
+            <span className="alp-price-installment">20% no site + cupom <b>{COUPON}</b> (10% off) · 4× sem juros</span>
           </div>
 
           <div className="alp-hero-coupon">
@@ -268,7 +269,7 @@ const Alergia = () => {
           <div className="alp-oferta-coupon-box">
             <div className="alp-oferta-coupon-label">use o cupom</div>
             <div className="alp-oferta-coupon-code">{COUPON}</div>
-            <div className="alp-oferta-coupon-desc">10% off na primeira compra · R$ 145,00 → R$ {PRICE_OFF}</div>
+            <div className="alp-oferta-coupon-desc">20% no site + cupom (10% off) · R$ {PRICE} → R$ {PRICE_OFF}</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="alp-btn-primary" data-cta="oferta">
