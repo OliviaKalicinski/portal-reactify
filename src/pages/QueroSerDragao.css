@@ -1,0 +1,335 @@
+/* ════════════════════════════════════════════════════════════════
+   QUERO SER DRAGÃO — DESKTOP RETRÔ / DUOTONE (ink + lime)
+   Bicromático: só duas cores reais (tinta #0E0E0E + lime #7BFF00),
+   com "papel" claro = lime lavado. Janelas estilo OS antigo,
+   barra de título listrada, × , sombra dura tipo adesivo.
+   Folha isolada — não toca Parceiros.css / Portal.css.
+   ════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: "Droid1997";
+  src: url("/assets/fonts/Droid1997.otf") format("opentype");
+  font-display: swap;
+}
+
+.qsd8 {
+  --ink:    #0E0E0E;   /* cor 1 */
+  --lime:   #7BFF00;   /* cor 2 (marca) */
+  --violet: #925AED;   /* cor 3 (acento roxo) */
+  --paper:  #ECFFD6;   /* lime lavado = "branco" do duotone */
+  --paper2: #DAF7B8;
+  --limed:  #5FCC00;   /* lime escurecido p/ sombras de bevel */
+
+  --px: 4px;
+
+  /* vars usadas pelo CSS do ReelsSection (escopo .portal-page) */
+  --dragon-gray: #15324A;
+  --dragon-white: #FAFAFA;
+  --dragon-black: #0A0A0A;
+  --skin-accent: var(--lime);
+
+  font-family: "Space Grotesk", system-ui, sans-serif;  /* corpo: leitura */
+  background: #5FA8DC;            /* azul céu (fallback do fundo) */
+  color: var(--ink);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* dither bem leve só pra textura sobre o céu */
+.qsd8::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(255,255,255,.6) 1px, transparent 1.4px);
+  background-size: 8px 8px;
+  opacity: .07;
+}
+/* scanline CRT bem leve */
+.qsd8::after {
+  content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+  background: repeating-linear-gradient(to bottom,
+    rgba(0,0,0,0) 0, rgba(0,0,0,0) 3px, rgba(0,0,0,.06) 4px);
+  mix-blend-mode: multiply;
+}
+.qsd8 * { box-sizing: border-box; }
+
+/* filtro duotone aplicado aos PNGs de pixel (definido inline no TSX) */
+.qsd8-duo { filter: url(#qsd8-duotone); image-rendering: pixelated; }
+
+.qsd8-wrap { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 16px; }
+
+/* fundo de nuvens em duotone (imagem fixa atrás de tudo) */
+.qsd8-bg {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0; opacity: .9;
+}
+
+/* tipografia */
+.qsd8 .pix { font-family: "Press Start 2P", monospace; }
+.qsd8 .droid { font-family: "Droid1997", "Press Start 2P", monospace; }
+
+/* ─── ÍCONES DE DESKTOP (laterais) ────────────────────────────── */
+.qsd8-desk-icons { display: none; }
+@media (min-width: 1100px) {
+  .qsd8-desk-icons {
+    display: flex; flex-direction: column; gap: 30px;
+    position: absolute; top: 28px; width: 116px; z-index: 2;
+  }
+  .qsd8-desk-icons.left  { left: 8px; }
+  .qsd8-desk-icons.right { right: 8px; }
+}
+.qsd8-icon { text-align: center; cursor: default; user-select: none; }
+.qsd8-icon img { width: 52px; height: 52px; display: block; margin: 0 auto 7px; }
+.qsd8-icon span {
+  font-family: "Press Start 2P", monospace; font-size: 7px; line-height: 1.5;
+  color: var(--ink); background: var(--lime); padding: 2px 4px; display: inline-block;
+}
+.qsd8-icon:hover span { background: var(--ink); color: var(--lime); }
+
+/* ─── JANELA OS ───────────────────────────────────────────────── */
+.qsd8-win {
+  margin: 0 auto 30px;
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 9px 9px 0 0 var(--ink);
+  position: relative;
+}
+.qsd8-win.inverted { background: var(--ink); color: var(--paper); }
+
+/* variante ROXA (acento) */
+.qsd8-win.violet { background: var(--violet); color: var(--paper); }
+.qsd8-win.violet .qsd8-titlebar { background: var(--violet); border-bottom-color: var(--paper); }
+.qsd8-win.violet .qsd8-tb-name { background: var(--paper); color: var(--violet); }
+.qsd8-win.violet .qsd8-tb-stripes {
+  background: repeating-linear-gradient(to bottom,
+    var(--paper) 0, var(--paper) 2px, transparent 2px, transparent 4px);
+}
+.qsd8-win.violet .qsd8-tb-x { border-color: var(--paper); background: var(--violet); color: var(--paper); }
+.qsd8-win.violet .qsd8-cta-title { color: var(--paper); }
+.qsd8-win.violet .qsd8-cta-title span { background: var(--lime); color: var(--ink); }
+.qsd8-win.violet .qsd8-cta-sub { color: var(--paper); }
+.qsd8-win.violet .qsd8-eta { color: var(--paper); opacity: .9; }
+.qsd8-win.violet .qsd8-prog { border-color: var(--paper); background: rgba(0,0,0,.22); }
+.qsd8-win.violet .qsd8-prog i { background: var(--lime); }
+.qsd8-win.violet .qsd8-prog.is-cta i:last-child { opacity: .3; }
+.qsd8-win.violet .qsd8-btn { background: var(--lime); color: var(--ink); border-color: var(--ink); box-shadow: 5px 5px 0 0 var(--ink); }
+.qsd8-win.violet .qsd8-btn:hover { background: var(--paper); }
+
+/* barra de título: nome em caixa + listras + × */
+.qsd8-titlebar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 6px;
+  border-bottom: 3px solid var(--ink);
+  background: var(--paper);
+}
+.qsd8-win.inverted .qsd8-titlebar { background: var(--ink); border-bottom-color: var(--lime); }
+.qsd8-tb-name {
+  font-family: "Press Start 2P", monospace; font-size: 9px;
+  background: var(--ink); color: var(--lime);
+  padding: 6px 9px; white-space: nowrap; flex: none;
+  max-width: 70%; overflow: hidden; text-overflow: ellipsis;
+}
+.qsd8-win.inverted .qsd8-tb-name { background: var(--lime); color: var(--ink); }
+/* listras que preenchem a barra */
+.qsd8-tb-stripes {
+  flex: 1; height: 14px; min-width: 20px;
+  background: repeating-linear-gradient(to bottom,
+    var(--ink) 0, var(--ink) 2px, transparent 2px, transparent 4px);
+}
+.qsd8-win.inverted .qsd8-tb-stripes {
+  background: repeating-linear-gradient(to bottom,
+    var(--lime) 0, var(--lime) 2px, transparent 2px, transparent 4px);
+}
+.qsd8-tb-x {
+  flex: none; width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--ink); background: var(--paper); color: var(--ink);
+  font-family: "Press Start 2P", monospace; font-size: 10px; line-height: 1;
+}
+.qsd8-win.inverted .qsd8-tb-x { border-color: var(--lime); background: var(--ink); color: var(--lime); }
+
+.qsd8-win-body { padding: 26px 22px 30px; }
+
+/* ─── HERO (janela de instalação) — MOBILE FIRST ──────────────── */
+.qsd8-hero-win { margin-top: 22px; }
+.qsd8-mac-dots { display: inline-flex; gap: 6px; margin-right: 4px; flex: none; }
+.qsd8-mac-dots i { width: 12px; height: 12px; border: 2px solid var(--ink); border-radius: 50%; display: block; }
+
+.qsd8-hero-logo { width: 168px; max-width: 64%; height: auto; display: block; margin: 0 0 18px; }
+.qsd8-hero-logo path { fill: var(--ink); }
+
+.qsd8-eyebrow { font-family: "Press Start 2P", monospace; font-size: 8px; margin-bottom: 14px; line-height: 1.6; }
+.qsd8-title {
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(17px, 5vw, 30px); line-height: 1.4; margin: 0 0 16px;
+  text-transform: uppercase;
+}
+.qsd8-title span { display: inline-block; background: var(--violet); color: var(--paper); padding: 2px 7px; }
+.qsd8-sub { font-size: 16px; line-height: 1.55; margin: 0 0 18px; max-width: 560px; }
+.qsd8-sub strong { font-weight: 700; }
+@media (min-width: 820px) { .qsd8-hero-logo { width: 200px; } }
+
+.qsd8-eta { font-family: "Press Start 2P", monospace; font-size: 8px; margin: 16px 0 8px; opacity: .8; }
+
+/* barra de progresso pixelada */
+.qsd8-prog {
+  height: 22px; border: 3px solid var(--ink); background: var(--paper);
+  padding: 3px; display: flex; gap: 3px; overflow: hidden;
+}
+.qsd8-win.inverted .qsd8-prog { border-color: var(--lime); background: var(--ink); }
+.qsd8-prog i { flex: 0 0 11px; background: var(--ink); height: 100%; }
+.qsd8-win.inverted .qsd8-prog i { background: var(--lime); }
+.qsd8-prog.is-cta i:last-child { opacity: .25; }
+
+.qsd8-badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 6px; }
+.qsd8-badge {
+  font-family: "Press Start 2P", monospace; font-size: 7px; text-transform: uppercase;
+  padding: 7px 8px; border: 2px solid var(--ink); background: var(--lime); color: var(--ink);
+}
+
+/* ─── BOTÃO ───────────────────────────────────────────────────── */
+.qsd8-btnrow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 22px; }
+.qsd8-btn {
+  font-family: "Press Start 2P", monospace; font-size: 12px; text-transform: uppercase;
+  display: inline-block; padding: 15px 20px; text-decoration: none;
+  background: var(--ink); color: var(--lime);
+  border: 3px solid var(--ink); box-shadow: 5px 5px 0 0 var(--limed);
+  cursor: pointer; transition: transform .07s steps(2), box-shadow .07s steps(2), background .12s;
+}
+.qsd8-btn:hover { background: var(--lime); color: var(--ink); box-shadow: 5px 5px 0 0 var(--ink); }
+.qsd8-btn:active { transform: translate(5px, 5px); box-shadow: 0 0 0 0 var(--ink); }
+.qsd8-btn.ghost { background: var(--paper); color: var(--ink); box-shadow: 5px 5px 0 0 var(--ink); }
+.qsd8-btn.ghost:hover { background: var(--ink); color: var(--lime); }
+.qsd8-note { font-size: 14px; margin-top: 14px; }
+.qsd8-blink { animation: qsd8-blink 1s steps(1) infinite; }
+@keyframes qsd8-blink { 50% { opacity: .2; } }
+
+/* ─── MARQUEE ─────────────────────────────────────────────────── */
+.qsd8-marquee {
+  background: var(--ink); color: var(--lime);
+  border: 3px solid var(--ink); overflow: hidden; white-space: nowrap;
+  padding: 8px 0; margin: 0 auto 30px; max-width: 1148px;
+}
+.qsd8-marquee-track {
+  display: inline-block; animation: qsd8-scroll 24s linear infinite;
+  font-family: "Press Start 2P", monospace; font-size: 10px;
+}
+.qsd8-marquee-track span { padding: 0 20px; }
+.qsd8-marquee-track span::after { content: "▆"; margin-left: 20px; }
+@keyframes qsd8-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ─── títulos de seção dentro das janelas ─────────────────────── */
+.qsd8-h2 {
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(14px, 3.6vw, 22px); text-transform: uppercase;
+  line-height: 1.45; margin: 0 0 24px;
+}
+.qsd8-h2 span { background: var(--lime); color: var(--ink); padding: 0 7px; }
+.qsd8-win.inverted .qsd8-h2 span { background: var(--lime); color: var(--ink); }
+
+/* ─── GRIDS de conteúdo (mobile-first: 1 col → 2 col) ─────────── */
+.qsd8-loot { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 560px) { .qsd8-loot { grid-template-columns: repeat(2, 1fr); } }
+.qsd8-card {
+  border: 3px solid var(--ink); padding: 18px 16px; background: var(--paper);
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+.qsd8-win.inverted .qsd8-card { background: var(--ink); border-color: var(--lime); box-shadow: 4px 4px 0 0 var(--lime); }
+.qsd8-card-ico { width: 40px; height: 40px; display: block; margin-bottom: 12px; }
+.qsd8-card-title {
+  font-family: "Press Start 2P", monospace; font-size: 11px; line-height: 1.4; margin-bottom: 10px;
+}
+.qsd8-win.inverted .qsd8-card-title { color: var(--lime); }
+.qsd8-card-desc { font-size: 15px; line-height: 1.5; }
+.qsd8-win.inverted .qsd8-card-desc { color: var(--paper); }
+
+/* requisitos */
+.qsd8-reqs { display: grid; gap: 11px; }
+.qsd8-req { display: flex; gap: 12px; align-items: flex-start; border: 3px solid var(--ink); padding: 14px 15px; background: var(--paper); }
+.qsd8-win.inverted .qsd8-req { background: var(--ink); border-color: var(--lime); }
+.qsd8-req-check {
+  font-family: "Press Start 2P", monospace; font-size: 11px; flex: none;
+  width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+  background: var(--ink); color: var(--lime);
+}
+.qsd8-win.inverted .qsd8-req-check { background: var(--lime); color: var(--ink); }
+.qsd8-req-body strong { font-family: "Press Start 2P", monospace; font-size: 10px; line-height: 1.4; display: block; margin-bottom: 7px; }
+.qsd8-win.inverted .qsd8-req-body strong { color: var(--lime); }
+.qsd8-req-body span { font-size: 14.5px; line-height: 1.5; }
+.qsd8-win.inverted .qsd8-req-body span { color: var(--paper); }
+
+/* regras */
+.qsd8-rules { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 560px) { .qsd8-rules { grid-template-columns: repeat(2, 1fr); } }
+.qsd8-rule { border: 3px solid var(--ink); padding: 16px 15px; background: var(--paper); box-shadow: 4px 4px 0 0 var(--ink); }
+.qsd8-win.inverted .qsd8-rule { background: var(--ink); border-color: var(--lime); box-shadow: 4px 4px 0 0 var(--lime); }
+.qsd8-rule-num { font-family: "Press Start 2P", monospace; font-size: 16px; line-height: 1; margin-bottom: 12px; color: var(--violet); }
+.qsd8-win.inverted .qsd8-rule-num { color: var(--lime); }
+.qsd8-rule-title { font-family: "Press Start 2P", monospace; font-size: 10px; line-height: 1.4; margin-bottom: 9px; }
+.qsd8-win.inverted .qsd8-rule-title { color: var(--lime); }
+.qsd8-rule-desc { font-size: 15px; line-height: 1.5; }
+.qsd8-win.inverted .qsd8-rule-desc { color: var(--paper); }
+
+/* janela de erro */
+.qsd8-error-body { display: flex; gap: 14px; align-items: center; padding: 22px; }
+.qsd8-error-body img { width: 46px; height: 46px; flex: none; }
+.qsd8-error-body p { font-size: 15px; line-height: 1.5; margin: 0; }
+.qsd8-error-body strong { font-family: "Press Start 2P", monospace; font-size: 10px; display: block; margin-bottom: 8px; }
+
+/* reels — neutraliza o que vaza do .portal-page (min-height/bg) e compacta */
+.qsd8-reels-win .qsd8-win-body { padding: 14px 12px 18px; }
+.qsd8-reels-host {
+  min-height: 0 !important;
+  background: transparent !important;
+  font-family: inherit !important;
+}
+.qsd8-reels-win .section-label { padding: 4px 4px 8px !important; margin: 0 !important; }
+.qsd8-reels-win .reels-strip-wrap { padding: 4px 0 0 !important; max-width: 100% !important; }
+.qsd8-reels-win .reels-subtitle { padding: 0 4px !important; margin: 0 0 12px !important; max-width: 100% !important; }
+/* cada slide com o BOX do "O Dragão Fala" (borda + sombra dura + scanlines) */
+.qsd8-reels-win .reels-strip .reel-card {
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--lime);
+  background: #000;
+  width: clamp(180px, 62vw, 240px);
+}
+.qsd8-reels-win .reels-strip .reel-card:hover {
+  border-color: var(--ink);
+  box-shadow: 6px 6px 0 0 var(--violet);
+  transform: translateY(-3px);
+}
+.qsd8-reels-win .reels-strip .reel-card::after {
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(255,255,255,.05) 2px 3px);
+}
+
+/* CTA / download — escuro com acento ROXO (sem flood) */
+.qsd8-cta-win .qsd8-win-body { text-align: center; }
+.qsd8-cta-win .qsd8-tb-name { background: var(--violet); color: var(--paper); }
+.qsd8-cta-win .qsd8-cta-title span { background: var(--violet); color: var(--paper); }
+.qsd8-cta-win .qsd8-prog i { background: var(--violet); }
+.qsd8-cta-win .qsd8-btn { background: var(--lime); color: var(--ink); box-shadow: 5px 5px 0 0 var(--violet); }
+.qsd8-cta-win .qsd8-btn:hover { background: var(--paper); }
+.qsd8-cta-title { font-family: "Press Start 2P", monospace; font-size: clamp(15px,4.2vw,26px); text-transform: uppercase; line-height: 1.4; margin: 0 0 14px; }
+.qsd8-cta-title span { background: var(--lime); color: var(--ink); padding: 2px 7px; }
+.qsd8-cta-sub { font-size: 16px; line-height: 1.5; margin: 0 auto 18px; max-width: 440px; }
+.qsd8-win.inverted .qsd8-cta-sub { color: var(--paper); }
+.qsd8-cta-note { font-size: 16px; margin-top: 18px; }
+
+/* footer */
+.qsd8-footer { text-align: center; padding: 30px 16px 50px; }
+.qsd8-footer-logo { width: 130px; height: auto; margin: 0 auto 16px; display: block; }
+.qsd8-footer-logo path { fill: var(--ink); }
+.qsd8-footer-nav { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: center; font-family: "Press Start 2P", monospace; font-size: 8px; margin-bottom: 16px; }
+.qsd8-footer-nav a { color: var(--ink); text-decoration: none; text-transform: uppercase; }
+.qsd8-footer-nav a:hover { background: var(--ink); color: var(--lime); }
+.qsd8-footer-tag { font-family: "Press Start 2P", monospace; font-size: 11px; text-transform: uppercase; }
+
+/* ─── RESPONSIVO ──────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .qsd8-win { box-shadow: 6px 6px 0 0 var(--ink); }
+  .qsd8-win-body { padding: 20px 16px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qsd8-marquee-track, .qsd8-blink { animation: none; }
+}

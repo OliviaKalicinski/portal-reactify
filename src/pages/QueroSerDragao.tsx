@@ -1,277 +1,260 @@
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
 import PageMeta from "@/components/PageMeta";
-import "./Portal.css";
-import "./Parceiros.css";
+import "./QueroSerDragao.css";
+
+const INFLOWZ_URL = "https://app.inflowz.io/signup/comida-de-dragao";
+const ICON = "/assets/pixel-icons";
 
 const MARQUEE_TOP = [
-  "QUERO SER DRAGÃO",
-  "30% DE COMISSÃO",
-  "PRODUTOS MENSAIS",
-  "CUPOM EXCLUSIVO",
-  "SEM EXCLUSIVIDADE",
-  "VOCÊ POSTA DO SEU JEITO",
-  "BIOFÁBRICA REGISTRADA NO MAPA",
+  "QUERO SER DRAGAO", "30% DE COMISSAO", "PRODUTOS MENSAIS", "CUPOM EXCLUSIVO",
+  "SEM EXCLUSIVIDADE", "VOCE POSTA DO SEU JEITO", "BIOFABRICA REGISTRADA NO MAPA",
 ];
 
-const MARQUEE_BOTTOM = [
-  "// PARCEIROS",
-  "// MATILHA DO DRAGÃO",
-  "@COMIDADEDRAGAO",
-  "NOJENTO É O DESPERDÍCIO",
-  "ENTRA NA MATILHA",
-  "COMIDA DE DRAGÃO · LET'S FLY",
+/* ── ícones de desktop (laterais) ── */
+const DESK_LEFT = [
+  { img: "games.png",      label: "MATILHA.GG" },
+  { img: "heart-eyes.png", label: "MEU-PET" },
+  { img: "crown.png",      label: "VIP.EXE" },
+];
+const DESK_RIGHT = [
+  { img: "love.png",       label: "CUPOM♥" },
+  { img: "star.png",       label: "FAVORITOS" },
+  { img: "sleeping.png",   label: "LIXEIRA" },
 ];
 
-const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
-  const doubled = [...items, ...items];
-  return (
-    <div className={`marquee-bar${bottom ? " bottom" : ""}`}>
-      <div className="marquee-track" style={bottom ? { animationDirection: "reverse" } : undefined}>
-        {doubled.map((t, i) => <span key={i}>{t}</span>)}
-      </div>
+/* ── janela OS reutilizável ── */
+const Win = ({ name, children, className, inverted, violet, mac }: {
+  name: string; children: ReactNode; className?: string; inverted?: boolean; violet?: boolean; mac?: boolean;
+}) => (
+  <section className={`qsd8-win${inverted ? " inverted" : ""}${violet ? " violet" : ""}${className ? " " + className : ""}`}>
+    <div className="qsd8-titlebar">
+      {mac && (
+        <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>
+      )}
+      <span className="qsd8-tb-name">{name}</span>
+      <span className="qsd8-tb-stripes" aria-hidden="true" />
+      <span className="qsd8-tb-x" aria-hidden="true">×</span>
     </div>
-  );
-};
+    <div className="qsd8-win-body">{children}</div>
+  </section>
+);
+
+const DeskCol = ({ items, side }: { items: typeof DESK_LEFT; side: "left" | "right" }) => (
+  <div className={`qsd8-desk-icons ${side}`} aria-hidden="true">
+    {items.map((it, i) => (
+      <div className="qsd8-icon" key={i}>
+        <img className="qsd8-duo" src={`${ICON}/${it.img}`} alt="" />
+        <span>{it.label}</span>
+      </div>
+    ))}
+  </div>
+);
 
 const STATS = [
   { num: "88,9%", label: "Digestibilidade" },
   { num: "83%",   label: "Menos carbono" },
-  { num: "6",     label: "Produtos na linha" },
+  { num: "6",     label: "Produtos" },
   { num: "100%",  label: "Feito no RJ" },
 ];
 
 const BENEFICIOS = [
-  {
-    icon: "📦",
-    title: "Produtos pra testar",
-    desc: "A gente manda alguns dos nossos produtos pra você e seu pet experimentarem. Review honesto, sem roteiro.",
-  },
-  {
-    icon: "🏷️",
-    title: "Cupom exclusivo",
-    desc: "Você recebe um cupom personalizado pra compartilhar com sua audiência. Desconto real, fácil de divulgar.",
-  },
-  {
-    icon: "💸",
-    title: "Comissão por venda",
-    desc: "Cada compra feita com seu cupom gera comissão direto pra você. Quanto mais vende, mais ganha.",
-  },
-  {
-    icon: "🤝",
-    title: "Suporte direto",
-    desc: "Você fala com a gente pelo WhatsApp — sem chatbot, sem demora. Qualquer dúvida, a gente resolve na hora.",
-  },
+  { img: "games.png",      title: "Produtos pra testar", desc: "A gente manda alguns dos nossos produtos pra você e seu pet experimentarem. Review honesto, sem roteiro." },
+  { img: "love.png",       title: "Cupom exclusivo",     desc: "Você recebe um cupom personalizado pra compartilhar com sua audiência. Desconto real, fácil de divulgar." },
+  { img: "crown.png",      title: "Comissão por venda",  desc: "Cada compra feita com seu cupom gera comissão direto pra você. Quanto mais vende, mais ganha." },
+  { img: "heart-eyes.png", title: "Suporte direto",      desc: "Você fala com a gente pelo WhatsApp — sem chatbot, sem demora. Qualquer dúvida, a gente resolve na hora." },
 ];
 
 const REQUISITOS = [
-  {
-    title: "Mínimo 5 mil seguidores no Instagram ou TikTok",
-    desc: "Nano e micro creators são muito bem-vindos — engajamento importa mais que volume.",
-  },
-  {
-    title: "Ter pet — cão, gato, réptil ou exótico",
-    desc: "O animal precisa fazer parte da sua vida e do seu conteúdo.",
-  },
-  {
-    title: "Conta ativa nos últimos 30 dias",
-    desc: "Não precisa postar todo dia, mas a relação com a audiência precisa ser real.",
-  },
-  {
-    title: "Nicho: pets, sustentabilidade ou lifestyle consciente",
-    desc: "Qualquer combinação dessas três áreas funciona.",
-  },
-  {
-    title: "Abertura pra conteúdo diferente",
-    desc: "Proteína de inseto é novidade — a gente precisa de criadores que topam questionar o óbvio.",
-  },
+  { title: "Mínimo 5 mil seguidores no Instagram ou TikTok", desc: "Nano e micro creators são muito bem-vindos — engajamento importa mais que volume." },
+  { title: "Ter pet — cão, gato, réptil ou exótico", desc: "O animal precisa fazer parte da sua vida e do seu conteúdo." },
+  { title: "Conta ativa nos últimos 30 dias", desc: "Não precisa postar todo dia, mas a relação com a audiência precisa ser real." },
+  { title: "Nicho: pets, sustentabilidade ou lifestyle consciente", desc: "Qualquer combinação dessas três áreas funciona." },
+  { title: "Abertura pra conteúdo diferente", desc: "Proteína de inseto é novidade — a gente precisa de criadores que topam questionar o óbvio." },
 ];
 
 const REGRAS = [
-  {
-    num: "01",
-    title: "Conteúdo autêntico",
-    desc: "Review honesto, sem roteiro fixo. A gente não pede pra você fingir que amou se não amou.",
-  },
-  {
-    num: "02",
-    title: "Prazo do post",
-    desc: "Após receber os produtos, o post deve ser feito em até 14 dias. Sem prazo, sem parceria.",
-  },
-  {
-    num: "03",
-    title: "Cadastro no Inflowz",
-    desc: "Toda a parceria é gerenciada pela plataforma — produtos, cupom e comissão tudo centralizado lá.",
-  },
-  {
-    num: "04",
-    title: "Comunicação aberta",
-    desc: "Problema? Nos avise antes. A gente prefere resolver junto do que encerrar uma parceria por falta de papo.",
-  },
+  { num: "01", title: "Conteúdo autêntico", desc: "Review honesto, sem roteiro fixo. A gente não pede pra você fingir que amou se não amou." },
+  { num: "02", title: "Prazo do post", desc: "Após receber os produtos, o post deve ser feito em até 14 dias. Sem prazo, sem parceria." },
+  { num: "03", title: "Cadastro no Inflowz", desc: "Toda a parceria é gerenciada pela plataforma — produtos, cupom e comissão tudo centralizado lá." },
+  { num: "04", title: "Comunicação aberta", desc: "Problema? Nos avise antes. A gente prefere resolver junto do que encerrar uma parceria por falta de papo." },
 ];
 
-const INFLOWZ_URL = "https://app.inflowz.io/signup/comida-de-dragao";
+const Marquee = () => {
+  const doubled = [...MARQUEE_TOP, ...MARQUEE_TOP];
+  return (
+    <div className="qsd8-marquee">
+      <div className="qsd8-marquee-track">{doubled.map((t, i) => <span key={i}>{t}</span>)}</div>
+    </div>
+  );
+};
+
+const ProgressBar = ({ total = 14, cta = false }: { total?: number; cta?: boolean }) => (
+  <div className={`qsd8-prog${cta ? " is-cta" : ""}`} aria-hidden="true">
+    {Array.from({ length: total }).map((_, i) => <i key={i} />)}
+  </div>
+);
 
 const QueroSerDragao = () => {
   return (
-    <div className="portal-page parceiros-page skin-2">
+    <div className="qsd8">
       <PageMeta
         title="Quero ser Dragão — Comida de Dragão"
         description="Seja parceiro Comida de Dragão. Produtos pra testar, cupom exclusivo e comissão por venda. Entra na matilha."
         image="/assets/images/poster-punk-converte.webp"
       />
-      <MarqueeBar items={MARQUEE_TOP} />
 
-      {/* ══ HERO ══════════════════════════════════════════════════ */}
-      <section className="parceiros-hero">
-        <div className="parceiros-hero-bg" />
-        <div className="dragon-silhouette" aria-hidden="true" />
-        <div className="parceiros-hero-content">
-          <Link to="/portal" className="parceiros-backlink">← voltar pro portal</Link>
-          <div className="hero-eyebrow">Comida de Dragão — Parcerias</div>
-          <DragonLogo className="hero-logo" />
-          <h1 className="parceiros-hero-title">
-            Quero virar<br />
-            <span>parceiro do dragão.</span>
-          </h1>
-          <p className="parceiros-hero-sub">
-            A gente faz <strong>petisco pra pet com proteína de inseto BSF</strong> — nutritiva,
-            sustentável e diferente de tudo no mercado pet. Se você tem audiência engajada e
-            acredita no que faz, bora fazer junto.
+      {/* filtro duotone (ink -> lime) aplicado aos PNGs de pixel */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
+        <filter id="qsd8-duotone" colorInterpolationFilters="sRGB">
+          <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues="0.055 0.482" />
+            <feFuncG type="table" tableValues="0.055 1.0" />
+            <feFuncB type="table" tableValues="0.055 0.0" />
+          </feComponentTransfer>
+        </filter>
+      </svg>
+
+      {/* fundo de céu azul natural */}
+      <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
+
+      <DeskCol items={DESK_LEFT} side="left" />
+      <DeskCol items={DESK_RIGHT} side="right" />
+
+      <div className="qsd8-wrap">
+        <Marquee />
+
+        {/* ══ HERO — janela de instalação (limpo) ══════════════════ */}
+        <Win name="MATILHA-DO-DRAGAO.EXE" mac className="qsd8-hero-win">
+          <DragonLogo className="qsd8-hero-logo" />
+          <div className="qsd8-eyebrow">Comida de Dragão — Parcerias</div>
+          <h1 className="qsd8-title">Quero virar parceiro do <span>dragão</span></h1>
+          <p className="qsd8-sub">
+            Petisco pra pet com proteína de inseto BSF — nutritiva, sustentável e diferente
+            de tudo no mercado pet. Tem audiência engajada? Bora fazer junto.
           </p>
-          <div className="parceiros-hero-badges">
-            <span className="parceiros-badge">Produtos pra testar</span>
-            <span className="parceiros-badge">Cupom exclusivo</span>
-            <span className="parceiros-badge">Comissão por venda</span>
-            <span className="parceiros-badge">Suporte direto</span>
-          </div>
-          <div className="parceiros-hero-cta">
-            <a
-              href={INFLOWZ_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="parceiros-btn-primary"
-            >
-              Quero ser parceiro ↗
+          <div className="qsd8-btnrow">
+            <a href={INFLOWZ_URL} target="_blank" rel="noopener noreferrer" className="qsd8-btn">
+              <span className="qsd8-blink">▶</span> Quero ser parceiro
             </a>
+            <Link to="/portal" className="qsd8-btn ghost">Voltar</Link>
           </div>
-          <p className="parceiros-hero-note">
-            Cadastro gratuito · Sem exclusividade · Você posta do seu jeito
-          </p>
-        </div>
-      </section>
+          <p className="qsd8-note">Cadastro gratuito · Sem exclusividade · Você posta do seu jeito</p>
+        </Win>
 
-      {/* ══ STATS BAR ═════════════════════════════════════════════ */}
-      <div className="parceiros-stats-bar">
-        {STATS.map((s, i) => (
-          <div className="parceiros-stat-item" key={i}>
-            <span className="pbs-num">{s.num}</span>
-            <span className="pbs-lbl">{s.label}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* ══ O QUE GANHA ═══════════════════════════════════════════ */}
-      <section className="parceiros-secao">
-        <div className="parceiros-tag">a parceria</div>
-        <h2 className="parceiros-secao-titulo titulo-orange">O que você <span>ganha</span></h2>
-        <div className="parceiros-beneficios">
-          {BENEFICIOS.map((b, i) => (
-            <div className="parceiros-beneficio" key={i}>
-              <div className="parceiros-beneficio-icon">{b.icon}</div>
-              <div className="parceiros-beneficio-titulo">{b.title}</div>
-              <div className="parceiros-beneficio-desc">{b.desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="parceiros-divider" />
-
-      {/* ══ PRÉ-REQUISITOS ════════════════════════════════════════ */}
-      <section className="parceiros-secao">
-        <div className="parceiros-tag tag-green">quem pode participar</div>
-        <h2 className="parceiros-secao-titulo titulo-green">Pré-<span>requisitos</span></h2>
-        <div className="parceiros-requisitos">
-          {REQUISITOS.map((r, i) => (
-            <div className="parceiros-req" key={i}>
-              <div className="parceiros-req-check">✓</div>
-              <div className="parceiros-req-body">
-                <strong>{r.title}</strong>
-                <span>{r.desc}</span>
+        {/* ══ STATS ════════════════════════════════════════════════ */}
+        <Win name="STATUS-DA-MARCA.SYS" inverted>
+          <div className="qsd8-loot">
+            {STATS.map((s, i) => (
+              <div className="qsd8-card" key={i} style={{ textAlign: "center" }}>
+                <div className="qsd8-card-title" style={{ fontSize: 20, marginBottom: 8 }}>{s.num}</div>
+                <div className="qsd8-card-desc" style={{ fontSize: 15, textTransform: "uppercase" }}>{s.label}</div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </Win>
 
-      <div className="parceiros-divider" />
+        {/* ══ DROPS / O QUE GANHA ══════════════════════════════════ */}
+        <Win name="DROPS-DA-PARCERIA.EXE">
+          <h2 className="qsd8-h2">O que você <span>ganha</span></h2>
+          <div className="qsd8-loot">
+            {BENEFICIOS.map((b, i) => (
+              <div className="qsd8-card" key={i}>
+                <img className="qsd8-card-ico qsd8-duo" src={`${ICON}/${b.img}`} alt="" />
+                <div className="qsd8-card-title">{b.title}</div>
+                <div className="qsd8-card-desc">{b.desc}</div>
+              </div>
+            ))}
+          </div>
+        </Win>
 
-      {/* ══ REGRAS ════════════════════════════════════════════════ */}
-      <section className="parceiros-secao">
-        <div className="parceiros-tag tag-pink">como funciona</div>
-        <h2 className="parceiros-secao-titulo titulo-pink">Principais <span>regras</span></h2>
-        <div className="parceiros-regras-grid">
-          {REGRAS.map((r, i) => (
-            <div className="parceiros-regra-card" key={i}>
-              <div className="parceiros-regra-num">{r.num}</div>
-              <div className="parceiros-regra-titulo">{r.title}</div>
-              <div className="parceiros-regra-desc">{r.desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+        {/* ══ ERRO brincalhão ══════════════════════════════════════ */}
+        <Win name="ERROR" className="qsd8-error-win">
+          <div className="qsd8-error-body">
+            <img className="qsd8-duo" src={`${ICON}/angry.png`} alt="" />
+            <p>
+              <strong>POTE_VAZIO.ERR</strong>
+              Seu pet merece proteína de verdade. Vire parceiro antes que ele descubra. [OK]
+            </p>
+          </div>
+        </Win>
 
-      <div className="parceiros-divider" />
+        {/* ══ REQUISITOS ═══════════════════════════════════════════ */}
+        <Win name="REQUISITOS-DO-PLAYER.SYS" inverted>
+          <h2 className="qsd8-h2">Pré-<span>requisitos</span></h2>
+          <div className="qsd8-reqs">
+            {REQUISITOS.map((r, i) => (
+              <div className="qsd8-req" key={i}>
+                <div className="qsd8-req-check">✓</div>
+                <div className="qsd8-req-body">
+                  <strong>{r.title}</strong>
+                  <span>{r.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Win>
 
-      {/* ══ REELS — prova social ═══════════════════════════════════ */}
-      <div className="parceiros-reels-wrap">
-        <ReelsSection
-          title="Criadores na matilha"
-          subtitle="Conteúdo real dos criadores que já toparam. Toca pra ver."
-          seeAllUrl="https://www.instagram.com/comidadedragao"
-          seeAllLabel="Mais no @comidadedragao →"
-        />
+        {/* ══ REGRAS ═══════════════════════════════════════════════ */}
+        <Win name="REGRAS-DA-QUEST.BAT">
+          <h2 className="qsd8-h2">Principais <span>regras</span></h2>
+          <div className="qsd8-rules">
+            {REGRAS.map((r, i) => (
+              <div className="qsd8-rule" key={i}>
+                <div className="qsd8-rule-num">{r.num}</div>
+                <div className="qsd8-rule-title">{r.title}</div>
+                <div className="qsd8-rule-desc">{r.desc}</div>
+              </div>
+            ))}
+          </div>
+        </Win>
+
+        {/* ══ REELS ════════════════════════════════════════════════ */}
+        <Win name="MATILHA-ONLINE.MOV" inverted className="qsd8-reels-win">
+          <div className="portal-page skin-2 qsd8-reels-host">
+            <ReelsSection
+              title="Matilha online"
+              subtitle="Conteúdo real dos criadores que já toparam. Toca pra ver."
+              seeAllUrl="https://www.instagram.com/comidadedragao"
+              seeAllLabel="Mais no @comidadedragao →"
+            />
+          </div>
+        </Win>
+
+        {/* ══ CTA — DOWNLOADING 99% ════════════════════════════════ */}
+        <Win name="DOWNLOADING — VAGAS-MATILHA.EXE" inverted className="qsd8-cta-win">
+          <h2 className="qsd8-cta-title">Bora <span>fazer junto?</span></h2>
+          <p className="qsd8-cta-sub">
+            Se chegou até aqui e fez sentido, o próximo passo é simples —
+            se cadastra no Inflowz e a gente entra em contato.
+          </p>
+          <div className="qsd8-eta" style={{ textAlign: "center" }}>VAGAS-MATILHA.EXE … 99% — FALTA SÓ VOCÊ</div>
+          <ProgressBar total={16} cta />
+          <div className="qsd8-btnrow" style={{ justifyContent: "center", marginTop: 22 }}>
+            <a href={INFLOWZ_URL} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Quero ser parceiro ↗</a>
+          </div>
+          <p className="qsd8-cta-note">Dúvidas? Fala com a Luana: (24) 98163-4847</p>
+        </Win>
+
+        {/* ══ FOOTER ═══════════════════════════════════════════════ */}
+        <footer className="qsd8-footer">
+          <DragonLogo className="qsd8-footer-logo" />
+          <nav className="qsd8-footer-nav">
+            <Link to="/portal">Portal</Link>
+            <Link to="/produtos">Produtos</Link>
+            <Link to="/biblioteca">Biblioteca</Link>
+            <Link to="/imprensa">Imprensa</Link>
+            <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+            <a href="mailto:somos@letsfly.com.br">Contato</a>
+          </nav>
+          <div className="qsd8-footer-tag">Nojento é o desperdício.</div>
+        </footer>
       </div>
-
-      {/* ══ CTA FINAL ═════════════════════════════════════════════ */}
-      <section className="parceiros-cta-final">
-        <h2 className="parceiros-cta-final-titulo">
-          Bora<br /><span>fazer junto?</span>
-        </h2>
-        <p className="parceiros-cta-final-sub">
-          Se você chegou até aqui e fez sentido, o próximo passo é simples —
-          se cadastra no Inflowz e a gente entra em contato.
-        </p>
-        <a
-          href={INFLOWZ_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="parceiros-btn-primary"
-        >
-          Quero ser parceiro ↗
-        </a>
-        <p className="parceiros-cta-final-note">Dúvidas? Fala com a Luana: (24) 98163-4847</p>
-      </section>
-
-      <MarqueeBar items={MARQUEE_BOTTOM} bottom />
-
-      {/* ══ FOOTER ════════════════════════════════════════════════ */}
-      <footer className="portal-footer">
-        <DragonLogo className="footer-logo-svg" />
-        <nav className="footer-links">
-          <Link to="/portal">Portal</Link>
-          <Link to="/produtos">Produtos</Link>
-          <Link to="/biblioteca">Biblioteca</Link>
-          <Link to="/imprensa">Imprensa</Link>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
-          <a href="mailto:somos@letsfly.com.br">Contato</a>
-        </nav>
-        <div className="footer-tagline">Nojento é o desperdício.</div>
-      </footer>
     </div>
   );
 };
