@@ -7,9 +7,9 @@ import "./QueroSerDragao.css"; // sistema visual retrô-OS / duotone (.qsd8)
 import "./Conheca.css";        // override tema PINK & claro (.cf-pink)
 
 /* checkout: mesma promoção da /original (BORALA 10%), utm próprio p/ medir */
-const COUPON = "BORALA";
+const COUPON = "BEMZAO";
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
-const UTM_FALLBACK = { utm_source: "lp-conheca", utm_medium: "lp", utm_campaign: "lp-conheca-borala" };
+const UTM_FALLBACK = { utm_source: "lp-conheca", utm_medium: "lp", utm_campaign: "lp-conheca-bemzao" };
 const buy = (cta: string) => buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 /* easter egg: cupom de FRETE GRÁTIS */
