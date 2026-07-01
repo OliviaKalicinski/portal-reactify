@@ -57,8 +57,10 @@
 /* mobile: ordem natural = texto → pack → botões (pack antes dos botões) */
 .cf-pink .cf-hero-cta { margin-top: 4px; }
 
-/* ─── "É larva": pote em cima + dragão sobreposto no canto ─────── */
-.cf-pink .cf-larva-media { position: relative; max-width: 440px; margin: 0 auto 20px; }
+/* ─── "É larva": desktop lado a lado, mobile empilhado ────────── */
+.cf-pink .cf-larva { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: center; }
+@media (min-width: 820px) { .cf-pink .cf-larva { grid-template-columns: 0.9fr 1.1fr; gap: 36px; } }
+.cf-pink .cf-larva-media { position: relative; max-width: 440px; margin: 0 auto 8px; width: 100%; }
 .cf-pink .cf-larva-img { width: 100%; height: auto; display: block; }
 .cf-pink .cf-dragon-over { position: absolute; right: -8px; bottom: -10px; margin: 0; }
 .cf-pink .cf-dragon-over img { width: 78px; }

@@ -263,18 +263,22 @@ const Conheca = () => {
 
         {/* ══ O CHOQUE (agora que já criou relação) ════════════════ */}
         <Win name="ERROR: RAÇÃO.SYS">
-          <div className="cf-larva-media">
-            <img className="cf-larva-img" src="/assets/conheca/larvas.png" alt="Larvas de BSF desidratadas no pote" />
-            <button type="button" className="cf-dragon cf-dragon-over" onClick={() => setDragonAwake(true)} aria-label="cutuca o Dragão">
-              <img src={`${ICON}/dragon.png`} alt="" />
-            </button>
+          <div className="cf-larva">
+            <div className="cf-larva-media">
+              <img className="cf-larva-img" src="/assets/conheca/larvas.png" alt="Larvas de BSF desidratadas no pote" />
+              <button type="button" className="cf-dragon cf-dragon-over" onClick={() => setDragonAwake(true)} aria-label="cutuca o Dragão">
+                <img src={`${ICON}/dragon.png`} alt="" />
+              </button>
+            </div>
+            <div>
+              <h2 className="qsd8-h2">É larva. <span>Pronto, falei.</span></h2>
+              <p className="qsd8-sub">
+                9 em 10 pessoas se surpreendem no começo — e é aí que a ficha cai: a larva de BSF é
+                uma das proteínas mais completas e inteligentes que a natureza inventou. O seu pet?
+                Já sabia disso desde sempre. O que parecia estranho vira o melhor do pote.
+              </p>
+            </div>
           </div>
-          <h2 className="qsd8-h2">É larva. <span>Pronto, falei.</span></h2>
-          <p className="qsd8-sub">
-            9 em 10 pessoas se surpreendem no começo — e é aí que a ficha cai: a larva de BSF é
-            uma das proteínas mais completas e inteligentes que a natureza inventou. O seu pet?
-            Já sabia disso desde sempre. O que parecia estranho vira o melhor do pote.
-          </p>
         </Win>
 
         {/* ══ FICHA ═════════════════════════════════════════════════ */}
