@@ -1,0 +1,187 @@
+/* ════════════════════════════════════════════════════════════════
+   /conheca — TEMA "MÁGICO" (override do sistema .qsd8)
+   Fundo CREME + acentos PINK/ROXO (guia Cores do Dragão). Mantém 8-bit.
+   Escopo .cf-pink → não afeta a /quero-ser-dragao (lime).
+   ════════════════════════════════════════════════════════════════ */
+
+.qsd8.cf-pink {
+  --lime:   #FF0066;   /* PINK oficial (Mágicas) — acento */
+  --limed:  #B0004A;   /* pink escuro p/ bevel/sombra */
+  --violet: #925AED;   /* Violeta (Mágicas) */
+  --paper:  #FFFDF5;   /* papel creme claro (janelas) — o "creminho" */
+  --paper2: #FFE8CF;   /* creme quente */
+  --ink:    #240746;   /* Roxo-preto (Mágicas) */
+  /* FUNDO = CÉU (fixo). Janelas em creme, acentos pink. */
+}
+
+.qsd8.cf-pink::before {
+  background-image: radial-gradient(rgba(146,90,237,.5) 1px, transparent 1.4px);
+  opacity: .05;
+}
+
+/* céu mais suave (não "completo") — deixa o creme aparecer */
+.cf-pink .qsd8-bg { opacity: .4; }
+
+/* box da oferta reformulado */
+.cf-pink .cf-offer-price { font-family: "Press Start 2P", monospace; font-size: clamp(18px, 4vw, 26px); color: var(--lime); margin: 12px 0 6px; }
+.cf-pink .cf-offer-price s { color: var(--paper); opacity: .55; font-size: .55em; margin-left: 8px; }
+
+/* ─── BOTÕES invertidos: PINK com texto BRANCO ────────────────── */
+.cf-pink .qsd8-btn {
+  background: var(--lime); color: #fff; border-color: var(--ink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  padding: 12px 18px; font-size: 11px; white-space: nowrap;
+}
+@media (max-width: 480px) { .cf-pink .qsd8-btn { font-size: 10px; padding: 11px 14px; } }
+.cf-pink .qsd8-btn:hover { background: var(--violet); color: #fff; box-shadow: 5px 5px 0 0 var(--ink); }
+.cf-pink .qsd8-btn.ghost { background: transparent; color: var(--ink); box-shadow: 5px 5px 0 0 var(--ink); }
+.cf-pink .qsd8-btn.ghost:hover { background: var(--paper2); color: var(--ink); }
+
+/* ─── HERO 2 colunas (foto | texto) ───────────────────────────── */
+.cf-pink .cf-hero2 { display: grid; grid-template-columns: 1fr; gap: 22px; align-items: center; }
+.cf-pink .cf-hero-pack { text-align: center; }
+.cf-pink .cf-hero-pack img { width: min(300px, 78%); height: auto; }
+@media (min-width: 820px) {
+  .cf-pink .cf-hero2 { grid-template-columns: 1.05fr .95fr; gap: 34px; }
+  .cf-pink .cf-hero-pack { order: 1; }
+  .cf-pink .cf-hero-pack img { width: 100%; max-width: 360px; }
+  /* hero: texto+CTA à esquerda, pack à direita */
+  .cf-pink .cf-hero-main {
+    grid-template-areas: "copy pack" "cta pack";
+    align-items: start;
+  }
+  .cf-pink .cf-hero-copy { grid-area: copy; }
+  .cf-pink .cf-hero-cta  { grid-area: cta; align-self: start; }
+  .cf-pink .cf-hero-main .cf-hero-pack { grid-area: pack; align-self: center; order: 0; }
+}
+/* mobile: ordem natural = texto → pack → botões (pack antes dos botões) */
+.cf-pink .cf-hero-cta { margin-top: 4px; }
+
+/* ─── "É larva": pote em cima + dragão sobreposto no canto ─────── */
+.cf-pink .cf-larva-media { position: relative; max-width: 440px; margin: 0 auto 20px; }
+.cf-pink .cf-larva-img { width: 100%; height: auto; display: block; }
+.cf-pink .cf-dragon-over { position: absolute; right: -8px; bottom: -10px; margin: 0; }
+.cf-pink .cf-dragon-over img { width: 78px; }
+
+/* ─── HERO: título menor em 2 linhas ──────────────────────────── */
+.cf-pink .qsd8-title { font-size: clamp(15px, 3.3vw, 23px); line-height: 1.55; }
+
+/* ─── HERO: 3 cards coloridos abaixo do título (sem emoji) ─────── */
+.cf-pink .cf-hero-tags { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 18px 0 20px; max-width: 480px; }
+.cf-pink .cf-tag {
+  border: 3px solid var(--ink); box-shadow: 3px 3px 0 0 var(--ink); padding: 11px 8px;
+  font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 12px;
+  text-align: center; line-height: 1.25; color: #fff;
+}
+.cf-pink .cf-tag.t1 { background: #FF0066; }
+.cf-pink .cf-tag.t2 { background: #925AED; }
+.cf-pink .cf-tag.t3 { background: #FF6B6B; }
+
+/* ─── HERO: 3 frases IGUALMENTE importantes ───────────────────── */
+.cf-pink .cf-hero-lines { display: grid; gap: 12px; margin: 4px 0 20px; }
+.cf-pink .cf-hero-lines b {
+  font-family: "Press Start 2P", monospace; font-weight: 400;
+  font-size: clamp(13px, 3.1vw, 18px); line-height: 1.55; color: var(--ink);
+  display: flex; gap: 10px; align-items: baseline;
+}
+.cf-pink .cf-hero-lines b::before { content: "▸"; color: var(--lime); flex: none; }
+
+/* ─── ícones de desktop clicáveis (cor original) ──────────────── */
+.cf-pink .qsd8-icon { cursor: pointer; text-decoration: none; }
+/* todos os ícones do desktop no MESMO tamanho */
+.cf-pink .qsd8-icon img { width: 58px; height: 58px; object-fit: contain; }
+.cf-pink button.qsd8-icon { background: none; border: none; padding: 0; font: inherit; }
+.cf-pink .qsd8-icon.egg span { background: var(--lime); color: #fff; }
+.cf-pink .qsd8-icon.egg:hover span { background: var(--violet); }
+
+/* ─── desktop: ícones agrupados à ESQUERDA, conteúdo à direita ── */
+@media (min-width: 1100px) {
+  .cf-pink .qsd8-wrap { margin-left: 180px; margin-right: auto; }
+}
+
+/* ─── SUBTÍTULOS: fonte pixel não funciona → Space Grotesk bold ─ */
+.cf-pink .qsd8-req-body strong,
+.cf-pink .qsd8-card-title,
+.cf-pink .qsd8-rule-title {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.3;
+}
+.cf-pink .qsd8-req-body strong { font-size: 16px; }
+.cf-pink .qsd8-card-title { font-size: 18px; }
+.cf-pink .qsd8-rule-title { font-size: 17px; }
+
+/* fileira de fotos embaixo dos reviews */
+.cf-pink .cf-pet-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 18px; }
+@media (min-width: 640px) { .cf-pink .cf-pet-row { grid-template-columns: repeat(4, 1fr); } }
+.cf-pink .cf-review-pet {
+  width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+  border: 3px solid var(--ink); box-shadow: 4px 4px 0 0 var(--lime);
+}
+
+/* ─── reviews em BOX CLARA + nome do tutor ────────────────────── */
+.cf-pink .cf-review {
+  background: var(--paper2); border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0 0 var(--lime); padding: 18px 16px;
+}
+/* check pixel na ficha */
+.cf-pink .cf-check { width: 26px; height: 26px; object-fit: contain; flex: none; image-rendering: pixelated; }
+
+/* cards da seção "por que faz bemzão" clicáveis */
+.cf-pink .cf-card-a { display: block; text-decoration: none; color: inherit; transition: transform .1s, box-shadow .12s; }
+.cf-pink .cf-card-a:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 0 var(--lime); }
+.cf-pink .cf-card-link { display: inline-block; margin-top: 12px; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 12px; color: var(--limed); }
+
+.cf-pink .cf-review-t { font-size: 15px; color: var(--ink); line-height: 1.5; }
+.cf-pink .cf-review-by {
+  font-family: "Press Start 2P", monospace; font-size: 9px;
+  color: var(--limed); margin-top: 12px;
+}
+
+/* ─── sticky mobile (aparece após rolar) ──────────────────────── */
+.cf-pink .cf-sticky {
+  position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 60;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 9px 10px 9px 16px; background: var(--ink); color: #fff;
+  border-radius: 12px; box-shadow: 0 8px 22px rgba(36,7,70,.32);
+  transform: translateY(140%); transition: transform .28s ease;
+}
+.cf-pink .cf-sticky.show { transform: translateY(0); }
+.cf-pink .cf-sticky-info { font-family: "Space Grotesk", sans-serif; line-height: 1.1; }
+.cf-pink .cf-sticky-info strong { font-size: 17px; display: block; }
+.cf-pink .cf-sticky-info span { opacity: .75; font-size: 11px; }
+.cf-pink .cf-sticky .qsd8-btn { padding: 11px 18px; font-size: 14px; box-shadow: 3px 3px 0 0 var(--limed); }
+@media (min-width: 820px) { .cf-pink .cf-sticky { display: none; } }
+
+/* ─── footer melhorado + easter egg do Dragão ─────────────────── */
+.cf-pink .qsd8-footer { border-top: 4px dashed var(--lime); margin-top: 26px; padding-top: 34px; }
+.cf-pink .cf-dragon {
+  background: none; border: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: 18px 0 0; padding: 0;
+}
+.cf-pink .cf-dragon img { width: 54px; height: auto; image-rendering: pixelated; transition: transform .1s; }
+.cf-pink .cf-dragon:hover img { transform: rotate(-4deg) scale(1.08); }
+.cf-pink .cf-dragon span { font-family: "Space Grotesk", sans-serif; font-size: 12px; color: rgba(36,7,70,.6); }
+
+/* ─── EASTER EGG popup ────────────────────────────────────────── */
+.cf-egg-overlay {
+  position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center;
+  background: rgba(36,7,70,.6); padding: 20px;
+}
+.cf-egg { max-width: 400px; width: 100%; }
+.cf-egg .qsd8-win-body { text-align: center; }
+.cf-egg h3 { font-family: "Press Start 2P", monospace; font-size: 12px; color: var(--lime); margin: 0 0 14px; line-height: 1.5; }
+.cf-egg p { font-size: 16px; color: var(--ink); margin: 0 0 16px; }
+.cf-egg-code {
+  font-family: "Press Start 2P", monospace; font-size: 15px; letter-spacing: .1em;
+  border: 3px dashed var(--lime); color: var(--ink); padding: 12px; margin: 0 0 16px;
+  background: var(--paper2);
+}
+.cf-egg-close {
+  position: absolute; top: 8px; right: 8px; width: 26px; height: 26px;
+  border: 2px solid var(--ink); background: var(--lime); color: #fff; cursor: pointer;
+  font-family: "Press Start 2P", monospace; font-size: 11px;
+}
