@@ -314,6 +314,29 @@ const Matilha = () => {
           </div>
         </Win>
 
+        {/* ══ MATERIAIS / LINKS ════════════════════════════════════ */}
+        <Win name="MATERIAIS.ZIP">
+          <div className="qsd8-eyebrow">// tudo pra criar</div>
+          <h2 className="qsd8-h2">Seus <span>materiais</span></h2>
+          <div className="qsd8-loot">
+            <a href="https://www.canva.com/design/DAG6dSqYXRQ/sP8AFE4kewSeztzNm7hbPg/edit" target="_blank" rel="noopener noreferrer" className="qsd8-card qsd8-reel-card">
+              <img className="qsd8-card-ico" src={`${ICON}/star8.png`} alt="" />
+              <div className="qsd8-card-title">Templates do Canva</div>
+              <div className="qsd8-card-desc">Modelos prontos pra editar do seu jeito. Abrir ↗</div>
+            </a>
+            <a href="https://drive.google.com/drive/u/0/folders/1kDnH3JYqgpU9l7nHhRgLybFnN58NBhyY" target="_blank" rel="noopener noreferrer" className="qsd8-card qsd8-reel-card">
+              <img className="qsd8-card-ico" src={`${ICON}/check.png`} alt="" />
+              <div className="qsd8-card-title">Manual do Criador</div>
+              <div className="qsd8-card-desc">Templates, capas oficiais, dados nutricionais e tudo que precisa pra criar conteúdo incrível. Abrir ↗</div>
+            </a>
+            <a href="https://drive.google.com/drive/u/0/folders/1DiTxfcg8ybCkv-1zhwaiThR8pfnijCpJ" target="_blank" rel="noopener noreferrer" className="qsd8-card qsd8-reel-card">
+              <img className="qsd8-card-ico" src={`${ICON}/gift.png`} alt="" />
+              <div className="qsd8-card-title">Material de marketing</div>
+              <div className="qsd8-card-desc">Logo, fotos dos produtos e muito mais. Abrir ↗</div>
+            </a>
+          </div>
+        </Win>
+
         {/* ══ CTA FINAL ════════════════════════════════════════════ */}
         <Win name="AGORA-E-SO-CRIAR.EXE" inverted className="qsd8-cta-win">
           <h2 className="qsd8-cta-title">Agora é só <span>criar</span></h2>
