@@ -18,6 +18,7 @@ const Produtos = lazy(() => import("./pages/Produtos.tsx"));
 const Lojas = lazy(() => import("./pages/Lojas.tsx"));
 const Matilde = lazy(() => import("./pages/Matilde.tsx"));
 const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
+const Matilha = lazy(() => import("./pages/Matilha.tsx"));
 const Conheca = lazy(() => import("./pages/Conheca.tsx"));
 const Veterinarios = lazy(() => import("./pages/Veterinarios.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
@@ -52,6 +53,8 @@ const App = () => (
               <Route path="/lojas" element={<Lojas />} />
               <Route path="/matilde" element={<Matilde />} />
               <Route path="/quero-ser-dragao" element={<QueroSerDragao />} />
+              {/* Onboarding de criadores "Bem-vindo à Matilha" — página oculta, só via link direto (igual /original) */}
+              <Route path="/matilha" element={<Matilha />} />
               <Route path="/conheca" element={<Conheca />} />
               <Route path="/veterinarios" element={<Veterinarios />} />
               {/* LPs de produto — tráfego pago, fora do portal */}

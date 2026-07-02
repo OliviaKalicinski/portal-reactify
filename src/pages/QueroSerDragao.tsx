@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
@@ -14,15 +14,18 @@ const MARQUEE_TOP = [
 ];
 
 /* ── ícones de desktop (laterais) ── */
-const DESK_LEFT = [
-  { img: "games.png",      label: "MATILHA.GG" },
-  { img: "heart-eyes.png", label: "MEU-PET" },
-  { img: "crown.png",      label: "VIP.EXE" },
-];
-const DESK_RIGHT = [
-  { img: "love.png",       label: "CUPOM♥" },
-  { img: "star.png",       label: "FAVORITOS" },
-  { img: "sleeping.png",   label: "LIXEIRA" },
+type DeskItem = { img: string; label: string; href?: string; ext?: boolean; egg?: boolean };
+/* mesmo conjunto de ícones nas 3 LPs (esquerda, 2 colunas) */
+const DESK: DeskItem[] = [
+  { img: "bsf.png", label: "LARVA.BSF", href: "/ciencia" },
+  { img: "original-real.png", label: "ORIGINAL", href: "/original" },
+  { img: "paw2.png", label: "MATILHA", href: "/quero-ser-dragao" },
+  { img: "dog.png", label: "MEU-PET", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
+  { img: "stomach.png", label: "88.9%", href: "/assets/pdfs/artigos-cientificos/bsf-in-vivo-vitro-digestibility-dog-food.pdf", ext: true },
+  { img: "shield.png", label: "ALERGIA", href: "/alergia" },
+  { img: "earth.png", label: "PLANETA", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
+  { img: "crown.png", label: "PRODUTOS", href: "/produtos" },
+  { img: "trash.png", label: "LIXEIRA", egg: true },
 ];
 
 /* ── janela OS reutilizável ── */
@@ -42,21 +45,41 @@ const Win = ({ name, children, className, inverted, violet, mac }: {
   </section>
 );
 
-const DeskCol = ({ items, side }: { items: typeof DESK_LEFT; side: "left" | "right" }) => (
-  <div className={`qsd8-desk-icons ${side}`} aria-hidden="true">
-    {items.map((it, i) => (
-      <div className="qsd8-icon" key={i}>
-        <img className="qsd8-duo" src={`${ICON}/${it.img}`} alt="" />
-        <span>{it.label}</span>
+const DeskCol = ({ items, side, onEgg }: { items: DeskItem[]; side: "left" | "right"; onEgg: () => void }) => (
+  <div className={`qsd8-desk-icons ${side}`}>
+    {items.map((it, i) => {
+      const inner = <><img src={`${ICON}/${it.img}`} alt="" /><span>{it.label}</span></>;
+      if (it.egg) return <button type="button" className="qsd8-icon" key={i} onClick={onEgg} title="???" style={{ background: "none", border: "none", padding: 0, font: "inherit" }}>{inner}</button>;
+      return it.ext
+        ? <a className="qsd8-icon" key={i} href={it.href} target="_blank" rel="noopener noreferrer">{inner}</a>
+        : <Link className="qsd8-icon" key={i} to={it.href!}>{inner}</Link>;
+    })}
+  </div>
+);
+
+/* easter egg da lixeira — reaproveitado nas 3 LPs */
+const TrashEgg = ({ onClose }: { onClose: () => void }) => (
+  <div className="qsd8-egg-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <section className="qsd8-win" style={{ maxWidth: 400, position: "relative" }}>
+      <div className="qsd8-titlebar">
+        <span className="qsd8-tb-name">PRESENTE.EXE</span>
+        <span className="qsd8-tb-stripes" aria-hidden="true" />
       </div>
-    ))}
+      <button onClick={onClose} aria-label="Fechar" style={{ position: "absolute", top: 8, right: 8, width: 26, height: 26, border: "2px solid var(--ink)", background: "var(--lime)", color: "var(--ink)", cursor: "pointer", fontFamily: '"Press Start 2P", monospace', fontSize: 11 }}>×</button>
+      <div className="qsd8-win-body" style={{ textAlign: "center" }}>
+        <img src={`${ICON}/gift.png`} alt="" style={{ width: 72, margin: "0 auto 12px", display: "block", imageRendering: "pixelated" }} />
+        <h3 style={{ fontFamily: '"Press Start 2P", monospace', fontSize: 11, color: "var(--lime)", margin: "0 0 12px", lineHeight: 1.5 }}>🗑️ VOCÊ VIU OURO NO LIXO</h3>
+        <p style={{ fontSize: 16, margin: "0 0 14px" }}>A gente transforma resíduo orgânico em proteína de alta qualidade. Olho de Dragão, o seu 🐉. Toma um presente — <strong>frete grátis</strong> na loja:</p>
+        <div style={{ fontFamily: '"Press Start 2P", monospace', fontSize: 15, border: "3px dashed var(--lime)", padding: 12, margin: "0 0 16px", letterSpacing: ".1em" }}>VOOLIVRE</div>
+        <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn">Ir à loja →</a>
+      </div>
+    </section>
   </div>
 );
 
 const STATS = [
   { num: "88,9%", label: "Digestibilidade" },
   { num: "83%",   label: "Menos carbono" },
-  { num: "6",     label: "Produtos" },
   { num: "100%",  label: "Feito no RJ" },
 ];
 
@@ -98,8 +121,10 @@ const ProgressBar = ({ total = 14, cta = false }: { total?: number; cta?: boolea
 );
 
 const QueroSerDragao = () => {
+  const [egg, setEgg] = useState(false);
   return (
     <div className="qsd8">
+      {egg && <TrashEgg onClose={() => setEgg(false)} />}
       <PageMeta
         title="Quero ser Dragão — Comida de Dragão"
         description="Seja parceiro Comida de Dragão. Produtos pra testar, cupom exclusivo e comissão por venda. Entra na matilha."
@@ -121,12 +146,9 @@ const QueroSerDragao = () => {
       {/* fundo de céu azul natural */}
       <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
 
-      <DeskCol items={DESK_LEFT} side="left" />
-      <DeskCol items={DESK_RIGHT} side="right" />
+      <DeskCol items={DESK} side="left" onEgg={() => setEgg(true)} />
 
       <div className="qsd8-wrap">
-        <Marquee />
-
         {/* ══ HERO — janela de instalação (limpo) ══════════════════ */}
         <Win name="MATILHA-DO-DRAGAO.EXE" mac className="qsd8-hero-win">
           <DragonLogo className="qsd8-hero-logo" />
@@ -188,7 +210,7 @@ const QueroSerDragao = () => {
           <div className="qsd8-reqs">
             {REQUISITOS.map((r, i) => (
               <div className="qsd8-req" key={i}>
-                <div className="qsd8-req-check">✓</div>
+                <img className="cf-check" src={`${ICON}/check.png`} alt="" />
                 <div className="qsd8-req-body">
                   <strong>{r.title}</strong>
                   <span>{r.desc}</span>

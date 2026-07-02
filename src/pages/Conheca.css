@@ -96,10 +96,7 @@
 .cf-pink .qsd8-icon.egg span { background: var(--lime); color: #fff; }
 .cf-pink .qsd8-icon.egg:hover span { background: var(--violet); }
 
-/* ─── desktop: ícones agrupados à ESQUERDA, conteúdo à direita ── */
-@media (min-width: 1100px) {
-  .cf-pink .qsd8-wrap { margin-left: 180px; margin-right: auto; }
-}
+/* alinhamento das janelas à esquerda vem do QueroSerDragao.css (unificado) */
 
 /* ─── SUBTÍTULOS: fonte pixel não funciona → Space Grotesk bold ─ */
 .cf-pink .qsd8-req-body strong,

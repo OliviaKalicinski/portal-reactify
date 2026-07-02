@@ -1,0 +1,44 @@
+/* ════════════════════════════════════════════════════════════════
+   MATILHA — pequenos ajustes que estendem QueroSerDragao.css.
+   Só o mínimo pros cards de reel clicáveis (▶ + label).
+   ════════════════════════════════════════════════════════════════ */
+
+.qsd8-reels-grid { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 560px) { .qsd8-reels-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.qsd8-reel-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform .07s steps(2), box-shadow .12s;
+}
+.qsd8-reel-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 var(--violet);
+}
+
+.qsd8-reel-play {
+  font-family: "Press Start 2P", monospace;
+  font-size: 14px;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--violet); color: var(--paper);
+  border: 2px solid var(--ink);
+  margin-bottom: 12px;
+  padding-left: 2px;
+}
+
+/* ─── PALETA ÂMBAR (só a /matilha) — CLARO + LARANJA, oposto da lime/escuro da /quero-ser-dragao ─── */
+.qsd8.cf-amber {
+  --lime:   #FF7A00;   /* laranja = acento (era o verde) */
+  --limed:  #C25E00;
+  --violet: #FFB300;   /* amarelo-âmbar secundário */
+  --paper:  #FFFDF7;   /* branco quente (janelas claras) */
+  --paper2: #FFE8C2;
+  --ink:    #2A1B0A;   /* marrom-escuro (texto/janelas escuras) */
+  /* FUNDO = céu azul (igual às outras 2 LPs). Só os acentos são laranja. */
+}
+.qsd8.cf-amber::before {
+  background-image: radial-gradient(rgba(255,122,0,.45) 1px, transparent 1.4px);
+  opacity: .06;
+}

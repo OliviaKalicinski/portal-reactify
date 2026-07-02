@@ -39,14 +39,16 @@ const PACK = "/assets/conheca/original-pack.png";
 const PETS = ["pet1.jpg", "pet2.jpg", "pet3.jpg", "pet4.jpg"];
 
 type DeskItem = { img: string; label: string; href?: string; ext?: boolean; egg?: boolean; big?: boolean };
-const DESK_LEFT: DeskItem[] = [
+/* mesmo conjunto das 3 LPs (esquerda, 2 colunas) */
+const DESK: DeskItem[] = [
   { img: "bsf.png", label: "LARVA.BSF", href: "/ciencia" },
   { img: "original-real.png", label: "ORIGINAL", href: "/original" },
   { img: "paw2.png", label: "MATILHA", href: "/quero-ser-dragao" },
-];
-const DESK_RIGHT: DeskItem[] = [
   { img: "dog.png", label: "MEU-PET", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
   { img: "stomach.png", label: "88.9%", href: "/assets/pdfs/artigos-cientificos/bsf-in-vivo-vitro-digestibility-dog-food.pdf", ext: true },
+  { img: "shield.png", label: "ALERGIA", href: "/alergia" },
+  { img: "earth.png", label: "PLANETA", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
+  { img: "crown.png", label: "PRODUTOS", href: "/produtos" },
   { img: "trash.png", label: "LIXEIRA", egg: true },
 ];
 
@@ -150,7 +152,7 @@ const Conheca = () => {
       </svg>
 
       <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
-      <DeskCol items={[...DESK_LEFT, ...DESK_RIGHT]} side="left" onEgg={() => setEgg(true)} />
+      <DeskCol items={DESK} side="left" onEgg={() => setEgg(true)} />
 
       {egg && (
         <div className="cf-egg-overlay" onClick={(e) => { if (e.target === e.currentTarget) setEgg(false); }}>

@@ -71,20 +71,48 @@
 /* ─── ÍCONES DE DESKTOP (laterais) ────────────────────────────── */
 .qsd8-desk-icons { display: none; }
 @media (min-width: 1100px) {
+  /* só à ESQUERDA, em 2 colunas — igual nas 3 LPs */
   .qsd8-desk-icons {
-    display: flex; flex-direction: column; gap: 30px;
-    position: absolute; top: 28px; width: 116px; z-index: 2;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 4px;
+    position: absolute; top: 24px; left: 12px; width: 176px; z-index: 2;
   }
-  .qsd8-desk-icons.left  { left: 8px; }
-  .qsd8-desk-icons.right { right: 8px; }
+  /* desalinhado de propósito — cara de desktop bagunçado */
+  .qsd8-desk-icons .qsd8-icon { transition: transform .12s ease; }
+  .qsd8-desk-icons .qsd8-icon:nth-child(1) { transform: translate(2px, 0) rotate(-3deg); }
+  .qsd8-desk-icons .qsd8-icon:nth-child(2) { transform: translate(7px, 16px) rotate(2deg); }
+  .qsd8-desk-icons .qsd8-icon:nth-child(3) { transform: translate(-6px, -4px) rotate(4deg); }
+  .qsd8-desk-icons .qsd8-icon:nth-child(4) { transform: translate(11px, 10px) rotate(-2deg); }
+  .qsd8-desk-icons .qsd8-icon:nth-child(5) { transform: translate(-5px, 22px) rotate(3deg); }
+  .qsd8-desk-icons .qsd8-icon:nth-child(6) { transform: translate(9px, -3px) rotate(-4deg); }
+  .qsd8-desk-icons .qsd8-icon:nth-child(7) { transform: translate(-8px, 15px) rotate(2deg); }
+  .qsd8-desk-icons .qsd8-icon:nth-child(8) { transform: translate(4px, 5px) rotate(-3deg); }
+  .qsd8-desk-icons .qsd8-icon:nth-child(9) { transform: translate(-3px, 26px) rotate(3deg); }
+  .qsd8-desk-icons .qsd8-icon:hover { transform: scale(1.1) rotate(0deg); z-index: 3; }
 }
-.qsd8-icon { text-align: center; cursor: default; user-select: none; }
-.qsd8-icon img { width: 52px; height: 52px; display: block; margin: 0 auto 7px; }
+.qsd8-icon { text-align: center; cursor: pointer; user-select: none; text-decoration: none; color: inherit; display: block; }
+.qsd8-icon img { width: 58px; height: 58px; object-fit: contain; display: block; margin: 0 auto 7px; }
 .qsd8-icon span {
   font-family: "Press Start 2P", monospace; font-size: 7px; line-height: 1.5;
   color: var(--ink); background: var(--lime); padding: 2px 4px; display: inline-block;
 }
 .qsd8-icon:hover span { background: var(--ink); color: var(--lime); }
+
+/* desktop: com os ícones à esquerda, as janelas alinham à esquerda também */
+@media (min-width: 1100px) {
+  .qsd8-wrap { margin-left: 200px; margin-right: auto; }
+}
+
+/* check pixel (usado na ficha/requisitos) */
+.cf-check { width: 26px; height: 26px; object-fit: contain; flex: none; image-rendering: pixelated; }
+/* ícone pixel de tipo de pet (inline nos produtos) */
+.qsd8-pet-ico { width: 22px; height: 22px; object-fit: contain; vertical-align: middle; image-rendering: pixelated; margin-right: 4px; }
+
+/* overlay do easter egg da lixeira (quero-ser-dragao / matilha) */
+.qsd8-egg-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.6); padding: 20px;
+}
 
 /* ─── JANELA OS ───────────────────────────────────────────────── */
 .qsd8-win {
