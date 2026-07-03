@@ -116,7 +116,7 @@ const FAQ = [
   { num: "01", title: "É seguro?", desc: "Faz bem, não mal. Biofábrica registrada no MAPA, tudo rastreável. Lá fora já virou tendência." },
   { num: "02", title: "Meu vet não conhece", desc: "Tem estudo peer-reviewed desde 2015. Mostra pro seu vet — a gente adora essa conversa." },
   { num: "03", title: "E se ele não comer?", desc: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura na ração e deixa ele decidir. Garantia da matilha: 14 dias." },
-  { num: "04", title: "É caro?", desc: "É investimento: mín. 40% de proteína e 88,9% de digestibilidade num ingrediente só. E a estreia tem 10% off." },
+  { num: "04", title: "É caro?", desc: "É investimento: mín. 45% de proteína e 88,9% de digestibilidade num ingrediente só. E a estreia tem 10% off." },
 ];
 
 const Conheca = () => {
@@ -135,7 +135,7 @@ const Conheca = () => {
     <div className="qsd8 cf-pink">
       <PageMeta
         title="Conheça a Comida de Dragão — feito de inseto, o melhor pro seu pet"
-        description="Petisco de larva BSF: 1 ingrediente, no mínimo 40% de proteína, 88,9% de digestibilidade, hipoalergênico. Estranho de propósito. 10% off na estreia."
+        description="Petisco de larva BSF: 1 ingrediente, no mínimo 45% de proteína, 88,9% de digestibilidade, hipoalergênico. Estranho de propósito. 10% off na estreia."
         image="/assets/conheca/original-pack.png"
       />
 

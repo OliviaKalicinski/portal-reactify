@@ -141,7 +141,7 @@ const PRODUTOS = [
   {
     nome: "Original — Comida de Dragão",
     pet: [{ ico: "dog", label: "Cães" }, { ico: "cat", label: "Gatos" }, { ico: "reptile", label: "Répteis" }, { ico: "bird", label: "Aves" }],
-    specs: ["Proteína: no mínimo 40%", "Digestibilidade: 88,9%", "1 ingrediente único · 90g"],
+    specs: ["Proteína: no mínimo 45%", "Digestibilidade: 88,9%", "1 ingrediente único · 90g"],
     ideal: "Petisco diário, treino, pets com alergias, pets seletivos, viagens e enriquecimento ambiental.",
   },
   {
