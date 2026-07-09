@@ -27,6 +27,7 @@ const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
 const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 const Ciencia = lazy(() => import("./pages/Ciencia.tsx"));
 const Alergia = lazy(() => import("./pages/Alergia.tsx"));
+const Idoso = lazy(() => import("./pages/Idoso.tsx"));
 const Impacto = lazy(() => import("./pages/Impacto.tsx"));
 // FORA DO AR (campanha sazonal Semana M.A. 5–12 jun) — descomentar pra reativar:
 // const PlanetaDragao = lazy(() => import("./pages/PlanetaDragao.tsx"));
@@ -72,6 +73,8 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               {/* LP campanha ALERGIA — Kit Cachorro */}
               <Route path="/alergia" element={<Alergia />} />
+              {/* LP campanha CÃO IDOSO — Kit Cachorro */}
+              <Route path="/idoso" element={<Idoso />} />
               {/* Página IMPACTO — estática em public/impacto/, exibida via iframe */}
               <Route path="/impacto" element={<Impacto />} />
               <Route path="*" element={<NotFound />} />

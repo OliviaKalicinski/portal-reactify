@@ -1,0 +1,376 @@
+import { useEffect } from "react";
+import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import DragonLogo from "@/components/DragonLogo";
+import PageMeta from "@/components/PageMeta";
+import "./Idoso.css";
+
+/* ──────────────────────────────────────────────────────────────
+   LP CAMPANHA — CÃO IDOSO · /idoso
+   Página satélite · tráfego pago · público frio (Non-Brand "por dor").
+   Tema: TERCEIRA IDADE DO CÃO (perda de massa muscular, articulação,
+   apetite/energia em queda). Espelha a LP /alergia (mesmas seções,
+   prefixo próprio .idoso-lp / ilp-), com copy e ciência de sênior.
+   Produto-foco: KIT CACHORRO (Original + Suplemento Integral).
+
+   Mecanismo (claims checados nos papers da Biblioteca BSF — ver
+   BIBLIOTECA/00 - Agentes/04_REFERENCIAS_CIENTIFICAS/Catálogo - Biblioteca BSF.md):
+   - Proteína altamente digestível (81–96%; N 87,7%) → ajuda a preservar
+     massa magra, que o cão idoso perde. [papers digestibilidade]
+   - Glucosamina natural (~0,4–0,5%) + potencial antiartrítico dos
+     derivados de BSF → apoio à cartilagem/articulação. [insects-protein-quality]
+   - Antioxidante/anti-inflamatório: ↑GPx/SOD e ↓TNF-α em beagles →
+     apoio ao envelhecimento saudável. [bsf-defatted-meal-supplementation-beagle]
+   - Quitina prebiótica → motilidade intestinal "especialmente em idosos"
+     + AGCC (acetato/propionato/butirato). [catálogo/quitina]
+   - Alta palatabilidade → ajuda o sênior que anda comendo menos. [palatabilidade]
+   Enquadramento sênior: FEDIAF SAB — cão idoso precisa de dieta específica
+   + acompanhamento veterinário. [fediaf-sab-statement-nutrition-of-senior-dogs]
+
+   ⚠️ GUARDRAILS: é COMPLEMENTO nutricional (petisco + suplemento), NÃO
+   substitui ração nem tratamento veterinário. Sem promessa de cura.
+   Proteínas = valores MÍNIMOS: Original mín. 40% · Suplemento Integral mín. 45%.
+
+   ⚠️ PENDÊNCIAS ANTES DE PUBLICAR (flag pra Olivia):
+   1. CUPOM: "VITALIDADE" precisa ser cadastrado na Yampi (10% off, 1ª compra).
+      Enquanto não existir, trocar por um cupom já ativo (ex.: ALIVIO/BORALA).
+   2. PREÇO: herdado da LP /alergia (mesmo Kit Cães · token KQXZ5J7LWK):
+      de R$145 → R$116 no site (−20%) → R$104,40 com cupom (−10%).
+      Reconferir na Shopify se a loja mudou.
+   3. REVIEWS: as imagens são placeholders de tutores — trocar por prints
+      reais de cães idosos quando houver.
+────────────────────────────────────────────────────────────── */
+
+const COUPON = "VITALIDADE";  // ⚠️ cadastrar na Yampi: 10% off (1ª compra). Fallback: ALIVIO/BORALA.
+const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
+const PRICE_OFF = "104,40";   // "por" — preço de loja R$116 (−20%) com cupom (−10%)
+/* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
+
+const UTM_FALLBACK = {
+  utm_source: "lp-idoso",
+  utm_medium: "lp",
+  utm_campaign: "lp-idoso-kit-caes",
+};
+
+const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
+  buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
+
+const HERO_IMG = "/assets/images/produtos/kit-caes.png";
+
+const CHIPS = [
+  "🚚 Entrega Brasil",
+  "🛡️ Compra segura",
+  "🏭 Reg. MAPA",
+  "💚 Garantia 14 dias",
+];
+
+const PROBLEMAS = [
+  { dor: "Perdeu massa muscular — ficou mais “murcho” e fraco", causa: "com a idade o corpo aproveita menos a proteína; ele precisa de proteína boa e fácil de absorver." },
+  { dor: "Anda devagar, tem preguiça de levantar e subir", causa: "articulação desgastada é comum na terceira idade — cartilagem pede reforço." },
+  { dor: "Come cada vez menos e torce o nariz pra ração", causa: "olfato e apetite caem com a idade; um complemento saboroso ajuda a puxar a refeição." },
+];
+
+const BENEFICIOS = [
+  {
+    stat: "45%",
+    statLbl: "proteína",
+    title: "Músculo que a idade leva",
+    desc: "O Suplemento Integral tem <strong>no mínimo 45% de proteína</strong>, altamente digestível (estudos apontam de 81% a 96% de digestibilidade). Proteína que o corpo aproveita de verdade ajuda a <strong>preservar a massa magra</strong> que o cão idoso costuma perder.",
+  },
+  {
+    stat: "0,4%",
+    statLbl: "glucosamina",
+    title: "Articulação com apoio",
+    desc: "A larva da Mosca Soldado Negra carrega <strong>glucosamina natural (~0,4–0,5%)</strong> — o mesmo bloco que forma a cartilagem. Em estudos, derivados da proteína de BSF mostraram <strong>potencial de proteção articular</strong>.",
+  },
+  {
+    stat: "Ω",
+    statLbl: "antioxidante",
+    title: "Envelhecer com viço",
+    desc: "Em cães, a BSF <strong>elevou enzimas antioxidantes (GPx, SOD)</strong> e reduziu marcador inflamatório (TNF-α). A quitina ainda ajuda a <strong>motilidade intestinal</strong> — importante justamente na fase idosa.",
+  },
+];
+
+/* Prova social — abre com o Kit e segue com reviews reais de tutores.
+   ⚠️ Trocar pelas melhores prints de tutores de cães idosos quando tiver. */
+const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
+  { type: "ugc",    src: "/assets/images/produtos/kit-caes.png", alt: "Kit Cachorro — Original + Suplemento Integral" },
+  { type: "review", src: "/assets/images/reviews/3.webp",        alt: "Review — cão idoso comendo com apetite de novo" },
+  { type: "review", src: "/assets/images/reviews/5.webp",        alt: "Review — mais disposição na terceira idade" },
+  { type: "review", src: "/assets/images/reviews/7.webp",        alt: "Review — pet sênior aceitou bem o suplemento" },
+  { type: "review", src: "/assets/images/reviews/9.webp",        alt: "Review — pelo e energia melhores no cão velhinho" },
+  { type: "review", src: "/assets/images/reviews/4.webp",        alt: "Review — fácil de misturar na ração" },
+  { type: "review", src: "/assets/images/reviews/8.webp",        alt: "Review — tutor de cão idoso aprovou" },
+];
+
+const FAQ = [
+  {
+    q: "Meu cão já é idoso — pode dar?",
+    a: "Pode. É proteína de inseto, <strong>altamente digestível</strong> e leve pro organismo — cai bem em cães de todas as idades, inclusive idosos. Como todo cão sênior merece acompanhamento, se ele tem alguma condição (rim, fígado) mostre o rótulo ao veterinário antes.",
+  },
+  {
+    q: "Isso substitui a ração dele?",
+    a: "Não. O Kit é um <strong>complemento</strong>: o Original é petisco/topper pra puxar o apetite e o Suplemento Integral é pó pra reforçar a proteína da refeição. Ele soma à alimentação — não troca a ração nem substitui tratamento veterinário.",
+  },
+  {
+    q: "Ajuda mesmo na articulação?",
+    a: "A larva tem <strong>glucosamina natural (~0,4–0,5%)</strong>, o mesmo bloco que forma a cartilagem, e derivados da proteína mostraram potencial de proteção articular em estudos. É <strong>apoio nutricional</strong>, não remédio — não promete cura.",
+  },
+  {
+    q: "Meu cão anda comendo pouco. Vai aceitar?",
+    a: "A proteína de BSF é bem palatável — em testes, cães aceitaram prontamente. O cheirinho costuma <strong>puxar o interesse do sênior</strong> que já torce o nariz pra ração. Dá pra usar o Original como recompensa e o pó misturado na comida.",
+  },
+  {
+    q: "Como funciona a entrega?",
+    a: "Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+  },
+];
+
+const Idoso = () => {
+  useEffect(() => { captureEntryUtms(); }, []);
+  return (
+    <div className="idoso-lp">
+      <PageMeta
+        title="Cão idoso perdendo energia e músculo? Proteína que ele aproveita — Comida de Dragão"
+        description="Na terceira idade o cão perde massa e apetite. A Comida de Dragão é proteína de inseto: altamente digestível, com glucosamina natural pra articulação. Kit Cachorro pra músculo, articulação e disposição."
+        image={HERO_IMG}
+      />
+      <Helmet>
+        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
+      </Helmet>
+
+      {/* ════ HERO ════ */}
+      <section className="ilp-hero">
+        <div className="ilp-hero-inner">
+          <div className="ilp-hero-top">
+            <Link to="/portal" className="ilp-backlink">← comida de dragão</Link>
+            <DragonLogo className="ilp-hero-logo" />
+          </div>
+
+          <span className="ilp-hero-eyebrow">cão idoso · proteína que ele aproveita · fácil de aceitar</span>
+
+          <h1 className="ilp-hero-title">
+            Seu cão<br /><span>envelheceu?</span>
+          </h1>
+
+          <p className="ilp-hero-sub">
+            Na terceira idade o corpo aproveita menos a proteína — e vem a
+            <strong> perda de músculo</strong>, a preguiça de levantar e o apetite que cai.
+            A Comida de Dragão é <strong>proteína de inseto</strong>: leve, altamente digestível
+            e com <strong>glucosamina natural</strong> pra articulação. O <strong>Kit Cachorro</strong>
+            junta o petisco e o suplemento pra dar músculo, disposição e apoio às juntas.
+          </p>
+
+          <img
+            className="ilp-hero-product"
+            src={HERO_IMG}
+            alt="Kit Cachorro Comida de Dragão — Original + Suplemento Integral"
+            width={460}
+            height={410}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
+
+          <div className="ilp-hero-price">
+            <span className="ilp-price-from">Kit Cachorro · de R$ {PRICE}</span>
+            <span className="ilp-price-now"><small>R$</small>{PRICE_OFF}</span>
+            <span className="ilp-price-installment">20% no site + cupom <b>{COUPON}</b> (10% off) · 4× sem juros</span>
+          </div>
+
+          <div className="ilp-hero-coupon">
+            🎟️ cupom <b>{COUPON}</b> — 10% off na 1ª compra
+          </div>
+
+          <div className="ilp-hero-cta-wrap">
+            <a href={ctaUrl("hero")} className="ilp-btn-primary" data-cta="hero">
+              Quero dar mais disposição a ele →
+            </a>
+          </div>
+
+          <div className="ilp-hero-chips">
+            {CHIPS.map((c, i) => <span className="ilp-chip" key={i}>{c}</span>)}
+          </div>
+        </div>
+      </section>
+
+      {/* ════ PROBLEMA ════ */}
+      <section className="ilp-section">
+        <div className="ilp-section-inner">
+          <span className="ilp-tag tag-pink">se isso te soa familiar</span>
+          <h2 className="ilp-section-title title-pink">
+            Ele tá mais devagar? <span>A idade pesa — mas dá pra ajudar.</span>
+          </h2>
+          <p className="ilp-section-lead">
+            Cão idoso não precisa virar sinônimo de fraqueza. Boa parte do que
+            parece “só velhice” é <strong>menos proteína aproveitada</strong> e
+            <strong> articulação sem reforço</strong> — e isso a nutrição consegue apoiar.
+          </p>
+
+          <ul className="ilp-problemas-list">
+            {PROBLEMAS.map((p, i) => (
+              <li className="ilp-problema-item" key={i}>
+                <b>{p.dor}</b> — {p.causa}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ════ SOLUÇÃO ════ */}
+      <section className="ilp-section">
+        <div className="ilp-section-inner">
+          <span className="ilp-tag">a solução</span>
+          <h2 className="ilp-section-title">
+            Proteína leve.<br /><span>Corpo que aproveita.</span>
+          </h2>
+          <p className="ilp-section-lead">
+            A gente faz na nossa biofábrica no RJ, com <strong>registro MAPA</strong> e
+            rastreabilidade do começo ao fim. A larva da Mosca Soldado Negra entrega
+            proteína <strong>altamente digestível</strong> — o que importa quando o
+            organismo do idoso já não absorve como antes.
+          </p>
+
+          <div className="ilp-beneficios">
+            {BENEFICIOS.map((b, i) => (
+              <div className="ilp-beneficio" key={i}>
+                <div className="ilp-beneficio-stat">
+                  {b.stat}<small style={{ fontSize: 14, opacity: 0.6, marginLeft: 6 }}>{b.statLbl}</small>
+                </div>
+                <div className="ilp-beneficio-title">{b.title}</div>
+                <div className="ilp-beneficio-desc" dangerouslySetInnerHTML={{ __html: b.desc }} />
+              </div>
+            ))}
+          </div>
+
+          <p className="ilp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+            Complemento nutricional — não substitui a ração nem o acompanhamento veterinário.
+            Todo cão sênior merece dieta específica e checagem regular com o vet.
+          </p>
+        </div>
+      </section>
+
+      {/* ════ PROVA SOCIAL ════ */}
+      <section className="ilp-section">
+        <div className="ilp-section-inner">
+          <span className="ilp-tag">tutores reais · cães reais</span>
+          <h2 className="ilp-section-title">
+            Velhinhos comendo bem<br /><span>e com mais ânimo.</span>
+          </h2>
+
+          <div className="ilp-slider-wrap">
+            <div className="ilp-slider" role="region" aria-label="Reviews de tutores de cães idosos">
+              {SLIDES.map((s, i) => (
+                <figure className="ilp-slide" key={i}>
+                  <span className={`ilp-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}>
+                    {s.type === "ugc" ? "o kit" : "review"}
+                  </span>
+                  <img
+                    src={s.src}
+                    alt={s.alt}
+                    width={600}
+                    height={600}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+
+          <p className="ilp-slider-hint">← arraste pra ver mais →</p>
+        </div>
+      </section>
+
+      {/* ════ OFERTA ════ */}
+      <section className="ilp-oferta">
+        <div className="ilp-oferta-inner">
+          <span className="ilp-tag tag-lime">kit cachorro</span>
+          <h2 className="ilp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
+            Cuide da terceira<br /><span>idade dele</span>
+          </h2>
+
+          <div className="ilp-oferta-coupon-box">
+            <div className="ilp-oferta-coupon-label">use o cupom</div>
+            <div className="ilp-oferta-coupon-code">{COUPON}</div>
+            <div className="ilp-oferta-coupon-desc">20% no site + cupom (10% off) · R$ {PRICE} → R$ {PRICE_OFF}</div>
+          </div>
+
+          <a href={ctaUrl("oferta")} className="ilp-btn-primary" data-cta="oferta">
+            Quero o Kit Cachorro →
+          </a>
+
+          <p className="ilp-hero-note" style={{ marginTop: 16 }}>
+            Cupom aplica sozinho no checkout · Só na primeira compra
+          </p>
+        </div>
+      </section>
+
+      {/* ════ FAQ + GARANTIA ════ */}
+      <section className="ilp-section">
+        <div className="ilp-section-inner">
+          <span className="ilp-tag">perguntas frequentes</span>
+          <h2 className="ilp-section-title">
+            Antes de comprar,<br /><span>tudo o que importa.</span>
+          </h2>
+
+          <div className="ilp-faq">
+            {FAQ.map((f, i) => (
+              <details className="ilp-faq-item" key={i}>
+                <summary>{f.q}</summary>
+                <div className="ilp-faq-answer" dangerouslySetInnerHTML={{ __html: f.a }} />
+              </details>
+            ))}
+          </div>
+
+          <div className="ilp-garantia">
+            <div className="ilp-garantia-icon">💚</div>
+            <div className="ilp-garantia-body">
+              <strong>Garantia da matilha</strong>
+              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════ CTA FINAL ════ */}
+      <section className="ilp-cta-final">
+        <h2>
+          Bora dar mais vida<br /><span>aos anos dele?</span>
+        </h2>
+        <p>Proteína que ele aproveita, articulação com apoio, apetite de volta. A idade chega — a disposição pode ficar.</p>
+        <a href={ctaUrl("final")} className="ilp-btn-primary" data-cta="final">
+          Bora cuidar do meu velhinho →
+        </a>
+      </section>
+
+      {/* ════ FOOTER ════ */}
+      <footer className="ilp-footer">
+        <DragonLogo className="ilp-footer-logo-svg" />
+        <nav className="ilp-footer-links">
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
+          <Link to="/produtos">Linha completa</Link>
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="mailto:somos@letsfly.com.br">Contato</a>
+        </nav>
+        <div className="ilp-footer-tagline">Nojento é o desperdício.</div>
+        <div className="ilp-footer-legal">
+          Comida de Dragão · Lets Fly · Biofábrica RJ · Reg. MAPA
+        </div>
+      </footer>
+
+      {/* ════ STICKY CTA (mobile) ════ */}
+      <div className="ilp-sticky-cta">
+        <div className="ilp-sticky-info">
+          <span className="ilp-sticky-name">Kit Cachorro · <s>R$ {PRICE}</s></span>
+          <span className="ilp-sticky-price">R$ {PRICE_OFF} · cupom {COUPON} (10% off)</span>
+        </div>
+        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
+      </div>
+    </div>
+  );
+};
+
+export default Idoso;
