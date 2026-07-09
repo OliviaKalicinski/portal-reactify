@@ -1,0 +1,788 @@
+/* ================================
+   LP PRODUTO — SUPLEMENTO INTEGRAL · LIGHT THEME
+   Comida de Dragão · página satélite
+   Tráfego pago Meta Ads · público frio
+   Foco: boost proteico diário, hipoalergênico, só cães
+   ────────────────────────────────
+   THEME: paper / zine / serigrafia
+   Inspirado no .theme-light do Portal.css.
+   Texturas: halftone (pontos), hachura diagonal,
+   radial soft em pêssego/lima.
+
+   LP é AUTOCONTIDA — não importa Portal.css/Parceiros.css.
+   Espelho exato da LP do Original (Original.css), só com
+   prefixos próprios (.idoso-lp / ilp-) pra não colidir.
+================================ */
+
+.idoso-lp {
+  /* ─── Tokens light alinhados com .theme-light do portal ─── */
+  --bg-page:       #FFFBED;   /* creme Cores do Dragão — papel */
+  --bg-card:       #FFFFFF;
+  --bg-elevated:   #FFF5DA;   /* creme mais quente — usado em oferta + CTA final */
+
+  --ink-primary:   #16211A;   /* tinta verde-escuro */
+  --ink-secondary: #375D29;   /* verde médio */
+  --ink-muted:     rgba(22, 33, 26, 0.62);
+  --ink-faded:     rgba(22, 33, 26, 0.42);
+  --ink-border:    rgba(22, 33, 26, 0.12);
+  --ink-border-strong: rgba(22, 33, 26, 0.30);
+
+  /* PALETA REDUZIDA — preto + lime + pink + creme.
+     Lime = primária (CTA, accents, sombras riso).
+     Pink = leitura/títulos/stats/cupom — única cor escura colorida. */
+  --dragon-lime:   #7BFF00;   /* PRIMÁRIA · CTA, accents, borders, sombras riso */
+  --dragon-pink:   #FF0066;   /* leitura colorida — títulos, stats, preço, cupom */
+
+  background: var(--bg-page);
+  color: var(--ink-primary);
+  min-height: 100vh;
+  padding-bottom: 96px; /* espaço pro sticky CTA mobile */
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.idoso-lp *, .idoso-lp *::before, .idoso-lp *::after { box-sizing: border-box; }
+.idoso-lp p, .idoso-lp ul, .idoso-lp ol { margin: 0; }
+
+.idoso-lp h1,
+.idoso-lp h2,
+.idoso-lp h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.5px;
+  margin: 0;
+  font-weight: 400;
+  color: var(--ink-primary);
+}
+
+.idoso-lp a { color: inherit; }
+
+.ilp-backlink {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.ilp-backlink:hover { color: var(--dragon-pink); }
+
+/* logo SVG */
+.ilp-hero-logo {
+  width: 100px;
+  height: auto;
+  color: var(--ink-primary);
+  filter: drop-shadow(0 4px 14px rgba(22, 33, 26, 0.18));
+}
+.ilp-footer-logo-svg {
+  width: 80px;
+  height: auto;
+  color: var(--ink-primary);
+  opacity: 0.5;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+/* ============= HERO ============= */
+.ilp-hero {
+  position: relative;
+  background: var(--bg-page);
+  padding: 24px 20px 40px;
+  border-bottom: 4px solid var(--dragon-lime);
+  overflow: hidden;
+}
+/* camadas: radial lime embaixo + pink no topo (4 cores total: preto/verde/pink/creme) */
+.ilp-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 110%, rgba(123, 255, 0, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(255, 0, 102, 0.10) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ilp-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(22, 33, 26, 0.06) 1px, transparent 1.4px);
+  background-size: 9px 9px;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+.ilp-hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+  margin: 0 auto;
+  text-align: center;
+}
+.ilp-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.ilp-hero-eyebrow {
+  display: inline-block;
+  background: rgba(123, 255, 0, 0.22);
+  border: 1px solid var(--dragon-pink);
+  color: var(--dragon-pink);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  margin-bottom: 18px;
+}
+
+/* Hero title — só o span tem efeito risograph (foco máximo).
+   Linha 1: preto/tinta puro, leitura limpa.
+   Linha 2 (parte mais importante): preto + sombra LIME deslocada
+   = clássico off-register de 2 tintas (preto + verde). */
+.ilp-hero-title {
+  font-size: clamp(42px, 9.5vw, 82px);
+  line-height: 0.88;
+  letter-spacing: 0.01em;
+  color: var(--ink-primary);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.ilp-hero-title span {
+  color: var(--ink-primary);
+  display: block;
+  text-shadow: 4px 4px 0 var(--dragon-lime);
+}
+
+.ilp-hero-sub {
+  font-size: clamp(15px, 2vw, 18px);
+  line-height: 1.55;
+  color: var(--ink-secondary);
+  max-width: 540px;
+  margin: 0 auto 24px;
+}
+.ilp-hero-sub strong { color: var(--ink-primary); }
+
+.ilp-hero-product {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  margin: 0 auto 24px;
+  /* aumenta brilho + saturação pra embalagem ganhar punch contra o fundo claro */
+  filter:
+    brightness(1.12)
+    contrast(1.06)
+    saturate(1.10)
+    drop-shadow(0 18px 32px rgba(22, 33, 26, 0.22));
+}
+
+.ilp-hero-price {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+.ilp-price-from {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.ilp-price-now {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 7vw, 56px);
+  line-height: 1;
+  color: var(--dragon-pink);
+  letter-spacing: 0.5px;
+}
+.ilp-price-now small {
+  font-size: 0.42em;
+  vertical-align: super;
+  margin-right: 2px;
+  color: var(--ink-muted);
+}
+.ilp-price-installment {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+}
+
+/* cupom da hero — pink sólido pequeno (versão mini do cupom da oferta) */
+.ilp-hero-coupon {
+  position: relative;
+  display: inline-block;
+  background: var(--dragon-pink);
+  color: #FFFFFF;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  margin-bottom: 22px;
+  border: 2px dashed #FFFFFF;
+  box-shadow: 4px 4px 0 var(--ink-primary);
+}
+.ilp-hero-coupon b { font-size: 14px; letter-spacing: 0.18em; }
+
+/* trust chips inline */
+.ilp-hero-chips {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px auto 0;
+  max-width: 540px;
+}
+.ilp-chip {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--ink-border-strong);
+  padding: 6px 10px;
+}
+
+/* ============= CTA PRINCIPAL =============
+   Lime sólido + texto tinta + sombra tinta — mesmíssimo padrão
+   do .parceiros-btn-primary do portal.
+   Conecta visualmente com as bordas lime das fotos UGC e reviews. */
+.ilp-btn-primary {
+  display: inline-block;
+  background: var(--dragon-lime);
+  color: var(--ink-primary);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 18px 36px;
+  border: 3px solid var(--ink-primary);
+  box-shadow: 6px 6px 0 var(--ink-primary);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  cursor: pointer;
+}
+.ilp-btn-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--ink-primary);
+}
+.ilp-btn-primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink-primary);
+}
+
+.ilp-hero-note {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--ink-muted);
+  margin-top: 14px;
+  text-transform: uppercase;
+}
+
+/* ============= SECTIONS ============= */
+.ilp-section {
+  position: relative;
+  padding: 56px 20px;
+  border-bottom: 1px solid var(--ink-border);
+  background: var(--bg-page);
+}
+.ilp-section-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* tag estilo "scratch-mark" do portal — lime translúcido + texto verde leitura */
+.ilp-tag {
+  display: inline-block;
+  background: rgba(123, 255, 0, 0.22);
+  border: 1px solid var(--dragon-pink);
+  color: var(--dragon-pink);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  margin-bottom: 14px;
+}
+.ilp-tag.tag-pink {
+  background: rgba(255, 0, 102, 0.10);
+  border-color: var(--dragon-pink);
+  color: var(--dragon-pink);
+}
+.ilp-tag.tag-lime {
+  background: var(--dragon-lime);
+  border-color: var(--ink-primary);
+  color: var(--ink-primary);
+}
+
+/* Section titles — limpos, sem efeito riso.
+   Só o hero span tem text-shadow (foco máximo na headline principal). */
+.ilp-section-title {
+  font-size: clamp(36px, 6.5vw, 56px);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  color: var(--ink-primary);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.ilp-section-title span { color: var(--dragon-pink); }
+.ilp-section-title.title-pink span { color: var(--dragon-pink); }
+.ilp-section-title.title-lime span { color: var(--dragon-pink); }
+
+.ilp-section-lead {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+  margin-bottom: 24px;
+}
+.ilp-section-lead strong { color: var(--ink-primary); }
+
+/* ============= PROBLEMA ============= */
+.ilp-problemas-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.ilp-problema-item {
+  background: var(--bg-card);
+  border: 1px solid var(--ink-border);
+  border-left: 3px solid var(--dragon-pink);
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-primary);
+}
+.ilp-problema-item b { color: var(--dragon-pink); font-weight: 700; }
+
+/* ============= BENEFÍCIOS ============= */
+.ilp-beneficios {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+}
+.ilp-beneficio {
+  background: var(--bg-card);
+  border: 1px solid var(--ink-border);
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+/* hachura sutil no canto inferior direito (estilo canteiro de obras) */
+.ilp-beneficio::after {
+  content: '';
+  position: absolute;
+  right: 0; bottom: 0;
+  width: 60px; height: 60px;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(22, 33, 26, 0.05) 0 2px,
+    transparent 2px 8px
+  );
+  pointer-events: none;
+}
+.ilp-beneficio-stat {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  line-height: 1;
+  color: var(--dragon-pink);
+  letter-spacing: 0.02em;
+}
+.ilp-beneficio-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  color: var(--ink-primary);
+}
+.ilp-beneficio-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+}
+.ilp-beneficio-desc strong { color: var(--ink-primary); }
+
+/* ============= SLIDER ============= */
+.ilp-slider-wrap {
+  position: relative;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding: 0 20px;
+}
+.ilp-slider {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-left: 20px;
+  scrollbar-width: none;
+  padding: 4px 0 12px;
+}
+.ilp-slider::-webkit-scrollbar { display: none; }
+.ilp-slide {
+  flex: 0 0 78%;
+  scroll-snap-align: start;
+  aspect-ratio: 1 / 1;
+  background: var(--bg-card);
+  overflow: hidden;
+  border: 1px solid var(--ink-border-strong);
+  position: relative;
+  box-shadow: 4px 4px 0 var(--ink-primary);
+}
+.ilp-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ilp-slide-tag {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  background: var(--bg-card);
+  color: var(--ink-primary);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border: 1px solid var(--ink-primary);
+}
+/* tag "pet real" — lime sólido com tinta. Conecta visualmente
+   com as próprias bordas lime das fotos UGC. */
+.ilp-slide-tag.tag-orange {
+  background: var(--dragon-lime);
+  color: var(--ink-primary);
+  border-color: var(--ink-primary);
+}
+.ilp-slider-hint {
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+}
+
+/* ============= OFERTA ============= */
+.ilp-oferta {
+  position: relative;
+  background: var(--bg-elevated);
+  border-top: 4px solid var(--dragon-lime);
+  border-bottom: 4px solid var(--dragon-lime);
+  text-align: center;
+  padding: 56px 20px;
+  overflow: hidden;
+}
+/* halftone sutil no fundo da oferta */
+.ilp-oferta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(22, 33, 26, 0.07) 1.2px, transparent 1.4px);
+  background-size: 10px 10px;
+  pointer-events: none;
+}
+.ilp-oferta-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+
+/* CUPOM BOX — pink sólido, estilo "ticket" limpo.
+   Borda dashed + sombra deslocada mantém DNA zine sem ruído visual. */
+.ilp-oferta-coupon-box {
+  position: relative;
+  background: var(--dragon-pink);
+  color: #FFFFFF;
+  border: 3px dashed #FFFFFF;
+  padding: 28px 18px;
+  margin: 24px 0;
+  box-shadow: 8px 8px 0 var(--ink-primary);
+}
+.ilp-oferta-coupon-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+.ilp-oferta-coupon-code {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  margin-bottom: 8px;
+  color: #FFFFFF;
+  /* leve sombra branca pra dar peso ao texto sobre pink */
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
+}
+.ilp-oferta-coupon-desc {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  opacity: 0.92;
+}
+
+/* ============= FAQ ============= */
+.ilp-faq {
+  display: grid;
+  gap: 8px;
+}
+.ilp-faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--ink-border);
+}
+.ilp-faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 16px 18px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: var(--ink-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.ilp-faq-item summary::-webkit-details-marker { display: none; }
+.ilp-faq-item summary::after {
+  content: '+';
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--dragon-pink);
+  flex-shrink: 0;
+  transition: transform 0.18s;
+}
+.ilp-faq-item[open] summary::after { transform: rotate(45deg); }
+.ilp-faq-item[open] summary { border-bottom: 1px solid var(--ink-border); }
+.ilp-faq-answer {
+  padding: 14px 18px 18px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+}
+.ilp-faq-answer strong { color: var(--ink-primary); }
+
+/* ============= GARANTIA ============= */
+.ilp-garantia {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: var(--bg-card);
+  border: 2px solid var(--dragon-pink);
+  padding: 22px 20px;
+  margin-top: 24px;
+  position: relative;
+  overflow: hidden;
+}
+/* hachura sutil verde */
+.ilp-garantia::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0;
+  width: 50px; height: 50px;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 0, 102, 0.10) 0 3px,
+    transparent 3px 9px
+  );
+  pointer-events: none;
+}
+.ilp-garantia-icon { font-size: 36px; line-height: 1; flex-shrink: 0; position: relative; }
+.ilp-garantia-body { position: relative; }
+.ilp-garantia-body strong {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  color: var(--dragon-pink);
+  display: block;
+  margin-bottom: 4px;
+}
+.ilp-garantia-body span {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+  display: block;
+}
+
+/* ============= CTA FINAL ============= */
+.ilp-cta-final {
+  position: relative;
+  text-align: center;
+  padding: 64px 20px 48px;
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+.ilp-cta-final::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 0%, rgba(123, 255, 0, 0.22) 0%, transparent 70%),
+    radial-gradient(circle, rgba(22, 33, 26, 0.05) 1px, transparent 1.4px);
+  background-size: auto, 9px 9px;
+  pointer-events: none;
+}
+.ilp-cta-final > * { position: relative; z-index: 1; }
+.ilp-cta-final h2 {
+  font-size: clamp(42px, 8.5vw, 72px);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: var(--ink-primary);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.ilp-cta-final h2 span {
+  color: var(--dragon-pink);
+  display: block;
+}
+.ilp-cta-final p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+  max-width: 480px;
+  margin: 0 auto 28px;
+}
+
+/* ============= STICKY CTA (mobile) ============= */
+.ilp-sticky-cta {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 50;
+  background: var(--bg-card);
+  border-top: 3px solid var(--dragon-lime);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 -10px 24px rgba(22, 33, 26, 0.12);
+}
+.ilp-sticky-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.ilp-sticky-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: var(--ink-primary);
+  line-height: 1;
+}
+.ilp-sticky-price {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--dragon-pink);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+.ilp-sticky-cta a {
+  flex-shrink: 0;
+  background: var(--dragon-lime);
+  color: var(--ink-primary);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 12px 18px;
+  border: 2px solid var(--ink-primary);
+  box-shadow: 3px 3px 0 var(--ink-primary);
+}
+
+/* ============= FOOTER ============= */
+.ilp-footer {
+  text-align: center;
+  padding: 48px 20px 32px;
+  background: var(--bg-page);
+  border-top: 1px solid var(--ink-border);
+}
+.ilp-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 22px;
+  margin-bottom: 18px;
+}
+.ilp-footer-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.ilp-footer-links a:hover { color: var(--dragon-pink); }
+.ilp-footer-tagline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  color: var(--dragon-pink);
+}
+.ilp-footer-legal {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faded);
+  margin-top: 18px;
+}
+
+/* ============= RESPONSIVE ============= */
+@media (min-width: 720px) {
+  .ilp-hero { padding: 32px 32px 56px; }
+  .ilp-section { padding: 80px 32px; }
+  .ilp-beneficios { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+  .ilp-slide { flex-basis: 32%; }
+  .ilp-slider-hint { display: none; }
+  .ilp-oferta { padding: 88px 32px; }
+  .ilp-cta-final { padding: 96px 32px 64px; }
+
+  .ilp-sticky-cta { display: none; }
+  .idoso-lp { padding-bottom: 0; }
+}
+
+@media (min-width: 980px) {
+  .ilp-hero-inner {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 48px;
+    align-items: center;
+    text-align: left;
+  }
+  .ilp-hero-top { grid-column: 1 / -1; }
+  .ilp-hero-product {
+    grid-row: 2 / span 6;
+    max-width: 440px;
+    margin: 0;
+    align-self: center;
+  }
+  .ilp-hero-eyebrow,
+  .ilp-hero-title,
+  .ilp-hero-sub,
+  .ilp-hero-price,
+  .ilp-hero-coupon,
+  .ilp-hero-cta-wrap { justify-self: start; }
+  .ilp-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
+  .ilp-section-title, .ilp-cta-final h2 { font-size: 60px; }
+}
