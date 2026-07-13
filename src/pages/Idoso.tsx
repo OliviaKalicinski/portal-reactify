@@ -133,8 +133,8 @@ const Idoso = () => {
   return (
     <div className="idoso-lp">
       <PageMeta
-        title="Cão idoso perdendo energia e músculo? Proteína que ele aproveita — Comida de Dragão"
-        description="Na terceira idade o cão perde massa e apetite. A Comida de Dragão é proteína de inseto: altamente digestível, com glucosamina natural pra articulação. Kit Cachorro pra músculo, articulação e disposição."
+        title="Suplemento para Cão Idoso — proteína que ele aproveita | Comida de Dragão"
+        description="Suplemento para cachorro idoso à base de proteína de inseto: altamente digestível, com glucosamina natural pra articulação. Kit Cachorro pra músculo, disposição e apoio às juntas."
         image={HERO_IMG}
       />
       <Helmet>
@@ -149,7 +149,7 @@ const Idoso = () => {
             <DragonLogo className="ilp-hero-logo" />
           </div>
 
-          <span className="ilp-hero-eyebrow">cão idoso · proteína que ele aproveita · fácil de aceitar</span>
+          <span className="ilp-hero-eyebrow">suplemento para cão idoso · proteína que ele aproveita · fácil de aceitar</span>
 
           <h1 className="ilp-hero-title">
             Seu cão<br /><span>envelheceu?</span>
@@ -158,9 +158,10 @@ const Idoso = () => {
           <p className="ilp-hero-sub">
             Na terceira idade o corpo aproveita menos a proteína — e vem a
             <strong> perda de músculo</strong>, a preguiça de levantar e o apetite que cai.
-            A Comida de Dragão é <strong>proteína de inseto</strong>: leve, altamente digestível
-            e com <strong>glucosamina natural</strong> pra articulação. O <strong>Kit Cachorro</strong>
-            junta o petisco e o suplemento pra dar músculo, disposição e apoio às juntas.
+            O <strong>suplemento para cão idoso</strong> da Comida de Dragão é{" "}
+            <strong>proteína de inseto</strong>: leve, altamente digestível e com{" "}
+            <strong>glucosamina natural</strong> pra articulação. O <strong>Kit Cachorro</strong>
+            {" "}junta o petisco e o suplemento pra dar músculo, disposição e apoio às juntas.
           </p>
 
           <img
@@ -193,6 +194,23 @@ const Idoso = () => {
           <div className="ilp-hero-chips">
             {CHIPS.map((c, i) => <span className="ilp-chip" key={i}>{c}</span>)}
           </div>
+        </div>
+      </section>
+
+      {/* ════ DEPOIMENTO (texto) ════
+          Sobe prova social pra 2ª tela: 74% da atenção fica nas 2 primeiras
+          telas e só ~50% chega na 3ª seção. Texto (não imagem) também conta
+          pra relevância de landing page no Índice de Qualidade do Google. */}
+      <section className="ilp-section ilp-quote-section">
+        <div className="ilp-section-inner">
+          <blockquote className="ilp-quote">
+            <p>
+              “Estou testando tem alguns meses o suplemento no meu cachorro idoso. Tô gostando
+              bastante. <strong>Ele está mantendo bem a massa muscular e tava perdendo antes.</strong>{" "}
+              Daqui a pouco vou começar a receitar para os meus pacientes.”
+            </p>
+            <cite>— veterinária, cliente Comida de Dragão</cite>
+          </blockquote>
         </div>
       </section>
 
@@ -305,6 +323,41 @@ const Idoso = () => {
           <p className="ilp-hero-note" style={{ marginTop: 16 }}>
             Cupom aplica sozinho no checkout · Só na primeira compra
           </p>
+        </div>
+      </section>
+
+      {/* ════ E SE ELE TORCER O NARIZ? ════
+          Bloco anti-rejeição. Dado (Panorama do Survey 08/07/26): o NPS é
+          governado pela reação do pet — "amou" = +82, "recusou" = −50, com
+          11% de rejeição. A dica de triturar e misturar na comida úmida veio
+          de uma cliente real (7 gatos) que salvou a própria compra assim. */}
+      <section className="ilp-section">
+        <div className="ilp-section-inner">
+          <span className="ilp-tag tag-pink">sem susto</span>
+          <h2 className="ilp-section-title title-pink">
+            E se ele<br /><span>torcer o nariz?</span>
+          </h2>
+          <p className="ilp-section-lead">
+            Acontece — principalmente com sênior, que já anda enjoado. E quase sempre tem conserto.
+          </p>
+
+          <ul className="ilp-problemas-list">
+            <li className="ilp-problema-item">
+              <b>Triture e misture</b> — no lugar de oferecer puro, triture e misture na comida
+              úmida. Foi assim que uma tutora conseguiu, depois de a primeira tentativa não colar.
+            </li>
+            <li className="ilp-problema-item">
+              <b>Use como topper</b> — jogue por cima da ração, em vez de servir separado. O cheiro
+              puxa o interesse de quem anda comendo pouco.
+            </li>
+            <li className="ilp-problema-item">
+              <b>Insista com calma</b> — muito cão estranha na primeira e come na terceira.
+            </li>
+            <li className="ilp-problema-item">
+              <b>Não colou mesmo?</b> — chama a gente no WhatsApp. E, se em 14 dias ele não topar,
+              a gente devolve seu dinheiro.
+            </li>
+          </ul>
         </div>
       </section>
 

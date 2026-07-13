@@ -100,6 +100,10 @@ const FAQ = [
     a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco/recompensa) + o <strong>Suplemento Integral</strong> (pó pra misturar na ração). Um cuida do dia a dia, o outro reforça a refeição.",
   },
   {
+    q: "Meu veterinário indicou proteína hidrolisada. Posso dar isso?",
+    a: "São dois caminhos pro mesmo objetivo. A <strong>hidrolisada</strong> quebra a proteína em pedaços pequenos demais pro sistema imune reconhecer. A <strong>proteína nova</strong> (o nosso caso) resolve por outro lado: o corpo dele <strong>nunca viu</strong> a larva antes, então nunca aprendeu a reagir. Dieta de proteína nova é uma abordagem reconhecida — e o Original tem <strong>ingrediente único</strong>, o que facilita rastrear o que ele come. Não substitui a prescrição do seu vet: mostre o rótulo pra ele.",
+  },
+  {
     q: "Em quanto tempo vejo resultado?",
     a: "Tutores costumam relatar a <strong>coceira diminuindo em poucas semanas</strong>. Cada cão responde no seu tempo — pele e pelo levam um pouco mais.",
   },
@@ -223,6 +227,46 @@ const Alergia = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ════ HIDROLISADA vs PROTEÍNA NOVA ════
+          Veio do relatório de termos de pesquisa do Google (90d): "petisco
+          proteína hidrolisada" aparece como busca real e a LP não respondia.
+          Quem procura isso JÁ FOI AO VETERINÁRIO — é o lead mais qualificado
+          desta dor. Enquadramento: dois caminhos legítimos, sem depreciar a
+          hidrolisada e sem prometer cura. Decisão final é do vet. */}
+      <section className="alp-section">
+        <div className="alp-section-inner">
+          <span className="alp-tag tag-pink">veio do consultório?</span>
+          <h2 className="alp-section-title title-pink">
+            Seu vet indicou<br /><span>proteína hidrolisada?</span>
+          </h2>
+          <p className="alp-section-lead">
+            Então ele já identificou o caminho: <strong>tirar do prato a proteína que o corpo
+            dele reconhece</strong>. Existem duas formas de fazer isso — e a segunda quase
+            ninguém conta pra você.
+          </p>
+
+          <ul className="alp-problemas-list">
+            <li className="alp-problema-item">
+              <b>Proteína hidrolisada</b> — quebra a proteína em pedaços pequenos demais pro
+              sistema imune reconhecer. Funciona escondendo o alérgeno.
+            </li>
+            <li className="alp-problema-item">
+              <b>Proteína nova</b> — é o nosso caminho. O corpo dele <strong>nunca viu</strong> a
+              larva antes, então nunca aprendeu a reagir contra ela. Não tem o que esconder.
+            </li>
+            <li className="alp-problema-item">
+              <b>Ingrediente único</b> — o Original é 100% larva, e mais nada. Numa dieta de
+              eliminação isso importa: você sabe exatamente o que ele comeu.
+            </li>
+          </ul>
+
+          <p className="alp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+            Dieta de proteína nova é uma abordagem reconhecida — mas <strong>não substitui a
+            prescrição do seu veterinário</strong>. Leve o rótulo pra ele e decidam juntos.
+          </p>
         </div>
       </section>
 
