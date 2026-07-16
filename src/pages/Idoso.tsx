@@ -46,7 +46,7 @@ const COUPON = "VITALIDADE";  // ⚠️ cadastrar na Yampi: 10% off (1ª compra)
 const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
 const PRICE_OFF = "104,40";   // "por" — preço de loja R$116 (−20%) com cupom (−10%)
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
-const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
 
 const UTM_FALLBACK = {
   utm_source: "lp-idoso",
@@ -60,7 +60,7 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
 const HERO_IMG = "/assets/images/produtos/kit-caes.png";
 
 const CHIPS = [
-  "🚚 Entrega Brasil",
+  "🚚 Frete grátis",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
   "💚 Garantia 14 dias",
@@ -124,7 +124,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
   },
 ];
 
@@ -164,25 +164,28 @@ const Idoso = () => {
             {" "}junta o petisco e o suplemento pra dar músculo, disposição e apoio às juntas.
           </p>
 
-          <img
-            className="ilp-hero-product"
-            src={HERO_IMG}
-            alt="Kit Cachorro Comida de Dragão — Original + Suplemento Integral"
-            width={460}
-            height={410}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-          />
+          <div className="ilp-hero-product-wrap">
+            <img
+              className="ilp-hero-product"
+              src={HERO_IMG}
+              alt="Kit Cachorro Comida de Dragão — Original + Suplemento Integral"
+              width={460}
+              height={410}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+            <span className="ilp-hero-frete-tag">Kit com frete grátis</span>
+          </div>
 
           <div className="ilp-hero-price">
-            <span className="ilp-price-from">Kit Cachorro · de R$ {PRICE}</span>
-            <span className="ilp-price-now"><small>R$</small>{PRICE_OFF}</span>
-            <span className="ilp-price-installment">20% no site + cupom <b>{COUPON}</b> (10% off) · 4× sem juros</span>
+            <span className="ilp-price-from">Kit Cachorro por</span>
+            <span className="ilp-price-now"><small>R$</small>{PRICE}</span>
+            <span className="ilp-price-installment">🚚 Frete grátis · 4× sem juros</span>
           </div>
 
           <div className="ilp-hero-coupon">
-            🎟️ cupom <b>{COUPON}</b> — 10% off na 1ª compra
+            🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout
           </div>
 
           <div className="ilp-hero-cta-wrap">
@@ -311,9 +314,9 @@ const Idoso = () => {
           </h2>
 
           <div className="ilp-oferta-coupon-box">
-            <div className="ilp-oferta-coupon-label">use o cupom</div>
-            <div className="ilp-oferta-coupon-code">{COUPON}</div>
-            <div className="ilp-oferta-coupon-desc">20% no site + cupom (10% off) · R$ {PRICE} → R$ {PRICE_OFF}</div>
+            <div className="ilp-oferta-coupon-label">🚚 vantagem</div>
+            <div className="ilp-oferta-coupon-code">FRETE GRÁTIS</div>
+            <div className="ilp-oferta-coupon-desc">Kit Cachorro por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="ilp-btn-primary" data-cta="oferta">
@@ -321,7 +324,7 @@ const Idoso = () => {
           </a>
 
           <p className="ilp-hero-note" style={{ marginTop: 16 }}>
-            Cupom aplica sozinho no checkout · Só na primeira compra
+            Frete grátis no Kit · compra 100% segura via Yampi
           </p>
         </div>
       </section>
@@ -417,8 +420,8 @@ const Idoso = () => {
       {/* ════ STICKY CTA (mobile) ════ */}
       <div className="ilp-sticky-cta">
         <div className="ilp-sticky-info">
-          <span className="ilp-sticky-name">Kit Cachorro · <s>R$ {PRICE}</s></span>
-          <span className="ilp-sticky-price">R$ {PRICE_OFF} · cupom {COUPON} (10% off)</span>
+          <span className="ilp-sticky-name">Kit Cachorro</span>
+          <span className="ilp-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>

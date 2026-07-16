@@ -20,6 +20,7 @@ const Matilde = lazy(() => import("./pages/Matilde.tsx"));
 const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
 const Matilha = lazy(() => import("./pages/Matilha.tsx"));
 const Conheca = lazy(() => import("./pages/Conheca.tsx"));
+const Curiosidade = lazy(() => import("./pages/Curiosidade.tsx"));
 const Veterinarios = lazy(() => import("./pages/Veterinarios.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
 const Suplemento = lazy(() => import("./pages/Suplemento.tsx"));
@@ -58,6 +59,8 @@ const App = () => (
               {/* Onboarding de criadores "Bem-vindo à Matilha" — página oculta, só via link direto (igual /original) */}
               <Route path="/matilha" element={<Matilha />} />
               <Route path="/conheca" element={<Conheca />} />
+              {/* LP campanha CURIOSIDADE (larva) — Kit Original */}
+              <Route path="/curiosidade" element={<Curiosidade />} />
               <Route path="/veterinarios" element={<Veterinarios />} />
               {/* LPs de produto — tráfego pago, fora do portal */}
               <Route path="/original" element={<Original />} />

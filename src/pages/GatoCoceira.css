@@ -168,12 +168,37 @@
 }
 .gcp-hero-sub strong { color: var(--ink-primary); }
 
-.gcp-hero-product {
+.gcp-hero-product-wrap {
+  position: relative;
   display: block;
   width: 100%;
   max-width: 360px;
-  height: auto;
   margin: 0 auto 24px;
+}
+
+.gcp-hero-frete-tag {
+  position: absolute;
+  top: 8px;
+  right: 2px;
+  z-index: 3;
+  background: #FF0066;
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(22, 33, 26, 0.30);
+  transform: rotate(7deg);
+  white-space: nowrap;
+}
+
+.gcp-hero-product {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
   /* aumenta brilho + saturação pra embalagem ganhar punch contra o fundo claro */
   filter:
     brightness(1.12)
@@ -775,7 +800,7 @@
     text-align: left;
   }
   .gcp-hero-top { grid-column: 1 / -1; }
-  .gcp-hero-product {
+  .gcp-hero-product-wrap {
     grid-row: 2 / span 6;
     max-width: 440px;
     margin: 0;

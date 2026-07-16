@@ -44,7 +44,7 @@ const COUPON = "GATOALIVIO";  // criado na Shopify 13/07 · 10% off, 1 uso/clien
 const PRICE = "145,00";       // compare-at do Shopify
 const PRICE_OFF = "104,40";   // R$116 no site (−20%) → −10% com cupom
 /* Kit para Gatos · SKU 1301 · token N9DLSJ6M4J */
-const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/N9DLSJ6M4J?promocode=${COUPON}`;
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/N9DLSJ6M4J`;
 
 const UTM_FALLBACK = {
   utm_source: "lp-gato-coceira",
@@ -58,7 +58,7 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
 const HERO_IMG = "/assets/images/produtos/kit-gatos.png";
 
 const CHIPS = [
-  "🚚 Entrega Brasil",
+  "🚚 Frete grátis",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
   "💚 Garantia 14 dias",
@@ -119,7 +119,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
   },
 ];
 
@@ -164,30 +164,33 @@ const GatoCoceira = () => {
             junta o petisco e o suplemento com taurina.
           </p>
 
-          <img
-            className="gcp-hero-product"
-            src={HERO_IMG}
-            alt="Kit para Gatos Comida de Dragão — Original + Suplemento Felino"
-            width={460}
-            height={410}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-          />
+          <div className="gcp-hero-product-wrap">
+            <img
+              className="gcp-hero-product"
+              src={HERO_IMG}
+              alt="Kit para Gatos Comida de Dragão — Original + Suplemento Felino"
+              width={460}
+              height={410}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+            <span className="gcp-hero-frete-tag">Kit com frete grátis</span>
+          </div>
 
           <div className="gcp-hero-price">
-            <span className="gcp-price-from">Kit para Gatos · de R$ {PRICE}</span>
-            <span className="gcp-price-now"><small>R$</small>{PRICE_OFF}</span>
-            <span className="gcp-price-installment">20% no site + cupom <b>{COUPON}</b> (10% off) · 4× sem juros</span>
+            <span className="gcp-price-from">Kit para Gatos por</span>
+            <span className="gcp-price-now"><small>R$</small>{PRICE}</span>
+            <span className="gcp-price-installment">🚚 Frete grátis · 4× sem juros</span>
           </div>
 
           <div className="gcp-hero-coupon">
-            🎟️ cupom <b>{COUPON}</b> — 10% off na 1ª compra
+            🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout
           </div>
 
           <div className="gcp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="gcp-btn-primary" data-cta="hero">
-              Quero aliviar a coceira dele →
+              Quero cuidar da pele dele →
             </a>
           </div>
 
@@ -333,9 +336,9 @@ const GatoCoceira = () => {
           </h2>
 
           <div className="gcp-oferta-coupon-box">
-            <div className="gcp-oferta-coupon-label">use o cupom</div>
-            <div className="gcp-oferta-coupon-code">{COUPON}</div>
-            <div className="gcp-oferta-coupon-desc">20% no site + cupom (10% off) · R$ {PRICE} → R$ {PRICE_OFF}</div>
+            <div className="gcp-oferta-coupon-label">🚚 vantagem</div>
+            <div className="gcp-oferta-coupon-code">FRETE GRÁTIS</div>
+            <div className="gcp-oferta-coupon-desc">Kit para Gatos por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="gcp-btn-primary" data-cta="oferta">
@@ -343,7 +346,7 @@ const GatoCoceira = () => {
           </a>
 
           <p className="gcp-hero-note" style={{ marginTop: 16 }}>
-            Cupom aplica sozinho no checkout · Só na primeira compra
+            Frete grátis no Kit · compra 100% segura via Yampi
           </p>
         </div>
       </section>
@@ -381,13 +384,13 @@ const GatoCoceira = () => {
       {/* ════ CTA FINAL ════ */}
       <section className="gcp-cta-final">
         <div className="gcp-section-inner">
-          <h2>Bora dar um alívio pra ele?</h2>
+          <h2>Bora cuidar da pele dele?</h2>
           <p>
             Proteína nova, taurina que ele precisa e intestino que agradece. A coceira tem causa —
             e a comida é uma delas.
           </p>
           <a href={ctaUrl("final")} className="gcp-btn-primary" data-cta="final">
-            Quero aliviar a coceira dele →
+            Quero cuidar da pele dele →
           </a>
         </div>
       </section>
@@ -411,7 +414,7 @@ const GatoCoceira = () => {
       {/* ════ STICKY CTA (mobile) ════ */}
       <div className="gcp-sticky">
         <div className="gcp-sticky-price">
-          Kit para Gatos · <s>R$ {PRICE}</s> <b>R$ {PRICE_OFF}</b>
+          Kit para Gatos · <b>R$ {PRICE}</b> · 🚚 frete grátis
         </div>
         <a href={ctaUrl("sticky")} className="gcp-btn-primary gcp-btn-sticky" data-cta="sticky">
           Comprar →
