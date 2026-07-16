@@ -40,7 +40,6 @@ import "./GatoCoceira.css";
    uma cliente real que salvou a própria compra.
 ────────────────────────────────────────────────────────────── */
 
-const COUPON = "GATOALIVIO";  // criado na Shopify 13/07 · 10% off, 1 uso/cliente
 const PRICE = "145,00";       // compare-at do Shopify
 const PRICE_OFF = "104,40";   // R$116 no site (−20%) → −10% com cupom
 /* Kit para Gatos · SKU 1301 · token N9DLSJ6M4J */

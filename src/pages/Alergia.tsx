@@ -23,7 +23,6 @@ import "./Alergia.css";
    - Trocar imagens de review por screenshots de alergia reais quando tiver.
 ────────────────────────────────────────────────────────────── */
 
-const COUPON = "AFILIADO10";  // ⚠️ placeholder — cupom do afiliado/creator (10% off). Definir código real + mecânica.
 const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
 const PRICE_OFF = "130,50";   // "por" — preço CHEIO R$145 com cupom afiliado (−10%). Frete grátis no Kit (Yampi).
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */

@@ -42,7 +42,6 @@ import "./Idoso.css";
       reais de cães idosos quando houver.
 ────────────────────────────────────────────────────────────── */
 
-const COUPON = "VITALIDADE";  // ⚠️ cadastrar na Yampi: 10% off (1ª compra). Fallback: ALIVIO/BORALA.
 const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
 const PRICE_OFF = "104,40";   // "por" — preço de loja R$116 (−20%) com cupom (−10%)
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
