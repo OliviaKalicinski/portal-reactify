@@ -8,18 +8,18 @@ import "./Conheca.css";        // override tema PINK & claro (.cf-pink)
 
 /* checkout: mesma promoção da /original (BORALA 10%), utm próprio p/ medir */
 const COUPON = "BEMZAO";
-const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
 const UTM_FALLBACK = { utm_source: "lp-conheca", utm_medium: "lp", utm_campaign: "lp-conheca-bemzao" };
 const buy = (cta: string) => buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 /* easter egg: cupom de FRETE GRÁTIS */
 const EGG_COUPON = "VOOLIVRE";
-const EGG_URL = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode=${EGG_COUPON}`;
+const EGG_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${EGG_COUPON}`;
 const buyEgg = (cta: string) => buildCheckoutUrl(EGG_URL, UTM_FALLBACK, cta);
 
 /* easter egg: Dragão que acorda → 15% off */
 const DRAGON_COUPON = "DRAGAOACORDOU";
-const DRAGON_URL = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode=${DRAGON_COUPON}`;
+const DRAGON_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${DRAGON_COUPON}`;
 const buyDragon = (cta: string) => buildCheckoutUrl(DRAGON_URL, UTM_FALLBACK, cta);
 
 /* UTM em links externos (loja/IG são cross-domain) */
@@ -35,7 +35,7 @@ const withUtm = (url: string, content: string) => {
 };
 
 const ICON = "/assets/pixel-icons";
-const PACK = "/assets/conheca/original-pack.png";
+const PACK = "/assets/images/produtos/kit-caes.png";
 const PETS = ["pet1.jpg", "pet2.jpg", "pet3.jpg", "pet4.jpg"];
 
 type DeskItem = { img: string; label: string; href?: string; ext?: boolean; egg?: boolean; big?: boolean };
@@ -104,12 +104,12 @@ const REVIEWS = [
 ];
 
 const FICHA = [
-  "1 ingrediente — 100% larva de BSF desidratada",
-  "No mínimo 40% de proteína",
-  "88,9% de digestibilidade",
+  "No kit: o Original (petisco de larva, 90g) + o Suplemento Integral (180g)",
+  "🚚 Frete grátis no Kit — pra todo o Brasil, por nossa conta",
+  "No mínimo 40% de proteína · 88,9% de digestibilidade",
   "Hipoalergênico — pra pet sensível ou alérgico",
   "Ácido láurico + ômegas 6 e 9 — pele e pelo",
-  "Cão, gato, ave, réptil, peixe · feito no Rio",
+  "1 ingrediente no petisco: 100% larva de BSF desidratada",
 ];
 
 const FAQ = [
@@ -135,8 +135,8 @@ const Conheca = () => {
     <div className="qsd8 cf-pink">
       <PageMeta
         title="Conheça a Comida de Dragão — feito de inseto, o melhor pro seu pet"
-        description="Petisco de larva BSF: 1 ingrediente, no mínimo 40% de proteína, 88,9% de digestibilidade, hipoalergênico. Estranho de propósito. 10% off na estreia."
-        image="/assets/conheca/original-pack.png"
+        description="Kit para Cães: o petisco de larva BSF (Original) + o Suplemento Integral. Hipoalergênico, 40% de proteína, 88,9% de digestibilidade. Frete grátis, 10% off na estreia."
+        image="/assets/images/produtos/kit-caes.png"
       />
 
       {/* filtro duotone dos assets */}
@@ -196,7 +196,7 @@ const Conheca = () => {
 
       {/* sticky mobile — aparece só depois de rolar */}
       <div className={`cf-sticky${showSticky ? " show" : ""}`}>
-        <div className="cf-sticky-info"><strong>R$ 35,01</strong><span>com {COUPON} · 10% off na estreia</span></div>
+        <div className="cf-sticky-info"><strong>R$ 130,50</strong><span>com {COUPON} · 10% off · 🚚 frete grátis</span></div>
         <a href={buy("sticky")} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Quero →</a>
       </div>
 
@@ -212,7 +212,12 @@ const Conheca = () => {
               </p>
             </div>
             <div className="cf-hero-pack">
-              <img src={PACK} alt="Comida de Dragão Original 90g" />
+              <div style={{ position: "relative", display: "inline-block", maxWidth: "100%" }}>
+                <span className="cf-tag t1" style={{ position: "absolute", top: 8, right: -4, zIndex: 3, whiteSpace: "nowrap" }}>🚚 Kit com frete grátis</span>
+                <img src={PACK} alt="Kit Comida de Dragão para Cães — Original + Suplemento Integral" />
+              </div>
+              <div className="cf-offer-price" style={{ marginTop: 10, marginBottom: 0 }}>R$ 145,00</div>
+              <div style={{ fontSize: 13, fontWeight: 700, opacity: .75, marginTop: 2 }}>🚚 Frete grátis no Kit · 4× sem juros</div>
             </div>
             <div className="cf-hero-cta qsd8-btnrow">
               <a href={buy("hero")} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Quero experimentar</a>
@@ -284,9 +289,9 @@ const Conheca = () => {
         </Win>
 
         {/* ══ FICHA ═════════════════════════════════════════════════ */}
-        <Win name="ARQUIVO: ORIGINAL.90G">
-          <h2 className="qsd8-h2">O <span>Original</span>, sem susto</h2>
-          <p className="qsd8-sub" style={{ maxWidth: 620 }}>90g de larva BSF desidratada. Um ingrediente. Só isso — petisco diário, treino, transição ou pet sensível.</p>
+        <Win name="ARQUIVO: KIT.CAES">
+          <h2 className="qsd8-h2">O <span>Kit para Cães</span>, sem susto</h2>
+          <p className="qsd8-sub" style={{ maxWidth: 620 }}>O petisco de larva (Original, 90g) + o Suplemento Integral (180g), numa caixa só. E o frete do Kit é por nossa conta — pra todo o Brasil.</p>
           <div className="qsd8-reqs" style={{ marginTop: 8 }}>
             {FICHA.map((f, i) => (
               <div className="qsd8-req" key={i}>
@@ -323,13 +328,13 @@ const Conheca = () => {
         <Win name="DOWNLOADING: SEU-1o-KIT.EXE" className="qsd8-cta-win">
           <div className="cf-hero2">
             <div className="cf-hero-pack">
-              <img src={PACK} alt="Comida de Dragão Original 90g" />
+              <img src={PACK} alt="Kit Comida de Dragão para Cães — Original + Suplemento Integral" />
             </div>
             <div style={{ textAlign: "left" }}>
               <h2 className="qsd8-cta-title" style={{ textAlign: "left" }}>Bora fazer <span>bemzão?</span></h2>
-              <p className="qsd8-cta-sub" style={{ margin: "0 0 4px" }}>Um petisco que faz bem duas vezes: pro seu pet e pro planeta. Mais saúde no bicho, menos peso no mundo. Larva BSF, 1 ingrediente, 10% off na estreia.</p>
-              <div className="cf-offer-price">R$ 35,01 <s>R$ 38,90</s></div>
-              <p className="qsd8-cta-sub" style={{ margin: "0 0 16px" }}>com o cupom <strong>{COUPON}</strong> · 4× sem juros · aplica sozinho no checkout</p>
+              <p className="qsd8-cta-sub" style={{ margin: "0 0 4px" }}>O kit que faz bem duas vezes: pro seu pet e pro planeta. Petisco de larva + Suplemento Integral, numa caixa só. Frete grátis, 10% off na estreia.</p>
+              <div className="cf-offer-price">R$ 130,50 <s>R$ 145,00</s></div>
+              <p className="qsd8-cta-sub" style={{ margin: "0 0 16px" }}>com o cupom <strong>{COUPON}</strong> · 🚚 frete grátis · 4× sem juros · aplica sozinho no checkout</p>
               <a href={buy("oferta")} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Quero meu {COUPON} →</a>
               <p className="qsd8-cta-note" style={{ textAlign: "left" }}>
                 Garantia da matilha: 14 dias. Ainda na dúvida?{" "}
