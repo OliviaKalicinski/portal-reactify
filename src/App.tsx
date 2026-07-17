@@ -21,6 +21,7 @@ const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
 const Matilha = lazy(() => import("./pages/Matilha.tsx"));
 const Conheca = lazy(() => import("./pages/Conheca.tsx"));
 const Curiosidade = lazy(() => import("./pages/Curiosidade.tsx"));
+const OqueFalam = lazy(() => import("./pages/OqueFalam.tsx"));
 const Veterinarios = lazy(() => import("./pages/Veterinarios.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
 const Suplemento = lazy(() => import("./pages/Suplemento.tsx"));
@@ -61,6 +62,8 @@ const App = () => (
               <Route path="/conheca" element={<Conheca />} />
               {/* LP campanha CURIOSIDADE (larva) — Kit Original */}
               <Route path="/curiosidade" element={<Curiosidade />} />
+              {/* LP prova social — mural de reviews reais + CTA suave pro Kit */}
+              <Route path="/oquefalam" element={<OqueFalam />} />
               <Route path="/veterinarios" element={<Veterinarios />} />
               {/* LPs de produto — tráfego pago, fora do portal */}
               <Route path="/original" element={<Original />} />
