@@ -4,7 +4,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import "./QueroSerDragao.css"; // sistema visual retrô-OS / duotone (.qsd8)
-import "./Conheca.css";        // MESMO tema da /conheca (.cf-pink) — clone; Bianca reveste depois
+import "./OqueFalam.css";      // tema cf-pink 8-bit (cópia do antigo Conheca.css — Conheca virou verde)
 
 /* ──────────────────────────────────────────────────────────────
    LP PROVA SOCIAL — O QUE FALAM · /oquefalam
@@ -147,7 +147,7 @@ const OqueFalam = () => {
   const [showSticky, setShowSticky] = useState(false);
   useEffect(() => { captureEntryUtms(); }, []);
   useEffect(() => {
-    const onScroll = () => setShowSticky(window.scrollY > 520);
+    const onScroll = () => setShowSticky(window.scrollY > 300);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
