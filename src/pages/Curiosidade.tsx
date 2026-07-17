@@ -1,315 +1,350 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect } from "react";
+import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
-import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
-import "./QueroSerDragao.css"; // sistema visual retrô-OS / duotone (.qsd8)
-import "./Conheca.css";        // MESMO tema da /conheca (.cf-pink) — clone; Bianca reveste depois
+import "./Curiosidade.css";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CURIOSIDADE (LARVA) · /curiosidade
-   CLONE da /conheca. Público frio dos ads de curiosidade ("olha, larva!").
-   Produto-foco: KIT COMIDA DE DRAGÃO PARA CÃES.
-   = Original (petisco de larva 90g) + Suplemento Integral (180g).
-   SKU 1302 · token Yampi KQXZ5J7LWK · R$ 145,00 no checkout Yampi · FRETE GRÁTIS.
+   Público FRIO dos ads de curiosidade ("olha, larva!").
+   Produto-foco: KIT CACHORRO (Original + Suplemento Integral).
 
-   PREÇO/FRETE/DESCONTO = MESMO PADRÃO das LPs de Kit (Alergia · Idoso ·
-   GatoCoceira): exibe R$ 145,00 (é o que o Yampi cobra; o R$116 é vitrine
-   Shopify, outro canal) + FRETE GRÁTIS no Kit. Checkout SEM promocode; o
-   desconto é o cupom do AFILIADO (−10%) que vem na copy do ANÚNCIO e o
-   cliente digita no checkout ("conhece um afiliado? usa o cupom dele").
-   ────────────────────────────────────────────────────────────── */
+   ⚠️ MIGRADA do estilo qsd8 (8-bit) para o MOLDE VERDE da /alergia
+   em 17/07/26 — decisão por dado: a versão qsd8 convertia visita→checkout
+   a 0,65% vs 8,0% da /original e 2,8% da /alergia (GA4, 30d). CSS clonado
+   da Alergia com prefixo próprio (.curiosidade-lp / cur-).
 
-/* Kit para Cães · SKU 1302 · token KQXZ5J7LWK · sem promocode (frete grátis) */
+   Kit Cachorro · token KQXZ5J7LWK · R$145 no checkout Yampi · FRETE GRÁTIS.
+   SEM promocode: o desconto é o cupom do AFILIADO (−10%) que a pessoa digita.
+────────────────────────────────────────────────────────────── */
+
+const PRICE = "145,00";       // preço-cheio exibido (Yampi cobra R$145 no Kit)
+/* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
-const PRICE = "145,00"; // preço-cheio exibido, igual Alergia/Idoso/GatoCoceira (Yampi)
-const UTM_FALLBACK = { utm_source: "lp-curiosidade", utm_medium: "lp", utm_campaign: "lp-curiosidade-kit-caes" };
-const buy = (cta: string) => buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
-/* UTM em links externos (loja/IG são cross-domain) */
-const withUtm = (url: string, content: string) => {
-  try {
-    const u = new URL(url);
-    u.searchParams.set("utm_source", "lp-curiosidade");
-    u.searchParams.set("utm_medium", "lp");
-    u.searchParams.set("utm_campaign", "lp-curiosidade");
-    u.searchParams.set("utm_content", content);
-    return u.href;
-  } catch { return url; }
+const UTM_FALLBACK = {
+  utm_source: "lp-curiosidade",
+  utm_medium: "lp",
+  utm_campaign: "lp-curiosidade-kit-caes",
 };
 
-const ICON = "/assets/pixel-icons";
-const PACK = "/assets/images/produtos/kit-caes.png"; // imagem real do Kit para Cães
-const PETS = ["pet1.jpg", "pet2.jpg", "pet3.jpg", "pet4.jpg"];
+const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
+  buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
-type DeskItem = { img: string; label: string; href?: string; ext?: boolean; big?: boolean };
-/* mesmo conjunto das LPs (esquerda) — sem o ícone-egg da LIXEIRA */
-const DESK: DeskItem[] = [
-  { img: "bsf.png", label: "LARVA.BSF", href: "/ciencia" },
-  { img: "original-real.png", label: "ORIGINAL", href: "/original" },
-  { img: "paw2.png", label: "MATILHA", href: "/quero-ser-dragao" },
-  { img: "dog.png", label: "MEU-PET", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
-  { img: "stomach.png", label: "88.9%", href: "/assets/pdfs/artigos-cientificos/bsf-in-vivo-vitro-digestibility-dog-food.pdf", ext: true },
-  { img: "shield.png", label: "ALERGIA", href: "/alergia" },
-  { img: "earth.png", label: "PLANETA", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
-  { img: "crown.png", label: "PRODUTOS", href: "/produtos" },
+const HERO_IMG = "/assets/images/produtos/kit-caes.png";
+
+const CHIPS = [
+  "🚚 Frete grátis",
+  "🛡️ Compra segura",
+  "🏭 Reg. MAPA",
+  "💚 Garantia 14 dias",
 ];
 
-/* janela OS */
-const Win = ({ name, children, className, inverted, mac }: {
-  name: string; children: ReactNode; className?: string; inverted?: boolean; mac?: boolean;
-}) => (
-  <section className={`qsd8-win${inverted ? " inverted" : ""}${className ? " " + className : ""}`}>
-    <div className="qsd8-titlebar">
-      {mac && <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>}
-      <span className="qsd8-tb-name">{name}</span>
-      <span className="qsd8-tb-stripes" aria-hidden="true" />
-    </div>
-    <div className="qsd8-win-body">{children}</div>
-  </section>
-);
-
-const DeskCol = ({ items, side }: { items: DeskItem[]; side: "left" | "right" }) => (
-  <div className={`qsd8-desk-icons ${side}`}>
-    {items.map((it, i) => {
-      const cls = `qsd8-icon${it.big ? " big" : ""}`;
-      const inner = <><img src={`${ICON}/${it.img}`} alt="" /><span>{it.label}</span></>;
-      if (it.ext) return <a className={cls} key={i} href={withUtm(it.href!, `icon-${it.label.toLowerCase()}`)} target="_blank" rel="noopener noreferrer">{inner}</a>;
-      if (it.href?.startsWith("#")) return <a className={cls} key={i} href={it.href}>{inner}</a>;
-      return <Link className={cls} key={i} to={it.href!}>{inner}</Link>;
-    })}
-  </div>
-);
-
-const PDF_DIGEST = "/assets/pdfs/artigos-cientificos/bsf-in-vivo-vitro-digestibility-dog-food.pdf";
-const WHY = [
-  { img: "shield.png", title: "Pro pet alérgico", desc: "Proteína inédita que o corpo nunca viu — a queridinha de quem tem alergia ou pet atópico. 100% hipoalergênico, 1 ingrediente só.", href: "/alergia" },
-  { img: "stomach.png", title: "88,9% digestível", desc: "Estudos indicam digestibilidade altíssima: o corpo absorve quase tudo. Mais nutrição, menos cocô.", href: PDF_DIGEST, ext: true },
-  { img: "star8.png", title: "Pele e pelo", desc: "Rica em ácido láurico e ômegas 6 e 9. Estudos associam a pelo brilhante e pele saudável.", href: "/ciencia" },
-  { img: "earth.png", title: "Bom pro planeta", desc: "Sustentável e natural — uma proteína que resolve um problema real: 83% menos carbono e 142× menos terra que o boi.", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
+/* o "não" que trava o tutor (a objeção honesta da curiosidade) */
+const PROBLEMAS = [
+  { dor: "\"É larva? Que nojo!\"", causa: "é a mesma cara de quem nunca comeu sushi. 9 em 10 estranham — e mudam de ideia na primeira mordidinha do cão." },
+  { dor: "\"Ração boa já não basta?\"", causa: "ultraprocessado é ultraprocessado. Larva é comida de verdade: um ingrediente, sem corante, sem enchimento." },
+  { dor: "\"Será que faz bem mesmo?\"", causa: "faz bem, não mal — e tem estudo peer-reviewed desde 2015. Lá fora já virou tendência." },
 ];
 
-/* reviews REAIS (export Judge.me — nome + cidade) — já falam "larvas", maioria cão */
-const REVIEWS = [
-  { t: "Meu cachorro amou! E olha que ele costuma ser enjoado com petiscos. Está super aprovado!", by: "Mirian, São João del Rei-MG" },
-  { t: "Meu dragãozinho é do tipo felino e amou as larvas.", by: "Lucila, Mogi das Cruzes-SP" },
-  { t: "Chegou super rápido e meu chihuahua amou! Principalmente as larvinhas.", by: "Tayná, São Paulo-SP" },
-  { t: "As cachorrinhas ficaram simplesmente loucas, não podem nem sentir o cheiro da embalagem :)", by: "Ana Beatriz, Rio de Janeiro-RJ" },
-  { t: "Fredinho adorou. Come as larvas como se fossem petiscos 👏", by: "Cristiane, Campinas-SP" },
-  { t: "Meus cães amaram! Estão viciados rsrs", by: "Fernanda, Rio de Janeiro-RJ" },
+const BENEFICIOS = [
+  {
+    stat: "88,9%",
+    statLbl: "digestível",
+    title: "O corpo absorve quase tudo",
+    desc: "Estudos indicam digestibilidade altíssima: <strong>mais nutrição no prato, menos cocô no quintal</strong>. A larva é comida que o organismo aproveita de verdade.",
+  },
+  {
+    stat: "1",
+    statLbl: "ingrediente",
+    title: "Proteína nova, hipoalergênica",
+    desc: "A larva é uma proteína que o corpo do seu cão <strong>nunca viu</strong> — sem frango, boi, soja ou grão. A queridinha de quem tem pet alérgico ou sensível.",
+  },
+  {
+    stat: "Ω",
+    statLbl: "ácido láurico",
+    title: "Pele e pelo de revista",
+    desc: "Rica em ácido láurico e ômegas 6 e 9. Estudos associam a <strong>pelo brilhante e pele saudável</strong> — e o intestino agradece.",
+  },
 ];
 
-/* ficha do KIT PARA CÃES (Original + Suplemento Integral) */
-const FICHA = [
-  "Vem no kit: o Original (petisco de larva, 90g) + o Suplemento Integral (180g)",
-  "Suplemento Integral — 45% de proteína, 88,9% de aproveitamento, aminoácidos completos",
-  "Original — 1 ingrediente, 100% larva de BSF desidratada, hipoalergênico",
-  "Frete grátis no Kit — pra todo o Brasil, por nossa conta",
-  "Pro dia a dia — filhote, adulto ou sênior",
-  "Feito no Rio · registro MAPA",
+/* Prova social — abre com o Kit e segue com reviews reais de tutores.
+   ⚠️ Trocar pelas melhores prints de "cão amando larva" quando tiver. */
+const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
+  { type: "ugc",    src: "/assets/images/produtos/kit-caes.png", alt: "Kit Cachorro — Original + Suplemento Integral" },
+  { type: "review", src: "/assets/images/reviews/3.webp",        alt: "Review — cachorro amou as larvinhas" },
+  { type: "review", src: "/assets/images/reviews/5.webp",        alt: "Review — ficou viciado no petisco" },
+  { type: "review", src: "/assets/images/reviews/7.webp",        alt: "Review — estranho no começo, viciante no fim" },
+  { type: "review", src: "/assets/images/reviews/9.webp",        alt: "Review — natural e sustentável, aprovado" },
+  { type: "review", src: "/assets/images/reviews/4.webp",        alt: "Review — pele e pelo melhores" },
+  { type: "review", src: "/assets/images/reviews/8.webp",        alt: "Review — fácil de usar, mistura na ração" },
 ];
 
 const FAQ = [
-  { num: "01", title: "Por que o kit, e não só o petisco?", desc: "Porque cão precisa dos dois: o Original é o petisco/topper de larva e o Suplemento Integral é o pó que completa a nutrição do dia a dia. Num kit só, com frete grátis pra todo o Brasil." },
-  { num: "02", title: "O que vem no Kit para Cães?", desc: "O Original (larvinhas inteiras, pra petisco ou por cima da comida) + o Suplemento Integral (pó pra misturar na ração). O frete é por nossa conta." },
-  { num: "03", title: "É seguro?", desc: "Faz bem, não mal. Biofábrica registrada no MAPA, tudo rastreável. Lá fora já virou tendência." },
-  { num: "04", title: "E se ele não comer?", desc: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura na ração e deixa ele decidir. Garantia da matilha: 14 dias." },
-  { num: "05", title: "Meu vet não conhece", desc: "Tem estudo peer-reviewed desde 2015. Mostra pro seu vet — a gente adora essa conversa." },
+  {
+    q: "É seguro dar larva pro meu cão?",
+    a: "Faz bem, não mal. É larva da Mosca Soldado Negra, criada na nossa <strong>biofábrica registrada no MAPA</strong>, tudo rastreável. Tem estudo peer-reviewed desde 2015 e lá fora já é tendência na alimentação de pets.",
+  },
+  {
+    q: "O que vem no Kit Cachorro?",
+    a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco ou topper) + o <strong>Suplemento Integral</strong> (pó pra misturar na ração). Um cuida do agrado, o outro reforça a nutrição do dia a dia — numa caixa só, com frete grátis.",
+  },
+  {
+    q: "Por que o kit, e não só o petisco?",
+    a: "Porque cão gosta dos dois: o Original é o petisco/topper de larva e o Suplemento Integral completa a refeição. Sai <strong>mais em conta que comprar separado</strong> e o frete é por nossa conta.",
+  },
+  {
+    q: "E se ele não comer?",
+    a: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura as larvinhas na ração e deixa ele decidir — a taxa de aceitação surpreende. E tem a <strong>garantia da matilha: 14 dias</strong>.",
+  },
+  {
+    q: "Meu veterinário não conhece",
+    a: "Normal — é novidade por aqui. Tem <strong>estudo peer-reviewed desde 2015</strong> sobre proteína de inseto pra pets. Mostra o rótulo pro seu vet: a gente adora essa conversa.",
+  },
+  {
+    q: "Como funciona a entrega?",
+    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+  },
 ];
 
 const Curiosidade = () => {
-  const [showSticky, setShowSticky] = useState(false);
   useEffect(() => { captureEntryUtms(); }, []);
-  useEffect(() => {
-    const onScroll = () => setShowSticky(window.scrollY > 520);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <div className="qsd8 cf-pink">
+    <div className="curiosidade-lp">
       <PageMeta
-        title="Kit Comida de Dragão para Cães — leva o combo, frete grátis"
-        description="Kit para Cães: o petisco de larva BSF (Original) + o Suplemento Integral do dia a dia. Hipoalergênico, no mínimo 40% de proteína, 88,9% de digestibilidade. Frete grátis."
-        image="/assets/images/produtos/kit-caes.png"
+        title="Já imaginou dar larva pro seu cão? Conheça a Comida de Dragão"
+        description="Larva de inseto é uma das proteínas mais completas e digestíveis que existem: hipoalergênica, sustentável e o seu cão ama. Kit Cachorro com frete grátis."
+        image={HERO_IMG}
       />
+      <Helmet>
+        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
+      </Helmet>
 
-      {/* filtro duotone dos assets */}
-      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
-        <filter id="qsd8-duotone" colorInterpolationFilters="sRGB">
-          <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0" />
-          <feComponentTransfer>
-            <feFuncR type="table" tableValues="0.086 1.0" />
-            <feFuncG type="table" tableValues="0.027 0.0" />
-            <feFuncB type="table" tableValues="0.274 0.4" />
-          </feComponentTransfer>
-        </filter>
-      </svg>
-
-      <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
-      <DeskCol items={DESK} side="left" />
-
-      {/* sticky mobile — aparece só depois de rolar */}
-      <div className={`cf-sticky${showSticky ? " show" : ""}`}>
-        <div className="cf-sticky-info"><strong>R$ {PRICE}</strong><span>Kit para Cães · 🚚 frete grátis</span></div>
-        <a href={buy("sticky")} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Quero meu kit →</a>
-      </div>
-
-      <div className="qsd8-wrap">
-        {/* ══ HERO — PROVOCA (curiosidade, espelhando os ads de larva) ══ */}
-        <Win name="BOAS-VINDAS.EXE" mac className="qsd8-hero-win">
-          <div className="cf-hero2 cf-hero-main">
-            <div className="cf-hero-copy">
-              <h1 className="qsd8-title">Já imaginou dar <span>larva</span> pro seu cão? Leva o <span>kit completo</span>.</h1>
-              <p className="qsd8-sub">
-                O Kit para Cães junta os dois: o <strong>petisco de larva BSF</strong> (Original) +
-                o <strong>Suplemento Integral</strong> do dia a dia. Estranho? Só no começo —
-                9 em 10 tutores se surpreendem. O cão? Já sabia desde sempre.
-              </p>
-            </div>
-            <div className="cf-hero-pack">
-              <div style={{ position: "relative", display: "inline-block", maxWidth: "100%" }}>
-                <span className="cf-tag t1" style={{ position: "absolute", top: 8, right: -4, zIndex: 3, whiteSpace: "nowrap" }}>🚚 Kit com frete grátis</span>
-                <img src={PACK} alt="Kit Comida de Dragão para Cães — Original + Suplemento Integral" />
-              </div>
-              <div className="cf-offer-price" style={{ marginTop: 10, marginBottom: 0 }}>R$ {PRICE}</div>
-              <div style={{ fontSize: 13, fontWeight: 700, opacity: .75, marginTop: 2 }}>🚚 Frete grátis no Kit · 4× sem juros</div>
-            </div>
-            <div className="cf-hero-cta qsd8-btnrow">
-              <a href={buy("hero")} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Quero meu kit</a>
-              <a href="#porque" className="qsd8-btn ghost">Por quê?</a>
-            </div>
+      {/* ════ HERO ════ */}
+      <section className="cur-hero">
+        <div className="cur-hero-inner">
+          <div className="cur-hero-top">
+            <Link to="/portal" className="cur-backlink">← comida de dragão</Link>
+            <DragonLogo className="cur-hero-logo" />
           </div>
-        </Win>
 
-        {/* ══ VIRA — POR QUE É MELHOR ═══════════════════════════════ */}
-        <span id="porque" />
-        <Win name="SCAN: LARVA.BSF">
-          <h2 className="qsd8-h2">Por que faz <span>bemzão</span> pro seu cão?</h2>
-          <div className="qsd8-loot">
-            {WHY.map((w, i) => {
-              const body = (
-                <>
-                  <img className="qsd8-card-ico" src={`${ICON}/${w.img}`} alt="" />
-                  <div className="qsd8-card-title">{w.title}</div>
-                  <div className="qsd8-card-desc">{w.desc}</div>
-                  <span className="cf-card-link">saiba mais →</span>
-                </>
-              );
-              return w.ext
-                ? <a className="qsd8-card cf-card-a" key={i} href={w.href} target="_blank" rel="noopener noreferrer">{body}</a>
-                : <Link className="qsd8-card cf-card-a" key={i} to={w.href}>{body}</Link>;
-            })}
-          </div>
-          <p className="qsd8-note" style={{ marginTop: 18 }}>
-            Não é achismo, é ciência. <Link to="/biblioteca" style={{ color: "var(--lime)", fontWeight: 700 }}>estudos na biblioteca →</Link>
+          <span className="cur-hero-eyebrow">larva de inseto · proteína nova · feito no rio</span>
+
+          <h1 className="cur-hero-title">
+            Já imaginou dar<br /><span>larva</span> pro seu cão?
+          </h1>
+
+          <p className="cur-hero-sub">
+            Parece estranho — por uns 5 segundos. A larva da <strong>Mosca Soldado Negra</strong> é
+            uma das proteínas mais completas e digestíveis que existem: <strong>hipoalergênica</strong>,
+            sustentável, e o seu cão simplesmente ama. O <strong>Kit Cachorro</strong> junta o petisco
+            de larva (Original) + o Suplemento Integral do dia a dia.
           </p>
-        </Win>
 
-        {/* ══ PERTENCE — MATILHA ════════════════════════════════════ */}
-        <Win name="MATILHA-ONLINE.MOV">
-          <h2 className="qsd8-h2">Quem cruzou a ponte <span>não volta</span></h2>
-          <div className="qsd8-loot">
-            {REVIEWS.map((r, i) => (
-              <div className="cf-review" key={i}>
-                <div className="cf-review-t">“{r.t}”</div>
-                <div className="cf-review-by">— {r.by}</div>
-              </div>
-            ))}
+          <div className="cur-hero-product-wrap">
+            <img
+              className="cur-hero-product"
+              src={HERO_IMG}
+              alt="Kit Cachorro Comida de Dragão — Original + Suplemento Integral"
+              width={460}
+              height={410}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+            <span className="cur-hero-frete-tag">Kit com frete grátis</span>
           </div>
-          <div className="cf-pet-row">
-            {PETS.map((p, i) => (
-              <img className="cf-review-pet" key={i} src={`/assets/conheca/${p}`} alt="Pet da matilha" loading="lazy" />
-            ))}
-          </div>
-        </Win>
 
-        {/* ══ O CHOQUE (agora que já criou relação) ════════════════ */}
-        <Win name="ERROR: RAÇÃO.SYS">
-          <div className="cf-larva">
-            <div className="cf-larva-media">
-              <img className="cf-larva-img" src="/assets/conheca/larvas.png" alt="Larvas de BSF desidratadas no pote" />
-            </div>
-            <div>
-              <h2 className="qsd8-h2">É larva. <span>Pronto, falei.</span></h2>
-              <p className="qsd8-sub">
-                9 em 10 pessoas se surpreendem no começo — e é aí que a ficha cai: a larva de BSF é
-                uma das proteínas mais completas e inteligentes que a natureza inventou. O seu cão?
-                Já sabia disso desde sempre. O que parecia estranho vira o melhor do pote.
-              </p>
-            </div>
+          <div className="cur-hero-price">
+            <span className="cur-price-from">Kit Cachorro por</span>
+            <span className="cur-price-now"><small>R$</small>{PRICE}</span>
+            <span className="cur-price-installment">🚚 Frete grátis · 4× sem juros</span>
           </div>
-        </Win>
 
-        {/* ══ FICHA DO KIT ══════════════════════════════════════════ */}
-        <Win name="ARQUIVO: KIT.250G">
-          <h2 className="qsd8-h2">O <span>Kit para Cães</span>, sem susto</h2>
-          <p className="qsd8-sub" style={{ maxWidth: 620 }}>Dois produtos, uma caixa: o Original (petisco de larva) + o Suplemento Integral pro dia a dia. E o frete é por nossa conta.</p>
-          <div className="qsd8-reqs" style={{ marginTop: 8 }}>
-            {FICHA.map((f, i) => (
-              <div className="qsd8-req" key={i}>
-                <img className="cf-check" src={`${ICON}/check.png`} alt="" />
-                <div className="qsd8-req-body"><strong>{f}</strong></div>
-              </div>
-            ))}
+          <div className="cur-hero-coupon">
+            🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout
           </div>
-          <p className="qsd8-note" style={{ marginTop: 16 }}>Feito na nossa biofábrica registrada no MAPA, em Cachoeiras de Macacu (RJ).</p>
-        </Win>
 
-        {/* ══ FAQ ═══════════════════════════════════════════════════ */}
-        <Win name="FAQ.EXE">
-          <h2 className="qsd8-h2">A gente já <span>ouviu de tudo.</span></h2>
-          <p className="qsd8-sub" style={{ marginBottom: 22 }}>
-            É estranho de propósito — e seus pets vão amar assim mesmo. Já respondemos o que todo mundo pergunta:
+          <div className="cur-hero-cta-wrap">
+            <a href={ctaUrl("hero")} className="cur-btn-primary" data-cta="hero">
+              Quero conhecer o kit →
+            </a>
+          </div>
+
+          <div className="cur-hero-chips">
+            {CHIPS.map((c, i) => <span className="cur-chip" key={i}>{c}</span>)}
+          </div>
+        </div>
+      </section>
+
+      {/* ════ A OBJEÇÃO (é larva mesmo) ════ */}
+      <section className="cur-section">
+        <div className="cur-section-inner">
+          <span className="cur-tag tag-pink">vou ser sincero com você</span>
+          <h2 className="cur-section-title title-pink">
+            É larva mesmo. <span>E é de propósito.</span>
+          </h2>
+          <p className="cur-section-lead">
+            9 em 10 pessoas estranham no começo — e é aí que a ficha cai: a natureza levou
+            milhões de anos pra criar uma proteína dessas. A gente só percebeu agora.
+            O seu cão? <strong>Já sabia desde sempre.</strong>
           </p>
-          <div className="qsd8-rules">
+
+          <ul className="cur-problemas-list">
+            {PROBLEMAS.map((p, i) => (
+              <li className="cur-problema-item" key={i}>
+                <b>{p.dor}</b> — {p.causa}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ════ SOLUÇÃO ════ */}
+      <section className="cur-section">
+        <div className="cur-section-inner">
+          <span className="cur-tag">por que faz bemzão</span>
+          <h2 className="cur-section-title">
+            Estranho no começo.<br /><span>Genial no fim.</span>
+          </h2>
+          <p className="cur-section-lead">
+            A gente faz na nossa biofábrica no RJ, com <strong>registro MAPA</strong> e
+            rastreabilidade do começo ao fim. Uma proteína que resolve dois problemas de uma vez:
+            a saúde do seu cão e o peso da ração no planeta.
+          </p>
+
+          <div className="cur-beneficios">
+            {BENEFICIOS.map((b, i) => (
+              <div className="cur-beneficio" key={i}>
+                <div className="cur-beneficio-stat">
+                  {b.stat}<small style={{ fontSize: 14, opacity: 0.6, marginLeft: 6 }}>{b.statLbl}</small>
+                </div>
+                <div className="cur-beneficio-title">{b.title}</div>
+                <div className="cur-beneficio-desc" dangerouslySetInnerHTML={{ __html: b.desc }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════ PROVA SOCIAL ════ */}
+      <section className="cur-section">
+        <div className="cur-section-inner">
+          <span className="cur-tag">tutores reais · cães reais</span>
+          <h2 className="cur-section-title">
+            Estranho no começo.<br /><span>Viciante no fim.</span>
+          </h2>
+
+          <div className="cur-slider-wrap">
+            <div className="cur-slider" role="region" aria-label="Reviews de tutores">
+              {SLIDES.map((s, i) => (
+                <figure className="cur-slide" key={i}>
+                  <span className={`cur-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}>
+                    {s.type === "ugc" ? "o kit" : "review"}
+                  </span>
+                  <img
+                    src={s.src}
+                    alt={s.alt}
+                    width={600}
+                    height={600}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+
+          <p className="cur-slider-hint">← arraste pra ver mais →</p>
+        </div>
+      </section>
+
+      {/* ════ OFERTA ════ */}
+      <section className="cur-oferta">
+        <div className="cur-oferta-inner">
+          <span className="cur-tag tag-lime">kit cachorro</span>
+          <h2 className="cur-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
+            Bora fazer<br /><span>bemzão pro cão?</span>
+          </h2>
+
+          <div className="cur-oferta-coupon-box">
+            <div className="cur-oferta-coupon-label">🚚 vantagem</div>
+            <div className="cur-oferta-coupon-code">FRETE GRÁTIS</div>
+            <div className="cur-oferta-coupon-desc">Kit Cachorro por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
+          </div>
+
+          <a href={ctaUrl("oferta")} className="cur-btn-primary" data-cta="oferta">
+            Quero o Kit Cachorro →
+          </a>
+
+          <p className="cur-hero-note" style={{ marginTop: 16 }}>
+            Frete grátis no Kit · compra 100% segura via Yampi
+          </p>
+        </div>
+      </section>
+
+      {/* ════ FAQ + GARANTIA ════ */}
+      <section className="cur-section">
+        <div className="cur-section-inner">
+          <span className="cur-tag">perguntas frequentes</span>
+          <h2 className="cur-section-title">
+            Antes de experimentar,<br /><span>tudo o que importa.</span>
+          </h2>
+
+          <div className="cur-faq">
             {FAQ.map((f, i) => (
-              <div className="qsd8-rule" key={i}>
-                <div className="qsd8-rule-num">{f.num}</div>
-                <div className="qsd8-rule-title">{f.title}</div>
-                <div className="qsd8-rule-desc">{f.desc}</div>
-              </div>
+              <details className="cur-faq-item" key={i}>
+                <summary>{f.q}</summary>
+                <div className="cur-faq-answer" dangerouslySetInnerHTML={{ __html: f.a }} />
+              </details>
             ))}
           </div>
-          <p className="qsd8-note" style={{ marginTop: 18 }}>
-            A gente adora informação. Toda a ciência tá aberta na <Link to="/biblioteca" style={{ color: "var(--lime)", fontWeight: 700 }}>nossa biblioteca científica →</Link>
-          </p>
-        </Win>
 
-        {/* ══ AGE — OFERTA (kit + frete grátis, cupom só do afiliado) ══ */}
-        <span id="oferta" />
-        <Win name="DOWNLOADING: SEU-KIT.EXE" className="qsd8-cta-win">
-          <div className="cf-hero2">
-            <div className="cf-hero-pack">
-              <img src={PACK} alt="Kit Comida de Dragão para Cães — Original + Suplemento Integral" />
-            </div>
-            <div style={{ textAlign: "left" }}>
-              <h2 className="qsd8-cta-title" style={{ textAlign: "left" }}>Bora fazer <span>bemzão?</span> Leva o kit do cão.</h2>
-              <p className="qsd8-cta-sub" style={{ margin: "0 0 4px" }}>O petisco de larva + o suplemento do dia a dia, numa caixa só. Faz bem duas vezes: pro seu cão e pro planeta. E o frete é por nossa conta.</p>
-              <div className="cf-offer-price">R$ {PRICE}</div>
-              <p className="qsd8-cta-sub" style={{ margin: "0 0 16px" }}>🚚 <strong>Frete grátis no Kit</strong> · 4× sem juros · conhece um afiliado? usa o cupom dele no checkout</p>
-              <a href={buy("oferta")} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Quero meu kit →</a>
-              <p className="qsd8-cta-note" style={{ textAlign: "left" }}>
-                Garantia da matilha: 14 dias. Ainda na dúvida?{" "}
-                <a href={withUtm("https://www.instagram.com/comidadedragao", "offer-ig")} target="_blank" rel="noopener noreferrer" style={{ color: "var(--lime)" }}>segue o Dragão →</a>
-              </p>
+          <div className="cur-garantia">
+            <div className="cur-garantia-icon">💚</div>
+            <div className="cur-garantia-body">
+              <strong>Garantia da matilha</strong>
+              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
             </div>
           </div>
-        </Win>
+        </div>
+      </section>
 
-        {/* ══ FOOTER ════════════════════════════════════════════════ */}
-        <footer className="qsd8-footer">
-          <DragonLogo className="qsd8-footer-logo" />
-          <nav className="qsd8-footer-nav">
-            <Link to="/portal">Portal</Link>
-            <Link to="/produtos">Produtos</Link>
-            <Link to="/ciencia">Ciência</Link>
-            <Link to="/original">Original</Link>
-            <a href={withUtm("https://www.instagram.com/comidadedragao", "footer-ig")} target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a href={withUtm("https://www.comidadedragao.com.br", "footer-loja")} target="_blank" rel="noopener noreferrer">Comprar</a>
-          </nav>
-          <div className="qsd8-footer-tag">Nojento é o desperdício.</div>
-        </footer>
+      {/* ════ CTA FINAL ════ */}
+      <section className="cur-cta-final">
+        <h2>
+          Bora experimentar<br /><span>o kit do cão?</span>
+        </h2>
+        <p>Proteína nova, digestível e sustentável. Estranho por 5 segundos, viciante pro resto da vida.</p>
+        <a href={ctaUrl("final")} className="cur-btn-primary" data-cta="final">
+          Quero conhecer o kit →
+        </a>
+      </section>
+
+      {/* ════ FOOTER ════ */}
+      <footer className="cur-footer">
+        <DragonLogo className="cur-footer-logo-svg" />
+        <nav className="cur-footer-links">
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
+          <Link to="/produtos">Linha completa</Link>
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="mailto:somos@letsfly.com.br">Contato</a>
+        </nav>
+        <div className="cur-footer-tagline">Nojento é o desperdício.</div>
+        <div className="cur-footer-legal">
+          Comida de Dragão · Lets Fly · Biofábrica RJ · Reg. MAPA
+        </div>
+      </footer>
+
+      {/* ════ STICKY CTA (mobile) ════ */}
+      <div className="cur-sticky-cta">
+        <div className="cur-sticky-info">
+          <span className="cur-sticky-name">Kit Cachorro</span>
+          <span className="cur-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>
+        </div>
+        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
     </div>
   );
