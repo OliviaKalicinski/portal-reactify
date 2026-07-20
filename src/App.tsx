@@ -29,6 +29,7 @@ const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
 const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 const Ciencia = lazy(() => import("./pages/Ciencia.tsx"));
 const Alergia = lazy(() => import("./pages/Alergia.tsx"));
+const Mordida = lazy(() => import("./pages/Mordida.tsx"));
 const Idoso = lazy(() => import("./pages/Idoso.tsx"));
 const GatoCoceira = lazy(() => import("./pages/GatoCoceira.tsx"));
 const Impacto = lazy(() => import("./pages/Impacto.tsx"));
@@ -60,6 +61,8 @@ const App = () => (
               {/* Onboarding de criadores "Bem-vindo à Matilha" — página oculta, só via link direto (igual /original) */}
               <Route path="/matilha" element={<Matilha />} />
               <Route path="/conheca" element={<Conheca />} />
+              {/* LP PRÉ-LANÇAMENTO · Drop Mordida V2 — captura de lead (lista de espera), público frio */}
+              <Route path="/mordida" element={<Mordida />} />
               {/* LP campanha CURIOSIDADE (larva) — Kit Original */}
               <Route path="/curiosidade" element={<Curiosidade />} />
               {/* LP prova social — mural de reviews reais + CTA suave pro Kit */}

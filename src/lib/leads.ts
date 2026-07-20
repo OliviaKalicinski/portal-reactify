@@ -23,6 +23,58 @@ export interface LeadPayload {
   photoUrl?: string | null;
 }
 
+/**
+ * SUBMIT PRÉ-LANÇAMENTO — captura de lista de espera (ex.: Drop da Mordida V2).
+ *
+ * Reusa a MESMA tabela `dragon_leads` (zero mudança de infra/RLS): anon já pode
+ * INSERT ali. O que distingue esses leads é `source: "prelancamento_<slug>"` —
+ * a Olivia filtra por source pra exportar a lista do drop.
+ *
+ * Mesma disciplina do submitLead: não-bloqueante, erro só loga, UX vem antes.
+ */
+export async function submitPrelaunch(payload: {
+  name: string;
+  phone: string;
+  /** slug do drop, ex.: "mordida" -> source vira "prelancamento_mordida" */
+  slug: string;
+  label?: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!supabase) {
+    return { ok: false, error: "supabase-client-missing" };
+  }
+
+  const source = `prelancamento_${payload.slug}`;
+
+  try {
+    // Espelha a forma do insert que já funciona (mesmas colunas), trocando só
+    // os campos de quiz por sentinelas — evita esbarrar em NOT NULL do schema.
+    const { error } = await supabase.from("dragon_leads").insert({
+      phone: payload.phone.replace(/\D/g, ""),
+      name: payload.name.trim(),
+      first_quiz_id: source,
+      first_quiz_result_key: "lista-espera",
+      first_quiz_result_label: payload.label ?? "Lista de espera",
+      all_results: null,
+      photo_url: null,
+      source,
+      user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      referrer: typeof document !== "undefined" ? document.referrer || null : null,
+    });
+
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.warn("[prelaunch] insert failed:", error.message);
+      return { ok: false, error: error.message };
+    }
+
+    return { ok: true };
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn("[prelaunch] unexpected error:", err);
+    return { ok: false, error: err instanceof Error ? err.message : "unknown" };
+  }
+}
+
 export async function submitLead(payload: LeadPayload): Promise<{ ok: boolean; error?: string }> {
   if (!supabase) {
     return { ok: false, error: "supabase-client-missing" };
