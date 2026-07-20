@@ -85,6 +85,25 @@ const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
   { type: "review", src: "/assets/images/reviews/8.webp",        alt: "Review — fácil de usar, mistura na ração" },
 ];
 
+/* Reviews em TEXTO — prova social que CONTA pro Índice de Qualidade do Google
+   (print/imagem NÃO conta). Transcritas exatamente como o cliente escreveu
+   (gírias e erros preservados) — banco "Vozes & Argumentos", dor nº1 (alergia/
+   atopia/pele/intestino). NÃO inventar: só reviews reais. */
+const REVIEWS_TXT = [
+  {
+    quote: "Maravilha pois minha <strong>pug d atópica</strong> d melhorou muito a <strong>coceira</strong> e ela <strong>não está abrindo mais feridas</strong>.",
+    author: "Kátia Chamon · Rio de Janeiro/RJ · Suplemento Integral · Judge.me 5★",
+  },
+  {
+    quote: "Maravilhoso! meu cão é <strong>alérgico a proteina de frango</strong> então o suplemento ajuda bastante na alimentação. <strong>Ele tem se coçado bem menos.</strong>",
+    author: "Carolina Caballero · Porto Alegre/RS · Suplemento Concentrado · Judge.me 5★",
+  },
+  {
+    quote: "ótimo! meu cachorro é <strong>alérgico a proteína animal e atópico</strong>, então é super complicado conseguir petiscos pra ele. Não só ele amou, como <strong>não causou nenhuma irritabilidade nem na pele nem no intestino</strong>.",
+    author: "Carolina · São Paulo/SP · Kit Original 3x · Judge.me 5★",
+  },
+];
+
 const FAQ = [
   {
     q: "Meu cão é alérgico ou atópico — pode dar?",
@@ -272,6 +291,44 @@ const Alergia = () => {
         </div>
       </section>
 
+      {/* ════ E SE ELE NÃO COMER? (bloco anti-rejeição) ════
+          Regra da marca: toda LP de tráfego frio tem bloco anti-rejeição
+          (NPS é governado pela reação do pet: 'amou' +82, 'recusou' −50).
+          Em cão a palatabilidade é forte, mas o desconfiado tem conserto —
+          e a garantia derruba o risco de compra. */}
+      <section className="alp-section">
+        <div className="alp-section-inner">
+          <span className="alp-tag tag-pink">sem susto</span>
+          <h2 className="alp-section-title title-pink">
+            E se ele<br /><span>estranhar no começo?</span>
+          </h2>
+          <p className="alp-section-lead">
+            A maioria dos cães faz festa de primeira — mas se o seu for do tipo desconfiado,
+            tem conserto simples.
+          </p>
+
+          <ul className="alp-problemas-list">
+            <li className="alp-problema-item">
+              <b>Comece como topper</b> — jogue as larvinhas por cima da ração de sempre; o cheiro puxa o interesse.
+            </li>
+            <li className="alp-problema-item">
+              <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
+            </li>
+            <li className="alp-problema-item">
+              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+            </li>
+          </ul>
+
+          <blockquote className="alp-quote">
+            <p>
+              “Confesso que não estava acreditando não, que era só mkt mesmo. Mas a Kate
+              <strong> amou os petiscos</strong>, ficava enlouquecida cada vez q eu pegava o pacote… 😊”
+            </p>
+            <cite>— Michelle Klemar · Osasco/SP · Amostra · Judge.me 5★</cite>
+          </blockquote>
+        </div>
+      </section>
+
       {/* ════ PROVA SOCIAL ════ */}
       <section className="alp-section">
         <div className="alp-section-inner">
@@ -279,6 +336,15 @@ const Alergia = () => {
           <h2 className="alp-section-title">
             Atópico, alérgico<br /><span>e comendo tranquilo.</span>
           </h2>
+
+          <div className="alp-quotes">
+            {REVIEWS_TXT.map((r, i) => (
+              <blockquote className="alp-quote" key={i}>
+                <p dangerouslySetInnerHTML={{ __html: `“${r.quote}”` }} />
+                <cite>— {r.author}</cite>
+              </blockquote>
+            ))}
+          </div>
 
           <div className="alp-slider-wrap">
             <div className="alp-slider" role="region" aria-label="Reviews de tutores de cães alérgicos">

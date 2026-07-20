@@ -811,3 +811,31 @@
   .alp-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
   .alp-section-title, .alp-cta-final h2 { font-size: 60px; }
 }
+
+/* ============= REVIEWS EM TEXTO (prova social que conta pro QS) ============= */
+.alp-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 4px 0 28px;
+}
+.alp-quote {
+  margin: 0;
+  padding: 20px 24px;
+  border-left: 4px solid var(--dragon-pink);
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+}
+.alp-quote p {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-primary);
+  margin: 0 0 10px;
+}
+.alp-quote strong { color: var(--dragon-pink); }
+.alp-quote cite {
+  display: block;
+  font-size: 14px;
+  font-style: normal;
+  color: var(--ink-secondary);
+}
