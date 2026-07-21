@@ -197,7 +197,8 @@ const Mordida = () => {
               {CHIPS.map((c, i) => <span className="mdp-chip" key={i}>{c}</span>)}
             </div>
 
-            {/* Botão menor, embaixo da foto/selos. O CTA persistente é o sticky rosa. */}
+            {/* Botão menor, embaixo da foto/selos. Único CTA do hero (sem sticky:
+                o público desta LP em geral JÁ se inscreveu; a barra fixa virava ruído). */}
             <div className="mdp-hero-cta-wrap">
               <a href="#lista" className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
                 Quero ser o primeiro a provar
@@ -227,7 +228,7 @@ const Mordida = () => {
             ))}
           </div>
 
-          {/* CTA de seção (desktop não tem sticky → botão a cada etapa) */}
+          {/* CTA de seção (só desktop → botão a cada etapa pro retardatário) */}
           <div className="mdp-section-cta">
             <a href="#lista" className="mdp-btn-primary" data-cta="secao-beneficios">
               Quero ser o primeiro a provar
@@ -370,12 +371,6 @@ const Mordida = () => {
           Comida de Dragão · Lets Fly · Biofábrica RJ · Reg. MAPA
         </div>
       </footer>
-
-      {/* ════ STICKY CTA — pink, texto curto (≠ do botão inline pra não repetir).
-          Mobile/tablet; some no desktop. Rola até o #lista. ════ */}
-      <a href="#lista" className="mdp-sticky-cta" data-cta="sticky">
-        Entrar na lista
-      </a>
     </div>
   );
 };

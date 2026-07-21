@@ -39,7 +39,7 @@
   background: var(--bg-page);
   color: var(--ink-primary);
   min-height: 100vh;
-  padding-bottom: 96px; /* espaço pro sticky CTA mobile */
+  padding-bottom: 0;
   font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -425,32 +425,6 @@
   margin-top: 18px;
 }
 
-/* ============= STICKY CTA — entrar na lista =============
-   Barra fixa no rodapé (mobile/tablet). Chartreuse com tinta PLUM (escura), borda
-   + sombra pra descolar do conteúdo. Rola até o #lista (form). Some no desktop.
-   Prefixo .mordida-lp é OBRIGATÓRIO: sem ele, `.mordida-lp a { color: inherit }`
-   vence por especificidade e o texto sai claro (ilegível no verde-neon). */
-.mordida-lp .mdp-sticky-cta {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  z-index: 60;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: var(--dragon-pink);   /* PINK (magenta da marca) */
-  color: #FFFFFF;                   /* texto branco: contraste alto sobre o magenta */
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 21px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 15px 20px calc(15px + env(safe-area-inset-bottom));
-  border-top: 3px solid var(--dragon-plum);
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.38);
-}
-.mordida-lp .mdp-sticky-cta:active { filter: brightness(0.94); }
-
 /* Botão menor (variação do CTA principal) — usado no hero, abaixo da foto */
 .mordida-lp .mdp-btn-sm {
   font-size: 16px;
@@ -460,7 +434,7 @@
 .mordida-lp .mdp-btn-sm:hover { box-shadow: 7px 7px 0 var(--dragon-plum); }
 .mordida-lp .mdp-btn-sm:active { box-shadow: 2px 2px 0 var(--dragon-plum); }
 
-/* ============= CTA DE SEÇÃO (desktop; some no mobile onde o sticky resolve) ===== */
+/* ============= CTA DE SEÇÃO (só desktop; no mobile o hero já traz o botão) ===== */
 .mdp-section-cta { display: none; }
 @media (min-width: 900px) {
   .mordida-lp .mdp-section-cta {
@@ -813,7 +787,7 @@
    ================================ */
 
 /* --- ANTI "página por baixo": mata texturas de ponto + respiro sobrado --- */
-.mordida-lp { padding-bottom: 72px; } /* folga pro sticky CTA (mobile/tablet); zerado no desktop */
+.mordida-lp { padding-bottom: 0; } /* sem sticky → sem folga extra */
 .mordida-lp .mdp-hero::after { display: none; }
 .mordida-lp .mdp-oferta::before { display: none; }
 
@@ -865,8 +839,6 @@
    HERO DESKTOP — 2 colunas: título+texto à esquerda, foto grande + botão à direita
    ================================ */
 @media (min-width: 900px) {
-  .mordida-lp { padding-bottom: 0; }        /* sticky some no desktop → sem folga */
-  .mordida-lp .mdp-sticky-cta { display: none; }
   .mordida-lp .mdp-hero { padding: 30px 48px 72px; }
   /* coluna ÚNICA centrada (título → texto → botão → imagem grande → selos) */
   .mordida-lp .mdp-hero-inner { display: block; max-width: 860px; text-align: center; }
