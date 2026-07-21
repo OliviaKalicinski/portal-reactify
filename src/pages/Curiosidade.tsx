@@ -42,31 +42,48 @@ const CHIPS = [
   "💚 Garantia 14 dias",
 ];
 
-/* o "não" que trava o tutor (a objeção honesta da curiosidade) */
-const PROBLEMAS = [
-  { dor: "\"É larva? Que nojo!\"", causa: "é a mesma cara de quem nunca comeu sushi. 9 em 10 estranham — e mudam de ideia na primeira mordidinha do cão." },
-  { dor: "\"Ração boa já não basta?\"", causa: "ultraprocessado é ultraprocessado. Larva é comida de verdade: um ingrediente, sem corante, sem enchimento." },
-  { dor: "\"Será que faz bem mesmo?\"", causa: "faz bem, não mal — e tem estudo peer-reviewed desde 2015. Lá fora já virou tendência." },
-];
-
+/* ÂNGULO "VÍCIO DO BOM": o petisco que o cão ama E que faz bem por dentro.
+   Benefícios no eixo PET (aceitação + digestão + nutrição) — sem liderar por
+   alergia (isso é da /alergia) nem idoso. */
 const BENEFICIOS = [
   {
     stat: "88,9%",
     statLbl: "digestível",
-    title: "O corpo absorve quase tudo",
-    desc: "Estudos indicam digestibilidade altíssima: <strong>mais nutrição no prato, menos cocô no quintal</strong>. A larva é comida que o organismo aproveita de verdade.",
+    title: "Vira nutriente, não cocô",
+    desc: "Digestibilidade altíssima: <strong>mais nutrição no prato, menos cocô no quintal</strong>. Comida que o corpo aproveita de verdade.",
   },
   {
     stat: "1",
     statLbl: "ingrediente",
-    title: "Proteína nova, hipoalergênica",
-    desc: "A larva é uma proteína que o corpo do seu cão <strong>nunca viu</strong> — sem frango, boi, soja ou grão. A queridinha de quem tem pet alérgico ou sensível.",
+    title: "Comida de verdade",
+    desc: "Larva inteira e nada mais — <strong>sem corante, sem enchimento, sem subproduto</strong>. Você lê o rótulo sem tradutor.",
   },
   {
     stat: "Ω",
-    statLbl: "ácido láurico",
-    title: "Pele e pelo de revista",
-    desc: "Rica em ácido láurico e ômegas 6 e 9. Estudos associam a <strong>pelo brilhante e pele saudável</strong> — e o intestino agradece.",
+    statLbl: "ômega 6 e 9",
+    title: "Pele, pelo e disposição",
+    desc: "Rica em ômegas e aminoácidos. Tutores relatam <strong>pelo mais bonito e o cão sempre pedindo mais</strong>.",
+  },
+];
+
+/* Reviews REAIS em texto (paridade com /alergia · verbatim do banco de Vozes).
+   Voz da PALATABILIDADE ('vício do bom'): o cão ama + faz bem. NÃO inventar. */
+const REVIEWS_TXT = [
+  {
+    quote: "O PETISCO QUE LEVA MEUS CÃES A <strong>LOUCURA</strong> E O MELHOR <strong>SEEEEEM DAR DOR DE BARRIGA</strong>! EU AMEI!",
+    author: "@patascubo · Instagram",
+  },
+  {
+    quote: "Meu cachorro esta <strong>alucinado</strong> com as larvinhas! O Chico simplesmente amou! <strong>Fica rondando o armario</strong> onde eu guardei kkkk",
+    author: "tutora do Chico · review real",
+  },
+  {
+    quote: "Pedi amostra grátis pra testar. <strong>Tenho 7 cães, TODOS AMARAM!!!!</strong> Volto agora pro site e, podem ter certeza, terão uma cliente fiel!",
+    author: "@gisa_valverde · Instagram",
+  },
+  {
+    quote: "Nunca tinha visto ela gostar tanto de um petisco como gostou das larvinhas. <strong>Indicando pra todo mundo e indo comprar mais!</strong>",
+    author: "cliente · Kit Completo · Judge.me 5★",
   },
 ];
 
@@ -114,8 +131,8 @@ const Curiosidade = () => {
   return (
     <div className="curiosidade-lp">
       <PageMeta
-        title="Já imaginou dar larva pro seu cão? Conheça a Comida de Dragão"
-        description="Larva de inseto é uma das proteínas mais completas e digestíveis que existem: hipoalergênica, sustentável e o seu cão ama. Kit Cachorro com frete grátis."
+        title="O petisco que seu cão ama — e que faz bem | Comida de Dragão"
+        description="Larva de inseto: 1 ingrediente, 88,9% digestível, comida de verdade. O raro petisco que o cão vira vício e o corpo aproveita. Kit Cachorro com frete grátis."
         image={HERO_IMG}
       />
       <Helmet>
@@ -130,17 +147,17 @@ const Curiosidade = () => {
             <DragonLogo className="cur-hero-logo" />
           </div>
 
-          <span className="cur-hero-eyebrow">larva de inseto · proteína nova · feito no rio</span>
+          <span className="cur-hero-eyebrow">petisco para cães · 1 ingrediente · feito no rio</span>
 
           <h1 className="cur-hero-title">
-            Já imaginou dar<br /><span>larva</span> pro seu cão?
+            Seu cão vai enlouquecer.<br /><span>E dessa vez, faz bem.</span>
           </h1>
 
           <p className="cur-hero-sub">
-            Parece estranho — por uns 5 segundos. A larva da <strong>Mosca Soldado Negra</strong> é
-            uma das proteínas mais completas e digestíveis que existem: <strong>hipoalergênica</strong>,
-            sustentável, e o seu cão simplesmente ama. O <strong>Kit Cachorro</strong> junta o petisco
-            de larva (Original) + o Suplemento Integral do dia a dia.
+            A larvinha que vira o <strong>petisco favorito do seu cachorro</strong> — ele vai
+            <strong> rondar o armário</strong> atrás. E você pode dar <strong>sem dó</strong>:
+            1 ingrediente só, <strong>88,9% digestível</strong>, comida de verdade do jeito que o corpo
+            dele aproveita. No <strong>Kit Cachorro</strong>, com frete grátis.
           </p>
 
           <div className="cur-hero-product-wrap">
@@ -169,7 +186,7 @@ const Curiosidade = () => {
 
           <div className="cur-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="cur-btn-primary" data-cta="hero">
-              Quero conhecer o kit →
+              Quero dar pro meu cão →
             </a>
           </div>
 
@@ -179,40 +196,17 @@ const Curiosidade = () => {
         </div>
       </section>
 
-      {/* ════ A OBJEÇÃO (é larva mesmo) ════ */}
+      {/* ════ POR QUE FAZ BEM (benefícios pet — sobe logo após o hero) ════ */}
       <section className="cur-section">
         <div className="cur-section-inner">
-          <span className="cur-tag tag-pink">vou ser sincero com você</span>
-          <h2 className="cur-section-title title-pink">
-            É larva mesmo. <span>E é de propósito.</span>
-          </h2>
-          <p className="cur-section-lead">
-            9 em 10 pessoas estranham no começo — e é aí que a ficha cai: a natureza levou
-            milhões de anos pra criar uma proteína dessas. A gente só percebeu agora.
-            O seu cão? <strong>Já sabia desde sempre.</strong>
-          </p>
-
-          <ul className="cur-problemas-list">
-            {PROBLEMAS.map((p, i) => (
-              <li className="cur-problema-item" key={i}>
-                <b>{p.dor}</b> — {p.causa}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ════ SOLUÇÃO ════ */}
-      <section className="cur-section">
-        <div className="cur-section-inner">
-          <span className="cur-tag">por que faz bemzão</span>
+          <span className="cur-tag">por que faz bem</span>
           <h2 className="cur-section-title">
-            Estranho no começo.<br /><span>Genial no fim.</span>
+            Vício, sim.<br /><span>Do bom.</span>
           </h2>
           <p className="cur-section-lead">
-            A gente faz na nossa biofábrica no RJ, com <strong>registro MAPA</strong> e
-            rastreabilidade do começo ao fim. Uma proteína que resolve dois problemas de uma vez:
-            a saúde do seu cão e o peso da ração no planeta.
+            Petisco que deixa o cão louco quase sempre é porcaria — ultraprocessado, dá dor de barriga.
+            A larva é a <strong>exceção rara</strong>: um ingrediente só, altíssima digestão, comida de
+            verdade. Ele ama — e o corpo aproveita.
           </p>
 
           <div className="cur-beneficios">
@@ -229,13 +223,56 @@ const Curiosidade = () => {
         </div>
       </section>
 
+      {/* ════ E SE ELE ESTRANHAR? (anti-rejeição + cético — a objeção 'é larva' encolhida) ════ */}
+      <section className="cur-section">
+        <div className="cur-section-inner">
+          <span className="cur-tag tag-pink">é larva mesmo</span>
+          <h2 className="cur-section-title title-pink">
+            Estranhou?<br /><span>Passa em 5 segundos.</span>
+          </h2>
+          <p className="cur-section-lead">
+            9 em 10 tutores torcem o nariz — e mudam de ideia na primeira mordidinha do cão.
+            Se o seu for do tipo desconfiado, tem conserto simples:
+          </p>
+
+          <ul className="cur-problemas-list">
+            <li className="cur-problema-item">
+              <b>Comece como topper</b> — jogue as larvinhas por cima da ração de sempre; o cheiro puxa o interesse.
+            </li>
+            <li className="cur-problema-item">
+              <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
+            </li>
+            <li className="cur-problema-item">
+              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+            </li>
+          </ul>
+
+          <blockquote className="cur-quote">
+            <p>
+              “Confesso que não estava acreditando não, que era só mkt mesmo. Mas a Kate
+              <strong> amou os petiscos</strong>, ficava enlouquecida cada vez q eu pegava o pacote… 😊”
+            </p>
+            <cite>— Michelle Klemar · Osasco/SP · Amostra · Judge.me 5★</cite>
+          </blockquote>
+        </div>
+      </section>
+
       {/* ════ PROVA SOCIAL ════ */}
       <section className="cur-section">
         <div className="cur-section-inner">
           <span className="cur-tag">tutores reais · cães reais</span>
           <h2 className="cur-section-title">
-            Estranho no começo.<br /><span>Viciante no fim.</span>
+            Eles viram vício.<br /><span>Do bom.</span>
           </h2>
+
+          <div className="cur-quotes">
+            {REVIEWS_TXT.map((r, i) => (
+              <blockquote className="cur-quote" key={i}>
+                <p dangerouslySetInnerHTML={{ __html: `“${r.quote}”` }} />
+                <cite>— {r.author}</cite>
+              </blockquote>
+            ))}
+          </div>
 
           <div className="cur-slider-wrap">
             <div className="cur-slider" role="region" aria-label="Reviews de tutores">
@@ -317,7 +354,7 @@ const Curiosidade = () => {
         <h2>
           Bora experimentar<br /><span>o kit do cão?</span>
         </h2>
-        <p>Proteína nova, digestível e sustentável. Estranho por 5 segundos, viciante pro resto da vida.</p>
+        <p>Um ingrediente, 88,9% digestível. O petisco que ele ama e que faz bem por dentro.</p>
         <a href={ctaUrl("final")} className="cur-btn-primary" data-cta="final">
           Quero conhecer o kit →
         </a>

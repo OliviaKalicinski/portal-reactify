@@ -811,3 +811,31 @@
   .cur-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
   .cur-section-title, .cur-cta-final h2 { font-size: 60px; }
 }
+
+/* ============= REVIEWS EM TEXTO (paridade com /alergia) ============= */
+.cur-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 4px 0 28px;
+}
+.cur-quote {
+  margin: 0;
+  padding: 20px 24px;
+  border-left: 4px solid var(--dragon-pink);
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+}
+.cur-quote p {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-primary);
+  margin: 0 0 10px;
+}
+.cur-quote strong { color: var(--dragon-pink); }
+.cur-quote cite {
+  display: block;
+  font-size: 14px;
+  font-style: normal;
+  color: var(--ink-secondary);
+}
