@@ -715,15 +715,16 @@
 .mordida-lp .mdp-beneficio-title { font-size: 17px; margin-top: 4px; }
 .mordida-lp .mdp-beneficio-desc { font-size: 13.5px; line-height: 1.45; }
 
-/* --- COMENTÁRIOS: cards cream (saem do escuro) --- */
+/* --- COMENTÁRIOS: mesmo card (branco + borda plum), sombra MAGENTA p/ pop no escuro --- */
 .mordida-lp .mdp-review {
-  background: #F6F3EC;
+  background: #FFFFFF;
   border: 2px solid var(--dragon-plum);
-  box-shadow: 6px 6px 0 var(--dragon-pink);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--dragon-pink);
 }
 .mordida-lp .mdp-review blockquote { color: var(--dragon-plum); }
 .mordida-lp .mdp-review figcaption { color: rgba(28, 13, 43, 0.60); }
-.mordida-lp .mdp-review-solo { background: #F6F3EC; box-shadow: 6px 6px 0 var(--dragon-green); }
+.mordida-lp .mdp-review-solo { background: #FFFFFF; box-shadow: 4px 4px 0 var(--dragon-pink); }
 
 /* --- ENTRE NA LISTA: faixa magenta animada, CTA chartreuse --- */
 .mordida-lp .mdp-oferta {
@@ -745,9 +746,14 @@
   background: #FFFFFF;
   border-color: var(--dragon-plum);
   color: var(--dragon-plum);
+  box-shadow: 4px 4px 0 var(--dragon-plum);   /* sombra deslocada em repouso (zine) */
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
 }
 .mordida-lp .mdp-oferta .mdp-input::placeholder { color: rgba(28, 13, 43, 0.5); }
-.mordida-lp .mdp-oferta .mdp-input:focus { box-shadow: 4px 4px 0 var(--dragon-plum); }
+.mordida-lp .mdp-oferta .mdp-input:focus {
+  box-shadow: 6px 6px 0 var(--dragon-plum);   /* aprofunda no foco */
+  transform: translate(-1px, -1px);
+}
 .mordida-lp .mdp-oferta .mdp-btn-primary {
   background: var(--dragon-lime);
   color: var(--dragon-plum);
@@ -791,11 +797,13 @@
 .mordida-lp .mdp-hero::after { display: none; }
 .mordida-lp .mdp-oferta::before { display: none; }
 
-/* --- BENEFÍCIOS: card CLARO com VERDE em volta, lead magenta grande, sem emoji --- */
+/* --- BENEFÍCIOS: mesmo card dos inputs (branco, borda plum, cantos arredondados),
+   mas sombra MAGENTA — no fundo escuro a sombra plum somia (plum sobre plum) --- */
 .mordida-lp .mdp-beneficio {
-  background: #F6F3EC;
-  border: 3px solid var(--dragon-lime);
-  box-shadow: 6px 6px 0 var(--dragon-plum);
+  background: #FFFFFF;
+  border: 2px solid var(--dragon-plum);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--dragon-pink);
   padding: 20px 18px;
 }
 .mordida-lp .mdp-beneficio-stat {
@@ -828,10 +836,10 @@
 }
 .mordida-lp .mdp-oferta .mdp-form .mdp-btn-primary:disabled {
   opacity: 1;
-  background: #8FB84E;                 /* verde opaco muted (não mistura pra laranja no magenta) */
-  color: rgba(28, 13, 43, 0.5);
-  border-color: var(--dragon-plum);
-  box-shadow: 4px 4px 0 rgba(28, 13, 43, 0.4);
+  background: rgba(255, 255, 255, 0.16);   /* pill translúcido limpo (o oliva murcho parecia bug) */
+  color: rgba(255, 255, 255, 0.75);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 4px 4px 0 rgba(28, 13, 43, 0.32);
   animation: none;
 }
 

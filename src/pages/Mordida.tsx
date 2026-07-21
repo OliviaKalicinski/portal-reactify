@@ -213,7 +213,7 @@ const Mordida = () => {
         <div className="mdp-section-inner">
           <span className="mdp-tag">o petisco</span>
           <h2 className="mdp-section-title">
-            Por que ele é<br /><span>bom demais.</span>
+            Por que ele é<br /><span>bom demais?</span>
           </h2>
 
           <div className="mdp-beneficios">
