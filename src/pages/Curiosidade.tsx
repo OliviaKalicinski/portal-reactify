@@ -153,6 +153,14 @@ const Curiosidade = () => {
             Seu cão vai enlouquecer.<br /><span>E dessa vez, faz bem.</span>
           </h1>
 
+          {/* Faixa de stats — números VERIFICADOS na ficha técnica (Original):
+              proteína mín. 40% (lab 41,69%) · digestibilidade 88,9% · 1 ingrediente. */}
+          <div className="cur-hero-stats">
+            <div className="cur-hero-stat"><b>mín. 40%</b><span>proteína</span></div>
+            <div className="cur-hero-stat"><b>88,9%</b><span>digestível</span></div>
+            <div className="cur-hero-stat"><b>1</b><span>ingrediente</span></div>
+          </div>
+
           <p className="cur-hero-sub">
             A larvinha que vira o <strong>petisco favorito do seu cachorro</strong> — ele vai
             <strong> rondar o armário</strong> atrás. E você pode dar <strong>sem dó</strong>:
