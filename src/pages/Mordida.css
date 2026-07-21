@@ -261,7 +261,10 @@
   position: relative;
   padding: 56px 20px;
   border-bottom: 1px solid var(--ink-border);
-  background: var(--bg-page);
+  background-color: var(--bg-page);
+  /* bolinhas brancas sutis no fundo escuro (halftone, como nas outras LPs) */
+  background-image: radial-gradient(circle, rgba(246, 243, 236, 0.045) 1px, transparent 1.5px);
+  background-size: 9px 9px;
 }
 .mdp-section-inner {
   max-width: 720px;
@@ -639,9 +642,10 @@
 /* Chips: contorno claro sutil sobre o plum */
 .mordida-lp .mdp-chip { background: rgba(246, 243, 236, 0.05); }
 
-/* Grid de pontos do hero: claro no dark (o multiply escuro sumia) */
+/* Grid de bolinhas do hero: BRANCO no dark (o plum sumia/sujava) */
 .mordida-lp .mdp-hero::after {
-  background-image: radial-gradient(circle, rgba(246, 243, 236, 0.07) 1px, transparent 1.4px);
+  display: block;
+  background-image: radial-gradient(circle, rgba(246, 243, 236, 0.055) 1px, transparent 1.5px);
   mix-blend-mode: normal;
 }
 /* Glows do hero mais vivos sobre o plum */
@@ -792,9 +796,10 @@
    RODADA 4
    ================================ */
 
-/* --- ANTI "página por baixo": mata texturas de ponto + respiro sobrado --- */
-.mordida-lp { padding-bottom: 0; } /* sem sticky → sem folga extra */
-.mordida-lp .mdp-hero::after { display: none; }
+/* --- respiro: sem folga extra (sem sticky) --- */
+.mordida-lp { padding-bottom: 0; }
+/* bolinhas do hero reativadas em BRANCO (ver .mordida-lp .mdp-hero::after acima).
+   As antigas eram plum-sobre-plum (sumiam/sujavam); brancas ficam limpas. */
 .mordida-lp .mdp-oferta::before { display: none; }
 
 /* --- BENEFÍCIOS: mesmo card dos inputs (branco, borda plum, cantos arredondados),
