@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { captureEntryUtms } from "@/lib/utm";
 import { submitPrelaunch } from "@/lib/leads";
+import { submitMordidaSignup } from "@/lib/mordidaSignup";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
@@ -107,6 +108,32 @@ const Mordida = () => {
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
 
+  // POPUP de inscrição (nome + telefone) — grava em `prelancamento_mordida`.
+  const [showPopup, setShowPopup] = useState(false);
+  const [puName, setPuName] = useState("");
+  const [puPhone, setPuPhone] = useState("");
+  const [puStatus, setPuStatus] = useState<"idle" | "sending" | "done">("idle");
+  const puValid = puName.trim().length >= 2 && puPhone.replace(/\D/g, "").length >= 10;
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowPopup(true), 3000); // aparece 3s depois
+    return () => clearTimeout(t);
+  }, []);
+
+  // trava o scroll do fundo enquanto o popup está aberto
+  useEffect(() => {
+    document.body.style.overflow = showPopup ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [showPopup]);
+
+  const handlePopupSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!puValid || puStatus === "sending") return;
+    setPuStatus("sending");
+    await submitMordidaSignup({ name: puName, phone: puPhone });
+    setPuStatus("done"); // sucesso mesmo se o insert falhar (erro fica no console)
+  };
+
   // Máscara leve de telefone BR: (11) 91234-5678
   const maskPhone = (v: string) => {
     const d = v.replace(/\D/g, "").slice(0, 11);
@@ -137,8 +164,8 @@ const Mordida = () => {
   return (
     <div className="mordida-lp">
       <PageMeta
-        title="Tá chegando o petisco mais diferente que seu cão já provou — Comida de Dragão"
-        description="Pré-lançamento da Mordida V2: petisco natural com proteína de BSF, 24% de proteína, sem grãos e sem glúten. Entre na lista e seja o primeiro a provar."
+        title="Tá chegando o petisco mais forte e mais leve — Comida de Dragão"
+        description="Pré-lançamento da Mordida V2: larva de inseto hipoalergênica, 24% de proteína, sem grão e sem glúten. Entre na lista e seja o primeiro a provar."
       />
 
       {/* ════ FAIXA PASSANTE DE LANÇAMENTO ════
@@ -152,6 +179,20 @@ const Mordida = () => {
         </div>
       </div>
 
+      {/* ════ BANNER (responsivo, igual ao site: mobile × desktop) ════ */}
+      <a href="#lista" className="mdp-banner" aria-label="Pré-lançamento Mordida V2">
+        <picture>
+          <source media="(min-width: 768px)" srcSet="/assets/images/mordida/banner-desktop.png" />
+          <img
+            className="mdp-banner-img"
+            src="/assets/images/mordida/banner-mobile.png"
+            alt="Mordida V2 — Level Up: pré-lançamento"
+            loading="eager"
+            decoding="async"
+          />
+        </picture>
+      </a>
+
       {/* ════ HERO ════ */}
       <section className="mdp-hero">
         <div className="mdp-hero-inner">
@@ -164,45 +205,45 @@ const Mordida = () => {
           {/* Dobra vertical e limpa: logo → título → texto → BOTÃO → imagem grande → selos.
               Sem badge de pré-lançamento (duplicava a faixa do topo). Botão ANTES da imagem
               pra ficar acima da dobra — a imagem (tamanho de tela) vem logo depois. */}
+          {/* Desktop = 2 colunas (texto+CTA à esquerda, foto do produto à direita)
+              pra não deixar o conteúdo numa ilha estreita na tela larga.
+              Mobile = empilha; a foto some (o BANNER do topo já é o visual). */}
           <div className="mdp-hero-grid">
-            <div className="mdp-hero-text">
-              <DragonLogo className="mdp-hero-logo" />
+            <div className="mdp-hero-main">
+              <div className="mdp-hero-text">
+                <DragonLogo className="mdp-hero-logo" />
 
-              <h1 className="mdp-hero-title">
-                Tá chegando o petisco<br />
-                <span>mais diferente e saudável</span>
-              </h1>
+                <h1 className="mdp-hero-title">
+                  Tá chegando o petisco<br />
+                  <span>mais forte e mais leve.</span>
+                </h1>
 
-              <p className="mdp-hero-sub">
-                Proteína de inseto <strong>hipoalergênica</strong> que ele absorve como
-                nenhuma outra — agora com <strong>mais proteína, sem grão e sem glúten</strong>.
-              </p>
+                <p className="mdp-hero-sub">
+                  Larva de inseto <strong>hipoalergênica</strong> que ele absorve como nenhuma
+                  outra — agora com <strong>24% de proteína</strong>, <strong>sem grão e sem glúten</strong>.
+                </p>
+              </div>
+
+              <div className="mdp-hero-chips">
+                {CHIPS.map((c, i) => <span className="mdp-chip" key={i}>{c}</span>)}
+              </div>
+
+              <div className="mdp-hero-cta-wrap">
+                <a href="#lista" className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
+                  Quero ser o primeiro a provar
+                </a>
+              </div>
             </div>
 
-            {/* Imagem GRANDE do produto (tamanho de tela — a pessoa precisa VER). */}
-            <div className="mdp-hero-poster-wrap">
+            {/* Foto real do produto — só no desktop (no mobile o banner já mostra). */}
+            <div className="mdp-hero-visual">
               <img
-                className="mdp-hero-poster"
-                src="/assets/images/produtos/mordida-teaser.png"
-                alt="Comida de Dragão — a gente aprontou uma"
-                width={300}
-                height={375}
-                loading="eager"
+                className="mdp-hero-prod"
+                src="/assets/images/produtos/mordida-v2.png"
+                alt="Mordida V2 — embalagem"
+                loading="lazy"
                 decoding="async"
               />
-            </div>
-
-            {/* 4 selos numa ÚNICA linha, embaixo da imagem. */}
-            <div className="mdp-hero-chips">
-              {CHIPS.map((c, i) => <span className="mdp-chip" key={i}>{c}</span>)}
-            </div>
-
-            {/* Botão menor, embaixo da foto/selos. Único CTA do hero (sem sticky:
-                o público desta LP em geral JÁ se inscreveu; a barra fixa virava ruído). */}
-            <div className="mdp-hero-cta-wrap">
-              <a href="#lista" className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
-                Quero ser o primeiro a provar
-              </a>
             </div>
           </div>
         </div>
@@ -371,6 +412,84 @@ const Mordida = () => {
           Comida de Dragão · Lets Fly · Biofábrica RJ · Reg. MAPA
         </div>
       </footer>
+
+      {/* ════ POPUP DE INSCRIÇÃO (nome + email → tabela `leads`) ════ */}
+      {showPopup && (
+        <div
+          className="mdp-modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Pré-lançamento Mordida"
+          onClick={() => setShowPopup(false)}
+        >
+          <div className="mdp-modal" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="mdp-modal-close"
+              onClick={() => setShowPopup(false)}
+              aria-label="Fechar"
+            >
+              ✕
+            </button>
+
+            <img
+              className="mdp-modal-img"
+              src="/assets/images/mordida/popup-mordida.png"
+              alt="Mordida V2 — Level Up"
+              loading="eager"
+              decoding="async"
+            />
+
+            {puStatus === "done" ? (
+              <div className="mdp-modal-body mdp-modal-done">
+                <strong>🔓 Item desbloqueado!</strong>
+                <span>Você tá na lista. Quando o Dragão soltar, você é o primeiro a saber.</span>
+                <button className="mdp-btn-primary" onClick={() => setShowPopup(false)}>
+                  Fechar
+                </button>
+              </div>
+            ) : (
+              <div className="mdp-modal-body">
+                <h3 className="mdp-modal-title">🔓 Desbloqueie o pré-lançamento</h3>
+                <p className="mdp-modal-sub">
+                  Deixa teu nome e WhatsApp — você entra na lista e é o <strong>primeiro</strong> a
+                  saber quando a Mordida soltar.
+                </p>
+                <form className="mdp-form" onSubmit={handlePopupSubmit} noValidate>
+                  <input
+                    className="mdp-input"
+                    type="text"
+                    placeholder="Seu nome"
+                    value={puName}
+                    onChange={(e) => setPuName(e.target.value)}
+                    autoComplete="name"
+                    aria-label="Seu nome"
+                  />
+                  <input
+                    className="mdp-input"
+                    type="tel"
+                    inputMode="numeric"
+                    placeholder="Seu WhatsApp"
+                    value={puPhone}
+                    onChange={(e) => setPuPhone(maskPhone(e.target.value))}
+                    autoComplete="tel"
+                    aria-label="Seu WhatsApp"
+                  />
+                  <button
+                    className="mdp-btn-primary"
+                    type="submit"
+                    disabled={!puValid || puStatus === "sending"}
+                  >
+                    {puStatus === "sending" ? "Desbloqueando…" : "DESBLOQUEAR 🐉"}
+                  </button>
+                </form>
+                <button className="mdp-modal-skip" onClick={() => setShowPopup(false)}>
+                  agora não
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

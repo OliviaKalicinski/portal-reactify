@@ -732,19 +732,19 @@
 
 /* --- ENTRE NA LISTA: faixa magenta animada, CTA chartreuse --- */
 .mordida-lp .mdp-oferta {
-  background: var(--dragon-pink);
-  border-top: 4px solid var(--dragon-plum);
-  border-bottom: 4px solid var(--dragon-plum);
+  background: var(--bg-elevated);            /* plum coeso com a página (era magenta = horrível) */
+  border-top: 4px solid var(--dragon-lime);
+  border-bottom: 4px solid var(--dragon-lime);
 }
-.mordida-lp .mdp-oferta::before { opacity: 0.12; }  /* textura mais discreta sobre o magenta */
-.mordida-lp .mdp-oferta .mdp-section-title { color: #FFFFFF; }
+.mordida-lp .mdp-oferta::before { opacity: 0.10; }
+.mordida-lp .mdp-oferta .mdp-section-title { color: var(--ink-primary); }
 .mordida-lp .mdp-oferta .mdp-section-title span { color: var(--dragon-lime); }
-.mordida-lp .mdp-oferta-sub { color: rgba(255, 255, 255, 0.94); }
-.mordida-lp .mdp-oferta-sub strong { color: #FFFFFF; }
+.mordida-lp .mdp-oferta-sub { color: var(--ink-secondary); }
+.mordida-lp .mdp-oferta-sub strong { color: var(--ink-primary); }
 .mordida-lp .mdp-oferta .mdp-tag.tag-lime {
-  background: rgba(255, 255, 255, 0.20);
-  border-color: #FFFFFF;
-  color: #FFFFFF;
+  background: rgba(185, 255, 51, 0.16);
+  border-color: var(--dragon-lime);
+  color: var(--dragon-lime);
 }
 .mordida-lp .mdp-oferta .mdp-input {
   background: #FFFFFF;
@@ -765,7 +765,7 @@
   box-shadow: 6px 6px 0 var(--dragon-plum);
 }
 .mordida-lp .mdp-oferta .mdp-btn-primary:not(:disabled) { animation: mdpWiggle 2.4s ease-in-out infinite; }
-.mordida-lp .mdp-oferta .mdp-form-micro { color: rgba(255, 255, 255, 0.85); }
+.mordida-lp .mdp-oferta .mdp-form-micro { color: var(--ink-muted); }
 .mordida-lp .mdp-oferta .mdp-form-done { background: #FFFFFF; box-shadow: 7px 7px 0 var(--dragon-plum); }
 .mordida-lp .mdp-oferta .mdp-form-done strong { color: var(--dragon-plum); }
 .mordida-lp .mdp-oferta .mdp-form-done span { color: rgba(28, 13, 43, 0.7); }
@@ -841,10 +841,10 @@
 }
 .mordida-lp .mdp-oferta .mdp-form .mdp-btn-primary:disabled {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.16);   /* pill translúcido limpo (o oliva murcho parecia bug) */
-  color: rgba(255, 255, 255, 0.75);
-  border-color: rgba(255, 255, 255, 0.55);
-  box-shadow: 4px 4px 0 rgba(28, 13, 43, 0.32);
+  background: #8FB84E;                      /* verde opaco muted — não mistura pra rosa no magenta */
+  color: rgba(28, 13, 43, 0.55);
+  border-color: var(--dragon-plum);
+  box-shadow: 4px 4px 0 rgba(28, 13, 43, 0.4);
   animation: none;
 }
 
@@ -852,29 +852,31 @@
    HERO DESKTOP — 2 colunas: título+texto à esquerda, foto grande + botão à direita
    ================================ */
 @media (min-width: 900px) {
-  .mordida-lp .mdp-hero { padding: 30px 48px 72px; }
-  /* coluna ÚNICA centrada (título → texto → botão → imagem grande → selos) */
-  .mordida-lp .mdp-hero-inner { display: block; max-width: 860px; text-align: center; }
+  .mordida-lp .mdp-hero { padding: 40px 48px 64px; }
+  /* 2 colunas: texto+CTA à esquerda, foto do produto à direita (preenche a largura) */
+  .mordida-lp .mdp-hero-inner { display: block; max-width: 1180px; text-align: left; }
   .mordida-lp .mdp-hero-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 52px;
     align-items: center;
     width: 100%;
   }
-  .mordida-lp .mdp-hero-text { max-width: 720px; }
-  .mordida-lp .mdp-hero-logo { margin: 0 auto 20px; }   /* centrada */
-  .mordida-lp .mdp-hero-title { font-size: clamp(46px, 4.8vw, 66px); margin-bottom: 18px; }
-  .mordida-lp .mdp-hero-sub { margin: 0 auto 28px; max-width: 640px; font-size: 18px; }
-  .mordida-lp .mdp-hero-cta-wrap { text-align: center; margin-top: 28px; }
-  /* imagem GRANDE, centrada */
-  .mordida-lp .mdp-hero-poster-wrap { margin: 0 0 8px; }
-  .mordida-lp .mdp-hero-poster { width: auto; max-width: 100%; max-height: 480px; }
-  /* selos numa linha só, centrados, maiores (coluna é larga → cabem fácil) */
+  .mordida-lp .mdp-hero-main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .mordida-lp .mdp-hero-text { max-width: 100%; }
+  .mordida-lp .mdp-hero-logo { margin: 0 0 20px; }   /* esquerda */
+  .mordida-lp .mdp-hero-title { font-size: clamp(44px, 4.4vw, 62px); margin-bottom: 18px; }
+  .mordida-lp .mdp-hero-sub { margin: 0 0 2px; max-width: 520px; font-size: 18px; }
   .mordida-lp .mdp-hero-chips {
-    flex-wrap: nowrap;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     gap: 8px;
-    margin-top: 20px;
+    margin-top: 22px;
     max-width: none;
   }
   .mordida-lp .mdp-hero-chips .mdp-chip {
@@ -882,9 +884,134 @@
     letter-spacing: 0.06em;
     padding: 8px 12px;
   }
+  .mordida-lp .mdp-hero-cta-wrap { text-align: left; margin-top: 26px; }
+  /* coluna direita: foto real do produto */
+  .mordida-lp .mdp-hero-visual { display: flex; justify-content: center; align-items: center; }
+  .mordida-lp .mdp-hero-prod {
+    width: auto;
+    max-width: 100%;
+    max-height: 470px;
+    filter: drop-shadow(0 22px 44px rgba(0, 0, 0, 0.45));
+  }
 
-  /* seções alinhadas ao hero (não deixar 720px estreito no desktop largo) */
-  .mordida-lp .mdp-section-inner { max-width: 1040px; }
-  .mordida-lp .mdp-beneficios { gap: 18px; }
-  .mordida-lp .mdp-reviews { gap: 18px; }
+  /* seções mais largas (não deixar ilha estreita no desktop) */
+  .mordida-lp .mdp-section-inner { max-width: 1120px; }
+  .mordida-lp .mdp-beneficios { gap: 20px; }
+  .mordida-lp .mdp-reviews { gap: 20px; }
 }
+
+/* ================================
+   BANNER RESPONSIVO (topo, igual ao site)
+   ================================ */
+.mdp-banner { display: block; width: 100%; line-height: 0; }
+.mdp-banner-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* foto do produto no hero: só desktop (no mobile o banner já é o visual) */
+.mdp-hero-visual { display: none; }
+
+/* ================================
+   POPUP DE INSCRIÇÃO (nome + email)
+   ================================ */
+.mdp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 4, 18, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: mdpFadeIn 0.18s ease;
+}
+@keyframes mdpFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.mdp-modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: 94vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 3px solid var(--dragon-lime);
+  border-radius: 18px;
+  box-shadow: 8px 8px 0 var(--dragon-pink);
+  animation: mdpPop 0.22s cubic-bezier(0.2, 1.1, 0.4, 1);
+}
+@keyframes mdpPop { from { transform: translateY(14px) scale(0.97); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.mdp-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 2px solid var(--dragon-plum);
+  background: var(--dragon-lime);
+  color: var(--dragon-plum);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mdp-modal-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 15px 15px 0 0;
+}
+
+.mdp-modal-body { padding: 22px 24px 24px; text-align: center; }
+.mdp-modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(26px, 6vw, 34px);
+  line-height: 1.02;
+  letter-spacing: 0.5px;
+  color: var(--ink-primary);
+  margin: 0 0 8px;
+}
+.mdp-modal-sub {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+  margin: 0 0 18px;
+}
+.mdp-modal-sub strong { color: var(--dragon-lime); }
+
+/* inputs brancos dentro do modal (contraste sobre o plum) */
+.mdp-modal .mdp-input {
+  background: #FFFFFF;
+  border-color: var(--dragon-plum);
+  color: var(--dragon-plum);
+}
+.mdp-modal .mdp-input::placeholder { color: rgba(28, 13, 43, 0.5); }
+.mdp-modal .mdp-form .mdp-btn-primary { width: 100%; justify-content: center; text-align: center; }
+
+.mdp-modal-skip {
+  display: inline-block;
+  margin-top: 14px;
+  background: none;
+  border: none;
+  color: var(--ink-muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mdp-modal-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.mdp-modal-done strong { font-size: 22px; color: var(--dragon-lime); }
+.mdp-modal-done span { font-size: 15px; color: var(--ink-secondary); line-height: 1.5; }
+.mdp-modal-done .mdp-btn-primary { margin-top: 6px; }
