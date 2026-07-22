@@ -164,8 +164,8 @@ const Mordida = () => {
   return (
     <div className="mordida-lp">
       <PageMeta
-        title="Tá chegando o petisco mais forte e mais leve — Comida de Dragão"
-        description="Pré-lançamento da Mordida V2: larva de inseto hipoalergênica, 24% de proteína, sem grão e sem glúten. Entre na lista e seja o primeiro a provar."
+        title="Novo Mordida de Dragão — snack natural de verdade | Comida de Dragão"
+        description="Pré-lançamento do novo Mordida de Dragão: snack natural com 24% de proteína de inseto, sem grão e sem glúten. Milhares de cães já são fãs — entre na lista e seja o primeiro a provar."
       />
 
       {/* ════ FAIXA PASSANTE DE LANÇAMENTO ════
@@ -214,13 +214,14 @@ const Mordida = () => {
                 <DragonLogo className="mdp-hero-logo" />
 
                 <h1 className="mdp-hero-title">
-                  Tá chegando o petisco<br />
-                  <span>mais forte e mais leve.</span>
+                  Novo Mordida de Dragão<br />
+                  <span>snack natural de verdade</span>
                 </h1>
 
                 <p className="mdp-hero-sub">
-                  Larva de inseto <strong>hipoalergênica</strong> que ele absorve como nenhuma
-                  outra — agora com <strong>24% de proteína</strong>, <strong>sem grão e sem glúten</strong>.
+                  Milhares de cães já viraram fãs da gente — e foram eles que pediram essa versão:
+                  <strong> 24% de proteína de inseto</strong> (hipoalergênica), <strong>sem grão e
+                  sem glúten</strong>, que faz um benzão pra saúde.
                 </p>
               </div>
 
@@ -239,7 +240,7 @@ const Mordida = () => {
             <div className="mdp-hero-visual">
               <img
                 className="mdp-hero-prod"
-                src="/assets/images/produtos/mordida-v2.png"
+                src="/assets/images/produtos/mordida-v2-frente.webp"
                 alt="Mordida V2 — embalagem"
                 loading="lazy"
                 decoding="async"
