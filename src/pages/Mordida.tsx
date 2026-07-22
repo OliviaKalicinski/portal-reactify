@@ -279,6 +279,48 @@ const Mordida = () => {
         </div>
       </section>
 
+      {/* ════ V1 → V2: o que mudou (falando com quem já é cliente) ════ */}
+      <section className="mdp-section mdp-sec-verde">
+        <div className="mdp-section-inner">
+          <span className="mdp-tag">a mordida evoluiu</span>
+          <h2 className="mdp-section-title">
+            O que mudou<br /><span>da antiga pra essa.</span>
+          </h2>
+          <p className="mdp-section-lead">
+            Quem já é de casa merece saber: a gente não mexeu por mexer. Ouvimos cada mensagem
+            e refizemos a Mordida do zero. O que melhorou:
+          </p>
+
+          <div className="mdp-evolui">
+            <div className="mdp-evolui-row">
+              <span className="mdp-evolui-de">Com trigo e aveia</span>
+              <span className="mdp-evolui-seta">→</span>
+              <span className="mdp-evolui-pra">
+                <strong>Sem grão, sem glúten</strong> — mandioca e batata-doce no lugar. Mais leve pro intestino.
+              </span>
+            </div>
+            <div className="mdp-evolui-row">
+              <span className="mdp-evolui-de">Menos proteína</span>
+              <span className="mdp-evolui-seta">→</span>
+              <span className="mdp-evolui-pra">
+                <strong>43g de proteína</strong> (24%) por pacote. Bem mais parruda que a anterior.
+              </span>
+            </div>
+            <div className="mdp-evolui-row">
+              <span className="mdp-evolui-de">Conservante artificial</span>
+              <span className="mdp-evolui-seta">→</span>
+              <span className="mdp-evolui-pra">
+                <strong>Alecrim natural</strong> pra conservar + <strong>inulina</strong> (fibra prebiótica) que faz bem por dentro.
+              </span>
+            </div>
+          </div>
+
+          <p className="mdp-evolui-fecho">
+            Mesma larvinha que seu cão ama. Só que <strong>a melhor versão dela.</strong> 🐉
+          </p>
+        </div>
+      </section>
+
       {/* ════ PROVA — nível MARCA (é lançamento: ninguém provou ESTE ainda) ════ */}
       <section className="mdp-section">
         <div className="mdp-section-inner">

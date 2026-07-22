@@ -320,6 +320,53 @@
 }
 .mdp-section-lead strong { color: var(--ink-primary); }
 
+/* ============= V1 → V2 (o que mudou) — SEÇÃO VERDE NEON ============= */
+/* tag + destaque do título em verde (some do magenta padrão só aqui) */
+.mordida-lp .mdp-sec-verde .mdp-tag {
+  background: rgba(185, 255, 51, 0.16);
+  border-color: var(--dragon-lime);
+  color: var(--dragon-lime);
+}
+.mordida-lp .mdp-sec-verde .mdp-section-title span { color: var(--dragon-lime); }
+
+.mdp-evolui { display: grid; gap: 12px; margin-top: 26px; }
+.mordida-lp .mdp-evolui-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 14px;
+  background: var(--dragon-lime);          /* VERDE NEON */
+  border: 2px solid var(--dragon-plum);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--dragon-plum);
+  padding: 16px 18px;
+  color: var(--dragon-plum);
+}
+.mdp-evolui-de {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(28, 13, 43, 0.5);
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+.mdp-evolui-seta { color: var(--dragon-plum); font-weight: 800; font-size: 20px; line-height: 1; }
+.mdp-evolui-pra { font-size: 14px; line-height: 1.45; }
+.mdp-evolui-pra strong { color: var(--dragon-plum); font-weight: 700; }
+.mdp-evolui-fecho {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+.mdp-evolui-fecho strong { color: var(--ink-primary); }
+@media (max-width: 520px) {
+  .mordida-lp .mdp-evolui-row { grid-template-columns: 1fr; gap: 5px; }
+  .mdp-evolui-seta { display: none; }
+}
+
 /* ============= BENEFÍCIOS ============= */
 .mdp-beneficios {
   display: grid;
