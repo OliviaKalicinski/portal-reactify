@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -129,6 +129,31 @@ const BENEFICIOS = [
 const Mordida = () => {
   useEffect(() => { captureEntryUtms(); }, []);
 
+  /* O sticky só entra DEPOIS do banner. No topo ele seria redundante — o
+     banner inteiro já é o CTA — e ainda comeria tela justo na dobra.
+     Observa o banner: enquanto ele estiver visível, a barra fica fora. */
+  const bannerRef = useRef<HTMLAnchorElement>(null);
+  const [stickyVisivel, setStickyVisivel] = useState(false);
+
+  useEffect(() => {
+    const alvo = bannerRef.current;
+    if (!alvo) return;
+
+    // Sem IntersectionObserver (browser antigo), mostra sempre — melhor a
+    // barra aparecer cedo demais do que o CTA nunca aparecer.
+    if (typeof IntersectionObserver === "undefined") {
+      setStickyVisivel(true);
+      return;
+    }
+
+    const obs = new IntersectionObserver(
+      ([entry]) => setStickyVisivel(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    obs.observe(alvo);
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <div className="mordida-lp">
       <PageMeta
@@ -152,7 +177,7 @@ const Mordida = () => {
            esticado: desktop 1920×960 (2:1) e mobile 780×1200 (vertical).
            webp — os PNGs originais tinham 5,8MB e 1,1MB; num banner com
            loading="eager" isso é o primeiro que a pessoa espera carregar. */}
-      <a href={ctaUrl("banner")} className="mdp-banner" aria-label="Lançamento da Mordida de Dragão — ver a oferta na loja">
+      <a ref={bannerRef} href={ctaUrl("banner")} className="mdp-banner" aria-label="Lançamento da Mordida de Dragão — ver a oferta na loja">
         <picture>
           <source media="(min-width: 768px)" srcSet="/assets/images/mordida/banner-desktop.webp" />
           <img
@@ -418,8 +443,15 @@ const Mordida = () => {
       {/* ════ STICKY CTA (mobile) ════
           Mesmo padrão de /alergia e /idoso. Só mobile: no desktop os CTAs de
           seção já acompanham a rolagem do olho. A página ganha padding-bottom
-          pra barra não cobrir o rodapé. */}
-      <div className="mdp-sticky-cta">
+          pra barra não cobrir o rodapé.
+          Entra só depois do banner (ver o IntersectionObserver acima) —
+          aria-hidden + inert enquanto escondido, pra leitor de tela e Tab
+          não pegarem um botão que ninguém vê. */}
+      <div
+        className={`mdp-sticky-cta${stickyVisivel ? " is-visivel" : ""}`}
+        aria-hidden={!stickyVisivel}
+        inert={!stickyVisivel ? "" : undefined}
+      >
         <div className="mdp-sticky-info">
           <span className="mdp-sticky-name">Kit Mordida + Suplemento</span>
           <span className="mdp-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>

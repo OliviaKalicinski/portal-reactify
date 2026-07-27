@@ -1142,6 +1142,21 @@
   align-items: center;
   gap: 12px;
   box-shadow: 0 -10px 24px rgba(0, 0, 0, 0.35);
+
+  /* Escondida enquanto o banner está na tela. Desliza de baixo em vez de
+     piscar — e some do fluxo de toque enquanto está fora. */
+  transform: translateY(110%);
+  visibility: hidden;
+  transition: transform 0.26s ease, visibility 0s linear 0.26s;
+}
+.mdp-sticky-cta.is-visivel {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 0.26s ease, visibility 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mdp-sticky-cta { transition: visibility 0s linear 0.26s; }
+  .mdp-sticky-cta.is-visivel { transition: none; }
 }
 .mdp-sticky-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
 .mdp-sticky-name {
