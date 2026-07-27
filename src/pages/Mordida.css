@@ -886,10 +886,14 @@
   box-shadow: 6px 6px 0 var(--dragon-plum);
 }
 .mordida-lp .mdp-oferta .mdp-btn-primary:not(:disabled) { animation: mdpWiggle 2.4s ease-in-out infinite; }
-.mordida-lp .mdp-oferta-itens li { color: rgba(28, 13, 43, 0.72); }
-.mordida-lp .mdp-oferta-itens strong { color: var(--dragon-plum); }
-.mordida-lp .mdp-oferta-preco-valor { color: var(--dragon-plum); }
-.mordida-lp .mdp-oferta-preco-nota { color: rgba(28, 13, 43, 0.6); }
+/* ⚠️ Esta seção tem fundo PLUM ESCURO (--bg-elevated). As cores abaixo já
+   foram plum-sobre-plum uma vez (27/07) e o bloco inteiro ficou ilegível —
+   o preço sumia. Tinta clara aqui, sempre. */
+.mordida-lp .mdp-oferta-sub { font-size: 16.5px; line-height: 1.6; max-width: 470px; }
+.mordida-lp .mdp-oferta-itens li { color: var(--ink-secondary); font-size: 16px; }
+.mordida-lp .mdp-oferta-itens strong { color: var(--ink-primary); }
+.mordida-lp .mdp-oferta-preco-valor { color: var(--dragon-lime); }
+.mordida-lp .mdp-oferta-preco-nota { color: var(--ink-muted); }
 .mordida-lp .mdp-oferta .mdp-form-micro { color: var(--ink-muted); }
 .mordida-lp .mdp-oferta .mdp-form-done { background: #FFFFFF; box-shadow: 7px 7px 0 var(--dragon-plum); }
 .mordida-lp .mdp-oferta .mdp-form-done strong { color: var(--dragon-plum); }

@@ -386,16 +386,14 @@ const Mordida = () => {
         <div className="mdp-oferta-inner">
           <span className="mdp-tag tag-lime">novo kit · frete grátis</span>
           <h2 className="mdp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            A Mordida nova<br /><span>e o pó que já é de casa.</span>
+            Chegou a Mordida nova.<br /><span>Leve com o Suplemento.</span>
           </h2>
 
           <p className="mdp-oferta-sub">
-            <strong>O lançamento é a Mordida</strong> — refeita do zero, sem grão,
-            com 24% de proteína. No kit ela chega junto do{" "}
-            <strong>Suplemento Integral</strong>, que já é o queridinho de quem
-            mistura na ração. Uma é a novidade que ele pede sentado; o outro é a
-            rotina que sustenta o resultado. Mesma proteína nos dois —{" "}
-            <strong>88,9% do corpo dele aproveita</strong>.
+            A Mordida foi <strong>refeita do zero</strong>: sem grão, 24% de
+            proteína. O Suplemento Integral você já conhece — é o que entra na
+            ração todo dia. <strong>Mesma proteína nos dois</strong>, e o corpo
+            dele aproveita <strong>88,9%</strong> dela.
           </p>
 
           {/* Foto do que chega na casa da pessoa. A hero segue com a Mordida
@@ -411,7 +409,7 @@ const Mordida = () => {
 
           <ul className="mdp-oferta-itens">
             <li><strong>1 Mordida de Dragão</strong> (180g) — <strong>a nova</strong>: sem grão, sem glúten, 24% de proteína</li>
-            <li><strong>1 Suplemento Integral para cães</strong> (180g) — o pó que entra na ração todo dia</li>
+            <li><strong>1 Suplemento Integral para cães</strong> (180g) — mistura na ração todo dia</li>
             <li><strong>Frete grátis</strong> — por nossa conta</li>
           </ul>
 
