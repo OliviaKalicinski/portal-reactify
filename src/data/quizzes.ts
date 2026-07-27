@@ -687,38 +687,24 @@ const quizProduto: QuizDef = {
       ctaText: 'COMPRAR ORIGINAL →',
       ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
-    legumes: {
-      label: 'MORDIDA — LEGUMES',
+    /* MORDIDA V2 — substituiu Legumes e Spirulina (27/07/26). Um SKU só: a
+       fórmula nova já traz cúrcuma E spirulina. Sem grão, sem glúten, 24% de
+       proteína. Tem OVO: a proteína é hipoalergênica, o produto não. */
+    mordida: {
+      label: 'MORDIDA',
       category: 'Petisco com substância, não só crocância',
-      description: 'Snack assado com BSF, cenoura, cúrcuma e betacaroteno. Rico em nutriente natural, palatabilidade alta, zero frescura na hora de aceitar.\n\nPra tutor que não quer só "crocante colorido" — quer alimento que atravessa a embalagem.',
+      description: 'BSF com mandioca, batata-doce, cúrcuma e spirulina. Sem grão, sem glúten, 24% de proteína — e alecrim no lugar do conservante artificial.\n\nPra tutor que não quer só "crocante colorido" — quer alimento que atravessa a embalagem.',
       emoji: '🥦',
       profileLabel: 'Só nutrição de verdade pra ele',
       manifestoLine: 'Pet merece nutrição de verdade — não só crocância colorida',
       stats: [
-        { label: 'PROTEÍNA',       value: 75 },
+        { label: 'PROTEÍNA',       value: 79 },
         { label: 'NUTRIÇÃO',       value: 92 },
         { label: 'ESPECIFICIDADE', value: 76 },
         { label: 'VITALIDADE',     value: 85 },
       ],
       coupon: 'PRIMEIRODRAGO',
-      ctaText: 'COMPRAR MORDIDA LEGUMES →',
-      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
-    },
-    spirulina: {
-      label: 'MORDIDA — SPIRULINA',
-      category: 'Quando a pelagem tá pedindo socorro',
-      description: 'Spirulina + coco + espinafre + BSF num snack que age por dentro. Antioxidante, ficocianina, triglicerídeos de cadeia média — jargão técnico pra resultado simples: pelo bonito, imunidade firme, pet mais disposto.',
-      emoji: '✨',
-      profileLabel: 'Pelagem bonita começa por dentro',
-      manifestoLine: 'O pelo bonito do meu pet começa por dentro',
-      stats: [
-        { label: 'PROTEÍNA',       value: 75 },
-        { label: 'NUTRIÇÃO',       value: 90 },
-        { label: 'ESPECIFICIDADE', value: 86 },
-        { label: 'VITALIDADE',     value: 92 },
-      ],
-      coupon: 'PRIMEIRODRAGO',
-      ctaText: 'COMPRAR MORDIDA SPIRULINA →',
+      ctaText: 'COMPRAR MORDIDA →',
       ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
     integral: {
@@ -797,8 +783,10 @@ const quizProduto: QuizDef = {
     if (restricao === 'cardiaco' || perfil === 'recuperacao') return 'concentrado';
     if (perfil === 'ativo' || comportamento === 'boost') return 'integral';
     if (preocupacao === 'proteina') return 'concentrado';
-    if (preocupacao === 'pelagem' || comportamento === 'seletivo') return 'spirulina';
-    if (preocupacao === 'vegetais') return 'legumes';
+    // Legumes e Spirulina viraram um SKU só: a V2 traz cúrcuma E spirulina na
+    // mesma fórmula (ficha 27/07/26). Os três perfis caem na Mordida.
+    if (preocupacao === 'pelagem' || comportamento === 'seletivo') return 'mordida';
+    if (preocupacao === 'vegetais') return 'mordida';
     if (pet === 'multi') return 'original';
     return 'original';
   },

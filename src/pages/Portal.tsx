@@ -82,10 +82,9 @@ const MARQUEE_BOTTOM = [
 
 const PRODUCTS_LIST = [
   { icon: "01", name: "ORIGINAL BSF", who: "Todos os pets", delay: "0s" },
-  { icon: "02", name: "MORDIDA LEGUMES", who: "Só cães", delay: "0.07s" },
-  { icon: "03", name: "MORDIDA SPIRULINA", who: "Só cães", delay: "0.13s" },
-  { icon: "04", name: "SUPLEMENTO", who: "Cães + gatos", delay: "0.19s" },
-  { icon: "05", name: "GRUB GEL", who: "Répteis + anfíbios", delay: "0.25s" },
+  { icon: "02", name: "MORDIDA", who: "Só cães", delay: "0.07s" },
+  { icon: "03", name: "SUPLEMENTO", who: "Cães + gatos", delay: "0.13s" },
+  { icon: "04", name: "GRUB GEL", who: "Répteis + anfíbios", delay: "0.19s" },
 ];
 
 const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
