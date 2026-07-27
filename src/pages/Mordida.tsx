@@ -59,7 +59,17 @@ const MARQUEE = [
    o fallback abaixo só vale pra quem chegou sem UTM nenhuma. */
 const PRODUCT_URL =
   "https://www.comidadedragao.com.br/products/kit-mordida-suplemento";
-const PRICE = "121,76";
+const PRICE = "145,00"; // atualizado 27/07/26 — Precificação CD Jul26 v3 (era 121,76 na v2)
+
+/* Saída secundária (27/07/26). O kit continua sendo o CTA principal porque a
+   margem bruta dele é ~3,6x a da Mordida sozinha (R$124,50 vs R$34,70) — é o
+   que sustenta CPA em canal pago. Mas a página argumenta o PETISCO, e até aqui
+   não existia nenhum caminho pra comprá-lo: quem chegava querendo a Mordida de
+   R$42,20 só tinha "pagar R$145" ou sair. Este link recupera essa intenção.
+   UTM na mesma convenção, com cta_pos=avulso, pra dar pra medir a divisão. */
+const PRODUCT_URL_AVULSO =
+  "https://www.comidadedragao.com.br/products/mordida-de-dragao";
+const PRICE_AVULSO = "42,20";
 
 const UTM_FALLBACK = {
   utm_source: "lp-mordida",
@@ -70,6 +80,13 @@ const UTM_FALLBACK = {
 const ctaUrl = (
   cta: "hero" | "beneficios" | "reviews" | "oferta" | "banner" | "sticky"
 ) => buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
+
+const avulsoUrl = () =>
+  buildCheckoutUrl(
+    PRODUCT_URL_AVULSO,
+    { ...UTM_FALLBACK, utm_campaign: "lp-mordida-avulsa" },
+    "avulso"
+  );
 
 /* Reviews REAIS, transcritos exatamente como o cliente escreveu (gírias e
    erros preservados = a prova de que é gente). Fonte: Catálogo de Argumentos
@@ -406,6 +423,13 @@ const Mordida = () => {
           <a href={ctaUrl("oferta")} className="mdp-btn-primary" data-cta="oferta">
             Compre o kit com frete grátis
           </a>
+
+          {/* Saída secundária: quem veio pelo petisco e não quer o kit. */}
+          <p className="mdp-oferta-avulso">
+            <a href={avulsoUrl()} data-cta="avulso">
+              Só quero experimentar a Mordida — R$ {PRICE_AVULSO}
+            </a>
+          </p>
 
           <p className="mdp-form-micro">
             Contém ovo. A proteína de inseto é hipoalergênica; o produto, por

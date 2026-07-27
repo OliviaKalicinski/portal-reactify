@@ -660,6 +660,22 @@
   margin-top: 14px;
 }
 
+/* Saída secundária da oferta: discreta de propósito — o kit continua sendo
+   o caminho principal, este só recupera quem veio pelo petisco. */
+.mdp-oferta-avulso {
+  text-align: center;
+  margin: 12px 0 0;
+  font-size: 14px;
+}
+.mdp-oferta-avulso a {
+  color: var(--ink-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+.mdp-oferta-avulso a:hover,
+.mdp-oferta-avulso a:focus-visible { color: var(--ink-primary); }
+
 /* Estado de sucesso */
 .mdp-form-done {
   max-width: 420px;
