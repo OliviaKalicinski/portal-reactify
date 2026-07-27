@@ -176,14 +176,18 @@ const Mordida = () => {
         </div>
       </div>
 
-      {/* ════ BANNER (responsivo, igual ao site: mobile × desktop) ════ */}
-      <a href="#lista" className="mdp-banner" aria-label="Pré-lançamento Mordida V2">
+      {/* ════ BANNER (responsivo, igual ao site: mobile × desktop) ════
+           Arte de LANÇAMENTO (27/07/26). Dois recortes de verdade, não um
+           esticado: desktop 1920×960 (2:1) e mobile 780×1200 (vertical).
+           webp — os PNGs originais tinham 5,8MB e 1,1MB; num banner com
+           loading="eager" isso é o primeiro que a pessoa espera carregar. */}
+      <a href="#lista" className="mdp-banner" aria-label="Lançamento da Mordida de Dragão">
         <picture>
-          <source media="(min-width: 768px)" srcSet="/assets/images/mordida/banner-desktop.png" />
+          <source media="(min-width: 768px)" srcSet="/assets/images/mordida/banner-desktop.webp" />
           <img
             className="mdp-banner-img"
-            src="/assets/images/mordida/banner-mobile.png"
-            alt="Mordida V2 — Level Up: pré-lançamento"
+            src="/assets/images/mordida/banner-mobile.webp"
+            alt="Lançamento: seu petisco favorito para cães está aqui — Mordida de Dragão, 180g"
             loading="eager"
             decoding="async"
           />
