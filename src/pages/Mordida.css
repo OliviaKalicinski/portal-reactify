@@ -1010,18 +1010,20 @@
   .mordida-lp .mdp-reviews { gap: 20px; }
 }
 
-/* ================================
-   BANNER RESPONSIVO (topo, igual ao site)
-   ================================ */
-.mdp-banner { display: block; width: 100%; line-height: 0; }
-.mdp-banner-img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
 
-/* foto do produto no hero: só desktop (no mobile o banner já é o visual) */
-.mdp-hero-visual { display: none; }
+/* Foto do produto no hero. Ficava escondida no mobile porque o banner do topo
+   já era o visual; o banner saiu em 27/07, então ela aparece nos dois. */
+.mdp-hero-visual {
+  display: flex;
+  justify-content: center;
+  margin-top: 26px;
+}
+.mdp-hero-prod {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.45));
+}
 
 /* ================================
    POPUP DE INSCRIÇÃO (nome + email)

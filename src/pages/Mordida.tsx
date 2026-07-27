@@ -129,14 +129,15 @@ const BENEFICIOS = [
 const Mordida = () => {
   useEffect(() => { captureEntryUtms(); }, []);
 
-  /* O sticky só entra DEPOIS do banner. No topo ele seria redundante — o
-     banner inteiro já é o CTA — e ainda comeria tela justo na dobra.
-     Observa o banner: enquanto ele estiver visível, a barra fica fora. */
-  const bannerRef = useRef<HTMLAnchorElement>(null);
+  /* O sticky só entra depois que o CTA da hero sai da tela. Enquanto o botão
+     principal está à vista, a barra seria redundante e ainda comeria tela na
+     dobra. (Até 27/07 a referência era o banner do topo; ele saiu, e o CTA da
+     hero passou a ser a régua.) */
+  const heroCtaRef = useRef<HTMLDivElement>(null);
   const [stickyVisivel, setStickyVisivel] = useState(false);
 
   useEffect(() => {
-    const alvo = bannerRef.current;
+    const alvo = heroCtaRef.current;
     if (!alvo) return;
 
     // Sem IntersectionObserver (browser antigo), mostra sempre — melhor a
@@ -172,23 +173,9 @@ const Mordida = () => {
         </div>
       </div>
 
-      {/* ════ BANNER (responsivo, igual ao site: mobile × desktop) ════
-           Arte de LANÇAMENTO (27/07/26). Dois recortes de verdade, não um
-           esticado: desktop 1920×960 (2:1) e mobile 780×1200 (vertical).
-           webp — os PNGs originais tinham 5,8MB e 1,1MB; num banner com
-           loading="eager" isso é o primeiro que a pessoa espera carregar. */}
-      <a ref={bannerRef} href={ctaUrl("banner")} className="mdp-banner" aria-label="Lançamento da Mordida de Dragão — ver a oferta na loja">
-        <picture>
-          <source media="(min-width: 768px)" srcSet="/assets/images/mordida/banner-desktop.webp" />
-          <img
-            className="mdp-banner-img"
-            src="/assets/images/mordida/banner-mobile.webp"
-            alt="Lançamento: seu petisco favorito para cães está aqui — Mordida de Dragão, 180g"
-            loading="eager"
-            decoding="async"
-          />
-        </picture>
-      </a>
+      {/* O banner do topo saiu em 27/07/26 (decisão da Olivia): a página abre
+          direto na hero. Os arquivos seguem em assets/images/mordida/ — a arte
+          continua servindo pra anúncio. */}
 
       {/* ════ HERO ════ */}
       <section className="mdp-hero">
@@ -226,20 +213,22 @@ const Mordida = () => {
                 {CHIPS.map((c, i) => <span className="mdp-chip" key={i}>{c}</span>)}
               </div>
 
-              <div className="mdp-hero-cta-wrap">
+              <div className="mdp-hero-cta-wrap" ref={heroCtaRef}>
                 <a href={ctaUrl("hero")} className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
                   Compre o kit com frete grátis
                 </a>
               </div>
             </div>
 
-            {/* Foto real do produto — só no desktop (no mobile o banner já mostra). */}
+            {/* Foto real do produto. Passou a aparecer no mobile também em
+                27/07: antes ficava escondida porque o banner do topo já era o
+                visual — sem ele, o mobile abriria sem imagem nenhuma. */}
             <div className="mdp-hero-visual">
               <img
                 className="mdp-hero-prod"
                 src="/assets/images/produtos/mordida-v2-frente.webp"
                 alt="Mordida V2 — embalagem"
-                loading="lazy"
+                loading="eager"
                 decoding="async"
               />
             </div>
