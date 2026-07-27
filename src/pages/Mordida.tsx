@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
-import { captureEntryUtms } from "@/lib/utm";
-import { submitPrelaunch } from "@/lib/leads";
-import { submitMordidaSignup } from "@/lib/mordidaSignup";
-import { formatPhoneBR, isValidPhoneBR, normalizePhoneDigits } from "@/lib/phone";
+import { useEffect } from "react";
+import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
@@ -10,10 +7,14 @@ import PageMeta from "@/components/PageMeta";
 import "./Mordida.css";
 
 /* ──────────────────────────────────────────────────────────────
-   LP PRÉ-LANÇAMENTO — MORDIDA V2 (DROP) · /mordida
+   LP DE LANÇAMENTO — MORDIDA V2 · /mordida
    Página satélite · tráfego pago/orgânico · público FRIO
-   Objetivo: CAPTURA DE LEAD (lista de espera) — NÃO vende ainda.
-   Depois do drop, vira híbrida (troca o form por checkout Yampi).
+   Objetivo: VENDA. Em 27/07/26 a lista de espera saiu e a oferta entrou
+   no lugar dela — o form de captura e o popup foram removidos.
+
+   OFERTA (decidida com a Olivia, 27/07): Kit Mordida + Suplemento, com
+   frete grátis. O destino é a PÁGINA DO PRODUTO na loja (não o checkout
+   Yampi direto, como fazem /alergia e /idoso) — foi o pedido dela.
 
    Direção (validada com a Olivia, 20/07):
    - Cold-first: hero entra pelo PRODUTO, não pelo mistério.
@@ -43,9 +44,31 @@ const CHIPS = [
 const MARQUEE = [
   "A Mordida evoluiu",
   "Sem grão · mais proteína",
-  "Pré-lançamento · entre na lista",
+  "Lançamento · frete grátis",
   "A gente aprontou uma",
 ];
+
+/* ── OFERTA ────────────────────────────────────────────────────
+   Kit Mordida + Suplemento. Preço e disponibilidade conferidos na loja
+   em 27/07/26 (produto ACTIVE, available=true, tag frete-gratis).
+   Se o preço mudar na Shopify, ele muda aqui — não há sincronia.
+
+   Destino = página do produto na loja. As UTMs seguem a convenção das
+   outras LPs (lp-<nome> / lp / lp-<nome>-<oferta>), e buildCheckoutUrl
+   repassa fielmente a UTM de ENTRADA quando o anúncio trouxe uma —
+   o fallback abaixo só vale pra quem chegou sem UTM nenhuma. */
+const PRODUCT_URL =
+  "https://www.comidadedragao.com.br/products/kit-mordida-suplemento";
+const PRICE = "121,76";
+
+const UTM_FALLBACK = {
+  utm_source: "lp-mordida",
+  utm_medium: "lp",
+  utm_campaign: "lp-mordida-kit-mordida-suplemento",
+};
+
+const ctaUrl = (cta: "hero" | "beneficios" | "reviews" | "oferta" | "banner") =>
+  buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 /* Reviews REAIS, transcritos exatamente como o cliente escreveu (gírias e
    erros preservados = a prova de que é gente). Fonte: Catálogo de Argumentos
@@ -105,64 +128,11 @@ const BENEFICIOS = [
 const Mordida = () => {
   useEffect(() => { captureEntryUtms(); }, []);
 
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
-
-  // POPUP de inscrição (nome + telefone) — grava em `prelancamento_mordida`.
-  const [showPopup, setShowPopup] = useState(false);
-  const [puName, setPuName] = useState("");
-  const [puPhone, setPuPhone] = useState("");
-  const [puStatus, setPuStatus] = useState<"idle" | "sending" | "done">("idle");
-  const puValid = puName.trim().length >= 2 && isValidPhoneBR(puPhone);
-
-  useEffect(() => {
-    const t = setTimeout(() => setShowPopup(true), 3000); // aparece 3s depois
-    return () => clearTimeout(t);
-  }, []);
-
-  // trava o scroll do fundo enquanto o popup está aberto
-  useEffect(() => {
-    document.body.style.overflow = showPopup ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [showPopup]);
-
-  const handlePopupSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!puValid || puStatus === "sending") return;
-    setPuStatus("sending");
-    await submitMordidaSignup({ name: puName, phone: puPhone });
-    setPuStatus("done"); // sucesso mesmo se o insert falhar (erro fica no console)
-  };
-
-  // Máscara e validação vêm de lib/phone — a máscara antiga cortava no 11º
-  // dígito e comia o final de quem digitava o +55 (9 leads perdidos, 27/07).
-  const maskPhone = formatPhoneBR;
-
-  const digits = normalizePhoneDigits(phone);
-  const valid = name.trim().length >= 2 && isValidPhoneBR(phone);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!valid || status === "sending") return;
-    setStatus("sending");
-    const res = await submitPrelaunch({
-      name,
-      phone: digits,
-      slug: "mordida",
-      label: "Lista de espera Mordida V2",
-    });
-    setStatus(res.ok ? "done" : "error");
-    // Fallback: mesmo se o insert falhar, a pessoa vê sucesso (UX antes da
-    // captura, igual ao fluxo do quiz). O erro fica logado no console.
-    if (!res.ok) setStatus("done");
-  };
-
   return (
     <div className="mordida-lp">
       <PageMeta
         title="Novo Mordida de Dragão — snack natural de verdade | Comida de Dragão"
-        description="Pré-lançamento do novo Mordida de Dragão: snack natural com 24% de proteína de inseto, sem grão e sem glúten. Milhares de cães já são fãs — entre na lista e seja o primeiro a provar."
+        description="O novo Mordida de Dragão chegou: snack natural com 24% de proteína de inseto, sem grão e sem glúten. Leve com o Suplemento Integral e o frete é por nossa conta."
       />
 
       {/* ════ FAIXA PASSANTE DE LANÇAMENTO ════
@@ -181,7 +151,7 @@ const Mordida = () => {
            esticado: desktop 1920×960 (2:1) e mobile 780×1200 (vertical).
            webp — os PNGs originais tinham 5,8MB e 1,1MB; num banner com
            loading="eager" isso é o primeiro que a pessoa espera carregar. */}
-      <a href="#lista" className="mdp-banner" aria-label="Lançamento da Mordida de Dragão">
+      <a href={ctaUrl("banner")} className="mdp-banner" aria-label="Lançamento da Mordida de Dragão — ver a oferta na loja">
         <picture>
           <source media="(min-width: 768px)" srcSet="/assets/images/mordida/banner-desktop.webp" />
           <img
@@ -231,8 +201,8 @@ const Mordida = () => {
               </div>
 
               <div className="mdp-hero-cta-wrap">
-                <a href="#lista" className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
-                  Quero ser o primeiro a provar
+                <a href={ctaUrl("hero")} className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
+                  Quero levar com frete grátis
                 </a>
               </div>
             </div>
@@ -273,8 +243,8 @@ const Mordida = () => {
 
           {/* CTA de seção (só desktop → botão a cada etapa pro retardatário) */}
           <div className="mdp-section-cta">
-            <a href="#lista" className="mdp-btn-primary" data-cta="secao-beneficios">
-              Quero ser o primeiro a provar
+            <a href={ctaUrl("beneficios")} className="mdp-btn-primary" data-cta="secao-beneficios">
+              Quero levar com frete grátis
             </a>
           </div>
         </div>
@@ -340,8 +310,8 @@ const Mordida = () => {
           </div>
 
           <div className="mdp-section-cta">
-            <a href="#lista" className="mdp-btn-primary" data-cta="secao-reviews">
-              Quero ser o primeiro a provar
+            <a href={ctaUrl("reviews")} className="mdp-btn-primary" data-cta="secao-reviews">
+              Quero levar com frete grátis
             </a>
           </div>
         </div>
@@ -376,69 +346,43 @@ const Mordida = () => {
         </div>
       </section>
 
-      {/* ════ FORM — CAPTURA ════ */}
-      <section className="mdp-oferta" id="lista">
+      {/* ════ OFERTA ════
+          Substituiu o form de lista de espera em 27/07/26. Os benefícios
+          vêm dos mesmos fatos da ficha usados no resto da página — nada
+          novo foi afirmado aqui. */}
+      <section className="mdp-oferta" id="oferta">
         <div className="mdp-oferta-inner">
-          <span className="mdp-tag tag-lime">lista do pré-lançamento</span>
+          <span className="mdp-tag tag-lime">oferta de lançamento</span>
           <h2 className="mdp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            Entre na lista<br /><span>do drop</span>
+            O petisco e o pó<br /><span>que trabalham juntos.</span>
           </h2>
 
-          {status === "done" ? (
-            <div className="mdp-form-done">
-              <div className="mdp-form-done-icon">🐉</div>
-              <strong>Anotado! Você tá na lista.</strong>
-              <span>Quando o Dragão soltar, você é um dos primeiros a saber.</span>
-              <a
-                className="mdp-btn-secondary"
-                href="https://www.instagram.com/comidadedragao"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Seguir no Instagram enquanto isso →
-              </a>
-            </div>
-          ) : (
-            <>
-              <p className="mdp-oferta-sub">
-                A lista fecha quando o Dragão soltar. Quem tá dentro descobre
-                <strong> primeiro</strong> — e sai na frente.
-              </p>
+          <p className="mdp-oferta-sub">
+            A <strong>Mordida</strong> é o agrado que ele pede sentado. O{" "}
+            <strong>Suplemento Integral</strong> é o que entra na ração todo dia,
+            sem ele perceber. Um cuida da festa, o outro da rotina — e os dois
+            são a mesma proteína que <strong>88,9% do corpo dele aproveita</strong>.
+          </p>
 
-              <form className="mdp-form" onSubmit={handleSubmit} noValidate>
-                <input
-                  className="mdp-input"
-                  type="text"
-                  placeholder="Seu nome"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  autoComplete="name"
-                  aria-label="Seu nome"
-                />
-                <input
-                  className="mdp-input"
-                  type="tel"
-                  inputMode="numeric"
-                  placeholder="Seu WhatsApp"
-                  value={phone}
-                  onChange={(e) => setPhone(maskPhone(e.target.value))}
-                  autoComplete="tel"
-                  aria-label="Seu WhatsApp"
-                />
-                <button
-                  className="mdp-btn-primary"
-                  type="submit"
-                  disabled={!valid || status === "sending"}
-                >
-                  {status === "sending" ? "Entrando…" : "Quero ser o primeiro"}
-                </button>
-              </form>
+          <ul className="mdp-oferta-itens">
+            <li><strong>1 Mordida de Dragão</strong> (180g) — 24% de proteína, sem grão e sem glúten</li>
+            <li><strong>1 Suplemento Integral para cães</strong> (180g) — o pó que mistura na ração</li>
+            <li><strong>Frete grátis</strong> — por nossa conta</li>
+          </ul>
 
-              <p className="mdp-form-micro">
-                Sem spam. Só o aviso do lançamento e a vantagem de quem chegou antes.
-              </p>
-            </>
-          )}
+          <div className="mdp-oferta-preco">
+            <span className="mdp-oferta-preco-valor">R$ {PRICE}</span>
+            <span className="mdp-oferta-preco-nota">à vista · frete incluso</span>
+          </div>
+
+          <a href={ctaUrl("oferta")} className="mdp-btn-primary" data-cta="oferta">
+            Quero levar com frete grátis
+          </a>
+
+          <p className="mdp-form-micro">
+            Contém ovo. A proteína de inseto é hipoalergênica; o produto, por
+            causa do ovo, não é indicado pra quem tem alergia a ele.
+          </p>
         </div>
       </section>
 
@@ -457,83 +401,6 @@ const Mordida = () => {
         </div>
       </footer>
 
-      {/* ════ POPUP DE INSCRIÇÃO (nome + email → tabela `leads`) ════ */}
-      {showPopup && (
-        <div
-          className="mdp-modal-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Pré-lançamento Mordida"
-          onClick={() => setShowPopup(false)}
-        >
-          <div className="mdp-modal" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="mdp-modal-close"
-              onClick={() => setShowPopup(false)}
-              aria-label="Fechar"
-            >
-              ✕
-            </button>
-
-            <img
-              className="mdp-modal-img"
-              src="/assets/images/mordida/popup-mordida.png"
-              alt="Mordida V2 — Level Up"
-              loading="eager"
-              decoding="async"
-            />
-
-            {puStatus === "done" ? (
-              <div className="mdp-modal-body mdp-modal-done">
-                <strong>🔓 Item desbloqueado!</strong>
-                <span>Você tá na lista. Quando o Dragão soltar, você é o primeiro a saber.</span>
-                <button className="mdp-btn-primary" onClick={() => setShowPopup(false)}>
-                  Fechar
-                </button>
-              </div>
-            ) : (
-              <div className="mdp-modal-body">
-                <h3 className="mdp-modal-title">🔓 Desbloqueie o pré-lançamento</h3>
-                <p className="mdp-modal-sub">
-                  Deixa teu nome e WhatsApp — você entra na lista e é o <strong>primeiro</strong> a
-                  saber quando a Mordida soltar.
-                </p>
-                <form className="mdp-form" onSubmit={handlePopupSubmit} noValidate>
-                  <input
-                    className="mdp-input"
-                    type="text"
-                    placeholder="Seu nome"
-                    value={puName}
-                    onChange={(e) => setPuName(e.target.value)}
-                    autoComplete="name"
-                    aria-label="Seu nome"
-                  />
-                  <input
-                    className="mdp-input"
-                    type="tel"
-                    inputMode="numeric"
-                    placeholder="Seu WhatsApp"
-                    value={puPhone}
-                    onChange={(e) => setPuPhone(maskPhone(e.target.value))}
-                    autoComplete="tel"
-                    aria-label="Seu WhatsApp"
-                  />
-                  <button
-                    className="mdp-btn-primary"
-                    type="submit"
-                    disabled={!puValid || puStatus === "sending"}
-                  >
-                    {puStatus === "sending" ? "Desbloqueando…" : "DESBLOQUEAR 🐉"}
-                  </button>
-                </form>
-                <button className="mdp-modal-skip" onClick={() => setShowPopup(false)}>
-                  agora não
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
