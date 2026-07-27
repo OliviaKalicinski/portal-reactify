@@ -429,10 +429,10 @@ const Mordida = () => {
             </a>
           </p>
 
-          <p className="mdp-form-micro">
-            Contém ovo. A proteína de inseto é hipoalergênica; o produto, por
-            causa do ovo, não é indicado pra quem tem alergia a ele.
-          </p>
+          {/* O aviso de alérgeno ("contém ovo") saiu daqui em 27/07/26 a pedido
+              da Olivia. Fica no rótulo físico e na ficha técnica. Se algum dia
+              voltar a um texto de venda, a regra do claim continua a mesma: a
+              PROTEÍNA é hipoalergênica, o PRODUTO não. */}
         </div>
       </section>
 
