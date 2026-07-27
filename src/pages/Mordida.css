@@ -905,8 +905,9 @@
    RODADA 4
    ================================ */
 
-/* --- respiro: sem folga extra (sem sticky) --- */
-.mordida-lp { padding-bottom: 0; }
+/* --- respiro pro sticky CTA do mobile não cobrir o rodapé --- */
+.mordida-lp { padding-bottom: 96px; }
+@media (min-width: 720px) { .mordida-lp { padding-bottom: 0; } }
 /* bolinhas do hero reativadas em BRANCO (ver .mordida-lp .mdp-hero::after acima).
    As antigas eram plum-sobre-plum (sumiam/sujavam); brancas ficam limpas. */
 .mordida-lp .mdp-oferta::before { display: none; }
@@ -1124,3 +1125,66 @@
 .mdp-modal-done strong { font-size: 22px; color: var(--dragon-lime); }
 .mdp-modal-done span { font-size: 15px; color: var(--ink-secondary); line-height: 1.5; }
 .mdp-modal-done .mdp-btn-primary { margin-top: 6px; }
+
+/* ================================
+   STICKY CTA (mobile) — 27/07/26
+   Mesmo padrão de /alergia e /idoso, na paleta escura da Mordida.
+   Some a partir de 720px: no desktop os CTAs de seção já dão conta.
+   ================================ */
+.mdp-sticky-cta {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 50;
+  background: var(--bg-card);
+  border-top: 3px solid var(--dragon-lime);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 -10px 24px rgba(0, 0, 0, 0.35);
+}
+.mdp-sticky-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.mdp-sticky-name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink-primary);
+  line-height: 1.1;
+  /* nome longo não pode empurrar o botão pra fora em tela estreita */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mdp-sticky-price {
+  font-size: 12px;
+  color: var(--dragon-lime);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-top: 3px;
+}
+.mdp-sticky-cta a {
+  flex-shrink: 0;
+  background: var(--dragon-lime);
+  color: var(--dragon-plum);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: 2px solid var(--dragon-plum);
+  box-shadow: 3px 3px 0 var(--dragon-plum);
+}
+@media (min-width: 720px) {
+  .mdp-sticky-cta { display: none; }
+}
+
+/* Foto do kit na seção da oferta (a hero segue com a Mordida sozinha). */
+.mdp-oferta-img {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  margin: 0 auto 20px;
+}

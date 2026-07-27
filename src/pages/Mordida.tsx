@@ -67,8 +67,9 @@ const UTM_FALLBACK = {
   utm_campaign: "lp-mordida-kit-mordida-suplemento",
 };
 
-const ctaUrl = (cta: "hero" | "beneficios" | "reviews" | "oferta" | "banner") =>
-  buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
+const ctaUrl = (
+  cta: "hero" | "beneficios" | "reviews" | "oferta" | "banner" | "sticky"
+) => buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 /* Reviews REAIS, transcritos exatamente como o cliente escreveu (gírias e
    erros preservados = a prova de que é gente). Fonte: Catálogo de Argumentos
@@ -202,7 +203,7 @@ const Mordida = () => {
 
               <div className="mdp-hero-cta-wrap">
                 <a href={ctaUrl("hero")} className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
-                  Quero levar com frete grátis
+                  Compre o kit com frete grátis
                 </a>
               </div>
             </div>
@@ -244,7 +245,7 @@ const Mordida = () => {
           {/* CTA de seção (só desktop → botão a cada etapa pro retardatário) */}
           <div className="mdp-section-cta">
             <a href={ctaUrl("beneficios")} className="mdp-btn-primary" data-cta="secao-beneficios">
-              Quero levar com frete grátis
+              Compre o kit com frete grátis
             </a>
           </div>
         </div>
@@ -311,7 +312,7 @@ const Mordida = () => {
 
           <div className="mdp-section-cta">
             <a href={ctaUrl("reviews")} className="mdp-btn-primary" data-cta="secao-reviews">
-              Quero levar com frete grátis
+              Compre o kit com frete grátis
             </a>
           </div>
         </div>
@@ -352,21 +353,34 @@ const Mordida = () => {
           novo foi afirmado aqui. */}
       <section className="mdp-oferta" id="oferta">
         <div className="mdp-oferta-inner">
-          <span className="mdp-tag tag-lime">oferta de lançamento</span>
+          <span className="mdp-tag tag-lime">novo kit · frete grátis</span>
           <h2 className="mdp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            O petisco e o pó<br /><span>que trabalham juntos.</span>
+            A Mordida nova<br /><span>e o pó que já é de casa.</span>
           </h2>
 
           <p className="mdp-oferta-sub">
-            A <strong>Mordida</strong> é o agrado que ele pede sentado. O{" "}
-            <strong>Suplemento Integral</strong> é o que entra na ração todo dia,
-            sem ele perceber. Um cuida da festa, o outro da rotina — e os dois
-            são a mesma proteína que <strong>88,9% do corpo dele aproveita</strong>.
+            <strong>O lançamento é a Mordida</strong> — refeita do zero, sem grão,
+            com 24% de proteína. No kit ela chega junto do{" "}
+            <strong>Suplemento Integral</strong>, que já é o queridinho de quem
+            mistura na ração. Uma é a novidade que ele pede sentado; o outro é a
+            rotina que sustenta o resultado. Mesma proteína nos dois —{" "}
+            <strong>88,9% do corpo dele aproveita</strong>.
           </p>
 
+          {/* Foto do que chega na casa da pessoa. A hero segue com a Mordida
+              sozinha (é ela o lançamento); aqui, na hora de pedir dinheiro,
+              tem que ser o kit inteiro. */}
+          <img
+            className="mdp-oferta-img"
+            src="/assets/images/produtos/kit-mordida-suplemento.webp"
+            alt="Kit: pacote da Mordida de Dragão 180g ao lado da lata do Suplemento Integral 180g"
+            loading="lazy"
+            decoding="async"
+          />
+
           <ul className="mdp-oferta-itens">
-            <li><strong>1 Mordida de Dragão</strong> (180g) — 24% de proteína, sem grão e sem glúten</li>
-            <li><strong>1 Suplemento Integral para cães</strong> (180g) — o pó que mistura na ração</li>
+            <li><strong>1 Mordida de Dragão</strong> (180g) — <strong>a nova</strong>: sem grão, sem glúten, 24% de proteína</li>
+            <li><strong>1 Suplemento Integral para cães</strong> (180g) — o pó que entra na ração todo dia</li>
             <li><strong>Frete grátis</strong> — por nossa conta</li>
           </ul>
 
@@ -376,7 +390,7 @@ const Mordida = () => {
           </div>
 
           <a href={ctaUrl("oferta")} className="mdp-btn-primary" data-cta="oferta">
-            Quero levar com frete grátis
+            Compre o kit com frete grátis
           </a>
 
           <p className="mdp-form-micro">
@@ -400,6 +414,18 @@ const Mordida = () => {
           Comida de Dragão · Lets Fly · Biofábrica RJ · Reg. MAPA
         </div>
       </footer>
+
+      {/* ════ STICKY CTA (mobile) ════
+          Mesmo padrão de /alergia e /idoso. Só mobile: no desktop os CTAs de
+          seção já acompanham a rolagem do olho. A página ganha padding-bottom
+          pra barra não cobrir o rodapé. */}
+      <div className="mdp-sticky-cta">
+        <div className="mdp-sticky-info">
+          <span className="mdp-sticky-name">Kit Mordida + Suplemento</span>
+          <span className="mdp-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>
+        </div>
+        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
+      </div>
 
     </div>
   );
