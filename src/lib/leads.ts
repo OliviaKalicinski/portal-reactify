@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import { normalizePhoneDigits } from "./phone";
 
 /**
  * SUBMIT LEAD — envia o lead capturado no gate do quiz pra Supabase.
@@ -49,7 +50,9 @@ export async function submitPrelaunch(payload: {
     // Espelha a forma do insert que já funciona (mesmas colunas), trocando só
     // os campos de quiz por sentinelas — evita esbarrar em NOT NULL do schema.
     const { error } = await supabase.from("dragon_leads").insert({
-      phone: payload.phone.replace(/\D/g, ""),
+      // normalizePhoneDigits, não replace: tira o +55 em vez de deixar o
+      // número inteiro e o final ser perdido lá na frente. Ver lib/phone.ts.
+      phone: normalizePhoneDigits(payload.phone),
       name: payload.name.trim(),
       first_quiz_id: source,
       first_quiz_result_key: "lista-espera",
@@ -82,7 +85,7 @@ export async function submitLead(payload: LeadPayload): Promise<{ ok: boolean; e
 
   try {
     const { error } = await supabase.from("dragon_leads").insert({
-      phone: payload.phone.replace(/\D/g, ""), // só dígitos pro banco
+      phone: normalizePhoneDigits(payload.phone), // nacional, sem +55 (lib/phone)
       name: payload.name.trim(),
       first_quiz_id: payload.firstQuizId,
       first_quiz_result_key: payload.firstQuizResultKey,

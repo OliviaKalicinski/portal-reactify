@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { normalizePhoneDigits } from "./phone";
 
 /**
  * CAPTURA DO POPUP — pré-lançamento da Mordida V2 (nome + telefone).
@@ -25,7 +26,7 @@ export async function submitMordidaSignup(payload: {
   try {
     const { error } = await lpClient.from("prelancamento_mordida").insert({
       name: payload.name.trim(),
-      phone: payload.phone.replace(/\D/g, ""), // só dígitos
+      phone: normalizePhoneDigits(payload.phone), // nacional, sem +55 (lib/phone)
       source: "popup_mordida_v2",
     });
     if (error) {

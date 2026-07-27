@@ -9,6 +9,7 @@ import {
   PROFILE_DIMENSIONS,
 } from "@/data/quizzes";
 import { submitLead } from "@/lib/leads";
+import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
 import { uploadProfilePhoto } from "@/lib/uploads";
 import "./Portal.css";
 import "./Parceiros.css";
@@ -71,28 +72,14 @@ const stripEmoji = (s: string): string =>
    .trim();
 
 /**
- * Aplica máscara BR no telefone enquanto a pessoa digita.
- *  - Aceita só dígitos (descarta o resto)
- *  - Limita a 11 dígitos (DDD + 9 + 8)
- *  - Formata progressivamente: (11) → (11) 9 → (11) 91234-5678
- *
- * Aceita 10 dígitos também (fixo antigo: (11) 1234-5678) caso alguém
- * digite menos — validação do gate exige 10 ou 11.
+ * Máscara e validação de telefone vivem em lib/phone (fonte única).
+ * A versão local cortava no 11º dígito e comia o final de quem digitava o
+ * código do país — ver o comentário de lib/phone.ts.
  */
-const formatPhone = (raw: string): string => {
-  const d = raw.replace(/\D/g, "").slice(0, 11);
-  if (d.length === 0) return "";
-  if (d.length <= 2) return `(${d}`;
-  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
-  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
-  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
-};
+const formatPhone = formatPhoneBR;
 
-/** True se o telefone tem 10 ou 11 dígitos válidos. */
-const isValidPhone = (raw: string): boolean => {
-  const d = raw.replace(/\D/g, "");
-  return d.length === 10 || d.length === 11;
-};
+/** True se o número pode existir (DDD válido, celular com o 9). */
+const isValidPhone = isValidPhoneBR;
 
 const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
   const doubled = [...items, ...items];

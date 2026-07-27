@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { captureEntryUtms } from "@/lib/utm";
 import { submitPrelaunch } from "@/lib/leads";
 import { submitMordidaSignup } from "@/lib/mordidaSignup";
+import { formatPhoneBR, isValidPhoneBR, normalizePhoneDigits } from "@/lib/phone";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
@@ -113,7 +114,7 @@ const Mordida = () => {
   const [puName, setPuName] = useState("");
   const [puPhone, setPuPhone] = useState("");
   const [puStatus, setPuStatus] = useState<"idle" | "sending" | "done">("idle");
-  const puValid = puName.trim().length >= 2 && puPhone.replace(/\D/g, "").length >= 10;
+  const puValid = puName.trim().length >= 2 && isValidPhoneBR(puPhone);
 
   useEffect(() => {
     const t = setTimeout(() => setShowPopup(true), 3000); // aparece 3s depois
@@ -134,16 +135,12 @@ const Mordida = () => {
     setPuStatus("done"); // sucesso mesmo se o insert falhar (erro fica no console)
   };
 
-  // Máscara leve de telefone BR: (11) 91234-5678
-  const maskPhone = (v: string) => {
-    const d = v.replace(/\D/g, "").slice(0, 11);
-    if (d.length <= 2) return d;
-    if (d.length <= 7) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
-    return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
-  };
+  // Máscara e validação vêm de lib/phone — a máscara antiga cortava no 11º
+  // dígito e comia o final de quem digitava o +55 (9 leads perdidos, 27/07).
+  const maskPhone = formatPhoneBR;
 
-  const digits = phone.replace(/\D/g, "");
-  const valid = name.trim().length >= 2 && digits.length >= 10;
+  const digits = normalizePhoneDigits(phone);
+  const valid = name.trim().length >= 2 && isValidPhoneBR(phone);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
