@@ -91,41 +91,41 @@ const CHIPS = [
    e modo de uso. */
 const PROBLEMAS = [
   {
-    dor: "Cada oferta com um valor nutricional diferente",
-    causa: "o que ele come hoje não tem o mesmo perfil do que comeu semana passada. Nutrição vira sorteio.",
+    dor: "Num dia ele come uma coisa, no outro come outra",
+    causa: "e o que entra de nutriente muda junto. No fim você nunca sabe direito o que ele andou recebendo.",
   },
   {
-    dor: "Uma fonte de proteína só, sempre a mesma",
-    causa: "variar de verdade exige comprar, guardar e revezar três coisas diferentes — quase ninguém mantém isso.",
+    dor: "Sempre o mesmo bicho no pote",
+    causa: "variar de verdade dá trabalho: é comprar, guardar e revezar três coisas diferentes. Quase ninguém mantém.",
   },
   {
-    dor: "O cálcio depende de você lembrar",
-    causa: "é por isso que existe o ritual de polvilhar pó a cada oferta. E é por isso que esquecer algumas vezes cobra caro.",
+    dor: "O cálcio fica por sua conta",
+    causa: "é pra isso que serve aquele pó que se polvilha antes de servir. E é por isso que esquecer algumas vezes cobra caro lá na frente.",
   },
   {
-    dor: "Preparar dá trabalho — e às vezes acaba",
-    causa: "manter alimento vivo em casa tem cheiro, exige espaço e some justo na semana errada.",
+    dor: "Guardar bicho vivo em casa cansa",
+    causa: "tem cheiro, ocupa espaço e sempre acaba na semana em que você não pode sair pra comprar.",
   },
 ];
 
 const BENEFICIOS = [
   {
     stat: "3",
-    statLbl: "farinhas de inseto",
-    title: "Larva BSF, grilo preto e tenébrio",
-    desc: "Não é uma farinha só. O Grub junta <strong>larva de Mosca Soldado Negra, grilo preto e tenébrio</strong> — três aminogramas diferentes no mesmo pote — mais <strong>cúrcuma, spirulina e levedura nutricional</strong>. A variedade que você tentaria montar comprando três produtos.",
+    statLbl: "insetos no pote",
+    title: "Larva, grilo e tenébrio",
+    desc: "Não é um inseto só. São <strong>três</strong> — larva de mosca soldado negra, grilo preto e tenébrio —, mais cúrcuma, spirulina e levedura. É a variedade que você teria que montar comprando três potes diferentes.",
   },
   {
-    stat: "2,5:1",
-    statLbl: "cálcio : fósforo",
-    title: "A proporção certa já vem pronta",
-    desc: "Réptil precisa de <strong>mais cálcio que fósforo</strong> — e a maioria dos alimentos de inseto entrega o contrário, daí o ritual de polvilhar pó. O Grub sai da fábrica com a relação <strong>Ca:P em 2,5:1</strong>, mais carbonato de cálcio na formulação.",
+    stat: "2,5",
+    statLbl: "de cálcio pra 1 de fósforo",
+    title: "O cálcio já vem na medida",
+    desc: "Réptil precisa de <strong>bem mais cálcio do que fósforo</strong>, e quase todo alimento de inseto vem ao contrário — é por isso que existe o pó pra polvilhar. Aqui <strong>a conta já sai certa de fábrica</strong>, e ainda tem cálcio somado na receita.",
   },
   {
     stat: "2 min",
-    statLbl: "de preparo",
-    title: "Mistura com água e está pronto",
-    desc: "Vira <strong>gel firme</strong> ou <strong>papinha cremosa</strong>, do jeito que a sua espécie aceita melhor. Fechado dura <strong>meses na prateleira</strong>; preparado, de 3 a 5 dias na geladeira — e dá pra congelar em porções.",
+    statLbl: "e está na tigela",
+    title: "Mistura com água e pronto",
+    desc: "Vira <strong>gel firme</strong> ou <strong>papinha</strong>, do jeito que o seu bicho aceita melhor. Fechado dura <strong>meses na prateleira</strong>; depois de pronto, de 3 a 5 dias na geladeira — e dá pra congelar em porções.",
   },
 ];
 
@@ -168,7 +168,7 @@ const FAQ = [
   },
   {
     q: "Serve pra qual bicho?",
-    a: "Indicação mais forte em <strong>leopard gecko, teiú-preto-e-branco e teiú-vermelho</strong> (todos os estágios) e no <strong>dragão-barbudo</strong> na fase insetívora — filhotes e jovens com frequência, adultos cerca de 1x por semana junto com vegetais. Também <strong>gekko tokay, phelsumas, tiliquas e varanus</strong>. Em anfíbios: <strong>sapo-pacman, sapo-pipa, sapo-boi, rãs arborícolas e salamandras</strong>. Iguana e crested gecko aceitam em preparação mais hidratada, de forma esporádica.",
+    a: "Vai bem em <strong>leopard gecko, teiú-preto-e-branco e teiú-vermelho</strong> — nesses, em qualquer idade. No <strong>dragão-barbudo</strong>, enquanto ele ainda come inseto: filhote e jovem podem receber com frequência; adulto, mais ou menos 1x por semana, junto com os vegetais. Também <strong>gekko tokay, phelsumas, tiliquas e varanus</strong>. Em anfíbios: <strong>sapo-pacman, sapo-pipa, sapo-boi, rãs arborícolas e salamandras</strong>. Iguana e crested gecko aceitam em preparação mais hidratada, de forma esporádica.",
   },
   {
     q: "E pra tartaruga ou jabuti?",
@@ -208,7 +208,7 @@ const Grub = () => {
           {/* O H1 já leva "répteis e anfíbios" + praticidade, então a eyebrow
               carrega o que sobrou de fora: composição e perfil nutricional. */}
           <span className="grb-hero-eyebrow">
-            três farinhas de inseto · Ca:P 2,5:1 · alimento completo
+            três insetos · o cálcio na medida · alimento completo
           </span>
 
           {/* H1 lidera por COMPOSIÇÃO + PRATICIDADE (rebalanceado 28/07).
@@ -233,13 +233,12 @@ const Grub = () => {
           </h1>
 
           <p className="grb-hero-sub">
-            <strong>Alimentação de répteis e anfíbios em pó</strong>, feita de{" "}
-            <strong>farinha de larva BSF, grilo preto e tenébrio</strong> — três aminogramas
-            diferentes no mesmo pote —, com cúrcuma, spirulina e levedura nutricional. A relação{" "}
-            <strong>cálcio-fósforo já sai equilibrada em 2,5:1</strong>, aquela que normalmente se
-            tenta acertar polvilhando pó. Mistura com água e vira gel firme ou papinha cremosa.
-            Alimento completo, dentro de uma alimentação variada — e sem nada pra manter vivo na
-            despensa.
+            <strong>Alimentação de répteis e anfíbios em pó.</strong> São <strong>três insetos num pote
+            só</strong> — larva, grilo e tenébrio —, em vez de você comprar e guardar três coisas
+            diferentes. E o <strong>cálcio já vem na medida certa</strong>: aquele pó que a gente
+            polvilha em cima do grilo antes de servir, aqui já está dentro. Mistura com água, vira
+            gel ou papinha, e pronto. É alimento completo — o que não quer dizer que ele possa
+            comer só isso: bicho precisa de comida variada.
           </p>
 
           <div className="grb-hero-product-wrap">
@@ -283,12 +282,11 @@ const Grub = () => {
         <div className="grb-section-inner">
           <span className="grb-tag tag-pink">se isso te soa familiar</span>
           <h2 className="grb-section-title title-pink">
-            O bicho come todo dia.<br /><span>A nutrição é que oscila.</span>
+            O bicho come todo dia.<br /><span>O que ele recebe é que muda.</span>
           </h2>
           <p className="grb-section-lead">
-            Alimentar réptil parece simples até você olhar de perto: o perfil nutricional muda a
-            cada oferta, a variedade depende de você manter três coisas diferentes em casa, e o
-            cálcio fica por conta da sua memória.
+            Parece simples até você reparar: o que ele come muda toda semana, variar depende de
+            você manter três coisas diferentes em casa, e lembrar do cálcio é sempre com você.
           </p>
 
           <ul className="grb-problemas-list">
@@ -306,12 +304,12 @@ const Grub = () => {
         <div className="grb-section-inner">
           <span className="grb-tag">a solução</span>
           <h2 className="grb-section-title">
-            Três farinhas de inseto<br /><span>num pó só.</span>
+            Três insetos<br /><span>num pó só.</span>
           </h2>
           <p className="grb-section-lead">
-            A larva é criada na nossa biofábrica no RJ, com <strong>registro MAPA</strong> e
-            rastreabilidade. O que sai de lá é um <strong>pó formador de gel</strong> — a
-            composição inteira já balanceada, em vez de você montar a dieta juntando produto.
+            A larva é criada na nossa biofábrica no Rio, com <strong>registro no MAPA</strong>.
+            O que sai de lá é um <strong>pó</strong>: a mistura toda já pronta, em vez de você
+            montar a dieta dele juntando produto.
           </p>
 
           <div className="grb-beneficios">
@@ -327,8 +325,8 @@ const Grub = () => {
           </div>
 
           <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
-            Alimento completo, para uso dentro de uma alimentação variada — não substitui
-            integralmente a alimentação do animal nem o acompanhamento veterinário.
+            É alimento completo, mas para usar dentro de uma alimentação variada — não substitui
+            tudo o que ele come, nem o acompanhamento do veterinário.
           </p>
         </div>
       </section>
@@ -345,8 +343,8 @@ const Grub = () => {
             Água, mexer,<br /><span>e escolher a textura.</span>
           </h2>
           <p className="grb-section-lead">
-            A mesma lata serve os dois jeitos. Você decide pela espécie e pelo que ela aceita
-            melhor — e prepara a quantidade da semana de uma vez.
+            O mesmo pote serve dos dois jeitos. Você escolhe pelo que o seu bicho aceita melhor —
+            e dá pra preparar a quantidade da semana de uma vez.
           </p>
 
           <ul className="grb-problemas-list">
@@ -452,8 +450,8 @@ const Grub = () => {
         <div className="grb-section-inner">
           <h2>Bora simplificar a dieta dele?</h2>
           <p>
-            Três farinhas de inseto, cálcio e fósforo já na proporção certa, e dois minutos de
-            preparo. Alimento completo, dentro de uma alimentação variada.
+            Três insetos num pote, o cálcio já na medida certa, e dois minutos de preparo.
+            É alimento completo — mas ele continua precisando de comida variada.
           </p>
           <a href={ctaUrl("final")} className="grb-btn-primary" data-cta="final">
             Quero o Grub →
