@@ -71,19 +71,22 @@
    Nada de object-fit: cover. O gif é quase quadrado (299×302) e recortá-lo
    numa faixa larga cortava a cabeça do cachorro. Aqui ele aparece todo,
    com largura fixa e altura automática, num palco centralizado. */
-.ldp-palco { padding: 22px 20px 0; }
+.ldp-palco { padding: 18px 20px 0; }
 
 .ldp-gif {
   display: block;
-  width: 224px;
+  width: 196px;
   height: auto;
+  /* reserva o espaço antes do gif chegar: com height:auto o elemento nasce
+     com 0 de altura e o card PULA quando a imagem carrega. */
+  aspect-ratio: 299 / 302;
   margin: 0 auto;
   border: 3px solid var(--ink-primary, #1C0D2B);
   border-radius: 14px;
 }
 
 /* ── corpo ── */
-.ldp-body { padding: 14px 22px 20px; }
+.ldp-body { padding: 12px 22px 18px; }
 
 .ldp-overlay .ldp-title {
   margin: 0 0 8px;
