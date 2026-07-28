@@ -265,15 +265,14 @@ const Grub = () => {
               ("alimento/ração/comida para pet exótico") está abaixo do
               limiar. Mesma armadilha de `teiú` e `leopardo gecko`. */}
           <h1 className="grb-hero-title">
-            Alimentação de<br />répteis e anfíbios,<br /><span>pronta.</span>
+            O cálcio dele depende<br /><span>da sua memória.</span>
           </h1>
 
           <p className="grb-hero-sub">
-            <strong>Alimentação de répteis e anfíbios em pó.</strong> Já vem com <strong>bem mais cálcio
-            do que fósforo</strong>, que é como réptil precisa — a mesma conta que a gente tenta
-            acertar polvilhando pó no grilo antes de servir. Cálcio de menos, por muito tempo, é o
-            que deixa o <strong>osso fraco e mole</strong>, aquilo que todo criador tem medo. E
-            são{" "}
+            <strong>Alimentação de répteis e anfíbios em pó</strong> — e o cálcio já vem dentro, na
+            medida certa. É a mesma conta que você tenta acertar polvilhando pó no grilo antes de
+            servir: se faltar por muito tempo, o <strong>osso fica fraco e mole</strong>, e quando
+            dá pra ver já foi longe. Aqui não depende de você lembrar. E são{" "}
             <strong>três insetos no mesmo pote</strong> — larva, grilo e tenébrio —, em vez de você
             manter três coisas diferentes em casa. Mistura com água e está pronto. É alimento
             completo, o que não quer dizer que ele possa comer só isso: bicho precisa de comida
@@ -306,7 +305,7 @@ const Grub = () => {
 
           <div className="grb-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="grb-btn-primary" data-cta="hero">
-              Quero o Grub →
+              Quero resolver o cálcio →
             </a>
           </div>
 
@@ -477,7 +476,7 @@ const Grub = () => {
           </div>
 
           <a href={ctaUrl("oferta")} className="grb-btn-primary" data-cta="oferta">
-            Quero o Grub →
+            Quero o Grub · R$ {PRICE} →
           </a>
 
           <p className="grb-hero-note" style={{ marginTop: 16 }}>
@@ -525,7 +524,7 @@ const Grub = () => {
             É alimento completo — mas ele continua precisando de comida variada.
           </p>
           <a href={ctaUrl("final")} className="grb-btn-primary" data-cta="final">
-            Quero o Grub →
+            Quero o Grub · R$ {PRICE} →
           </a>
         </div>
       </section>
@@ -547,11 +546,18 @@ const Grub = () => {
       </footer>
 
       {/* ════ STICKY CTA (mobile) ════ */}
-      <div className="grb-sticky">
-        <div className="grb-sticky-price">
-          Grub 120g · <b>R$ {PRICE}</b>
+      {/* ⚠️ A classe TEM que ser `grb-sticky-cta` — o CSS define
+          `.grb-sticky-cta { position: fixed }`. Estava como `grb-sticky`
+          (herdado da /gato-coceira, que tem o MESMO bug no ar): sem casar,
+          a barra perdia o `position: fixed` e virava um bloco comum no fim
+          da página, ou seja, mobile ficava SEM CTA persistente.
+          Achado em 28/07 auditando a página no navegador. */}
+      <div className="grb-sticky-cta">
+        <div className="grb-sticky-info">
+          <span className="grb-sticky-name">Grub 120g</span>
+          <span className="grb-sticky-price">R$ {PRICE} · 4× sem juros</span>
         </div>
-        <a href={ctaUrl("sticky")} className="grb-btn-primary grb-btn-sticky" data-cta="sticky">
+        <a href={ctaUrl("sticky")} data-cta="sticky">
           Comprar →
         </a>
       </div>
