@@ -99,8 +99,8 @@
 .ldp-overlay .ldp-sub {
   margin: 0 0 14px;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 13.5px;
-  line-height: 1.45;
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--ink-secondary, #3f5b4f);
 }
 .ldp-overlay .ldp-sub strong { color: var(--ink-primary, #1C0D2B); font-weight: 700; }
