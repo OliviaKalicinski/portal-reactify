@@ -1,156 +1,245 @@
 /* ──────────────────────────────────────────────────────────────
-   LEAD POPUP — clonado do modal da /mordida (mdp-modal, commit 5278bfa),
-   com prefixo próprio pra não colidir com o CSS das páginas.
+   LEAD POPUP — janela de terminal, no idioma da /obrigado.
 
-   Os tokens (--dragon-lime, --ink-primary, …) são definidos POR PÁGINA nos
-   CSS das LPs, não globalmente. Como o popup renderiza dentro da árvore da
-   página, ele herda — mas cada var vem com FALLBACK, pra não sair sem estilo
-   se for usado num contexto que não define os tokens.
+   Clonado do vocabulário visual do `obg-boot-window` (Obrigado.css): fundo
+   quase preto, borda lime 2px, sombra offset em pink + glow, titlebar com
+   handle do @dragao, scanlines CRT e Space Mono. Aqui o card é QUADRADO —
+   o gif ocupa a metade de cima e o form a de baixo.
+
+   Tokens próprios (--ldp-*) em vez dos das LPs: cada página define
+   --dragon-lime com um valor diferente (a /mordida usa chartreuse, as outras
+   usam #7BFF00), e o popup precisa ser a mesma janela em todas.
    ────────────────────────────────────────────────────────────── */
 
 .ldp-overlay {
+  --ldp-deep: #050505;
+  --ldp-black: #0A0A0A;
+  --ldp-lime: #7BFF00;
+  --ldp-pink: #FF2D78;
+  --ldp-yellow: #FFE600;
+
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(10, 4, 18, 0.82);
+  background: rgba(5, 5, 5, 0.88);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  animation: ldpFadeIn 0.18s ease;
+  padding: 20px;
+  font-family: 'Space Mono', ui-monospace, monospace;
+  animation: ldpFadeIn 0.18s ease both;
 }
 @keyframes ldpFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+/* ── a janela: quadrada-ish, 420 de largura ── */
 .ldp-modal {
   position: relative;
   width: 100%;
-  max-width: 440px;
-  max-height: 94vh;
-  overflow-y: auto;
-  background: var(--bg-card, #1C0D2B);
-  border: 3px solid var(--dragon-lime, #7BFF00);
-  border-radius: 18px;
-  box-shadow: 8px 8px 0 var(--dragon-pink, #FF0066);
-  animation: ldpPop 0.22s cubic-bezier(0.2, 1.1, 0.4, 1);
+  max-width: 420px;
+  background: var(--ldp-deep);
+  border: 2px solid var(--ldp-lime);
+  box-shadow: 8px 8px 0 var(--ldp-pink), 0 0 36px rgba(123, 255, 0, 0.2);
+  animation: ldpPop 0.32s cubic-bezier(0.2, 0.9, 0.4, 1.4) both;
+  overflow: hidden;
 }
 @keyframes ldpPop {
-  from { transform: translateY(14px) scale(0.97); opacity: 0; }
-  to { transform: none; opacity: 1; }
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-.ldp-close {
+/* scanlines CRT por cima de tudo, sem capturar clique */
+.ldp-modal::after {
+  content: '';
   position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 2;
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  border: 2px solid var(--ink-primary, #FFFFFF);
-  background: var(--bg-card, #1C0D2B);
-  color: var(--ink-primary, #FFFFFF);
-  font-size: 15px;
-  line-height: 1;
-  cursor: pointer;
-}
-.ldp-close:hover { background: var(--dragon-lime, #7BFF00); color: #1C0D2B; }
-
-.ldp-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 15px 15px 0 0;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.05) 0px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
 }
 
-.ldp-body { padding: 22px 24px 24px; text-align: center; }
+/* As LPs definem regras próprias pra h3/p/input/button e ganhavam do popup no
+   cascade — na /alergia o título saía PRETO SOBRE PRETO. Por isso os seletores
+   de texto e controle vão prefixados com .ldp-overlay. */
 
-.ldp-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(26px, 6vw, 34px);
-  line-height: 1.02;
-  letter-spacing: 0.5px;
-  color: var(--ink-primary, #FFFFFF);
-  margin: 0 0 8px;
-}
-
-.ldp-sub {
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--ink-secondary, rgba(255, 255, 255, 0.78));
-  margin: 0 0 18px;
-}
-.ldp-sub strong { color: var(--dragon-lime, #7BFF00); }
-
-.ldp-form {
+/* ── titlebar ── */
+.ldp-titlebar {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 380px;
-  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px dashed rgba(123, 255, 0, 0.3);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  position: relative;
+  z-index: 2;
 }
-
-.ldp-input {
-  width: 100%;
-  padding: 15px 18px;
-  font-size: 16px; /* 16px evita o zoom automático do iOS no foco */
-  font-family: inherit;
-  color: #1C0D2B;
-  background: #FFFFFF;
-  border: 2px solid var(--ink-primary, #FFFFFF);
-  border-radius: 12px;
-  outline: none;
-  transition: box-shadow 0.12s ease;
+.ldp-handle {
+  color: var(--ldp-lime);
+  font-weight: 700;
+  text-shadow: 0 0 12px rgba(123, 255, 0, 0.5);
 }
-.ldp-input::placeholder { color: rgba(28, 13, 43, 0.5); }
-.ldp-input:focus { box-shadow: 4px 4px 0 var(--dragon-lime, #7BFF00); }
-
-.ldp-btn {
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-  background: var(--dragon-lime, #7BFF00);
-  color: #1C0D2B;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  text-transform: uppercase;
-  padding: 16px 28px;
-  border: 3px solid var(--ink-primary, #FFFFFF);
-  border-radius: 12px;
-  box-shadow: 6px 6px 0 var(--dragon-pink, #FF0066);
-  cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-.ldp-btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--dragon-pink, #FF0066); }
-.ldp-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--dragon-pink, #FF0066); }
-.ldp-btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: 3px 3px 0 var(--dragon-pink, #FF0066); transform: none; }
-
-.ldp-skip {
-  display: inline-block;
-  margin-top: 14px;
+.ldp-close {
   background: none;
   border: none;
-  color: var(--ink-muted, rgba(255, 255, 255, 0.55));
-  font-family: 'Space Mono', monospace;
-  font-size: 12px;
+  color: rgba(123, 255, 0, 0.6);
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.ldp-close:hover { color: var(--ldp-pink); }
+
+/* ── gif: a metade de cima da janela ── */
+.ldp-gif {
+  display: block;
+  width: 100%;
+  height: 138px;
+  object-fit: cover;
+  /* o gif é quase quadrado (299×302) numa faixa larga: sem object-position o
+     cover corta a cabeça do cachorro. 30% sobe o enquadramento. */
+  object-position: center 30%;
+  /* leve contraste pra casar com o CRT, sem lavar a cena */
+  filter: contrast(1.06) saturate(0.92);
+  border-bottom: 2px solid var(--ldp-lime);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── corpo ── */
+.ldp-body {
+  padding: 13px 16px 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.ldp-overlay .ldp-title {
+  margin: 0 0 7px;
+  font-family: inherit;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  color: var(--ldp-lime);
+  text-shadow: 0 0 10px rgba(123, 255, 0, 0.4);
+}
+.ldp-overlay .ldp-title::before { content: '> '; color: rgba(123, 255, 0, 0.55); }
+
+.ldp-overlay .ldp-sub {
+  margin: 0 0 11px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(250, 250, 250, 0.72);
+}
+.ldp-overlay .ldp-sub strong { color: var(--ldp-yellow); font-weight: 700; }
+
+.ldp-form { display: flex; flex-direction: column; gap: 8px; }
+
+.ldp-overlay .ldp-input {
+  width: 100%;
+  padding: 9px 11px;
+  font-family: inherit;
+  font-size: 16px; /* 16px evita o zoom automático do iOS no foco */
+  color: var(--ldp-lime);
+  background: var(--ldp-black);
+  border: 1px solid rgba(123, 255, 0, 0.45);
+  border-radius: 0; /* nada de canto redondo: é terminal */
+  outline: none;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.ldp-input::placeholder { color: rgba(123, 255, 0, 0.35); }
+.ldp-input:focus {
+  border-color: var(--ldp-lime);
+  box-shadow: 0 0 0 1px var(--ldp-lime), 0 0 14px rgba(123, 255, 0, 0.25);
+}
+
+.ldp-overlay .ldp-btn {
+  display: block;
+  width: 100%;
+  margin-top: 2px;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  color: var(--ldp-deep);
+  background: var(--ldp-lime);
+  border: 2px solid var(--ldp-lime);
+  border-radius: 0;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+}
+.ldp-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--ldp-pink);
+}
+.ldp-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--ldp-pink); }
+.ldp-btn:disabled {
+  background: transparent;
+  color: rgba(123, 255, 0, 0.35);
+  border-color: rgba(123, 255, 0, 0.3);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.ldp-overlay .ldp-skip {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  background: none;
+  border: none;
+  color: rgba(250, 250, 250, 0.4);
+  font-family: inherit;
+  font-size: 10.5px;
   letter-spacing: 0.08em;
-  text-decoration: underline;
   cursor: pointer;
 }
-.ldp-skip:hover { color: var(--ink-primary, #FFFFFF); }
+.ldp-skip:hover { color: rgba(250, 250, 250, 0.75); }
 
-.ldp-done {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+/* ── estado final ── */
+.ldp-done { text-align: left; }
+.ldp-done-mark {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ldp-lime);
+  text-shadow: 0 0 10px rgba(123, 255, 0, 0.5);
+  margin-bottom: 6px;
 }
-.ldp-done strong { font-size: 20px; color: var(--ink-primary, #FFFFFF); }
-.ldp-done span { font-size: 15px; line-height: 1.5; color: var(--ink-secondary, rgba(255, 255, 255, 0.78)); }
-.ldp-done .ldp-btn { margin-top: 6px; max-width: 320px; }
+.ldp-done-sub {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: rgba(250, 250, 250, 0.72);
+  margin-bottom: 14px;
+}
+
+/* cursor piscando, igual ao boot da /obrigado */
+.ldp-caret {
+  display: inline-block;
+  width: 8px;
+  margin-left: 2px;
+  background: var(--ldp-lime);
+  animation: ldpBlink 1s steps(2, start) infinite;
+}
+@keyframes ldpBlink { to { visibility: hidden; } }
+
+@media (max-width: 420px) {
+  .ldp-gif { height: 140px; }
+  .ldp-modal { box-shadow: 5px 5px 0 var(--ldp-pink), 0 0 26px rgba(123, 255, 0, 0.18); }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .ldp-overlay, .ldp-modal { animation: none; }
+  .ldp-overlay, .ldp-modal, .ldp-caret { animation: none; }
   .ldp-btn { transition: none; }
 }

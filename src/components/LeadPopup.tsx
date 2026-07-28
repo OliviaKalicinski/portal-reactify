@@ -31,6 +31,14 @@ import "./LeadPopup.css";
    provou que a moeda não-monetária captura (84 inscritos, cupom nenhum).
    ────────────────────────────────────────────────────────────── */
 
+/* Cachorro no notebook — o MESMO gif do card do quiz na Caverna (Portal.tsx,
+   GIFS.quiz), que é o card "o dragão quer te conhecer". Reusa o asset que já
+   representa esse convite no portal, em vez de trazer uma cena nova.
+   Loop: gif do Giphy repete infinito por padrão — é o mesmo comportamento que
+   ele já tem no card do Portal. */
+const DOG_PC_GIF =
+  "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzJxNHpkYTNjYmI2cTlpOTV4ZTQxZG5ia3VpMnpvamNuZjBzdWEwZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1kkxWqT5nvLXupUTwK/giphy.gif";
+
 const DISMISS_KEY = "cdd_leadpopup_dismissed_at";
 const DONE_KEY = "cdd_leadpopup_done";
 const DISMISS_DAYS = 30;
@@ -45,8 +53,9 @@ type Props = {
   title?: string;
   /** subtítulo — o que a pessoa ganha. */
   subtitle?: string;
-  /** imagem opcional no topo do card. */
-  image?: string;
+  /** gif do topo. Default: o cachorro no notebook, mesmo asset do card do
+   *  quiz na Caverna. Trocar só se a LP pedir outra cena. */
+  gif?: string;
 };
 
 const jaResolvido = (): boolean => {
@@ -70,9 +79,9 @@ const marcar = (key: string, value: string) => {
 
 const LeadPopup = ({
   slug,
-  title = "🔓 Entra na Caverna",
-  subtitle = "Deixa teu nome e WhatsApp — a gente te manda o conteúdo da Caverna: o que a ciência diz sobre alimentar teu cão de verdade.",
-  image,
+  title = "o dragão quer te conhecer",
+  subtitle = "A Caverna é o lado de dentro da marca: quiz, ciência sobre alimentação e bastidor da matilha. Deixa teu contato — a gente chama quando abrir coisa nova.",
+  gif = DOG_PC_GIF,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -160,22 +169,24 @@ const LeadPopup = ({
       onClick={fechar}
     >
       <div className="ldp-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="ldp-close" onClick={fechar} aria-label="Fechar">
-          ✕
-        </button>
+        <div className="ldp-titlebar">
+          <span className="ldp-handle">@dragao</span>
+          <button className="ldp-close" onClick={fechar} aria-label="Fechar">
+            [ x ]
+          </button>
+        </div>
 
-        {image && (
-          <img className="ldp-img" src={image} alt="" loading="lazy" decoding="async" />
-        )}
+        <img className="ldp-gif" src={gif} alt="" loading="lazy" decoding="async" />
 
         {status === "done" ? (
           <div className="ldp-body ldp-done">
-            <strong>🔓 Portão aberto!</strong>
-            <span>
-              Teu WhatsApp tá salvo. A gente te chama quando soltar coisa nova na Caverna.
+            <span className="ldp-done-mark">&gt; portão aberto [✓]</span>
+            <span className="ldp-done-sub">
+              teu contato tá salvo. a matilha te chama quando abrir coisa nova.
+              <span className="ldp-caret">&nbsp;</span>
             </span>
             <a className="ldp-btn" href="/biblioteca">
-              ENTRAR NA CAVERNA 🐉
+              entrar na caverna
             </a>
           </div>
         ) : (
@@ -186,7 +197,7 @@ const LeadPopup = ({
               <input
                 className="ldp-input"
                 type="text"
-                placeholder="Seu nome"
+                placeholder="nome_"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 autoComplete="name"
@@ -196,18 +207,18 @@ const LeadPopup = ({
                 className="ldp-input"
                 type="tel"
                 inputMode="numeric"
-                placeholder="Seu WhatsApp"
+                placeholder="whatsapp_"
                 value={phone}
                 onChange={(e) => setPhone(formatPhoneBR(e.target.value))}
                 autoComplete="tel"
                 aria-label="Seu WhatsApp"
               />
               <button className="ldp-btn" type="submit" disabled={!valid || status === "sending"}>
-                {status === "sending" ? "Abrindo…" : "QUERO ENTRAR 🐉"}
+                {status === "sending" ? "abrindo…" : "[ entrar ]"}
               </button>
             </form>
             <button className="ldp-skip" onClick={fechar}>
-              agora não
+              // agora não
             </button>
           </div>
         )}

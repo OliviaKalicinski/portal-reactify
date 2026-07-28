@@ -114,7 +114,7 @@ describe("LeadPopup — formulário", () => {
 
   it("mantém o botão desabilitado enquanto o telefone não é válido", () => {
     abrir();
-    const btn = screen.getByRole("button", { name: /QUERO ENTRAR/i }) as HTMLButtonElement;
+    const btn = screen.getByRole("button", { name: /\[ entrar \]/i }) as HTMLButtonElement;
     expect(btn.disabled).toBe(true);
   });
 
