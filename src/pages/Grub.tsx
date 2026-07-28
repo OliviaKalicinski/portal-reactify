@@ -111,9 +111,9 @@ const PROBLEMAS = [
 const BENEFICIOS = [
   {
     stat: "2,5",
-    statLbl: "de cálcio pra 1 de fósforo",
+    statLbl: "vezes mais cálcio que fósforo",
     title: "A conta que não dá pra errar",
-    desc: "Réptil precisa de <strong>bem mais cálcio do que fósforo</strong>, e quase todo inseto vem ao contrário — é pra isso que serve o pó que se polvilha antes de servir. Quando essa conta fica torta por meses, o que aparece é <strong>doença óssea metabólica</strong>, uma das falhas de manejo mais conhecidas em cativeiro. Aqui a proporção <strong>já sai certa de fábrica</strong>, com cálcio somado na receita.",
+    desc: "Réptil precisa de <strong>bem mais cálcio do que fósforo</strong>, e quase todo inseto vem ao contrário — é pra isso que serve aquele pó que se polvilha antes de servir. Quando falta cálcio por meses, o osso vai ficando <strong>fraco e mole</strong> (é o que chamam de doença óssea metabólica) e quando dá pra ver já foi longe. Aqui a conta <strong>já sai certa de fábrica</strong>.",
   },
   {
     stat: "3",
@@ -140,8 +140,44 @@ const PREPARO = [
   },
   {
     modo: "Papinha cremosa",
-    receita: "3 partes de água morna (50–60 °C) para 1 de Grub",
-    como: "Misture até ficar sem grumos e sirva em temperatura ambiente. É a versão pra iguana, crested e leachianus.",
+    receita: "3 partes de água morna para 1 de Grub",
+    como: "Água morna de torneira quente, não fervendo. Misture até ficar sem grumos e sirva em temperatura ambiente. É a versão pra iguana e pros geckos-de-crista.",
+  },
+];
+
+/* Lista de bichos — pedido da Olivia (28/07): estava enterrada no FAQ e
+   precisava virar seção visível.
+   ⚠️ Nomes escolhidos pelo que a MINERAÇÃO mostrou que as pessoas digitam,
+   não pelo que a ficha usa: `dragão barbudo` faz 14.800/mês contra 8.100 de
+   `pogona`; `gecko leopardo` e `leopardo gecko` somam mais que "leopard
+   gecko"; `gecko de crista` (590) em vez de "crested". Nome científico fica
+   de fora — quem procura não escreve Eublepharis macularius.
+   Hierarquia vem do DOC2 (uso em todos os estágios / frequente / complementar
+   / esporádico / anfíbios). */
+const BICHOS = [
+  {
+    quando: "Pode sempre, em qualquer idade",
+    quem: "Gecko-leopardo · teiú preto-e-branco · teiú-vermelho",
+  },
+  {
+    quando: "Bastante enquanto é filhote e jovem",
+    quem: "Dragão-barbudo (pogona) — quando cresce, umas 1x por semana junto com os vegetais",
+  },
+  {
+    quando: "Como parte da comida do dia",
+    quem: "Tokay · lagartixa-de-madagascar · lagarto-de-língua-azul · varano · jacarerana (essa junto com inseto e peixe)",
+  },
+  {
+    quando: "De vez em quando, na versão mais aguada",
+    quem: "Iguana-verde · gecko-de-crista · leachianus",
+  },
+  {
+    quando: "Anfíbios",
+    quem: "Sapo-pacman · sapo-pipa · sapo-boi · rãs de árvore · salamandras",
+  },
+  {
+    quando: "Só como complemento",
+    quem: "Tartaruga e outros quelônios — entra de vez em quando, nunca como a comida principal deles",
   },
 ];
 
@@ -164,7 +200,7 @@ const FAQ = [
   },
   {
     q: "Como eu preparo?",
-    a: "Dois jeitos, escolhe o que a sua espécie aceita melhor. <strong>Gel firme:</strong> 2 partes de água quente pra 1 de Grub, mistura e deixa gelificar. <strong>Papinha cremosa:</strong> 3 partes de água morna (50–60&nbsp;°C) pra 1 de Grub, mistura até ficar sem grumos. Preparado dura de <strong>3 a 5 dias na geladeira</strong> — e dá pra congelar em porções.",
+    a: "Dois jeitos, escolhe o que o seu bicho aceita melhor. <strong>Gel firme:</strong> 2 partes de água quente pra 1 de Grub, mistura e deixa endurecer. <strong>Papinha:</strong> 3 partes de água morna pra 1 de Grub, mistura até ficar sem bolinha. Depois de pronto dura de <strong>3 a 5 dias na geladeira</strong> — e dá pra congelar em porções.",
   },
   {
     q: "Serve pra qual bicho?",
@@ -190,7 +226,7 @@ const Grub = () => {
     <div className="grub-lp">
       <PageMeta
         title="Alimentação para répteis e anfíbios · três insetos num pó — Comida de Dragão"
-        description="Grub: alimento em pó com farinha de larva BSF, grilo preto e tenébrio, mais cúrcuma, spirulina e levedura. Relação cálcio-fósforo 2,5:1 já pronta. Mistura com água e vira gel ou papinha. Para geckos, teiús, dragões-barbudos, sapos e rãs."
+        description="Grub: alimento em pó feito de três insetos — larva, grilo e tenébrio —, já com o cálcio na medida certa. Mistura com água e vira gel ou papinha. Para gecko-leopardo, teiú, dragão-barbudo, gecko-de-crista, iguana, sapo, rã e salamandra."
         image={OG_IMG}
       />
       <Helmet>
@@ -208,7 +244,7 @@ const Grub = () => {
           {/* O H1 já leva "répteis e anfíbios" + praticidade, então a eyebrow
               carrega o que sobrou de fora: composição e perfil nutricional. */}
           <span className="grb-hero-eyebrow">
-            o cálcio na proporção certa · três insetos · Reg. MAPA
+            o cálcio na medida certa · três insetos · Reg. MAPA
           </span>
 
           {/* H1 lidera por COMPOSIÇÃO + PRATICIDADE (rebalanceado 28/07).
@@ -233,10 +269,11 @@ const Grub = () => {
           </h1>
 
           <p className="grb-hero-sub">
-            <strong>Alimentação de répteis e anfíbios em pó.</strong> O cálcio já vem na proporção que
-            ele precisa — <strong>2,5 de cálcio para cada 1 de fósforo</strong> —, que é justamente
-            a conta que a gente tenta acertar polvilhando pó no grilo antes de servir. Errar isso
-            por muito tempo é o que leva à <strong>doença óssea metabólica</strong>. E são{" "}
+            <strong>Alimentação de répteis e anfíbios em pó.</strong> Já vem com <strong>bem mais cálcio
+            do que fósforo</strong>, que é como réptil precisa — a mesma conta que a gente tenta
+            acertar polvilhando pó no grilo antes de servir. Cálcio de menos, por muito tempo, é o
+            que deixa o <strong>osso fraco e mole</strong>, aquilo que todo criador tem medo. E
+            são{" "}
             <strong>três insetos no mesmo pote</strong> — larva, grilo e tenébrio —, em vez de você
             manter três coisas diferentes em casa. Mistura com água e está pronto. É alimento
             completo, o que não quer dizer que ele possa comer só isso: bicho precisa de comida
@@ -330,6 +367,37 @@ const Grub = () => {
           <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
             É alimento completo, mas para usar dentro de uma alimentação variada — não substitui
             tudo o que ele come, nem o acompanhamento do veterinário.
+          </p>
+        </div>
+      </section>
+
+      {/* ════ PRA QUEM SERVE ════
+          Seção pedida pela Olivia em 28/07. Antes essa informação só existia
+          no FAQ, fechada num <details> — ou seja, invisível pra quem bate o
+          olho. "Serve pro meu bicho?" é a primeira pergunta de quem chega,
+          e vem antes de qualquer argumento de nutrição. */}
+      <section className="grb-section">
+        <div className="grb-section-inner">
+          <span className="grb-tag">pra quem serve</span>
+          <h2 className="grb-section-title">
+            Serve pro seu bicho?<br /><span>Olha a lista.</span>
+          </h2>
+          <p className="grb-section-lead">
+            Nem todo bicho come do mesmo jeito, então vale olhar onde o seu se encaixa.
+          </p>
+
+          <ul className="grb-problemas-list">
+            {BICHOS.map((b, i) => (
+              <li className="grb-problema-item" key={i}>
+                <b>{b.quando}</b> — {b.quem}
+              </li>
+            ))}
+          </ul>
+
+          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 15 }}>
+            <strong>Não serve pra tarântula nem outras aranhas.</strong> Nenhum produto da linha
+            Comida de Dragão é indicado pra elas — a gente prefere falar isso na cara do que
+            vender errado.
           </p>
         </div>
       </section>
