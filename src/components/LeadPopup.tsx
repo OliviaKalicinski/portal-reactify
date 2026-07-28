@@ -169,24 +169,22 @@ const LeadPopup = ({
       onClick={fechar}
     >
       <div className="ldp-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="ldp-titlebar">
-          <span className="ldp-handle">@dragao</span>
-          <button className="ldp-close" onClick={fechar} aria-label="Fechar">
-            [ x ]
-          </button>
-        </div>
+        <button className="ldp-close" onClick={fechar} aria-label="Fechar">
+          ✕
+        </button>
 
-        <img className="ldp-gif" src={gif} alt="" loading="lazy" decoding="async" />
+        <div className="ldp-palco">
+          <img className="ldp-gif" src={gif} alt="" loading="lazy" decoding="async" />
+        </div>
 
         {status === "done" ? (
           <div className="ldp-body ldp-done">
-            <span className="ldp-done-mark">&gt; portão aberto [✓]</span>
+            <strong className="ldp-done-mark">Pronto!</strong>
             <span className="ldp-done-sub">
-              teu contato tá salvo. a matilha te chama quando abrir coisa nova.
-              <span className="ldp-caret">&nbsp;</span>
+              Teu contato tá salvo. A gente te chama quando abrir coisa nova na Caverna.
             </span>
             <a className="ldp-btn" href="/biblioteca">
-              entrar na caverna
+              Entrar na Caverna
             </a>
           </div>
         ) : (
@@ -197,7 +195,7 @@ const LeadPopup = ({
               <input
                 className="ldp-input"
                 type="text"
-                placeholder="nome_"
+                placeholder="Seu nome"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 autoComplete="name"
@@ -207,18 +205,18 @@ const LeadPopup = ({
                 className="ldp-input"
                 type="tel"
                 inputMode="numeric"
-                placeholder="whatsapp_"
+                placeholder="Seu WhatsApp"
                 value={phone}
                 onChange={(e) => setPhone(formatPhoneBR(e.target.value))}
                 autoComplete="tel"
                 aria-label="Seu WhatsApp"
               />
               <button className="ldp-btn" type="submit" disabled={!valid || status === "sending"}>
-                {status === "sending" ? "abrindo…" : "[ entrar ]"}
+                {status === "sending" ? "Enviando…" : "Quero entrar"}
               </button>
             </form>
             <button className="ldp-skip" onClick={fechar}>
-              // agora não
+              agora não
             </button>
           </div>
         )}
