@@ -229,7 +229,7 @@ const Grub = () => {
               ("alimento/ração/comida para pet exótico") está abaixo do
               limiar. Mesma armadilha de `teiú` e `leopardo gecko`. */}
           <h1 className="grb-hero-title">
-            Alimente répteis e anfíbios<br /><span>em dois minutos.</span>
+            Alimentação de répteis<br /><span>e anfíbios, pronta.</span>
           </h1>
 
           <p className="grb-hero-sub">

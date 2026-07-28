@@ -27,11 +27,18 @@
   --ink-border:    rgba(22, 33, 26, 0.12);
   --ink-border-strong: rgba(22, 33, 26, 0.30);
 
-  /* PALETA REDUZIDA — preto + lime + pink + creme.
-     Lime = primária (CTA, accents, sombras riso).
-     Pink = leitura/títulos/stats/cupom — única cor escura colorida. */
+  /* PALETA DESTA LP — verde neon + verde água + creme (28/07).
+     A /gato-coceira usa lime + PINK; aqui o pink saiu: é uma página de
+     réptil e anfíbio, e o rosa puxava a leitura pro fofo. Trocada a
+     variável `--dragon-pink` por um verde água, o que recolore a página
+     inteira de uma vez — inclusive o degradê do topo do hero — sem
+     precisar mexer nas ~40 regras que a referenciam.
+     Verde água escolhido escuro o bastante pra virar TEXTO sobre creme
+     (é usado em título, stat, preço e link) e pra aguentar branco por
+     cima no bloco de cupom. */
   --dragon-lime:   #7BFF00;   /* PRIMÁRIA · CTA, accents, borders, sombras riso */
-  --dragon-pink:   #FF0066;   /* leitura colorida — títulos, stats, preço, cupom */
+  --dragon-aqua:   #00937D;   /* verde água · leitura colorida — títulos, stats, preço, cupom */
+  --dragon-pink:   var(--dragon-aqua);  /* alias: as regras herdadas ainda chamam --dragon-pink */
 
   background: var(--bg-page);
   color: var(--ink-primary);
@@ -99,7 +106,7 @@
   inset: 0;
   background:
     radial-gradient(ellipse 70% 60% at 50% 110%, rgba(123, 255, 0, 0.22) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(255, 0, 102, 0.10) 0%, transparent 60%);
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(0, 147, 125, 0.14) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -145,12 +152,14 @@
    Linha 1: preto/tinta puro, leitura limpa.
    Linha 2 (parte mais importante): preto + sombra LIME deslocada
    = clássico off-register de 2 tintas (preto + verde). */
-/* Teto em 72px — a /gato-coceira usa 82px. O H1 desta LP precisa carregar
-   "répteis e anfíbios" + a praticidade, e a 82px numa caixa de ~443px isso
-   dá ~13 caracteres por linha: a frase estourava pra 4 linhas, e o limite
-   da Olivia é 3. Medido no navegador, não estimado. */
+/* Teto em 68px — a /gato-coceira usa 82px. O H1 desta LP usa o SUBSTANTIVO
+   "Alimentação de répteis e anfíbios", que é a forma que as pessoas digitam
+   (~1.280 buscas/mês no cluster) e por isso a 1a colocada no ranking de SEO
+   — mas tambem a mais longa. Numa caixa de ~443px ela estoura pra 4 linhas
+   a 72px e fecha em 3 a 68px. Limite da Olivia: 3 linhas.
+   Medido no navegador em cada passo, não estimado. */
 .grb-hero-title {
-  font-size: clamp(42px, 9.5vw, 72px);
+  font-size: clamp(42px, 9.5vw, 68px);
   line-height: 0.88;
   letter-spacing: 0.01em;
   color: var(--ink-primary);
@@ -185,7 +194,7 @@
   top: 8px;
   right: 2px;
   z-index: 3;
-  background: #FF0066;
+  background: var(--dragon-aqua);
   color: #fff;
   font-weight: 800;
   font-size: 15px;
@@ -350,7 +359,7 @@
   margin-bottom: 14px;
 }
 .grb-tag.tag-pink {
-  background: rgba(255, 0, 102, 0.10);
+  background: rgba(0, 147, 125, 0.14);
   border-color: var(--dragon-pink);
   color: var(--dragon-pink);
 }
@@ -635,7 +644,7 @@
   width: 50px; height: 50px;
   background: repeating-linear-gradient(
     -45deg,
-    rgba(255, 0, 102, 0.10) 0 3px,
+    rgba(0, 147, 125, 0.14) 0 3px,
     transparent 3px 9px
   );
   pointer-events: none;
