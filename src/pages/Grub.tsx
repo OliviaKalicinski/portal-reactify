@@ -84,43 +84,63 @@ const CHIPS = [
   "💚 Garantia 14 dias",
 ];
 
+/* ⚠️ REBALANCEADO 28/07 (feedback da Olivia): a praticidade fica, mas o
+   "inseto vivo" deixa de ser a página inteira e vira UM argumento entre
+   outros. O peso vai pra composição (três farinhas de inseto), nutrição
+   e modo de uso. */
 const PROBLEMAS = [
   {
-    dor: "O criadouro toma conta da casa",
-    causa: "pote de tenébrio na despensa, cheiro, mosca escapando. Ninguém entrou nesse hobby pra criar inseto — entrou pelo bicho.",
+    dor: "Cada oferta com um valor nutricional diferente",
+    causa: "o que ele come hoje não tem o mesmo perfil do que comeu semana passada. Nutrição vira sorteio.",
   },
   {
-    dor: "A colônia morre e ele fica sem comer",
-    causa: "quando o alimento do seu réptil também é um ser vivo, você tem dois bichos pra manter — e um deles morre fácil.",
+    dor: "Uma fonte de proteína só, sempre a mesma",
+    causa: "variar de verdade exige comprar, guardar e revezar três coisas diferentes — quase ninguém mantém isso.",
   },
   {
-    dor: "Polvilhar cálcio em todo inseto, toda vez",
-    causa: "inseto vivo tem relação cálcio-fósforo ruim. Por isso existe o ritual do pó — e por isso esquecer cobra caro.",
+    dor: "O cálcio depende de você lembrar",
+    causa: "é por isso que existe o ritual de polvilhar pó a cada oferta. E é por isso que esquecer algumas vezes cobra caro.",
   },
   {
-    dor: "A conta que não para de vir",
-    causa: "comprar inseto vivo toda semana, o ano inteiro, sai caro e depende de alguém ter em estoque.",
+    dor: "Preparar dá trabalho — e às vezes acaba",
+    causa: "manter alimento vivo em casa tem cheiro, exige espaço e some justo na semana errada.",
   },
 ];
 
 const BENEFICIOS = [
   {
-    stat: "2,5:1",
-    statLbl: "Ca:P",
-    title: "O cálcio já vem na conta certa",
-    desc: "A relação <strong>cálcio-fósforo de 2,5:1</strong> é a faixa que réptil precisa — e é justamente onde o inseto vivo falha, por isso o ritual de polvilhar pó em cada grilo. No Grub isso <strong>já vem pronto na formulação</strong>.",
-  },
-  {
     stat: "3",
-    statLbl: "fontes de inseto",
+    statLbl: "farinhas de inseto",
     title: "Larva BSF, grilo preto e tenébrio",
-    desc: "Não é uma farinha só: o Grub junta <strong>larva de Mosca Soldado Negra, grilo preto e tenébrio</strong>, mais cúrcuma, spirulina e levedura. A variedade que você tentaria montar comprando três potes diferentes.",
+    desc: "Não é uma farinha só. O Grub junta <strong>larva de Mosca Soldado Negra, grilo preto e tenébrio</strong> — três aminogramas diferentes no mesmo pote — mais <strong>cúrcuma, spirulina e levedura nutricional</strong>. A variedade que você tentaria montar comprando três produtos.",
   },
   {
-    stat: "6",
-    statLbl: "meses fechado",
-    title: "Não morre na sua despensa",
-    desc: "É <strong>pó</strong> — mistura com água e vira gel firme ou papinha cremosa, do jeito que a espécie aceita melhor. Fechado dura <strong>meses</strong>; preparado, de 3 a 5 dias na geladeira. Sem odor, sem fuga, sem colônia pra manter.",
+    stat: "2,5:1",
+    statLbl: "cálcio : fósforo",
+    title: "A proporção certa já vem pronta",
+    desc: "Réptil precisa de <strong>mais cálcio que fósforo</strong> — e a maioria dos alimentos de inseto entrega o contrário, daí o ritual de polvilhar pó. O Grub sai da fábrica com a relação <strong>Ca:P em 2,5:1</strong>, mais carbonato de cálcio na formulação.",
+  },
+  {
+    stat: "2 min",
+    statLbl: "de preparo",
+    title: "Mistura com água e está pronto",
+    desc: "Vira <strong>gel firme</strong> ou <strong>papinha cremosa</strong>, do jeito que a sua espécie aceita melhor. Fechado dura <strong>meses na prateleira</strong>; preparado, de 3 a 5 dias na geladeira — e dá pra congelar em porções.",
+  },
+];
+
+/* Bloco de preparo — entrou no lugar da seção "a gente não veio brigar com
+   o inseto vivo", que virou item de FAQ. Praticidade demonstrada vale mais
+   que praticidade afirmada. Proporções conferidas no DOC2. */
+const PREPARO = [
+  {
+    modo: "Gel firme",
+    receita: "2 partes de água quente para 1 de Grub",
+    como: "Misture até dissolver e deixe gelificar, em temperatura ambiente ou na geladeira. Corta em cubos e vai pro pote.",
+  },
+  {
+    modo: "Papinha cremosa",
+    receita: "3 partes de água morna (50–60 °C) para 1 de Grub",
+    como: "Misture até ficar sem grumos e sirva em temperatura ambiente. É a versão pra iguana, crested e leachianus.",
   },
 ];
 
@@ -168,8 +188,8 @@ const Grub = () => {
   return (
     <div className="grub-lp">
       <PageMeta
-        title="Alimentação de répteis sem criar inseto em casa — Comida de Dragão"
-        description="Cansou de manter criadouro de tenébrio, do cheiro e de polvilhar cálcio em cada grilo? Grub é alimento em pó à base de três insetos, com relação cálcio-fósforo 2,5:1 já pronta. Para geckos, teiús, dragões-barbudos, sapos e rãs."
+        title="Alimentação para répteis e anfíbios · três insetos num pó — Comida de Dragão"
+        description="Grub: alimento em pó com farinha de larva BSF, grilo preto e tenébrio, mais cúrcuma, spirulina e levedura. Relação cálcio-fósforo 2,5:1 já pronta. Mistura com água e vira gel ou papinha. Para geckos, teiús, dragões-barbudos, sapos e rãs."
         image={OG_IMG}
       />
       <Helmet>
@@ -184,23 +204,25 @@ const Grub = () => {
             <DragonLogo className="grb-hero-logo" />
           </div>
 
-          <span className="grb-hero-eyebrow">répteis e anfíbios · três insetos · Ca:P 2,5:1</span>
+          <span className="grb-hero-eyebrow">alimentação de répteis e anfíbios · três insetos · Ca:P 2,5:1</span>
 
-          {/* H1 não pede pra parar de dar inseto — pede pra parar de CRIAR.
-              É a diferença entre falar com o tutor e brigar com o hobby dele.
-              A keyword real do cluster ("alimentação de répteis", ~1.000/mês,
-              e o cluster de tenébrio) entra na subheadline. */}
+          {/* H1 lidera por COMPOSIÇÃO + PRATICIDADE (rebalanceado 28/07).
+              A versão anterior liderava por "não precisa criar inseto" e
+              deixava a página inteira brigando com o hobby do tutor.
+              A keyword do cluster ("alimentação de répteis", ~1.000/mês)
+              entra na 1ª linha da subheadline, que é o que resolve QS. */}
           <h1 className="grb-hero-title">
-            Seu réptil come inseto.<br /><span>Você não precisa criar um.</span>
+            Três insetos num pote.<br /><span>Dois minutos e está pronto.</span>
           </h1>
 
           <p className="grb-hero-sub">
-            <strong>O pote de tenébrio na despensa, o cheiro, a colônia que morre justo na semana
-            errada.</strong> Ninguém entrou nesse hobby pra virar criador de larva — entrou pelo
-            bicho. O <strong>Grub</strong> é pó que vira gel ou papinha, feito de{" "}
-            <strong>três fontes de inseto</strong>, com a relação <strong>cálcio-fósforo já
-            equilibrada em 2,5:1</strong> — aquela que você tenta acertar polvilhando pó em cada
-            grilo. Alimento completo, dentro de uma alimentação variada.
+            <strong>Alimentação de répteis e anfíbios em pó</strong>, feita de{" "}
+            <strong>farinha de larva BSF, grilo preto e tenébrio</strong> — três aminogramas
+            diferentes no mesmo pote —, com cúrcuma, spirulina e levedura nutricional. A relação{" "}
+            <strong>cálcio-fósforo já sai equilibrada em 2,5:1</strong>, aquela que normalmente se
+            tenta acertar polvilhando pó. Mistura com água e vira gel firme ou papinha cremosa.
+            Alimento completo, dentro de uma alimentação variada — e sem nada pra manter vivo na
+            despensa.
           </p>
 
           <div className="grb-hero-product-wrap">
@@ -229,7 +251,7 @@ const Grub = () => {
 
           <div className="grb-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="grb-btn-primary" data-cta="hero">
-              Quero parar de criar inseto →
+              Quero o Grub →
             </a>
           </div>
 
@@ -244,11 +266,12 @@ const Grub = () => {
         <div className="grb-section-inner">
           <span className="grb-tag tag-pink">se isso te soa familiar</span>
           <h2 className="grb-section-title title-pink">
-            O bicho é fácil.<br /><span>Manter a comida dele é que não.</span>
+            O bicho come todo dia.<br /><span>A nutrição é que oscila.</span>
           </h2>
           <p className="grb-section-lead">
-            Réptil é um pet de rotina simples — até você perceber que passou a cuidar de{" "}
-            <strong>dois</strong> bichos: o seu, e a caixa de larva que alimenta o seu.
+            Alimentar réptil parece simples até você olhar de perto: o perfil nutricional muda a
+            cada oferta, a variedade depende de você manter três coisas diferentes em casa, e o
+            cálcio fica por conta da sua memória.
           </p>
 
           <ul className="grb-problemas-list">
@@ -266,12 +289,12 @@ const Grub = () => {
         <div className="grb-section-inner">
           <span className="grb-tag">a solução</span>
           <h2 className="grb-section-title">
-            A base pronta —<br /><span>o inseto vivo vira escolha.</span>
+            Três farinhas de inseto<br /><span>num pó só.</span>
           </h2>
           <p className="grb-section-lead">
-            A gente cria a larva na nossa biofábrica no RJ, com <strong>registro MAPA</strong> e
-            rastreabilidade. O Grub chega em pó: mistura com água, vira gel firme ou papinha
-            cremosa, e vai pro pote.
+            A larva é criada na nossa biofábrica no RJ, com <strong>registro MAPA</strong> e
+            rastreabilidade. O que sai de lá é um <strong>pó formador de gel</strong> — a
+            composição inteira já balanceada, em vez de você montar a dieta juntando produto.
           </p>
 
           <div className="grb-beneficios">
@@ -293,38 +316,34 @@ const Grub = () => {
         </div>
       </section>
 
-      {/* ════ A CONVERSA HONESTA ════
-          Bloco equivalente ao "e se ele não comer?" da /gato-coceira.
-          Aqui a objeção real não é palatabilidade — é o tutor achando que a
-          gente está mandando ele abandonar o inseto vivo. Se a página não
-          desarmar isso, o criador experiente rejeita de cara. */}
+      {/* ════ COMO SE USA ════
+          Entrou no lugar da seção "a gente não veio brigar com o inseto
+          vivo" (rebalanceamento de 28/07). Aquela objeção continua tratada,
+          mas no FAQ — aqui o espaço nobre vai pra praticidade DEMONSTRADA.
+          Proporções e prazos conferidos no DOC2. */}
       <section className="grb-section">
         <div className="grb-section-inner">
-          <span className="grb-tag tag-pink">falando sério</span>
+          <span className="grb-tag tag-pink">como se usa</span>
           <h2 className="grb-section-title title-pink">
-            A gente não veio<br /><span>brigar com o inseto vivo.</span>
+            Água, mexer,<br /><span>e escolher a textura.</span>
           </h2>
           <p className="grb-section-lead">
-            Dar inseto faz parte — é enriquecimento, é comportamento de caça, e muita gente
-            gosta disso. O que a gente quer tirar da sua vida é a <strong>dependência</strong>,
-            não o hábito.
+            A mesma lata serve os dois jeitos. Você decide pela espécie e pelo que ela aceita
+            melhor — e prepara a quantidade da semana de uma vez.
           </p>
 
           <ul className="grb-problemas-list">
+            {PREPARO.map((p, i) => (
+              <li className="grb-problema-item" key={i}>
+                <b>{p.modo}</b> — <strong>{p.receita}</strong>. {p.como}
+              </li>
+            ))}
             <li className="grb-problema-item">
-              <b>Comece misturado</b> — ofereça o gel junto do que ele já come, pra reconhecer o
-              cheiro antes de virar refeição inteira.
+              <b>Guarda fácil</b> — fechado dura <strong>meses na prateleira</strong>; preparado,
+              de <strong>3 a 5 dias na geladeira</strong>. Dá pra congelar em porções e ir tirando.
             </li>
             <li className="grb-problema-item">
-              <b>Ajuste a consistência</b> — gel mais firme pra quem morde, papinha mais hidratada
-              pra iguana, crested e leachianus.
-            </li>
-            <li className="grb-problema-item">
-              <b>Mantenha a variedade</b> — a base pronta não elimina a necessidade de dieta
-              variada. Inseto vivo continua bem-vindo, só deixa de ser obrigação.
-            </li>
-            <li className="grb-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem
+              <b>Não colou?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem
               letrinha miúda.
             </li>
           </ul>
@@ -360,7 +379,7 @@ const Grub = () => {
         <div className="grb-oferta-inner">
           <span className="grb-tag tag-lime">grub · 120g</span>
           <h2 className="grb-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            Tira o criadouro<br /><span>da sua despensa</span>
+            A dieta dele<br /><span>resolvida num pote</span>
           </h2>
 
           <div className="grb-oferta-coupon-box">
@@ -414,10 +433,10 @@ const Grub = () => {
       {/* ════ CTA FINAL ════ */}
       <section className="grb-cta-final">
         <div className="grb-section-inner">
-          <h2>Bora tirar o criadouro de casa?</h2>
+          <h2>Bora simplificar a dieta dele?</h2>
           <p>
-            Três insetos num pote, cálcio e fósforo já na proporção certa, e nada pra manter vivo
-            na despensa. O inseto vivo continua — só deixa de ser obrigação.
+            Três farinhas de inseto, cálcio e fósforo já na proporção certa, e dois minutos de
+            preparo. Alimento completo, dentro de uma alimentação variada.
           </p>
           <a href={ctaUrl("final")} className="grb-btn-primary" data-cta="final">
             Quero o Grub →
