@@ -75,7 +75,7 @@
 
 .ldp-gif {
   display: block;
-  width: 172px;
+  width: 224px;
   height: auto;
   margin: 0 auto;
   border: 3px solid var(--ink-primary, #1C0D2B);
@@ -189,7 +189,7 @@
 .ldp-done .ldp-btn { max-width: 300px; }
 
 @media (max-width: 420px) {
-  .ldp-gif { width: 150px; }
+  .ldp-gif { width: 190px; }
   .ldp-palco { padding: 22px 16px 0; }
   .ldp-modal { box-shadow: 5px 5px 0 var(--dragon-lime, #7BFF00); }
 }

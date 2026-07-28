@@ -81,8 +81,8 @@ const marcar = (key: string, value: string) => {
 
 const LeadPopup = ({
   slug,
-  title = "Vamos nos conectar!",
-  subtitle = "Deixa teu nome e WhatsApp que o dragão te manda as novidades primeiro.",
+  title = "Fica sabendo primeiro",
+  subtitle = "Deixa teu nome e WhatsApp: o dragão te avisa de produto novo, promoção e conteúdo antes de todo mundo.",
   gif = DOG_PC_GIF,
 }: Props) => {
   const [open, setOpen] = useState(false);
