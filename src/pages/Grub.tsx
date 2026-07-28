@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
-import "./Repteis.css";
+import "./Grub.css";
 
 /* ──────────────────────────────────────────────────────────────
-   LP CAMPANHA — RÉPTEIS & ANFÍBIOS · /repteis
+   LP CAMPANHA — GRUB · REPTEIS & ANFIBIOS · /grub
    Página satélite · tráfego pago · público frio (Non-Brand "por dor").
    Tema: DEPENDÊNCIA DO INSETO VIVO / CRIADOURO EM CASA.
    Produto-foco: GRUB · SKU 401 · token Yampi 9ZCGSMOOBC · R$110,00.
@@ -62,9 +62,9 @@ const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/9ZCGSMOOBC`;
 const PROTEINA_PCT_PENDENTE = null; // 47% (pág.2/DOC2) vs 40% (pág.1). Ver _CORRIGIR.
 
 const UTM_FALLBACK = {
-  utm_source: "lp-repteis",
+  utm_source: "lp-grub",
   utm_medium: "lp",
-  utm_campaign: "lp-repteis-grub",
+  utm_campaign: "lp-grub",
 };
 
 const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
@@ -163,10 +163,10 @@ const FAQ = [
   },
 ];
 
-const Repteis = () => {
+const Grub = () => {
   useEffect(() => { captureEntryUtms(); }, []);
   return (
-    <div className="repteis-lp">
+    <div className="grub-lp">
       <PageMeta
         title="Alimentação de répteis sem criar inseto em casa — Comida de Dragão"
         description="Cansou de manter criadouro de tenébrio, do cheiro e de polvilhar cálcio em cada grilo? Grub é alimento em pó à base de três insetos, com relação cálcio-fósforo 2,5:1 já pronta. Para geckos, teiús, dragões-barbudos, sapos e rãs."
@@ -177,24 +177,24 @@ const Repteis = () => {
       </Helmet>
 
       {/* ════ HERO ════ */}
-      <section className="rep-hero">
-        <div className="rep-hero-inner">
-          <div className="rep-hero-top">
-            <Link to="/portal" className="rep-backlink">← comida de dragão</Link>
-            <DragonLogo className="rep-hero-logo" />
+      <section className="grb-hero">
+        <div className="grb-hero-inner">
+          <div className="grb-hero-top">
+            <Link to="/portal" className="grb-backlink">← comida de dragão</Link>
+            <DragonLogo className="grb-hero-logo" />
           </div>
 
-          <span className="rep-hero-eyebrow">répteis e anfíbios · três insetos · Ca:P 2,5:1</span>
+          <span className="grb-hero-eyebrow">répteis e anfíbios · três insetos · Ca:P 2,5:1</span>
 
           {/* H1 não pede pra parar de dar inseto — pede pra parar de CRIAR.
               É a diferença entre falar com o tutor e brigar com o hobby dele.
               A keyword real do cluster ("alimentação de répteis", ~1.000/mês,
               e o cluster de tenébrio) entra na subheadline. */}
-          <h1 className="rep-hero-title">
+          <h1 className="grb-hero-title">
             Seu réptil come inseto.<br /><span>Você não precisa criar um.</span>
           </h1>
 
-          <p className="rep-hero-sub">
+          <p className="grb-hero-sub">
             <strong>O pote de tenébrio na despensa, o cheiro, a colônia que morre justo na semana
             errada.</strong> Ninguém entrou nesse hobby pra virar criador de larva — entrou pelo
             bicho. O <strong>Grub</strong> é pó que vira gel ou papinha, feito de{" "}
@@ -203,9 +203,9 @@ const Repteis = () => {
             grilo. Alimento completo, dentro de uma alimentação variada.
           </p>
 
-          <div className="rep-hero-product-wrap">
+          <div className="grb-hero-product-wrap">
             <img
-              className="rep-hero-product"
+              className="grb-hero-product"
               src={HERO_IMG}
               alt="Grub Comida de Dragão — alimento para répteis e anfíbios, 120g"
               width={460}
@@ -214,46 +214,46 @@ const Repteis = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="rep-hero-frete-tag">120g · rende muito</span>
+            <span className="grb-hero-frete-tag">120g · rende muito</span>
           </div>
 
-          <div className="rep-hero-price">
-            <span className="rep-price-from">Grub 120g por</span>
-            <span className="rep-price-now"><small>R$</small>{PRICE}</span>
-            <span className="rep-price-installment">4× sem juros · frete grátis acima de R$ {FRETE_GRATIS_A_PARTIR}</span>
+          <div className="grb-hero-price">
+            <span className="grb-price-from">Grub 120g por</span>
+            <span className="grb-price-now"><small>R$</small>{PRICE}</span>
+            <span className="grb-price-installment">4× sem juros · frete grátis acima de R$ {FRETE_GRATIS_A_PARTIR}</span>
           </div>
 
-          <div className="rep-hero-coupon">
+          <div className="grb-hero-coupon">
             🚚 Duas unidades já passam do frete grátis · conhece um afiliado nosso? usa o cupom dele no checkout
           </div>
 
-          <div className="rep-hero-cta-wrap">
-            <a href={ctaUrl("hero")} className="rep-btn-primary" data-cta="hero">
+          <div className="grb-hero-cta-wrap">
+            <a href={ctaUrl("hero")} className="grb-btn-primary" data-cta="hero">
               Quero parar de criar inseto →
             </a>
           </div>
 
-          <div className="rep-hero-chips">
-            {CHIPS.map((c, i) => <span className="rep-chip" key={i}>{c}</span>)}
+          <div className="grb-hero-chips">
+            {CHIPS.map((c, i) => <span className="grb-chip" key={i}>{c}</span>)}
           </div>
         </div>
       </section>
 
       {/* ════ PROBLEMA ════ */}
-      <section className="rep-section">
-        <div className="rep-section-inner">
-          <span className="rep-tag tag-pink">se isso te soa familiar</span>
-          <h2 className="rep-section-title title-pink">
+      <section className="grb-section">
+        <div className="grb-section-inner">
+          <span className="grb-tag tag-pink">se isso te soa familiar</span>
+          <h2 className="grb-section-title title-pink">
             O bicho é fácil.<br /><span>Manter a comida dele é que não.</span>
           </h2>
-          <p className="rep-section-lead">
+          <p className="grb-section-lead">
             Réptil é um pet de rotina simples — até você perceber que passou a cuidar de{" "}
             <strong>dois</strong> bichos: o seu, e a caixa de larva que alimenta o seu.
           </p>
 
-          <ul className="rep-problemas-list">
+          <ul className="grb-problemas-list">
             {PROBLEMAS.map((p, i) => (
-              <li className="rep-problema-item" key={i}>
+              <li className="grb-problema-item" key={i}>
                 <b>{p.dor}</b> — {p.causa}
               </li>
             ))}
@@ -262,31 +262,31 @@ const Repteis = () => {
       </section>
 
       {/* ════ SOLUÇÃO ════ */}
-      <section className="rep-section">
-        <div className="rep-section-inner">
-          <span className="rep-tag">a solução</span>
-          <h2 className="rep-section-title">
+      <section className="grb-section">
+        <div className="grb-section-inner">
+          <span className="grb-tag">a solução</span>
+          <h2 className="grb-section-title">
             A base pronta —<br /><span>o inseto vivo vira escolha.</span>
           </h2>
-          <p className="rep-section-lead">
+          <p className="grb-section-lead">
             A gente cria a larva na nossa biofábrica no RJ, com <strong>registro MAPA</strong> e
             rastreabilidade. O Grub chega em pó: mistura com água, vira gel firme ou papinha
             cremosa, e vai pro pote.
           </p>
 
-          <div className="rep-beneficios">
+          <div className="grb-beneficios">
             {BENEFICIOS.map((b, i) => (
-              <div className="rep-beneficio" key={i}>
-                <div className="rep-beneficio-stat">
+              <div className="grb-beneficio" key={i}>
+                <div className="grb-beneficio-stat">
                   {b.stat}<small style={{ fontSize: 14, opacity: 0.6, marginLeft: 6 }}>{b.statLbl}</small>
                 </div>
-                <div className="rep-beneficio-title">{b.title}</div>
-                <div className="rep-beneficio-desc" dangerouslySetInnerHTML={{ __html: b.desc }} />
+                <div className="grb-beneficio-title">{b.title}</div>
+                <div className="grb-beneficio-desc" dangerouslySetInnerHTML={{ __html: b.desc }} />
               </div>
             ))}
           </div>
 
-          <p className="rep-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
             Alimento completo, para uso dentro de uma alimentação variada — não substitui
             integralmente a alimentação do animal nem o acompanhamento veterinário.
           </p>
@@ -298,32 +298,32 @@ const Repteis = () => {
           Aqui a objeção real não é palatabilidade — é o tutor achando que a
           gente está mandando ele abandonar o inseto vivo. Se a página não
           desarmar isso, o criador experiente rejeita de cara. */}
-      <section className="rep-section">
-        <div className="rep-section-inner">
-          <span className="rep-tag tag-pink">falando sério</span>
-          <h2 className="rep-section-title title-pink">
+      <section className="grb-section">
+        <div className="grb-section-inner">
+          <span className="grb-tag tag-pink">falando sério</span>
+          <h2 className="grb-section-title title-pink">
             A gente não veio<br /><span>brigar com o inseto vivo.</span>
           </h2>
-          <p className="rep-section-lead">
+          <p className="grb-section-lead">
             Dar inseto faz parte — é enriquecimento, é comportamento de caça, e muita gente
             gosta disso. O que a gente quer tirar da sua vida é a <strong>dependência</strong>,
             não o hábito.
           </p>
 
-          <ul className="rep-problemas-list">
-            <li className="rep-problema-item">
+          <ul className="grb-problemas-list">
+            <li className="grb-problema-item">
               <b>Comece misturado</b> — ofereça o gel junto do que ele já come, pra reconhecer o
               cheiro antes de virar refeição inteira.
             </li>
-            <li className="rep-problema-item">
+            <li className="grb-problema-item">
               <b>Ajuste a consistência</b> — gel mais firme pra quem morde, papinha mais hidratada
               pra iguana, crested e leachianus.
             </li>
-            <li className="rep-problema-item">
+            <li className="grb-problema-item">
               <b>Mantenha a variedade</b> — a base pronta não elimina a necessidade de dieta
               variada. Inseto vivo continua bem-vindo, só deixa de ser obrigação.
             </li>
-            <li className="rep-problema-item">
+            <li className="grb-problema-item">
               <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem
               letrinha miúda.
             </li>
@@ -336,73 +336,73 @@ const Repteis = () => {
           Argumentos nem no Judge.me até 28/07. Slider usa só foto de
           produto. NÃO inventar depoimento — quando houver review real,
           trocar aqui e reativar o badge "review". */}
-      <section className="rep-section">
-        <div className="rep-section-inner">
-          <span className="rep-tag">o pote por dentro</span>
-          <h2 className="rep-section-title">
+      <section className="grb-section">
+        <div className="grb-section-inner">
+          <span className="grb-tag">o pote por dentro</span>
+          <h2 className="grb-section-title">
             120 gramas de pó<br /><span>que rende muito gel.</span>
           </h2>
 
-          <div className="rep-slider" role="region" aria-label="Fotos do Grub">
+          <div className="grb-slider" role="region" aria-label="Fotos do Grub">
             {SLIDES.map((s, i) => (
-              <figure className="rep-slide" key={i}>
-                <span className="rep-slide-badge">o pote</span>
+              <figure className="grb-slide" key={i}>
+                <span className="grb-slide-badge">o pote</span>
                 <img src={s.src} alt={s.alt} loading="lazy" decoding="async" />
               </figure>
             ))}
           </div>
-          <p className="rep-slider-hint">← arraste pra ver mais →</p>
+          <p className="grb-slider-hint">← arraste pra ver mais →</p>
         </div>
       </section>
 
       {/* ════ OFERTA ════ */}
-      <section className="rep-oferta">
-        <div className="rep-oferta-inner">
-          <span className="rep-tag tag-lime">grub · 120g</span>
-          <h2 className="rep-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
+      <section className="grb-oferta">
+        <div className="grb-oferta-inner">
+          <span className="grb-tag tag-lime">grub · 120g</span>
+          <h2 className="grb-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             Tira o criadouro<br /><span>da sua despensa</span>
           </h2>
 
-          <div className="rep-oferta-coupon-box">
-            <div className="rep-oferta-coupon-label">🚚 vantagem</div>
-            <div className="rep-oferta-coupon-code">2 POTES = FRETE GRÁTIS</div>
-            <div className="rep-oferta-coupon-desc">
+          <div className="grb-oferta-coupon-box">
+            <div className="grb-oferta-coupon-label">🚚 vantagem</div>
+            <div className="grb-oferta-coupon-code">2 POTES = FRETE GRÁTIS</div>
+            <div className="grb-oferta-coupon-desc">
               Grub por R$ {PRICE} · frete grátis a partir de R$ {FRETE_GRATIS_A_PARTIR}
             </div>
           </div>
 
-          <a href={ctaUrl("oferta")} className="rep-btn-primary" data-cta="oferta">
+          <a href={ctaUrl("oferta")} className="grb-btn-primary" data-cta="oferta">
             Quero o Grub →
           </a>
 
-          <p className="rep-hero-note" style={{ marginTop: 16 }}>
+          <p className="grb-hero-note" style={{ marginTop: 16 }}>
             Compra 100% segura via Yampi · cartão, Pix ou boleto
           </p>
         </div>
       </section>
 
       {/* ════ FAQ + GARANTIA ════ */}
-      <section className="rep-section">
-        <div className="rep-section-inner">
-          <span className="rep-tag">perguntas frequentes</span>
-          <h2 className="rep-section-title">
+      <section className="grb-section">
+        <div className="grb-section-inner">
+          <span className="grb-tag">perguntas frequentes</span>
+          <h2 className="grb-section-title">
             Antes de comprar,<br /><span>tudo o que importa.</span>
           </h2>
 
-          <div className="rep-faq">
+          <div className="grb-faq">
             {FAQ.map((f, i) => (
-              <details className="rep-faq-item" key={i}>
-                <summary className="rep-faq-q">{f.q}</summary>
-                <div className="rep-faq-a" dangerouslySetInnerHTML={{ __html: f.a }} />
+              <details className="grb-faq-item" key={i}>
+                <summary className="grb-faq-q">{f.q}</summary>
+                <div className="grb-faq-a" dangerouslySetInnerHTML={{ __html: f.a }} />
               </details>
             ))}
           </div>
 
-          <div className="rep-garantia">
-            <div className="rep-garantia-icon">💚</div>
+          <div className="grb-garantia">
+            <div className="grb-garantia-icon">💚</div>
             <div>
-              <div className="rep-garantia-title">Garantia da matilha</div>
-              <div className="rep-garantia-text">
+              <div className="grb-garantia-title">Garantia da matilha</div>
+              <div className="grb-garantia-text">
                 Se ele não topar em 14 dias da entrega, a gente devolve seu dinheiro.
                 Sem letrinha miúda.
               </div>
@@ -412,41 +412,41 @@ const Repteis = () => {
       </section>
 
       {/* ════ CTA FINAL ════ */}
-      <section className="rep-cta-final">
-        <div className="rep-section-inner">
+      <section className="grb-cta-final">
+        <div className="grb-section-inner">
           <h2>Bora tirar o criadouro de casa?</h2>
           <p>
             Três insetos num pote, cálcio e fósforo já na proporção certa, e nada pra manter vivo
             na despensa. O inseto vivo continua — só deixa de ser obrigação.
           </p>
-          <a href={ctaUrl("final")} className="rep-btn-primary" data-cta="final">
+          <a href={ctaUrl("final")} className="grb-btn-primary" data-cta="final">
             Quero o Grub →
           </a>
         </div>
       </section>
 
       {/* ════ FOOTER ════ */}
-      <footer className="rep-footer">
-        <div className="rep-footer-inner">
-          <nav className="rep-footer-nav">
+      <footer className="grb-footer">
+        <div className="grb-footer-inner">
+          <nav className="grb-footer-nav">
             <a href="https://www.comidadedragao.com.br">Loja</a>
             <Link to="/produtos">Linha completa</Link>
             <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noreferrer">Instagram</a>
             <a href="https://wa.me/5521993049400" target="_blank" rel="noreferrer">Contato</a>
           </nav>
-          <p className="rep-footer-tagline">Nojento é o desperdício.</p>
-          <p className="rep-footer-credits">
+          <p className="grb-footer-tagline">Nojento é o desperdício.</p>
+          <p className="grb-footer-credits">
             Comida de Dragão · Lets Fly · Biofábrica RJ · Reg. MAPA
           </p>
         </div>
       </footer>
 
       {/* ════ STICKY CTA (mobile) ════ */}
-      <div className="rep-sticky">
-        <div className="rep-sticky-price">
+      <div className="grb-sticky">
+        <div className="grb-sticky-price">
           Grub 120g · <b>R$ {PRICE}</b>
         </div>
-        <a href={ctaUrl("sticky")} className="rep-btn-primary rep-btn-sticky" data-cta="sticky">
+        <a href={ctaUrl("sticky")} className="grb-btn-primary grb-btn-sticky" data-cta="sticky">
           Comprar →
         </a>
       </div>
@@ -454,4 +454,4 @@ const Repteis = () => {
   );
 };
 
-export default Repteis;
+export default Grub;
