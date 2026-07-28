@@ -145,8 +145,12 @@
    Linha 1: preto/tinta puro, leitura limpa.
    Linha 2 (parte mais importante): preto + sombra LIME deslocada
    = clássico off-register de 2 tintas (preto + verde). */
+/* Teto em 72px — a /gato-coceira usa 82px. O H1 desta LP precisa carregar
+   "répteis e anfíbios" + a praticidade, e a 82px numa caixa de ~443px isso
+   dá ~13 caracteres por linha: a frase estourava pra 4 linhas, e o limite
+   da Olivia é 3. Medido no navegador, não estimado. */
 .grb-hero-title {
-  font-size: clamp(42px, 9.5vw, 82px);
+  font-size: clamp(42px, 9.5vw, 72px);
   line-height: 0.88;
   letter-spacing: 0.01em;
   color: var(--ink-primary);

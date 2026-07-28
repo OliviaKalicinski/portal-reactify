@@ -204,10 +204,10 @@ const Grub = () => {
             <DragonLogo className="grb-hero-logo" />
           </div>
 
-          {/* A eyebrow carrega a praticidade que não coube no H1 de 3 linhas,
-              e mantém a keyword do cluster logo acima do título. */}
+          {/* O H1 já leva "répteis e anfíbios" + praticidade, então a eyebrow
+              carrega o que sobrou de fora: composição e perfil nutricional. */}
           <span className="grb-hero-eyebrow">
-            alimentação de répteis e anfíbios · pronto em 2{" "}min · Ca:P{" "}2,5:1
+            três farinhas de inseto · Ca:P 2,5:1 · alimento completo
           </span>
 
           {/* H1 lidera por COMPOSIÇÃO + PRATICIDADE (rebalanceado 28/07).
@@ -215,18 +215,20 @@ const Grub = () => {
               deixava a página inteira brigando com o hobby do tutor.
               A keyword do cluster ("alimentação de répteis", ~1.000/mês)
               entra na 1ª linha da subheadline, que é o que resolve QS. */}
-          {/* ⚠️ MÁXIMO 3 LINHAS RENDERIZADAS (regra da Olivia, 28/07).
-              A caixa do H1 tem ~443px e line-height 72px: cada linha comporta
-              mais ou menos "ALIMENTE SEU". Medido no navegador — 4 linhas
-              estouram. Alternativas de 3 linhas já testadas, caso queira
-              trocar: "Alimente seu exótico / sem trabalho." e
-              "Seu exótico, / bem alimentado."
-              ⚠️ "exótico" é palavra de HERO, não de campanha: `animais
-              exóticos` faz 9.900/mês mas TODA intenção de comida
+          {/* ⚠️ MÁXIMO 3 LINHAS RENDERIZADAS (regra da Olivia, 28/07) e o H1
+              tem que dizer "répteis e anfíbios" + praticidade.
+              A 82px isso é impossível: a caixa tem ~443px, o que dá ~13
+              caracteres por linha, e as 10 variações testadas estouravam
+              pra 4. Por isso o teto do clamp caiu pra 72px no Grub.css.
+              Alternativas medidas que também fecham em 3 linhas a 72px:
+              "…sem complicação." · "…com praticidade." · "…em 2 minutos."
+              Escolhida a com número: mais concreta que "praticidade".
+              ⚠️ "exótico" foi testado e descartado como palavra de campanha:
+              `animais exóticos` faz 9.900/mês mas TODA intenção de comida
               ("alimento/ração/comida para pet exótico") está abaixo do
               limiar. Mesma armadilha de `teiú` e `leopardo gecko`. */}
           <h1 className="grb-hero-title">
-            Alimente seu exótico<br /><span>direito.</span>
+            Alimente répteis e anfíbios<br /><span>em dois minutos.</span>
           </h1>
 
           <p className="grb-hero-sub">
