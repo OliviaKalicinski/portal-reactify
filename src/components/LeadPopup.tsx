@@ -25,10 +25,12 @@ import "./LeadPopup.css";
    FREQUÊNCIA: uma vez a cada 30 dias por pessoa; quem já deixou o telefone
    não vê mais (localStorage). Fechar no ✕ ou no "agora não" também conta.
 
-   OFERTA: acesso à Caverna (conteúdo que já existe). Sem cupom — decisão da
+   OFERTA: novidade em primeira mão, direto do dragão. Sem cupom — decisão da
    Olivia em 28/07: a fábrica de cupons já custa 13,9% do faturamento bruto e
    um cupom aqui competiria com o dos influenciadores. A lista da Mordida
    provou que a moeda não-monetária captura (84 inscritos, cupom nenhum).
+   A copy fala simples e não menciona "Caverna": quem está numa LP de dor não
+   sabe o que é a Caverna, e explicar isso ali custa mais atenção do que vale.
    ────────────────────────────────────────────────────────────── */
 
 /* Cachorro no notebook — o MESMO gif do card do quiz na Caverna (Portal.tsx,
@@ -79,8 +81,8 @@ const marcar = (key: string, value: string) => {
 
 const LeadPopup = ({
   slug,
-  title = "o dragão quer te conhecer",
-  subtitle = "A Caverna é o lado de dentro da marca: quiz, ciência sobre alimentação e bastidor da matilha. Deixa teu contato — a gente chama quando abrir coisa nova.",
+  title = "Vamos nos conectar!",
+  subtitle = "Deixa teu nome e WhatsApp que o dragão te manda as novidades primeiro.",
   gif = DOG_PC_GIF,
 }: Props) => {
   const [open, setOpen] = useState(false);
@@ -181,11 +183,13 @@ const LeadPopup = ({
           <div className="ldp-body ldp-done">
             <strong className="ldp-done-mark">Pronto!</strong>
             <span className="ldp-done-sub">
-              Teu contato tá salvo. A gente te chama quando abrir coisa nova na Caverna.
+              Teu contato tá salvo. O dragão te chama quando tiver novidade.
             </span>
-            <a className="ldp-btn" href="/biblioteca">
-              Entrar na Caverna
-            </a>
+            {/* fecha e devolve a pessoa pra página. Antes levava pra /biblioteca,
+                o que tirava do funil quem estava lendo uma LP de produto. */}
+            <button className="ldp-btn" onClick={() => setOpen(false)}>
+              Continuar lendo
+            </button>
           </div>
         ) : (
           <div className="ldp-body">
