@@ -110,22 +110,22 @@ const PROBLEMAS = [
 
 const BENEFICIOS = [
   {
+    stat: "2,5",
+    statLbl: "de cálcio pra 1 de fósforo",
+    title: "A conta que não dá pra errar",
+    desc: "Réptil precisa de <strong>bem mais cálcio do que fósforo</strong>, e quase todo inseto vem ao contrário — é pra isso que serve o pó que se polvilha antes de servir. Quando essa conta fica torta por meses, o que aparece é <strong>doença óssea metabólica</strong>, uma das falhas de manejo mais conhecidas em cativeiro. Aqui a proporção <strong>já sai certa de fábrica</strong>, com cálcio somado na receita.",
+  },
+  {
     stat: "3",
     statLbl: "insetos no pote",
     title: "Larva, grilo e tenébrio",
-    desc: "Não é um inseto só. São <strong>três</strong> — larva de mosca soldado negra, grilo preto e tenébrio —, mais cúrcuma, spirulina e levedura. É a variedade que você teria que montar comprando três potes diferentes.",
-  },
-  {
-    stat: "2,5",
-    statLbl: "de cálcio pra 1 de fósforo",
-    title: "O cálcio já vem na medida",
-    desc: "Réptil precisa de <strong>bem mais cálcio do que fósforo</strong>, e quase todo alimento de inseto vem ao contrário — é por isso que existe o pó pra polvilhar. Aqui <strong>a conta já sai certa de fábrica</strong>, e ainda tem cálcio somado na receita.",
+    desc: "Não é um inseto só. São <strong>três</strong> — larva de mosca soldado negra, grilo preto e tenébrio —, mais cúrcuma, spirulina e levedura. É a variedade que você teria que montar comprando três potes diferentes, e ela chega igual em toda porção.",
   },
   {
     stat: "2 min",
     statLbl: "e está na tigela",
-    title: "Mistura com água e pronto",
-    desc: "Vira <strong>gel firme</strong> ou <strong>papinha</strong>, do jeito que o seu bicho aceita melhor. Fechado dura <strong>meses na prateleira</strong>; depois de pronto, de 3 a 5 dias na geladeira — e dá pra congelar em porções.",
+    title: "E ainda é rápido de fazer",
+    desc: "Vira <strong>gel firme</strong> ou <strong>papinha</strong>, do jeito que o seu bicho aceita melhor. Fechado dura <strong>meses na prateleira</strong>; depois de pronto, de 3 a 5 dias na geladeira. A praticidade é consequência — <strong>o que importa é a mesma medida certa ir pra tigela toda vez.</strong>",
   },
 ];
 
@@ -208,7 +208,7 @@ const Grub = () => {
           {/* O H1 já leva "répteis e anfíbios" + praticidade, então a eyebrow
               carrega o que sobrou de fora: composição e perfil nutricional. */}
           <span className="grb-hero-eyebrow">
-            três insetos · o cálcio na medida · alimento completo
+            o cálcio na proporção certa · três insetos · Reg. MAPA
           </span>
 
           {/* H1 lidera por COMPOSIÇÃO + PRATICIDADE (rebalanceado 28/07).
@@ -229,16 +229,18 @@ const Grub = () => {
               ("alimento/ração/comida para pet exótico") está abaixo do
               limiar. Mesma armadilha de `teiú` e `leopardo gecko`. */}
           <h1 className="grb-hero-title">
-            Alimentação de<br />répteis e anfíbios,<br /><span>pronta.</span>
+            Alimentação de<br />répteis e anfíbios,<br /><span>certa.</span>
           </h1>
 
           <p className="grb-hero-sub">
-            <strong>Alimentação de répteis e anfíbios em pó.</strong> São <strong>três insetos num pote
-            só</strong> — larva, grilo e tenébrio —, em vez de você comprar e guardar três coisas
-            diferentes. E o <strong>cálcio já vem na medida certa</strong>: aquele pó que a gente
-            polvilha em cima do grilo antes de servir, aqui já está dentro. Mistura com água, vira
-            gel ou papinha, e pronto. É alimento completo — o que não quer dizer que ele possa
-            comer só isso: bicho precisa de comida variada.
+            <strong>Alimentação de répteis e anfíbios em pó.</strong> O cálcio já vem na proporção que
+            ele precisa — <strong>2,5 de cálcio para cada 1 de fósforo</strong> —, que é justamente
+            a conta que a gente tenta acertar polvilhando pó no grilo antes de servir. Errar isso
+            por muito tempo é o que leva à <strong>doença óssea metabólica</strong>. E são{" "}
+            <strong>três insetos no mesmo pote</strong> — larva, grilo e tenébrio —, em vez de você
+            manter três coisas diferentes em casa. Mistura com água e está pronto. É alimento
+            completo, o que não quer dizer que ele possa comer só isso: bicho precisa de comida
+            variada.
           </p>
 
           <div className="grb-hero-product-wrap">
@@ -304,12 +306,13 @@ const Grub = () => {
         <div className="grb-section-inner">
           <span className="grb-tag">a solução</span>
           <h2 className="grb-section-title">
-            Três insetos<br /><span>num pó só.</span>
+            O que ele precisa,<br /><span>na conta certa.</span>
           </h2>
           <p className="grb-section-lead">
-            A larva é criada na nossa biofábrica no Rio, com <strong>registro no MAPA</strong>.
-            O que sai de lá é um <strong>pó</strong>: a mistura toda já pronta, em vez de você
-            montar a dieta dele juntando produto.
+            A larva é criada na nossa biofábrica no Rio, com <strong>registro no MAPA</strong> —
+            não é mistura de fundo de quintal. O que sai de lá é um <strong>pó</strong> com a
+            proporção já fechada, em vez de você montar a dieta dele juntando produto e torcendo
+            pra conta bater.
           </p>
 
           <div className="grb-beneficios">
