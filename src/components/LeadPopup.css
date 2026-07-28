@@ -1,0 +1,203 @@
+/* ──────────────────────────────────────────────────────────────
+   LEAD POPUP — a janela veste a LP em que está.
+
+   HISTÓRICO (pra não refazer o caminho): a segunda versão foi um terminal
+   verde-sobre-preto no idioma da /obrigado. Bonito, mas assustador num popup
+   que pede telefone — "uma tia pode achar que é vírus" (Olivia, 28/07). Um
+   popup de captura tem que parecer a mesma casa da página que a pessoa está
+   lendo, não um sistema invadindo. Então voltou a herdar o desenho das LPs.
+
+   Os tokens (--dragon-lime, --ink-primary, --bg-card…) são definidos POR
+   PÁGINA nos CSS das LPs. Como o popup renderiza dentro da árvore da página,
+   ele HERDA — é isso que faz a janela da /mordida sair chartreuse e a da
+   /alergia sair verde, sem nenhuma regra por página aqui. Cada var vem com
+   FALLBACK, pra não sair sem estilo num contexto que não define os tokens.
+
+   Os seletores de texto e controle são prefixados com `.ldp-overlay` porque
+   as LPs têm regras próprias pra h3/p/input/button e ganhavam no cascade —
+   na /alergia o título chegou a renderizar preto sobre preto.
+   ────────────────────────────────────────────────────────────── */
+
+.ldp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 4, 18, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  animation: ldpFadeIn 0.18s ease both;
+}
+@keyframes ldpFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── a janela: mesmo desenho dos cards da LP ── */
+.ldp-modal {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--bg-card, #FFFFFF);
+  border: 3px solid var(--ink-primary, #1C0D2B);
+  border-radius: 18px;
+  box-shadow: 8px 8px 0 var(--dragon-lime, #7BFF00);
+  animation: ldpPop 0.22s cubic-bezier(0.2, 1.1, 0.4, 1) both;
+  text-align: center;
+}
+@keyframes ldpPop {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.ldp-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 2px solid var(--ink-primary, #1C0D2B);
+  background: var(--bg-card, #FFFFFF);
+  color: var(--ink-primary, #1C0D2B);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+.ldp-close:hover { background: var(--dragon-lime, #7BFF00); }
+
+/* ── o gif inteiro, na proporção dele ──
+   Nada de object-fit: cover. O gif é quase quadrado (299×302) e recortá-lo
+   numa faixa larga cortava a cabeça do cachorro. Aqui ele aparece todo,
+   com largura fixa e altura automática, num palco centralizado. */
+.ldp-palco { padding: 18px 20px 0; }
+
+.ldp-gif {
+  display: block;
+  width: 196px;
+  height: auto;
+  /* reserva o espaço antes do gif chegar: com height:auto o elemento nasce
+     com 0 de altura e o card PULA quando a imagem carrega. */
+  aspect-ratio: 299 / 302;
+  margin: 0 auto;
+  border: 3px solid var(--ink-primary, #1C0D2B);
+  border-radius: 14px;
+}
+
+/* ── corpo ── */
+.ldp-body { padding: 12px 22px 18px; }
+
+.ldp-overlay .ldp-title {
+  margin: 0 0 8px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(24px, 6vw, 30px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink-primary, #1C0D2B);
+}
+
+.ldp-overlay .ldp-sub {
+  margin: 0 0 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-secondary, #3f5b4f);
+}
+.ldp-overlay .ldp-sub strong { color: var(--ink-primary, #1C0D2B); font-weight: 700; }
+
+.ldp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.ldp-overlay .ldp-input {
+  width: 100%;
+  padding: 12px 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px; /* 16px evita o zoom automático do iOS no foco */
+  color: var(--ink-primary, #1C0D2B);
+  background: #FFFFFF;
+  border: 2px solid var(--ink-primary, #1C0D2B);
+  border-radius: 12px;
+  outline: none;
+  transition: box-shadow 0.12s ease;
+}
+.ldp-overlay .ldp-input::placeholder { color: rgba(28, 13, 43, 0.45); }
+.ldp-overlay .ldp-input:focus { box-shadow: 4px 4px 0 var(--dragon-lime, #7BFF00); }
+
+.ldp-overlay .ldp-btn {
+  display: block;
+  width: 100%;
+  padding: 13px 22px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  color: var(--ink-primary, #1C0D2B);
+  background: var(--dragon-lime, #7BFF00);
+  border: 3px solid var(--ink-primary, #1C0D2B);
+  border-radius: 12px;
+  box-shadow: 5px 5px 0 var(--ink-primary, #1C0D2B);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.ldp-overlay .ldp-btn:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink-primary, #1C0D2B); }
+.ldp-overlay .ldp-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink-primary, #1C0D2B); }
+.ldp-overlay .ldp-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 3px 3px 0 var(--ink-primary, #1C0D2B);
+}
+
+.ldp-overlay .ldp-skip {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  background: none;
+  border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: var(--ink-muted, rgba(28, 13, 43, 0.55));
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ldp-overlay .ldp-skip:hover { color: var(--ink-primary, #1C0D2B); }
+
+/* ── estado final ── */
+.ldp-done { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.ldp-done-mark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink-primary, #1C0D2B);
+}
+.ldp-done-sub {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-secondary, #3f5b4f);
+  margin-bottom: 6px;
+}
+.ldp-done .ldp-btn { max-width: 300px; }
+
+@media (max-width: 420px) {
+  .ldp-gif { width: 190px; }
+  .ldp-palco { padding: 22px 16px 0; }
+  .ldp-modal { box-shadow: 5px 5px 0 var(--dragon-lime, #7BFF00); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ldp-overlay, .ldp-modal { animation: none; }
+  .ldp-overlay .ldp-btn { transition: none; }
+}

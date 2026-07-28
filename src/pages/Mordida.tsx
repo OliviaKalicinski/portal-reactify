@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Mordida.css";
+import LeadPopup from "@/components/LeadPopup";
 
 /* ──────────────────────────────────────────────────────────────
    LP DE LANÇAMENTO — MORDIDA V2 · /mordida
@@ -470,6 +471,8 @@ const Mordida = () => {
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
 
+
+      <LeadPopup slug="mordida" />
     </div>
   );
 };

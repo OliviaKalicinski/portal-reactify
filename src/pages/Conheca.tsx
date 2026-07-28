@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Conheca.css";
+import LeadPopup from "@/components/LeadPopup";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CONHEÇA · /conheca
@@ -348,6 +349,8 @@ const Conheca = () => {
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
+
+      <LeadPopup slug="conheca" />
     </div>
   );
 };

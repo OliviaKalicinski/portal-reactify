@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Idoso.css";
+import LeadPopup from "@/components/LeadPopup";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CÃO IDOSO · /idoso
@@ -437,6 +438,8 @@ const Idoso = () => {
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
+
+      <LeadPopup slug="idoso" />
     </div>
   );
 };

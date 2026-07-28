@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./GatoCoceira.css";
+import LeadPopup from "@/components/LeadPopup";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — GATO QUE SE COÇA · /gato-coceira
@@ -420,6 +421,8 @@ const GatoCoceira = () => {
           Comprar →
         </a>
       </div>
+
+      <LeadPopup slug="gato-coceira" />
     </div>
   );
 };
