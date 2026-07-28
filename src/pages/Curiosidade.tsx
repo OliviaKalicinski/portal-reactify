@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Curiosidade.css";
+import LeadPopup from "@/components/LeadPopup";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CURIOSIDADE (LARVA) · /curiosidade
@@ -388,6 +389,8 @@ const Curiosidade = () => {
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
+
+      <LeadPopup slug="curiosidade" />
     </div>
   );
 };

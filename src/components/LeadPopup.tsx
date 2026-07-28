@@ -1,0 +1,219 @@
+import { useEffect, useState } from "react";
+import { submitLpLead } from "@/lib/lpLeads";
+import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
+import "./LeadPopup.css";
+
+/* ──────────────────────────────────────────────────────────────
+   POPUP DE CAPTURA DE LEAD — nome + WhatsApp, em todas as LPs.
+
+   Clonado do popup que rodou na /mordida (commit 5278bfa, removido no
+   5246c1e quando a LP virou venda) — mesma estrutura, mesma disciplina de
+   erro. O que mudou: destino único (dash-lets-fly, tabela `lp_leads`) e o
+   gatilho, que deixou de ser tempo fixo.
+
+   POR QUE NÃO É "5s FIXO" (decidido com a Olivia, 28/07):
+   as LPs de dor prendem 4 a 13 segundos de tempo engajado no GA4. Um popup
+   aos 5s cobre a oferta antes da pessoa entender a página — justo onde a
+   ATENÇÃO já é o gargalo medido. Então o gatilho é o primeiro que acontecer:
+     · 50% de scroll  → sinal de interesse, independe da velocidade de leitura
+     · 15s            → pra quem lê devagar sem rolar
+     · exit-intent    → cursor saindo pela borda de cima (só desktop)
+   com piso de 5s: nunca aparece na largada.
+   Na /mordida (28s) e /conheca (45s) o gatilho de tempo dispara antes do
+   scroll, então o comportamento fica perto do popup original.
+
+   FREQUÊNCIA: uma vez a cada 30 dias por pessoa; quem já deixou o telefone
+   não vê mais (localStorage). Fechar no ✕ ou no "agora não" também conta.
+
+   OFERTA: acesso à Caverna (conteúdo que já existe). Sem cupom — decisão da
+   Olivia em 28/07: a fábrica de cupons já custa 13,9% do faturamento bruto e
+   um cupom aqui competiria com o dos influenciadores. A lista da Mordida
+   provou que a moeda não-monetária captura (84 inscritos, cupom nenhum).
+   ────────────────────────────────────────────────────────────── */
+
+const DISMISS_KEY = "cdd_leadpopup_dismissed_at";
+const DONE_KEY = "cdd_leadpopup_done";
+const DISMISS_DAYS = 30;
+const FLOOR_MS = 5000; // piso: nunca antes disso
+const TIME_MS = 15000; // gatilho por tempo
+const SCROLL_RATIO = 0.5; // gatilho por scroll
+
+type Props = {
+  /** slug da LP — vira `popup_<slug>` na coluna origem. Ex.: "alergia" */
+  slug: string;
+  /** título do popup. Default serve pra qualquer LP. */
+  title?: string;
+  /** subtítulo — o que a pessoa ganha. */
+  subtitle?: string;
+  /** imagem opcional no topo do card. */
+  image?: string;
+};
+
+const jaResolvido = (): boolean => {
+  try {
+    if (localStorage.getItem(DONE_KEY)) return true;
+    const at = localStorage.getItem(DISMISS_KEY);
+    if (!at) return false;
+    return Date.now() - Number(at) < DISMISS_DAYS * 24 * 60 * 60 * 1000;
+  } catch {
+    return false; // storage indisponível (aba privada) — mostra, não quebra
+  }
+};
+
+const marcar = (key: string, value: string) => {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    /* sem storage, segue sem quebrar */
+  }
+};
+
+const LeadPopup = ({
+  slug,
+  title = "🔓 Entra na Caverna",
+  subtitle = "Deixa teu nome e WhatsApp — a gente te manda o conteúdo da Caverna: o que a ciência diz sobre alimentar teu cão de verdade.",
+  image,
+}: Props) => {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
+
+  const valid = name.trim().length >= 2 && isValidPhoneBR(phone);
+
+  // ── gatilho: scroll 50% · 15s · exit-intent — o que vier primeiro, com piso de 5s
+  useEffect(() => {
+    if (jaResolvido()) return;
+
+    let armed = false; // piso de 5s cumprido
+    let fired = false;
+
+    let limpar = () => {};
+
+    const abrir = () => {
+      if (fired || !armed) return;
+      fired = true;
+      setOpen(true);
+      limpar();
+    };
+
+    const onScroll = () => {
+      const h = document.documentElement;
+      const total = h.scrollHeight - h.clientHeight;
+      if (total > 0 && h.scrollTop / total >= SCROLL_RATIO) abrir();
+    };
+
+    const onLeave = (e: MouseEvent) => {
+      // só conta saída pela borda de cima (barra de endereço / fechar aba)
+      if (e.clientY <= 0) abrir();
+    };
+
+    const floor = setTimeout(() => {
+      armed = true;
+      onScroll(); // quem já rolou durante os 5s abre agora
+    }, FLOOR_MS);
+    const timer = setTimeout(abrir, TIME_MS);
+
+    limpar = () => {
+      window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("mouseout", onLeave);
+      clearTimeout(timer);
+      clearTimeout(floor);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("mouseout", onLeave);
+
+    return limpar;
+  }, []);
+
+  // trava o scroll do fundo enquanto o popup está aberto
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  const fechar = () => {
+    setOpen(false);
+    if (status !== "done") marcar(DISMISS_KEY, String(Date.now()));
+  };
+
+  const enviar = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!valid || status === "sending") return;
+    setStatus("sending");
+    await submitLpLead({ name, phone, slug });
+    marcar(DONE_KEY, "1"); // não pergunta de novo, mesmo se o insert falhar
+    setStatus("done"); // sucesso pra pessoa; erro fica no console
+  };
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="ldp-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+      onClick={fechar}
+    >
+      <div className="ldp-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="ldp-close" onClick={fechar} aria-label="Fechar">
+          ✕
+        </button>
+
+        {image && (
+          <img className="ldp-img" src={image} alt="" loading="lazy" decoding="async" />
+        )}
+
+        {status === "done" ? (
+          <div className="ldp-body ldp-done">
+            <strong>🔓 Portão aberto!</strong>
+            <span>
+              Teu WhatsApp tá salvo. A gente te chama quando soltar coisa nova na Caverna.
+            </span>
+            <a className="ldp-btn" href="/biblioteca">
+              ENTRAR NA CAVERNA 🐉
+            </a>
+          </div>
+        ) : (
+          <div className="ldp-body">
+            <h3 className="ldp-title">{title}</h3>
+            <p className="ldp-sub">{subtitle}</p>
+            <form className="ldp-form" onSubmit={enviar} noValidate>
+              <input
+                className="ldp-input"
+                type="text"
+                placeholder="Seu nome"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
+                aria-label="Seu nome"
+              />
+              <input
+                className="ldp-input"
+                type="tel"
+                inputMode="numeric"
+                placeholder="Seu WhatsApp"
+                value={phone}
+                onChange={(e) => setPhone(formatPhoneBR(e.target.value))}
+                autoComplete="tel"
+                aria-label="Seu WhatsApp"
+              />
+              <button className="ldp-btn" type="submit" disabled={!valid || status === "sending"}>
+                {status === "sending" ? "Abrindo…" : "QUERO ENTRAR 🐉"}
+              </button>
+            </form>
+            <button className="ldp-skip" onClick={fechar}>
+              agora não
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default LeadPopup;

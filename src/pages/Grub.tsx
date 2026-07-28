@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Grub.css";
+import LeadPopup from "@/components/LeadPopup";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — GRUB · REPTEIS & ANFIBIOS · /grub
@@ -485,6 +486,8 @@ const Grub = () => {
           Comprar →
         </a>
       </div>
+
+      <LeadPopup slug="grub" />
     </div>
   );
 };

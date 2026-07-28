@@ -55,6 +55,15 @@ function readStored(): Utms | null {
 }
 
 /**
+ * Lê a UTM de entrada já guardada (first-touch), respeitando o MAX_AGE.
+ * Exposto pro popup de captura de lead gravar a campanha junto do contato —
+ * sem reimplementar a chave de storage nem a regra de expiração.
+ */
+export function getEntryUtms(): Utms | null {
+  return readStored();
+}
+
+/**
  * Chame UMA vez quando a LP montar (useEffect com [] no fim).
  * Grava a UTM de entrada em first-touch atômico.
  */

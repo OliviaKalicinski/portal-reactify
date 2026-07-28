@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
+import LeadPopup from "@/components/LeadPopup";
 import "./QueroSerDragao.css"; // sistema visual retrô-OS / duotone (.qsd8)
 import "./OqueFalam.css";      // tema cf-pink 8-bit (cópia do antigo Conheca.css — Conheca virou verde)
 
@@ -255,6 +256,8 @@ const OqueFalam = () => {
           <div className="qsd8-footer-tag">Nojento é o desperdício.</div>
         </footer>
       </div>
+
+      <LeadPopup slug="oquefalam" />
     </div>
   );
 };
