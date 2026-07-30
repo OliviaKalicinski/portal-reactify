@@ -201,6 +201,12 @@
    Mobile: fonte pequena + padding curto pros 4 caberem numa linha só. */
 .mdp-hero-chips {
   display: flex;
+  /* `nowrap` de volta em 30/07. Ele foi calibrado (junto com o clamp da fonte
+     do chip) pra 4 chips numa linha só; quando entraram "Para cães" e
+     "Lançamento" a linha transbordou e eu abri o wrap. Os dois foram pra cima
+     da foto, voltamos a 4 — e com wrap os mesmos 4 quebravam em 2 linhas,
+     custando ~25px de dobra. Se um dia entrar um 5º chip, abrir o wrap E
+     subir o clamp da fonte junto: os dois andam em par. */
   flex-wrap: nowrap;
   justify-content: center;
   align-items: stretch;
@@ -210,7 +216,7 @@
 }
 .mdp-chip {
   font-family: 'Space Mono', monospace;
-  font-size: clamp(6.5px, 1.9vw, 10px); /* escala com a largura → 4 sempre cabem numa linha */
+  font-size: clamp(6.5px, 1.9vw, 10px); /* escala com a largura → 4 cabem numa linha */
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -992,13 +998,23 @@
     align-items: center;
     width: 100%;
   }
-  .mordida-lp .mdp-hero-main {
+  /* No desktop o grid desfaz a ordem do DOM: texto em cima e oferta embaixo
+     na coluna 1, foto ocupando a coluna 2 nas duas linhas. O mobile continua
+     lendo o DOM puro (texto → foto → oferta), que é a ordem pedida. */
+  .mordida-lp .mdp-hero-text {
+    grid-column: 1;
+    grid-row: 1;
+    max-width: 100%;
+    text-align: left;
+  }
+  .mordida-lp .mdp-hero-oferta {
+    grid-column: 1;
+    grid-row: 2;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
   }
-  .mordida-lp .mdp-hero-text { max-width: 100%; }
   .mordida-lp .mdp-hero-logo { margin: 0 0 20px; }   /* esquerda */
   .mordida-lp .mdp-hero-title { font-size: clamp(44px, 4.4vw, 62px); margin-bottom: 18px; }
   .mordida-lp .mdp-hero-sub { margin: 0 0 2px; max-width: 520px; font-size: 18px; }
@@ -1015,8 +1031,18 @@
     padding: 8px 12px;
   }
   .mordida-lp .mdp-hero-cta-wrap { text-align: left; margin-top: 26px; }
+  /* o centrado do preço é regra de MOBILE (hero centralizado). No desktop a
+     coluna é alinhada à esquerda e o bloco tem que acompanhar. */
+  .mordida-lp .mdp-hero-price { align-items: flex-start; }
   /* coluna direita: foto real do produto */
-  .mordida-lp .mdp-hero-visual { display: flex; justify-content: center; align-items: center; }
+  .mordida-lp .mdp-hero-visual {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
   .mordida-lp .mdp-hero-prod {
     width: auto;
     max-width: 100%;
@@ -1036,11 +1062,54 @@
 .mdp-hero-visual {
   display: flex;
   justify-content: center;
-  margin-top: 26px;
+  /* margem dos dois lados: no mobile a foto agora fica ENTRE o texto e os
+     selos, não mais no fim do hero. */
+  margin: 18px 0 18px;
 }
+/* ---- selos sobre a foto do pack (30/07) ---- */
+.mdp-hero-visual-frame {
+  position: relative;
+  display: inline-block;
+  line-height: 0; /* mata o baseline gap embaixo da img */
+}
+.mdp-hero-selos {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1;
+}
+.mdp-selo {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 5px 9px;
+  /* fundo sólido: o pack tem lima e rosa fortes, texto solto some em cima. */
+  background: var(--dragon-plum);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+}
+/* só o "Lançamento" acende — é a novidade. Fica na foto, longe do botão, então
+   não repete a confusão que a placa de garantia fazia com o CTA. */
+.mdp-selo-novo {
+  background: var(--dragon-lime);
+  color: var(--dragon-plum);
+  border-color: var(--dragon-plum);
+}
+
 .mdp-hero-prod {
   width: 100%;
-  max-width: 300px;
+  /* 300 → 205 em 28/07. Com a foto subindo pra antes dos selos, os 300px
+     empurravam preço e botão pra fora da dobra (CTA em 888px num iPhone de
+     812) — e preço na dobra era justamente a correção mais cara da página.
+     205px mantém a ordem que a Olivia pediu E o botão acima da linha. */
+  max-width: 205px;
   height: auto;
   filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.45));
 }
@@ -1224,4 +1293,157 @@
   max-width: 340px;
   height: auto;
   margin: 0 auto 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARIDADE DE VENDA COM AS LPs DE DOR (28/07/2026)
+   Pedido da Olivia: "quero que a LP do mordida seja igual no ponto
+   de vista de venda, das outras LPs."
+
+   Medido antes de escrever: Alergia, Idoso e Gato·Coceira têm a mesma
+   espinha — HERO → PROBLEMA → SOLUÇÃO → PROVA SOCIAL → OFERTA →
+   FAQ+GARANTIA → CTA FINAL. A /mordida tinha HERO → benefícios →
+   reviews → OFERTA, e faltavam CINCO peças de venda: preço na dobra,
+   linha de vantagem no hero, FAQ, garantia e CTA final.
+
+   ⚠️ Não deu pra clonar o CSS das outras: elas são creme (#FFFBED) e
+   esta é plum escuro (#1C0D2B). Blocos reescritos para fundo escuro,
+   usando o chartreuse (--dragon-lime) no lugar do magenta — que é a
+   direção "verde" que a Olivia pediu.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ---- PREÇO NA DOBRA (o buraco mais caro: a pessoa rolava a página
+        inteira sem saber quanto custa) ---- */
+.mdp-hero-price {
+  display: flex;
+  flex-direction: column;
+  /* centralizado em 28/07: era flex-start e o bloco de preço ficava encostado
+     na esquerda enquanto chips, título e botão estavam centralizados. */
+  align-items: center;
+  gap: 4px;
+  margin: 4px 0 14px;
+}
+.mdp-hero-price-from {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
+.mdp-hero-price-now {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(38px, 6.5vw, 52px);
+  line-height: 1;
+  color: var(--dragon-lime);
+  letter-spacing: 0.5px;
+}
+.mdp-hero-price-now small {
+  font-size: 0.42em;
+  vertical-align: super;
+  margin-right: 2px;
+  color: rgba(255, 255, 255, 0.62);
+}
+.mdp-hero-price-note {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.04em;
+}
+/* Rebaixado em 28/07. Era uma placa lime cheia, com borda e sombra — a MESMA
+   linguagem do botão primário, empilhada logo acima dele. Dois blocos lime
+   iguais no hero: o olho lê a garantia como se fosse o botão, e o CTA de
+   verdade perde a função. Agora é só uma linha de texto. A garantia ganha
+   destaque próprio mais embaixo, no bloco GARANTIA DA MATILHA. */
+.mdp-hero-vantagem {
+  display: block;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  margin-bottom: 18px;
+}
+
+/* ---- FAQ ---- */
+.mdp-faq { display: grid; gap: 10px; margin-top: 8px; }
+.mdp-faq-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(185, 255, 51, 0.28);
+  padding: 14px 16px;
+}
+.mdp-faq-q {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding-right: 26px;
+}
+.mdp-faq-q::-webkit-details-marker { display: none; }
+.mdp-faq-q::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  top: -2px;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--dragon-lime);
+}
+.mdp-faq-item[open] .mdp-faq-q::after { content: '−'; }
+.mdp-faq-a {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+.mdp-faq-a strong { color: #fff; }
+
+/* ---- GARANTIA ---- */
+.mdp-garantia {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 26px;
+  padding: 18px 18px;
+  background: rgba(185, 255, 51, 0.10);
+  border: 2px solid var(--dragon-lime);
+}
+.mdp-garantia-icon { font-size: 26px; line-height: 1; }
+.mdp-garantia-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  color: var(--dragon-lime);
+  text-transform: uppercase;
+}
+.mdp-garantia-text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+  margin-top: 2px;
+}
+
+/* ---- CTA FINAL ---- */
+.mdp-cta-final {
+  padding: 56px 20px 64px;
+  background: var(--dragon-plum);
+  border-top: 4px solid var(--dragon-lime);
+  text-align: center;
+}
+.mdp-cta-final h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(34px, 6vw, 52px);
+  line-height: 0.95;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.mdp-cta-final h2 span { color: var(--dragon-lime); }
+.mdp-cta-final p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 520px;
+  margin: 0 auto 22px;
 }

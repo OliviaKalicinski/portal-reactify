@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Mordida.css";
-import LeadPopup from "@/components/LeadPopup";
 
 /* ──────────────────────────────────────────────────────────────
    LP DE LANÇAMENTO — MORDIDA V2 · /mordida
@@ -13,8 +12,8 @@ import LeadPopup from "@/components/LeadPopup";
    Objetivo: VENDA. Em 27/07/26 a lista de espera saiu e a oferta entrou
    no lugar dela — o form de captura e o popup foram removidos.
 
-   OFERTA (decidida com a Olivia, 27/07): Kit Mordida + Suplemento, com
-   frete grátis. O destino é a PÁGINA DO PRODUTO na loja (não o checkout
+   OFERTA (virada em 28/07 a pedido da Olivia): a Mordida de Dragão sozinha,
+   R$42,20. O destino é a PÁGINA DO PRODUTO na loja (não o checkout
    Yampi direto, como fazem /alergia e /idoso) — foi o pedido dela.
 
    Direção (validada com a Olivia, 20/07):
@@ -32,6 +31,10 @@ import LeadPopup from "@/components/LeadPopup";
      de verdade". Se Diego/Marcelle liberarem, é só trocar.
 ────────────────────────────────────────────────────────────── */
 
+/* "Para cães" e "Lançamento" NÃO estão aqui: a Olivia pediu em 30/07 que
+   fossem tags SOBRE A FOTO (ver SELOS_FOTO). Ficam lá e só lá — repetir os
+   dois logo abaixo, na fileira de chips, seria dizer a mesma coisa duas vezes
+   em 200px de distância. */
 const CHIPS = [
   "Sem grãos",
   "Sem glúten",
@@ -39,54 +42,72 @@ const CHIPS = [
   "Proteína hipoalergênica", // claim atribuído à PROTEÍNA, nunca ao produto (tem ovo)
 ];
 
+/* Selos sobre a foto do pack (pedido da Olivia, 30/07): PRA QUEM é e que é
+   novidade. Ficam na imagem, não na fileira de chips — quem bate o olho na
+   foto lê os dois antes de ler qualquer atributo técnico. */
+const SELOS_FOTO = ["Para cães", "Lançamento"];
+
 /* Faixa passante de lançamento (marquee no topo). Mesmo idioma do MarqueeBar
    de /parceiros e /quero-ser-dragao: itens duplicados + scroll translateX(-50%).
    Voz: hook do briefing ("a Mordida evoluiu: sem grão, mais proteína") + teaser. */
 const MARQUEE = [
   "A Mordida evoluiu",
   "Sem grão · mais proteína",
-  "Lançamento · frete grátis",
+  "Lançamento · Mordida nova",
   "A gente aprontou uma",
 ];
 
 /* ── OFERTA ────────────────────────────────────────────────────
-   Kit Mordida + Suplemento. Preço e disponibilidade conferidos na loja
-   em 27/07/26 (produto ACTIVE, available=true, tag frete-gratis).
+   Mordida de Dragão p/ Cães. Preço e disponibilidade conferidos na loja
+   em 28/07/26 (produto ACTIVE, SKU 203, R$42,20).
    Se o preço mudar na Shopify, ele muda aqui — não há sincronia.
 
    Destino = página do produto na loja. As UTMs seguem a convenção das
    outras LPs (lp-<nome> / lp / lp-<nome>-<oferta>), e buildCheckoutUrl
    repassa fielmente a UTM de ENTRADA quando o anúncio trouxe uma —
    o fallback abaixo só vale pra quem chegou sem UTM nenhuma. */
+/* ⚠️ VIRADA 28/07/26 (pedido da Olivia): a LP do Mordida passa a vender o
+   MORDIDA, não o kit. "Coloque o valor do mordida e tudo será voltado para
+   o mordida apenas."
+   Mordida de Dragão p/ Cães · handle mordida-de-dragao · SKU 203 · R$42,20
+   · ACTIVE (verificado na Shopify em 28/07).
+   ⚠️ CONSEQUÊNCIA CRÍTICA: a Mordida sozinha NÃO TEM a tag `frete-gratis` e
+   custa R$42,20, muito abaixo do piso de R$150. TODA promessa de frete
+   grátis saiu da página — ela existia porque o produto era o kit (SKU 1305,
+   que tem a tag). Prometer frete aqui seria mentira no checkout. */
 const PRODUCT_URL =
-  "https://www.comidadedragao.com.br/products/kit-mordida-suplemento";
-const PRICE = "145,00"; // atualizado 27/07/26 — Precificação CD Jul26 v3 (era 121,76 na v2)
+  "https://www.comidadedragao.com.br/products/mordida-de-dragao";
+const PRICE = "42,20"; // Shopify, verificado 28/07/26 — SKU 203
 
-/* Saída secundária (27/07/26). O kit continua sendo o CTA principal porque a
+/* (comentário de 27/07/26, quando o kit era o principal) O kit era o CTA porque a
    margem bruta dele é ~3,6x a da Mordida sozinha (R$124,50 vs R$34,70) — é o
    que sustenta CPA em canal pago. Mas a página argumenta o PETISCO, e até aqui
    não existia nenhum caminho pra comprá-lo: quem chegava querendo a Mordida de
    R$42,20 só tinha "pagar R$145" ou sair. Este link recupera essa intenção.
    UTM na mesma convenção, com cta_pos=avulso, pra dar pra medir a divisão. */
-const PRODUCT_URL_AVULSO =
-  "https://www.comidadedragao.com.br/products/mordida-de-dragao";
-const PRICE_AVULSO = "42,20";
+/* Saída secundária INVERTIDA em 28/07: antes era "só quero a Mordida"
+   (escape do kit de R$145). Agora que a Mordida é o principal, o link
+   secundário vira UPSELL do kit — que é onde mora o frete grátis e a
+   margem maior. Quem quiser só o petisco já está no lugar certo. */
+const PRODUCT_URL_KIT =
+  "https://www.comidadedragao.com.br/products/kit-mordida-suplemento";
+const PRICE_KIT = "145,00";
 
 const UTM_FALLBACK = {
   utm_source: "lp-mordida",
   utm_medium: "lp",
-  utm_campaign: "lp-mordida-kit-mordida-suplemento",
+  utm_campaign: "lp-mordida-mordida",
 };
 
 const ctaUrl = (
-  cta: "hero" | "beneficios" | "reviews" | "oferta" | "banner" | "sticky"
+  cta: "hero" | "beneficios" | "reviews" | "oferta" | "banner" | "sticky" | "final" | "kit"
 ) => buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
-const avulsoUrl = () =>
+const kitUrl = () =>
   buildCheckoutUrl(
-    PRODUCT_URL_AVULSO,
-    { ...UTM_FALLBACK, utm_campaign: "lp-mordida-avulsa" },
-    "avulso"
+    PRODUCT_URL_KIT,
+    { ...UTM_FALLBACK, utm_campaign: "lp-mordida-upsell-kit" },
+    "kit"
   );
 
 /* Reviews REAIS, transcritos exatamente como o cliente escreveu (gírias e
@@ -144,6 +165,39 @@ const BENEFICIOS = [
   },
 ];
 
+/* FAQ — entrou em 28/07 na paridade de venda com as LPs de dor, que
+   todas têm bloco de objeção e esta não tinha nenhum.
+   ⚠️ CLAIM: o produto NÃO é hipoalergênico — a MORDIDA LEVA OVO. Só a
+   proteína de inseto é hipoalergênica. A pergunta sobre alergia é a mais
+   importante da lista justamente por isso, e responde com a ressalva na
+   frente. Mesma regra que reescreveu os RSAs de Alergia e Gato em 13/07. */
+const FAQ = [
+  {
+    q: "O que vem no pacote?",
+    a: `Um pacote de <strong>Mordida de Dragão de 180g</strong> por R$ ${PRICE}. Se quiser levar junto o <strong>Suplemento Integral</strong> — o que mistura na ração todo dia —, o kit com os dois sai por R$ ${PRICE_KIT} e vai com <strong>frete grátis</strong>; o link está embaixo da oferta.`,
+  },
+  {
+    q: "Meu cão tem alergia. Pode dar?",
+    a: "Atenção aqui: <strong>a Mordida leva ovo</strong>. Quem é <strong>hipoalergênica é a proteína de inseto</strong>, não o produto inteiro. Se o seu cão tem alergia diagnosticada, confira a lista de ingredientes com o veterinário antes — e, se a restrição for a ovo, esse não é o produto certo pra ele.",
+  },
+  {
+    q: "O que mudou da versão antiga pra essa?",
+    a: "Subiu pra <strong>24% de proteína</strong> e saíram o trigo e a aveia — agora é <strong>sem grão e sem glúten</strong>. Ficou mais parruda e mais leve pro intestino ao mesmo tempo.",
+  },
+  {
+    q: "Isso substitui a ração dele?",
+    a: "Não. É <strong>petisco</strong>: entra como agrado ou recompensa, somando à alimentação que ele já tem. Não troca a ração nem substitui o acompanhamento do veterinário.",
+  },
+  {
+    q: "E se ele não gostar?",
+    a: "<strong>A gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda. É o mesmo acordo de todos os nossos produtos.",
+  },
+  {
+    q: "Como funciona a entrega?",
+    a: "Despachamos em até 1 dia útil pra todo o Brasil. O frete aparece no checkout — e é <strong>por nossa conta acima de R$ 150</strong>. A compra é 100% segura: cartão, Pix ou boleto.",
+  },
+];
+
 const Mordida = () => {
   useEffect(() => { captureEntryUtms(); }, []);
 
@@ -177,7 +231,7 @@ const Mordida = () => {
     <div className="mordida-lp">
       <PageMeta
         title="Novo Mordida de Dragão — snack natural de verdade | Comida de Dragão"
-        description="O novo Mordida de Dragão chegou: snack natural com 24% de proteína de inseto, sem grão e sem glúten. Leve com o Suplemento Integral e o frete é por nossa conta."
+        description="O novo Mordida de Dragão chegou: petisco natural com 24% de proteína de inseto, sem grão e sem glúten. 180g por R$ 42,20, com garantia de 14 dias."
       />
 
       {/* ════ FAIXA PASSANTE DE LANÇAMENTO ════
@@ -210,45 +264,74 @@ const Mordida = () => {
           {/* Desktop = 2 colunas (texto+CTA à esquerda, foto do produto à direita)
               pra não deixar o conteúdo numa ilha estreita na tela larga.
               Mobile = empilha; a foto some (o BANNER do topo já é o visual). */}
+          {/* Três blocos irmãos, e não texto+foto: a Olivia pediu em 28/07 que a
+              FOTO DO PACK viesse ANTES dos selos (sem grão / sem glúten / …).
+              No mobile o grid empilha na ordem do DOM — texto, foto, oferta —
+              que é exatamente o que ela pediu. No desktop o grid recoloca:
+              texto e oferta empilhados na coluna 1, a foto ocupando a coluna 2
+              inteira. Por isso a foto é irmã dos outros dois, e não filha. */}
           <div className="mdp-hero-grid">
-            <div className="mdp-hero-main">
-              <div className="mdp-hero-text">
-                <DragonLogo className="mdp-hero-logo" />
+            <div className="mdp-hero-text">
+              <DragonLogo className="mdp-hero-logo" />
 
-                <h1 className="mdp-hero-title">
-                  Novo Mordida de Dragão<br />
-                  <span>snack natural de verdade</span>
-                </h1>
+              <h1 className="mdp-hero-title">
+                Novo Mordida de Dragão<br />
+                <span>snack natural de verdade</span>
+              </h1>
 
-                <p className="mdp-hero-sub">
-                  Milhares de cães já viraram fãs da gente — e foram eles que pediram essa versão:
-                  <strong> 24% de proteína de inseto</strong> (hipoalergênica), <strong>sem grão e
-                  sem glúten</strong>, que faz um benzão pra saúde.
-                </p>
-              </div>
-
-              <div className="mdp-hero-chips">
-                {CHIPS.map((c, i) => <span className="mdp-chip" key={i}>{c}</span>)}
-              </div>
-
-              <div className="mdp-hero-cta-wrap" ref={heroCtaRef}>
-                <a href={ctaUrl("hero")} className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
-                  Compre o kit com frete grátis
-                </a>
-              </div>
+              <p className="mdp-hero-sub">
+                Milhares de cães já viraram fãs da gente — e foram eles que pediram essa versão:
+                <strong> 24% de proteína de inseto</strong> (hipoalergênica), <strong>sem grão e
+                sem glúten</strong>, que faz um benzão pra saúde.
+              </p>
             </div>
 
             {/* Foto real do produto. Passou a aparecer no mobile também em
                 27/07: antes ficava escondida porque o banner do topo já era o
                 visual — sem ele, o mobile abriria sem imagem nenhuma. */}
             <div className="mdp-hero-visual">
-              <img
-                className="mdp-hero-prod"
-                src="/assets/images/produtos/mordida-v2-frente.webp"
-                alt="Mordida V2 — embalagem"
-                loading="eager"
-                decoding="async"
-              />
+              {/* o frame existe pra ancorar os selos NA IMAGEM. Sem ele, o
+                  absolute se prende ao container full-width e os selos vão
+                  parar na borda da tela, longe do pack. */}
+              <div className="mdp-hero-visual-frame">
+                <img
+                  className="mdp-hero-prod"
+                  src="/assets/images/produtos/mordida-v2-frente.webp"
+                  alt="Mordida V2 — embalagem"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="mdp-hero-selos">
+                  {SELOS_FOTO.map((s, i) => (
+                    <span className={`mdp-selo${i === 1 ? " mdp-selo-novo" : ""}`} key={i}>{s}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mdp-hero-oferta">
+              <div className="mdp-hero-chips">
+                {CHIPS.map((c, i) => <span className="mdp-chip" key={i}>{c}</span>)}
+              </div>
+
+              {/* PREÇO NA DOBRA — o buraco mais caro da página antes de 28/07:
+                  as 3 LPs de dor entregam o preço na primeira tela e esta
+                  fazia a pessoa rolar até o fim pra descobrir quanto custa. */}
+              <div className="mdp-hero-price">
+                <span className="mdp-hero-price-from">Mordida de Dragão · 180g</span>
+                <span className="mdp-hero-price-now"><small>R$</small>{PRICE}</span>
+                <span className="mdp-hero-price-note">à vista · frete grátis acima de R$ 150</span>
+              </div>
+
+              <div className="mdp-hero-vantagem">
+                💚 Garantia de 14 dias · não topou, a gente devolve
+              </div>
+
+              <div className="mdp-hero-cta-wrap" ref={heroCtaRef}>
+                <a href={ctaUrl("hero")} className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
+                  Quero a Mordida nova
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -277,7 +360,7 @@ const Mordida = () => {
           {/* CTA de seção (só desktop → botão a cada etapa pro retardatário) */}
           <div className="mdp-section-cta">
             <a href={ctaUrl("beneficios")} className="mdp-btn-primary" data-cta="secao-beneficios">
-              Compre o kit com frete grátis
+              Quero a Mordida nova
             </a>
           </div>
         </div>
@@ -344,7 +427,7 @@ const Mordida = () => {
 
           <div className="mdp-section-cta">
             <a href={ctaUrl("reviews")} className="mdp-btn-primary" data-cta="secao-reviews">
-              Compre o kit com frete grátis
+              Quero a Mordida nova
             </a>
           </div>
         </div>
@@ -385,48 +468,49 @@ const Mordida = () => {
           novo foi afirmado aqui. */}
       <section className="mdp-oferta" id="oferta">
         <div className="mdp-oferta-inner">
-          <span className="mdp-tag tag-lime">novo kit · frete grátis</span>
+          <span className="mdp-tag tag-lime">lançamento · 180g</span>
           <h2 className="mdp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            Chegou a Mordida nova.<br /><span>Leve com o Suplemento.</span>
+            Chegou a Mordida nova.<br /><span>R$ {PRICE} o pacote.</span>
           </h2>
 
           <p className="mdp-oferta-sub">
-            A Mordida foi <strong>refeita do zero</strong>: sem grão, 24% de
-            proteína. O Suplemento Integral você já conhece — é o que entra na
-            ração todo dia. <strong>Mesma proteína nos dois</strong>, e o corpo
-            dele aproveita <strong>88,9%</strong> dela.
+            A Mordida foi <strong>refeita do zero</strong>: sem grão, sem glúten,
+            <strong> 24% de proteína</strong> de inseto — e o corpo dele aproveita
+            <strong> 88,9%</strong> dela. É o petisco que você dá sem ficar
+            pensando no que tem dentro.
           </p>
 
-          {/* Foto do que chega na casa da pessoa. A hero segue com a Mordida
-              sozinha (é ela o lançamento); aqui, na hora de pedir dinheiro,
-              tem que ser o kit inteiro. */}
+          {/* Foto do que chega na casa da pessoa. Trocada em 28/07: era a do
+              kit, porque o kit era o produto vendido. Agora que a página vende
+              a Mordida sozinha, a foto tem que ser a dela. */}
           <img
             className="mdp-oferta-img"
-            src="/assets/images/produtos/kit-mordida-suplemento.webp"
-            alt="Kit: pacote da Mordida de Dragão 180g ao lado da lata do Suplemento Integral 180g"
+            src="/assets/images/produtos/mordida-v2-frente.webp"
+            alt="Pacote da Mordida de Dragão de 180g"
             loading="lazy"
             decoding="async"
           />
 
           <ul className="mdp-oferta-itens">
-            <li><strong>1 Mordida de Dragão</strong> (180g) — <strong>a nova</strong>: sem grão, sem glúten, 24% de proteína</li>
-            <li><strong>1 Suplemento Integral para cães</strong> (180g) — mistura na ração todo dia</li>
-            <li><strong>Frete grátis</strong> — por nossa conta</li>
+            <li><strong>Mordida de Dragão · 180g</strong> — <strong>a nova</strong>: sem grão, sem glúten, 24% de proteína</li>
+            <li><strong>Proteína de inseto</strong> — 88,9% de aproveitamento pelo organismo do cão</li>
+            <li><strong>Garantia de 14 dias</strong> — não topou, a gente devolve</li>
           </ul>
 
           <div className="mdp-oferta-preco">
             <span className="mdp-oferta-preco-valor">R$ {PRICE}</span>
-            <span className="mdp-oferta-preco-nota">à vista · frete incluso</span>
+            <span className="mdp-oferta-preco-nota">à vista · 180g</span>
           </div>
 
           <a href={ctaUrl("oferta")} className="mdp-btn-primary" data-cta="oferta">
-            Compre o kit com frete grátis
+            Quero a Mordida nova
           </a>
 
-          {/* Saída secundária: quem veio pelo petisco e não quer o kit. */}
+          {/* Upsell secundário (invertido em 28/07): quem quer mais que o
+              petisco vai pro kit, onde mora o frete grátis. */}
           <p className="mdp-oferta-avulso">
-            <a href={avulsoUrl()} data-cta="avulso">
-              Só quero experimentar a Mordida — R$ {PRICE_AVULSO}
+            <a href={kitUrl()} data-cta="kit">
+              Levar junto o Suplemento — kit por R$ {PRICE_KIT}, com frete grátis
             </a>
           </p>
 
@@ -435,6 +519,55 @@ const Mordida = () => {
               voltar a um texto de venda, a regra do claim continua a mesma: a
               PROTEÍNA é hipoalergênica, o PRODUTO não. */}
         </div>
+      </section>
+
+      {/* ════ FAQ + GARANTIA ════
+          Paridade de venda com as LPs de dor (28/07). Elas todas têm um
+          bloco de objeção + garantia antes do fechamento; esta não tinha
+          nenhum dos dois. Usa .mdp-sec-verde pra sair no chartreuse em vez
+          do magenta — direção "verde" pedida pela Olivia. */}
+      <section className="mdp-section mdp-sec-verde">
+        <div className="mdp-section-inner">
+          <span className="mdp-tag">antes de comprar</span>
+          <h2 className="mdp-section-title">
+            Tudo o que<br /><span>importa saber.</span>
+          </h2>
+
+          <div className="mdp-faq">
+            {FAQ.map((f, i) => (
+              <details className="mdp-faq-item" key={i}>
+                <summary className="mdp-faq-q">{f.q}</summary>
+                <div className="mdp-faq-a" dangerouslySetInnerHTML={{ __html: f.a }} />
+              </details>
+            ))}
+          </div>
+
+          <div className="mdp-garantia">
+            <div className="mdp-garantia-icon">💚</div>
+            <div>
+              <div className="mdp-garantia-title">Garantia da matilha</div>
+              <div className="mdp-garantia-text">
+                Se ele não topar em 14 dias da entrega, a gente devolve seu dinheiro.
+                Sem letrinha miúda.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════ CTA FINAL ════
+          As 3 LPs de dor fecham com um CTA dedicado depois do FAQ; esta
+          terminava na oferta e ia direto pro rodapé. */}
+      <section className="mdp-cta-final">
+        <h2>Bora dar<br /><span>a Mordida nova?</span></h2>
+        <p>
+          24% de proteína, sem grão e sem glúten. R$ {PRICE} o pacote de 180g,
+          com garantia de 14 dias.
+          Não topou em 14 dias? A gente devolve.
+        </p>
+        <a href={ctaUrl("final")} className="mdp-btn-primary" data-cta="final">
+          Quero a Mordida · R$ {PRICE}
+        </a>
       </section>
 
       {/* ════ FOOTER ════ */}
@@ -465,14 +598,20 @@ const Mordida = () => {
         inert={!stickyVisivel ? "" : undefined}
       >
         <div className="mdp-sticky-info">
-          <span className="mdp-sticky-name">Kit Mordida + Suplemento</span>
-          <span className="mdp-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>
+          <span className="mdp-sticky-name">Mordida de Dragão · 180g</span>
+          <span className="mdp-sticky-price">R$ {PRICE} · garantia 14 dias</span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
 
 
-      <LeadPopup slug="mordida" />
+      {/* SEM LeadPopup — e é de propósito. Ele já tinha sido removido daqui no
+          5246c1e "quando a LP virou venda", e voltou junto com o rollout do
+          popup em todas as LPs (28/07). Medido em 30/07: o tráfego que compra
+          nesta página fica 78,5s lendo e converte a 13,2% (reportana/mensagem,
+          38 sessões → 5 compras). O popup dispara aos 15s, no meio dessa
+          leitura, pra pedir telefone de quem está prestes a gastar R$42.
+          Removido de novo a pedido da Olivia em 30/07. */}
     </div>
   );
 };
