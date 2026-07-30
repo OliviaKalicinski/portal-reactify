@@ -58,6 +58,15 @@ type Props = {
   /** gif do topo. Default: o cachorro no notebook, mesmo asset do card do
    *  quiz na Caverna. Trocar só se a LP pedir outra cena. */
   gif?: string;
+  /** Seletor do bloco que precisa SAIR da tela antes do popup poder abrir.
+   *  Ex.: ".grb-hero". Quando passado, o gatilho de tempo é desligado e o
+   *  popup só abre depois que a pessoa rolou além desse bloco.
+   *  Pedido da Olivia em 28/07 pra /grub: em página longa, `50% de scroll`
+   *  quase nunca dispara primeiro (50% de 8.400px é fundo demais), então na
+   *  prática quem abria era o timer de 15s — no meio da leitura, já que as
+   *  LPs de dor prendem 21 a 33s. "Passou do hero" é o sinal de interesse
+   *  que ela pediu, e não depende do tamanho da página. */
+  aposSeletor?: string;
 };
 
 const jaResolvido = (): boolean => {
@@ -84,6 +93,7 @@ const LeadPopup = ({
   title = "Fica sabendo primeiro",
   subtitle = "Deixa teu nome e WhatsApp: o dragão te avisa de produto novo, promoção e conteúdo antes de todo mundo.",
   gif = DOG_PC_GIF,
+  aposSeletor,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -93,6 +103,7 @@ const LeadPopup = ({
   const valid = name.trim().length >= 2 && isValidPhoneBR(phone);
 
   // ── gatilho: scroll 50% · 15s · exit-intent — o que vier primeiro, com piso de 5s
+  //    Com `aposSeletor`: só depois que o bloco indicado sai da tela, e SEM timer.
   useEffect(() => {
     if (jaResolvido()) return;
 
@@ -109,6 +120,12 @@ const LeadPopup = ({
     };
 
     const onScroll = () => {
+      if (aposSeletor) {
+        // passou do bloco? (o rodapé dele já saiu por cima da dobra)
+        const alvo = document.querySelector(aposSeletor);
+        if (alvo && alvo.getBoundingClientRect().bottom <= 0) abrir();
+        return;
+      }
       const h = document.documentElement;
       const total = h.scrollHeight - h.clientHeight;
       if (total > 0 && h.scrollTop / total >= SCROLL_RATIO) abrir();
@@ -123,12 +140,13 @@ const LeadPopup = ({
       armed = true;
       onScroll(); // quem já rolou durante os 5s abre agora
     }, FLOOR_MS);
-    const timer = setTimeout(abrir, TIME_MS);
+    // com gatilho por bloco não existe timer: quem não rolou, não viu a oferta
+    const timer = aposSeletor ? undefined : setTimeout(abrir, TIME_MS);
 
     limpar = () => {
       window.removeEventListener("scroll", onScroll);
       document.removeEventListener("mouseout", onLeave);
-      clearTimeout(timer);
+      if (timer) clearTimeout(timer);
       clearTimeout(floor);
     };
 

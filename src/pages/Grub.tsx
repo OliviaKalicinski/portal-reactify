@@ -265,7 +265,7 @@ const Grub = () => {
               ("alimento/ração/comida para pet exótico") está abaixo do
               limiar. Mesma armadilha de `teiú` e `leopardo gecko`. */}
           <h1 className="grb-hero-title">
-            O cálcio dele depende<br /><span>da sua memória.</span>
+            Alimentação de<br />répteis e anfíbios,<br /><span>pronta.</span>
           </h1>
 
           <p className="grb-hero-sub">
@@ -562,7 +562,11 @@ const Grub = () => {
         </a>
       </div>
 
-      <LeadPopup slug="grub" />
+      {/* Popup só depois que a pessoa rolou além do hero (pedido da Olivia,
+          28/07). Sem `aposSeletor` o gatilho que abria na prática era o timer
+          de 15s — e as LPs de dor prendem 21 a 33s, ou seja, ele caía no meio
+          da leitura da oferta. */}
+      <LeadPopup slug="grub" aposSeletor=".grb-hero" />
     </div>
   );
 };
