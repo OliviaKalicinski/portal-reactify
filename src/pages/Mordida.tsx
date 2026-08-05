@@ -62,10 +62,17 @@ const MARQUEE = [
    em 28/07/26 (produto ACTIVE, SKU 203, R$42,20).
    Se o preço mudar na Shopify, ele muda aqui — não há sincronia.
 
-   Destino = página do produto na loja. As UTMs seguem a convenção das
-   outras LPs (lp-<nome> / lp / lp-<nome>-<oferta>), e buildCheckoutUrl
-   repassa fielmente a UTM de ENTRADA quando o anúncio trouxe uma —
-   o fallback abaixo só vale pra quem chegou sem UTM nenhuma. */
+   Destino = link de carrinho da Yampi (produto já no carrinho). As UTMs
+   seguem a convenção das outras LPs (lp-<nome> / lp / lp-<nome>-<oferta>),
+   e buildCheckoutUrl repassa fielmente a UTM de ENTRADA quando o anúncio
+   trouxe uma — o fallback abaixo só vale pra quem chegou sem UTM nenhuma. */
+/* ⚠️ CORREÇÃO 05/08/26: o destino era a PÁGINA DE PRODUTO da Shopify
+   (/products/mordida-de-dragao). Era a única LP das 13 assim — todas as
+   outras vão direto pro /r/<TOKEN> da Yampi. Isso punha dois passos a mais
+   no funil (produto → carrinho → checkout) e contraria a regra escrita no
+   _AGENTE.md: "link de compra = link de carrinho da Yampi, não link de
+   página de produto". Tokens conferidos em links-checkout-yampi-tokens.md
+   (lidos na Yampi em 28/07): Mordida SKU 203 = AK5VFR5RLO. */
 /* ⚠️ VIRADA 28/07/26 (pedido da Olivia): a LP do Mordida passa a vender o
    MORDIDA, não o kit. "Coloque o valor do mordida e tudo será voltado para
    o mordida apenas."
@@ -75,8 +82,7 @@ const MARQUEE = [
    custa R$42,20, muito abaixo do piso de R$150. TODA promessa de frete
    grátis saiu da página — ela existia porque o produto era o kit (SKU 1305,
    que tem a tag). Prometer frete aqui seria mentira no checkout. */
-const PRODUCT_URL =
-  "https://www.comidadedragao.com.br/products/mordida-de-dragao";
+const PRODUCT_URL = "https://seguro.comidadedragao.com.br/r/AK5VFR5RLO";
 const PRICE = "42,20"; // Shopify, verificado 28/07/26 — SKU 203
 
 /* (comentário de 27/07/26, quando o kit era o principal) O kit era o CTA porque a
@@ -89,8 +95,10 @@ const PRICE = "42,20"; // Shopify, verificado 28/07/26 — SKU 203
    (escape do kit de R$145). Agora que a Mordida é o principal, o link
    secundário vira UPSELL do kit — que é onde mora o frete grátis e a
    margem maior. Quem quiser só o petisco já está no lugar certo. */
-const PRODUCT_URL_KIT =
-  "https://www.comidadedragao.com.br/products/kit-mordida-suplemento";
+/* Kit Mordida + Suplemento · SKU 1305 · R$145,00 · token ZWOQZDQBW1
+   (links-checkout-yampi-tokens.md, lido na Yampi em 28/07). É o kit que
+   TEM a tag frete-gratis — por isso o upsell continua fazendo sentido. */
+const PRODUCT_URL_KIT = "https://seguro.comidadedragao.com.br/r/ZWOQZDQBW1";
 const PRICE_KIT = "145,00";
 
 const UTM_FALLBACK = {
