@@ -30,6 +30,8 @@ const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 const Ciencia = lazy(() => import("./pages/Ciencia.tsx"));
 const Alergia = lazy(() => import("./pages/Alergia.tsx"));
 const Mordida = lazy(() => import("./pages/Mordida.tsx"));
+/* LP porta de entrada — Kit Original + Mordida (R$81,10), clone da /mordida. */
+const Dupla = lazy(() => import("./pages/Dupla.tsx"));
 const Idoso = lazy(() => import("./pages/Idoso.tsx"));
 const GatoCoceira = lazy(() => import("./pages/GatoCoceira.tsx"));
 /* LPs do Google Ads — clones das de dor, com desconto proprio e sem peca do Meta.
@@ -69,6 +71,7 @@ const App = () => (
               <Route path="/conheca" element={<Conheca />} />
               {/* LP PRÉ-LANÇAMENTO · Drop Mordida V2 — captura de lead (lista de espera), público frio */}
               <Route path="/mordida" element={<Mordida />} />
+              <Route path="/dupla" element={<Dupla />} />
               {/* LP campanha CURIOSIDADE (larva) — Kit Original */}
               <Route path="/curiosidade" element={<Curiosidade />} />
               {/* LP prova social — mural de reviews reais + CTA suave pro Kit */}
