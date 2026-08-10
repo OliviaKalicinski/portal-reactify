@@ -32,6 +32,11 @@ const Alergia = lazy(() => import("./pages/Alergia.tsx"));
 const Mordida = lazy(() => import("./pages/Mordida.tsx"));
 const Idoso = lazy(() => import("./pages/Idoso.tsx"));
 const GatoCoceira = lazy(() => import("./pages/GatoCoceira.tsx"));
+/* LPs do Google Ads — clones das de dor, com desconto proprio e sem peca do Meta.
+   Prefixo /g/ pra separar o trafego de busca no GA4 num filtro so. */
+const AlergiaGoogle = lazy(() => import("./pages/AlergiaGoogle.tsx"));
+const IdosoGoogle = lazy(() => import("./pages/IdosoGoogle.tsx"));
+const GatoCoceiraGoogle = lazy(() => import("./pages/GatoCoceiraGoogle.tsx"));
 const Grub = lazy(() => import("./pages/Grub.tsx"));
 const Impacto = lazy(() => import("./pages/Impacto.tsx"));
 // FORA DO AR (campanha sazonal Semana M.A. 5–12 jun) — descomentar pra reativar:
@@ -88,6 +93,9 @@ const App = () => (
               <Route path="/idoso" element={<Idoso />} />
               {/* LP campanha GATO QUE SE COÇA — Kit para Gatos */}
               <Route path="/gato-coceira" element={<GatoCoceira />} />
+              <Route path="/g/alergia" element={<AlergiaGoogle />} />
+              <Route path="/g/idoso" element={<IdosoGoogle />} />
+              <Route path="/g/gato-coceira" element={<GatoCoceiraGoogle />} />
               {/* LP campanha RÉPTEIS & ANFÍBIOS — Grub */}
               <Route path="/grub" element={<Grub />} />
               {/* Página IMPACTO — estática em public/impacto/, exibida via iframe */}

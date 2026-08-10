@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
@@ -43,16 +42,16 @@ import LeadPopup from "@/components/LeadPopup";
       reais de cães idosos quando houver.
 ────────────────────────────────────────────────────────────── */
 
-const COUPON = "VITALIDADE";  // ⚠️ cadastrar na Yampi: 10% off (1ª compra). Fallback: ALIVIO/BORALA.
+const COUPON = "GOOGLE10";  // 10% off — aprovado pela Olivia 10/08/26
 const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
-const PRICE_OFF = "104,40";   // "por" — preço de loja R$116 (−20%) com cupom (−10%)
+const PRICE_OFF = "130,50";  // "por" — R$ 145,00 com o cupom GOOGLE10 (-10%), aplicado sozinho na URL
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
-const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
 
 const UTM_FALLBACK = {
-  utm_source: "lp-idoso",
+  utm_source: "lp-idoso-google",
   utm_medium: "lp",
-  utm_campaign: "lp-idoso-kit-caes",
+  utm_campaign: "lp-idoso-kit-caes-google",
 };
 
 const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
@@ -129,7 +128,7 @@ const FAQ = [
   },
 ];
 
-const Idoso = () => {
+const IdosoGoogle = () => {
   useEffect(() => { captureEntryUtms(); }, []);
   return (
     <div className="idoso-lp">
@@ -146,7 +145,6 @@ const Idoso = () => {
       <section className="ilp-hero">
         <div className="ilp-hero-inner">
           <div className="ilp-hero-top">
-            <Link to="/portal" className="ilp-backlink">← comida de dragão</Link>
             <DragonLogo className="ilp-hero-logo" />
           </div>
 
@@ -180,18 +178,18 @@ const Idoso = () => {
           </div>
 
           <div className="ilp-hero-price">
-            <span className="ilp-price-from">Kit Cachorro por</span>
-            <span className="ilp-price-now"><small>R$</small>{PRICE}</span>
+            <span className="ilp-price-from">Kit Cachorro de <s>R$ {PRICE}</s> por</span>
+            <span className="ilp-price-now"><small>R$</small>{PRICE_OFF}</span>
             <span className="ilp-price-installment">🚚 Frete grátis · 4× sem juros</span>
           </div>
 
           <div className="ilp-hero-coupon">
-            🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout
+            🏷️ <strong>10% de desconto já aplicado</strong> · 🚚 frete grátis no Kit
           </div>
 
           <div className="ilp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="ilp-btn-primary" data-cta="hero">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {PRICE_OFF} →
             </a>
           </div>
 
@@ -327,13 +325,13 @@ const Idoso = () => {
           </h2>
 
           <div className="ilp-oferta-coupon-box">
-            <div className="ilp-oferta-coupon-label">🚚 vantagem</div>
-            <div className="ilp-oferta-coupon-code">FRETE GRÁTIS</div>
-            <div className="ilp-oferta-coupon-desc">Kit Cachorro por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
+            <div className="ilp-oferta-coupon-label">🏷️ seu desconto</div>
+            <div className="ilp-oferta-coupon-code">10% OFF</div>
+            <div className="ilp-oferta-coupon-desc">Kit Cachorro de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom · frete grátis</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="ilp-btn-primary" data-cta="oferta">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {PRICE_OFF} →
             </a>
 
           <p className="ilp-hero-note" style={{ marginTop: 16 }}>
@@ -411,19 +409,13 @@ const Idoso = () => {
         </h2>
         <p>Proteína que ele aproveita, articulação com apoio, apetite de volta. A idade chega — a disposição pode ficar.</p>
         <a href={ctaUrl("final")} className="ilp-btn-primary" data-cta="final">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {PRICE_OFF} →
             </a>
       </section>
 
       {/* ════ FOOTER ════ */}
       <footer className="ilp-footer">
         <DragonLogo className="ilp-footer-logo-svg" />
-        <nav className="ilp-footer-links">
-          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
-          <Link to="/produtos">Linha completa</Link>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="mailto:somos@letsfly.com.br">Contato</a>
-        </nav>
         <div className="ilp-footer-tagline">Nojento é o desperdício.</div>
         <div className="ilp-footer-legal">
           Comida de Dragão · Lets Fly · Biofábrica RJ · Reg. MAPA
@@ -434,14 +426,14 @@ const Idoso = () => {
       <div className="ilp-sticky-cta">
         <div className="ilp-sticky-info">
           <span className="ilp-sticky-name">Kit Cachorro</span>
-          <span className="ilp-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>
+          <span className="ilp-sticky-price">R$ {PRICE_OFF} · 🏷️ 10% off</span>
         </div>
-        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {PRICE} →</a>
+        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {PRICE_OFF} →</a>
       </div>
 
-      <LeadPopup slug="idoso" aposSeletor=".ilp-oferta" />
+      <LeadPopup slug="idoso-google" aposSeletor=".ilp-oferta" />
     </div>
   );
 };
 
-export default Idoso;
+export default IdosoGoogle;

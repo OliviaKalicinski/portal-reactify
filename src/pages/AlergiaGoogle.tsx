@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
@@ -24,15 +23,16 @@ import LeadPopup from "@/components/LeadPopup";
    - Trocar imagens de review por screenshots de alergia reais quando tiver.
 ────────────────────────────────────────────────────────────── */
 
+const COUPON = "GOOGLE10";  // 10% off — aprovado pela Olivia 10/08/26
 const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
-const PRICE_OFF = "130,50";   // "por" — preço CHEIO R$145 com cupom afiliado (−10%). Frete grátis no Kit (Yampi).
+const PRICE_OFF = "130,50";  // "por" — R$ 145,00 com o cupom GOOGLE10 (-10%), aplicado sozinho na URL
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
-const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
 
 const UTM_FALLBACK = {
-  utm_source: "lp-alergia",
+  utm_source: "lp-alergia-google",
   utm_medium: "lp",
-  utm_campaign: "lp-alergia-kit-caes",
+  utm_campaign: "lp-alergia-kit-caes-google",
 };
 
 const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
@@ -132,7 +132,7 @@ const FAQ = [
   },
 ];
 
-const Alergia = () => {
+const AlergiaGoogle = () => {
   useEffect(() => { captureEntryUtms(); }, []);
   return (
     <div className="alergia-lp">
@@ -149,7 +149,6 @@ const Alergia = () => {
       <section className="alp-hero">
         <div className="alp-hero-inner">
           <div className="alp-hero-top">
-            <Link to="/portal" className="alp-backlink">← comida de dragão</Link>
             <DragonLogo className="alp-hero-logo" />
           </div>
 
@@ -181,18 +180,18 @@ const Alergia = () => {
           </div>
 
           <div className="alp-hero-price">
-            <span className="alp-price-from">Kit Cachorro por</span>
-            <span className="alp-price-now"><small>R$</small>{PRICE}</span>
+            <span className="alp-price-from">Kit Cachorro de <s>R$ {PRICE}</s> por</span>
+            <span className="alp-price-now"><small>R$</small>{PRICE_OFF}</span>
             <span className="alp-price-installment">🚚 Frete grátis · 4× sem juros</span>
           </div>
 
           <div className="alp-hero-coupon">
-            🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout
+            🏷️ <strong>10% de desconto já aplicado</strong> · 🚚 frete grátis no Kit
           </div>
 
           <div className="alp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="alp-btn-primary" data-cta="hero">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {PRICE_OFF} →
             </a>
           </div>
 
@@ -380,13 +379,13 @@ const Alergia = () => {
           </h2>
 
           <div className="alp-oferta-coupon-box">
-            <div className="alp-oferta-coupon-label">🚚 vantagem</div>
-            <div className="alp-oferta-coupon-code">FRETE GRÁTIS</div>
-            <div className="alp-oferta-coupon-desc">Kit Cachorro por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
+            <div className="alp-oferta-coupon-label">🏷️ seu desconto</div>
+            <div className="alp-oferta-coupon-code">10% OFF</div>
+            <div className="alp-oferta-coupon-desc">Kit Cachorro de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom · frete grátis</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="alp-btn-primary" data-cta="oferta">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {PRICE_OFF} →
             </a>
 
           <p className="alp-hero-note" style={{ marginTop: 16 }}>
@@ -429,19 +428,13 @@ const Alergia = () => {
         </h2>
         <p>Proteína nova, pele mais calma, intestino firme. A maioria sente nas primeiras semanas.</p>
         <a href={ctaUrl("final")} className="alp-btn-primary" data-cta="final">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {PRICE_OFF} →
             </a>
       </section>
 
       {/* ════ FOOTER ════ */}
       <footer className="alp-footer">
         <DragonLogo className="alp-footer-logo-svg" />
-        <nav className="alp-footer-links">
-          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
-          <Link to="/produtos">Linha completa</Link>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="mailto:somos@letsfly.com.br">Contato</a>
-        </nav>
         <div className="alp-footer-tagline">Nojento é o desperdício.</div>
         <div className="alp-footer-legal">
           Comida de Dragão · Lets Fly · Biofábrica RJ · Reg. MAPA
@@ -452,14 +445,14 @@ const Alergia = () => {
       <div className="alp-sticky-cta">
         <div className="alp-sticky-info">
           <span className="alp-sticky-name">Kit Cachorro</span>
-          <span className="alp-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>
+          <span className="alp-sticky-price">R$ {PRICE_OFF} · 🏷️ 10% off</span>
         </div>
-        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {PRICE} →</a>
+        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {PRICE_OFF} →</a>
       </div>
 
-      <LeadPopup slug="alergia" aposSeletor=".alp-oferta" />
+      <LeadPopup slug="alergia-google" aposSeletor=".alp-oferta" />
     </div>
   );
 };
 
-export default Alergia;
+export default AlergiaGoogle;
