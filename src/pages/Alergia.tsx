@@ -35,7 +35,7 @@ const UTM_FALLBACK = {
   utm_campaign: "lp-alergia-kit-caes",
 };
 
-const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
+const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky" | "secao-solucao" | "secao-prova" | "secao-hidrolisada" | "secao-aceitacao") =>
   buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 const HERO_IMG = "/assets/images/produtos/kit-caes.png";
@@ -249,84 +249,12 @@ const Alergia = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ════ HIDROLISADA vs PROTEÍNA NOVA ════
-          Veio do relatório de termos de pesquisa do Google (90d): "petisco
-          proteína hidrolisada" aparece como busca real e a LP não respondia.
-          Quem procura isso JÁ FOI AO VETERINÁRIO — é o lead mais qualificado
-          desta dor. Enquadramento: dois caminhos legítimos, sem depreciar a
-          hidrolisada e sem prometer cura. Decisão final é do vet. */}
-      <section className="alp-section">
-        <div className="alp-section-inner">
-          <span className="alp-tag tag-pink">veio do consultório?</span>
-          <h2 className="alp-section-title title-pink">
-            Seu vet indicou<br /><span>proteína hidrolisada?</span>
-          </h2>
-          <p className="alp-section-lead">
-            Então ele já identificou o caminho: <strong>tirar do prato a proteína que o corpo
-            dele reconhece</strong>. Existem duas formas de fazer isso — e a segunda quase
-            ninguém conta pra você.
-          </p>
-
-          <ul className="alp-problemas-list">
-            <li className="alp-problema-item">
-              <b>Proteína hidrolisada</b> — quebra a proteína em pedaços pequenos demais pro
-              sistema imune reconhecer. Funciona escondendo o alérgeno.
-            </li>
-            <li className="alp-problema-item">
-              <b>Proteína nova</b> — é o nosso caminho. O corpo dele <strong>nunca viu</strong> a
-              larva antes, então nunca aprendeu a reagir contra ela. Não tem o que esconder.
-            </li>
-            <li className="alp-problema-item">
-              <b>Ingrediente único</b> — o Original é 100% larva, e mais nada. Numa dieta de
-              eliminação isso importa: você sabe exatamente o que ele comeu.
-            </li>
-          </ul>
-
-          <p className="alp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
-            Dieta de proteína nova é uma abordagem reconhecida — mas <strong>não substitui a
-            prescrição do seu veterinário</strong>. Leve o rótulo pra ele e decidam juntos.
-          </p>
-        </div>
-      </section>
-
-      {/* ════ E SE ELE NÃO COMER? (bloco anti-rejeição) ════
-          Regra da marca: toda LP de tráfego frio tem bloco anti-rejeição
-          (NPS é governado pela reação do pet: 'amou' +82, 'recusou' −50).
-          Em cão a palatabilidade é forte, mas o desconfiado tem conserto —
-          e a garantia derruba o risco de compra. */}
-      <section className="alp-section">
-        <div className="alp-section-inner">
-          <span className="alp-tag tag-pink">sem susto</span>
-          <h2 className="alp-section-title title-pink">
-            E se ele<br /><span>estranhar no começo?</span>
-          </h2>
-          <p className="alp-section-lead">
-            A maioria dos cães faz festa de primeira — mas se o seu for do tipo desconfiado,
-            tem conserto simples.
-          </p>
-
-          <ul className="alp-problemas-list">
-            <li className="alp-problema-item">
-              <b>Comece como topper</b> — jogue as larvinhas por cima da ração de sempre; o cheiro puxa o interesse.
-            </li>
-            <li className="alp-problema-item">
-              <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
-            </li>
-            <li className="alp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
-            </li>
-          </ul>
-
-          <blockquote className="alp-quote">
-            <p>
-              “Confesso que não estava acreditando não, que era só mkt mesmo. Mas a Kate
-              <strong> amou os petiscos</strong>, ficava enlouquecida cada vez q eu pegava o pacote… 😊”
-            </p>
-            <cite>— Michelle Klemar · Osasco/SP · Amostra · Judge.me 5★</cite>
-          </blockquote>
+          <div className="alp-secao-cta">
+            <a href={ctaUrl("secao-solucao")} className="alp-btn-primary" data-cta="secao-solucao">
+              Comprar o Kit Cachorro — R$ {PRICE} →
+            </a>
+          </div>
         </div>
       </section>
 
@@ -368,6 +296,12 @@ const Alergia = () => {
           </div>
 
           <p className="alp-slider-hint">← arraste pra ver mais →</p>
+
+          <div className="alp-secao-cta">
+            <a href={ctaUrl("secao-prova")} className="alp-btn-primary" data-cta="secao-prova">
+              Comprar o Kit Cachorro — R$ {PRICE} →
+            </a>
+          </div>
         </div>
       </section>
 
@@ -392,6 +326,96 @@ const Alergia = () => {
           <p className="alp-hero-note" style={{ marginTop: 16 }}>
             Frete grátis no Kit · compra 100% segura via Yampi
           </p>
+        </div>
+      </section>
+
+      {/* ════ HIDROLISADA vs PROTEÍNA NOVA ════
+          Veio do relatório de termos de pesquisa do Google (90d): "petisco
+          proteína hidrolisada" aparece como busca real e a LP não respondia.
+          Quem procura isso JÁ FOI AO VETERINÁRIO — é o lead mais qualificado
+          desta dor. Enquadramento: dois caminhos legítimos, sem depreciar a
+          hidrolisada e sem prometer cura. Decisão final é do vet. */}
+      <section className="alp-section">
+        <div className="alp-section-inner">
+          <span className="alp-tag tag-pink">veio do consultório?</span>
+          <h2 className="alp-section-title title-pink">
+            Seu vet indicou<br /><span>proteína hidrolisada?</span>
+          </h2>
+          <p className="alp-section-lead">
+            Então ele já identificou o caminho: <strong>tirar do prato a proteína que o corpo
+            dele reconhece</strong>. Existem duas formas de fazer isso — e a segunda quase
+            ninguém conta pra você.
+          </p>
+
+          <ul className="alp-problemas-list">
+            <li className="alp-problema-item">
+              <b>Proteína hidrolisada</b> — quebra a proteína em pedaços pequenos demais pro
+              sistema imune reconhecer. Funciona escondendo o alérgeno.
+            </li>
+            <li className="alp-problema-item">
+              <b>Proteína nova</b> — é o nosso caminho. O corpo dele <strong>nunca viu</strong> a
+              larva antes, então nunca aprendeu a reagir contra ela. Não tem o que esconder.
+            </li>
+            <li className="alp-problema-item">
+              <b>Ingrediente único</b> — o Original é 100% larva, e mais nada. Numa dieta de
+              eliminação isso importa: você sabe exatamente o que ele comeu.
+            </li>
+          </ul>
+
+          <p className="alp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+            Dieta de proteína nova é uma abordagem reconhecida — mas <strong>não substitui a
+            prescrição do seu veterinário</strong>. Leve o rótulo pra ele e decidam juntos.
+          </p>
+
+          <div className="alp-secao-cta">
+            <a href={ctaUrl("secao-hidrolisada")} className="alp-btn-primary" data-cta="secao-hidrolisada">
+              Comprar o Kit Cachorro — R$ {PRICE} →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ════ E SE ELE NÃO COMER? (bloco anti-rejeição) ════
+          Regra da marca: toda LP de tráfego frio tem bloco anti-rejeição
+          (NPS é governado pela reação do pet: 'amou' +82, 'recusou' −50).
+          Em cão a palatabilidade é forte, mas o desconfiado tem conserto —
+          e a garantia derruba o risco de compra. */}
+      <section className="alp-section">
+        <div className="alp-section-inner">
+          <span className="alp-tag tag-pink">sem susto</span>
+          <h2 className="alp-section-title title-pink">
+            E se ele<br /><span>estranhar no começo?</span>
+          </h2>
+          <p className="alp-section-lead">
+            A maioria dos cães faz festa de primeira — mas se o seu for do tipo desconfiado,
+            tem conserto simples.
+          </p>
+
+          <ul className="alp-problemas-list">
+            <li className="alp-problema-item">
+              <b>Comece como topper</b> — jogue as larvinhas por cima da ração de sempre; o cheiro puxa o interesse.
+            </li>
+            <li className="alp-problema-item">
+              <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
+            </li>
+            <li className="alp-problema-item">
+              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+            </li>
+          </ul>
+
+          <blockquote className="alp-quote">
+            <p>
+              “Confesso que não estava acreditando não, que era só mkt mesmo. Mas a Kate
+              <strong> amou os petiscos</strong>, ficava enlouquecida cada vez q eu pegava o pacote… 😊”
+            </p>
+            <cite>— Michelle Klemar · Osasco/SP · Amostra · Judge.me 5★</cite>
+          </blockquote>
+
+          <div className="alp-secao-cta">
+            <a href={ctaUrl("secao-aceitacao")} className="alp-btn-primary" data-cta="secao-aceitacao">
+              Comprar o Kit Cachorro — R$ {PRICE} →
+            </a>
+          </div>
         </div>
       </section>
 
@@ -457,7 +481,7 @@ const Alergia = () => {
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {PRICE} →</a>
       </div>
 
-      <LeadPopup slug="alergia" aposSeletor=".alp-oferta" />
+      <LeadPopup slug="alergia" aposSeletor=".alp-cta-final" />
     </div>
   );
 };

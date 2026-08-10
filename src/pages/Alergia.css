@@ -308,6 +308,25 @@
   box-shadow: 2px 2px 0 var(--ink-primary);
 }
 
+/* CTA de fim de seção — molde da /mordida, que põe botão dentro de cada bloco
+   em vez de deixar a compra só lá embaixo. Medido em 10/08/26: a /alergia
+   levava 4,66% da sessão ao checkout contra 8,69% da /original, e a diferença
+   está no caminho até o botão, não no argumento. */
+.alp-secao-cta {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+}
+@media (max-width: 767px) {
+  .alp-secao-cta { margin-top: 28px; }
+  .alp-secao-cta .alp-btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 18px 20px;
+    font-size: 20px;
+  }
+}
+
 .alp-hero-note {
   font-family: 'Space Mono', monospace;
   font-size: 11px;
