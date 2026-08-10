@@ -9,10 +9,10 @@
  * NÃO roda nesse caminho.
  *
  * Regras:
- *  - Se o anúncio trouxe utm_ na URL  -> repassa FIELMENTE (source/campaign/content/term do Meta).
+ *  - Se o anúncio trouxe utm_ na URL  -> repassa FIELMENTE (source/campaign/term do Meta).
  *  - Se não trouxe                    -> usa o fallback da LP (utm_source=lp-X etc.).
- *  - Posição do botão (hero/oferta...) vai em `cta_pos`, NUNCA em utm_content,
- *    pra não atropelar o criativo do anúncio.
+ *  - Posição do botão (hero/oferta...) vai em `cta_pos`.
+ *  - utm_content SEMPRE sai marcado com a LP: `lp-<slug>__<criativo>` (ver ensureLpPrefix).
  *  - FIRST-TOUCH: grava o bloco INTEIRO de uma vez e não sobrescreve por 30 dias
  *    (mesmo modelo do cookie da Shopify — evita "Frankenstein" de atribuição).
  */
@@ -82,10 +82,36 @@ export function captureEntryUtms(): void {
 }
 
 /**
+ * Garante que o `utm_content` carregue a marca da LP — sem atropelar o criativo.
+ *
+ * Padrão do SOP de UTM (Bruno, 05/08/26): `utm_content = lp-<slug>__<criativo>`.
+ * O prefixo é fixo; o que vem depois de `__` é livre.
+ *
+ * POR QUE ISSO MORA AQUI, e não na mão de quem sobe a campanha:
+ * medido em 05/08/26 sobre 612 pedidos de 2 meses — **6 tinham LP identificável (1%)**.
+ * Um padrão que depende de alguém digitar certo em toda campanha rende a cobertura que
+ * a gente já tem. O slug sai do `fallback.utm_source` da própria LP, então não há como
+ * digitar errado.
+ *
+ * Regra:
+ *  - `utm_content` já começa com `lp-` -> não toca (respeita quem fez certo)
+ *  - veio outro valor                  -> prefixa, preservando o criativo depois do `__`
+ *  - não veio nada                     -> `lp-<slug>__<cta_pos|direto>`
+ */
+function ensureLpPrefix(utms: Utms, lpSlug?: string, ctaPos?: string): Utms {
+  if (!lpSlug || !lpSlug.startsWith("lp-")) return utms; // sem slug de LP, não inventa
+  const atual = utms.utm_content?.trim();
+  if (atual && atual.startsWith("lp-")) return utms; // já marcado
+  const cauda = atual || ctaPos || "direto";
+  return { ...utms, utm_content: `${lpSlug}__${cauda}` };
+}
+
+/**
  * Monta a URL final do checkout, repassando a UTM de entrada.
  *
  * @param baseUrl   URL do produto na Yampi, já com ?promocode=...
  * @param fallback  UTMs usadas SÓ quando não há UTM de entrada (ex: lp-original).
+ *                  O `utm_source` daqui é também a fonte do slug da LP.
  * @param ctaPos    Posição do botão clicado (hero/oferta/final...). Vai em cta_pos.
  */
 export function buildCheckoutUrl(
@@ -97,7 +123,11 @@ export function buildCheckoutUrl(
 
   // Prioridade: o que foi salvo na entrada; se vazio, tenta a URL atual; senão, fallback.
   const entry = readStored() ?? readUrlUtms();
-  const utms = Object.keys(entry).length > 0 ? entry : fallback;
+  const base = Object.keys(entry).length > 0 ? entry : fallback;
+
+  // A marca da LP é estrutural: sai do fallback da própria página, não da mão de quem
+  // montou o anúncio. O criativo do anúncio sobrevive depois do `__`.
+  const utms = ensureLpPrefix(base, fallback.utm_source, ctaPos);
 
   UTM_KEYS.forEach((k) => {
     const v = utms[k];
