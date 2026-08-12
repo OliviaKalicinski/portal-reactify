@@ -37,6 +37,13 @@
 -->
 
 <style>
+  /* ──────────────────────────────────────────────────────────────────────
+     MOBILE-FIRST. A base e o telefone; o iPad cresce no @media de 700px.
+     A regua nao e estetica: numa feira o botao de enviar tem que estar a
+     uma rolagem curta, com teclado aberto. Antes deste ajuste a pagina
+     tinha 1.326px de altura num viewport de 561px (2,4 telas) e o botao
+     so terminava aos 1.010px.
+     ────────────────────────────────────────────────────────────────────── */
   :root{
     --ink:#191813; --ink-2:#3B3930; --grey:#6F6A5B; --line:#DCD6C2;
     --cream:#FBF8EE; --white:#fff;
@@ -44,86 +51,125 @@
     --pink:#E0246E; --ok:#2E7D57; --warn:#C97A12;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-  html,body{margin:0; height:100%;}
+  html,body{margin:0;}
   body{
     background:var(--cream); color:var(--ink);
     font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
-    font-size:18px; line-height:1.5; -webkit-font-smoothing:antialiased;
+    font-size:16px; line-height:1.45; -webkit-font-smoothing:antialiased;
     padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
-  .wrap{max-width:620px; margin:0 auto; padding:26px 22px 40px;}
+  .wrap{max-width:620px; margin:0 auto; padding:16px 16px 30px;}
 
-  /* ── topo ─────────────────────────────────────────────────────────── */
-  header{display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:26px;}
+  /* ── topo ───────────────────────────────────────────────────────────── */
+  header{display:flex; flex-direction:column; align-items:center; gap:6px; margin-bottom:14px;}
   /* SVG do portal embutido: o logo E o wordmark, entao nao ha texto de marca. */
-  .logo{width:min(260px,62vw); height:auto; display:block; color:var(--ink);}
+  .logo{width:min(150px,42vw); height:auto; display:block; color:var(--ink);}
   .status{
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px;
-    letter-spacing:.04em; color:var(--grey); text-align:center; line-height:1.35;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px;
+    letter-spacing:.04em; color:var(--grey); text-align:center; line-height:1.3;
   }
   .status b{color:var(--ink); font-variant-numeric:tabular-nums;}
   .status .pend{color:var(--warn);}
   .status .off{color:var(--pink);}
 
-  h1{font-size:clamp(26px,6vw,36px); line-height:1.06; margin:0 0 6px; font-weight:800; letter-spacing:-.02em;}
-  .sub{color:var(--grey); margin:0 0 24px; font-size:16px;}
+  h1{font-size:23px; line-height:1.05; margin:0 0 4px; font-weight:800; letter-spacing:-.02em; text-wrap:balance;}
+  .sub{color:var(--grey); margin:0 0 16px; font-size:14px; line-height:1.35;}
 
-  /* ── formulário ───────────────────────────────────────────────────── */
-  form{display:grid; gap:18px;}
-  label{display:block; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--grey); margin-bottom:7px;}
+  /* ── formulário ─────────────────────────────────────────────────────── */
+  form{display:grid; gap:12px;}
+  label{display:block; font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--grey); margin-bottom:4px;}
   label .op{font-weight:400; text-transform:none; letter-spacing:0;}
   input{
-    width:100%; font:inherit; font-size:20px; padding:16px 16px;
+    width:100%; font:inherit; font-size:17px; padding:12px 13px;
     border:2px solid var(--ink); background:var(--white); color:var(--ink);
     border-radius:0; -webkit-appearance:none;
   }
-  input:focus{outline:none; box-shadow:0 0 0 4px rgba(169,227,44,.55);}
-  input.erro{border-color:var(--pink); box-shadow:0 0 0 4px rgba(224,36,110,.18);}
+  input:focus{outline:none; box-shadow:0 0 0 3px rgba(169,227,44,.6);}
+  input.erro{border-color:var(--pink); box-shadow:0 0 0 3px rgba(224,36,110,.2);}
 
-  .tipos{display:flex; flex-wrap:wrap; gap:9px;}
+  /* grid de colunas iguais: o flex-wrap deixava 3+2 desalinhados */
+  .tipos{display:grid; grid-template-columns:repeat(3,1fr); gap:7px;}
   .tipo{
-    font:inherit; font-size:16px; font-weight:600; padding:12px 16px; cursor:pointer;
-    border:2px solid var(--ink); background:var(--white); color:var(--ink); border-radius:0;
+    font:inherit; font-size:14px; font-weight:600; padding:11px 6px; cursor:pointer;
+    border:2px solid var(--ink); background:var(--white); color:var(--ink);
+    border-radius:0; text-align:center; min-height:44px;   /* alvo de toque */
   }
   .tipo[aria-pressed="true"]{background:var(--lime); box-shadow:3px 3px 0 var(--ink);}
 
-  .consent{font-size:13px; color:var(--grey); line-height:1.45;}
+  .consent{font-size:12px; color:var(--grey); line-height:1.4; margin:0;}
 
   button.enviar{
-    font:inherit; font-size:22px; font-weight:800; text-transform:uppercase; letter-spacing:.04em;
-    padding:20px; width:100%; cursor:pointer; color:var(--ink); background:var(--lime);
-    border:3px solid var(--ink); box-shadow:6px 6px 0 var(--ink); border-radius:0;
+    font:inherit; font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:.04em;
+    padding:16px; width:100%; cursor:pointer; color:var(--ink); background:var(--lime);
+    border:3px solid var(--ink); box-shadow:5px 5px 0 var(--ink); border-radius:0;
   }
   button.enviar:active{transform:translate(3px,3px); box-shadow:2px 2px 0 var(--ink);}
   button.enviar[disabled]{opacity:.5;}
 
   .msg{
-    display:none; margin-top:16px; padding:16px 18px; border:2px solid var(--ok);
-    background:rgba(46,125,87,.09); font-weight:700; color:var(--ok);
+    display:none; margin-top:12px; padding:13px 15px; border:2px solid var(--ok);
+    background:rgba(46,125,87,.09); font-weight:700; color:var(--ok); font-size:15px;
   }
   .msg.show{display:block;}
   .msg.err{border-color:var(--pink); background:rgba(224,36,110,.09); color:var(--pink);}
 
-  /* ── rodapé de gestão ─────────────────────────────────────────────── */
-  .admin{margin-top:38px; padding-top:20px; border-top:2px solid var(--line);}
-  .admin-acoes{display:flex; flex-wrap:wrap; gap:10px;}
+  /* ── rodapé de gestão ───────────────────────────────────────────────── */
+  .admin{margin-top:26px; padding-top:16px; border-top:2px solid var(--line);}
+  /* grid de 2 colunas: o wrap do flex jogava "Limpar" ao lado de um botao
+     comum, e ele e destrutivo — aqui ele fica sozinho na ultima linha. */
+  .admin-acoes{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
   .btn2{
-    font:inherit; font-size:15px; font-weight:700; padding:12px 16px; cursor:pointer;
-    background:var(--white); color:var(--ink); border:2px solid var(--ink); border-radius:0;
+    font:inherit; font-size:14px; font-weight:700; padding:11px 10px; cursor:pointer;
+    background:var(--white); color:var(--ink); border:2px solid var(--ink);
+    border-radius:0; min-height:44px;
   }
   .btn2:active{background:var(--line);}
-  .btn2.perigo{border-color:var(--pink); color:var(--pink);}
+  .btn2.perigo{border-color:var(--pink); color:var(--pink); grid-column:1 / -1;}
   .lista{
-    display:none; margin-top:18px; max-height:46vh; overflow:auto;
+    display:none; margin-top:14px; max-height:44vh; overflow:auto;
     border:2px solid var(--line); background:var(--white);
+    -webkit-overflow-scrolling:touch;
   }
   .lista.show{display:block;}
-  .lista table{border-collapse:collapse; width:100%; font-size:14px;}
-  .lista th,.lista td{padding:9px 11px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap;}
-  .lista th{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--grey); position:sticky; top:0; background:var(--white);}
+  .lista table{border-collapse:collapse; width:100%; font-size:13px;}
+  .lista th,.lista td{padding:8px 10px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap;}
+  .lista th{font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--grey); position:sticky; top:0; background:var(--white);}
   .lista td.p{color:var(--warn); font-weight:700;}
   .lista td.s{color:var(--ok); font-weight:700;}
-  .nota{font-size:13px; color:var(--grey); margin-top:14px; line-height:1.5;}
+  .nota{font-size:12px; color:var(--grey); margin-top:12px; line-height:1.45;}
+
+  /* ── iPad e telas maiores ───────────────────────────────────────────── */
+  @media (min-width:700px){
+    body{font-size:18px; line-height:1.5;}
+    .wrap{padding:26px 22px 40px;}
+    header{gap:10px; margin-bottom:24px;}
+    .logo{width:240px;}
+    .status{font-size:12px;}
+    h1{font-size:34px; margin-bottom:6px;}
+    .sub{font-size:16px; margin-bottom:24px;}
+    form{gap:18px;}
+    label{font-size:13px; margin-bottom:7px;}
+    input{font-size:20px; padding:16px;}
+    .tipos{display:flex; flex-wrap:wrap; gap:9px;}
+    .tipo{font-size:16px; padding:12px 16px;}
+    .consent{font-size:13px;}
+    button.enviar{font-size:22px; padding:20px; box-shadow:6px 6px 0 var(--ink);}
+    .msg{font-size:16px; padding:16px 18px;}
+    .admin{margin-top:38px; padding-top:20px;}
+    .admin-acoes{display:flex; flex-wrap:wrap; gap:10px;}
+    .btn2{font-size:15px; padding:12px 16px;}
+    .btn2.perigo{grid-column:auto;}
+    .lista table{font-size:14px;}
+    .nota{font-size:13px;}
+  }
+
+  /* telas curtas de verdade (iPhone deitado, teclado aberto) */
+  @media (max-height:620px) and (max-width:699px){
+    .logo{width:min(112px,32vw);}
+    h1{font-size:20px;}
+    .sub{margin-bottom:12px;}
+    header{margin-bottom:10px;}
+  }
 </style>
 </head>
 <body>
