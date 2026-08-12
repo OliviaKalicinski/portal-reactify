@@ -379,6 +379,7 @@
         <button class="btn2" type="button" id="verVendas">Ver vendas do dia</button>
         <button class="btn2" type="button" id="vendaCsv">Baixar CSV</button>
         <button class="btn2" type="button" id="vendaCopiar">Copiar resumo</button>
+        <button class="btn2" type="button" id="vendaEnviar">Enviar pendentes</button>
         <button class="btn2 perigo" type="button" id="vendaZerar">Zerar o dia</button>
       </div>
       <div class="lista" id="listaDia"></div>
@@ -834,7 +835,9 @@
     var t = totaisDia();
     $("vendaTotal").textContent = t.itens;
     $("vendaReais").textContent = moeda(t.reais);
-    $("vendaVendas").textContent = t.vendas === 1 ? "1 venda" : t.vendas + " vendas";
+    var pend = dia.filter(function (v) { return !v.enviado; }).length;
+    $("vendaVendas").innerHTML = (t.vendas === 1 ? "1 venda" : t.vendas + " vendas") +
+      (pend ? " · <span style='color:var(--warn)'>" + pend + " a enviar</span>" : "");
     window.__psaVendasTotal = t.itens;
     if (window.__psaPintarStatus) window.__psaPintarStatus();
   }
@@ -862,6 +865,8 @@
     var itensTxt = [];
     PRODUTOS.forEach(function (p) { if (carrinho[p.sku]) itensTxt.push(carrinho[p.sku] + "x " + p.nome); });
     dia.push({
+      local_id: "psa-" + Date.now() + "-" + Math.floor(Math.random() * 100000),
+      enviado: false,
       hora: new Date().toTimeString().slice(0, 5),
       quando: new Date().toISOString(),
       itens: c.itens,
@@ -873,6 +878,7 @@
       total: c.total
     });
     salvar();
+    enviarVenda(dia[dia.length - 1]).then(pintarDia, pintarDia);
     carrinho = {}; desconto = 0;
     $("descontoInput").value = "";
     desenharProdutos();
@@ -888,6 +894,59 @@
     carrinho = {}; desconto = 0; $("descontoInput").value = "";
     desenharProdutos(); pintarCarrinho();
   });
+
+  /* ── envio pro banco ──────────────────────────────────────────────────────
+     Mesmo contrato dos leads: grava no aparelho ANTES de tentar rede, e a fila
+     sobe sozinha quando o sinal volta. `local_id` e unique na tabela, entao
+     reenviar a mesma venda nao duplica — o banco recusa e a gente marca como
+     enviada do mesmo jeito. */
+  var API_VENDAS = "https://rbjvwdsfpalyypimfrkf.supabase.co/rest/v1/feira_vendas";
+  var KEY_VENDAS = "sb_publishable_M9kG9XFt-z4SRrciu2G8iQ_F1_FeNro";
+
+  function enviarVenda(v) {
+    if (!v || v.enviado) return Promise.resolve();
+    return fetch(API_VENDAS, {
+      method: "POST",
+      headers: {
+        "apikey": KEY_VENDAS, "Authorization": "Bearer " + KEY_VENDAS,
+        "Content-Type": "application/json", "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({
+        local_id: v.local_id, feira: "PSA 2026", vendida_em: v.quando,
+        itens: v.produtos, texto: v.texto, combos: v.combos,
+        qtd_itens: v.itens, subtotal: v.subtotal, desconto: v.desconto,
+        total: v.total, user_agent: navigator.userAgent
+      })
+    }).then(function (r) {
+      // 409 = local_id ja existe: a venda ja esta la, so o retorno se perdeu
+      if (r.ok || r.status === 409) { v.enviado = true; salvar(); return true; }
+      throw new Error("HTTP " + r.status);
+    });
+  }
+
+  var enviandoVendas = false;
+  function sincronizarVendas() {
+    if (enviandoVendas || !navigator.onLine) return Promise.resolve();
+    var fila = dia.filter(function (v) { return !v.enviado; });
+    if (!fila.length) return Promise.resolve();
+    enviandoVendas = true;
+    var p = Promise.resolve();
+    fila.forEach(function (v) { p = p.then(function () { return enviarVenda(v).catch(function () {}); }); });
+    return p.then(function () { enviandoVendas = false; pintarDia(); });
+  }
+
+  $("vendaEnviar").addEventListener("click", function () {
+    var pend = dia.filter(function (v) { return !v.enviado; }).length;
+    if (!pend) return alert("Todas as vendas ja foram enviadas.");
+    if (!navigator.onLine) return alert("Sem internet agora. As " + pend + " vendas estao salvas no aparelho e sobem sozinhas quando o sinal voltar.");
+    sincronizarVendas().then(function () {
+      var falta = dia.filter(function (v) { return !v.enviado; }).length;
+      alert(falta ? falta + " venda(s) ainda pendente(s)." : "Tudo enviado. ✅");
+    });
+  });
+
+  window.addEventListener("online", sincronizarVendas);
+  setInterval(sincronizarVendas, 20000);
 
   /* ── exportar ─────────────────────────────────────────────────────────── */
   $("vendaCsv").addEventListener("click", function () {
@@ -944,7 +1003,7 @@
     dia.slice().reverse().forEach(function (v, i) {
       html += "<tr><td>" + (dia.length - i) + "</td><td>" + v.hora + "</td><td>" + v.texto +
               (v.desconto ? " <small style='color:#E0246E'>(−" + moeda(v.desconto) + ")</small>" : "") +
-              "</td><td>" + moeda(v.total) + "</td></tr>";
+              "</td><td>" + moeda(v.total) + (v.enviado ? "" : " <small style='color:#C97A12'>pendente</small>") + "</td></tr>";
     });
     el.innerHTML = html + "</tbody></table>";
   });
@@ -967,6 +1026,7 @@
   carregar();
   desenharProdutos();
   pintarCarrinho();
+  sincronizarVendas();
 })();
 </script>
 </body>
