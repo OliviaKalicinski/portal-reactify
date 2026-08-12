@@ -79,6 +79,65 @@
   h1{font-size:23px; line-height:1.05; margin:0 0 4px; font-weight:800; letter-spacing:-.02em; text-wrap:balance;}
   .sub{color:var(--grey); margin:0 0 16px; font-size:14px; line-height:1.35;}
 
+  /* ── abas ───────────────────────────────────────────────────────────── */
+  .abas{display:grid; grid-template-columns:1fr 1fr; gap:0; margin:0 0 16px; border:2px solid var(--ink);}
+  .aba{
+    font:inherit; font-size:15px; font-weight:800; text-transform:uppercase; letter-spacing:.05em;
+    padding:13px 8px; min-height:46px; cursor:pointer; border:0; border-radius:0;
+    background:var(--white); color:var(--grey);
+  }
+  .aba + .aba{border-left:2px solid var(--ink);}
+  .aba[aria-selected="true"]{background:var(--ink); color:var(--lime);}
+
+  /* ── vendas ─────────────────────────────────────────────────────────── */
+  .venda-topo{
+    display:flex; align-items:baseline; gap:9px; justify-content:center;
+    padding:14px; margin-bottom:14px; border:2px solid var(--ink); background:var(--white);
+  }
+  .venda-total{font-size:40px; font-weight:800; line-height:1; font-variant-numeric:tabular-nums;}
+  .venda-total-lbl{font-size:14px; color:var(--grey); text-transform:uppercase; letter-spacing:.07em;}
+  .venda-grupo{
+    font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--grey); margin:16px 0 7px;
+  }
+  .venda-item{
+    display:flex; align-items:center; gap:9px; padding:9px 10px;
+    border:2px solid var(--line); background:var(--white); margin-bottom:7px;
+  }
+  .venda-item.tem{border-color:var(--ink);}
+  .venda-nome{flex:1; font-size:15px; font-weight:600; line-height:1.2;}
+  .venda-nome small{display:block; font-size:10px; color:var(--grey); font-weight:400; letter-spacing:.05em;}
+  .venda-btn{
+    font:inherit; font-size:22px; font-weight:800; line-height:1; cursor:pointer;
+    width:46px; height:46px; flex:none; border:2px solid var(--ink);
+    background:var(--white); color:var(--ink); border-radius:0;
+  }
+  .venda-btn.mais{background:var(--lime);}
+  .venda-btn:active{transform:translateY(1px);}
+  .venda-btn[disabled]{opacity:.28;}
+  .venda-qtd{
+    min-width:32px; text-align:center; font-size:20px; font-weight:800;
+    font-variant-numeric:tabular-nums;
+  }
+  .venda-preco{display:flex; align-items:center; gap:3px; flex:none;}
+  .venda-preco > span{font-size:12px; color:var(--grey); font-weight:700;}
+  .venda-preco input{
+    width:58px; padding:7px 6px; font:inherit; font-size:15px; font-weight:700;
+    text-align:right; border:2px solid var(--line); background:var(--white);
+    color:var(--ink); border-radius:0; -webkit-appearance:none;
+    font-variant-numeric:tabular-nums;
+  }
+  .venda-preco input:focus{outline:none; border-color:var(--ink); box-shadow:0 0 0 3px rgba(169,227,44,.5);}
+  .venda-preco input.ajustado{border-color:var(--pink); color:var(--pink);}
+  .venda-item.tem .venda-preco input{border-color:var(--ink);}
+  .venda-item.tem .venda-preco input.ajustado{border-color:var(--pink);}
+  .venda-topo{flex-wrap:wrap;}
+  .venda-reais{
+    width:100%; text-align:center; font-size:16px; font-weight:800; color:var(--lime-dark);
+    font-variant-numeric:tabular-nums; margin-top:3px;
+  }
+  .venda-aviso{font-size:12px; color:var(--pink); font-weight:700; margin:10px 0 0; line-height:1.4;}
+
   /* ── formulário ─────────────────────────────────────────────────────── */
   form{display:grid; gap:12px;}
   label{display:block; font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--grey); margin-bottom:4px;}
@@ -161,6 +220,9 @@
     .msg{font-size:16px; padding:16px 18px;}
     .admin{margin-top:38px; padding-top:20px;}
     .admin-acoes{display:flex; flex-wrap:wrap; gap:10px;}
+    .aba{font-size:17px; padding:15px 10px;}
+    .venda-nome{font-size:17px;}
+    .venda-total{font-size:48px;}
     .btn2{font-size:15px; padding:12px 16px;}
     .btn2.perigo{grid-column:auto;}
     .lista table{font-size:14px;}
@@ -197,6 +259,12 @@
     <div class="status" id="status">carregando…</div>
   </header>
 
+  <nav class="abas" role="tablist" aria-label="Seções">
+    <button class="aba" type="button" role="tab" data-painel="cadastro" aria-selected="true">Cadastro</button>
+    <button class="aba" type="button" role="tab" data-painel="vendas" aria-selected="false">Vendas</button>
+  </nav>
+
+  <section id="painel-cadastro" role="tabpanel">
   <h1>Quer receber<br />nossas novidades?</h1>
   <p class="sub">Deixa teu contato que a gente te chama — sem enrolação, só o que interessa.</p>
 
@@ -250,6 +318,33 @@
       se a rede cair. O que ficar pendente sobe sozinho quando o sinal voltar.
       <strong>O CSV funciona offline</strong> e é a garantia final.
     </p>
+  </section>
+  </section>
+
+  <!-- ════ VENDAS ═══════════════════════════════════════════════════════════
+       Contagem do que saiu no estande. Sem preço — pedido da Olivia: ela quer
+       saber O QUE vendeu, não faturar aqui. Fica só no aparelho (localStorage)
+       e sai por CSV; não existe tabela de venda de feira no dash, e criar uma
+       no dia da feira seria mexer no banco do dashboard sem necessidade. -->
+  <section id="painel-vendas" role="tabpanel" hidden>
+    <div class="venda-topo">
+      <span class="venda-total" id="vendaTotal">0</span>
+      <span class="venda-total-lbl">itens vendidos</span>
+      <span class="venda-reais" id="vendaReais">R$ 0,00</span>
+    </div>
+    <p class="venda-aviso" id="vendaAviso"></p>
+    <div id="listaVendas"></div>
+    <div class="admin">
+      <div class="admin-acoes">
+        <button class="btn2" type="button" id="vendaCsv">Baixar CSV</button>
+        <button class="btn2" type="button" id="vendaCopiar">Copiar resumo</button>
+        <button class="btn2 perigo" type="button" id="vendaZerar">Zerar contagem</button>
+      </div>
+      <p class="nota">
+        Toque no <strong>+</strong> a cada item que sair. A contagem fica salva no aparelho, mesmo
+        sem internet e mesmo se fechar a página. <strong>Baixe o CSV no fim do dia.</strong>
+      </p>
+    </div>
   </section>
 
 </div>
@@ -314,6 +409,7 @@
     var html = "<b>" + leads.length + "</b> cadastrado" + (leads.length === 1 ? "" : "s");
     if (pend) html += " · <span class='pend'><b>" + pend + "</b> pendente" + (pend === 1 ? "" : "s") + "</span>";
     if (!navigator.onLine) html += "<br /><span class='off'>sem internet — segue funcionando</span>";
+    if (window.__psaVendasTotal) html += " · <b>" + window.__psaVendasTotal + "</b> vendido" + (window.__psaVendasTotal === 1 ? "" : "s");
     if (!storageOk) html += "<br /><span class='off'>⚠️ sem memória do aparelho: BAIXE O CSV</span>";
     $("status").innerHTML = html;
   }
@@ -499,10 +595,237 @@
     if (leads.some(function (l) { return !l.enviado; })) { ev.preventDefault(); ev.returnValue = ""; }
   });
 
+  window.__psaPintarStatus = pintarStatus;   // a aba de vendas soma no mesmo contador
   carregar();
   pintarStatus();
   sincronizar();
   $("nome").focus();
+})();
+</script>
+
+<script>
+/* ══ VENDAS DO ESTANDE ══════════════════════════════════════════════════════
+   Contagem do que sai, com preço.
+
+   🔴 O PREÇO PADRÃO AQUI É O DA FEIRA, NÃO O DA LOJA. A tabela impressa no
+   estande (foto da Olivia, 12/08/26) difere da Shopify em TODOS os itens — por
+   isso cada linha tem o preço editável: se alguém fechar por outro valor
+   (combo, desconto na hora, cortesia), corrige ali e o total acompanha. Linha
+   com preço alterado fica em rosa e sai marcada no CSV.
+
+     produto                loja      feira
+     Original              38,90      34
+     Mordida               42,20      37
+     Suplementos e Grub   110,00      90
+     Original + Mordida    81,10      67
+     Original 3x          116,70      95
+     Mordida 3x           126,60     105
+     Suplemento + Petisco 145,00     110
+
+   CATÁLOGO: são estes 10 e só estes — confirmado pela Olivia em 12/08. Kit para
+   Cães (1302), Kit para Gatos (1301) e Kit Completo (1306) existem na loja mas
+   NÃO vão pra feira.
+
+   ⚠️ ABERTO: "Suplemento + Petisco" pode ser o SKU 1305 (Mordida + Suplemento)
+   ou o 1302 (Kit para Cães = Original + Suplemento). Assumi 1305. O nome e o
+   preço na tela são os da tabela dela, então a venda é contada certo de todo
+   jeito — o SKU só importa na hora de conciliar com a loja. */
+(function () {
+  "use strict";
+
+  var CHAVE = "cdd_psa_vendas_v2";
+  var CHAVE_ANTIGA = "cdd_psa_vendas_v1";
+
+  var CATALOGO = [
+    { g: "Produtos", sku: "101",  nome: "Original",               feira: 34 },
+    { g: "Produtos", sku: "203",  nome: "Mordida de Dragão",      feira: 37 },
+    { g: "Produtos", sku: "303",  nome: "Suplemento para Gatos",  feira: 90 },
+    { g: "Produtos", sku: "302",  nome: "Suplemento Integral",    feira: 90 },
+    { g: "Produtos", sku: "301",  nome: "Suplemento Concentrado", feira: 90 },
+    { g: "Produtos", sku: "401",  nome: "Grub",                   feira: 90 },
+    { g: "Kits",     sku: "1303", nome: "Original + Mordida",     feira: 67 },
+    { g: "Kits",     sku: "1101", nome: "Original 3x",            feira: 95 },
+    { g: "Kits",     sku: "1304", nome: "Mordida 3x",             feira: 105 },
+    { g: "Kits",     sku: "1305", nome: "Suplemento + Petisco",   feira: 110 }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var vendas = {};   // { sku: { q: quantidade, p: preço aplicado } }
+
+  function carregar() {
+    try {
+      vendas = JSON.parse(localStorage.getItem(CHAVE) || "{}") || {};
+      var velho = localStorage.getItem(CHAVE_ANTIGA);   // formato só-quantidade
+      if (velho && !Object.keys(vendas).length) {
+        var v = JSON.parse(velho) || {};
+        CATALOGO.forEach(function (p) { if (v[p.sku]) vendas[p.sku] = { q: v[p.sku], p: p.feira }; });
+        localStorage.removeItem(CHAVE_ANTIGA);
+        salvar();
+      }
+    } catch (e) { vendas = {}; }
+  }
+  function salvar() { try { localStorage.setItem(CHAVE, JSON.stringify(vendas)); } catch (e) {} }
+
+  function precoDe(p) { return vendas[p.sku] ? vendas[p.sku].p : p.feira; }
+  function qtdDe(p)   { return vendas[p.sku] ? vendas[p.sku].q : 0; }
+  function achar(sku) {
+    for (var i = 0; i < CATALOGO.length; i++) if (CATALOGO[i].sku === sku) return CATALOGO[i];
+    return null;
+  }
+
+  function totais() {
+    var itens = 0, reais = 0, ajustados = 0;
+    CATALOGO.forEach(function (p) {
+      var v = vendas[p.sku];
+      if (!v) return;
+      itens += v.q;
+      reais += v.q * v.p;
+      if (v.p !== p.feira) ajustados++;
+    });
+    return { itens: itens, reais: reais, ajustados: ajustados };
+  }
+  function moeda(n) {
+    var inteiro = Math.floor(n).toString();
+    var milhar = "";
+    while (inteiro.length > 3) { milhar = "." + inteiro.slice(-3) + milhar; inteiro = inteiro.slice(0, -3); }
+    var cents = Math.round((n - Math.floor(n)) * 100).toString();
+    if (cents.length < 2) cents = "0" + cents;
+    return "R$ " + inteiro + milhar + "," + cents;
+  }
+
+  function pintarTotal() {
+    var t = totais();
+    $("vendaTotal").textContent = t.itens;
+    $("vendaReais").textContent = moeda(t.reais);
+    $("vendaAviso").textContent = t.ajustados
+      ? "⚠️ " + t.ajustados + " item(ns) com preço diferente da tabela — vai marcado no CSV."
+      : "";
+    window.__psaVendasTotal = t.itens;
+    if (window.__psaPintarStatus) window.__psaPintarStatus();
+  }
+
+  function desenhar() {
+    var html = "", grupo = null;
+    CATALOGO.forEach(function (p) {
+      if (p.g !== grupo) { grupo = p.g; html += '<div class="venda-grupo">' + p.g + "</div>"; }
+      var n = qtdDe(p), preco = precoDe(p), mudou = preco !== p.feira;
+      html +=
+        '<div class="venda-item' + (n ? " tem" : "") + '" data-sku="' + p.sku + '">' +
+          '<span class="venda-nome">' + p.nome + "<small>tabela R$ " + p.feira + " · SKU " + p.sku + "</small></span>" +
+          '<span class="venda-preco"><span>R$</span>' +
+            '<input type="text" inputmode="decimal" value="' + String(preco).replace(".", ",") + '"' +
+            (mudou ? ' class="ajustado"' : "") + ' aria-label="Preco de ' + p.nome + '" /></span>' +
+          '<button class="venda-btn menos" type="button" data-d="-1" aria-label="Tirar um ' + p.nome + '"' + (n ? "" : " disabled") + ">−</button>" +
+          '<span class="venda-qtd">' + n + "</span>" +
+          '<button class="venda-btn mais" type="button" data-d="1" aria-label="Somar um ' + p.nome + '">+</button>' +
+        "</div>";
+    });
+    $("listaVendas").innerHTML = html;
+    pintarTotal();
+  }
+
+  $("listaVendas").addEventListener("click", function (ev) {
+    var b = ev.target.closest(".venda-btn");
+    if (!b) return;
+    var linha = b.closest(".venda-item");
+    var sku = linha.getAttribute("data-sku");
+    var p = achar(sku);
+    var preco = parseFloat(String(linha.querySelector("input").value).replace(",", "."));
+    if (isNaN(preco) || preco < 0) preco = p.feira;
+    var nova = Math.max(0, qtdDe(p) + parseInt(b.getAttribute("data-d"), 10));
+    if (nova) vendas[sku] = { q: nova, p: preco }; else delete vendas[sku];
+    salvar();
+    /* Atualiza SÓ esta linha, em vez de redesenhar a lista toda: um redraw
+       recria o <input> de preço e rouba o foco de quem estiver digitando —
+       e num estande a pessoa toca no + com o teclado aberto o tempo todo. */
+    atualizarLinha(linha, p);
+    pintarTotal();
+  });
+
+  function atualizarLinha(linha, p) {
+    var n = qtdDe(p);
+    linha.querySelector(".venda-qtd").textContent = n;
+    linha.querySelector(".menos").disabled = !n;
+    linha.classList.toggle("tem", !!n);
+  }
+
+  /* preço editado: recalcula na hora se já houver quantidade */
+  $("listaVendas").addEventListener("input", function (ev) {
+    var inp = ev.target;
+    if (inp.tagName !== "INPUT") return;
+    var sku = inp.closest(".venda-item").getAttribute("data-sku");
+    var p = achar(sku);
+    var valor = parseFloat(String(inp.value).replace(",", "."));
+    if (isNaN(valor) || valor < 0) return;
+    inp.classList.toggle("ajustado", valor !== p.feira);
+    if (vendas[sku]) { vendas[sku].p = valor; salvar(); pintarTotal(); }
+  });
+
+  function vendidos() {
+    return CATALOGO.filter(function (p) { return qtdDe(p); }).map(function (p) {
+      var v = vendas[p.sku];
+      return { sku: p.sku, nome: p.nome, qtd: v.q, preco: v.p, tabela: p.feira,
+               ajustado: v.p !== p.feira, total: v.q * v.p };
+    });
+  }
+
+  $("vendaCsv").addEventListener("click", function () {
+    var linhas = vendidos();
+    if (!linhas.length) return alert("Nenhuma venda contabilizada ainda.");
+    var t = totais();
+    var esc = function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; };
+    var num = function (n) { return n.toFixed(2).replace(".", ","); };
+    var csv = [["sku", "produto", "quantidade", "preco_aplicado", "preco_tabela_feira", "preco_ajustado", "total"]]
+      .concat(linhas.map(function (l) {
+        return [l.sku, l.nome, l.qtd, num(l.preco), num(l.tabela), l.ajustado ? "SIM" : "nao", num(l.total)];
+      }))
+      .concat([["", "TOTAL", t.itens, "", "", "", num(t.reais)]])
+      .map(function (r) { return r.map(esc).join(","); }).join("\r\n");
+    var blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "psa-vendas-" + new Date().toISOString().slice(0, 10) + ".csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+  });
+
+  $("vendaCopiar").addEventListener("click", function () {
+    var linhas = vendidos();
+    if (!linhas.length) return alert("Nenhuma venda contabilizada ainda.");
+    var t = totais();
+    var txt = linhas.map(function (l) {
+      return l.qtd + "x " + l.nome + " — " + moeda(l.total) +
+             (l.ajustado ? "  (preco ajustado: " + moeda(l.preco) + ")" : "");
+    }).join("\n") + "\n\nTotal: " + t.itens + " itens · " + moeda(t.reais);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function () { alert("Resumo copiado."); },
+                                              function () { alert("Nao consegui copiar — use o CSV."); });
+    } else { alert("Copiar nao funciona aqui — use o CSV."); }
+  });
+
+  $("vendaZerar").addEventListener("click", function () {
+    if (!totais().itens) return;
+    if (!confirm("Zerar a contagem de vendas? Baixe o CSV antes se quiser guardar.")) return;
+    vendas = {}; salvar(); desenhar();
+  });
+
+  /* ── abas ─────────────────────────────────────────────────────────────── */
+  var abas = document.querySelectorAll(".aba");
+  [].forEach.call(abas, function (aba) {
+    aba.addEventListener("click", function () {
+      var alvo = this.getAttribute("data-painel");
+      [].forEach.call(abas, function (a) {
+        a.setAttribute("aria-selected", String(a.getAttribute("data-painel") === alvo));
+      });
+      $("painel-cadastro").hidden = alvo !== "cadastro";
+      $("painel-vendas").hidden   = alvo !== "vendas";
+      window.scrollTo(0, 0);
+      if (alvo === "cadastro") { var n = $("nome"); if (n) n.focus(); }
+    });
+  });
+
+  carregar();
+  desenhar();
 })();
 </script>
 </body>
