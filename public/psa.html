@@ -173,9 +173,10 @@
   /* grid de colunas iguais: o flex-wrap deixava 3+2 desalinhados */
   .tipos{display:grid; grid-template-columns:repeat(3,1fr); gap:7px;}
   .tipo{
-    font:inherit; font-size:14px; font-weight:600; padding:11px 6px; cursor:pointer;
+    font:inherit; font-size:14px; font-weight:600; padding:11px 4px; cursor:pointer;
     border:2px solid var(--ink); background:var(--white); color:var(--ink);
     border-radius:0; text-align:center; min-height:44px;   /* alvo de toque */
+    line-height:1.15; hyphens:auto;                        /* "Influenciador" e longa */
   }
   .tipo[aria-pressed="true"]{background:var(--lime); box-shadow:3px 3px 0 var(--ink);}
 
@@ -313,6 +314,7 @@
         <button class="tipo" type="button" aria-pressed="false">Lojista</button>
         <button class="tipo" type="button" aria-pressed="false">Veterinário</button>
         <button class="tipo" type="button" aria-pressed="false">Distribuidor</button>
+        <button class="tipo" type="button" aria-pressed="false">Influenciador</button>
         <button class="tipo" type="button" aria-pressed="false">Tutor</button>
         <button class="tipo" type="button" aria-pressed="false">Outro</button>
       </div>
