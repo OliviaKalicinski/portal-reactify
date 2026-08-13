@@ -440,6 +440,8 @@
       var cru = localStorage.getItem(CHAVE);
       leads = cru ? JSON.parse(cru) : [];
       if (!Array.isArray(leads)) leads = [];
+      // se a pagina caiu no meio de um envio, a flag ficaria presa
+      leads.forEach(function (l) { delete l._enviando; });
     } catch (e) { leads = []; storageOk = false; }
   }
   function salvar() {
@@ -460,6 +462,14 @@
 
   /* ── envio ───────────────────────────────────────────────────────────── */
   function enviarUm(lead) {
+    /* 🔴 CORRIGIDO 12/08 (PSA): 14 leads duplicados em 99 envios.
+       O submit chamava enviarUm() direto E o setInterval de 20s rodava
+       sincronizar() em paralelo. Com wifi de feira, a primeira requisicao
+       ainda estava em voo quando o timer disparava — e como `enviado` so
+       vira true DEPOIS da resposta, o mesmo lead era postado duas vezes.
+       A flag `_enviando` fecha essa janela. */
+    if (lead._enviando) return Promise.resolve();
+    lead._enviando = true;
     return fetch(API, {
       method: "POST",
       headers: {
@@ -480,15 +490,19 @@
     }).then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
       lead.enviado = true;
+      delete lead._enviando;
       salvar();
       return true;
+    }, function (e) {
+      delete lead._enviando;   // liberou pra tentar de novo depois
+      throw e;
     });
   }
 
   var sincronizando = false;
   function sincronizar() {
     if (sincronizando || !navigator.onLine) return Promise.resolve();
-    var fila = leads.filter(function (l) { return !l.enviado; });
+    var fila = leads.filter(function (l) { return !l.enviado && !l._enviando; });
     if (!fila.length) return Promise.resolve();
     sincronizando = true;
     var p = Promise.resolve();
@@ -768,7 +782,10 @@
 
   /* ── persistência ─────────────────────────────────────────────────────── */
   function carregar() {
-    try { dia = JSON.parse(localStorage.getItem(CHAVE) || "[]") || []; if (!Array.isArray(dia)) dia = []; }
+    try {
+      dia = JSON.parse(localStorage.getItem(CHAVE) || "[]") || []; if (!Array.isArray(dia)) dia = [];
+      dia.forEach(function (v) { delete v._enviando; });
+    }
     catch (e) { dia = []; }
   }
   function salvar() { try { localStorage.setItem(CHAVE, JSON.stringify(dia)); } catch (e) {} }
@@ -904,7 +921,8 @@
   var KEY_VENDAS = "sb_publishable_M9kG9XFt-z4SRrciu2G8iQ_F1_FeNro";
 
   function enviarVenda(v) {
-    if (!v || v.enviado) return Promise.resolve();
+    if (!v || v.enviado || v._enviando) return Promise.resolve();
+    v._enviando = true;
     return fetch(API_VENDAS, {
       method: "POST",
       headers: {
@@ -919,15 +937,15 @@
       })
     }).then(function (r) {
       // 409 = local_id ja existe: a venda ja esta la, so o retorno se perdeu
-      if (r.ok || r.status === 409) { v.enviado = true; salvar(); return true; }
+      if (r.ok || r.status === 409) { v.enviado = true; delete v._enviando; salvar(); return true; }
       throw new Error("HTTP " + r.status);
-    });
+    }, function (e) { delete v._enviando; throw e; });
   }
 
   var enviandoVendas = false;
   function sincronizarVendas() {
     if (enviandoVendas || !navigator.onLine) return Promise.resolve();
-    var fila = dia.filter(function (v) { return !v.enviado; });
+    var fila = dia.filter(function (v) { return !v.enviado && !v._enviando; });
     if (!fila.length) return Promise.resolve();
     enviandoVendas = true;
     var p = Promise.resolve();
