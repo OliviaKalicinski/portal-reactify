@@ -56,7 +56,7 @@ const UTM_FALLBACK = {
 const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
   buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
-const HERO_IMG = "/assets/images/produtos/kit-gatos.png";
+const HERO_IMG = "/assets/images/produtos/kit-gatos.webp";
 
 const CHIPS = [
   "🚚 Frete grátis",
@@ -93,7 +93,7 @@ const BENEFICIOS = [
 ];
 
 const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
-  { type: "ugc",    src: "/assets/images/produtos/kit-gatos.png", alt: "Kit para Gatos — Original + Suplemento Felino" },
+  { type: "ugc",    src: "/assets/images/produtos/kit-gatos.webp", alt: "Kit para Gatos — Original + Suplemento Felino" },
   { type: "review", src: "/assets/images/reviews/3.webp",         alt: "Review de cliente Comida de Dragão" },
   { type: "review", src: "/assets/images/reviews/5.webp",         alt: "Review de cliente Comida de Dragão" },
   { type: "review", src: "/assets/images/reviews/7.webp",         alt: "Review de cliente Comida de Dragão" },

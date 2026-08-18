@@ -41,8 +41,8 @@ const TILTS = [-2.4, 1.6, -1.1, 2.3, -0.7, 1.9, -2.1, 0.8, 1.4, -1.8, 2.5, -1.3,
 
 /* só os 2 KITS no hero (mesmo formato → alinham bonito) — imagens reais do repo */
 const HERO_PRODS = [
-  { img: "kit-caes.png", label: "Kit para Cães" },
-  { img: "kit-gatos.png", label: "Kit para Gatos" },
+  { img: "kit-caes.webp", label: "Kit para Cães" },
+  { img: "kit-gatos.webp", label: "Kit para Gatos" },
 ];
 
 type DeskItem = { img: string; label: string; href?: string; ext?: boolean; big?: boolean };

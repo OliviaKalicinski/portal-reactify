@@ -349,6 +349,8 @@ export default function Matilde() {
                   src={`/assets/images/press/${logo}`}
                   alt="logo mídia"
                   className="m-press-logo-img"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             ))}
@@ -372,9 +374,11 @@ export default function Matilde() {
             {REVIEWS.map(n => (
               <div key={n} className="m-review-item">
                 <img
-                  src={`/assets/images/reviews/${n}.png`}
+                  src={`/assets/images/reviews/${n}.webp`}
                   alt={`Review ${n}`}
                   className="m-review-img"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             ))}

@@ -245,13 +245,6 @@ const Mordida = () => {
       {/* ════ FAIXA PASSANTE DE LANÇAMENTO ════
           Decorativa: a mesma informação já vive no eyebrow + sub + chips da
           hero, então aria-hidden evita o leitor de tela repetir o loop. */}
-      <div className="mdp-marquee" aria-hidden="true">
-        <div className="mdp-marquee-track">
-          {[...MARQUEE, ...MARQUEE].map((t, i) => (
-            <span key={i}>{t}</span>
-          ))}
-        </div>
-      </div>
 
       {/* O banner do topo saiu em 27/07/26 (decisão da Olivia): a página abre
           direto na hero. Os arquivos seguem em assets/images/mordida/ — a arte
@@ -260,8 +253,11 @@ const Mordida = () => {
       {/* ════ HERO ════ */}
       <section className="mdp-hero">
         <div className="mdp-hero-inner">
+          {/* 17/08 — topo igual ao da /original: backlink a esquerda,
+              logo a direita, na mesma linha. */}
           <div className="mdp-hero-top">
             <Link to="/portal" className="mdp-backlink">← comida de dragão</Link>
+            <DragonLogo className="mdp-hero-logo" />
           </div>
 
           {/* Desktop = 2 colunas: título+texto à esquerda, foto grande + botão à direita.
@@ -280,10 +276,14 @@ const Mordida = () => {
               inteira. Por isso a foto é irmã dos outros dois, e não filha. */}
           <div className="mdp-hero-grid">
             <div className="mdp-hero-text">
-              <DragonLogo className="mdp-hero-logo" />
+
+              {/* 17/08 — estrutura igual a da /original a pedido da Olivia:
+                  sobrancelha -> titulo -> texto. "Novo Mordida de Dragao" virou
+                  sobrancelha; o titulo principal e "Snack natural de verdade",
+                  com o efeito off-register (sombra lima) do .olp-hero-title span. */}
+              <span className="mdp-hero-eyebrow">novo mordida de dragão</span>
 
               <h1 className="mdp-hero-title">
-                Novo Mordida de Dragão<br />
                 <span>snack natural de verdade</span>
               </h1>
 
@@ -328,7 +328,10 @@ const Mordida = () => {
               <div className="mdp-hero-price">
                 <span className="mdp-hero-price-from">Mordida de Dragão · 180g</span>
                 <span className="mdp-hero-price-now"><small>R$</small>{PRICE}</span>
-                <span className="mdp-hero-price-note">à vista · frete grátis acima de R$ 150</span>
+                {/* 17/08 — sem promessa de frete: _LANDING-PAGES.md diz que Mordida e Dupla
+                    tiraram isso de proposito (produto abaixo do piso; prometer aqui
+                    seria mentira no checkout). */}
+                <span className="mdp-hero-price-note">à vista · 4× sem juros</span>
               </div>
 
               <div className="mdp-hero-vantagem">
@@ -336,7 +339,7 @@ const Mordida = () => {
               </div>
 
               <div className="mdp-hero-cta-wrap" ref={heroCtaRef}>
-                <a href={ctaUrl("hero")} className="mdp-btn-primary mdp-btn-sm" data-cta="hero">
+                <a href={ctaUrl("hero")} className="mdp-btn-primary" data-cta="hero">
                   Quero a Mordida nova
                 </a>
               </div>
@@ -442,33 +445,8 @@ const Mordida = () => {
       </section>
 
       {/* ════ PRA QUEM TEM CORAGEM ════ */}
-      <section className="mdp-section">
-        <div className="mdp-section-inner">
-          <span className="mdp-tag tag-pink">não é pra todo mundo</span>
-          <h2 className="mdp-section-title title-pink">
-            Pra quem<br /><span>tem coragem.</span>
-          </h2>
-          <p className="mdp-section-lead">
-            A Comida de Dragão é pra quem tem coragem de fazer diferente — dar o melhor
-            pro pet e ainda ajudar a mudar o mundo. Cada mordida transforma
-            <strong> desperdício em proteína</strong>.
-          </p>
-          <figure className="mdp-review mdp-review-solo">
-            <blockquote>"Esse AUmigão sabe oque é bom pra nós e pro planeta 🌎"</blockquote>
-            <figcaption>— cliente · Instagram</figcaption>
-          </figure>
-        </div>
-      </section>
 
       {/* ════ A GENTE OUVIU (wink pra base) ════ */}
-      <section className="mdp-section mdp-wink">
-        <div className="mdp-section-inner">
-          <p className="mdp-wink-text">
-            📞 <strong>Já é de casa?</strong> Essa é pra você: a gente ouviu cada comentário,
-            cada sugestão, cada mensagem. <strong>A Mordida evoluiu por causa de vocês.</strong> 🐉
-          </p>
-        </div>
-      </section>
 
       {/* ════ OFERTA ════
           Substituiu o form de lista de espera em 27/07/26. Os benefícios
@@ -508,6 +486,15 @@ const Mordida = () => {
           <div className="mdp-oferta-preco">
             <span className="mdp-oferta-preco-valor">R$ {PRICE}</span>
             <span className="mdp-oferta-preco-nota">à vista · 180g</span>
+          </div>
+
+          {/* 18/08 — box do cupom do afiliado, o mesmo padrao da /original.
+              A /mordida nao tem cupom embutido no link: o desconto e o do
+              AFILIADO, que a pessoa digita no checkout. A pagina so avisa
+              que ele existe (_LANDING-PAGES.md, coluna "Cupom no link"). */}
+          <div className="mdp-oferta-coupon-box">
+            <div className="mdp-oferta-coupon-label">tem cupom de afiliado?</div>
+            <div className="mdp-oferta-coupon-desc">Mordida por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="mdp-btn-primary" data-cta="oferta">
@@ -611,7 +598,6 @@ const Mordida = () => {
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
-
 
       {/* SEM LeadPopup — e é de propósito. Ele já tinha sido removido daqui no
           5246c1e "quando a LP virou venda", e voltou junto com o rollout do

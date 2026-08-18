@@ -48,8 +48,8 @@ const DOG_BUY = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${C
 const CAT_BUY = `https://seguro.comidadedragao.com.br/r/N9DLSJ6M4J?promocode=${COUPON}`;
 const dogUrl = (cta: string) => buildCheckoutUrl(DOG_BUY, UTM_FALLBACK, cta);
 const catUrl = (cta: string) => buildCheckoutUrl(CAT_BUY, UTM_FALLBACK, cta);
-const DOG_IMG = "/assets/images/produtos/kit-caes.png";   // composto transparente (Original + Suplemento Integral)
-const CAT_IMG = "/assets/images/produtos/kit-gatos.png";  // composto transparente (Original + Suplemento Felino)
+const DOG_IMG = "/assets/images/produtos/kit-caes.webp";   // composto transparente (Original + Suplemento Integral)
+const CAT_IMG = "/assets/images/produtos/kit-gatos.webp";  // composto transparente (Original + Suplemento Felino)
 
 const DRAGA_SPRITE = "/assets/games/planeta/draga_color.png";
 const DRAKAO_SPRITE = "/assets/games/planeta/drakao_color.png";

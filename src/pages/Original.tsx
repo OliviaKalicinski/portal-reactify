@@ -11,7 +11,9 @@ import LeadPopup from "@/components/LeadPopup";
    LP PRODUTO — ORIGINAL
    Página satélite · tráfego pago Meta Ads · público frio
    Ângulo: saúde + longevidade + hipoalergênico
-   CTA único: checkout direto Yampi com cupom BORALA (10% off)
+   CTA único: checkout direto Yampi, SEM promocode.
+   O desconto e o cupom do AFILIADO (-10%) que a pessoa digita no checkout,
+   igual Curiosidade e Alergia. BORALA saiu em 17/08/2026.
 
    Decisões de performance:
    ─ LP autocontida, NÃO importa Portal.css/Parceiros.css
@@ -25,17 +27,15 @@ import LeadPopup from "@/components/LeadPopup";
 /* Checkout Yampi do Original 90g.
    /r/TQT4HOZK7X é o "Buy Now URL" oficial do produto — adiciona o
    Original ao carrinho automaticamente e leva direto ao checkout.
-   ?promocode=BORALA é o parâmetro correto da Yampi pra aplicar cupom
-   automaticamente (confirmado pela docs oficial Yampi).
+   Sem ?promocode: quem tem cupom de afiliado digita no checkout.
    UTMs marcam tráfego como Meta Ads + utm_content varia por CTA. */
-const COUPON = "BORALA";
-const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/TQT4HOZK7X?promocode=${COUPON}`;
+const PRODUCT_URL = "https://seguro.comidadedragao.com.br/r/TQT4HOZK7X";
 
 /** Fallback usado SO quando o anuncio nao trouxe utm_ (trafego direto/organico). */
 const UTM_FALLBACK = {
   utm_source: "lp-original",
   utm_medium: "lp",
-  utm_campaign: "lp-original-borala",
+  utm_campaign: "lp-original",
 };
 
 /** Repassa a UTM de entrada (do anuncio); posicao do botao vai em cta_pos. */
@@ -118,7 +118,7 @@ const Original = () => {
     <div className="original-lp">
       <PageMeta
         title="Comida de Dragão Original — petisco hipoalergênico que transforma a saúde do pet"
-        description="Petisco com proteína única de Mosca Soldado Negra. Hipoalergênico, 40% proteína, 88,9% digestibilidade. Cupom BORALA: 10% off."
+        description="Petisco com proteína única de Mosca Soldado Negra. Hipoalergênico, 40% proteína, 88,9% digestibilidade."
         image={HERO_IMG}
       />
       {/* preload da hero image — melhora LCP em tráfego pago */}
@@ -160,11 +160,11 @@ const Original = () => {
           <div className="olp-hero-price">
             <span className="olp-price-from">a partir de</span>
             <span className="olp-price-now"><small>R$</small>38,90</span>
-            <span className="olp-price-installment">ou R$ 35,01 com BORALA · 4× sem juros</span>
+            <span className="olp-price-installment">4× sem juros</span>
           </div>
 
           <div className="olp-hero-coupon">
-            🎟️ cupom <b>{COUPON}</b> — 10% off
+            🎟️ conhece um afiliado nosso? usa o cupom dele no checkout
           </div>
 
           <div className="olp-hero-cta-wrap">
@@ -259,9 +259,10 @@ const Original = () => {
                     alt={s.alt}
                     width={600}
                     height={600}
-                    /* primeiro slide carrega eager pra LCP visual da seção,
-                       resto lazy pra economizar dados */
-                    loading={i === 0 ? "eager" : "lazy"}
+                    /* tudo lazy: esta seção fica ~2.900px abaixo da dobra (3 telas).
+                       O primeiro slide estava eager e baixava 266 KB disputando
+                       banda com a imagem da hero — medido em 17/08/2026. */
+                    loading="lazy"
                     decoding="async"
                   />
                 </figure>
@@ -282,17 +283,16 @@ const Original = () => {
           </h2>
 
           <div className="olp-oferta-coupon-box">
-            <div className="olp-oferta-coupon-label">use o cupom</div>
-            <div className="olp-oferta-coupon-code">{COUPON}</div>
-            <div className="olp-oferta-coupon-desc">10% off na primeira compra</div>
+            <div className="olp-oferta-coupon-label">tem cupom de afiliado?</div>
+            <div className="olp-oferta-coupon-desc">Original por R$ 38,90 · conhece um afiliado? usa o cupom dele no checkout</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="olp-btn-primary" data-cta="oferta">
-            Quero meu BORALA →
+            Quero o Original →
           </a>
 
           <p className="olp-hero-note" style={{ marginTop: 16 }}>
-            Cupom aplica sozinho no checkout · Só na primeira compra
+            Compra 100% segura via Yampi
           </p>
         </div>
       </section>
@@ -331,7 +331,7 @@ const Original = () => {
         </h2>
         <p>Um pacote, um ingrediente, zero promessa furada. Seu pet sente nas primeiras semanas.</p>
         <a href={ctaUrl("final")} className="olp-btn-primary" data-cta="final">
-          Bora — meu {COUPON} →
+          Bora — quero o Original →
         </a>
       </section>
 
@@ -354,7 +354,7 @@ const Original = () => {
       <div className="olp-sticky-cta">
         <div className="olp-sticky-info">
           <span className="olp-sticky-name">Original 90g</span>
-          <span className="olp-sticky-price">R$ 38,90 · cupom {COUPON}</span>
+          <span className="olp-sticky-price">R$ 38,90</span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>

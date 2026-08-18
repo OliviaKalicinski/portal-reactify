@@ -76,7 +76,7 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
    fetchPriority="high" mata a página antes dela abrir. O .webp tem 131 KB.
    O .png fica só como og:image, que é lido por scraper e não pelo usuário. */
 const HERO_IMG = "/assets/images/produtos/grub-frente.webp";
-const OG_IMG = "/assets/images/produtos/grub-frente.png";
+const OG_IMG = "/assets/images/produtos/grub-frente-og.png";
 
 const CHIPS = [
   "🦎 Répteis e anfíbios",

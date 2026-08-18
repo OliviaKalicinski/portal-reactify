@@ -784,3 +784,8 @@
   .olp-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
   .olp-section-title, .olp-cta-final h2 { font-size: 60px; }
 }
+
+/* 18/08 — o unico ajuste que a Olivia pediu olhando esta pagina em 17/08:
+   respiro entre o titulo e o texto do hero. Mesmo valor ja aplicado na
+   /curiosidade e agora na /mordida, pra as tres lerem igual. */
+.original-lp .olp-hero-title { margin-bottom: 28px; }

@@ -36,7 +36,7 @@ const UTM_FALLBACK = {
 const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
   buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
-const HERO_IMG = "/assets/images/produtos/kit-caes.png";
+const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
 
 const CHIPS = [
   "🚚 Frete grátis",
@@ -75,7 +75,7 @@ const BENEFICIOS = [
 
 /* Prova social — abre com o Kit e segue com reviews reais de tutores. */
 const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
-  { type: "ugc",    src: "/assets/images/produtos/kit-caes.png", alt: "Kit Cachorro — Original + Suplemento Integral" },
+  { type: "ugc",    src: "/assets/images/produtos/kit-caes.webp", alt: "Kit Cachorro — Original + Suplemento Integral" },
   { type: "review", src: "/assets/images/reviews/3.webp",        alt: "Review — cachorro amou as larvinhas" },
   { type: "review", src: "/assets/images/reviews/5.webp",        alt: "Review — ficou viciado no petisco" },
   { type: "review", src: "/assets/images/reviews/7.webp",        alt: "Review — estranho no começo, viciante no fim" },
