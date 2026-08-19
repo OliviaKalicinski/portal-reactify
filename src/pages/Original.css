@@ -789,3 +789,33 @@
    respiro entre o titulo e o texto do hero. Mesmo valor ja aplicado na
    /curiosidade e agora na /mordida, pra as tres lerem igual. */
 .original-lp .olp-hero-title { margin-bottom: 28px; }
+
+/* ============= BLOCO "É LARVA MESMO" + CTA DE SEÇÃO (19/08) ==================
+   .olp-quote nao existia aqui: veio junto do bloco clonado da /curiosidade,
+   com os mesmos valores de la. O .olp-section-cta e o botao no fim da secao
+   "A solucao" — antes eram 2.590px sem saida entre o hero e a oferta. */
+.original-lp .olp-quote {
+  margin: 0;
+  padding: 20px 24px;
+  border-left: 4px solid var(--dragon-pink);
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+}
+.original-lp .olp-quote p {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-primary);
+  margin: 0 0 10px;
+}
+.original-lp .olp-quote strong { color: var(--dragon-pink); }
+.original-lp .olp-quote cite {
+  display: block;
+  font-size: 14px;
+  font-style: normal;
+  color: var(--ink-secondary);
+}
+.original-lp .olp-section-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}

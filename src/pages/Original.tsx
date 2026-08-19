@@ -230,6 +230,51 @@ const Original = () => {
               </div>
             ))}
           </div>
+
+          {/* 19/08 — eram 2.590px sem botao entre o hero e a oferta (3 telas):
+              as secoes de problema e de solucao fechavam sem saida. */}
+          <div className="olp-section-cta">
+            <a href={ctaUrl("solucao")} className="olp-btn-primary" data-cta="solucao">
+              Bora experimentar →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ════ É LARVA MESMO (anti-rejeição) ══════════════════════
+          19/08 — clonado da /curiosidade. A pagina escrevia "larva" 3x e nunca
+          tratava a reacao da pessoa; e trafego frio de Meta. O depoimento e o
+          mesmo ja publicado na /curiosidade (Judge.me 5★). */}
+      <section className="olp-section">
+        <div className="olp-section-inner">
+          <span className="olp-tag tag-pink">é larva mesmo</span>
+          <h2 className="olp-section-title title-pink">
+            Estranhou?<br /><span>Passa em 5 segundos.</span>
+          </h2>
+          <p className="olp-section-lead">
+            9 em 10 tutores torcem o nariz — e mudam de ideia na primeira mordidinha do cão.
+            Se o seu for do tipo desconfiado, tem conserto simples:
+          </p>
+
+          <ul className="olp-problemas-list">
+            <li className="olp-problema-item">
+              <b>Comece como topper</b> — jogue as larvinhas por cima da ração de sempre; o cheiro puxa o interesse.
+            </li>
+            <li className="olp-problema-item">
+              <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
+            </li>
+            <li className="olp-problema-item">
+              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+            </li>
+          </ul>
+
+          <blockquote className="olp-quote">
+            <p>
+              “Confesso que não estava acreditando não, que era só mkt mesmo. Mas a Kate
+              <strong> amou os petiscos</strong>, ficava enlouquecida cada vez q eu pegava o pacote… 😊”
+            </p>
+            <cite>— Michelle Klemar · Osasco/SP · Amostra · Judge.me 5★</cite>
+          </blockquote>
         </div>
       </section>
 
@@ -277,9 +322,14 @@ const Original = () => {
       {/* ════ OFERTA + CUPOM ═════════════════════════════════════ */}
       <section className="olp-oferta">
         <div className="olp-oferta-inner">
-          <span className="olp-tag tag-lime">oferta de lançamento</span>
+          {/* 19/08 — saiu "OFERTA DE LANCAMENTO / COMECE COM 10% DE DESCONTO".
+              O desconto de 10% e o cupom do AFILIADO, que so quem conhece um tem;
+              o trafego pago frio lia 10% e pagava R$ 38,90 cheio no checkout.
+              Mesma armadilha que o _LANDING-PAGES.md marca em vermelho pro frete.
+              E "lancamento" nao vale mais: o Original e o carro-chefe da marca. */}
+          <span className="olp-tag tag-lime">pronto pra levar</span>
           <h2 className="olp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            Comece com<br /><span>10% de desconto</span>
+            Original 90g<br /><span>por R$ 38,90</span>
           </h2>
 
           <div className="olp-oferta-coupon-box">
