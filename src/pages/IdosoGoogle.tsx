@@ -132,10 +132,16 @@ const IdosoGoogle = () => {
   useEffect(() => { captureEntryUtms(); }, []);
   return (
     <div className="idoso-lp">
+      {/* 19/08 — noindex: esta pagina e quase identica a /idoso e as duas
+          competiriam pela mesma busca organica. Ela existe so pra separar o
+          trafego do Google Ads (utm_source proprio + cupom GOOGLE10 embutido)
+          e nunca esteve no sitemap. O Ads nao precisa de indexacao: o AdsBot
+          rastreia a landing page independente do noindex. */}
       <PageMeta
         title="Suplemento para Cão Idoso — proteína que ele aproveita | Comida de Dragão"
         description="Suplemento para cachorro idoso à base de proteína de inseto: altamente digestível, com glucosamina natural pra articulação. Kit Cachorro pra músculo, disposição e apoio às juntas."
         image={HERO_IMG}
+        noindex
       />
       <Helmet>
         <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />

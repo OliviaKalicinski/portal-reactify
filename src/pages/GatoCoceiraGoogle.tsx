@@ -127,10 +127,16 @@ const GatoCoceiraGoogle = () => {
   useEffect(() => { captureEntryUtms(); }, []);
   return (
     <div className="gato-lp">
+      {/* 19/08 — noindex: esta pagina e quase identica a /gato-coceira e as duas
+          competiriam pela mesma busca organica. Ela existe so pra separar o
+          trafego do Google Ads (utm_source proprio + cupom GOOGLE10 embutido)
+          e nunca esteve no sitemap. O Ads nao precisa de indexacao: o AdsBot
+          rastreia a landing page independente do noindex. */}
       <PageMeta
         title="Gato se coçando e perdendo pelo? Pode ser a comida — Comida de Dragão"
         description="Gato que se coça, se lambe demais e perde pelo — e a pulga já foi descartada. Proteína nova de inseto: o corpo dele nunca viu, então não reage. Kit para Gatos com taurina."
         image={HERO_IMG}
+        noindex
       />
       <Helmet>
         <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />

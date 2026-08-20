@@ -136,10 +136,16 @@ const AlergiaGoogle = () => {
   useEffect(() => { captureEntryUtms(); }, []);
   return (
     <div className="alergia-lp">
+      {/* 19/08 — noindex: esta pagina e quase identica a /alergia e as duas
+          competiriam pela mesma busca organica. Ela existe so pra separar o
+          trafego do Google Ads (utm_source proprio + cupom GOOGLE10 embutido)
+          e nunca esteve no sitemap. O Ads nao precisa de indexacao: o AdsBot
+          rastreia a landing page independente do noindex. */}
       <PageMeta
         title="Cão vive se coçando? Pode ser alergia à comida — Comida de Dragão"
         description="Alergia em cães quase sempre é a proteína da ração. A Comida de Dragão é proteína de inseto: nova pro corpo, hipoalergênica. Kit Cachorro pra pele e intestino."
         image={HERO_IMG}
+        noindex
       />
       <Helmet>
         <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
