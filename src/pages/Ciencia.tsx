@@ -1,8 +1,8 @@
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
+import PageMeta from "@/components/PageMeta";
 import "./Ciencia.css";
 
 /* ──────────────────────────────────────────────────────────────
@@ -250,15 +250,15 @@ export default function Ciencia() {
 
   return (
     <div className="cie-page">
-      <Helmet>
-        <title>10 motivos científicos · Comida de Dragão</title>
-        <meta
-          name="description"
-          content="A ciência por trás do petisco de larva BSF — hipoalergênico, 88,9% de digestibilidade, MAPA RJ 001924-0."
-        />
-        <meta property="og:title" content="10 motivos científicos · Comida de Dragão" />
-        <meta property="og:description" content="A ciência por trás do petisco hipoalergênico de larva BSF." />
-      </Helmet>
+      {/* 19/08 — era <Helmet> cru com 4 tags: sem og:image, sem canonical e
+          sem twitter:*. Como o index.html agora marca os defaults com
+          data-rh, um <Helmet> parcial arriscava derrubar as tags adotadas.
+          O PageMeta emite o conjunto inteiro e e o padrao das outras 27. */}
+      <PageMeta
+        title="10 motivos científicos · Comida de Dragão"
+        description="A ciência por trás do petisco de larva BSF: alergia alimentar, digestão, aprovação do MAPA e custo-benefício — 10 motivos, com as fontes de cada um."
+        image="/assets/images/produtos/kit-caes.webp"
+      />
 
       {/* ════ MASTHEAD MAGAZINE ═════════════════════════════════ */}
       <header className="cie-mast">

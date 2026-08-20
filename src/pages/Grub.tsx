@@ -226,7 +226,7 @@ const Grub = () => {
     <div className="grub-lp">
       <PageMeta
         title="Alimentação para répteis e anfíbios · três insetos num pó — Comida de Dragão"
-        description="Grub: alimento em pó feito de três insetos — larva, grilo e tenébrio —, já com o cálcio na medida certa. Mistura com água e vira gel ou papinha. Para gecko-leopardo, teiú, dragão-barbudo, gecko-de-crista, iguana, sapo, rã e salamandra."
+        description="Alimento em pó de três insetos — larva, grilo e tenébrio — já com o cálcio certo. Mistura com água e vira gel. Para gecko, teiú, dragão-barbudo e mais."
         image={OG_IMG}
       />
       <Helmet>
