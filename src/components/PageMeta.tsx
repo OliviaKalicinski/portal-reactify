@@ -23,7 +23,7 @@ interface Props {
 }
 
 const SITE_URL = "https://www.comidadedragao.com.br";
-const DEFAULT_IMAGE = "/assets/images/canal-dragao-cover.webp";
+const DEFAULT_IMAGE = "/assets/images/og-default.jpg";   // 19/08: JPG 1200x675 — WhatsApp/Facebook nao renderizam WebP no card de link
 
 const abs = (path: string) => {
   if (path.startsWith("http")) return path;

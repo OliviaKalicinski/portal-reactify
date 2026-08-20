@@ -16,26 +16,34 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=Big+Shoulders+Stencil+Text:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&family=Press+Start+2P&family=VT323&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet" />
 
-    <!-- Defaults (sobrescritos por react-helmet-async em cada página) -->
-    <title>Comida de Dragão — Hub do Dragão</title>
-    <meta name="description" content="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade, feita na nossa biofábrica em Cachoeiras de Macacu." />
+    <!-- Defaults do site.
+         O `data-rh="true"` faz o react-helmet-async ADOTAR estas tags em vez de
+         criar uma segunda copia: sem ele, toda pagina servia duas description,
+         dois og:title, dois og:image e dois og:description, e a estatica vinha
+         primeiro no HTML (19/08/2026).
+         Elas continuam necessarias: o robo de preview do WhatsApp e do Facebook
+         NAO executa JavaScript, entao e daqui que sai o card de qualquer link
+         compartilhado. Por isso as imagens sao URL absoluta — caminho relativo
+         o Facebook nao resolve. -->
+    <title data-rh="true">Comida de Dragão — Hub do Dragão</title>
+    <meta data-rh="true" name="description" content="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade, feita na nossa biofábrica em Cachoeiras de Macacu." />
     <meta name="author" content="Comida de Dragão · Let's Fly" />
     <meta name="theme-color" content="#0A0A0A" />
 
     <!-- Open Graph defaults -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Comida de Dragão" />
-    <meta property="og:locale" content="pt_BR" />
-    <meta property="og:title" content="Comida de Dragão — Hub do Dragão" />
-    <meta property="og:description" content="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade." />
-    <meta property="og:image" content="/assets/images/canal-dragao-cover.png" />
+    <meta data-rh="true" property="og:type" content="website" />
+    <meta data-rh="true" property="og:site_name" content="Comida de Dragão" />
+    <meta data-rh="true" property="og:locale" content="pt_BR" />
+    <meta data-rh="true" property="og:title" content="Comida de Dragão — Hub do Dragão" />
+    <meta data-rh="true" property="og:description" content="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade." />
+    <meta data-rh="true" property="og:image" content="https://caverna.comidadedragao.com.br/assets/images/og-default.jpg" />
 
     <!-- Twitter defaults -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@comidadedragao" />
-    <meta name="twitter:title" content="Comida de Dragão — Hub do Dragão" />
-    <meta name="twitter:description" content="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade." />
-    <meta name="twitter:image" content="/assets/images/canal-dragao-cover.png" />
+    <meta data-rh="true" name="twitter:card" content="summary_large_image" />
+    <meta data-rh="true" name="twitter:site" content="@comidadedragao" />
+    <meta data-rh="true" name="twitter:title" content="Comida de Dragão — Hub do Dragão" />
+    <meta data-rh="true" name="twitter:description" content="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade." />
+    <meta data-rh="true" name="twitter:image" content="https://caverna.comidadedragao.com.br/assets/images/og-default.jpg" />
   </head>
 
   <body>
