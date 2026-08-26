@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
+import { trackViewContent, trackAddToCart } from "@/lib/pixel";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
@@ -61,6 +62,16 @@ const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/9ZCGSMOOBC`;
 /* ⚠️ PENDENTE — não usar na copy até a ficha técnica ser corrigida.
    Deixado aqui pra ser uma linha só de mudança quando fechar. */
 const PROTEINA_PCT_PENDENTE = null; // 47% (pág.2/DOC2) vs 40% (pág.1). Ver _CORRIGIR.
+
+/* Identidade do produto pros eventos do Meta (26/08). SKU 401 e R$ 110,00
+   conferidos no conector da Shopify. Antes daqui o pixel só via PageView nesta
+   página, e o InitiateCheckout acontecia só no domínio do checkout — não dava
+   pra montar público de quem viu o Grub a não ser por regra de URL. */
+const PIXEL_PRODUTO = {
+  content_name: "Grub 120g — répteis e anfíbios",
+  content_id: "401",
+  value: 110,
+};
 
 const UTM_FALLBACK = {
   utm_source: "lp-grub",
@@ -221,7 +232,12 @@ const FAQ = [
 ];
 
 const Grub = () => {
-  useEffect(() => { captureEntryUtms(); }, []);
+  useEffect(() => {
+    captureEntryUtms();
+    trackViewContent(PIXEL_PRODUTO);
+  }, []);
+
+  const onCta = (cta: string) => () => trackAddToCart({ ...PIXEL_PRODUTO, cta });
   return (
     <div className="grub-lp">
       <PageMeta
@@ -304,7 +320,7 @@ const Grub = () => {
           </div>
 
           <div className="grb-hero-cta-wrap">
-            <a href={ctaUrl("hero")} className="grb-btn-primary" data-cta="hero">
+            <a href={ctaUrl("hero")} className="grb-btn-primary" data-cta="hero" onClick={onCta("hero")}>
               Quero resolver o cálcio →
             </a>
           </div>
@@ -475,7 +491,7 @@ const Grub = () => {
             </div>
           </div>
 
-          <a href={ctaUrl("oferta")} className="grb-btn-primary" data-cta="oferta">
+          <a href={ctaUrl("oferta")} className="grb-btn-primary" data-cta="oferta" onClick={onCta("oferta")}>
             Quero o Grub · R$ {PRICE} →
           </a>
 
@@ -523,7 +539,7 @@ const Grub = () => {
             Três insetos num pote, o cálcio já na medida certa, e dois minutos de preparo.
             É alimento completo — mas ele continua precisando de comida variada.
           </p>
-          <a href={ctaUrl("final")} className="grb-btn-primary" data-cta="final">
+          <a href={ctaUrl("final")} className="grb-btn-primary" data-cta="final" onClick={onCta("final")}>
             Quero o Grub · R$ {PRICE} →
           </a>
         </div>
@@ -557,7 +573,7 @@ const Grub = () => {
           <span className="grb-sticky-name">Grub 120g</span>
           <span className="grb-sticky-price">R$ {PRICE} · 4× sem juros</span>
         </div>
-        <a href={ctaUrl("sticky")} data-cta="sticky">
+        <a href={ctaUrl("sticky")} data-cta="sticky" onClick={onCta("sticky")}>
           Comprar →
         </a>
       </div>
