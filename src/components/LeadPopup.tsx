@@ -103,7 +103,8 @@ const LeadPopup = ({
   const valid = name.trim().length >= 2 && isValidPhoneBR(phone);
 
   // ── gatilho: scroll 50% · 15s · exit-intent — o que vier primeiro, com piso de 5s
-  //    Com `aposSeletor`: só depois que o bloco indicado sai da tela, e SEM timer.
+  //    Com `aposSeletor`: só depois que o bloco indicado sai da tela, SEM timer e
+  //    com o exit-intent submetido à mesma condição (25/08).
   useEffect(() => {
     if (jaResolvido()) return;
 
@@ -119,11 +120,16 @@ const LeadPopup = ({
       limpar();
     };
 
+    /** Passou do bloco? (o rodapé dele já saiu por cima da dobra) */
+    const passouDoBloco = () => {
+      if (!aposSeletor) return true;
+      const alvo = document.querySelector(aposSeletor);
+      return !!alvo && alvo.getBoundingClientRect().bottom <= 0;
+    };
+
     const onScroll = () => {
       if (aposSeletor) {
-        // passou do bloco? (o rodapé dele já saiu por cima da dobra)
-        const alvo = document.querySelector(aposSeletor);
-        if (alvo && alvo.getBoundingClientRect().bottom <= 0) abrir();
+        if (passouDoBloco()) abrir();
         return;
       }
       const h = document.documentElement;
@@ -133,7 +139,14 @@ const LeadPopup = ({
 
     const onLeave = (e: MouseEvent) => {
       // só conta saída pela borda de cima (barra de endereço / fechar aba)
-      if (e.clientY <= 0) abrir();
+      if (e.clientY > 0) return;
+      // 🔴 25/08 — o exit-intent ignorava o `aposSeletor` e abria o popup mesmo
+      // com a pessoa parada no hero: bastava o mouse sair por cima. Pego ao vivo
+      // na /suplemento, mas valia pras SEIS LPs que usam o parâmetro (/grub,
+      // /alergia, /idoso, /gato-coceira e as duas /g/). Era o furo exato que o
+      // `aposSeletor` existe pra fechar — em desktop ele simplesmente não valia.
+      if (!passouDoBloco()) return;
+      abrir();
     };
 
     const floor = setTimeout(() => {
