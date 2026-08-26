@@ -33,7 +33,7 @@ import LeadPopup from "@/components/LeadPopup";
    Suplemento Integral ao carrinho automaticamente e leva direto ao
    checkout.
    ⚠️ 25/08 — SAIU o `?promocode=BORALA` (decisão da Olivia). O desconto
-   que a página menciona agora é o do CRIADOR: quem acompanha a marca no
+   que a página menciona agora é o do CREATOR: quem acompanha a marca no
    Instagram tem o cupom de algum influenciador e digita no checkout.
    Mesmo padrão da /original desde 19/08.
    UTMs marcam tráfego como Meta Ads + utm_content varia por CTA. */
@@ -200,7 +200,7 @@ const Suplemento = () => {
           </div>
 
           <div className="slp-hero-coupon">
-            🎟️ segue algum criador nosso no Instagram? o cupom dele vale no checkout
+            🎟️ segue algum creator nosso no Instagram? o cupom dele vale no checkout
           </div>
 
           <div className="slp-hero-cta-wrap">
@@ -381,7 +381,7 @@ const Suplemento = () => {
           {/* 25/08 — saíram DUAS coisas: "oferta de lançamento" (o Integral está
               na loja desde jul/2025, mesmo motivo que tirou a palavra da /original
               em 19/08) e o cupom BORALA, por decisão da Olivia. O desconto que
-              sobra é o do criador, que a pessoa digita no checkout — a página
+              sobra é o do creator, que a pessoa digita no checkout — a página
               avisa que existe, não promete valor que o link não entrega. */}
           <span className="slp-tag tag-lime">pronto pra levar</span>
           <h2 className="slp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
@@ -389,9 +389,9 @@ const Suplemento = () => {
           </h2>
 
           <div className="slp-oferta-coupon-box">
-            <div className="slp-oferta-coupon-label">tem cupom de criador?</div>
+            <div className="slp-oferta-coupon-label">tem cupom de creator?</div>
             <div className="slp-oferta-coupon-desc">
-              Vários criadores que a gente repostou no Instagram têm cupom — se você
+              Vários creators que a gente repostou no Instagram têm cupom — se você
               segue algum, é só digitar o dele no checkout.
             </div>
           </div>
