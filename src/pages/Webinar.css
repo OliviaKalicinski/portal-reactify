@@ -566,3 +566,36 @@
   .wb-escolha { grid-template-columns: 1fr; }
   .wb-cta-final { flex-direction: column; align-items: stretch; text-align: center; }
 }
+
+/* ── AS DUAS MARCAS, no topo do hero (26/08) ──────────────────────────────
+   Assinatura conjunta antes do H1. A da Comida de Dragão é o DragonLogo em
+   currentColor (herda a tinta do tema claro); a da Cogumelos Pet é a V1 do
+   manual deles, em webp com transparência. Alturas diferentes de propósito:
+   os dois lockups têm proporções distintas e alinhar pela caixa deixaria um
+   visivelmente menor que o outro. */
+.wb-marcas {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+.wb-marca-cdd {
+  height: 62px;
+  width: auto;
+  color: var(--ink-primary, #16211A);
+}
+.wb-marca-x {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  opacity: 0.35;
+}
+.wb-marca-parceiro {
+  height: 40px;
+  width: auto;
+}
+@media (max-width: 720px) {
+  .wb-marcas { gap: 14px; margin-bottom: 18px; }
+  .wb-marca-cdd { height: 48px; }
+  .wb-marca-parceiro { height: 42px; }
+}

@@ -358,6 +358,26 @@ const Webinar = () => {
               é isto e nada mais antes do formulário. */}
           <div className="wb-hero-pitch">
             <div className="wb-eyebrow">webinar gratuito · 8 de setembro</div>
+
+            {/* 26/08 — as duas marcas assinam o convite juntas, antes do H1: quem
+                chega do convite de WhatsApp precisa reconhecer as duas casas de
+                cara. A logo da Cogumelos Pet é a V1 do manual que eles mandaram
+                (arquivo de 26/08, escolha da Olivia). A nossa é o próprio
+                DragonLogo, que herda a cor do tema claro — não é imagem. */}
+            <div className="wb-marcas">
+              <DragonLogo className="wb-marca-cdd" />
+              <span className="wb-marca-x" aria-hidden="true">×</span>
+              <img
+                className="wb-marca-parceiro"
+                src="/assets/images/logo-cogumelo-pets.webp"
+                alt="Cogumelo Pets"
+                width={500}
+                height={200}
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+
             <h1 className="wb-titulo">
               Inseto e cogumelo.<br /><span>E o que isso muda</span> no seu pet.
             </h1>
