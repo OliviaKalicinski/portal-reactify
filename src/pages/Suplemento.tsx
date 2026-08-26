@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
+import { trackViewContent, trackAddToCart } from "@/lib/pixel";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
@@ -50,6 +51,15 @@ const UTM_FALLBACK = {
 const ctaUrl = (cta: "hero" | "problema" | "solucao" | "prova" | "oferta" | "final" | "sticky") =>
   buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
+/* Identidade do produto pro pixel do Meta. SKU 302 e R$ 110,00 conferidos no
+   conector da Shopify em 25/08. Se o preço mudar, muda aqui também — o Meta
+   usa esse `value` pra calcular ROAS de AddToCart. */
+const PIXEL_PRODUTO = {
+  content_name: "Suplemento Integral 180g",
+  content_id: "302",
+  value: 110,
+};
+
 const HERO_IMG = "/assets/images/produtos/suplemento-integral-frente.webp";
 
 /* ⚠️ og:image em JPG de propósito (25/08): o card de link do WhatsApp e do
@@ -66,10 +76,27 @@ const CHIPS = [
   "💚 Garantia 14 dias",
 ];
 
+/* 26/08 — reescritos na voz do tutor. A versão anterior falava em "fases de
+   alta demanda", "suplemento de prateleira" e "cada colher precisa render":
+   é vocabulário de rótulo, e quem chega do feed não pensa assim. Cada item
+   agora é uma cena que a pessoa reconhece, e a explicação vem depois. */
 const PROBLEMAS = [
-  { dor: "Cão ativo, filhote ou idoso comendo só ração comum", causa: "fases de alta demanda pedem mais proteína do que a tigela padrão entrega." },
-  { dor: "Suplemento de prateleira cheio de promessa", causa: "rótulo com corante, aroma artificial e proteína alergênica." },
-  { dor: "Pet de baixo apetite que come pouco", causa: "cada colher precisa render o máximo de proteína possível." },
+  {
+    dor: "Ele come tudo e continua magrelo",
+    causa: "filhote crescendo e cão que se mexe o dia inteiro gastam mais do que a ração de manutenção repõe.",
+  },
+  {
+    dor: "O idoso está perdendo massa",
+    causa: "com a idade ele aproveita menos a proteína da mesma tigela, e a perna fina aparece antes de a balança mudar.",
+  },
+  {
+    dor: "Come pouco, e você fica na dúvida se foi o bastante",
+    causa: "quando o apetite é curto, o que importa não é o volume no pote: é o quanto de proteína cabe em cada colher.",
+  },
+  {
+    dor: "Já tentou suplemento e não viu diferença",
+    causa: "muita coisa vendida como reforço é corante, aroma e a mesma proteína de frango que ele já come na ração.",
+  },
 ];
 
 const BENEFICIOS = [
@@ -77,7 +104,7 @@ const BENEFICIOS = [
     stat: "45%",
     statLbl: "proteína",
     title: "Mais proteína na mesma tigela",
-    desc: "<strong>Farinha de larva de Mosca Soldado Negra (BSF)</strong> com perfil completo de aminoácidos essenciais. Mais músculo, mais energia, mais disposição.",
+    desc: "<strong>Farinha de larva de mosca soldado negra</strong>, com o perfil completo de aminoácidos essenciais. Uma colher por cima da ração muda o que entra de proteína no dia, sem trocar a comida dele.",
   },
   {
     stat: "+2",
@@ -123,7 +150,7 @@ const FAQ = [
   },
   {
     q: "Isso substitui a ração?",
-    a: "Não. O Integral é <strong>complemento</strong> — entra junto da alimentação normal pra reforçar a proteína, a ração continua sendo a base. É formulado <strong>só pra cães</strong>; pra felinos temos o Suplemento Felino.",
+    a: "Não. O Integral é <strong>complemento</strong> — entra junto da alimentação normal pra reforçar a proteína, e a ração continua sendo a base. Ele é <strong>formulado pra cães</strong>; em gato, só com orientação do veterinário. Pra felino a gente tem o <strong>Suplemento para Gatos</strong>, que leva taurina.",
   },
   {
     q: "Quanto tempo dura o pote de 180g?",
@@ -136,7 +163,16 @@ const FAQ = [
 ];
 
 const Suplemento = () => {
-  useEffect(() => { captureEntryUtms(); }, []);
+  useEffect(() => {
+    captureEntryUtms();
+    // 26/08 — a LP passa a emitir ViewContent. Antes daqui o pixel só via
+    // PageView, e o InitiateCheckout acontecia no domínio do checkout.
+    trackViewContent(PIXEL_PRODUTO);
+  }, []);
+
+  /* AddToCart no clique — não bloqueia a navegação: o fbq usa sendBeacon e o
+     link segue normalmente pro carrinho. */
+  const onCta = (cta: string) => () => trackAddToCart({ ...PIXEL_PRODUTO, cta });
   return (
     <div className="suplemento-lp">
       <PageMeta
@@ -204,7 +240,7 @@ const Suplemento = () => {
           </div>
 
           <div className="slp-hero-cta-wrap">
-            <a href={ctaUrl("hero")} className="slp-btn-primary" data-cta="hero">
+            <a href={ctaUrl("hero")} className="slp-btn-primary" data-cta="hero" onClick={onCta("hero")}>
               Quero reforçar a ração dele →
             </a>
           </div>
@@ -238,7 +274,7 @@ const Suplemento = () => {
           </ul>
 
           <div className="slp-section-cta">
-            <a href={ctaUrl("problema")} className="slp-btn-primary" data-cta="problema">
+            <a href={ctaUrl("problema")} className="slp-btn-primary" data-cta="problema" onClick={onCta("problema")}>
               Quero resolver a proteína →
             </a>
           </div>
@@ -279,7 +315,7 @@ const Suplemento = () => {
               e a sticky some acima de 720px, então tablet e desktop passavam
               sete telas sem saída. */}
           <div className="slp-section-cta">
-            <a href={ctaUrl("solucao")} className="slp-btn-primary" data-cta="solucao">
+            <a href={ctaUrl("solucao")} className="slp-btn-primary" data-cta="solucao" onClick={onCta("solucao")}>
               Bora reforçar a tigela →
             </a>
           </div>
@@ -368,7 +404,7 @@ const Suplemento = () => {
               outro cão comendo. Sem ele, o próximo botão só aparecia 4.000px
               adiante, na oferta. */}
           <div className="slp-section-cta">
-            <a href={ctaUrl("prova")} className="slp-btn-primary" data-cta="prova">
+            <a href={ctaUrl("prova")} className="slp-btn-primary" data-cta="prova" onClick={onCta("prova")}>
               Quero o meu · R$ 110,00 →
             </a>
           </div>
@@ -396,7 +432,7 @@ const Suplemento = () => {
             </div>
           </div>
 
-          <a href={ctaUrl("oferta")} className="slp-btn-primary" data-cta="oferta">
+          <a href={ctaUrl("oferta")} className="slp-btn-primary" data-cta="oferta" onClick={onCta("oferta")}>
             Quero o Integral →
           </a>
 
@@ -439,7 +475,7 @@ const Suplemento = () => {
           Bora reforçar<br /><span>a tigela do seu cão?</span>
         </h2>
         <p>Um pote, uma colher por dia, zero promessa furada. Seu cão sente nas primeiras semanas.</p>
-        <a href={ctaUrl("final")} className="slp-btn-primary" data-cta="final">
+        <a href={ctaUrl("final")} className="slp-btn-primary" data-cta="final" onClick={onCta("final")}>
           Bora reforçar a tigela →
         </a>
       </section>
@@ -465,7 +501,7 @@ const Suplemento = () => {
           <span className="slp-sticky-name">Suplemento Integral 180g</span>
           <span className="slp-sticky-price">R$ 110,00 · 4× sem juros</span>
         </div>
-        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
+        <a href={ctaUrl("sticky")} data-cta="sticky" onClick={onCta("sticky")}>Comprar →</a>
       </div>
 
       {/* 25/08 — sem `aposSeletor` o gatilho que abria na prática era o de 50%
