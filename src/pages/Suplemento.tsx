@@ -133,14 +133,13 @@ const BENEFICIOS = [
 
    O que entrou é material do próprio Integral, que já existia em
    `public/assets/images/produtos/`. Alt descreve o que a imagem MOSTRA.
-   ⚠️ Curadoria final é da Olivia: a ordem abaixo é por assunto (produto certo
-   → prova de aceitação → depoimento escrito), não por "foto bonita". */
+   ⚠️ Curadoria fechada pela Olivia em 26/08: 07, 08 e 05, nesta ordem — o pote
+   com o cão, o cão comendo e as mensagens de quem já usa. As outras quatro
+   (02, 03, 04, 06) ficaram de fora e seguem na pasta. */
 const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
   { type: "ugc",    src: "/assets/images/produtos/integral-07.webp", alt: "Cão deitado ao lado do pote do Suplemento Proteico Integral" },
   { type: "ugc",    src: "/assets/images/produtos/integral-08.webp", alt: "Cão comendo direto do pote do Suplemento Integral" },
   { type: "review", src: "/assets/images/produtos/integral-05.webp", alt: "Três mensagens de tutores sobre colocar o suplemento na ração" },
-  { type: "ugc",    src: "/assets/images/produtos/integral-06.webp", alt: "Beagle posando com o pote do Suplemento Integral" },
-  { type: "ugc",    src: "/assets/images/produtos/integral-02.webp", alt: "Suplemento Integral polvilhado na ração do cão" },
 ];
 
 const FAQ = [
