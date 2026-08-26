@@ -115,8 +115,6 @@ const NOVIDADES = [
     tag: "Cogumelos Pet",
     nome: "Extrato de cogumelo",
     desc: "Extrato de Cordyceps militaris, grau farmacêutico, registrado no MAPA como suplemento. É o que eles estudam para imunidade — principalmente no animal idoso e no que está em tratamento.",
-    dado: "100%",
-    dadoLabel: "extrato, não cultivo",
   },
 ];
 
@@ -429,10 +427,12 @@ const Webinar = () => {
               <div className="wb-nov-tag">{n.tag}</div>
               <div className="wb-nov-nome">{n.nome}</div>
               <div className="wb-nov-desc">{n.desc}</div>
-              <div className="wb-nov-dado">
-                <strong>{n.dado}</strong>
-                <span>{n.dadoLabel}</span>
-              </div>
+              {n.dado && (
+                <div className="wb-nov-dado">
+                  <strong>{n.dado}</strong>
+                  <span>{n.dadoLabel}</span>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -449,7 +449,6 @@ const Webinar = () => {
           convida — e tutor também quer saber quem está do outro lado. */}
       <section className="wb-secao">
         <div className="wb-tag tag-alt2">quem vai falar</div>
-        <h2 className="wb-secao-titulo">Duas pessoas, <span>uma conversa</span></h2>
         <div className="wb-quem">
           {APRESENTAM.map((a) => (
             <div className="wb-quem-card" key={a.nome}>
