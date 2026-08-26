@@ -348,7 +348,7 @@ const Webinar = () => {
     <div className="portal-page theme-light skin-2 webinar-page">
       <PageMeta
         title="Inseto e cogumelo: o que muda no seu pet — webinar grátis 08/09"
-        description="Comida de Dragão e Cogumelos Pet ao vivo sobre dois ingredientes novos na comida de cão e gato: o que já dá pra ver em alergia, imunidade, pet idoso e digestão. Você escolhe os temas na inscrição. Gratuito, com pergunta ao vivo."
+        description="Comida de Dragão e Cogumelos Pet se encontram pra falar de inovação no mercado pet: como inseto e cogumelo beneficiam cão e gato. Grátis, 8/09, 18h30."
       />
 
       <MarqueeBar />
@@ -363,9 +363,18 @@ const Webinar = () => {
             <h1 className="wb-titulo">
               Inseto e cogumelo.<br /><span>E o que isso muda</span> no seu pet.
             </h1>
+            {/* 25/08 — a versão anterior ("duas casas que fazem comida de bicho com
+                ingrediente que o Brasil ainda estranha") não dizia QUEM nem O QUÊ.
+                A Olivia pediu explicação de verdade: nomeia as duas marcas, nomeia
+                a inovação e diz o que ela faz pelo bicho.
+                ⚠️ Segue valendo: cada ingrediente com o seu papel, sem sugerir que
+                os dois juntos funcionam melhor — não existe estudo cruzando os dois
+                no acervo. */}
             <p className="wb-sub">
-              Duas casas que fazem comida de bicho com ingrediente que o Brasil ainda estranha
-              sentam pra conversar sobre o que já dá pra ver na prática.
+              A <strong>Comida de Dragão</strong> e a <strong>Cogumelos Pet</strong> se encontram
+              pra falar de <strong>inovação no mercado pet</strong>: o que a proteína de inseto e o
+              extrato de cogumelo fazem pela alergia, pela imunidade e pela digestão do seu bicho —
+              e o que já dá pra ver na prática.
               <strong> Dia 8 de setembro, 18h30.</strong>
             </p>
           </div>
