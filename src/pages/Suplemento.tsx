@@ -10,8 +10,10 @@ import LeadPopup from "@/components/LeadPopup";
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — SUPLEMENTO INTEGRAL
    Página satélite · tráfego pago Meta Ads · público frio
-   Ângulo: boost proteico diário + hipoalergênico + só cães
-   CTA único: checkout direto Yampi com cupom BORALA (10% off)
+   Ângulo (25/08): a FASE do cão — filhote, ativo e idoso pedem mais proteína
+   do que a ração comum entrega. Hipoalergênico e "só cães" entram como prova,
+   não como manchete.
+   CTA único: checkout direto Yampi, sem cupom embutido (25/08)
 
    Espelho exato da LP do Original (Original.tsx) — mesma estrutura,
    mesmas seções, mesmo padrão de performance. Só muda a copy, as
@@ -23,30 +25,39 @@ import LeadPopup from "@/components/LeadPopup";
    ─ Code-split via React.lazy em App.tsx
    ─ Helmet faz preload da hero image (LCP)
 
-   ⚠️ Trocar as imagens UGC/REVIEWS por reais quando tiver os melhores.
+   ⚠️ 25/08: as imagens de prova passaram a ser do próprio Integral (ver SLIDES).
 ────────────────────────────────────────────────────────────── */
 
 /* Checkout Yampi do Suplemento Integral 180g.
    /r/BII063ST2H é o "Buy Now URL" oficial do produto — adiciona o
    Suplemento Integral ao carrinho automaticamente e leva direto ao
-   checkout. ?promocode=BORALA é o parâmetro correto da Yampi pra
-   aplicar o cupom automaticamente.
+   checkout.
+   ⚠️ 25/08 — SAIU o `?promocode=BORALA` (decisão da Olivia). O desconto
+   que a página menciona agora é o do CRIADOR: quem acompanha a marca no
+   Instagram tem o cupom de algum influenciador e digita no checkout.
+   Mesmo padrão da /original desde 19/08.
    UTMs marcam tráfego como Meta Ads + utm_content varia por CTA. */
-const COUPON = "BORALA";
-const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/BII063ST2H?promocode=${COUPON}`;
+const PRODUCT_URL = "https://seguro.comidadedragao.com.br/r/BII063ST2H";
 
 /** Fallback usado SO quando o anuncio nao trouxe utm_ (trafego direto/organico). */
 const UTM_FALLBACK = {
   utm_source: "lp-suplemento",
   utm_medium: "lp",
-  utm_campaign: "lp-suplemento-borala",
+  utm_campaign: "lp-suplemento",
 };
 
 /** Repassa a UTM de entrada (do anuncio); posicao do botao vai em cta_pos. */
-const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
+const ctaUrl = (cta: "hero" | "problema" | "solucao" | "prova" | "oferta" | "final" | "sticky") =>
   buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 const HERO_IMG = "/assets/images/produtos/suplemento-integral-frente.webp";
+
+/* ⚠️ og:image em JPG de propósito (25/08): o card de link do WhatsApp e do
+   Facebook NÃO renderiza WebP — está escrito no próprio PageMeta.tsx desde
+   19/08 e esta página vinha passando o `.webp` do hero, ou seja, todo link
+   compartilhado saía sem imagem. 1200x675, gerado do
+   `suplemento-integral-frente.png`. A /grub já usa um `-og` separado por isso. */
+const OG_IMG = "/assets/images/produtos/suplemento-integral-og.jpg";
 
 const CHIPS = [
   "🚚 Entrega Brasil",
@@ -65,7 +76,7 @@ const BENEFICIOS = [
   {
     stat: "45%",
     statLbl: "proteína",
-    title: "Boost proteico de verdade",
+    title: "Mais proteína na mesma tigela",
     desc: "<strong>Farinha de larva de Mosca Soldado Negra (BSF)</strong> com perfil completo de aminoácidos essenciais. Mais músculo, mais energia, mais disposição.",
   },
   {
@@ -82,20 +93,27 @@ const BENEFICIOS = [
   },
 ];
 
-/* Slider de prova social — abre com 1 foto mostrando o produto e
-   na sequência só screenshots de reviews reais. Tudo em imagem.
-   ⚠️ Olivia: reordene/troque as URLs dos reviews aqui pra escolher
-   os melhores depoimentos.
-   Tipos: "ugc" (foto do produto) ou "review" (screenshot do depoimento) */
+/* Slider de prova social.
+
+   ⚠️ REFEITO EM 25/08 — a lista antiga era `reviews/3` a `reviews/9`, os mesmos
+   sete cards genéricos que rodam em ONZE LPs. Auditados um a um: falam de
+   PETISCO ("larvas, eles amam", "larvinhas como recompensa no adestramento",
+   dores articulares) e o `9.webp` mostra a lata do Suplemento CONCENTRADO, que
+   está arquivado na Shopify. Numa LP que vende o Integral em pó, isso é prova
+   de outro produto — e cada LP escrevia um alt diferente pro MESMO arquivo
+   (`3.webp` era "cão alérgico" na /alergia e "mais disposição" aqui), ou seja,
+   o alt contava a história da página em vez de descrever a imagem.
+
+   O que entrou é material do próprio Integral, que já existia em
+   `public/assets/images/produtos/`. Alt descreve o que a imagem MOSTRA.
+   ⚠️ Curadoria final é da Olivia: a ordem abaixo é por assunto (produto certo
+   → prova de aceitação → depoimento escrito), não por "foto bonita". */
 const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
+  { type: "ugc",    src: "/assets/images/produtos/integral-07.webp", alt: "Cão deitado ao lado do pote do Suplemento Proteico Integral" },
+  { type: "ugc",    src: "/assets/images/produtos/integral-08.webp", alt: "Cão comendo direto do pote do Suplemento Integral" },
+  { type: "review", src: "/assets/images/produtos/integral-05.webp", alt: "Três mensagens de tutores sobre colocar o suplemento na ração" },
+  { type: "ugc",    src: "/assets/images/produtos/integral-06.webp", alt: "Beagle posando com o pote do Suplemento Integral" },
   { type: "ugc",    src: "/assets/images/produtos/integral-02.webp", alt: "Suplemento Integral polvilhado na ração do cão" },
-  { type: "review", src: "/assets/images/reviews/3.webp",            alt: "Review de tutora — cão com mais disposição" },
-  { type: "review", src: "/assets/images/reviews/4.webp",            alt: "Review de tutor — filhote em crescimento" },
-  { type: "review", src: "/assets/images/reviews/5.webp",            alt: "Review — pelo mais bonito" },
-  { type: "review", src: "/assets/images/reviews/6.webp",            alt: "Review — cão idoso recuperou massa" },
-  { type: "review", src: "/assets/images/reviews/7.webp",            alt: "Review — recomendo demais" },
-  { type: "review", src: "/assets/images/reviews/8.webp",            alt: "Review — fácil de usar, mistura na ração" },
-  { type: "review", src: "/assets/images/reviews/9.webp",            alt: "Review — cliente recorrente" },
 ];
 
 const FAQ = [
@@ -122,9 +140,9 @@ const Suplemento = () => {
   return (
     <div className="suplemento-lp">
       <PageMeta
-        title="Comida de Dragão Suplemento Integral — boost proteico hipoalergênico pro seu cão"
-        description="Suplemento em pó com 45% de proteína de Mosca Soldado Negra. Hipoalergênico, cúrcuma e spirulina, acompanha dosador. Cupom BORALA: 10% off."
-        image={HERO_IMG}
+        title="Suplemento Integral — 45% de proteína pro cão que a ração não dá conta"
+        description="Suplemento em pó com 45% de proteína de Mosca Soldado Negra. Hipoalergênico, cúrcuma e spirulina, acompanha dosador. Polvilha na ração e pronto."
+        image={OG_IMG}
       />
       {/* preload da hero image — melhora LCP em tráfego pago */}
       <Helmet>
@@ -139,17 +157,29 @@ const Suplemento = () => {
             <DragonLogo className="slp-hero-logo" />
           </div>
 
-          <span className="slp-hero-eyebrow">novidade · 45% proteína · só cães</span>
+          {/* HERO REESCRITO 25/08 (opção A, escolhida pela Olivia).
+              O que saiu e por quê:
+              · "novidade" — o Integral está na loja desde jul/2025. Mesma palavra
+                que a /original aposentou em 19/08.
+              · "O reforço que falta na tigela" — não diz PRA QUEM. Quem chega do
+                feed não sabe se é ração, petisco ou remédio, e não se reconhece.
+              · a subheadline abria em "farinha de larva": entregava a objeção
+                antes de dar qualquer motivo pra querer.
+              · "boost proteico" — palavra de rótulo. A pessoa não busca isso.
+              O H1 agora é pergunta de reconhecimento e a sub nomeia as três fases
+              (filhote / ativo / idoso), que é o corte que também separa público e
+              criativo no Meta. A larva aparece, mas depois do motivo. */}
+          <span className="slp-hero-eyebrow">45% de proteína · só pra cães · Reg. MAPA</span>
 
           <h1 className="slp-hero-title">
-            O reforço que<br /><span>falta na tigela.</span>
+            A ração dele<br /><span>já não dá conta?</span>
           </h1>
 
           <p className="slp-hero-sub">
-            A gente faz <strong>suplemento com farinha de larva</strong> de
-            Mosca Soldado Negra — 45% de proteína, com cúrcuma e spirulina.
-            Polvilha na ração e pronto: boost proteico real, hipoalergênico,
-            sem promessa de rótulo.
+            <strong>Filhote crescendo, cão que corre, idoso perdendo músculo</strong> — todos
+            precisam de mais proteína do que a ração comum entrega. O Integral é <strong>pó</strong>:
+            polvilha por cima da ração de sempre, uma vez por dia. São <strong>45% de proteína</strong> de
+            larva, com cúrcuma e spirulina, <strong>sem frango, boi, soja nem glúten</strong>.
           </p>
 
           <img
@@ -164,18 +194,18 @@ const Suplemento = () => {
           />
 
           <div className="slp-hero-price">
-            <span className="slp-price-from">a partir de</span>
+            <span className="slp-price-from">Suplemento Integral 180g</span>
             <span className="slp-price-now"><small>R$</small>110,00</span>
-            <span className="slp-price-installment">ou R$ 99,00 com BORALA · 4× sem juros</span>
+            <span className="slp-price-installment">4× sem juros · 180g</span>
           </div>
 
           <div className="slp-hero-coupon">
-            🎟️ cupom <b>{COUPON}</b> — 10% off
+            🎟️ segue algum criador nosso no Instagram? o cupom dele vale no checkout
           </div>
 
           <div className="slp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="slp-btn-primary" data-cta="hero">
-              Bora reforçar a tigela →
+              Quero reforçar a ração dele →
             </a>
           </div>
 
@@ -206,6 +236,12 @@ const Suplemento = () => {
               </li>
             ))}
           </ul>
+
+          <div className="slp-section-cta">
+            <a href={ctaUrl("problema")} className="slp-btn-primary" data-cta="problema">
+              Quero resolver a proteína →
+            </a>
+          </div>
         </div>
       </section>
 
@@ -237,6 +273,56 @@ const Suplemento = () => {
               </div>
             ))}
           </div>
+
+          {/* 25/08 — mesma correção que a /original recebeu em 19/08 (commit
+              90680fc): eram 6.795px sem nenhum botão entre o hero e a oferta,
+              e a sticky some acima de 720px, então tablet e desktop passavam
+              sete telas sem saída. */}
+          <div className="slp-section-cta">
+            <a href={ctaUrl("solucao")} className="slp-btn-primary" data-cta="solucao">
+              Bora reforçar a tigela →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ════ É FARINHA DE LARVA MESMO (anti-rejeição) ═══════════
+          25/08 — clonado da /original, que clonou da /curiosidade. Esta página
+          escreve "larva" quatro vezes e nunca tratava a reação da pessoa — e
+          ela recebe tráfego frio de Meta, onde ninguém pediu pra ver isso.
+          A objeção aqui não é a mesma do petisco: no pó não tem larva inteira
+          pra olhar, o problema é misturar na comida do cão.
+          ⚠️ Depoimentos: os dois são de fonte pública (Instagram) e do produto
+          certo. O banco de Vozes tem outros mais fortes, mas são print de
+          WhatsApp — conversa privada, exige autorização antes de publicar. */}
+      <section className="slp-section">
+        <div className="slp-section-inner">
+          <span className="slp-tag tag-pink">é farinha de larva mesmo</span>
+          <h2 className="slp-section-title title-pink">
+            Estranhou?<br /><span>Seu cão não vai.</span>
+          </h2>
+          <p className="slp-section-lead">
+            O nojo é nosso, não dele. E aqui não tem larva pra olhar: o Integral é
+            <strong> pó</strong>, e vai por cima da ração de sempre. Se bater dúvida,
+            começa assim:
+          </p>
+
+          <ul className="slp-problemas-list">
+            <li className="slp-problema-item">
+              <b>Comece com meia medida</b> — polvilha por cima da ração de sempre, sem misturar, e vai aumentando até a medida do porte dele.
+            </li>
+            <li className="slp-problema-item">
+              <b>Um pote dura semanas</b> — de 12 dias num cão grande a mais de um mês num mini. Dá tempo de o hábito pegar.
+            </li>
+            <li className="slp-problema-item">
+              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+            </li>
+          </ul>
+
+          <blockquote className="slp-quote">
+            <p>“Que fofoo 😍 <strong>o meu ama o suplemento integral</strong>”</p>
+            <cite>— @beatrizdrsamaral · Instagram</cite>
+          </blockquote>
         </div>
       </section>
 
@@ -277,29 +363,45 @@ const Suplemento = () => {
           </div>
 
           <p className="slp-slider-hint">← arraste pra ver mais →</p>
+
+          {/* CTA logo depois da prova social — é onde a pessoa acabou de ver
+              outro cão comendo. Sem ele, o próximo botão só aparecia 4.000px
+              adiante, na oferta. */}
+          <div className="slp-section-cta">
+            <a href={ctaUrl("prova")} className="slp-btn-primary" data-cta="prova">
+              Quero o meu · R$ 110,00 →
+            </a>
+          </div>
         </div>
       </section>
 
       {/* ════ OFERTA + CUPOM ═════════════════════════════════════ */}
       <section className="slp-oferta">
         <div className="slp-oferta-inner">
-          <span className="slp-tag tag-lime">oferta de lançamento</span>
+          {/* 25/08 — saíram DUAS coisas: "oferta de lançamento" (o Integral está
+              na loja desde jul/2025, mesmo motivo que tirou a palavra da /original
+              em 19/08) e o cupom BORALA, por decisão da Olivia. O desconto que
+              sobra é o do criador, que a pessoa digita no checkout — a página
+              avisa que existe, não promete valor que o link não entrega. */}
+          <span className="slp-tag tag-lime">pronto pra levar</span>
           <h2 className="slp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            Comece com<br /><span>10% de desconto</span>
+            Suplemento Integral<br /><span>180g por R$ 110,00</span>
           </h2>
 
           <div className="slp-oferta-coupon-box">
-            <div className="slp-oferta-coupon-label">use o cupom</div>
-            <div className="slp-oferta-coupon-code">{COUPON}</div>
-            <div className="slp-oferta-coupon-desc">10% off na primeira compra</div>
+            <div className="slp-oferta-coupon-label">tem cupom de criador?</div>
+            <div className="slp-oferta-coupon-desc">
+              Vários criadores que a gente repostou no Instagram têm cupom — se você
+              segue algum, é só digitar o dele no checkout.
+            </div>
           </div>
 
           <a href={ctaUrl("oferta")} className="slp-btn-primary" data-cta="oferta">
-            Quero meu BORALA →
+            Quero o Integral →
           </a>
 
           <p className="slp-hero-note" style={{ marginTop: 16 }}>
-            Cupom aplica sozinho no checkout · Só na primeira compra
+            Compra 100% segura via Yampi · cartão, Pix ou boleto
           </p>
         </div>
       </section>
@@ -338,7 +440,7 @@ const Suplemento = () => {
         </h2>
         <p>Um pote, uma colher por dia, zero promessa furada. Seu cão sente nas primeiras semanas.</p>
         <a href={ctaUrl("final")} className="slp-btn-primary" data-cta="final">
-          Bora — meu {COUPON} →
+          Bora reforçar a tigela →
         </a>
       </section>
 
@@ -361,12 +463,17 @@ const Suplemento = () => {
       <div className="slp-sticky-cta">
         <div className="slp-sticky-info">
           <span className="slp-sticky-name">Suplemento Integral 180g</span>
-          <span className="slp-sticky-price">R$ 110,00 · cupom {COUPON}</span>
+          <span className="slp-sticky-price">R$ 110,00 · 4× sem juros</span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
 
-      <LeadPopup slug="suplemento" />
+      {/* 25/08 — sem `aposSeletor` o gatilho que abria na prática era o de 50%
+          de scroll: 5.898px numa página de 11.795px, ou seja, ANTES da prova
+          social (7.530px) e da oferta (7.695px). Mesmo defeito que a Olivia
+          mandou corrigir na /grub em 28/07. Agora o popup só pode abrir depois
+          que a oferta saiu da tela. */}
+      <LeadPopup slug="suplemento" aposSeletor=".slp-oferta" />
     </div>
   );
 };

@@ -786,3 +786,34 @@
   .slp-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
   .slp-section-title, .slp-cta-final h2 { font-size: 60px; }
 }
+
+/* ============= 25/08 — BLOCO ANTI-REJEIÇÃO + CTA DA SEÇÃO =============
+   Clonado do Original.css (mesmos valores), que por sua vez veio da
+   /curiosidade. O .slp-section-cta é o botão no fim de "A solução": antes
+   eram 6.795px sem saída entre o hero e a oferta, e a sticky some acima
+   de 720px. */
+.suplemento-lp .slp-quote {
+  margin: 0;
+  padding: 20px 24px;
+  border-left: 4px solid var(--dragon-pink);
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+}
+.suplemento-lp .slp-quote p {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-primary);
+  margin: 0 0 10px;
+}
+.suplemento-lp .slp-quote strong { color: var(--dragon-pink); }
+.suplemento-lp .slp-quote cite {
+  display: block;
+  font-size: 14px;
+  font-style: normal;
+  color: var(--ink-secondary);
+}
+.suplemento-lp .slp-section-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
