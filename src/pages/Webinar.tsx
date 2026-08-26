@@ -390,8 +390,8 @@ const Webinar = () => {
               contagem dos votos.
             </p>
             <p className="wb-sub">
-              Tudo em português. Tem parte técnica, com estudo citado, pra quem quiser ir fundo —
-              mas dá pra acompanhar sem ser da área.
+              Tem parte técnica, com estudo citado, pra quem quiser ir fundo — mas dá pra
+              acompanhar sem ser da área.
             </p>
 
             <div className="wb-quando">
