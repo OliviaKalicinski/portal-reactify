@@ -23,6 +23,7 @@ const Conheca = lazy(() => import("./pages/Conheca.tsx"));
 const Curiosidade = lazy(() => import("./pages/Curiosidade.tsx"));
 const OqueFalam = lazy(() => import("./pages/OqueFalam.tsx"));
 const Veterinarios = lazy(() => import("./pages/Veterinarios.tsx"));
+const Webinar = lazy(() => import("./pages/Webinar.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
 const Suplemento = lazy(() => import("./pages/Suplemento.tsx"));
 const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
@@ -77,6 +78,10 @@ const App = () => (
               {/* LP prova social — mural de reviews reais + CTA suave pro Kit */}
               <Route path="/oquefalam" element={<OqueFalam />} />
               <Route path="/veterinarios" element={<Veterinarios />} />
+              {/* EVENTO · Webinar CdD x Cogumelos Pet, 08/09/2026 — a pagina E a inscricao
+                  (grava em lp_leads, origem webinar_mv_cogumelos). Depois do evento: virar
+                  pagina da gravacao ou comentar esta rota + o lazy import. Ver _LANDING-PAGES.md */}
+              <Route path="/webinar" element={<Webinar />} />
               {/* LPs de produto — tráfego pago, fora do portal */}
               <Route path="/original" element={<Original />} />
               <Route path="/suplemento" element={<Suplemento />} />
