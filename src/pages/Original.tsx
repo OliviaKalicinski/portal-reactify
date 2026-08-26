@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Original.css";
-import LeadPopup from "@/components/LeadPopup";
+// import LeadPopup from "@/components/LeadPopup"; // 🧪 desligado 26/08–02/09 (ver abaixo)
 
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — ORIGINAL
@@ -409,7 +409,17 @@ const Original = () => {
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
 
-      <LeadPopup slug="original" />
+      {/* 🧪 TESTE COM JANELA FECHADA — popup DESLIGADO de 26/08 a 02/09/2026.
+          Por quê: no Clarity (30 dias, mobile) o botão de FECHAR o popup é o
+          elemento mais clicado da página — 440 toques, 44,1% de tudo o que se
+          clica aqui. Os dois CTAs de compra somados fazem 90 (9%). A pergunta
+          é se o popup está pagando o preço que cobra.
+          Linha de base (sessões GA4 × pedidos com utm_content lp-original__):
+            10–16/08 · 806 sess · 6 ped · 0,74%
+            17–23/08 · 2.000 sess · 23 ped · 1,15%
+          ⚠️ RELIGAR EM 02/09 se a conversão não subir. Quem lê o resultado:
+          `BIBLIOTECA/00 - Agentes (Contexto CLAUDE)/03_EXPERIMENTOS/`. */}
+      {/* <LeadPopup slug="original" /> */}
     </div>
   );
 };
