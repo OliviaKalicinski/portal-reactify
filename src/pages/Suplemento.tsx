@@ -175,7 +175,7 @@ const Suplemento = () => {
   return (
     <div className="suplemento-lp">
       <PageMeta
-        title="Suplemento Integral — 45% de proteína pro cão que a ração não dá conta"
+        title="Suplemento Integral — 45% de proteína pra todos os cães"
         description="Suplemento em pó com 45% de proteína de Mosca Soldado Negra. Hipoalergênico, cúrcuma e spirulina, acompanha dosador. Polvilha na ração e pronto."
         image={OG_IMG}
       />
@@ -203,18 +203,25 @@ const Suplemento = () => {
               · "boost proteico" — palavra de rótulo. A pessoa não busca isso.
               O H1 agora é pergunta de reconhecimento e a sub nomeia as três fases
               (filhote / ativo / idoso), que é o corte que também separa público e
-              criativo no Meta. A larva aparece, mas depois do motivo. */}
-          <span className="slp-hero-eyebrow">45% de proteína · só pra cães · Reg. MAPA</span>
+              criativo no Meta. A larva aparece, mas depois do motivo.
+
+              ⚠️ REVISADO 26/08 (Olivia): a pergunta "a ração dele já não dá conta?"
+              fazia a página parecer remédio — só pra quem tem problema. O suplemento
+              é pra TODOS os cães, e isso tem que estar no hero. A eyebrow abre com
+              "para todos os cães", o H1 virou afirmação e as fases continuam na sub,
+              mas como exemplos — com o cão saudável incluído na lista. */}
+          <span className="slp-hero-eyebrow">para todos os cães · 45% de proteína · Reg. MAPA</span>
 
           <h1 className="slp-hero-title">
-            A ração dele<br /><span>já não dá conta?</span>
+            Proteína a mais,<br /><span>pra qualquer cão.</span>
           </h1>
 
           <p className="slp-hero-sub">
-            <strong>Filhote crescendo, cão que corre, idoso perdendo músculo</strong> — todos
-            precisam de mais proteína do que a ração comum entrega. O Integral é <strong>pó</strong>:
-            polvilha por cima da ração de sempre, uma vez por dia. São <strong>45% de proteína</strong> de
-            larva, com cúrcuma e spirulina, <strong>sem frango, boi, soja nem glúten</strong>.
+            <strong>Todo cão come melhor com mais proteína</strong> — o filhote que está crescendo, o
+            adulto que corre, o idoso que precisa segurar o músculo e também o saudável que você quer
+            manter assim. O Integral é <strong>pó</strong>: polvilha por cima da ração de sempre, uma
+            vez por dia. São <strong>45% de proteína</strong> de larva, com cúrcuma e spirulina,{" "}
+            <strong>sem frango, boi, soja nem glúten</strong>.
           </p>
 
           <img
