@@ -166,6 +166,13 @@
   text-transform: uppercase;
   margin-bottom: 16px;
 }
+/* ⚠️ 27/08: a sombra lime era só da última linha (o <span>, que é block).
+   A Olivia pediu a marca em TODOS os bichos — por isso `.grb-bicho` é inline
+   e não herda o display:block, senão cada nome quebraria numa linha. */
+.grb-hero-title .grb-bicho {
+  font-weight: inherit;
+  text-shadow: 4px 4px 0 var(--dragon-lime);
+}
 .grb-hero-title span {
   color: var(--ink-primary);
   display: block;
@@ -514,6 +521,19 @@
   color: var(--ink-primary);
   border-color: var(--ink-primary);
 }
+.grb-slide-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--ink-primary);
+  color: var(--bg-card);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  padding: 8px 10px;
+}
 .grb-slider-hint {
   text-align: center;
   margin-top: 10px;
@@ -792,7 +812,20 @@
   .grb-section { padding: 80px 32px; }
   .grb-beneficios { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
   .grb-slide { flex-basis: 32%; }
-  .grb-slider-hint { display: none; }
+  .grb-slide-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--ink-primary);
+  color: var(--bg-card);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  padding: 8px 10px;
+}
+.grb-slider-hint { display: none; }
   .grb-oferta { padding: 88px 32px; }
   .grb-cta-final { padding: 96px 32px 64px; }
 

@@ -92,7 +92,7 @@ const OG_IMG = "/assets/images/produtos/grub-frente-og.png";
 const CHIPS = [
   "🦎 Répteis e anfíbios",
   "🛡️ Compra segura",
-  "🏭 Reg. MAPA",
+  "🏭 Fábrica registrada",
   "💚 Garantia 14 dias",
 ];
 
@@ -103,11 +103,7 @@ const CHIPS = [
 const PROBLEMAS = [
   {
     dor: "Num dia ele come uma coisa, no outro come outra",
-    causa: "e o que entra de nutriente muda junto. No fim você nunca sabe direito o que ele andou recebendo.",
-  },
-  {
-    dor: "Sempre o mesmo bicho no pote",
-    causa: "variar de verdade dá trabalho: é comprar, guardar e revezar três coisas diferentes. Quase ninguém mantém.",
+    causa: "e o nutriente muda junto. Variar de verdade é comprar, guardar e revezar três coisas — quase ninguém mantém.",
   },
   {
     dor: "O cálcio fica por sua conta",
@@ -124,19 +120,19 @@ const BENEFICIOS = [
     stat: "2,5",
     statLbl: "vezes mais cálcio que fósforo",
     title: "A conta que não dá pra errar",
-    desc: "Réptil precisa de <strong>bem mais cálcio do que fósforo</strong>, e quase todo inseto vem ao contrário — é pra isso que serve aquele pó que se polvilha antes de servir. Quando falta cálcio por meses, o osso vai ficando <strong>fraco e mole</strong> (é o que chamam de doença óssea metabólica) e quando dá pra ver já foi longe. Aqui a conta <strong>já sai certa de fábrica</strong>.",
+    desc: "Réptil precisa de <strong>bem mais cálcio do que fósforo</strong>, e quase todo inseto vem ao contrário — por isso o pó que se polvilha antes de servir. Faltando cálcio por meses, o osso fica <strong>fraco e mole</strong>, e quando dá pra ver já foi longe. Aqui a conta <strong>já sai certa de fábrica</strong>.",
   },
   {
     stat: "3",
     statLbl: "insetos no pote",
     title: "Larva, grilo e tenébrio",
-    desc: "Não é um inseto só. São <strong>três</strong> — larva de mosca soldado negra, grilo preto e tenébrio —, mais cúrcuma, spirulina e levedura. É a variedade que você teria que montar comprando três potes diferentes, e ela chega igual em toda porção.",
+    desc: "São <strong>três</strong> — larva de mosca soldado negra, grilo preto e tenébrio —, mais cúrcuma, spirulina e levedura. A variedade que você montaria com três potes diferentes, igual em toda porção.",
   },
   {
     stat: "2 min",
     statLbl: "e está na tigela",
     title: "E ainda é rápido de fazer",
-    desc: "Vira <strong>gel firme</strong> ou <strong>papinha</strong>, do jeito que o seu bicho aceita melhor. Fechado dura <strong>meses na prateleira</strong>; depois de pronto, de 3 a 5 dias na geladeira. A praticidade é consequência — <strong>o que importa é a mesma medida certa ir pra tigela toda vez.</strong>",
+    desc: "Vira <strong>gel firme</strong> ou <strong>papinha</strong>, do jeito que ele aceita melhor. Fechado dura <strong>meses</strong>; pronto, de 3 a 5 dias na geladeira. E <strong>não tem cheiro</strong> — nem no pote, nem na casa.",
   },
 ];
 
@@ -188,16 +184,32 @@ const BICHOS = [
   },
   {
     quando: "Só como complemento",
-    quem: "Tartaruga e outros quelônios — entra de vez em quando, nunca como a comida principal deles",
+    quem: "Jabuti, tartaruga e outros quelônios — entra de vez em quando, nunca como a comida principal deles",
   },
 ];
 
-const SLIDES: Array<{ src: string; alt: string; type: "produto" }> = [
-  { type: "produto", src: "/assets/images/produtos/grub-frente.webp", alt: "Grub — alimento para répteis e anfíbios, pote de 120g" },
-  { type: "produto", src: "/assets/images/produtos/grub-02.webp", alt: "Grub — detalhe do produto" },
-  { type: "produto", src: "/assets/images/produtos/grub-03.webp", alt: "Grub — detalhe do produto" },
-  { type: "produto", src: "/assets/images/produtos/grub-04.webp", alt: "Grub — detalhe do produto" },
-  { type: "produto", src: "/assets/images/produtos/grub-05.webp", alt: "Grub — detalhe do produto" },
+/* ⚠️ 26/08: as cinco fotos levavam a MESMA badge ("o pote"), o que jogava fora a
+   única imagem da página com bicho vivo (a grub-05). Agora cada slide diz o que
+   é, e a foto do bicho leva legenda — com a ressalva de quelônio, que o DOC2
+   exige e que a foto sozinha não dá.
+   ⚠️ Isto NÃO é prova social: é foto nossa. A prova de verdade depende de foto
+   ou vídeo de cliente. Existem 2 compradores de Grub nos últimos 90 dias
+   (Shopify, 26/08) — quando chegar material deles, entra aqui e vira `cliente`. */
+/* ⚠️ a classe era `grb-slide-badge`, que NÃO EXISTE no Grub.css — a tag estava
+   renderizando sem estilo nenhum desde que a página nasceu. O nome certo é
+   `grb-slide-tag`, e `tag-orange` (lime) é o destaque que o CSS reserva pra foto
+   de bicho real. */
+const SLIDES: Array<{ src: string; alt: string; badge: string; cap?: string }> = [
+  { badge: "o pote", src: "/assets/images/produtos/grub-frente.webp", alt: "Grub — alimento para répteis e anfíbios, pote de 120g" },
+  { badge: "o pó", src: "/assets/images/produtos/grub-02.webp", alt: "Grub — o pó antes de virar gel" },
+  { badge: "120g", src: "/assets/images/produtos/grub-03.webp", alt: "Grub — peso líquido de 120 gramas" },
+  { badge: "o preparo", src: "/assets/images/produtos/grub-04.webp", alt: "Grub — os quatro passos do preparo" },
+  {
+    badge: "no bicho",
+    src: "/assets/images/produtos/grub-05.webp",
+    alt: "Pote de Grub ao lado de uma tartaruga",
+    cap: "Em tartaruga e outros quelônios o Grub entra como complemento — a comida principal deles é outra.",
+  },
 ];
 
 const FAQ = [
@@ -208,6 +220,14 @@ const FAQ = [
   {
     q: "Então eu paro de dar inseto vivo?",
     a: "Não precisa, e a gente nem sugere isso. Quem cria réptil normalmente <strong>gosta</strong> de dar inseto — faz parte. O que a gente resolve é a <strong>dependência</strong>: o criadouro em casa, o cheiro, a colônia que morre e o cálcio que você tem que lembrar de polvilhar em cada um.",
+  },
+  {
+    q: "Quanto devo servir?",
+    a: "A quantidade <strong>varia conforme o bicho</strong> — espécie, idade e fase. Por isso a gente não publica uma tabela igual pra todos: a orientação do rótulo é ajustar à necessidade do animal e <strong>consultar um médico-veterinário</strong>. Na prática: ofereça uma porção, veja quanto ele consome e <strong>retire o que sobrar</strong> — gel esquecido no terrário resseca e não serve mais.",
+  },
+  {
+    q: "O que tem dentro, exatamente?",
+    a: "Farinha de larva de mosca soldado negra, farinha de grilo preto e farinha de tenébrio — as três fontes de inseto. Mais cúrcuma, spirulina, levedura de cervejaria, gelatina, fécula de mandioca modificada, <strong>lecitina de soja</strong>, páprica, goma xantana, cloreto de sódio e carbonato de cálcio. É a composição inteira do rótulo, sem corte.",
   },
   {
     q: "Como eu preparo?",
@@ -259,8 +279,12 @@ const Grub = () => {
 
           {/* O H1 já leva "répteis e anfíbios" + praticidade, então a eyebrow
               carrega o que sobrou de fora: composição e perfil nutricional. */}
+          {/* ⚠️ "Reg. MAPA" saiu daqui em 26/08: a ficha técnica do Grub diz
+              "produto ISENTO de registro no Ministério da Agricultura"; o que é
+              registrado é o ESTABELECIMENTO (RJ 001924-0). As duas frases não são
+              a mesma coisa e a segunda é a verdadeira. */}
           <span className="grb-hero-eyebrow">
-            o cálcio na medida certa · três insetos · Reg. MAPA
+            alimento para pet não convencional · répteis e anfíbios
           </span>
 
           {/* H1 lidera por COMPOSIÇÃO + PRATICIDADE (rebalanceado 28/07).
@@ -280,19 +304,40 @@ const Grub = () => {
               `animais exóticos` faz 9.900/mês mas TODA intenção de comida
               ("alimento/ração/comida para pet exótico") está abaixo do
               limiar. Mesma armadilha de `teiú` e `leopardo gecko`. */}
+          {/* ⚠️ VIRADA DE CANAL — 26/08/2026.
+              O H1 anterior ("Alimentação de répteis e anfíbios, pronta.") era de
+              BUSCA: nome de categoria, feito pra Quality Score, e está no git se o
+              Google voltar. No feed ninguém digitou nada — o que segura é a dor.
+              A keyword de categoria desceu pra eyebrow e pra subheadline, que é
+              onde ela continua fazendo efeito sem gastar a primeira linha.
+              Mantidas as 3 linhas renderizadas (regra da Olivia, 28/07). */}
+          {/* ⚠️ HERO LITERAL — 27/08/2026, escrito pela Olivia.
+              O formato não existe no Brasil: antes de qualquer promessa, a
+              página tem que dizer O QUE É e PRA QUEM. Nomear a espécie é o
+              caminho mais curto — ninguém pesquisa "pet não convencional",
+              mas todo mundo reconhece o próprio bicho.
+              ⚠️ O JABUTI ESTÁ NO H1 POR DECISÃO DA OLIVIA (27/08) e a quebra
+              foi escolhida pra ele cair na 3ª linha, que é a destacada.
+              Em quelônio o uso é DE VEZ EM QUANDO, junto do cardápio próprio
+              deles (DOC2) — isso fica dito na subheadline, na lista de
+              espécies e no FAQ, nessas três. Se mexer no H1, conferir que a
+              subheadline continua carregando essa parte. */}
           <h1 className="grb-hero-title">
-            Alimentação de<br />répteis e anfíbios,<br /><span>pronta.</span>
+            Comida pronta para<br />
+            <b className="grb-bicho">gecko</b>, <b className="grb-bicho">teiú</b>,{" "}
+            <b className="grb-bicho">sapo</b>,<br />
+            <b className="grb-bicho">rã</b> e <b className="grb-bicho">jabuti</b>.
           </h1>
 
+          {/* ⚠️ Cortada de ~90 pra ~40 palavras em 26/08 (furo #8 da auditoria de
+              25/08): quem vem do feed não lê parágrafo. O argumento do cálcio se
+              repete inteiro na seção de benefícios — aqui basta plantar. */}
           <p className="grb-hero-sub">
-            <strong>Alimentação de répteis e anfíbios em pó</strong> — e o cálcio já vem dentro, na
-            medida certa. É a mesma conta que você tenta acertar polvilhando pó no grilo antes de
-            servir: se faltar por muito tempo, o <strong>osso fica fraco e mole</strong>, e quando
-            dá pra ver já foi longe. Aqui não depende de você lembrar. E são{" "}
-            <strong>três insetos no mesmo pote</strong> — larva, grilo e tenébrio —, em vez de você
-            manter três coisas diferentes em casa. Mistura com água e está pronto. É alimento
-            completo, o que não quer dizer que ele possa comer só isso: bicho precisa de comida
-            variada.
+            Você mistura com água e vira gel. São <strong>três insetos num pó só</strong> — larva,
+            grilo e tenébrio — e o <strong>cálcio já vem na medida certa</strong>, sem polvilhar
+            nada. No <strong>jabuti e nas tartarugas</strong> ele entra{" "}
+            <strong>de vez em quando</strong>, junto do que eles já comem — nesses o cardápio do
+            dia a dia é outro.
           </p>
 
           <div className="grb-hero-product-wrap">
@@ -321,68 +366,13 @@ const Grub = () => {
 
           <div className="grb-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="grb-btn-primary" data-cta="hero" onClick={onCta("hero")}>
-              Quero resolver o cálcio →
+              Quero o Grub →
             </a>
           </div>
 
           <div className="grb-hero-chips">
             {CHIPS.map((c, i) => <span className="grb-chip" key={i}>{c}</span>)}
           </div>
-        </div>
-      </section>
-
-      {/* ════ PROBLEMA ════ */}
-      <section className="grb-section">
-        <div className="grb-section-inner">
-          <span className="grb-tag tag-pink">se isso te soa familiar</span>
-          <h2 className="grb-section-title title-pink">
-            O bicho come todo dia.<br /><span>O que ele recebe é que muda.</span>
-          </h2>
-          <p className="grb-section-lead">
-            Parece simples até você reparar: o que ele come muda toda semana, variar depende de
-            você manter três coisas diferentes em casa, e lembrar do cálcio é sempre com você.
-          </p>
-
-          <ul className="grb-problemas-list">
-            {PROBLEMAS.map((p, i) => (
-              <li className="grb-problema-item" key={i}>
-                <b>{p.dor}</b> — {p.causa}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ════ SOLUÇÃO ════ */}
-      <section className="grb-section">
-        <div className="grb-section-inner">
-          <span className="grb-tag">a solução</span>
-          <h2 className="grb-section-title">
-            O que ele precisa,<br /><span>na conta certa.</span>
-          </h2>
-          <p className="grb-section-lead">
-            A larva é criada na nossa biofábrica no Rio, com <strong>registro no MAPA</strong> —
-            não é mistura de fundo de quintal. O que sai de lá é um <strong>pó</strong> com a
-            proporção já fechada, em vez de você montar a dieta dele juntando produto e torcendo
-            pra conta bater.
-          </p>
-
-          <div className="grb-beneficios">
-            {BENEFICIOS.map((b, i) => (
-              <div className="grb-beneficio" key={i}>
-                <div className="grb-beneficio-stat">
-                  {b.stat}<small style={{ fontSize: 14, opacity: 0.6, marginLeft: 6 }}>{b.statLbl}</small>
-                </div>
-                <div className="grb-beneficio-title">{b.title}</div>
-                <div className="grb-beneficio-desc" dangerouslySetInnerHTML={{ __html: b.desc }} />
-              </div>
-            ))}
-          </div>
-
-          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
-            É alimento completo, mas para usar dentro de uma alimentação variada — não substitui
-            tudo o que ele come, nem o acompanhamento do veterinário.
-          </p>
         </div>
       </section>
 
@@ -413,6 +403,105 @@ const Grub = () => {
             <strong>Não serve pra tarântula nem outras aranhas.</strong> Nenhum produto da linha
             Comida de Dragão é indicado pra elas — a gente prefere falar isso na cara do que
             vender errado.
+          </p>
+        </div>
+      </section>
+
+      {/* ════ E SE ELE NÃO COMER ════
+          Entrou em 27/08/2026, a partir do benchmark da categoria
+          (`BIBLIOTECA/04 - Marketing & Criativos/Playbooks & Guias (referência)/
+          Alimento em gel para réptil — como o mercado se comunica`).
+          É a objeção nº 1 do formato no mundo inteiro: o produto líder tem
+          4,2★ em 772 reviews, com 71% de 5 estrelas e 11% de 1 — ou o bicho
+          come, ou o pote vira lixo. A página não tratava disso em lugar
+          nenhum. Os métodos abaixo são os que os próprios criadores
+          descrevem; nenhum deles é promessa de aceitação. */}
+      <section className="grb-section">
+        <div className="grb-section-inner">
+          <span className="grb-tag tag-pink">a pergunta que todo mundo faz</span>
+          <h2 className="grb-section-title title-pink">
+            E se ele<br /><span>não comer?</span>
+          </h2>
+          <p className="grb-section-lead">
+            Pode acontecer, e a gente não vai fingir que não. Bicho que caça reage a{" "}
+            <strong>movimento</strong> — comida parada na tigela não é o que ele espera. A boa
+            notícia é que existe caminho, e quem já faz isso há tempo faz assim:
+          </p>
+
+          <ul className="grb-problemas-list">
+            <li className="grb-problema-item">
+              <b>Ofereça na pinça</b> — enrole um pedaço em formato de larva e balance devagar na
+              frente dele. O movimento é o que liga a fome.
+            </li>
+            <li className="grb-problema-item">
+              <b>Deixe ele sentir o cheiro</b> — um pedaço parado perto do focinho, sem insistir.
+              Muitos aceitam no segundo ou terceiro dia, não no primeiro.
+            </li>
+            <li className="grb-problema-item">
+              <b>Use como isca no que ele já come</b> — passe o gel no inseto vivo. Ele associa o
+              sabor ao que já conhece.
+            </li>
+            <li className="grb-problema-item">
+              <b>Mude a textura</b> — se recusar o gel firme, faça a papinha, que é mais aguada e
+              mais fácil de lamber.
+            </li>
+          </ul>
+
+          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 15 }}>
+            E tem uma coisa que joga a favor: <strong>o Grub não tem cheiro</strong>. Não é o odor
+            que afasta o bicho nem que toma conta da casa — e, diferente do inseto vivo, o que
+            sobra não estraga em cima da hora.
+          </p>
+        </div>
+      </section>
+
+      {/* ════ PROBLEMA ════ */}
+      <section className="grb-section">
+        <div className="grb-section-inner">
+          <span className="grb-tag tag-pink">se isso te soa familiar</span>
+          <h2 className="grb-section-title title-pink">
+            O bicho come todo dia.<br /><span>O que ele recebe é que muda.</span>
+          </h2>
+          <p className="grb-section-lead">
+            O que ele come muda toda semana, e lembrar do cálcio é sempre com você.
+          </p>
+
+          <ul className="grb-problemas-list">
+            {PROBLEMAS.map((p, i) => (
+              <li className="grb-problema-item" key={i}>
+                <b>{p.dor}</b> — {p.causa}
+              </li>
+            ))}
+          </ul>
+
+          {/* ⚠️ 27/08: "a solução" era uma SEÇÃO separada, com título e respiro
+              próprios. No mobile isso custava uma tela inteira só pra trocar de
+              assunto dentro do mesmo raciocínio. Virou a virada desta seção.
+              ⚠️ Aqui também saiu "registro no MAPA": a ficha do Grub diz que o
+              PRODUTO é isento de registro e o ESTABELECIMENTO é que é
+              registrado (RJ 001924-0). */}
+          <p className="grb-section-lead" style={{ marginTop: 32 }}>
+            <strong>É isso que o Grub resolve.</strong> A larva é criada na nossa biofábrica no
+            Rio, em <strong>fábrica registrada no MAPA</strong>. O que sai de lá é um{" "}
+            <strong>pó com a proporção já fechada</strong> — em vez de você montar a dieta
+            juntando produto e torcendo pra conta bater.
+          </p>
+
+          <div className="grb-beneficios">
+            {BENEFICIOS.map((b, i) => (
+              <div className="grb-beneficio" key={i}>
+                <div className="grb-beneficio-stat">
+                  {b.stat}<small style={{ fontSize: 14, opacity: 0.6, marginLeft: 6 }}>{b.statLbl}</small>
+                </div>
+                <div className="grb-beneficio-title">{b.title}</div>
+                <div className="grb-beneficio-desc" dangerouslySetInnerHTML={{ __html: b.desc }} />
+              </div>
+            ))}
+          </div>
+
+          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+            É alimento completo, mas para usar dentro de uma alimentação variada — não substitui
+            tudo o que ele come, nem o acompanhamento do veterinário.
           </p>
         </div>
       </section>
@@ -466,8 +555,9 @@ const Grub = () => {
           <div className="grb-slider" role="region" aria-label="Fotos do Grub">
             {SLIDES.map((s, i) => (
               <figure className="grb-slide" key={i}>
-                <span className="grb-slide-badge">o pote</span>
+                <span className={`grb-slide-tag${s.cap ? " tag-orange" : ""}`}>{s.badge}</span>
                 <img src={s.src} alt={s.alt} loading="lazy" decoding="async" />
+                {s.cap && <figcaption className="grb-slide-cap">{s.cap}</figcaption>}
               </figure>
             ))}
           </div>
