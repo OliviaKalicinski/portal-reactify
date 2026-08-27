@@ -214,12 +214,13 @@ const Suplemento = () => {
               ⚠️ REVISADO 26/08 (Olivia): a pergunta "a ração dele já não dá conta?"
               fazia a página parecer remédio — só pra quem tem problema. O suplemento
               é pra TODOS os cães, e isso tem que estar no hero. A eyebrow abre com
-              "para todos os cães", o H1 virou afirmação e as fases continuam na sub,
+              "para todos os cães" — que a Olivia pediu no H1, então a eyebrow deixou de
+              repetir a frase —, e as fases continuam na sub,
               mas como exemplos — com o cão saudável incluído na lista. */}
-          <span className="slp-hero-eyebrow">para todos os cães · 45% de proteína · Reg. MAPA</span>
+          <span className="slp-hero-eyebrow">45% de proteína · pó pra polvilhar · Reg. MAPA</span>
 
           <h1 className="slp-hero-title">
-            Proteína a mais,<br /><span>pra qualquer cão.</span>
+            Proteína a mais,<br /><span>para todos os cães.</span>
           </h1>
 
           <p className="slp-hero-sub">
