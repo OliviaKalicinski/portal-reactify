@@ -79,8 +79,14 @@ const CHIPS = [
 /* 26/08 — reescritos na voz do tutor. A versão anterior falava em "fases de
    alta demanda", "suplemento de prateleira" e "cada colher precisa render":
    é vocabulário de rótulo, e quem chega do feed não pensa assim. Cada item
-   agora é uma cena que a pessoa reconhece, e a explicação vem depois. */
+   agora é uma cena que a pessoa reconhece, e a explicação vem depois.
+   ⚠️ O PRIMEIRO item é o cão que está bem (Olivia, 26/08): a lista começava
+   direto na queixa e contradizia o "pra todos os cães" do hero. */
 const PROBLEMAS = [
+  {
+    dor: "Ele está bem — e você quer que continue",
+    causa: "manutenção também é trabalho: músculo, pelo e defesa se sustentam com proteína boa entrando todo dia, não só quando algo dá errado.",
+  },
   {
     dor: "Ele come tudo e continua magrelo",
     causa: "filhote crescendo e cão que se mexe o dia inteiro gastam mais do que a ração de manutenção repõe.",
@@ -260,15 +266,18 @@ const Suplemento = () => {
       {/* ════ PROBLEMA → SOLUÇÃO ═════════════════════════════════ */}
       <section className="slp-section">
         <div className="slp-section-inner">
-          <span className="slp-tag tag-pink">se isso te soa familiar</span>
+          {/* 26/08 — a seção inteira era de queixa e desmentia o hero três segundos
+              depois dele. Agora ela abre por MOMENTO, não por problema: o cão que
+              está bem aparece primeiro na lista, e as fases de demanda alta vêm
+              como casos em que a diferença é maior. */}
+          <span className="slp-tag tag-pink">quando faz diferença</span>
           <h2 className="slp-section-title title-pink">
-            A ração sozinha <span>nem sempre dá conta.</span>
+            Todo cão aproveita. <span>Uns precisam mais.</span>
           </h2>
           <p className="slp-section-lead">
-            Cão ativo, filhote em crescimento, fêmea gestante, idoso perdendo
-            músculo — todos têm <strong>demanda proteica maior</strong> que a
-            ração comum entrega. E a maioria dos suplementos do mercado é
-            aditivo com cara de proteína.
+            Proteína boa é a base de músculo, pelo e defesa — <strong>em qualquer cão, em
+            qualquer idade</strong>. Em algumas fases a conta aperta mais, e é aí que uma
+            colher a mais muda o dia dele.
           </p>
 
           <ul className="slp-problemas-list">
