@@ -316,17 +316,22 @@ const Grub = () => {
               página tem que dizer O QUE É e PRA QUEM. Nomear a espécie é o
               caminho mais curto — ninguém pesquisa "pet não convencional",
               mas todo mundo reconhece o próprio bicho.
-              ⚠️ O JABUTI ESTÁ NO H1 POR DECISÃO DA OLIVIA (27/08) e a quebra
-              foi escolhida pra ele cair na 3ª linha, que é a destacada.
+              ⚠️ "ALIMENTO COMPLETO" no H1 é decisão da Olivia (28/08), no
+              lugar de "Comida pronta". O produto É alimento completo (Olivia,
+              28/07) — e "completo" não quer dizer "dieta única": essa fronteira
+              tem que continuar dita na subheadline, no FAQ e na nota do fim da
+              seção de benefícios. Se sair de lá, o H1 fica sozinho prometendo
+              mais do que a casa sustenta.
+              ⚠️ O JABUTI ESTÁ NO H1 POR DECISÃO DA OLIVIA (27/08).
               Em quelônio o uso é DE VEZ EM QUANDO, junto do cardápio próprio
               deles (DOC2) — isso fica dito na subheadline, na lista de
               espécies e no FAQ, nessas três. Se mexer no H1, conferir que a
               subheadline continua carregando essa parte. */}
           <h1 className="grb-hero-title">
-            Comida pronta para<br />
-            <b className="grb-bicho">gecko</b>, <b className="grb-bicho">teiú</b>,{" "}
-            <b className="grb-bicho">sapo</b>,<br />
-            <b className="grb-bicho">rã</b> e <b className="grb-bicho">jabuti</b>.
+            Alimento completo<br />
+            para <b className="grb-bicho">gecko</b>, <b className="grb-bicho">teiú</b>,<br />
+            <b className="grb-bicho">sapo</b>, <b className="grb-bicho">rã</b> e{" "}
+            <b className="grb-bicho">jabuti</b>.
           </h1>
 
           {/* ⚠️ Cortada de ~90 pra ~40 palavras em 26/08 (furo #8 da auditoria de
