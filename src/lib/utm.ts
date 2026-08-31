@@ -31,6 +31,56 @@ export type Utms = Partial<Record<UtmKey, string>>;
 const STORAGE_KEY = "cdd_entry_utms";
 const MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
 
+/**
+ * Identificadores de clique das plataformas de anúncio (`fbclid`, `gclid`…).
+ *
+ * Tratados de propósito DIFERENTE das UTMs: **não entram no first-touch**.
+ * Vale sempre o clique MAIS RECENTE — é ele que o Meta e o Google usam pra
+ * ligar esta venda a este anúncio. Guardar em first-touch creditaria a compra
+ * ao anúncio antigo, que é exatamente o defeito que isto veio consertar.
+ *
+ * POR QUE ISSO EXISTE (medido em 31/08/26): o `Purchase` chegava ao Meta com
+ * `fbc` em só 57% — a LP repassava as UTMs pro checkout e deixava o `fbclid`
+ * pra trás no salto `caverna` → `seguro`. Sem ele, o Meta não sabe de qual
+ * anúncio veio a venda e preenche por modelagem; num ad set novo, sai zero.
+ *
+ * Vivem em sessionStorage (dura a sessão), não em localStorage (30 dias).
+ */
+const CLICK_IDS = ["fbclid", "gclid", "ttclid", "gbraid", "wbraid"] as const;
+type ClickIds = Partial<Record<(typeof CLICK_IDS)[number], string>>;
+
+const CLICK_STORAGE_KEY = "cdd_click_ids";
+
+function readUrlClickIds(search: string = window.location.search): ClickIds {
+  const params = new URLSearchParams(search);
+  const out: ClickIds = {};
+  CLICK_IDS.forEach((k) => {
+    const v = params.get(k);
+    if (v) out[k] = v;
+  });
+  return out;
+}
+
+function readStoredClickIds(): ClickIds {
+  try {
+    const raw = sessionStorage.getItem(CLICK_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as ClickIds) : {};
+  } catch {
+    return {};
+  }
+}
+
+/** Last-touch: sobrescreve sempre que chega um clique novo. */
+function captureClickIds(): void {
+  try {
+    const incoming = readUrlClickIds();
+    if (Object.keys(incoming).length === 0) return;
+    sessionStorage.setItem(CLICK_STORAGE_KEY, JSON.stringify(incoming));
+  } catch {
+    /* sessionStorage indisponível (aba privada etc.) — segue sem quebrar */
+  }
+}
+
 function readUrlUtms(search: string = window.location.search): Utms {
   const params = new URLSearchParams(search);
   const out: Utms = {};
@@ -68,6 +118,10 @@ export function getEntryUtms(): Utms | null {
  * Grava a UTM de entrada em first-touch atômico.
  */
 export function captureEntryUtms(): void {
+  // Fora do try/return abaixo de propósito: o anúncio pode mandar `fbclid`
+  // sem nenhuma UTM, e nesse caso o `return` adiante engoliria a captura.
+  captureClickIds();
+
   try {
     const incoming = readUrlUtms();
     if (Object.keys(incoming).length === 0) return; // nada na URL
@@ -131,6 +185,15 @@ export function buildCheckoutUrl(
 
   UTM_KEYS.forEach((k) => {
     const v = utms[k];
+    if (v) url.searchParams.set(k, v);
+  });
+
+  // Click IDs seguem junto pro checkout — sem eles o Meta/Google não ligam a
+  // compra ao anúncio. O da URL atual ganha do guardado: last-touch, ao
+  // contrário da UTM logo acima, que é first-touch.
+  const clickIds = { ...readStoredClickIds(), ...readUrlClickIds() };
+  CLICK_IDS.forEach((k) => {
+    const v = clickIds[k];
     if (v) url.searchParams.set(k, v);
   });
 
