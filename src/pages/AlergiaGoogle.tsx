@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
@@ -49,8 +50,22 @@ const CHIPS = [
 
 const PROBLEMAS = [
   { dor: "Coceira sem parar, lambe e morde as patas", causa: "quase sempre é o corpo reagindo à proteína que ele come todo dia." },
-  { dor: "Pele vermelha, queda de pelo e otite de repetição", causa: "inflamação que trocar de ração não resolve — às vezes piora." },
+  { dor: "Pele vermelha, queda de pelo e otite de repetição", causa: "inflamação que trocar de marca não resolve — às vezes piora." },
   { dor: "Intestino solto que desregula a cada troca de comida", causa: "estômago sensível costuma sumir quando a proteína é a certa." },
+];
+
+/* Seção "Se não tem pulga, por que ele se coça?" — entra ANTES do PROBLEMA.
+   Existe porque as keywords que mais trazem gente nesta campanha são PERGUNTAS
+   ("o que dar para cachorro que se coça", "meu cachorro se coça mas não tem pulgas")
+   e a página respondia com produto. É o conteúdo que sustenta a nota de experiência
+   de página no Google — hoje "Below average" em 28 de 32 keywords do Non-Brand.
+   ⚠️ NÃO afirmar qual causa é mais frequente sem fonte — e NÃO citar prazo de dieta
+   de eliminação sem alinhar com a garantia de 14 dias. Ver o brief de 01/09/26. */
+const CAUSAS = [
+  { t: "Parasita", d: "pulga, sarna, ácaro. É a primeira a descartar e a mais simples: antiparasitário resolve. Se você já tratou e a coceira continuou, pode riscar da lista." },
+  { t: "Alergia ambiental", d: "pólen, ácaro de poeira, grama. Costuma variar com a época do ano, e não some com troca de comida." },
+  { t: "Infecção de pele", d: "bactéria ou fungo que entrou onde ele já tinha se coçado. Vem depois de outra causa e precisa de veterinário." },
+  { t: "Alergia alimentar", d: "o corpo reagindo a uma proteína que ele come todo dia. É a única que <strong>você consegue testar em casa</strong>, trocando a proteína e observando." },
 ];
 
 const BENEFICIOS = [
@@ -83,7 +98,7 @@ const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
   { type: "review", src: "/assets/images/reviews/7.webp",        alt: "Review — pet atópico melhorou" },
   { type: "review", src: "/assets/images/reviews/9.webp",        alt: "Review — alérgico a frango, se coça bem menos" },
   { type: "review", src: "/assets/images/reviews/4.webp",        alt: "Review — pele e pelo melhores" },
-  { type: "review", src: "/assets/images/reviews/8.webp",        alt: "Review — fácil de usar, mistura na ração" },
+  { type: "review", src: "/assets/images/reviews/8.webp",        alt: "Review — fácil de usar, mistura na comida" },
 ];
 
 /* Reviews em TEXTO — prova social que CONTA pro Índice de Qualidade do Google
@@ -116,7 +131,7 @@ const FAQ = [
   },
   {
     q: "O que vem no Kit Cachorro?",
-    a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco/recompensa) + o <strong>Suplemento Integral</strong> (pó pra misturar na ração). Um cuida do dia a dia, o outro reforça a refeição.",
+    a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco/recompensa) + o <strong>Suplemento Integral</strong> (pó pra misturar na comida). Um cuida do dia a dia, o outro reforça a refeição.",
   },
   {
     q: "Meu veterinário indicou proteína hidrolisada. Posso dar isso?",
@@ -142,8 +157,8 @@ const AlergiaGoogle = () => {
           e nunca esteve no sitemap. O Ads nao precisa de indexacao: o AdsBot
           rastreia a landing page independente do noindex. */}
       <PageMeta
-        title="Cão vive se coçando? Pode ser alergia à comida — Comida de Dragão"
-        description="Alergia em cães quase sempre é a proteína da ração. A Comida de Dragão é proteína de inseto: nova pro corpo, hipoalergênica. Kit Cachorro pra pele e intestino."
+        title="Cão se coça sem parar? Pode ser alergia alimentar — Comida de Dragão"
+        description="Cão que se coça sem parar pode estar reagindo à proteína que come todo dia. Petisco e suplemento de proteína de inseto — nova pro corpo dele, hipoalergênica. Para coceira, queda de pelo e pele."
         image={HERO_IMG}
         noindex
       />
@@ -155,6 +170,7 @@ const AlergiaGoogle = () => {
       <section className="alp-hero">
         <div className="alp-hero-inner">
           <div className="alp-hero-top">
+            <Link to="/portal" className="alp-backlink">← comida de dragão</Link>
             <DragonLogo className="alp-hero-logo" />
           </div>
 
@@ -165,8 +181,8 @@ const AlergiaGoogle = () => {
           </h1>
 
           <p className="alp-hero-sub">
-            Na maioria das vezes a alergia não é "do nada" — é a <strong>proteína da ração</strong>
-            (frango, boi, grão) que o corpo dele já conhece. A Comida de Dragão é
+            Na maioria das vezes a alergia não é "do nada" — é a <strong>proteína que está na comida dele</strong>
+            (frango, boi, grão) que o corpo já conhece. A Comida de Dragão é
             <strong> proteína de inseto</strong>: nova pro organismo, <strong>hipoalergênica de verdade</strong>.
             O <strong>Kit Cachorro</strong> junta o petisco e o suplemento pra cuidar da pele e do intestino.
           </p>
@@ -207,6 +223,38 @@ const AlergiaGoogle = () => {
         </div>
       </section>
 
+      {/* ════ CAUSAS — responde antes de vender ════ */}
+      <section className="alp-section">
+        <div className="alp-section-inner">
+          <span className="alp-tag">antes de trocar a comida</span>
+          <h2 className="alp-section-title">
+            Se não tem pulga,<br /><span>por que ele se coça?</span>
+          </h2>
+          <p className="alp-section-lead">
+            Coceira em cachorro tem quatro causas comuns — e só uma delas se resolve na tigela.
+            Vale saber qual é a dele antes de gastar dinheiro no palpite errado.
+          </p>
+
+          <ul className="alp-problemas-list">
+            {CAUSAS.map((c, i) => (
+              <li className="alp-problema-item" key={i}>
+                <b>{c.t}</b> — <span dangerouslySetInnerHTML={{ __html: c.d }} />
+              </li>
+            ))}
+          </ul>
+
+          <p className="alp-section-lead">
+            Não dá para saber qual é a dele só olhando — quem fecha esse diagnóstico é o veterinário.
+            O que dá para fazer é eliminar uma causa de cada vez, e a alimentar é a mais barata de
+            eliminar: troca-se por uma proteína que o corpo dele nunca viu e observa-se a pele.
+          </p>
+
+          <p className="alp-section-lead">
+            <Link to="/ciencia">Como uma proteína nova não dispara alergia →</Link>
+          </p>
+        </div>
+      </section>
+
       {/* ════ PROBLEMA ════ */}
       <section className="alp-section">
         <div className="alp-section-inner">
@@ -215,7 +263,7 @@ const AlergiaGoogle = () => {
             A coceira não para? <span>Pode ser a comida.</span>
           </h2>
           <p className="alp-section-lead">
-            Você já trocou de ração mil vezes e nada? Alergia alimentar é o
+            Você já trocou de marca mil vezes e nada? Alergia alimentar é o
             corpo reagindo a uma <strong>proteína que ele come todo dia</strong> —
             e a maioria das rações e petiscos usa as mesmas (frango, boi, soja, grão).
           </p>
@@ -254,6 +302,10 @@ const AlergiaGoogle = () => {
               </div>
             ))}
           </div>
+
+          <p className="alp-section-lead">
+            <Link to="/biblioteca">Os estudos sobre proteína de inseto na alimentação animal →</Link>
+          </p>
 
           <div className="alp-secao-cta">
             <a href={ctaUrl("secao-solucao")} className="alp-btn-primary" data-cta="secao-solucao">

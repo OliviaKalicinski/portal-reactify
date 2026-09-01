@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
@@ -72,6 +73,20 @@ const PROBLEMAS = [
   { dor: "Come cada vez menos e torce o nariz pra ração", causa: "olfato e apetite caem com a idade; um complemento saboroso ajuda a puxar a refeição." },
 ];
 
+/* Referências científicas — os PDFs já estão hospedados na /biblioteca do portal.
+   ⚠️ NÃO adicionar referência que não esteja no acervo (04_REFERENCIAS_CIENTIFICAS/
+   "Catálogo - Biblioteca BSF.md"). Cada linha aqui tem paper correspondente. */
+const REFERENCIAS = [
+  {
+    t: "Proteína de BSF em dietas para cães e gatos",
+    d: "Derivados proteicos da larva demonstraram capacidade antiartrítica em ensaios de inibição de proteinase e supressão de ROS — auxiliados pela glucosamina naturalmente presente (0,4% a 0,5% da larva).",
+  },
+  {
+    t: "FEDIAF — Nutrição de cães sênior",
+    d: "Declaração do conselho científico da federação europeia: o envelhecimento varia por porte, e cães sênior precisam de dieta específica e acompanhamento veterinário regular.",
+  },
+];
+
 const BENEFICIOS = [
   {
     stat: "45%",
@@ -139,7 +154,7 @@ const IdosoGoogle = () => {
           rastreia a landing page independente do noindex. */}
       <PageMeta
         title="Suplemento para Cão Idoso — proteína que ele aproveita | Comida de Dragão"
-        description="Suplemento para cachorro idoso à base de proteína de inseto: altamente digestível, com glucosamina natural pra articulação. Kit Cachorro pra músculo, disposição e apoio às juntas."
+        description="Suplemento para cachorro idoso à base de proteína de inseto: 43,68% de proteína altamente digestível, ômegas 6 e 9 e antioxidantes naturais. Para o cão que aproveita menos a proteína, come menos e perde músculo."
         image={HERO_IMG}
         noindex
       />
@@ -151,6 +166,7 @@ const IdosoGoogle = () => {
       <section className="ilp-hero">
         <div className="ilp-hero-inner">
           <div className="ilp-hero-top">
+            <Link to="/portal" className="ilp-backlink">← comida de dragão</Link>
             <DragonLogo className="ilp-hero-logo" />
           </div>
 
@@ -270,6 +286,24 @@ const IdosoGoogle = () => {
               </div>
             ))}
           </div>
+
+          <div className="ilp-refs">
+            <p className="ilp-section-lead" style={{ marginBottom: 8 }}>
+              <strong>O que a ciência diz</strong>
+            </p>
+            {REFERENCIAS.map((r, i) => (
+              <p className="ilp-section-lead" key={i} style={{ fontSize: "0.95em", opacity: 0.9 }}>
+                <b>{r.t}</b> — {r.d}
+              </p>
+            ))}
+            <p className="ilp-section-lead">
+              <Link to="/biblioteca">Ler os estudos na íntegra na nossa biblioteca →</Link>
+            </p>
+          </div>
+
+          <p className="ilp-section-lead">
+            <Link to="/ciencia">Como a proteína de inseto age no corpo dele →</Link>
+          </p>
 
           <p className="ilp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
             Complemento nutricional — não substitui a ração nem o acompanhamento veterinário.

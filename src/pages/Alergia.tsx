@@ -53,6 +53,20 @@ const PROBLEMAS = [
   { dor: "Intestino solto que desregula a cada troca de comida", causa: "estômago sensível costuma sumir quando a proteína é a certa." },
 ];
 
+/* Seção "Se não tem pulga, por que ele se coça?" — entra ANTES do PROBLEMA.
+   Existe porque as keywords que mais trazem gente são PERGUNTAS ("o que dar para
+   cachorro que se coça", "meu cachorro se coça mas não tem pulgas") e a página
+   respondia com produto. É o conteúdo que sustenta a nota de experiência de página
+   no Google (hoje "Below average" em 28 de 32 keywords do Non-Brand).
+   ⚠️ NÃO afirmar qual causa é mais frequente sem fonte — e NÃO citar prazo de dieta
+   de eliminação sem alinhar com a garantia de 14 dias. Ver o brief de 01/09/26. */
+const CAUSAS = [
+  { t: "Parasita", d: "pulga, sarna, ácaro. É a primeira a descartar e a mais simples: antiparasitário resolve. Se você já tratou e a coceira continuou, pode riscar da lista." },
+  { t: "Alergia ambiental", d: "pólen, ácaro de poeira, grama. Costuma variar com a época do ano, e não some com troca de comida." },
+  { t: "Infecção de pele", d: "bactéria ou fungo que entrou onde ele já tinha se coçado. Vem depois de outra causa e precisa de veterinário." },
+  { t: "Alergia alimentar", d: "o corpo reagindo a uma proteína que ele come todo dia. É a única que <strong>você consegue testar em casa</strong>, trocando a proteína e observando." },
+];
+
 const BENEFICIOS = [
   {
     stat: "1",
@@ -137,8 +151,8 @@ const Alergia = () => {
   return (
     <div className="alergia-lp">
       <PageMeta
-        title="Cão vive se coçando? Pode ser alergia à comida — Comida de Dragão"
-        description="Alergia em cães quase sempre é a proteína da ração. A Comida de Dragão é proteína de inseto: nova pro corpo, hipoalergênica. Kit Cachorro pra pele e intestino."
+        title="Cão se coça sem parar? Pode ser alergia alimentar — Comida de Dragão"
+        description="Cão que se coça sem parar pode estar reagindo à proteína que come todo dia. Petisco e suplemento de proteína de inseto — nova pro corpo dele, hipoalergênica. Para coceira, queda de pelo e pele."
         image={HERO_IMG}
       />
       <Helmet>
@@ -160,8 +174,8 @@ const Alergia = () => {
           </h1>
 
           <p className="alp-hero-sub">
-            Na maioria das vezes a alergia não é "do nada" — é a <strong>proteína da ração</strong>
-            (frango, boi, grão) que o corpo dele já conhece. A Comida de Dragão é
+            Na maioria das vezes a alergia não é "do nada" — é a <strong>proteína que está na comida dele</strong>
+            (frango, boi, grão) que o corpo já conhece. A Comida de Dragão é
             <strong> proteína de inseto</strong>: nova pro organismo, <strong>hipoalergênica de verdade</strong>.
             O <strong>Kit Cachorro</strong> junta o petisco e o suplemento pra cuidar da pele e do intestino.
           </p>
@@ -199,6 +213,38 @@ const Alergia = () => {
           <div className="alp-hero-chips">
             {CHIPS.map((c, i) => <span className="alp-chip" key={i}>{c}</span>)}
           </div>
+        </div>
+      </section>
+
+      {/* ════ CAUSAS — responde antes de vender ════ */}
+      <section className="alp-section">
+        <div className="alp-section-inner">
+          <span className="alp-tag">antes de trocar a comida</span>
+          <h2 className="alp-section-title">
+            Se não tem pulga,<br /><span>por que ele se coça?</span>
+          </h2>
+          <p className="alp-section-lead">
+            Coceira em cachorro tem quatro causas comuns — e só uma delas se resolve na tigela.
+            Vale saber qual é a dele antes de gastar dinheiro no palpite errado.
+          </p>
+
+          <ul className="alp-problemas-list">
+            {CAUSAS.map((c, i) => (
+              <li className="alp-problema-item" key={i}>
+                <b>{c.t}</b> — <span dangerouslySetInnerHTML={{ __html: c.d }} />
+              </li>
+            ))}
+          </ul>
+
+          <p className="alp-section-lead">
+            Não dá para saber qual é a dele só olhando — quem fecha esse diagnóstico é o veterinário.
+            O que dá para fazer é eliminar uma causa de cada vez, e a alimentar é a mais barata de
+            eliminar: troca-se por uma proteína que o corpo dele nunca viu e observa-se a pele.
+          </p>
+
+          <p className="alp-section-lead">
+            <Link to="/ciencia">Como uma proteína nova não dispara alergia →</Link>
+          </p>
         </div>
       </section>
 
@@ -249,6 +295,10 @@ const Alergia = () => {
               </div>
             ))}
           </div>
+
+          <p className="alp-section-lead">
+            <Link to="/biblioteca">Os estudos sobre proteína de inseto na alimentação animal →</Link>
+          </p>
 
           <div className="alp-secao-cta">
             <a href={ctaUrl("secao-solucao")} className="alp-btn-primary" data-cta="secao-solucao">

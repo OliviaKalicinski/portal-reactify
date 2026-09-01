@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
@@ -146,6 +147,7 @@ const GatoCoceiraGoogle = () => {
       <section className="gcp-hero">
         <div className="gcp-hero-inner">
           <div className="gcp-hero-top">
+            <Link to="/portal" className="gcp-backlink">← comida de dragão</Link>
             <DragonLogo className="gcp-hero-logo" />
           </div>
 
@@ -251,6 +253,13 @@ const GatoCoceiraGoogle = () => {
               </div>
             ))}
           </div>
+
+          <p className="gcp-section-lead">
+            <Link to="/ciencia">Como a proteína de inseto age no corpo dele →</Link>
+          </p>
+          <p className="gcp-section-lead">
+            <Link to="/biblioteca">Os estudos sobre proteína de inseto na alimentação animal →</Link>
+          </p>
 
           <p className="gcp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
             Complemento nutricional — não substitui a ração nem o acompanhamento veterinário.
