@@ -13,6 +13,7 @@ const Portal = lazy(() => import("./pages/Portal.tsx"));
 const Biblioteca = lazy(() => import("./pages/Biblioteca.tsx"));
 const Imprensa = lazy(() => import("./pages/Imprensa.tsx"));
 const Quizzes = lazy(() => import("./pages/Quizzes.tsx"));
+const QuizDragao = lazy(() => import("./pages/QuizDragao.tsx"));
 const Parceiros = lazy(() => import("./pages/Parceiros.tsx"));
 const Produtos = lazy(() => import("./pages/Produtos.tsx"));
 const Lojas = lazy(() => import("./pages/Lojas.tsx"));
@@ -62,6 +63,8 @@ const App = () => (
               <Route path="/biblioteca" element={<Biblioteca />} />
               <Route path="/imprensa" element={<Imprensa />} />
               <Route path="/quizzes" element={<Quizzes />} />
+              {/* quiz viral "Que dragão mora na sua casa?" — rota neutra: a versão gato entra como irmã, não como remendo */}
+              <Route path="/qual-dragao" element={<QuizDragao />} />
               <Route path="/parceiros" element={<Parceiros />} />
               <Route path="/produtos" element={<Produtos />} />
               <Route path="/lojas" element={<Lojas />} />
