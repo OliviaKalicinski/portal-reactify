@@ -119,7 +119,7 @@ const FAQ = [
   },
   {
     q: "E se o meu gato simplesmente não comer?",
-    a: "Gato é gato — acontece, e a gente não vai fingir que não. O que mais funciona: <strong>triturar e misturar na ração úmida</strong> em vez de oferecer puro. Uma cliente com 7 gatos fez exatamente isso depois da primeira recusa e todos comeram. E se mesmo assim não colar, <strong>a gente devolve seu dinheiro em 14 dias</strong>.",
+    a: "Gato é gato — acontece, e a gente não vai fingir que não. O que mais funciona: <strong>triturar e misturar na comida úmida</strong> em vez de oferecer puro. Uma cliente com 7 gatos fez exatamente isso depois da primeira recusa e todos comeram. E se mesmo assim não colar, <strong>a gente devolve seu dinheiro em 14 dias</strong>.",
   },
   {
     q: "Isso substitui a ração dele?",
@@ -127,7 +127,7 @@ const FAQ = [
   },
   {
     q: "O que vem no Kit para Gatos?",
-    a: "O <strong>Original</strong> (larvinhas inteiras, pra petisco ou por cima da comida) + o <strong>Suplemento Felino</strong> (pó com taurina, pra misturar na ração).",
+    a: "O <strong>Original</strong> (larvinhas inteiras, pra petisco ou por cima da comida) + o <strong>Suplemento Felino</strong> (pó com taurina, pra misturar na comida).",
   },
   {
     q: "Como funciona a entrega?",
@@ -325,7 +325,7 @@ const GatoCoceiraGoogle = () => {
 
           <ul className="gcp-problemas-list">
             <li className="gcp-problema-item">
-              <b>Triture e misture na ração úmida</b> — é o que mais funciona. Oferecer puro é onde
+              <b>Triture e misture na comida úmida</b> — é o que mais funciona. Oferecer puro é onde
               a maioria erra.
             </li>
             <li className="gcp-problema-item">
