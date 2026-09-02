@@ -42,6 +42,7 @@ const AlergiaGoogle = lazy(() => import("./pages/AlergiaGoogle.tsx"));
 const IdosoGoogle = lazy(() => import("./pages/IdosoGoogle.tsx"));
 const GatoCoceiraGoogle = lazy(() => import("./pages/GatoCoceiraGoogle.tsx"));
 const Grub = lazy(() => import("./pages/Grub.tsx"));
+const GrubGoogle = lazy(() => import("./pages/GrubGoogle.tsx"));
 const Impacto = lazy(() => import("./pages/Impacto.tsx"));
 // FORA DO AR (campanha sazonal Semana M.A. 5–12 jun) — descomentar pra reativar:
 // const PlanetaDragao = lazy(() => import("./pages/PlanetaDragao.tsx"));
@@ -109,6 +110,8 @@ const App = () => (
               <Route path="/g/gato-coceira" element={<GatoCoceiraGoogle />} />
               {/* LP campanha RÉPTEIS & ANFÍBIOS — Grub */}
               <Route path="/grub" element={<Grub />} />
+              {/* gemea do Google — noindex, utm proprio, GOOGLE10 embutido */}
+              <Route path="/g/grub" element={<GrubGoogle />} />
               {/* Página IMPACTO — estática em public/impacto/, exibida via iframe */}
               <Route path="/impacto" element={<Impacto />} />
               <Route path="*" element={<NotFound />} />
