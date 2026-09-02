@@ -68,7 +68,7 @@ const BENEFICIOS = [
     stat: "88,9%",
     statLbl: "digestibilidade",
     title: "Energia que vira músculo",
-    desc: "<strong>40% de proteína</strong> absorvida de verdade. Mais disposição, pelo brilhante, menos cocô.",
+    desc: "<strong>45% de proteína</strong> absorvida de verdade. Mais disposição, pelo brilhante, menos cocô.",
   },
   {
     stat: "Ω",
@@ -118,7 +118,7 @@ const Original = () => {
     <div className="original-lp">
       <PageMeta
         title="Comida de Dragão Original — petisco hipoalergênico que transforma a saúde do pet"
-        description="Petisco com proteína única de Mosca Soldado Negra. Hipoalergênico, 40% proteína, 88,9% digestibilidade."
+        description="Petisco com proteína única de Mosca Soldado Negra. Hipoalergênico, 45% proteína, 88,9% digestibilidade."
         image={HERO_IMG}
       />
       {/* preload da hero image — melhora LCP em tráfego pago */}
@@ -142,7 +142,7 @@ const Original = () => {
 
           <p className="olp-hero-sub">
             A gente faz <strong>petisco com 1 ingrediente só</strong> — larva
-            de Mosca Soldado Negra. 40% de proteína, sem frango, sem grão,
+            de Mosca Soldado Negra. 45% de proteína, sem frango, sem grão,
             hipoalergênico de verdade. Pet merece comida real, não promessa de rótulo.
           </p>
 

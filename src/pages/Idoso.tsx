@@ -31,7 +31,7 @@ import LeadPopup from "@/components/LeadPopup";
 
    ⚠️ GUARDRAILS: é COMPLEMENTO nutricional (petisco + suplemento), NÃO
    substitui ração nem tratamento veterinário. Sem promessa de cura.
-   Proteínas = valores MÍNIMOS: Original mín. 40% · Suplemento Integral mín. 45%.
+   Proteina: claim da casa = 45% no Original E no Suplemento Integral (Olivia, 02/09/26).
 
    ⚠️ PENDÊNCIAS ANTES DE PUBLICAR (flag pra Olivia):
    1. CUPOM: "VITALIDADE" precisa ser cadastrado na Yampi (10% off, 1ª compra).

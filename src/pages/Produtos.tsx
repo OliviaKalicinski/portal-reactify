@@ -90,8 +90,8 @@ const PRODUTOS: Produto[] = [
       "/assets/images/produtos/original-08.webp",
       "/assets/images/produtos/original-09.webp",
     ],
-    destaques: ["40% proteína", "3.507 kcal/kg", "Hipoalergênico"],
-    proteina: "40% (mín. 400 g/kg)",
+    destaques: ["45% proteína", "3.507 kcal/kg", "Hipoalergênico"],
+    proteina: "45%",
     gordura: "30% (mín. 300 g/kg)",
     energia: "3.507 kcal/kg",
     composicao: [
@@ -187,7 +187,7 @@ const PRODUTOS: Produto[] = [
       "/assets/images/produtos/integral-08.webp",
     ],
     destaques: ["45% proteína", "4.350 kcal/kg", "Hipoalergênico"],
-    proteina: "45% (mín. 415 g/kg)",
+    proteina: "45%",
     gordura: "26,1% (mín. 261 g/kg)",
     energia: "4.350 kcal/kg",
     composicao: [

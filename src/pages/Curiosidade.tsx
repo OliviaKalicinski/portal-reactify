@@ -154,9 +154,9 @@ const Curiosidade = () => {
             Seu cão vai enlouquecer.<br /><span>E dessa vez, faz bem.</span>
           </h1>
 
-          {/* Claim escrito — proteína VERIFICADA na ficha do Original: mín. 40% (lab 41,69%). */}
+          {/* Claim de proteina = 45%, decidido pela Olivia 02/09/26. Ver _TESES-DERRUBADAS.md. */}
           <p className="cur-hero-claim">
-            <strong>Mínimo de 40% de proteína</strong>, 88,9% digestível e 1 ingrediente só.
+            <strong>45% de proteína</strong>, 88,9% digestível e 1 ingrediente só.
           </p>
 
           <p className="cur-hero-sub">

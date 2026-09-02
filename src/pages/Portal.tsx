@@ -63,7 +63,7 @@ const MARQUEE_TOP = [
   "NOJENTO É O DESPERDÍCIO",
   "MAIS QUE UM ALIMENTO, UMA REVOLUÇÃO",
   "88,9% DE DIGESTIBILIDADE",
-  "40% PROTEÍNA BRUTA",
+  "45% PROTEÍNA BRUTA",
   "O DRAGÃO VIU E TE AVISOU",
   "INSETO BSF PRA CACHORRO",
   "SUSTENTABILIDADE DE VERDADE",
@@ -113,7 +113,7 @@ const Portal = () => {
   const PROFILE_JOKES: Record<number, string> = {
     1: "Curioso tem prognóstico: vira dragão em menos de 30 dias. A gente nunca viu um que resistisse.",
     2: "Da primeira vez a gente também arrepiou. Spoiler: nojento mesmo é o desperdício.",
-    3: "40% proteína. 88,9% digestibilidade. 83% menos CO₂. Pode auditar — a ficha técnica tá toda aqui.",
+    3: "45% proteína. 88,9% digestibilidade. 83% menos CO₂. Pode auditar — a ficha técnica tá toda aqui.",
   };
 
   const [audioOpen, setAudioOpen] = useState(false);
