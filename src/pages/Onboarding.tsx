@@ -5,19 +5,17 @@
  * dentro de um iframe full-viewport. Mantém a rota /onboarding limpa
  * sem expor o caminho real dos assets.
  */
-import { Helmet } from "react-helmet-async";
+
+import PageMeta from "@/components/PageMeta";
 
 const Onboarding = () => {
   return (
     <>
-      <Helmet>
-        <title>Manual do Criador · Comida de Dragão</title>
-        <meta
-          name="description"
-          content="Manual do Criador da Casa de Lives — entre na nossa matilha."
-        />
-        <meta name="robots" content="noindex,nofollow" />
-      </Helmet>
+      <PageMeta
+        title="Manual do Criador · Comida de Dragão"
+        description="Manual do Criador da Casa de Lives — entre na nossa matilha."
+        noindex
+      />
       <iframe
         src="/onboarding-amplify/index.html"
         title="Manual do Criador"

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Curiosidade.css";
@@ -135,10 +134,8 @@ const Curiosidade = () => {
         title="O petisco que seu cão ama — e que faz bem | Comida de Dragão"
         description="Larva de inseto: 1 ingrediente, 88,9% digestível, comida de verdade. O raro petisco que o cão vira vício e o corpo aproveita. Kit Cachorro com frete grátis."
         image={HERO_IMG}
+        preload={HERO_IMG}
       />
-      <Helmet>
-        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
-      </Helmet>
 
       {/* ════ HERO ════ */}
       <section className="cur-hero">

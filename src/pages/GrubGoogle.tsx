@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent, trackAddToCart } from "@/lib/pixel";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Grub.css";
@@ -274,10 +273,8 @@ const GrubGoogle = () => {
         title="Alimentação para répteis e anfíbios · três insetos num pó — Comida de Dragão"
         description="Alimento em pó de três insetos — larva, grilo e tenébrio — já com o cálcio certo. Mistura com água e vira gel. Para gecko, teiú, dragão-barbudo e mais."
         image={OG_IMG}
+        preload={HERO_IMG}
       />
-      <Helmet>
-        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
-      </Helmet>
 
       {/* ════ HERO ════ */}
       <section className="grb-hero">

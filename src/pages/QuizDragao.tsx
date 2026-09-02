@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
-import { captureEntryUtms } from "@/lib/utm";
+import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { submitLead } from "@/lib/leads";
 import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
 import { uploadProfilePhoto } from "@/lib/uploads";
@@ -20,10 +20,11 @@ import "./QuizDragao.css";     /* skin por dragão + telas do quiz */
    passa a ser a do DRAGÃO do resultado (skin por arquétipo).
 
    Fluxo (fechado no brief de 30/06):
-     intro → 6 perguntas → veredito (teaser) → foto → telefone+consentimento → carteira
+     intro → 6 perguntas → lendo → foto → A FICHA (resultado + imagem juntos)
+     → telefone+consentimento so ao salvar/compartilhar
 
    🔴 Régua de humor (manual de comédia §0, Efeito Jon Stewart):
-     perguntas e veredito = humor ALTO · gate e CTA de produto = humor ZERO.
+     perguntas e ficha = humor ALTO · gate e CTA de produto = humor ZERO.
      Onde o objetivo é AÇÃO, a peça roda seca. Não "melhorar" o gate com piada.
 
    Conteúdo (copy, perguntas, scoring) mora em @/data/dragoes.
@@ -31,11 +32,28 @@ import "./QuizDragao.css";     /* skin por dragão + telas do quiz */
    templates da Bianca chegarem.
    ────────────────────────────────────────────────────────────── */
 
-const ICON = "/assets/pixel-icons";
+const ICON = "/assets/quiz-dragoes";
 
 /* 🔴 A MESMA URL QUE ESTÁ IMPRESSA NOS 6 CARDS (Canva "Card Quizzes").
    Só passa a funcionar quando existir na loja o caminho /dragao apontando pra cá.
    Se mudar aqui, mudar lá — e vice-versa. */
+/* SAIDA PRA LOJA — a colecao "produtos" da Shopify (handle `produtos`, 25 itens,
+   conferido na loja em 02/09). Antes o CTA final era um <Link to="/produtos">, que
+   ia pra vitrine do PORTAL — e ela manda pra loja SEM utm nenhuma. A atribuicao do
+   quiz morria ali. Agora sai daqui direto, com a UTM da casa.
+   Vocabulario do canonico (UTM — o manual da casa, ago-26): LP interna do portal =
+   utm_source `lp-<slug>` + utm_medium `lp`. Campanha e' slug escrito a mao. */
+const LOJA_PRODUTOS = "https://www.comidadedragao.com.br/collections/produtos";
+const UTM_FALLBACK = {
+  utm_source: "lp-qual-dragao",
+  utm_medium: "lp",
+  utm_campaign: "quiz-qual-dragao",
+};
+/* buildCheckoutUrl respeita o first-touch: se a pessoa chegou por um anuncio, a UTM
+   do anuncio e' que viaja, e a marca da LP entra no utm_content. So' quando nao ha
+   nada e' que o fallback acima assume. */
+const lojaUrl = (cta: string) => buildCheckoutUrl(LOJA_PRODUTOS, UTM_FALLBACK, cta);
+
 const QUIZ_URL = "https://comidadedragao.com.br/dragao";
 
 /* A CAIXA dos cards: creme, borda preta grossa, sombra dura — e, quando tem
@@ -56,18 +74,6 @@ const Card = ({ faixa, children, className }: {
   </section>
 );
 
-/* A COLAGEM da Bianca — a composição dela recortada na própria bbox
-   (/assets/quiz-colagem/<id>.webp). Antes eu recortava sticker por sticker e
-   inventava onde cada um ia; a posição já era decisão dela, e refazer isso na
-   mão só piorava. Aqui a peça entra inteira, do jeito que foi montada. */
-const Colagem = ({ dragao }: { dragao: Dragao }) => (
-  <img
-    className="qd-colagem"
-    src={`/assets/quiz-colagem/${dragao.id}.webp`}
-    alt=""
-    aria-hidden="true"
-  />
-);
 
 /* barra de progresso pixelada — 6 blocos, um por pergunta */
 const Progresso = ({ passo }: { passo: number }) => (
@@ -76,7 +82,7 @@ const Progresso = ({ passo }: { passo: number }) => (
   </div>
 );
 
-type Fase = "intro" | "quiz" | "lendo" | "veredito" | "foto" | "gate" | "carteira";
+type Fase = "intro" | "quiz" | "lendo" | "foto" | "gate" | "carteira";
 
 /* A tela de LENDO existe por dois motivos, os dois de fonte:
    - Thomas & Johnston, princípio 2 (ANTICIPATION): o recuo antes do gesto prepara o
@@ -92,10 +98,28 @@ const LENDO = [
   "O DRAGAO DECIDIU.",
 ];
 
+/* Fisher-Yates. A ordem das opcoes e' embaralhada uma vez por sessao: as seis
+   sempre nascem na ordem canonica dos dragoes (indice = dragao), e sem embaralhar
+   o mesmo dragao ficaria eternamente na letra A. Viés de posicao e' real — a
+   primeira e a ultima opcao levam clique a mais so' por estarem ali. O indice
+   ORIGINAL viaja junto, entao o placar nao muda: quem decide o ponto e' o indice,
+   nunca a posicao na tela. */
+const embaralhar = (n: number): number[] => {
+  const a = Array.from({ length: n }, (_, i) => i);
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+
 const QuizDragao = () => {
   const [fase, setFase] = useState<Fase>("intro");
   const [passo, setPasso] = useState(0);
   const [respostas, setRespostas] = useState<number[]>([]);
+  /* uma ordem por pergunta, sorteada na montagem e estavel ate' o fim do quiz —
+     se re-sorteasse a cada render, as opcoes dancariam sob o dedo da pessoa */
+  const [ordens] = useState<number[][]>(() => PERGUNTAS.map((q) => embaralhar(q.opcoes.length)));
   const [resultado, setResultado] = useState<Resultado | null>(null);
 
   const [nomePet, setNomePet] = useState("");
@@ -107,6 +131,11 @@ const QuizDragao = () => {
   const [okImagem, setOkImagem] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [erroGate, setErroGate] = useState<string | null>(null);
+  /* o telefone deixou de ser pedagio da revelacao: a carteira aparece pronta e o
+     gate so' abre quando a pessoa QUER levar a imagem embora. Quem ja' viu o que
+     ganha tem motivo pra dar o numero; quem paga antes de ver, nao. */
+  const [leadOk, setLeadOk] = useState(false);
+  const [acaoPendente, setAcaoPendente] = useState<null | "baixar" | "compartilhar">(null);
 
   const [cartaUrl, setCartaUrl] = useState<string | null>(null);
   const [cartaBlob, setCartaBlob] = useState<Blob | null>(null);
@@ -124,14 +153,18 @@ const QuizDragao = () => {
     const t = LENDO.map((_, i) =>
       setTimeout(() => {
         setLendoPasso(i);
-        if (i === LENDO.length - 1) setTimeout(() => setFase("veredito"), 620);
+        /* 🔴 VAI DIRETO PRA FOTO. A tela de veredito existia entre "lendo" e a foto e
+             era uma armadilha: ela ja' entregava o resultado, entao a pessoa se dava
+             por satisfeita e saia antes de subir a foto — sem ficha, sem lead, sem
+             peca pra compartilhar. Agora o resultado so' aparece JUNTO com a ficha
+             pronta: a foto e' o preco de ver, e a revelacao vale a pena porque ja'
+             vem com a cara dele dentro. */
+            if (i === LENDO.length - 1) setTimeout(() => setFase("foto"), 620);
       }, i * 460)
     );
     return () => t.forEach(clearTimeout);
   }, [fase]);
 
-  /* skin: antes do veredito, o tema neutro da casa; depois, a cor do dragão */
-  const skin = resultado ? ` qd-${resultado.vencedor.id}` : "";
   const dragao = resultado?.vencedor ?? null;
 
   /* quem está na frente AGORA — a leitura acontecendo, não só no fim.
@@ -140,6 +173,18 @@ const QuizDragao = () => {
     if (respostas.filter((r) => r !== undefined).length < 2) return null;
     return calcular(respostas).vencedor;
   }, [respostas]);
+
+  /* SKIN — a cor da tela segue QUEM ESTA GANHANDO, a partir da 2a resposta.
+     Nao e' decoracao: seis telas iguais nao dao progresso nenhum, e cor que muda
+     sem motivo e' ruido. Aqui a cor E' a leitura acontecendo — a mesma promessa da
+     home ("O Dragao ve tudo"). E no veredito ela ja' e' a cor certa, entao a
+     revelacao vira confirmacao, e nao susto.
+     Antes da 2a resposta: tinta, o neutro da casa. */
+  const skin = resultado
+    ? ` qd-${resultado.vencedor.id}`
+    : lider
+      ? ` qd-${lider.id}`
+      : "";
 
   const numeroCarta = useMemo(
     () => (respostas.reduce((a, b) => a + b, 0) % 999) + 1,
@@ -171,23 +216,61 @@ const QuizDragao = () => {
     setFotoPreview(URL.createObjectURL(f));
   };
 
-  /* GATE — grava o lead e monta a carteira. Não bloqueia a revelação:
-     se o Supabase falhar, a pessoa vê a carteira do mesmo jeito (padrão da casa
-     em lib/leads.ts — UX vem antes da captura). */
+  /* MONTA A CARTEIRA — sem pedir nada. Roda assim que a foto está escolhida. */
+  const montarCarteira = async () => {
+    if (!resultado) return;
+    setFase("carteira");
+    setGerando(true);
+    try {
+      const blob = await gerarCarteira({
+        dragao: resultado.vencedor,
+        top4: resultado.top4,
+        fotoFile,
+        nomePet,
+        numero: numeroCarta,
+      });
+      setCartaBlob(blob);
+      setCartaUrl(URL.createObjectURL(blob));
+    } catch {
+      setCartaUrl(null);
+    } finally {
+      setGerando(false);
+    }
+  };
+
+  /* pedido de saída: se já demos o número, executa; se não, abre o gate guardando
+     a intenção, pra retomá-la assim que o lead entrar. */
+  const pedirSaida = (acao: "baixar" | "compartilhar") => {
+    if (leadOk) { acao === "baixar" ? baixar() : compartilhar(); return; }
+    setAcaoPendente(acao);
+    setFase("gate");
+  };
+
+  /* GATE — grava o lead e devolve a pessoa pra carteira, executando o que ela
+     pediu. Não bloqueia nada: se o Supabase falhar, ela leva a imagem do mesmo
+     jeito (padrão da casa em lib/leads.ts — UX vem antes da captura). */
   const enviarGate = async () => {
     if (!isValidPhoneBR(telefone)) { setErroGate("Confere o número, ele parece incompleto."); return; }
-    if (!okContato) { setErroGate("Precisamos do seu aceite para enviar a carteira."); return; }
+    if (!okContato) { setErroGate("Precisamos do seu aceite para liberar o download."); return; }
     if (!resultado) return;
 
     setErroGate(null);
     setEnviando(true);
-    setGerando(true);
-    setFase("carteira");
 
-    /* upload da foto (não bloqueia o card — o card usa o File local) */
+    /* Upload da foto pro bucket dragon-photos. Não bloqueia a pessoa — o card já
+       está montado com o File local — mas o resultado tem que ser AUDITÁVEL.
+       🔴 O try/catch que estava aqui era morto: uploadProfilePhoto não lança, ela
+       devolve { url, error }. Um upload que falhava virava photoUrl null em
+       silêncio e ninguém no mundo ficava sabendo. Agora o erro vai pro console E
+       viaja junto do lead, pra dar pra contar no banco quantas fotos se perderam
+       e por quê. */
     let photoUrl: string | null = null;
+    let fotoErro: string | null = null;
     if (fotoFile) {
-      try { photoUrl = (await uploadProfilePhoto(fotoFile)).url; } catch { photoUrl = null; }
+      const up = await uploadProfilePhoto(fotoFile);
+      photoUrl = up.url;
+      fotoErro = up.error;
+      if (up.error) console.error("[quiz-dragao] a foto NAO subiu:", up.error);
     }
 
     void submitLead({
@@ -205,31 +288,24 @@ const QuizDragao = () => {
         especie: "cao",
         consentimento_contato: okContato,
         consentimento_imagem: okImagem,
+        foto_enviada: !!photoUrl,
+        foto_erro: fotoErro,
       },
       photoUrl,
     });
 
-    try {
-      const blob = await gerarCarteira({
-        dragao: resultado.vencedor,
-        top4: resultado.top4,
-        fotoFile,
-        nomePet,
-        numero: numeroCarta,
-      });
-      setCartaBlob(blob);
-      setCartaUrl(URL.createObjectURL(blob));
-    } catch {
-      setCartaUrl(null);
-    } finally {
-      setGerando(false);
-      setEnviando(false);
-    }
+    setLeadOk(true);
+    setEnviando(false);
+    setFase("carteira");
+    const acao = acaoPendente;
+    setAcaoPendente(null);
+    /* deixa o React pintar a carteira antes de disparar o download/share */
+    setTimeout(() => { acao === "compartilhar" ? void compartilhar() : baixar(); }, 60);
   };
 
   const compartilhar = async () => {
     if (!cartaBlob || !dragao) return;
-    const file = new File([cartaBlob], `carteira-${dragao.id}.png`, { type: "image/png" });
+    const file = new File([cartaBlob], `meu-dragao-${dragao.id}.png`, { type: "image/png" });
     const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
     if (nav.canShare?.({ files: [file] })) {
       try {
@@ -251,7 +327,7 @@ const QuizDragao = () => {
     if (!cartaUrl || !dragao) return;
     const a = document.createElement("a");
     a.href = cartaUrl;
-    a.download = `carteira-${dragao.id}.png`;
+    a.download = `meu-dragao-${dragao.id}.png`;
     a.click();
   };
 
@@ -259,7 +335,7 @@ const QuizDragao = () => {
     <div className={`qsd8 cf-pink qd${skin}`}>
       <PageMeta
         title="Que dragão mora na sua casa? — Comida de Dragão"
-        description="Seis perguntas sobre o seu cachorro. No fim, o veredito do Dragão e a carteira dele, com a foto, pra você guardar."
+        description="Seis perguntas sobre o seu cachorro. No fim, o veredito do Dragão, com a foto dele dentro, pra você guardar."
         image="/assets/images/produtos/kit-caes.png"
       />
 
@@ -282,18 +358,23 @@ const QuizDragao = () => {
             </div>
 
             <Card>
+            {/* 🔴 A ABERTURA SEGUE A REGRA DE UM (Great Leads, Masterson & Forde):
+                UMA ideia (quem manda na casa não é você), UMA emoção (o riso de se
+                reconhecer), UMA cena, UM benefício, UMA ação. A versão anterior
+                empilhava quatro promessas — seis perguntas, veredito, a cara dele,
+                guardar — e o livro chama isso de "tossed salad": cada ponto a mais
+                enfraquece os outros.
+                É Story Lead, não Offer: quem chega aqui não quer comprar nada, e
+                lead indireto é o que funciona com quem ainda não nomeou o próprio
+                caso. A lista de três com virada no fim é a régua de comédia da casa. */}
             <p className="qsd8-sub" style={{ marginTop: 14 }}>
-              O Dragão vê tudo. Inclusive o que acontece na sua casa quando ninguém está olhando.
+              Ele escolhe onde você senta, a que horas você acorda e onde você
+              esconde a sua própria comida.
             </p>
             <p className="qsd8-sub">
-              Seis perguntas sobre o seu cachorro. No fim, o veredito — e a <strong>carteira dele</strong>,
-              com a foto, pra você guardar.
+              Responda <strong>seis perguntas</strong> e o Dragão diz quem mora aí.
+              No fim, um presente — com a cara dele dentro.
             </p>
-            <div className="qd-icons" aria-hidden="true">
-              {DRAGOES.map((d) => (
-                <img key={d.id} src={`${ICON}/${d.icone}`} alt="" />
-              ))}
-            </div>
               <button className="qsd8-btn" onClick={() => setFase("quiz")}>Começar →</button>
               <div className="qd-eta">leva 1 minuto</div>
             </Card>
@@ -306,16 +387,20 @@ const QuizDragao = () => {
             <Progresso passo={passo} />
             <h2 className="qd-pergunta">{PERGUNTAS[passo].titulo}</h2>
             <div className="qd-opcoes">
-              {PERGUNTAS[passo].opcoes.map((op, i) => (
+              {ordens[passo].map((orig, pos) => {
+                const op = PERGUNTAS[passo].opcoes[orig];
+                return (
                 <button
-                  key={i}
-                  className={`qd-opcao${respostas[passo] === i ? " on" : ""}`}
+                  key={orig}
+                  className={`qd-opcao${respostas[passo] === orig ? " on" : ""}`}
                   /* stagger: as opções não assentam todas no mesmo frame
                      (Thomas & Johnston, princípio 5 — follow-through) */
-                  style={{ ["--i" as string]: i }}
-                  onClick={() => responder(i)}
+                  style={{ ["--i" as string]: pos }}
+                  /* a letra segue a POSICAO (A..F de cima pra baixo), o ponto segue
+                     o indice ORIGINAL — e' o que mantem o placar intacto */
+                  onClick={() => responder(orig)}
                 >
-                  <span className="qd-opcao-key">{String.fromCharCode(65 + i)}</span>
+                  <span className="qd-opcao-key">{String.fromCharCode(65 + pos)}</span>
                   <span className="qd-opcao-txt">
                     {/* duas alturas: a 1ª linha é o que se escaneia pra decidir,
                         a 2ª é a piada — recompensa de quem lê, nunca obstáculo */}
@@ -323,7 +408,8 @@ const QuizDragao = () => {
                     {op.eco && <em>{op.eco}</em>}
                   </span>
                 </button>
-              ))}
+                );
+              })}
             </div>
             {/* a leitura em curso, na MESMA LINHA do voltar. Ficava solta no canto
                 e cobria o texto da última opção — movimento e imagem na periferia
@@ -354,31 +440,13 @@ const QuizDragao = () => {
           </Card>
         )}
 
-        {/* ══ VEREDITO (teaser — ainda sem a carteira) ═════════════ */}
-        {fase === "veredito" && dragao && (
-          <Card faixa={`E ${dragao.nomePix}`}>
-            {/* sem acento de proposito: a Press Start 2P nao tem glifo de maiuscula acentuada */}
-            <div className="qd-eyebrow">O DRAGAO JA DECIDIU.</div>
-            <div className="qd-reveal">
-              <Colagem dragao={dragao} />
-              <img src={`${ICON}/${dragao.icone}`} alt="" className="qd-reveal-ico" />
-              <h2 className="qd-nome">{dragao.nomePix}</h2>
-              <div className="qd-epiteto">{dragao.epiteto}</div>
-            </div>
-            <p className="qd-carta">{dragao.completa}</p>
-            <p className="qsd8-sub" style={{ marginTop: 18 }}>
-              Ele só não solta a carteira antes de ver a cara dele.
-            </p>
-            <button className="qsd8-btn" onClick={() => setFase("foto")}>Subir a foto →</button>
-          </Card>
-        )}
-
+        {/* ══ A FOTO — e a revelacao vem junto, na tela seguinte ══ */}
         {/* ══ FOTO + NOME DO PET ══════════════════════════════════ */}
         {fase === "foto" && dragao && (
-          <Card faixa="A FOTO DA CARTEIRA">
-            <h2 className="qd-pergunta">A foto que vai na carteira</h2>
+          <Card faixa="O DRAGAO DECIDIU">
+            <h2 className="qd-pergunta">Sobe a cara dele pra ver o resultado.</h2>
             <p className="qsd8-sub">
-              Escolhe uma em pé, com ele bem visível. A carteira é vertical.
+              Escolhe uma em pé, com ele bem visível. A imagem é vertical.
             </p>
 
             <label className="qd-label" htmlFor="qd-nome-pet">Como ele se chama?</label>
@@ -411,20 +479,26 @@ const QuizDragao = () => {
             <button
               className="qsd8-btn"
               disabled={!fotoFile || !nomePet.trim()}
-              onClick={() => setFase("gate")}
+              onClick={montarCarteira}
             >
-              Continuar →
+              Ver o resultado →
             </button>
           </Card>
         )}
 
         {/* ══ 🔴 GATE — HUMOR ZERO. Objetivo é ação. ══════════════ */}
         {fase === "gate" && dragao && (
-          <Card faixa="PRA ONDE MANDAMOS">
+          <Card faixa="SO FALTA ISSO">
             <h2 className="qd-pergunta">
               {/* "de <nome>" e nao "do/da": nome de pet nao tem genero confiavel pela terminacao */}
-              Pra onde a gente manda a carteira {nomePet ? `de ${nomePet}` : "do seu cachorro"}?
+              Falta só o seu WhatsApp.
             </h2>
+            <p className="qsd8-sub">
+              {/* 🔴 NÃO PROMETER ENVIO POR WHATSAPP — a gente não manda a imagem por lá.
+                  O pedágio é o pedágio; dizer o que ele é custa menos que a mentira. */}
+              Já está pronto. O download é liberado com o seu WhatsApp — é assim
+              que a gente sabe quem passou por aqui.
+            </p>
 
             <label className="qd-label" htmlFor="qd-tel">WhatsApp com DDD</label>
             <input
@@ -448,7 +522,10 @@ const QuizDragao = () => {
             {erroGate && <div className="qd-erro">{erroGate}</div>}
 
             <button className="qsd8-btn" onClick={enviarGate} disabled={enviando}>
-              {enviando ? "Enviando…" : "Ver a carteira"}
+              {enviando ? "Enviando…" : acaoPendente === "compartilhar" ? "Compartilhar" : "Baixar pro story"}
+            </button>
+            <button className="qd-voltar" onClick={() => { setAcaoPendente(null); setFase("carteira"); }}>
+              ← voltar
             </button>
             <div className="qd-mini">Você pode pedir pra sair quando quiser.</div>
           </Card>
@@ -457,7 +534,7 @@ const QuizDragao = () => {
         {/* ══ A CARTEIRA ══════════════════════════════════════════ */}
         {fase === "carteira" && dragao && (
           <>
-            <Card faixa={`A CARTEIRA DE ${(nomePet || "SEU DRAGAO").toUpperCase()}`}>
+            <Card faixa={`E ${dragao.nomePix}`}>
               {gerando && <div className="qd-gerando">Montando a carteira…</div>}
               {cartaUrl && (
                 <>
@@ -469,16 +546,28 @@ const QuizDragao = () => {
                       A imagem final (cartaUrl) segue existindo pro Compartilhar
                       e pro Salvar; aqui é só a encenação. */}
                   <div className="qd-montagem" role="img"
-                       aria-label={`Carteira de ${nomePet}: ${dragao.nome}`}>
+                       aria-label={`${dragao.nome}, com a foto de ${nomePet}`}>
                     <img className="qd-m-card" src={`/assets/quiz-cards/${dragao.id}.webp`} alt="" />
                     {fotoPreview && <img className="qd-m-foto" src={fotoPreview} alt="" />}
                     <img className="qd-m-colagem" src={`/assets/quiz-overlay/${dragao.id}.webp`} alt="" />
                   </div>
                   <div className="qd-acoes">
-                    <button className="qsd8-btn" onClick={compartilhar}>Compartilhar</button>
-                    <button className="qsd8-btn ghost" onClick={baixar}>Salvar</button>
+                    <button className="qsd8-btn" onClick={() => pedirSaida("compartilhar")}>Compartilhar</button>
+                    {/* o rotulo diz o FORMATO, e nao a acao: o print de celular pega a tela
+                        inteira (barra do navegador, fundo, botoes) e o arquivo sai em
+                        1080x1920 limpo — o tamanho exato do story. O incentivo pra baixar
+                        ja' existia; so' nao estava dito em lugar nenhum. */}
+                    <button className="qsd8-btn ghost" onClick={() => pedirSaida("baixar")}>Baixar pro story</button>
                   </div>
                   <p className="qd-marca">{dragao.marca}</p>
+
+                  {/* o retrato inteiro, agora que ela ja' tem a imagem na mao.
+                      O epiteto vem junto: era a unica coisa que morria com o fim da
+                      tela de veredito (o nome do dragao a propria imagem ja' diz). */}
+                  <div className="qd-carta-fim">
+                    <div className="qd-epiteto">{dragao.epiteto}</div>
+                    <p className="qd-carta">{dragao.completa}</p>
+                  </div>
 
                   {/* COLEÇÃO — Berger (moeda social): status só vira conversa se for
                       LEGÍVEL na hora. Aqui a raridade é estrutural e verdadeira: a
@@ -500,9 +589,7 @@ const QuizDragao = () => {
                         );
                       })}
                     </div>
-                    <div className="qd-colecao-nota">
-                      Dois ficaram de fora da sua carteira. Cada casa tem a sua.
-                    </div>
+                    {/* sem frase aqui: a linha dos seis fala sozinha */}
                   </div>
                 </>
               )}
@@ -518,9 +605,13 @@ const QuizDragao = () => {
               <p className="qsd8-sub" style={{ margin: 0 }}>
                 A Comida de Dragão faz alimento e petisco de proteína de inseto para cães e gatos.
               </p>
-              <Link className="qsd8-btn" to="/produtos" style={{ marginTop: 16, display: "inline-block" }}>
+              <a
+                className="qsd8-btn"
+                href={lojaUrl("cta-final")}
+                style={{ marginTop: 16, display: "inline-block" }}
+              >
                 Conhecer os produtos
-              </Link>
+              </a>
             </Card>
           </>
         )}

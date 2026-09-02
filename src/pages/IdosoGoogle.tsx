@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Idoso.css";
@@ -159,10 +158,8 @@ const IdosoGoogle = () => {
         description="Suplemento para cachorro idoso à base de proteína de inseto: 43,68% de proteína altamente digestível, ômegas 6 e 9 e antioxidantes naturais. Para o cão que aproveita menos a proteína, come menos e perde músculo."
         image={HERO_IMG}
         noindex
+        preload={HERO_IMG}
       />
-      <Helmet>
-        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
-      </Helmet>
 
       {/* ════ HERO ════ */}
       <section className="ilp-hero">

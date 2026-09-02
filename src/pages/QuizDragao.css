@@ -19,20 +19,32 @@
   --creme:   #FFF3C3;   /* caixa de texto dos cards */
   --creme2:  #FFE681;   /* creme quente, destaque */
   --amarelo: #FFCC00;   /* quadradinhos e acentos */
-  --fundo:   #151515;   /* antes do veredito: tinta. depois vira a cor do dragão */
+  --fundo:   #FF0066;   /* capa e primeiras perguntas. Depois vira a cor do lider.
+                           Rosa do sistema do quiz (o card do Soberano, lido do Canva) */
   --slot:    #37EB2C;
+  --azul:    #0044C5;   /* azul escuro do sistema (o card do Adormecido) — titulo dentro do box */
 
   background: var(--fundo);
+  /* 🔴 SEM TRANSICAO NO FUNDO, e nao foi escolha estetica primeiro: transicionar
+     background-color quando a cor vem de uma var que muda TRAVA no Chrome — o
+     fundo ficava em #151515 com a var ja' em #FF0066. Registrar a var com
+     @property tambem nao destravou. A virada seca funciona, e ainda por cima
+     e' o que um jogo 8-bit faz: troca de fase nao tem fade. */
   color: var(--tinta);
 }
 
 /* ── SKIN POR DRAGÃO — cores exatas dos cards ──────────────────── */
-.qsd8.qd.qd-devorador  { --fundo: #FFCC00; --slot: #37EB2C; --lime: #FF0066; --limed: #B0004A; }
-.qsd8.qd.qd-destruidor { --fundo: #F45F14; --slot: #6A9DFF; --lime: #0044C5; --limed: #002E85; }
-.qsd8.qd.qd-soberano   { --fundo: #FF0066; --slot: #37EB2C; --lime: #0044C5; --limed: #002E85; }
-.qsd8.qd.qd-adormecido { --fundo: #0044C5; --slot: #FFCC00; --lime: #FFCC00; --limed: #B38F00; }
-.qsd8.qd.qd-guardiao   { --fundo: #37EB2C; --slot: #0044C5; --lime: #0044C5; --limed: #002E85; }
-.qsd8.qd.qd-grudento   { --fundo: #FF3C2F; --slot: #0044C5; --lime: #0044C5; --limed: #002E85; }
+/* --amarelo e o ACENTO DE DENTRO do card: quadradinhos da faixa, a letra A-F de
+   cada opcao, a sombra dos botoes, o foco do input. Trocar so o fundo nao dava
+   sensacao de mudanca nenhuma — o card creme ocupa quase a tela inteira e o fundo
+   virava so uma moldura. Com o acento junto, a tela inteira vira.
+   Todo acento e CLARO de proposito: a letra da opcao e preta em cima dele. */
+.qsd8.qd.qd-devorador  { --fundo: #FFCC00; --slot: #37EB2C; --amarelo: #37EB2C; --lime: #FF0066; --limed: #B0004A; }
+.qsd8.qd.qd-destruidor { --fundo: #F45F14; --slot: #6A9DFF; --amarelo: #6A9DFF; --lime: #0044C5; --limed: #002E85; }
+.qsd8.qd.qd-soberano   { --fundo: #FF0066; --slot: #37EB2C; --amarelo: #37EB2C; --lime: #0044C5; --limed: #002E85; }
+.qsd8.qd.qd-adormecido { --fundo: #0044C5; --slot: #FFCC00; --amarelo: #FFCC00; --lime: #FFCC00; --limed: #B38F00; }
+.qsd8.qd.qd-guardiao   { --fundo: #37EB2C; --slot: #0044C5; --amarelo: #FF0066; --lime: #0044C5; --limed: #002E85; }
+.qsd8.qd.qd-grudento   { --fundo: #FF3C2F; --slot: #0044C5; --amarelo: #FFCC00; --lime: #0044C5; --limed: #002E85; }
 
 /* o céu e o scanline do sistema antigo saem: os cards são cor chapada */
 .qd .qsd8-bg { display: none; }
@@ -45,7 +57,10 @@
 }
 
 .qd .qsd8-wrap { max-width: 620px; }
-.qd-wrap { padding: 26px 0 40px; }
+/* respiro no topo: a pilula da URL estava colada na borda da tela.
+   Precisa das DUAS classes: `.qsd8-wrap` (do tema base) zera o padding vertical e
+   empata em especificidade com `.qd-wrap` sozinha — quem estava vencendo era ela. */
+.qsd8-wrap.qd-wrap { padding: 52px 16px 40px; }
 
 /* ── A CAIXA — o bloco creme com borda preta e sombra dura ────── */
 .qd-card {
@@ -106,6 +121,10 @@
 .qd-prog i { flex: 1; background: transparent; }
 .qd-prog i.on { background: var(--tinta); }
 
+/* a faixa preta do topo ganha uma listra da cor do lider — e o primeiro sinal
+   que a pessoa ve ao trocar de pergunta */
+.qd-faixa { border-bottom: 5px solid var(--amarelo); }
+
 .qd-passo {
   font-family: "Press Start 2P", monospace; font-size: 8px;
   opacity: .65; margin-bottom: 14px;
@@ -117,7 +136,7 @@
   font-weight: 700;
   font-size: clamp(19px, 4.6vw, 25px); line-height: 1.32;
   letter-spacing: -.01em;
-  margin: 0 0 20px; color: var(--tinta); max-width: 22em;
+  margin: 0 0 20px; color: var(--azul); max-width: 22em;
   position: sticky; top: 0; z-index: 2;
   background: var(--creme); padding: 6px 0 10px;
 }
@@ -135,9 +154,11 @@
   animation-delay: calc(var(--i, 0) * 45ms);
 }
 .qd-opcao:last-child { border-bottom: 0; }
-.qd-opcao:hover { background: var(--creme2); }
+/* o hover e a opcao escolhida acompanham a cor do lider, como o resto da tela.
+   O acento e sempre claro, entao o texto continua preto e legivel. */
+.qd-opcao:hover { background: color-mix(in srgb, var(--amarelo) 30%, var(--creme)); }
 .qd-opcao:active { transform: translateX(2px); }
-.qd-opcao.on { background: var(--tinta); color: var(--creme); }
+.qd-opcao.on { background: var(--amarelo); color: var(--tinta); }
 
 .qd-opcao-txt { display: block; }
 .qd-opcao-txt b { display: block; font-weight: 600; font-size: 17px; line-height: 1.35; }
@@ -145,14 +166,14 @@
   display: block; font-style: normal; font-size: 15px; line-height: 1.4;
   opacity: .62; margin-top: 2px;
 }
-.qd-opcao.on .qd-opcao-txt em { opacity: .85; }
+.qd-opcao.on .qd-opcao-txt em { opacity: .7; }
 
 .qd-opcao-key {
   flex: none; font-family: "Press Start 2P", monospace; font-size: 9px;
   background: var(--amarelo); color: var(--tinta); padding: 6px 6px;
   border: 3px solid var(--tinta);
 }
-.qd-opcao.on .qd-opcao-key { background: var(--creme); }
+.qd-opcao.on .qd-opcao-key { background: var(--tinta); color: var(--creme); }
 
 .qd-voltar {
   margin-top: 18px; background: none; border: none; cursor: pointer;
@@ -177,6 +198,14 @@
 .qd-eta { font-family: "Press Start 2P", monospace; font-size: 8px; opacity: .6; margin-top: 14px; }
 
 /* ── ícones dos 6 na intro ─────────────────────────────────────── */
+.qd-capa-gif {
+  display: block; width: 100%; max-width: 190px; height: auto; margin: 10px auto 12px;
+  image-rendering: pixelated;   /* pixel art nao se interpola */
+}
+/* 🔴 o tamanho e limitado de proposito: com 260px o "Comecar" caia abaixo da dobra
+   no celular, e a regra da casa e que o botao nao se esconde atras do enfeite */
+@media (max-width: 420px) { .qd-capa-gif { max-width: 158px; margin: 8px auto 10px; } }
+
 .qd-icons { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0 22px; justify-content: center; }
 .qd-icons img {
   width: 46px; height: 46px; object-fit: contain; image-rendering: pixelated;
@@ -198,28 +227,8 @@
 .qd-lendo-barra i { display: block; height: 100%; width: 0; background: var(--tinta); animation: qd-carrega 1.84s steps(12) forwards; }
 @keyframes qd-carrega { to { width: 100% } }
 
-/* ── VEREDITO — o quadro na cor do slot, como a foto no card ──── */
-.qd-reveal {
-  background: var(--slot); border: 6px solid var(--tinta);
-  box-shadow: 8px 8px 0 0 var(--tinta); padding: 26px 18px; text-align: center;
-  animation: qd-reveal-entra .62s cubic-bezier(.18,1.4,.4,1) both;
-}
-@keyframes qd-reveal-entra {
-  0% { opacity: 0; transform: scale(.9) translateY(14px) }
-  100% { opacity: 1; transform: none }
-}
-.qd-reveal-ico {
-  width: 68px; height: 68px; object-fit: contain; image-rendering: pixelated;
-  animation: qd-ico-pousa .7s cubic-bezier(.2,1.6,.35,1) .1s both,
-             qd-respira 3.4s ease-in-out 1s infinite;
-}
-@keyframes qd-ico-pousa {
-  0% { transform: translateY(-26px) scale(.7,1.25); opacity: 0 }
-  60% { transform: translateY(0) scale(1.16,.86); opacity: 1 }
-  100% { transform: none; opacity: 1 }
-}
-@keyframes qd-respira { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
-
+/* (o quadro do veredito saiu junto com a tela — o resultado agora nasce
+   na ficha, com a foto dentro) */
 .qd-nome {
   font-family: "Press Start 2P", monospace;
   font-size: clamp(17px, 4.8vw, 27px); line-height: 1.4;
@@ -290,6 +299,7 @@
 /* ── mobile ────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .qd .qsd8-wrap { padding: 0 12px; }
+  .qsd8-wrap.qd-wrap { padding: 38px 12px 32px; }
   .qd-card { border-width: 5px; box-shadow: 8px 8px 0 0 var(--tinta); margin-bottom: 20px; }
   .qd-card-body { padding: 16px 14px 20px; }
   .qd-pergunta { font-size: 20px; margin-bottom: 14px; }
@@ -412,3 +422,7 @@
 @media (prefers-reduced-motion: reduce) {
   .qd-m-card, .qd-m-foto, .qd-m-colagem { animation: none !important }
 }
+
+/* o retrato longo na tela da ficha: separado do que veio antes por um respiro,
+   porque ali ele e' leitura opcional — quem quis ja' baixou. */
+.qd-carta-fim { margin-top: 22px; padding-top: 20px; border-top: 3px dashed rgba(0,0,0,.2); }

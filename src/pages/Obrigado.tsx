@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import PageMeta from "@/components/PageMeta";
 import DragonLogo from "@/components/DragonLogo";
 import "./Obrigado.css";
 
@@ -172,14 +172,11 @@ export default function Obrigado() {
 
   return (
     <div className="obg-page" data-phase={phase}>
-      <Helmet>
-        <title>Acesso liberado · Comida de Dragão</title>
-        <meta
-          name="description"
-          content="Você está dentro da caverna do Dragão."
-        />
-        <meta name="robots" content="noindex,nofollow" />
-      </Helmet>
+      <PageMeta
+        title="Acesso liberado · Comida de Dragão"
+        description="Você está dentro da caverna do Dragão."
+        noindex
+      />
 
       {/* ════ FASE BOOT — pop-up flutuante do @dragao ═══════════ */}
       {phase === "boot" && (

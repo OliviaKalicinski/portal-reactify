@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Original.css";
@@ -120,11 +119,9 @@ const Original = () => {
         title="Comida de Dragão Original — petisco hipoalergênico que transforma a saúde do pet"
         description="Petisco com proteína única de Mosca Soldado Negra. Hipoalergênico, 45% proteína, 88,9% digestibilidade."
         image={HERO_IMG}
+        preload={HERO_IMG}
       />
       {/* preload da hero image — melhora LCP em tráfego pago */}
-      <Helmet>
-        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
-      </Helmet>
 
       {/* ════ HERO ═══════════════════════════════════════════════ */}
       <section className="olp-hero">

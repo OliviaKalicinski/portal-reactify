@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Conheca.css";
@@ -119,10 +118,8 @@ const Conheca = () => {
         title="Conheça a Comida de Dragão — o Kit Cachorro com 10% off e frete grátis"
         description="Alimento pra pet feito de larva de inseto: hipoalergênica, digestível e o seu cão ama. Kit Cachorro com cupom BEMZAO (10% off) e frete grátis."
         image={HERO_IMG}
+        preload={HERO_IMG}
       />
-      <Helmet>
-        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
-      </Helmet>
 
       {/* ════ HERO ════ */}
       <section className="cnh-hero">

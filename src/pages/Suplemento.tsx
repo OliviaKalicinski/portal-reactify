@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent, trackAddToCart } from "@/lib/pixel";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Suplemento.css";
@@ -184,11 +183,9 @@ const Suplemento = () => {
         title="Suplemento Integral — 45% de proteína pra todos os cães"
         description="Suplemento em pó com 45% de proteína de Mosca Soldado Negra. Hipoalergênico, cúrcuma e spirulina, acompanha dosador. Polvilha na ração e pronto."
         image={OG_IMG}
+        preload={HERO_IMG}
       />
       {/* preload da hero image — melhora LCP em tráfego pago */}
-      <Helmet>
-        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
-      </Helmet>
 
       {/* ════ HERO ═══════════════════════════════════════════════ */}
       <section className="slp-hero">

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./GatoCoceira.css";
@@ -132,10 +131,8 @@ const GatoCoceira = () => {
         title="Gato se coçando e perdendo pelo? Pode ser a comida — Comida de Dragão"
         description="Gato que se coça, se lambe demais e perde pelo — e a pulga já foi descartada. Proteína nova de inseto: o corpo dele nunca viu, então não reage. Kit para Gatos com taurina."
         image={HERO_IMG}
+        preload={HERO_IMG}
       />
-      <Helmet>
-        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
-      </Helmet>
 
       {/* ════ HERO ════ */}
       <section className="gcp-hero">

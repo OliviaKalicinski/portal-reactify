@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Mordida.css";
@@ -253,12 +252,10 @@ const Dupla = () => {
       <PageMeta
         title="Kit Original + Mordida — os dois petiscos de proteína de inseto | Comida de Dragão"
         description="Os dois petiscos da Comida de Dragão num kit só: Original 90g para recompensa e Mordida 180g para mastigar. 270g de proteína de inseto por R$ 81,10, com garantia de 14 dias."
+        preload={KIT_IMG}
       />
       {/* Preload da imagem do kit — ela é o LCP desta página e vem de CDN externa,
           então sem o preload o navegador só descobre a URL ao montar a hero. */}
-      <Helmet>
-        <link rel="preload" as="image" href={KIT_IMG} fetchPriority="high" />
-      </Helmet>
 
       {/* ════ FAIXA PASSANTE DE LANÇAMENTO ════
           Decorativa: a mesma informação já vive no eyebrow + sub + chips da

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Alergia.css";
@@ -163,10 +162,8 @@ const AlergiaGoogle = () => {
         description="Cão que se coça sem parar pode estar reagindo à proteína que come todo dia. Petisco e suplemento de proteína de inseto — nova pro corpo dele, hipoalergênica. Para coceira, queda de pelo e pele."
         image={HERO_IMG}
         noindex
+        preload={HERO_IMG}
       />
-      <Helmet>
-        <link rel="preload" as="image" href={HERO_IMG} fetchPriority="high" />
-      </Helmet>
 
       {/* ════ HERO ════ */}
       <section className="alp-hero">
