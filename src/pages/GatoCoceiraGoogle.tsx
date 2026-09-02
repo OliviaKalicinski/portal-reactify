@@ -12,7 +12,9 @@ import LeadPopup from "@/components/LeadPopup";
    Página satélite · tráfego pago · público frio (Non-Brand "por dor").
    Tema: COCEIRA / ALERGIA ALIMENTAR EM GATOS.
    Produto-foco: KIT PARA GATOS (Original + Suplemento Felino).
-   SKU 1301 · token Yampi N9DLSJ6M4J · de R$145 → R$116 → R$104,40 c/ cupom.
+   SKU 1301 · token Yampi N9DLSJ6M4J · de R$ 145,00 (Shopify) -> R$ 130,50 com GOOGLE10 (-10%). Conferido na Shopify
+     em 02/09/26. O "R$116 no site" que estava aqui era o Kit Original 3x (SKU
+     1101), outro produto — nao este.
 
    ⚠️ POR QUE ESTE ÂNGULO, E NÃO "GATO NÃO QUER COMER":
    "gato não quer comer" é a maior dor de gato do Brasil (880 buscas/mês),

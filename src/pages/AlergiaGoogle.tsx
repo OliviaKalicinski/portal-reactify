@@ -19,7 +19,9 @@ import LeadPopup from "@/components/LeadPopup";
    próprio (.alergia-lp / alp-) e copy/produto de alergia.
 
    ⚠️ PREÇO FIXO (atualizar à mão se a loja mudar):
-   - Kit Cachorro · token KQXZ5J7LWK · de R$ 145 → R$ 116 no site (−20%) → R$ 104,40 com ALIVIO.
+   - Kit Cachorro · token KQXZ5J7LWK · de R$ 145,00 (Shopify) -> R$ 130,50 com GOOGLE10 (-10%). Conferido na Shopify
+     em 02/09/26. O "R$116 no site" que estava aqui era o Kit Original 3x (SKU
+     1101), outro produto — nao este.
    - Shopify hoje: preço R$ 116,00 / compare-at R$ 145,00. ALIVIO (10%) entra no checkout Yampi.
    - Trocar imagens de review por screenshots de alergia reais quando tiver.
 ────────────────────────────────────────────────────────────── */

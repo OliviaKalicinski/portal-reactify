@@ -37,7 +37,9 @@ import LeadPopup from "@/components/LeadPopup";
    1. CUPOM: "VITALIDADE" precisa ser cadastrado na Yampi (10% off, 1ª compra).
       Enquanto não existir, trocar por um cupom já ativo (ex.: ALIVIO/BORALA).
    2. PREÇO: herdado da LP /alergia (mesmo Kit Cães · token KQXZ5J7LWK):
-      de R$145 → R$116 no site (−20%) → R$104,40 com cupom (−10%).
+      de R$ 145,00 (Shopify) -> R$ 130,50 com GOOGLE10 (-10%). Conferido na Shopify
+     em 02/09/26. O "R$116 no site" que estava aqui era o Kit Original 3x (SKU
+     1101), outro produto — nao este.
       Reconferir na Shopify se a loja mudou.
    3. REVIEWS: as imagens são placeholders de tutores — trocar por prints
       reais de cães idosos quando houver.
