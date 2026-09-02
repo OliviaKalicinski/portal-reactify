@@ -55,7 +55,7 @@
   margin: 0 auto 26px;
   position: relative;
 }
-.qd-card-body { padding: 26px 22px 28px; }
+.qd-card-body { padding: 26px 22px 28px; position: relative; }
 
 /* ── A FAIXA — "É O DEVORADOR" dos cards ───────────────────────
    preta, texto pixel creme, quadradinho amarelo em cada ponta. */
@@ -323,22 +323,92 @@
 .qd .qsd8-footer-nav a,
 .qd .qsd8-footer-tag { color: var(--sobre-fundo); }
 
-/* ── STICKERS recortados do Canva ──────────────────────────────
-   Saem por cima da borda do quadro de propósito: é o que dá a cara de
-   COLAGEM dos cards. Não interceptam clique e não entram na leitura. */
-.qd-reveal { position: relative; overflow: visible; margin-top: 30px; }
-.qd-sticker {
+/* ── A COLAGEM da Bianca no veredito ───────────────────────────
+   Sai por cima da borda do quadro de propósito — é o que dá a cara de colagem
+   dos cards. Ornamento: não intercepta clique nem entra na leitura. */
+.qd-reveal { position: relative; overflow: visible; margin-top: 34px; }
+.qd-colagem {
   position: absolute; z-index: 3; pointer-events: none;
-  image-rendering: pixelated;
-  filter: drop-shadow(3px 3px 0 rgba(0,0,0,.35));
-  animation: qd-sticker-cola .5s cubic-bezier(.2,1.5,.4,1) both;
+  right: -18px; top: -34px;
+  width: 46%; max-width: 210px; height: auto;
+  filter: drop-shadow(3px 3px 0 rgba(0,0,0,.28));
+  animation: qd-colagem-cola .6s cubic-bezier(.2,1.4,.4,1) .3s both;
 }
-.qd-sticker:nth-of-type(1) { animation-delay: .30s }
-.qd-sticker:nth-of-type(2) { animation-delay: .38s }
-.qd-sticker:nth-of-type(3) { animation-delay: .46s }
-.qd-sticker:nth-of-type(4) { animation-delay: .54s }
-@keyframes qd-sticker-cola {
-  from { opacity: 0; transform: scale(.4) rotate(0deg) }
+@keyframes qd-colagem-cola {
+  from { opacity: 0; transform: scale(.5) rotate(-8deg) }
 }
-@media (max-width: 640px) { .qd-sticker { width: 66px !important } }
-@media (prefers-reduced-motion: reduce) { .qd-sticker { animation: none !important } }
+@media (max-width: 640px) { .qd-colagem { width: 44%; top: -28px; right: -10px } }
+@media (prefers-reduced-motion: reduce) { .qd-colagem { animation: none !important } }
+
+/* ════════════════════════════════════════════════════════════════
+   A CARTEIRA MONTANDO — três tempos, 1,6s
+
+   As camadas e a ordem são AS MESMAS do gerador (lib/carteira.ts): card,
+   foto no slot, colagem por cima. O que a pessoa vê montar é exatamente o
+   arquivo que ela vai baixar.
+
+   As medidas do slot vêm do Canva, em % da página 1080×1920:
+     x 86,88/1080 = 8,04%   ·   y 508,56/1920 = 26,49%
+     larg 919,07/1080 = 85,10%
+     alt  (1302−508,56)/1920 = 41,32%  ← para em 1302, onde a faixa começa.
+   É por isso que a foto nunca cobre o "É O DEVORADOR": ela termina antes.
+   ════════════════════════════════════════════════════════════════ */
+.qd-montagem {
+  position: relative; width: 100%; max-width: 340px; margin: 0 auto;
+  aspect-ratio: 1080 / 1920;
+  border: 5px solid var(--tinta); box-shadow: 9px 9px 0 0 var(--tinta);
+  overflow: hidden; background: var(--creme);
+}
+.qd-montagem img { position: absolute; display: block; }
+
+/* 1º tempo — o card entra */
+.qd-m-card {
+  inset: 0; width: 100%; height: 100%;
+  animation: qd-m-entra .5s cubic-bezier(.2,1.2,.4,1) both;
+}
+/* 2º tempo — a foto encaixa no slot */
+.qd-m-foto {
+  left: 8.04%; top: 26.49%; width: 85.10%; height: 41.32%;
+  object-fit: cover;
+  animation: qd-m-encaixa .55s cubic-bezier(.2,1.3,.4,1) .5s both;
+}
+/* 3º tempo — a colagem cola por cima.
+   É a PÁGINA INTEIRA do Canva (quiz-overlay), 1080×1920 sobre 1080×1920 — a
+   mesma que o gerador usa. Assim o que monta na tela é pixel a pixel o arquivo
+   que vai baixar. Usar a versão recortada aqui deslocava a colagem. */
+.qd-m-colagem {
+  inset: 0; width: 100%; height: 100%;
+  transform-origin: 72% 35%;
+  animation: qd-m-cola .6s cubic-bezier(.2,1.5,.4,1) 1.05s both;
+}
+@keyframes qd-m-entra   { from { opacity: 0; transform: scale(.94) translateY(14px) } }
+@keyframes qd-m-encaixa { from { opacity: 0; transform: scale(1.14) } }
+@keyframes qd-m-cola    { from { opacity: 0; transform: scale(.62) } }
+
+/* ── A LEITURA EM CURSO — o dragão que está na frente ───────────
+   Discreto de propósito: sem animação de entrada, opacidade baixa e fora do
+   fluxo do texto. O ganho é a premissa virar mecanismo visível ("o Dragão vê
+   tudo"); o custo seria roubar o olho de quem está lendo seis opções. */
+.qd-rodape-pergunta {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 14px; margin-top: 16px; min-height: 56px;
+}
+.qd-rodape-pergunta .qd-voltar { margin-top: 0; }
+.qd-lider {
+  width: 82px; height: auto; opacity: .55; pointer-events: none;
+  flex: none; transition: opacity .3s;
+}
+@media (max-width: 640px) { .qd-lider { width: 64px; opacity: .45 } }
+
+/* ── RABISCOS nas bordas ────────────────────────────────────────── */
+.qd-rabisco {
+  position: fixed; z-index: 0; pointer-events: none;
+  width: 210px; opacity: .5;
+}
+.qd-rabisco.topo { top: -18px; left: -34px; transform: rotate(-16deg) }
+.qd-rabisco.base { bottom: -22px; right: -40px; transform: rotate(154deg) }
+@media (max-width: 640px) { .qd-rabisco { width: 150px; opacity: .4 } }
+
+@media (prefers-reduced-motion: reduce) {
+  .qd-m-card, .qd-m-foto, .qd-m-colagem { animation: none !important }
+}

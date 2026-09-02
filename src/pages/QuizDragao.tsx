@@ -56,30 +56,17 @@ const Card = ({ faixa, children, className }: {
   </section>
 );
 
-/* STICKERS — as pecas recortadas das paginas do Canva, espalhadas em volta do
-   quadro como na colagem dos cards. Posicoes FIXAS (nao aleatorias): o layout
-   nao pode dancar entre um render e outro, e a peca tem que poder ser conferida
-   sempre igual. `aria-hidden` porque e ornamento, nao conteudo. */
-const POSES = [
-  { top: "-26px", left: "-22px", rot: -14, w: 92 },
-  { top: "-34px", right: "-18px", rot: 12, w: 78 },
-  { bottom: "-28px", left: "-16px", rot: 9, w: 74 },
-  { bottom: "-22px", right: "-24px", rot: -11, w: 86 },
-];
-
-const Stickers = ({ dragao }: { dragao: Dragao }) => (
-  <>
-    {dragao.stickersUsar.slice(0, 4).map((n, i) => (
-      <img
-        key={n}
-        className="qd-sticker"
-        src={`/assets/quiz-stickers/${dragao.id}/${String(n).padStart(2, "0")}.png`}
-        alt=""
-        aria-hidden="true"
-        style={{ ...POSES[i], width: POSES[i].w, transform: `rotate(${POSES[i].rot}deg)` }}
-      />
-    ))}
-  </>
+/* A COLAGEM da Bianca — a composição dela recortada na própria bbox
+   (/assets/quiz-colagem/<id>.webp). Antes eu recortava sticker por sticker e
+   inventava onde cada um ia; a posição já era decisão dela, e refazer isso na
+   mão só piorava. Aqui a peça entra inteira, do jeito que foi montada. */
+const Colagem = ({ dragao }: { dragao: Dragao }) => (
+  <img
+    className="qd-colagem"
+    src={`/assets/quiz-colagem/${dragao.id}.webp`}
+    alt=""
+    aria-hidden="true"
+  />
 );
 
 /* barra de progresso pixelada — 6 blocos, um por pergunta */
@@ -146,6 +133,13 @@ const QuizDragao = () => {
   /* skin: antes do veredito, o tema neutro da casa; depois, a cor do dragão */
   const skin = resultado ? ` qd-${resultado.vencedor.id}` : "";
   const dragao = resultado?.vencedor ?? null;
+
+  /* quem está na frente AGORA — a leitura acontecendo, não só no fim.
+     Só a partir da 2ª resposta: com uma só, o "líder" é ruído. */
+  const lider = useMemo(() => {
+    if (respostas.filter((r) => r !== undefined).length < 2) return null;
+    return calcular(respostas).vencedor;
+  }, [respostas]);
 
   const numeroCarta = useMemo(
     () => (respostas.reduce((a, b) => a + b, 0) % 999) + 1,
@@ -269,7 +263,10 @@ const QuizDragao = () => {
         image="/assets/images/produtos/kit-caes.png"
       />
 
-      <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
+      {/* rabiscos dos cards, nas bordas — os cards têm; as telas estavam em cor
+          chapada. Puro acabamento: z-index baixo, sem clique, sem leitura. */}
+      <img className="qd-rabisco topo" src="/assets/quiz-deco/rabisco.webp" alt="" aria-hidden="true" />
+      <img className="qd-rabisco base" src="/assets/quiz-deco/rabisco.webp" alt="" aria-hidden="true" />
 
       <div className="qsd8-wrap qd-wrap">
         {/* ══ INTRO ═══════════════════════════════════════════════ */}
@@ -328,7 +325,22 @@ const QuizDragao = () => {
                 </button>
               ))}
             </div>
-            <button className="qd-voltar" onClick={voltar}>← voltar</button>
+            {/* a leitura em curso, na MESMA LINHA do voltar. Ficava solta no canto
+                e cobria o texto da última opção — movimento e imagem na periferia
+                de quem está lendo seis opções é exatamente o que a régua proíbe.
+                Aqui ela ocupa espaço próprio e não disputa com nada. */}
+            <div className="qd-rodape-pergunta">
+              <button className="qd-voltar" onClick={voltar}>← voltar</button>
+              {lider && (
+                <img
+                  key={lider.id}
+                  className="qd-lider"
+                  src={`/assets/quiz-colagem/${lider.id}.webp`}
+                  alt=""
+                  aria-hidden="true"
+                />
+              )}
+            </div>
           </Card>
         )}
 
@@ -348,7 +360,7 @@ const QuizDragao = () => {
             {/* sem acento de proposito: a Press Start 2P nao tem glifo de maiuscula acentuada */}
             <div className="qd-eyebrow">O DRAGAO JA DECIDIU.</div>
             <div className="qd-reveal">
-              <Stickers dragao={dragao} />
+              <Colagem dragao={dragao} />
               <img src={`${ICON}/${dragao.icone}`} alt="" className="qd-reveal-ico" />
               <h2 className="qd-nome">{dragao.nomePix}</h2>
               <div className="qd-epiteto">{dragao.epiteto}</div>
@@ -449,7 +461,19 @@ const QuizDragao = () => {
               {gerando && <div className="qd-gerando">Montando a carteira…</div>}
               {cartaUrl && (
                 <>
-                  <img className="qd-carta-img" src={cartaUrl} alt={`Carteira do ${nomePet}: ${dragao.nome}`} />
+                  {/* A CARTEIRA MONTA NA FRENTE DA PESSOA, em três tempos:
+                      o card entra vazio > a foto encaixa no slot > a colagem cola.
+                      É o momento que ela vai postar, e era o único da peça sem
+                      movimento nenhum. As camadas são as mesmas do gerador, na
+                      mesma ordem — o que ela vê é o que vai baixar.
+                      A imagem final (cartaUrl) segue existindo pro Compartilhar
+                      e pro Salvar; aqui é só a encenação. */}
+                  <div className="qd-montagem" role="img"
+                       aria-label={`Carteira de ${nomePet}: ${dragao.nome}`}>
+                    <img className="qd-m-card" src={`/assets/quiz-cards/${dragao.id}.webp`} alt="" />
+                    {fotoPreview && <img className="qd-m-foto" src={fotoPreview} alt="" />}
+                    <img className="qd-m-colagem" src={`/assets/quiz-overlay/${dragao.id}.webp`} alt="" />
+                  </div>
                   <div className="qd-acoes">
                     <button className="qsd8-btn" onClick={compartilhar}>Compartilhar</button>
                     <button className="qsd8-btn ghost" onClick={baixar}>Salvar</button>
