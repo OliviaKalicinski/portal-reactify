@@ -67,8 +67,19 @@ const CHIPS = [
 
 const PROBLEMAS = [
   { dor: "Se coça, se lambe demais e arranca o pelo", causa: "lambedura excessiva é como o gato coça — e costuma ser reação, não mania." },
-  { dor: "Já tratou a pulga e ele continua se coçando", causa: "quando não é parasita, a comida entra na lista de suspeitos." },
+  { dor: "Coça o ano inteiro, sem época de piorar", causa: "alergia de ambiente costuma ter estação. A de comida acompanha o prato — e o prato não muda nunca." },
   { dor: "Feridinhas, casquinhas e falhas no pelo", causa: "a pele inflamada pede pausa do que está irritando ela todo dia." },
+];
+
+/* 01/09 — CAUSAS: a pagina respondia com produto uma pergunta que a pessoa
+   ainda nao tinha respondido. A 4a causa (lambedura por estresse) NAO se
+   resolve na tigela e entra assim mesmo: e a causa mais comum de falha de
+   pelo em gato e omitir ela e que faz a pagina soar vendedora. */
+const CAUSAS = [
+  { t: "Pulga, ácaro ou sarna", d: "parasita é a primeira a descartar e a mais simples de resolver. Se você já tratou e a coceira continuou, pode riscar da lista." },
+  { t: "Alergia ambiental", d: "pólen, poeira, mofo, produto de limpeza. Costuma piorar em certas épocas do ano e não muda com troca de comida." },
+  { t: "Lambedura por estresse", d: "gato se lambe no mesmo lugar até abrir <strong>falha no pelo</strong>, sem ter nenhuma doença de pele. Mudança de casa, gato novo, caixa de areia trocada. Essa não se resolve na tigela — se resolve no ambiente." },
+  { t: "Alergia alimentar", d: "o corpo reagindo a uma proteína que ele come todos os dias. É a única que <strong>você consegue testar em casa</strong>, trocando a proteína e observando a pele." },
 ];
 
 const BENEFICIOS = [
@@ -163,8 +174,8 @@ const GatoCoceiraGoogle = () => {
           </h1>
 
           <p className="gcp-hero-sub">
-            <strong>Ele se coça, se lambe demais e está perdendo pelo — e a pulga já foi
-            tratada?</strong> Quando o parasita é descartado e a coceira não passa, a comida entra
+            <strong>Ele se coça, se lambe demais e está abrindo falhas no pelo — e a pulga
+            já foi tratada?</strong> Quando o parasita é descartado e a coceira não passa, a comida entra
             na lista de suspeitos. Alergia alimentar é o corpo <strong>reconhecendo</strong> uma
             proteína e reagindo a ela. A Comida de Dragão é <strong>proteína nova</strong>: ele
             nunca comeu larva, então nunca criou defesa contra ela. O <strong>Kit para Gatos</strong>{" "}
@@ -207,16 +218,44 @@ const GatoCoceiraGoogle = () => {
         </div>
       </section>
 
+      {/* ════ CAUSAS — responde antes de vender ════ */}
+      <section className="gcp-section">
+        <div className="gcp-section-inner">
+          <span className="gcp-tag">antes de trocar a comida</span>
+          <h2 className="gcp-section-title">
+            Se a pulga já foi tratada,<br /><span>por que ele ainda se coça?</span>
+          </h2>
+          <p className="gcp-section-lead">
+            Coceira e <strong>queda de pelo em falhas</strong> num gato têm quatro causas comuns —
+            e só uma delas se resolve na tigela. Vale saber qual é a dele antes de gastar dinheiro
+            no palpite errado.
+          </p>
+
+          <ul className="gcp-problemas-list">
+            {CAUSAS.map((c, i) => (
+              <li className="gcp-problema-item" key={i}>
+                <b>{c.t}</b> — <span dangerouslySetInnerHTML={{ __html: c.d }} />
+              </li>
+            ))}
+          </ul>
+
+          <p className="gcp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+            Quem fecha o diagnóstico é o veterinário. O que a gente faz é a parte da comida — e só
+            faz sentido depois que as outras três foram olhadas.
+          </p>
+        </div>
+      </section>
+
       {/* ════ PROBLEMA ════ */}
       <section className="gcp-section">
         <div className="gcp-section-inner">
           <span className="gcp-tag tag-pink">se isso te soa familiar</span>
           <h2 className="gcp-section-title title-pink">
-            Já tratou a pulga<br /><span>e ele continua se coçando?</span>
+            Como a alergia alimentar<br /><span>aparece na pele dele.</span>
           </h2>
           <p className="gcp-section-lead">
-            Coceira em gato tem várias causas — pulga, ácaro, ambiente. Mas quando essas já foram
-            descartadas e a coceira <strong>não passa</strong>, sobra o que ele come todo dia.
+            Quando as outras três já foram descartadas e a coceira <strong>não passa</strong>,
+            sobra o que ele come todo dia. É mais ou menos assim que ela se mostra:
           </p>
 
           <ul className="gcp-problemas-list">
