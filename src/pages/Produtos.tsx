@@ -433,17 +433,21 @@ const Produtos = () => {
         <div className="dragon-silhouette" aria-hidden="true" />
         <div className="archive-hero-content">
           <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
-          <div className="hero-eyebrow">Comida de Dragão — Produtos</div>
-          <DragonLogo className="hero-logo" />
-          <h1 className="archive-hero-title">
-            O que tem na
-            <span>despensa?</span>
-          </h1>
-          <p className="archive-hero-sub">
-            {PRODUTOS.length} produtos formulados a partir da mosca soldado negro.
-            Do petisco pro suplemento, do cachorro ao lagarto — proteína de verdade,
-            rastreável, feita na nossa biofábrica em Cachoeiras de Macacu.
-          </p>
+          <div className="hero-row">
+            <DragonLogo className="hero-logo" />
+            <div className="hero-copy">
+              <div className="hero-eyebrow">Comida de Dragão — Produtos</div>
+              <h1 className="archive-hero-title">
+                O que tem na
+                <span>despensa?</span>
+              </h1>
+              <p className="archive-hero-sub">
+                {PRODUTOS.length} produtos formulados a partir da mosca soldado negro.
+                Do petisco pro suplemento, do cachorro ao lagarto — proteína de verdade,
+                rastreável, feita na nossa biofábrica em Cachoeiras de Macacu.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

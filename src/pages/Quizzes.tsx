@@ -1505,18 +1505,22 @@ const Quizzes = () => {
         <div className="dragon-silhouette" aria-hidden="true" />
         <div className="archive-hero-content">
           <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
-          <div className="hero-eyebrow">Comida de Dragão — Quizzes</div>
-          <DragonLogo className="hero-logo" />
-          <h1 className="archive-hero-title">
-            O Dragão quer
-            <span>te conhecer!</span>
-          </h1>
-          <p className="archive-hero-sub">
-            {totalActive} quizzes pra descobrir quem você é como tutor.
-            Personalidade, nojo, consciência ambiental, conhecimento,
-            perfil do pet, grau de revolução, estilo de cuidado e
-            alimentação. Responde, monta seu perfil e entra na matilha.
-          </p>
+          <div className="hero-row">
+            <DragonLogo className="hero-logo" />
+            <div className="hero-copy">
+              <div className="hero-eyebrow">Comida de Dragão — Quizzes</div>
+              <h1 className="archive-hero-title">
+                O Dragão quer
+                <span>te conhecer!</span>
+              </h1>
+              <p className="archive-hero-sub">
+                {totalActive} quizzes pra descobrir quem você é como tutor.
+                Personalidade, nojo, consciência ambiental, conhecimento,
+                perfil do pet, grau de revolução, estilo de cuidado e
+                alimentação. Responde, monta seu perfil e entra na matilha.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

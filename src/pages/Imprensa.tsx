@@ -338,16 +338,20 @@ const Imprensa = () => {
         <div className="dragon-silhouette" aria-hidden="true" />
         <div className="archive-hero-content">
           <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
-          <div className="hero-eyebrow">Comida de Dragão — Imprensa & Cobertura</div>
-          <DragonLogo className="hero-logo" />
-          <h1 className="archive-hero-title">
-            O Dragão
-            <span>na Mídia</span>
-          </h1>
-          <p className="archive-hero-sub">
-            {LINKS.length} links curados — matérias, vídeos, produtos e referências
-            do ecossistema BSF. Do G1 à BBC, passando por ArchDaily e Exame.
-          </p>
+          <div className="hero-row">
+            <DragonLogo className="hero-logo" />
+            <div className="hero-copy">
+              <div className="hero-eyebrow">Comida de Dragão — Imprensa & Cobertura</div>
+              <h1 className="archive-hero-title">
+                O Dragão
+                <span>na Mídia</span>
+              </h1>
+              <p className="archive-hero-sub">
+                {LINKS.length} links curados — matérias, vídeos, produtos e referências
+                do ecossistema BSF. Do G1 à BBC, passando por ArchDaily e Exame.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

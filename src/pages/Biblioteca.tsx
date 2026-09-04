@@ -313,16 +313,20 @@ const Biblioteca = () => {
         <div className="dragon-silhouette" aria-hidden="true" />
         <div className="archive-hero-content">
           <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
-          <div className="hero-eyebrow">Comida de Dragão — Biblioteca Científica</div>
-          <DragonLogo className="hero-logo" />
-          <h1 className="archive-hero-title">
-            A ciência por trás
-            <span>do Dragão</span>
-          </h1>
-          <p className="archive-hero-sub">
-            {ARTIGOS.length} papers peer-reviewed sobre a larva da mosca soldado negro
-            na alimentação de cães e gatos. Tudo que embasa o que a gente faz.
-          </p>
+          <div className="hero-row">
+            <DragonLogo className="hero-logo" />
+            <div className="hero-copy">
+              <div className="hero-eyebrow">Comida de Dragão — Biblioteca Científica</div>
+              <h1 className="archive-hero-title">
+                A ciência por trás
+                <span>do Dragão</span>
+              </h1>
+              <p className="archive-hero-sub">
+                {ARTIGOS.length} papers peer-reviewed sobre a larva da mosca soldado negro
+                na alimentação de cães e gatos. Tudo que embasa o que a gente faz.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

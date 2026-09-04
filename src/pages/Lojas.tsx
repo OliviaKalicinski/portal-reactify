@@ -88,14 +88,18 @@ export default function Lojas() {
         <div className="dragon-silhouette" aria-hidden="true" />
         <div className="archive-hero-content">
           <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
-          <div className="hero-eyebrow">Comida de Dragão — Onde Encontrar</div>
-          <DragonLogo className="hero-logo" />
-          <h1 className="archive-hero-title" style={{ whiteSpace: "nowrap", fontSize: "clamp(16px, 5.2vw, 72px)" }}>
-            +30 lojas <span>parceiras</span>
-          </h1>
-          <p className="archive-hero-sub" style={{ whiteSpace: "nowrap" }}>
-            Comida de Dragão em pet shops, lojas naturais e online — pelo Brasil todo.
-          </p>
+          <div className="hero-row">
+            <DragonLogo className="hero-logo" />
+            <div className="hero-copy">
+              <div className="hero-eyebrow">Comida de Dragão — Onde Encontrar</div>
+              <h1 className="archive-hero-title" style={{ whiteSpace: "nowrap", fontSize: "clamp(14px, 4vw, 52px)" }}>
+                +30 lojas <span>parceiras</span>
+              </h1>
+              <p className="archive-hero-sub" style={{ whiteSpace: "nowrap" }}>
+                Comida de Dragão em pet shops, lojas naturais e online — pelo Brasil todo.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -134,16 +134,20 @@ const Parceiros = () => {
         <div className="dragon-silhouette" aria-hidden="true" />
         <div className="parceiros-hero-content">
           <Link to="/portal" className="parceiros-backlink">← voltar pro portal</Link>
-          <div className="hero-eyebrow">Comida de Dragão — Parceiros</div>
-          <DragonLogo className="hero-logo" />
-          <h1 className="parceiros-hero-title">
-            Entra
-            <span>na matilha.</span>
-          </h1>
-          <p className="parceiros-hero-sub">
-            Produtos mensais, cupom exclusivo e comissão por venda — com a marca brasileira de
-            proteína de inseto BSF para pets, produzida aqui no RJ.
-          </p>
+          <div className="hero-row">
+            <DragonLogo className="hero-logo" />
+            <div className="hero-copy">
+              <div className="hero-eyebrow">Comida de Dragão — Parceiros</div>
+              <h1 className="parceiros-hero-title">
+                Entra
+                <span>na matilha.</span>
+              </h1>
+              <p className="parceiros-hero-sub">
+                Produtos mensais, cupom exclusivo e comissão por venda — com a marca brasileira de
+                proteína de inseto BSF para pets, produzida aqui no RJ.
+              </p>
+            </div>
+          </div>
           <div className="parceiros-hero-badges">
             <span className="parceiros-badge">30% de comissão</span>
             <span className="parceiros-badge">Produtos mensais</span>

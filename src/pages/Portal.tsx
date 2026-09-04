@@ -702,66 +702,66 @@ const Portal = () => {
       {/* TOP MARQUEE */}
       <MarqueeBar items={MARQUEE_TOP} />
 
-      {/* HERO */}
-      <section className="hero">
+      {/* HERO — compacto: logo pequena à esquerda, título embaixo, frase + brincadeira do nome lado a lado */}
+      <section className="hero hero-compact">
         <div className="hero-bg" />
         <div className="hero-content">
-          <div className="hero-eyebrow">Bem-vindo à caverna.</div>
-          <DragonLogo className="hero-logo" />
+          <div className="hero-row">
+            <DragonLogo className="hero-logo" />
+            <div className="hero-copy">
+              <h1 className="hero-title hero-title-inline">
+                Alimento para pets
+              </h1>
 
-          <h1 className="hero-title hero-title-inline">
-            Alimento para pets
-          </h1>
-
-          <p className="hero-produto-line">
-            Proteína de inseto BSF
-          </p>
-
-          <p className="hero-descricao">
-            Produtos, ciência real, o que a mídia fala, como virar parceiro e as perguntas que ninguém tem coragem de fazer. Tudo num lugar só. <strong>Descobre. Aprende. Se diverte.</strong>
-          </p>
-
-          <div className="hero-name-block">
-            {nameConfirmed && nameUpper.length >= 2 ? (
-              <>
-                <p className="hero-tagline-sub hero-tagline-sub-reveal">
-                  <span className="hero-tagline-name">{nameUpper}</span>
-                  <span className="hero-tagline-rest"> já faz parte da revolução.</span>
+              <div className="hero-phrase-row">
+                <p className="hero-produto-line">
+                  Proteína de inseto BSF
                 </p>
-                <button
-                  type="button"
-                  className="hero-name-edit"
-                  onClick={() => { setHeroName(""); setNameConfirmed(false); setTimeout(() => document.getElementById("hero-name-input")?.focus(), 50); }}
-                >
-                  trocar nome
-                </button>
-              </>
-            ) : (
-              <>
-                <label className="hero-name-label" htmlFor="hero-name-input">como te chama?</label>
-                <div className={`hero-name-input-wrap${nameUpper.length >= 2 ? " has-name" : ""}`}>
-                  <input
-                    id="hero-name-input"
-                    type="text"
-                    className="hero-name-input"
-                    placeholder="seu nome"
-                    maxLength={16}
-                    autoComplete="off"
-                    spellCheck={false}
-                    value={heroName}
-                    onChange={e => { setHeroName(e.target.value); setNameConfirmed(false); }}
-                    onKeyDown={e => { if (e.key === "Enter" && nameUpper.length >= 2) setNameConfirmed(true); }}
-                    style={nameUpper.length >= 2 ? { width: `${Math.max(heroName.length + 2, 6)}ch` } : undefined}
-                  />
-                  {nameUpper.length >= 2 && (
-                    <span className="hero-tagline-inline-phrase">já faz parte da revolução.</span>
+
+                <div className="hero-name-block">
+                  {nameConfirmed && nameUpper.length >= 2 ? (
+                    <>
+                      <p className="hero-tagline-sub hero-tagline-sub-reveal">
+                        <span className="hero-tagline-name">{nameUpper}</span>
+                        <span className="hero-tagline-rest"> já faz parte da revolução.</span>
+                      </p>
+                      <button
+                        type="button"
+                        className="hero-name-edit"
+                        onClick={() => { setHeroName(""); setNameConfirmed(false); setTimeout(() => document.getElementById("hero-name-input")?.focus(), 50); }}
+                      >
+                        trocar nome
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <label className="hero-name-label" htmlFor="hero-name-input">como te chama?</label>
+                      <div className={`hero-name-input-wrap${nameUpper.length >= 2 ? " has-name" : ""}`}>
+                        <input
+                          id="hero-name-input"
+                          type="text"
+                          className="hero-name-input"
+                          placeholder="seu nome"
+                          maxLength={16}
+                          autoComplete="off"
+                          spellCheck={false}
+                          value={heroName}
+                          onChange={e => { setHeroName(e.target.value); setNameConfirmed(false); }}
+                          onKeyDown={e => { if (e.key === "Enter" && nameUpper.length >= 2) setNameConfirmed(true); }}
+                          style={nameUpper.length >= 2 ? { width: `${Math.max(heroName.length + 2, 6)}ch` } : undefined}
+                        />
+                        {nameUpper.length >= 2 && (
+                          <span className="hero-tagline-inline-phrase">já faz parte da revolução.</span>
+                        )}
+                      </div>
+                      {nameUpper.length < 2 && (
+                        <p className="hero-tagline-sub hero-tagline-sub-empty">segue o fio...</p>
+                      )}
+                    </>
                   )}
                 </div>
-                {nameUpper.length < 2 && (
-                  <p className="hero-tagline-sub hero-tagline-sub-empty">segue o fio...</p>
-                )}
-              </>
-            )}
+              </div>
+            </div>
           </div>
         </div>
       </section>

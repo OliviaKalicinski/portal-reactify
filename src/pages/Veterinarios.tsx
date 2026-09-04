@@ -147,17 +147,21 @@ const Veterinarios = () => {
         <div className="dragon-silhouette" aria-hidden="true" />
         <div className="parceiros-hero-content">
           <Link to="/portal" className="parceiros-backlink">← voltar pro portal</Link>
-          <div className="hero-eyebrow">Comida de Dragão — Parcerias com Veterinários</div>
-          <DragonLogo className="hero-logo" />
-          <h1 className="parceiros-hero-title">
-            Quero virar<br />
-            <span>vet parceiro do dragão.</span>
-          </h1>
-          <p className="parceiros-hero-sub">
-            A gente faz <strong>petisco e suplemento pra pet com proteína de inseto BSF</strong> —
-            nutritivo, hipoalergênico e sustentável. Se você acredita em nutrição diferente e quer
-            embasar isso na sua clínica, bora fazer junto.
-          </p>
+          <div className="hero-row">
+            <DragonLogo className="hero-logo" />
+            <div className="hero-copy">
+              <div className="hero-eyebrow">Comida de Dragão — Parcerias com Veterinários</div>
+              <h1 className="parceiros-hero-title">
+                Quero virar<br />
+                <span>vet parceiro do dragão.</span>
+              </h1>
+              <p className="parceiros-hero-sub">
+                A gente faz <strong>petisco e suplemento pra pet com proteína de inseto BSF</strong> —
+                nutritivo, hipoalergênico e sustentável. Se você acredita em nutrição diferente e quer
+                embasar isso na sua clínica, bora fazer junto.
+              </p>
+            </div>
+          </div>
           <div className="parceiros-hero-badges">
             <span className="parceiros-badge">Amostras pra pacientes</span>
             <span className="parceiros-badge">Cupom exclusivo</span>
