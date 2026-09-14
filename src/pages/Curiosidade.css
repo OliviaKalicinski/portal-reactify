@@ -176,21 +176,31 @@
   margin: 0 auto 24px;
 }
 
-.cur-hero-frete-tag {
+/* selos empilhados no canto superior esquerdo — frete grátis em cima,
+   dia do cliente embaixo, os dois quadrados (sem pill/rotação). */
+.cur-hero-badges {
   position: absolute;
   top: 8px;
-  right: 2px;
+  left: 4px;
   z-index: 3;
-  background: #FF0066;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.cur-hero-frete-tag {
+  background: var(--dragon-pink);
   color: #fff;
+  font-family: 'Space Mono', monospace;
   font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.3px;
-  padding: 8px 15px;
-  border-radius: 999px;
-  box-shadow: 0 6px 16px rgba(22, 33, 26, 0.30);
-  transform: rotate(7deg);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border: 2px solid var(--ink-primary);
+  box-shadow: 3px 3px 0 var(--ink-primary);
   white-space: nowrap;
+  transform: rotate(-4deg);
 }
 
 .cur-hero-product {
@@ -206,6 +216,37 @@
     saturate(1.10)
     drop-shadow(0 18px 32px rgba(22, 33, 26, 0.22));
 }
+
+/* 🧪 PREVIEW — selo "Dia do Cliente", empilhado com o de frete grátis
+   dentro do .cur-hero-badges (canto superior esquerdo da embalagem). */
+.cur-daydeal-corner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+  background: var(--dragon-lime);
+  color: var(--ink-primary);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border: 2px solid var(--ink-primary);
+  box-shadow: 3px 3px 0 var(--ink-primary);
+  transform: rotate(3deg);
+}
+.cur-daydeal-corner strong { font-size: 14px; letter-spacing: 0.04em; }
+
+/* preço riscado (de-para do desconto) — hero, oferta e sticky */
+.cur-price-old {
+  font-family: 'Space Mono', monospace;
+  color: var(--ink-faded);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+.cur-hero-price .cur-price-old { font-size: 15px; }
+.cur-sticky-price .cur-price-old { font-size: 11px; margin-right: 4px; }
 
 .cur-hero-price {
   display: inline-flex;

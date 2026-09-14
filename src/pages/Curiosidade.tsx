@@ -5,6 +5,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Curiosidade.css";
 import LeadPopup from "@/components/LeadPopup";
+import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CURIOSIDADE (LARVA) · /curiosidade
@@ -21,6 +22,9 @@ import LeadPopup from "@/components/LeadPopup";
 ────────────────────────────────────────────────────────────── */
 
 const PRICE = "145,00";       // preço-cheio exibido (Yampi cobra R$145 no Kit)
+/* 🧪 PREVIEW — Dia do Cliente: -20% automático no Kit na Yampi (R$145 → R$116).
+   Mesmo padrão aplicado na /original (10%, produto avulso). */
+const PRICE_DAYDEAL = "116,00";
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
 
@@ -128,6 +132,7 @@ const FAQ = [
 
 const Curiosidade = () => {
   useEffect(() => { captureEntryUtms(); }, []);
+  const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
   return (
     <div className="curiosidade-lp">
       <PageMeta
@@ -174,12 +179,20 @@ const Curiosidade = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="cur-hero-frete-tag">Kit com frete grátis</span>
+            <div className="cur-hero-badges">
+              <span className="cur-hero-frete-tag">Kit com frete grátis</span>
+              {daydeal && (
+                <span className="cur-daydeal-corner">
+                  dia do<br />cliente<br /><strong>-20%</strong>
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="cur-hero-price">
             <span className="cur-price-from">Kit Cachorro por</span>
-            <span className="cur-price-now"><small>R$</small>{PRICE}</span>
+            {daydeal && <s className="cur-price-old">R$ {PRICE}</s>}
+            <span className="cur-price-now"><small>R$</small>{daydeal ? PRICE_DAYDEAL : PRICE}</span>
             <span className="cur-price-installment">🚚 Frete grátis · 4× sem juros</span>
           </div>
 
@@ -304,7 +317,7 @@ const Curiosidade = () => {
       {/* ════ OFERTA ════ */}
       <section className="cur-oferta">
         <div className="cur-oferta-inner">
-          <span className="cur-tag tag-lime">kit cachorro</span>
+          <span className="cur-tag tag-lime">{daydeal ? "kit cachorro · dia do cliente -20%" : "kit cachorro"}</span>
           <h2 className="cur-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             Bora fazer<br /><span>bemzão pro cão?</span>
           </h2>
@@ -312,7 +325,9 @@ const Curiosidade = () => {
           <div className="cur-oferta-coupon-box">
             <div className="cur-oferta-coupon-label">🚚 vantagem</div>
             <div className="cur-oferta-coupon-code">FRETE GRÁTIS</div>
-            <div className="cur-oferta-coupon-desc">Kit Cachorro por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
+            <div className="cur-oferta-coupon-desc">
+              {daydeal ? <><s className="cur-price-old">R$ {PRICE}</s> por R$ {PRICE_DAYDEAL}</> : `Kit Cachorro por R$ ${PRICE}`} · conhece um afiliado? usa o cupom dele no checkout
+            </div>
           </div>
 
           <a href={ctaUrl("oferta")} className="cur-btn-primary" data-cta="oferta">
@@ -382,7 +397,9 @@ const Curiosidade = () => {
       <div className="cur-sticky-cta">
         <div className="cur-sticky-info">
           <span className="cur-sticky-name">Kit Cachorro</span>
-          <span className="cur-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>
+          <span className="cur-sticky-price">
+            {daydeal ? <><s className="cur-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`} · 🚚 frete grátis
+          </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>

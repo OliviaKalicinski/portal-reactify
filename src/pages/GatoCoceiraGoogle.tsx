@@ -40,6 +40,10 @@ import LeadPopup from "@/components/LeadPopup";
    O BLOCO DE ACEITAÇÃO é obrigatório aqui: é a fraqueza conhecida do
    produto em gatos, e a instrução (triturar + misturar na úmida) veio de
    uma cliente real que salvou a própria compra.
+
+   🔴 15/09: por pedido da Olivia, o GOOGLE10 fica FORA do Dia do Cliente —
+   esta página (e as outras duas variantes /g/) mantém o desconto de sempre,
+   sem trocar de mecanismo durante a janela da promoção (src/lib/promotions.ts).
 ────────────────────────────────────────────────────────────── */
 
 const COUPON = "GOOGLE10";  // 10% off — aprovado pela Olivia 10/08/26

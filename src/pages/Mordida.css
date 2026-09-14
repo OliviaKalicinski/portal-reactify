@@ -1249,6 +1249,25 @@
   color: var(--dragon-plum);
   border-color: var(--dragon-plum);
 }
+/* 🧪 selo "Dia do Cliente" — entra na mesma pilha dos outros dois, mas
+   tortinho (pedido da Olivia), pra destacar que é a promoção, não a etiqueta
+   fixa do produto. Só aparece dentro da janela (src/lib/promotions.ts). */
+.mdp-daydeal-corner {
+  background: var(--dragon-lime);
+  color: var(--ink-primary);
+  border-color: var(--ink-primary);
+  box-shadow: 3px 3px 0 var(--ink-primary);
+  transform: rotate(-4deg);
+}
+.mdp-price-old {
+  font-family: 'Space Mono', monospace;
+  color: var(--ink-faded);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+.mdp-hero-price .mdp-price-old { font-size: 14px; }
+.mdp-oferta-preco .mdp-price-old { font-size: 16px; }
+.mdp-sticky-price .mdp-price-old { font-size: 11px; margin-right: 4px; }
 .mdp-hero-prod {
   width: 100%;
   /* 300 → 205 em 28/07. Com a foto subindo pra antes dos selos, os 300px

@@ -5,6 +5,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Idoso.css";
 import LeadPopup from "@/components/LeadPopup";
+import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CÃO IDOSO · /idoso
@@ -45,6 +46,9 @@ import LeadPopup from "@/components/LeadPopup";
 const COUPON = "VITALIDADE";  // ⚠️ cadastrar na Yampi: 10% off (1ª compra). Fallback: ALIVIO/BORALA.
 const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
 const PRICE_OFF = "104,40";   // "por" — preço de loja R$116 (−20%) com cupom (−10%)
+/* 🧪 PREVIEW — Dia do Cliente: -20% automático no Kit na Yampi (R$145 → R$116).
+   Mesmo padrão de /original, /curiosidade e /alergia. */
+const PRICE_DAYDEAL = "116,00";
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
 
@@ -130,6 +134,8 @@ const FAQ = [
 
 const Idoso = () => {
   useEffect(() => { captureEntryUtms(); }, []);
+  const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
+  const displayPrice = daydeal ? PRICE_DAYDEAL : PRICE; // preço usado nos CTAs
   return (
     <div className="idoso-lp">
       <PageMeta
@@ -173,12 +179,20 @@ const Idoso = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="ilp-hero-frete-tag">Kit com frete grátis</span>
+            <div className="ilp-hero-badges">
+              <span className="ilp-hero-frete-tag">Kit com frete grátis</span>
+              {daydeal && (
+                <span className="ilp-daydeal-corner">
+                  dia do<br />cliente<br /><strong>-20%</strong>
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="ilp-hero-price">
             <span className="ilp-price-from">Kit Cachorro por</span>
-            <span className="ilp-price-now"><small>R$</small>{PRICE}</span>
+            {daydeal && <s className="ilp-price-old">R$ {PRICE}</s>}
+            <span className="ilp-price-now"><small>R$</small>{displayPrice}</span>
             <span className="ilp-price-installment">🚚 Frete grátis · 4× sem juros</span>
           </div>
 
@@ -188,7 +202,7 @@ const Idoso = () => {
 
           <div className="ilp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="ilp-btn-primary" data-cta="hero">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
           </div>
 
@@ -318,7 +332,7 @@ const Idoso = () => {
       {/* ════ OFERTA ════ */}
       <section className="ilp-oferta">
         <div className="ilp-oferta-inner">
-          <span className="ilp-tag tag-lime">kit cachorro</span>
+          <span className="ilp-tag tag-lime">{daydeal ? "kit cachorro · dia do cliente -20%" : "kit cachorro"}</span>
           <h2 className="ilp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             Cuide da terceira<br /><span>idade dele</span>
           </h2>
@@ -326,11 +340,13 @@ const Idoso = () => {
           <div className="ilp-oferta-coupon-box">
             <div className="ilp-oferta-coupon-label">🚚 vantagem</div>
             <div className="ilp-oferta-coupon-code">FRETE GRÁTIS</div>
-            <div className="ilp-oferta-coupon-desc">Kit Cachorro por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
+            <div className="ilp-oferta-coupon-desc">
+              {daydeal ? <><s className="ilp-price-old">R$ {PRICE}</s> por R$ {PRICE_DAYDEAL}</> : `Kit Cachorro por R$ ${PRICE}`} · conhece um afiliado? usa o cupom dele no checkout
+            </div>
           </div>
 
           <a href={ctaUrl("oferta")} className="ilp-btn-primary" data-cta="oferta">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
 
           <p className="ilp-hero-note" style={{ marginTop: 16 }}>
@@ -408,7 +424,7 @@ const Idoso = () => {
         </h2>
         <p>Proteína que ele aproveita, articulação com apoio, apetite de volta. A idade chega — a disposição pode ficar.</p>
         <a href={ctaUrl("final")} className="ilp-btn-primary" data-cta="final">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
       </section>
 
@@ -431,9 +447,11 @@ const Idoso = () => {
       <div className="ilp-sticky-cta">
         <div className="ilp-sticky-info">
           <span className="ilp-sticky-name">Kit Cachorro</span>
-          <span className="ilp-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>
+          <span className="ilp-sticky-price">
+            {daydeal ? <><s className="ilp-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`} · 🚚 frete grátis
+          </span>
         </div>
-        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {PRICE} →</a>
+        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {displayPrice} →</a>
       </div>
 
       <LeadPopup slug="idoso" aposSeletor=".ilp-oferta" />

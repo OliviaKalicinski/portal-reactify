@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Mordida.css";
+import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
    LP DE LANÇAMENTO — MORDIDA V2 · /mordida
@@ -83,6 +84,9 @@ const MARQUEE = [
    que tem a tag). Prometer frete aqui seria mentira no checkout. */
 const PRODUCT_URL = "https://seguro.comidadedragao.com.br/r/AK5VFR5RLO";
 const PRICE = "42,20"; // Shopify, verificado 28/07/26 — SKU 203
+/* 🧪 Dia do Cliente: -10% no produto avulso (R$42,20 → R$37,98).
+   O upsell é KIT (Mordida+Suplemento) → -20%, não -10% (R$145 → R$116). */
+const PRICE_DAYDEAL = "37,98";
 
 /* (comentário de 27/07/26, quando o kit era o principal) O kit era o CTA porque a
    margem bruta dele é ~3,6x a da Mordida sozinha (R$124,50 vs R$34,70) — é o
@@ -99,6 +103,7 @@ const PRICE = "42,20"; // Shopify, verificado 28/07/26 — SKU 203
    TEM a tag frete-gratis — por isso o upsell continua fazendo sentido. */
 const PRODUCT_URL_KIT = "https://seguro.comidadedragao.com.br/r/ZWOQZDQBW1";
 const PRICE_KIT = "145,00";
+const PRICE_KIT_DAYDEAL = "116,00"; // 🧪 Dia do Cliente -20% (é kit)
 
 const UTM_FALLBACK = {
   utm_source: "lp-mordida",
@@ -207,6 +212,9 @@ const FAQ = [
 
 const Mordida = () => {
   useEffect(() => { captureEntryUtms(); }, []);
+  const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
+  const displayPrice = daydeal ? PRICE_DAYDEAL : PRICE;
+  const displayPriceKit = daydeal ? PRICE_KIT_DAYDEAL : PRICE_KIT;
 
   /* O sticky só entra depois que o CTA da hero sai da tela. Enquanto o botão
      principal está à vista, a barra seria redundante e ainda comeria tela na
@@ -312,6 +320,11 @@ const Mordida = () => {
                   {SELOS_FOTO.map((s, i) => (
                     <span className={`mdp-selo${i === 1 ? " mdp-selo-novo" : ""}`} key={i}>{s}</span>
                   ))}
+                  {daydeal && (
+                    <span className="mdp-selo mdp-daydeal-corner">
+                      dia do cliente · -10%
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -326,7 +339,8 @@ const Mordida = () => {
                   fazia a pessoa rolar até o fim pra descobrir quanto custa. */}
               <div className="mdp-hero-price">
                 <span className="mdp-hero-price-from">Mordida de Dragão · 180g</span>
-                <span className="mdp-hero-price-now"><small>R$</small>{PRICE}</span>
+                {daydeal && <s className="mdp-price-old">R$ {PRICE}</s>}
+                <span className="mdp-hero-price-now"><small>R$</small>{displayPrice}</span>
                 {/* 17/08 — sem promessa de frete: _LANDING-PAGES.md diz que Mordida e Dupla
                     tiraram isso de proposito (produto abaixo do piso; prometer aqui
                     seria mentira no checkout). */}
@@ -453,9 +467,9 @@ const Mordida = () => {
           novo foi afirmado aqui. */}
       <section className="mdp-oferta" id="oferta">
         <div className="mdp-oferta-inner">
-          <span className="mdp-tag tag-lime">lançamento · 180g</span>
+          <span className="mdp-tag tag-lime">{daydeal ? "dia do cliente · -10%" : "lançamento · 180g"}</span>
           <h2 className="mdp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            Chegou a Mordida nova.<br /><span>R$ {PRICE} o pacote.</span>
+            Chegou a Mordida nova.<br /><span>R$ {displayPrice} o pacote.</span>
           </h2>
 
           <p className="mdp-oferta-sub">
@@ -483,7 +497,8 @@ const Mordida = () => {
           </ul>
 
           <div className="mdp-oferta-preco">
-            <span className="mdp-oferta-preco-valor">R$ {PRICE}</span>
+            {daydeal && <s className="mdp-price-old">R$ {PRICE}</s>}
+            <span className="mdp-oferta-preco-valor">R$ {displayPrice}</span>
             <span className="mdp-oferta-preco-nota">à vista · 180g</span>
           </div>
 
@@ -493,7 +508,7 @@ const Mordida = () => {
               que ele existe (_LANDING-PAGES.md, coluna "Cupom no link"). */}
           <div className="mdp-oferta-coupon-box">
             <div className="mdp-oferta-coupon-label">tem cupom de afiliado?</div>
-            <div className="mdp-oferta-coupon-desc">Mordida por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
+            <div className="mdp-oferta-coupon-desc">Mordida por R$ {displayPrice} · conhece um afiliado? usa o cupom dele no checkout</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="mdp-btn-primary" data-cta="oferta">
@@ -501,10 +516,11 @@ const Mordida = () => {
           </a>
 
           {/* Upsell secundário (invertido em 28/07): quem quer mais que o
-              petisco vai pro kit, onde mora o frete grátis. */}
+              petisco vai pro kit, onde mora o frete grátis.
+              🧪 Kit é KIT → -20% no Dia do Cliente, não -10% (regra da casa). */}
           <p className="mdp-oferta-avulso">
             <a href={kitUrl()} data-cta="kit">
-              Levar junto o Suplemento — kit por R$ {PRICE_KIT}, com frete grátis
+              Levar junto o Suplemento — kit por R$ {displayPriceKit}, com frete grátis
             </a>
           </p>
 
@@ -555,12 +571,12 @@ const Mordida = () => {
       <section className="mdp-cta-final">
         <h2>Bora dar<br /><span>a Mordida nova?</span></h2>
         <p>
-          24% de proteína, sem grão e sem glúten. R$ {PRICE} o pacote de 180g,
+          24% de proteína, sem grão e sem glúten. R$ {displayPrice} o pacote de 180g,
           com garantia de 14 dias.
           Não topou em 14 dias? A gente devolve.
         </p>
         <a href={ctaUrl("final")} className="mdp-btn-primary" data-cta="final">
-          Quero a Mordida · R$ {PRICE}
+          Quero a Mordida · R$ {displayPrice}
         </a>
       </section>
 
@@ -593,7 +609,9 @@ const Mordida = () => {
       >
         <div className="mdp-sticky-info">
           <span className="mdp-sticky-name">Mordida de Dragão · 180g</span>
-          <span className="mdp-sticky-price">R$ {PRICE} · garantia 14 dias</span>
+          <span className="mdp-sticky-price">
+            {daydeal ? <><s className="mdp-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`} · garantia 14 dias
+          </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>

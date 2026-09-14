@@ -5,6 +5,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Conheca.css";
 import LeadPopup from "@/components/LeadPopup";
+import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CONHEÇA · /conheca
@@ -23,17 +24,19 @@ import LeadPopup from "@/components/LeadPopup";
 const PRICE = "145,00";       // "de" — preço cheio do Kit
 const PRICE_OFF = "130,50";   // "por" — R$145 −10% com BEMZAO
 const COUPON = "BEMZAO";
+/* 🧪 Dia do Cliente SUBSTITUI o BEMZAO (dois cupons/descontos automáticos não
+   empilham na Yampi — Olivia, confirmado). Dentro da janela: -20% automático
+   no produto, token puro, sem promocode. Fora da janela: volta o BEMZAO. */
+const PRICE_DAYDEAL = "116,00";
+const TOKEN_URL = "https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK";
 /* Kit Cachorro · token KQXZ5J7LWK · promocode BEMZAO (10%) embutido · frete grátis. */
-const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
+const PRODUCT_URL_BEMZAO = `${TOKEN_URL}?promocode=${COUPON}`;
 
 const UTM_FALLBACK = {
   utm_source: "lp-conheca",
   utm_medium: "lp",
   utm_campaign: "lp-conheca-kit-caes",
 };
-
-const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
-  buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
 
@@ -112,6 +115,12 @@ const FAQ = [
 
 const Conheca = () => {
   useEffect(() => { captureEntryUtms(); }, []);
+  const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
+  // Dia do Cliente SUBSTITUI o BEMZAO (não empilham) — token puro na janela, senão o link do BEMZAO de sempre.
+  const PRODUCT_URL = daydeal ? TOKEN_URL : PRODUCT_URL_BEMZAO;
+  const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
+    buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
+  const displayPrice = daydeal ? PRICE_DAYDEAL : PRICE_OFF;
   return (
     <div className="conheca-lp">
       <PageMeta
@@ -154,17 +163,26 @@ const Conheca = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="cnh-hero-frete-tag">Kit com frete grátis</span>
+            <div className="cnh-hero-badges">
+              <span className="cnh-hero-frete-tag">Kit com frete grátis</span>
+              {daydeal && (
+                <span className="cnh-daydeal-corner">
+                  dia do<br />cliente<br /><strong>-20%</strong>
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="cnh-hero-price">
-            <span className="cnh-price-from">Kit Cachorro <s>R$ {PRICE}</s> por</span>
-            <span className="cnh-price-now"><small>R$</small>{PRICE_OFF}</span>
+            <span className="cnh-price-from">Kit Cachorro <s className="cnh-price-old">R$ {PRICE}</s> por</span>
+            <span className="cnh-price-now"><small>R$</small>{displayPrice}</span>
             <span className="cnh-price-installment">🚚 Frete grátis · 4× sem juros</span>
           </div>
 
           <div className="cnh-hero-coupon">
-            🎟️ com <b>{COUPON}</b> · 10% OFF já aplicado no link
+            {daydeal
+              ? "🎉 Dia do Cliente · 20% OFF automático no Kit"
+              : <>🎟️ com <b>{COUPON}</b> · 10% OFF já aplicado no link</>}
           </div>
 
           <div className="cnh-hero-cta-wrap">
@@ -264,15 +282,27 @@ const Conheca = () => {
       {/* ════ OFERTA ════ */}
       <section className="cnh-oferta">
         <div className="cnh-oferta-inner">
-          <span className="cnh-tag tag-lime">kit cachorro</span>
+          <span className="cnh-tag tag-lime">{daydeal ? "kit cachorro · dia do cliente -20%" : "kit cachorro"}</span>
           <h2 className="cnh-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             Bora fazer<br /><span>bemzão pro cão?</span>
           </h2>
 
           <div className="cnh-oferta-coupon-box">
-            <div className="cnh-oferta-coupon-label">🎟️ seu cupom de boas-vindas</div>
-            <div className="cnh-oferta-coupon-code">{COUPON}</div>
-            <div className="cnh-oferta-coupon-desc">10% OFF já aplicado · Kit Cachorro por R$ {PRICE_OFF} · 🚚 frete grátis</div>
+            {daydeal ? (
+              <>
+                <div className="cnh-oferta-coupon-label">🎉 dia do cliente</div>
+                <div className="cnh-oferta-coupon-code">-20%</div>
+                <div className="cnh-oferta-coupon-desc">
+                  desconto automático · <s className="cnh-price-old">R$ {PRICE}</s> por R$ {PRICE_DAYDEAL} · 🚚 frete grátis
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="cnh-oferta-coupon-label">🎟️ seu cupom de boas-vindas</div>
+                <div className="cnh-oferta-coupon-code">{COUPON}</div>
+                <div className="cnh-oferta-coupon-desc">10% OFF já aplicado · Kit Cachorro por R$ {PRICE_OFF} · 🚚 frete grátis</div>
+              </>
+            )}
           </div>
 
           <a href={ctaUrl("oferta")} className="cnh-btn-primary" data-cta="oferta">
@@ -341,8 +371,8 @@ const Conheca = () => {
       {/* ════ STICKY CTA (mobile) ════ */}
       <div className="cnh-sticky-cta">
         <div className="cnh-sticky-info">
-          <span className="cnh-sticky-name">Kit Cachorro · {COUPON}</span>
-          <span className="cnh-sticky-price">R$ {PRICE_OFF} · 🚚 frete grátis</span>
+          <span className="cnh-sticky-name">Kit Cachorro{daydeal ? " · dia do cliente" : ` · ${COUPON}`}</span>
+          <span className="cnh-sticky-price">R$ {displayPrice} · 🚚 frete grátis</span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>

@@ -23,6 +23,10 @@ import LeadPopup from "@/components/LeadPopup";
      1101), outro produto — nao este.
    - Shopify hoje: preço R$ 116,00 / compare-at R$ 145,00. ALIVIO (10%) entra no checkout Yampi.
    - Trocar imagens de review por screenshots de alergia reais quando tiver.
+
+   🔴 15/09: por pedido da Olivia, o GOOGLE10 fica FORA do Dia do Cliente —
+   esta página (e as outras duas variantes /g/) mantém o desconto de sempre,
+   sem trocar de mecanismo durante a janela da promoção (src/lib/promotions.ts).
 ────────────────────────────────────────────────────────────── */
 
 const COUPON = "GOOGLE10";  // 10% off — aprovado pela Olivia 10/08/26

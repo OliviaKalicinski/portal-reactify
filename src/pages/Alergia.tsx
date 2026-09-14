@@ -5,6 +5,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Alergia.css";
 import LeadPopup from "@/components/LeadPopup";
+import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — ALERGIA · /alergia
@@ -25,6 +26,9 @@ import LeadPopup from "@/components/LeadPopup";
 
 const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
 const PRICE_OFF = "130,50";   // "por" — preço CHEIO R$145 com cupom afiliado (−10%). Frete grátis no Kit (Yampi).
+/* 🧪 PREVIEW — Dia do Cliente: -20% automático no Kit na Yampi (R$145 → R$116).
+   Mesmo padrão aplicado em /original e /curiosidade. */
+const PRICE_DAYDEAL = "116,00";
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
 
@@ -147,6 +151,8 @@ const FAQ = [
 
 const Alergia = () => {
   useEffect(() => { captureEntryUtms(); }, []);
+  const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
+  const displayPrice = daydeal ? PRICE_DAYDEAL : PRICE; // preço usado nos CTAs
   return (
     <div className="alergia-lp">
       <PageMeta
@@ -188,12 +194,20 @@ const Alergia = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="alp-hero-frete-tag">Kit com frete grátis</span>
+            <div className="alp-hero-badges">
+              <span className="alp-hero-frete-tag">Kit com frete grátis</span>
+              {daydeal && (
+                <span className="alp-daydeal-corner">
+                  dia do<br />cliente<br /><strong>-20%</strong>
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="alp-hero-price">
             <span className="alp-price-from">Kit Cachorro por</span>
-            <span className="alp-price-now"><small>R$</small>{PRICE}</span>
+            {daydeal && <s className="alp-price-old">R$ {PRICE}</s>}
+            <span className="alp-price-now"><small>R$</small>{displayPrice}</span>
             <span className="alp-price-installment">🚚 Frete grátis · 4× sem juros</span>
           </div>
 
@@ -203,7 +217,7 @@ const Alergia = () => {
 
           <div className="alp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="alp-btn-primary" data-cta="hero">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
           </div>
 
@@ -299,7 +313,7 @@ const Alergia = () => {
 
           <div className="alp-secao-cta">
             <a href={ctaUrl("secao-solucao")} className="alp-btn-primary" data-cta="secao-solucao">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
           </div>
         </div>
@@ -346,7 +360,7 @@ const Alergia = () => {
 
           <div className="alp-secao-cta">
             <a href={ctaUrl("secao-prova")} className="alp-btn-primary" data-cta="secao-prova">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
           </div>
         </div>
@@ -355,7 +369,7 @@ const Alergia = () => {
       {/* ════ OFERTA ════ */}
       <section className="alp-oferta">
         <div className="alp-oferta-inner">
-          <span className="alp-tag tag-lime">kit cachorro</span>
+          <span className="alp-tag tag-lime">{daydeal ? "kit cachorro · dia do cliente -20%" : "kit cachorro"}</span>
           <h2 className="alp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             Comece a cuidar<br /><span>da pele dele</span>
           </h2>
@@ -363,11 +377,13 @@ const Alergia = () => {
           <div className="alp-oferta-coupon-box">
             <div className="alp-oferta-coupon-label">🚚 vantagem</div>
             <div className="alp-oferta-coupon-code">FRETE GRÁTIS</div>
-            <div className="alp-oferta-coupon-desc">Kit Cachorro por R$ {PRICE} · conhece um afiliado? usa o cupom dele no checkout</div>
+            <div className="alp-oferta-coupon-desc">
+              {daydeal ? <><s className="alp-price-old">R$ {PRICE}</s> por R$ {PRICE_DAYDEAL}</> : `Kit Cachorro por R$ ${PRICE}`} · conhece um afiliado? usa o cupom dele no checkout
+            </div>
           </div>
 
           <a href={ctaUrl("oferta")} className="alp-btn-primary" data-cta="oferta">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
 
           <p className="alp-hero-note" style={{ marginTop: 16 }}>
@@ -416,7 +432,7 @@ const Alergia = () => {
 
           <div className="alp-secao-cta">
             <a href={ctaUrl("secao-hidrolisada")} className="alp-btn-primary" data-cta="secao-hidrolisada">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
           </div>
         </div>
@@ -460,7 +476,7 @@ const Alergia = () => {
 
           <div className="alp-secao-cta">
             <a href={ctaUrl("secao-aceitacao")} className="alp-btn-primary" data-cta="secao-aceitacao">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
           </div>
         </div>
@@ -500,7 +516,7 @@ const Alergia = () => {
         </h2>
         <p>Proteína nova, pele mais calma, intestino firme. A maioria sente nas primeiras semanas.</p>
         <a href={ctaUrl("final")} className="alp-btn-primary" data-cta="final">
-              Comprar o Kit Cachorro — R$ {PRICE} →
+              Comprar o Kit Cachorro — R$ {displayPrice} →
             </a>
       </section>
 
@@ -523,9 +539,11 @@ const Alergia = () => {
       <div className="alp-sticky-cta">
         <div className="alp-sticky-info">
           <span className="alp-sticky-name">Kit Cachorro</span>
-          <span className="alp-sticky-price">R$ {PRICE} · 🚚 frete grátis</span>
+          <span className="alp-sticky-price">
+            {daydeal ? <><s className="alp-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`} · 🚚 frete grátis
+          </span>
         </div>
-        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {PRICE} →</a>
+        <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {displayPrice} →</a>
       </div>
 
       <LeadPopup slug="alergia" aposSeletor=".alp-cta-final" />

@@ -42,6 +42,10 @@ import LeadPopup from "@/components/LeadPopup";
       Reconferir na Shopify se a loja mudou.
    3. REVIEWS: as imagens são placeholders de tutores — trocar por prints
       reais de cães idosos quando houver.
+
+   🔴 15/09: por pedido da Olivia, o GOOGLE10 fica FORA do Dia do Cliente —
+   esta página (e as outras duas variantes /g/) mantém o desconto de sempre,
+   sem trocar de mecanismo durante a janela da promoção (src/lib/promotions.ts).
 ────────────────────────────────────────────────────────────── */
 
 const COUPON = "GOOGLE10";  // 10% off — aprovado pela Olivia 10/08/26

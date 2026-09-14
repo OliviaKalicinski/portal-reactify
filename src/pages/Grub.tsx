@@ -6,6 +6,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Grub.css";
 import LeadPopup from "@/components/LeadPopup";
+import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — GRUB · REPTEIS & ANFIBIOS · /grub
@@ -257,6 +258,7 @@ const Grub = () => {
   }, []);
 
   const onCta = (cta: string) => () => trackAddToCart({ ...PIXEL_PRODUTO, cta });
+  const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
   return (
     <div className="grub-lp">
       <PageMeta
@@ -353,12 +355,20 @@ const Grub = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="grb-hero-frete-tag">120g · rende muito</span>
+            <div className="grb-hero-badges">
+              <span className="grb-hero-frete-tag">120g · rende muito</span>
+              {daydeal && (
+                <span className="grb-daydeal-corner">
+                  dia do<br />cliente<br /><strong>-10%</strong>
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="grb-hero-price">
             <span className="grb-price-from">Grub 120g por</span>
-            <span className="grb-price-now"><small>R$</small>{PRICE}</span>
+            {daydeal && <s className="grb-price-old">R$ {PRICE}</s>}
+            <span className="grb-price-now"><small>R$</small>{daydeal ? "99,00" : PRICE}</span>
             <span className="grb-price-installment">4× sem juros · frete grátis acima de R$ {FRETE_GRATIS_A_PARTIR}</span>
           </div>
 
@@ -570,7 +580,7 @@ const Grub = () => {
       {/* ════ OFERTA ════ */}
       <section className="grb-oferta">
         <div className="grb-oferta-inner">
-          <span className="grb-tag tag-lime">grub · 120g</span>
+          <span className="grb-tag tag-lime">{daydeal ? "dia do cliente · -10%" : "grub · 120g"}</span>
           <h2 className="grb-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             A dieta dele<br /><span>resolvida num pote</span>
           </h2>
@@ -579,12 +589,12 @@ const Grub = () => {
             <div className="grb-oferta-coupon-label">🚚 vantagem</div>
             <div className="grb-oferta-coupon-code">2 POTES = FRETE GRÁTIS</div>
             <div className="grb-oferta-coupon-desc">
-              Grub por R$ {PRICE} · frete grátis a partir de R$ {FRETE_GRATIS_A_PARTIR}
+              {daydeal ? <><s className="grb-price-old">R$ {PRICE}</s> por R$ 99,00</> : `Grub por R$ ${PRICE}`} · frete grátis a partir de R$ {FRETE_GRATIS_A_PARTIR}
             </div>
           </div>
 
           <a href={ctaUrl("oferta")} className="grb-btn-primary" data-cta="oferta" onClick={onCta("oferta")}>
-            Quero o Grub · R$ {PRICE} →
+            Quero o Grub · R$ {daydeal ? "99,00" : PRICE} →
           </a>
 
           <p className="grb-hero-note" style={{ marginTop: 16 }}>
@@ -632,7 +642,7 @@ const Grub = () => {
             É alimento completo — mas ele continua precisando de comida variada.
           </p>
           <a href={ctaUrl("final")} className="grb-btn-primary" data-cta="final" onClick={onCta("final")}>
-            Quero o Grub · R$ {PRICE} →
+            Quero o Grub · R$ {daydeal ? "99,00" : PRICE} →
           </a>
         </div>
       </section>
@@ -663,7 +673,9 @@ const Grub = () => {
       <div className="grb-sticky-cta">
         <div className="grb-sticky-info">
           <span className="grb-sticky-name">Grub 120g</span>
-          <span className="grb-sticky-price">R$ {PRICE} · 4× sem juros</span>
+          <span className="grb-sticky-price">
+            {daydeal ? <><s className="grb-price-old">R$ {PRICE}</s> R$ 99,00</> : `R$ ${PRICE}`} · 4× sem juros
+          </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky" onClick={onCta("sticky")}>
           Comprar →

@@ -6,6 +6,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Suplemento.css";
 import LeadPopup from "@/components/LeadPopup";
+import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — SUPLEMENTO INTEGRAL
@@ -177,6 +178,7 @@ const Suplemento = () => {
   /* AddToCart no clique — não bloqueia a navegação: o fbq usa sendBeacon e o
      link segue normalmente pro carrinho. */
   const onCta = (cta: string) => () => trackAddToCart({ ...PIXEL_PRODUTO, cta });
+  const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
   return (
     <div className="suplemento-lp">
       <PageMeta
@@ -228,20 +230,27 @@ const Suplemento = () => {
             <strong>sem frango, boi, soja nem glúten</strong>.
           </p>
 
-          <img
-            className="slp-hero-product"
-            src={HERO_IMG}
-            alt="Pote Comida de Dragão Suplemento Integral — 180g de farinha de larva BSF"
-            width={440}
-            height={543}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-          />
+          <div className="slp-hero-product-frame">
+            {daydeal && (
+              <span className="slp-daydeal-corner">
+                dia do<br />cliente<br /><strong>-10%</strong>
+              </span>
+            )}
+            <img
+              src={HERO_IMG}
+              alt="Pote Comida de Dragão Suplemento Integral — 180g de farinha de larva BSF"
+              width={440}
+              height={543}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </div>
 
           <div className="slp-hero-price">
             <span className="slp-price-from">Suplemento Integral 180g</span>
-            <span className="slp-price-now"><small>R$</small>110,00</span>
+            {daydeal && <s className="slp-price-old">R$ 110,00</s>}
+            <span className="slp-price-now"><small>R$</small>{daydeal ? "99,00" : "110,00"}</span>
             <span className="slp-price-installment">4× sem juros · 180g</span>
           </div>
 
@@ -418,7 +427,7 @@ const Suplemento = () => {
               adiante, na oferta. */}
           <div className="slp-section-cta">
             <a href={ctaUrl("prova")} className="slp-btn-primary" data-cta="prova" onClick={onCta("prova")}>
-              Quero o meu · R$ 110,00 →
+              Quero o meu · R$ {daydeal ? "99,00" : "110,00"} →
             </a>
           </div>
         </div>
@@ -432,9 +441,10 @@ const Suplemento = () => {
               em 19/08) e o cupom BORALA, por decisão da Olivia. O desconto que
               sobra é o do creator, que a pessoa digita no checkout — a página
               avisa que existe, não promete valor que o link não entrega. */}
-          <span className="slp-tag tag-lime">pronto pra levar</span>
+          <span className="slp-tag tag-lime">{daydeal ? "dia do cliente · -10%" : "pronto pra levar"}</span>
           <h2 className="slp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            Suplemento Integral<br /><span>180g por R$ 110,00</span>
+            Suplemento Integral<br />
+            <span>{daydeal ? <><s className="slp-price-old">R$ 110,00</s> por R$ 99,00</> : "180g por R$ 110,00"}</span>
           </h2>
 
           <div className="slp-oferta-coupon-box">
@@ -512,7 +522,9 @@ const Suplemento = () => {
       <div className="slp-sticky-cta">
         <div className="slp-sticky-info">
           <span className="slp-sticky-name">Suplemento Integral 180g</span>
-          <span className="slp-sticky-price">R$ 110,00 · 4× sem juros</span>
+          <span className="slp-sticky-price">
+            {daydeal ? <><s className="slp-price-old">R$ 110,00</s> R$ 99,00</> : "R$ 110,00"} · 4× sem juros
+          </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky" onClick={onCta("sticky")}>Comprar →</a>
       </div>

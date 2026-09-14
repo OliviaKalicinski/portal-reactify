@@ -5,6 +5,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Original.css";
 import LeadPopup from "@/components/LeadPopup";
+import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — ORIGINAL
@@ -113,6 +114,7 @@ const FAQ = [
 
 const Original = () => {
   useEffect(() => { captureEntryUtms(); }, []);
+  const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
   return (
     <div className="original-lp">
       <PageMeta
@@ -143,20 +145,30 @@ const Original = () => {
             hipoalergênico de verdade. Pet merece comida real, não promessa de rótulo.
           </p>
 
-          <img
-            className="olp-hero-product"
-            src={HERO_IMG}
-            alt="Pacote Comida de Dragão Original — 90g de larvas inteiras desidratadas"
-            width={440}
-            height={543}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-          />
+          {/* Selo "Dia do Cliente" no canto da embalagem — só aparece dentro da
+              janela da promoção (src/lib/promotions.ts). Desconto é automático no
+              produto na Yampi — o selo só avisa, não carrega link nem cupom. */}
+          <div className="olp-hero-product-frame">
+            {daydeal && (
+              <span className="olp-daydeal-corner">
+                dia do<br />cliente<br /><strong>-10%</strong>
+              </span>
+            )}
+            <img
+              src={HERO_IMG}
+              alt="Pacote Comida de Dragão Original — 90g de larvas inteiras desidratadas"
+              width={440}
+              height={543}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </div>
 
           <div className="olp-hero-price">
             <span className="olp-price-from">a partir de</span>
-            <span className="olp-price-now"><small>R$</small>38,90</span>
+            {daydeal && <s className="olp-price-old">R$ 38,90</s>}
+            <span className="olp-price-now"><small>R$</small>{daydeal ? "35,01" : "38,90"}</span>
             <span className="olp-price-installment">4× sem juros</span>
           </div>
 
@@ -324,14 +336,15 @@ const Original = () => {
               o trafego pago frio lia 10% e pagava R$ 38,90 cheio no checkout.
               Mesma armadilha que o _LANDING-PAGES.md marca em vermelho pro frete.
               E "lancamento" nao vale mais: o Original e o carro-chefe da marca. */}
-          <span className="olp-tag tag-lime">pronto pra levar</span>
+          <span className="olp-tag tag-lime">{daydeal ? "dia do cliente · -10%" : "pronto pra levar"}</span>
           <h2 className="olp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            Original 90g<br /><span>por R$ 38,90</span>
+            Original 90g<br />
+            <span>{daydeal ? <><s className="olp-price-old">R$ 38,90</s> por R$ 35,01</> : "por R$ 38,90"}</span>
           </h2>
 
           <div className="olp-oferta-coupon-box">
             <div className="olp-oferta-coupon-label">tem cupom de afiliado?</div>
-            <div className="olp-oferta-coupon-desc">Original por R$ 38,90 · conhece um afiliado? usa o cupom dele no checkout</div>
+            <div className="olp-oferta-coupon-desc">Original por R$ {daydeal ? "35,01" : "38,90"} · conhece um afiliado? usa o cupom dele no checkout</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="olp-btn-primary" data-cta="oferta">
@@ -401,7 +414,9 @@ const Original = () => {
       <div className="olp-sticky-cta">
         <div className="olp-sticky-info">
           <span className="olp-sticky-name">Original 90g</span>
-          <span className="olp-sticky-price">R$ 38,90</span>
+          <span className="olp-sticky-price">
+            {daydeal ? <><s className="olp-price-old">R$ 38,90</s> R$ 35,01</> : "R$ 38,90"}
+          </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>

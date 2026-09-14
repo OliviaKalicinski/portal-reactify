@@ -196,22 +196,60 @@
   margin: 0 auto 24px;
 }
 
-.grb-hero-frete-tag {
+/* selos empilhados no canto superior esquerdo — o selo do produto em cima,
+   dia do cliente embaixo (quando ativo), os dois quadrados e tortinhos. */
+.grb-hero-badges {
   position: absolute;
   top: 8px;
-  right: 2px;
+  left: 4px;
   z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.grb-hero-frete-tag {
   background: var(--dragon-aqua);
   color: #fff;
+  font-family: 'Space Mono', monospace;
   font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.3px;
-  padding: 8px 15px;
-  border-radius: 999px;
-  box-shadow: 0 6px 16px rgba(22, 33, 26, 0.30);
-  transform: rotate(7deg);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border: 2px solid var(--ink-primary);
+  box-shadow: 3px 3px 0 var(--ink-primary);
   white-space: nowrap;
+  transform: rotate(-4deg);
 }
+/* 🧪 selo "Dia do Cliente" — só aparece dentro da janela da promoção */
+.grb-daydeal-corner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+  background: var(--dragon-lime);
+  color: var(--ink-primary);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border: 2px solid var(--ink-primary);
+  box-shadow: 3px 3px 0 var(--ink-primary);
+  transform: rotate(3deg);
+}
+.grb-daydeal-corner strong { font-size: 14px; letter-spacing: 0.04em; }
+
+.grb-price-old {
+  font-family: 'Space Mono', monospace;
+  color: var(--ink-faded);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+.grb-hero-price .grb-price-old { font-size: 15px; }
+.grb-sticky-price .grb-price-old { font-size: 11px; margin-right: 4px; }
 
 .grb-hero-product {
   display: block;
