@@ -22,14 +22,12 @@ const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
 const UTM_FALLBACK = { utm_source: "lp-oquefalam", utm_medium: "lp", utm_campaign: "lp-oquefalam-provas" };
 const buy = (cta: string) => buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
+/* Links de saída (ícones, loja, Instagram). Até 15/09/26 carimbavam `lp-oquefalam` à força
+   e sobrescreviam, na loja e no checkout, o anúncio de quem chegou por ele. Agora seguem a
+   mesma regra dos botões de compra: origem forte viaja, origem fraca não sai. */
 const withUtm = (url: string, content: string) => {
   try {
-    const u = new URL(url);
-    u.searchParams.set("utm_source", "lp-oquefalam");
-    u.searchParams.set("utm_medium", "lp");
-    u.searchParams.set("utm_campaign", "lp-oquefalam");
-    u.searchParams.set("utm_content", content);
-    return u.href;
+    return buildCheckoutUrl(url, UTM_FALLBACK, content);
   } catch { return url; }
 };
 

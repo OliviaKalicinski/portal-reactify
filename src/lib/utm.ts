@@ -1,20 +1,33 @@
 /**
  * src/lib/utm.ts
  *
- * Captura a UTM de ENTRADA (first-touch) e repassa fielmente pro checkout Yampi.
+ * Captura a UTM de ENTRADA e repassa pro checkout Yampi — mas SÓ quando ela é
+ * uma origem de verdade (anúncio, WhatsApp, e-mail, creator).
  *
- * Contexto: as LPs (/original, /suplemento, /matilde, /ciencia) mandam o cliente
- * DIRETO pro pay.yampi.com.br, fora da loja Shopify. Logo, a atribuição do
- * tráfego de LP depende 100% do que montamos aqui — o YampiSnippet da Shopify
- * NÃO roda nesse caminho.
+ * Contexto: as LPs mandam o cliente DIRETO pro checkout `seguro`, fora da loja
+ * Shopify. A atribuição do tráfego de LP depende 100% do que montamos aqui — o
+ * YampiSnippet da Shopify NÃO roda nesse caminho.
+ *
+ * 🔴 POR QUE A REGRA MUDOU (15/09/26): o checkout guarda a UTM no cookie
+ * `__ana_utm` em LAST-TOUCH CAMPO A CAMPO — cada link novo sobrescreve só as
+ * chaves que carrega (testado ao vivo). Quem entrava por anúncio e voltava pela
+ * LP sem UTM, ou pelo link da bio, perdia o crédito: a LP mandava o fallback
+ * `lp-mordida / lp / lp-mordida-mordida` e o checkout trocava 4 campos, deixando
+ * só o `utm_term` do anúncio como fóssil. 10 pedidos corrigidos à mão no dash.
+ * Decisão da Olivia: "a bio não pode sobrescrever os anúncios".
  *
  * Regras:
- *  - Se o anúncio trouxe utm_ na URL  -> repassa FIELMENTE (source/campaign/term do Meta).
- *  - Se não trouxe                    -> usa o fallback da LP (utm_source=lp-X etc.).
+ *  - Origem FORTE (anúncio, rptn, e-mail, creator) -> repassa FIELMENTE, com a marca
+ *    da LP no utm_content (`lp-<slug>__<criativo>`, ver ensureLpPrefix).
+ *  - Origem FRACA (sem UTM, bio/orgânico do Instagram, links internos `lp-*`) ->
+ *    o botão vai ao checkout SEM nenhum utm_*. Assim a origem que o checkout já
+ *    guardou continua intacta. Ver isOrigemFraca.
+ *  - Exceção: clique do Google (gclid/gbraid/wbraid) sem UTM -> usa o fallback da
+ *    página. As LPs /g/* recebem só Google Ads, que marca por gclid, não por UTM.
  *  - Posição do botão (hero/oferta...) vai em `cta_pos`.
- *  - utm_content SEMPRE sai marcado com a LP: `lp-<slug>__<criativo>` (ver ensureLpPrefix).
- *  - FIRST-TOUCH: grava o bloco INTEIRO de uma vez e não sobrescreve por 30 dias
- *    (mesmo modelo do cookie da Shopify — evita "Frankenstein" de atribuição).
+ *  - FIRST-TOUCH entre origens fortes: grava o bloco INTEIRO e não sobrescreve por
+ *    7 dias — a mesma janela da loja, decidida em 06/08/26. Origem fraca não é gravada
+ *    e não bloqueia um anúncio que chegue depois.
  */
 
 const UTM_KEYS = [
@@ -29,7 +42,9 @@ type UtmKey = (typeof UTM_KEYS)[number];
 export type Utms = Partial<Record<UtmKey, string>>;
 
 const STORAGE_KEY = "cdd_entry_utms";
-const MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
+// 7 dias: a mesma janela first-touch da loja (cookie `utmsTrack`, decisão de 06/08/26).
+// Era 30 dias até 15/09/26.
+const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 /**
  * Identificadores de clique das plataformas de anúncio (`fbclid`, `gclid`…).
@@ -44,10 +59,14 @@ const MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
  * pra trás no salto `caverna` → `seguro`. Sem ele, o Meta não sabe de qual
  * anúncio veio a venda e preenche por modelagem; num ad set novo, sai zero.
  *
- * Vivem em sessionStorage (dura a sessão), não em localStorage (30 dias).
+ * Vivem em sessionStorage (dura a sessão), não em localStorage.
  */
 const CLICK_IDS = ["fbclid", "gclid", "ttclid", "gbraid", "wbraid"] as const;
 type ClickIds = Partial<Record<(typeof CLICK_IDS)[number], string>>;
+
+// Só o clique do Google identifica tráfego pago sozinho. O `fbclid` NÃO: o
+// Instagram também o anexa em link orgânico (bio, stories).
+const GOOGLE_CLICK_IDS = ["gclid", "gbraid", "wbraid"] as const;
 
 const CLICK_STORAGE_KEY = "cdd_click_ids";
 
@@ -91,6 +110,39 @@ function readUrlUtms(search: string = window.location.search): Utms {
   return out;
 }
 
+const FONTES_ORGANICAS_INSTAGRAM = ["ig", "instagram", "l.instagram.com", "linktree", "linktr.ee"];
+const MEIOS_ORGANICOS = ["bio", "social", "organico", "organic", "stories", "story", "referral", "link_in_bio"];
+const MEIO_PAGO = /paid|cpc|ppc|ads/i;
+
+/**
+ * Origem FRACA = não pode sobrescrever o que o checkout já guardou.
+ *
+ *  - sem `utm_source`                                   (link colado, DM, digitado, banner da home)
+ *  - `utm_source` começando com `lp-`                   (link interno nosso)
+ *  - meio orgânico: bio, social, stories, organico…     (ex.: `ig / social / link_in_bio`,
+ *                                                        que o Instagram anexa sozinho à bio)
+ *  - `utm_content=link_in_bio` ou `utm_campaign=organico`
+ *  - fonte do Instagram sem meio pago                   (anúncio de Instagram vem `paid_social`)
+ *
+ * Tudo que tem meio pago (`paid_social`, `cpc`…) é FORTE, mesmo com fonte `ig`.
+ * WhatsApp (`rptn`), e-mail e cupom de creator são FORTES.
+ */
+export function isOrigemFraca(utms: Utms | null | undefined): boolean {
+  if (!utms) return true;
+  const source = utms.utm_source?.trim().toLowerCase() ?? "";
+  const medium = utms.utm_medium?.trim().toLowerCase() ?? "";
+  const content = utms.utm_content?.trim().toLowerCase() ?? "";
+  const campaign = utms.utm_campaign?.trim().toLowerCase() ?? "";
+
+  if (!source) return true;
+  if (source.startsWith("lp-")) return true;
+  if (MEIO_PAGO.test(medium)) return false;
+  if (MEIOS_ORGANICOS.includes(medium)) return true;
+  if (content === "link_in_bio" || campaign === "organico") return true;
+  if (FONTES_ORGANICAS_INSTAGRAM.includes(source)) return true;
+  return false;
+}
+
 function readStored(): Utms | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -98,6 +150,8 @@ function readStored(): Utms | null {
     const parsed = JSON.parse(raw) as { utms: Utms; ts: number };
     if (!parsed || !parsed.ts) return null;
     if (Date.now() - parsed.ts > MAX_AGE_MS) return null;
+    // Entrada gravada antes de 15/09/26 pode ser fraca (bio, lp-*): não vale mais.
+    if (isOrigemFraca(parsed.utms)) return null;
     return parsed.utms || null;
   } catch {
     return null;
@@ -105,17 +159,26 @@ function readStored(): Utms | null {
 }
 
 /**
- * Lê a UTM de entrada já guardada (first-touch), respeitando o MAX_AGE.
- * Exposto pro popup de captura de lead gravar a campanha junto do contato —
- * sem reimplementar a chave de storage nem a regra de expiração.
+ * UTM de entrada pro popup de captura de lead gravar junto do contato.
+ *
+ * Diferente do checkout, aqui a origem fraca SERVE: um lead que veio da bio é
+ * informação, não sobrescreve crédito de ninguém. Ordem: origem forte guardada;
+ * senão, a UTM da visita atual (mesmo fraca); senão, null.
  */
 export function getEntryUtms(): Utms | null {
-  return readStored();
+  const guardada = readStored();
+  if (guardada) return guardada;
+  try {
+    const atual = readUrlUtms();
+    return Object.keys(atual).length > 0 ? atual : null;
+  } catch {
+    return null;
+  }
 }
 
 /**
  * Chame UMA vez quando a LP montar (useEffect com [] no fim).
- * Grava a UTM de entrada em first-touch atômico.
+ * Grava a UTM de entrada FORTE em first-touch atômico.
  */
 export function captureEntryUtms(): void {
   // Fora do try/return abaixo de propósito: o anúncio pode mandar `fbclid`
@@ -125,7 +188,8 @@ export function captureEntryUtms(): void {
   try {
     const incoming = readUrlUtms();
     if (Object.keys(incoming).length === 0) return; // nada na URL
-    if (readStored()) return; // já há entrada salva -> não sobrescreve (first-touch)
+    if (isOrigemFraca(incoming)) return; // bio/orgânico não entra nem bloqueia anúncio futuro
+    if (readStored()) return; // já há origem forte salva -> não sobrescreve (first-touch)
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({ utms: incoming, ts: Date.now() })
@@ -161,10 +225,10 @@ function ensureLpPrefix(utms: Utms, lpSlug?: string, ctaPos?: string): Utms {
 }
 
 /**
- * Monta a URL final do checkout, repassando a UTM de entrada.
+ * Monta a URL final do checkout.
  *
  * @param baseUrl   URL do produto na Yampi, já com ?promocode=...
- * @param fallback  UTMs usadas SÓ quando não há UTM de entrada (ex: lp-original).
+ * @param fallback  UTMs da página. Só viajam quando a visita é clique do Google sem UTM.
  *                  O `utm_source` daqui é também a fonte do slug da LP.
  * @param ctaPos    Posição do botão clicado (hero/oferta/final...). Vai em cta_pos.
  */
@@ -175,23 +239,29 @@ export function buildCheckoutUrl(
 ): string {
   const url = new URL(baseUrl);
 
-  // Prioridade: o que foi salvo na entrada; se vazio, tenta a URL atual; senão, fallback.
-  const entry = readStored() ?? readUrlUtms();
-  const base = Object.keys(entry).length > 0 ? entry : fallback;
+  const clickIds = { ...readStoredClickIds(), ...readUrlClickIds() };
 
-  // A marca da LP é estrutural: sai do fallback da própria página, não da mão de quem
-  // montou o anúncio. O criativo do anúncio sobrevive depois do `__`.
-  const utms = ensureLpPrefix(base, fallback.utm_source, ctaPos);
+  // Prioridade: origem forte guardada; senão, a da URL atual se for forte.
+  const daUrl = readUrlUtms();
+  const entradaForte = readStored() ?? (isOrigemFraca(daUrl) ? null : daUrl);
+  const cliqueGoogle = GOOGLE_CLICK_IDS.some((k) => Boolean(clickIds[k]));
 
-  UTM_KEYS.forEach((k) => {
-    const v = utms[k];
-    if (v) url.searchParams.set(k, v);
-  });
+  // Origem fraca e sem clique do Google: NENHUM utm_* sai daqui. É o que impede a LP
+  // (e a bio) de sobrescrever, campo a campo, o anúncio que o checkout já guardou.
+  const base = entradaForte ?? (cliqueGoogle ? fallback : null);
+
+  if (base) {
+    // A marca da LP é estrutural: sai do fallback da própria página, não da mão de quem
+    // montou o anúncio. O criativo do anúncio sobrevive depois do `__`.
+    const utms = ensureLpPrefix(base, fallback.utm_source, ctaPos);
+    UTM_KEYS.forEach((k) => {
+      const v = utms[k];
+      if (v) url.searchParams.set(k, v);
+    });
+  }
 
   // Click IDs seguem junto pro checkout — sem eles o Meta/Google não ligam a
-  // compra ao anúncio. O da URL atual ganha do guardado: last-touch, ao
-  // contrário da UTM logo acima, que é first-touch.
-  const clickIds = { ...readStoredClickIds(), ...readUrlClickIds() };
+  // compra ao anúncio. O da URL atual ganha do guardado: last-touch.
   CLICK_IDS.forEach((k) => {
     const v = clickIds[k];
     if (v) url.searchParams.set(k, v);
