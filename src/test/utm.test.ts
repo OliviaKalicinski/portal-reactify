@@ -53,6 +53,7 @@ describe("isOrigemFraca", () => {
     expect(isOrigemFraca({ utm_source: "rptn", utm_medium: "whatsapp", utm_campaign: "recompra-kit" })).toBe(false);
     expect(isOrigemFraca({ utm_source: "email", utm_medium: "campanha" })).toBe(false);
     expect(isOrigemFraca({ utm_source: "google", utm_medium: "cpc" })).toBe(false);
+    expect(isOrigemFraca({ utm_source: "IGShopping", utm_medium: "Social", utm_content: "Facebook_UA" })).toBe(false);
   });
 });
 

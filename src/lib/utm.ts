@@ -113,6 +113,7 @@ function readUrlUtms(search: string = window.location.search): Utms {
 const FONTES_ORGANICAS_INSTAGRAM = ["ig", "instagram", "l.instagram.com", "linktree", "linktr.ee"];
 const MEIOS_ORGANICOS = ["bio", "social", "organico", "organic", "stories", "story", "referral", "link_in_bio"];
 const MEIO_PAGO = /paid|cpc|ppc|ads/i;
+const FONTES_COMERCIO = ["igshopping", "fbshopping", "facebook_shop", "instagram_shop"];
 
 /**
  * Origem FRACA = não pode sobrescrever o que o checkout já guardou.
@@ -136,6 +137,10 @@ export function isOrigemFraca(utms: Utms | null | undefined): boolean {
 
   if (!source) return true;
   if (source.startsWith("lp-")) return true;
+  // Loja/catálogo do Instagram e do Facebook (`IGShopping / Social`) é clique de compra no
+  // produto, não bio: FORTE. Sem esta linha o meio `Social` a jogava pra fraca e a etiqueta
+  // sumia do pedido (2 pedidos em 16/08–15/09).
+  if (FONTES_COMERCIO.includes(source)) return false;
   if (MEIO_PAGO.test(medium)) return false;
   if (MEIOS_ORGANICOS.includes(medium)) return true;
   if (content === "link_in_bio" || campaign === "organico") return true;
