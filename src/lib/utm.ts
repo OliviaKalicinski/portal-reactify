@@ -143,7 +143,58 @@ export function isOrigemFraca(utms: Utms | null | undefined): boolean {
   return false;
 }
 
-function readStored(): Utms | null {
+/**
+ * Cookie `cdd_origem` — a origem FORTE compartilhada entre o caverna (LPs) e a loja.
+ *
+ * POR QUE EXISTE (15/09/26): quem entrava por anúncio numa LP e depois montava o
+ * carrinho na LOJA chegava ao checkout sem UTM — o cookie da loja (`utmsTrack`) é
+ * host-only do `www` e não sabia do anúncio. Medido: 8 de 43 pedidos feitos até 2h
+ * depois de um carrinho com UTM perderam a origem (caso Rodrigo, 14/09). O mesmo cookie,
+ * no domínio `.comidadedragao.com.br`, é lido e escrito pelo YampiSnippet do tema.
+ * Formato: query string (`utm_source=…&utm_medium=…`), igual ao `utmsTrack`.
+ */
+const SHARED_COOKIE = "cdd_origem";
+
+function sharedCookieDomain(): string {
+  const host = window.location.hostname;
+  return host.endsWith("comidadedragao.com.br") ? "; domain=.comidadedragao.com.br" : "";
+}
+
+function readSharedCookie(): Utms | null {
+  try {
+    const par = document.cookie
+      .split(";")
+      .map((c) => c.trim())
+      .find((c) => c.startsWith(`${SHARED_COOKIE}=`));
+    if (!par) return null;
+    const sp = new URLSearchParams(par.slice(SHARED_COOKIE.length + 1));
+    const out: Utms = {};
+    UTM_KEYS.forEach((k) => {
+      const v = sp.get(k);
+      if (v) out[k] = v;
+    });
+    if (Object.keys(out).length === 0 || isOrigemFraca(out)) return null;
+    return out;
+  } catch {
+    return null;
+  }
+}
+
+function writeSharedCookie(utms: Utms): void {
+  try {
+    const sp = new URLSearchParams();
+    UTM_KEYS.forEach((k) => {
+      const v = utms[k];
+      if (v) sp.set(k, v);
+    });
+    const maxAge = Math.floor(MAX_AGE_MS / 1000);
+    document.cookie = `${SHARED_COOKIE}=${sp.toString()}; max-age=${maxAge}; path=/${sharedCookieDomain()}; SameSite=Lax`;
+  } catch {
+    /* cookie indisponível — segue sem quebrar */
+  }
+}
+
+function readLocalStored(): Utms | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
@@ -156,6 +207,11 @@ function readStored(): Utms | null {
   } catch {
     return null;
   }
+}
+
+/** Origem forte guardada: a da própria LP (localStorage) ou a que veio da loja (cookie compartilhado). */
+function readStored(): Utms | null {
+  return readLocalStored() ?? readSharedCookie();
 }
 
 /**
@@ -189,11 +245,18 @@ export function captureEntryUtms(): void {
     const incoming = readUrlUtms();
     if (Object.keys(incoming).length === 0) return; // nada na URL
     if (isOrigemFraca(incoming)) return; // bio/orgânico não entra nem bloqueia anúncio futuro
-    if (readStored()) return; // já há origem forte salva -> não sobrescreve (first-touch)
+    const guardada = readStored();
+    if (guardada) {
+      // já há origem forte (daqui ou da loja) -> não sobrescreve (first-touch),
+      // mas garante que ela esteja no cookie que a loja lê
+      if (!readSharedCookie()) writeSharedCookie(guardada);
+      return;
+    }
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({ utms: incoming, ts: Date.now() })
     );
+    writeSharedCookie(incoming);
   } catch {
     /* localStorage indisponível (aba privada etc.) — segue sem quebrar */
   }

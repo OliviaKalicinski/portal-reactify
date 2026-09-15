@@ -34,6 +34,7 @@ const temAlgumaUtm = (sp: URLSearchParams) =>
 beforeEach(() => {
   localStorage.clear();
   sessionStorage.clear();
+  document.cookie = "cdd_origem=; max-age=0; path=/";
   visita("");
 });
 
@@ -172,5 +173,39 @@ describe("getEntryUtms (popup de lead)", () => {
 
   it("sem nada, null", () => {
     expect(getEntryUtms()).toBeNull();
+  });
+});
+
+describe("cookie cdd_origem (compartilhado com a loja)", () => {
+  const lerCookie = () =>
+    document.cookie.split(";").map((c) => c.trim()).find((c) => c.startsWith("cdd_origem="));
+
+  it("anúncio grava a origem no cookie que a loja lê (caso Rodrigo)", () => {
+    visita(ANUNCIO);
+    captureEntryUtms();
+    const sp = new URLSearchParams(lerCookie()!.slice("cdd_origem=".length));
+    expect(sp.get("utm_source")).toBe("facebook");
+    expect(sp.get("utm_term")).toBe("120249220500880622");
+  });
+
+  it("bio e visita sem UTM não gravam o cookie", () => {
+    visita(BIO);
+    captureEntryUtms();
+    visita("");
+    captureEntryUtms();
+    expect(lerCookie()).toBeUndefined();
+  });
+
+  it("origem forte que veio da loja (cookie) viaja no botão da LP", () => {
+    document.cookie = "cdd_origem=utm_source=rptn&utm_medium=whatsapp&utm_campaign=recompra-kit; path=/";
+    const sp = params(buildCheckoutUrl(CHECKOUT, FALLBACK, "hero"));
+    expect(sp.get("utm_source")).toBe("rptn");
+    expect(sp.get("utm_content")).toBe("lp-mordida__hero");
+  });
+
+  it("cookie com origem fraca é ignorado", () => {
+    document.cookie = "cdd_origem=utm_source=ig&utm_medium=social&utm_content=link_in_bio; path=/";
+    const sp = params(buildCheckoutUrl(CHECKOUT, FALLBACK, "hero"));
+    expect(temAlgumaUtm(sp)).toBe(false);
   });
 });
