@@ -73,7 +73,7 @@ const CHIPS = [
 const PROBLEMAS = [
   { dor: "Perdeu massa muscular — ficou mais “murcho” e fraco", causa: "com a idade o corpo aproveita menos a proteína; ele precisa de proteína boa e fácil de absorver." },
   { dor: "Anda devagar, tem preguiça de levantar e subir", causa: "articulação desgastada é comum na terceira idade — cartilagem pede reforço." },
-  { dor: "Come cada vez menos e torce o nariz pra ração", causa: "olfato e apetite caem com a idade; um complemento saboroso ajuda a puxar a refeição." },
+  { dor: "Come cada vez menos e perde o interesse na hora da refeição", causa: "olfato e apetite caem com a idade; um complemento saboroso ajuda a puxar a refeição." },
 ];
 
 const BENEFICIOS = [
@@ -105,7 +105,7 @@ const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
   { type: "review", src: "/assets/images/reviews/5.webp",        alt: "Review — mais disposição na terceira idade" },
   { type: "review", src: "/assets/images/reviews/7.webp",        alt: "Review — pet sênior aceitou bem o suplemento" },
   { type: "review", src: "/assets/images/reviews/9.webp",        alt: "Review — pelo e energia melhores no cão velhinho" },
-  { type: "review", src: "/assets/images/reviews/4.webp",        alt: "Review — fácil de misturar na ração" },
+  { type: "review", src: "/assets/images/reviews/4.webp",        alt: "Review — fácil de misturar na refeição" },
   { type: "review", src: "/assets/images/reviews/8.webp",        alt: "Review — tutor de cão idoso aprovou" },
 ];
 
@@ -124,7 +124,7 @@ const FAQ = [
   },
   {
     q: "Meu cão anda comendo pouco. Vai aceitar?",
-    a: "A proteína de BSF é bem palatável — em testes, cães aceitaram prontamente. O cheirinho costuma <strong>puxar o interesse do sênior</strong> que já torce o nariz pra ração. Dá pra usar o Original como recompensa e o pó misturado na comida.",
+    a: "A proteína de BSF é bem palatável — em testes, cães aceitaram prontamente. O cheirinho costuma <strong>puxar o interesse</strong> de quem anda comendo pouco. Dá pra usar o Original como recompensa e o pó misturado na refeição.",
   },
   {
     q: "Como funciona a entrega?",
@@ -378,7 +378,7 @@ const Idoso = () => {
               úmida. Foi assim que uma tutora conseguiu, depois de a primeira tentativa não colar.
             </li>
             <li className="ilp-problema-item">
-              <b>Use como topper</b> — jogue por cima da ração, em vez de servir separado. O cheiro
+              <b>Use como topper</b> — jogue por cima do prato de sempre, em vez de servir separado. O cheiro
               puxa o interesse de quem anda comendo pouco.
             </li>
             <li className="ilp-problema-item">
