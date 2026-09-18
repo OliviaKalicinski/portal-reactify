@@ -147,7 +147,9 @@ const Curiosidade = () => {
         <div className="cur-hero-inner">
           <div className="cur-hero-top">
             <a href="https://www.comidadedragao.com.br/collections/produtos" className="cur-backlink">← comida de dragão</a>
-            <DragonLogo className="cur-hero-logo" />
+            <a href="https://www.comidadedragao.com.br/collections/produtos">
+              <DragonLogo className="cur-hero-logo" />
+            </a>
           </div>
 
           <span className="cur-hero-eyebrow">petisco para cães · 1 ingrediente · feito no rio</span>

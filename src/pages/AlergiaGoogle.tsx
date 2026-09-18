@@ -174,7 +174,9 @@ const AlergiaGoogle = () => {
         <div className="alp-hero-inner">
           <div className="alp-hero-top">
             <a href="https://www.comidadedragao.com.br/collections/produtos" className="alp-backlink">← comida de dragão</a>
-            <DragonLogo className="alp-hero-logo" />
+            <a href="https://www.comidadedragao.com.br/collections/produtos">
+              <DragonLogo className="alp-hero-logo" />
+            </a>
           </div>
 
           <span className="alp-hero-eyebrow">cão alérgico · proteína nova · hipoalergênico</span>

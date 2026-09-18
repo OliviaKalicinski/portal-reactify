@@ -295,7 +295,9 @@ const Dupla = () => {
               inteira. Por isso a foto é irmã dos outros dois, e não filha. */}
           <div className="mdp-hero-grid">
             <div className="mdp-hero-text">
-              <DragonLogo className="mdp-hero-logo" />
+              <a href="https://www.comidadedragao.com.br/collections/produtos">
+                <DragonLogo className="mdp-hero-logo" />
+              </a>
 
               <h1 className="mdp-hero-title">
                 O petisco que ele<br />

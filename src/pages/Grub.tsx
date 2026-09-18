@@ -273,7 +273,9 @@ const Grub = () => {
         <div className="grb-hero-inner">
           <div className="grb-hero-top">
             <a href="https://www.comidadedragao.com.br/collections/produtos" className="grb-backlink">← comida de dragão</a>
-            <DragonLogo className="grb-hero-logo" />
+            <a href="https://www.comidadedragao.com.br/collections/produtos">
+              <DragonLogo className="grb-hero-logo" />
+            </a>
           </div>
 
           {/* O H1 já leva "répteis e anfíbios" + praticidade, então a eyebrow

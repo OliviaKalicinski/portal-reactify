@@ -162,7 +162,9 @@ const GatoCoceiraGoogle = () => {
         <div className="gcp-hero-inner">
           <div className="gcp-hero-top">
             <a href="https://www.comidadedragao.com.br/collections/produtos" className="gcp-backlink">← comida de dragão</a>
-            <DragonLogo className="gcp-hero-logo" />
+            <a href="https://www.comidadedragao.com.br/collections/produtos">
+              <DragonLogo className="gcp-hero-logo" />
+            </a>
           </div>
 
           <span className="gcp-hero-eyebrow">gato que se coça · proteína nova · com taurina</span>

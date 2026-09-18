@@ -170,7 +170,9 @@ const IdosoGoogle = () => {
         <div className="ilp-hero-inner">
           <div className="ilp-hero-top">
             <a href="https://www.comidadedragao.com.br/collections/produtos" className="ilp-backlink">← comida de dragão</a>
-            <DragonLogo className="ilp-hero-logo" />
+            <a href="https://www.comidadedragao.com.br/collections/produtos">
+              <DragonLogo className="ilp-hero-logo" />
+            </a>
           </div>
 
           <span className="ilp-hero-eyebrow">suplemento para cão idoso · proteína que ele aproveita · fácil de aceitar</span>

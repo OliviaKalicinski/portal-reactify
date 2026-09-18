@@ -264,7 +264,9 @@ const Mordida = () => {
               logo a direita, na mesma linha. */}
           <div className="mdp-hero-top">
             <a href="https://www.comidadedragao.com.br/collections/produtos" className="mdp-backlink">← comida de dragão</a>
-            <DragonLogo className="mdp-hero-logo" />
+            <a href="https://www.comidadedragao.com.br/collections/produtos">
+              <DragonLogo className="mdp-hero-logo" />
+            </a>
           </div>
 
           {/* Desktop = 2 colunas: título+texto à esquerda, foto grande + botão à direita.

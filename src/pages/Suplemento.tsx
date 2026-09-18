@@ -194,7 +194,9 @@ const Suplemento = () => {
         <div className="slp-hero-inner">
           <div className="slp-hero-top">
             <a href="https://www.comidadedragao.com.br/collections/produtos" className="slp-backlink">← comida de dragão</a>
-            <DragonLogo className="slp-hero-logo" />
+            <a href="https://www.comidadedragao.com.br/collections/produtos">
+              <DragonLogo className="slp-hero-logo" />
+            </a>
           </div>
 
           {/* HERO REESCRITO 25/08 (opção A, escolhida pela Olivia).

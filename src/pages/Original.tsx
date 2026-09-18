@@ -130,7 +130,9 @@ const Original = () => {
         <div className="olp-hero-inner">
           <div className="olp-hero-top">
             <a href="https://www.comidadedragao.com.br/collections/produtos" className="olp-backlink">← comida de dragão</a>
-            <DragonLogo className="olp-hero-logo" />
+            <a href="https://www.comidadedragao.com.br/collections/produtos">
+              <DragonLogo className="olp-hero-logo" />
+            </a>
           </div>
 
           <span className="olp-hero-eyebrow">novidade · 1 ingrediente · hipoalergênico</span>

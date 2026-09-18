@@ -135,7 +135,9 @@ const Conheca = () => {
         <div className="cnh-hero-inner">
           <div className="cnh-hero-top">
             <a href="https://www.comidadedragao.com.br/collections/produtos" className="cnh-backlink">← comida de dragão</a>
-            <DragonLogo className="cnh-hero-logo" />
+            <a href="https://www.comidadedragao.com.br/collections/produtos">
+              <DragonLogo className="cnh-hero-logo" />
+            </a>
           </div>
 
           <span className="cnh-hero-eyebrow">prazer, somos a comida de dragão · alimento pra pet feito de inseto</span>
