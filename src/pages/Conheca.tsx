@@ -134,7 +134,7 @@ const Conheca = () => {
       <section className="cnh-hero">
         <div className="cnh-hero-inner">
           <div className="cnh-hero-top">
-            <Link to="/portal" className="cnh-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="cnh-backlink">← comida de dragão</a>
             <DragonLogo className="cnh-hero-logo" />
           </div>
 

@@ -280,7 +280,7 @@ const GrubGoogle = () => {
       <section className="grb-hero">
         <div className="grb-hero-inner">
           <div className="grb-hero-top">
-            <Link to="/portal" className="grb-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="grb-backlink">← comida de dragão</a>
             <DragonLogo className="grb-hero-logo" />
           </div>
 
@@ -684,7 +684,7 @@ const GrubGoogle = () => {
           28/07). Sem `aposSeletor` o gatilho que abria na prática era o timer
           de 15s — e as LPs de dor prendem 21 a 33s, ou seja, ele caía no meio
           da leitura da oferta. */}
-      <LeadPopup slug="grub" aposSeletor=".grb-hero" />
+      <LeadPopup slug="grub-google" aposSeletor=".grb-hero" />
     </div>
   );
 };

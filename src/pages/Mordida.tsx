@@ -263,7 +263,7 @@ const Mordida = () => {
           {/* 17/08 — topo igual ao da /original: backlink a esquerda,
               logo a direita, na mesma linha. */}
           <div className="mdp-hero-top">
-            <Link to="/portal" className="mdp-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="mdp-backlink">← comida de dragão</a>
             <DragonLogo className="mdp-hero-logo" />
           </div>
 

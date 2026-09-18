@@ -98,7 +98,7 @@ export default function Matilde() {
       <section className="m-hero">
         <div className="m-hero-bg" />
         <div className="m-hero-content">
-          <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
+          <a href="https://www.comidadedragao.com.br/collections/produtos" className="archive-backlink">← voltar pro portal</a>
           <DragonLogo className="m-hero-logo" />
           <div className="m-hero-eyebrow">Para cachorros e gatos 🐶🐱</div>
           <h1 className="m-hero-title">

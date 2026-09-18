@@ -149,7 +149,7 @@ const Idoso = () => {
       <section className="ilp-hero">
         <div className="ilp-hero-inner">
           <div className="ilp-hero-top">
-            <Link to="/portal" className="ilp-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="ilp-backlink">← comida de dragão</a>
             <DragonLogo className="ilp-hero-logo" />
           </div>
 

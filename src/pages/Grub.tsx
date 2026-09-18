@@ -272,7 +272,7 @@ const Grub = () => {
       <section className="grb-hero">
         <div className="grb-hero-inner">
           <div className="grb-hero-top">
-            <Link to="/portal" className="grb-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="grb-backlink">← comida de dragão</a>
             <DragonLogo className="grb-hero-logo" />
           </div>
 

@@ -173,7 +173,7 @@ const AlergiaGoogle = () => {
       <section className="alp-hero">
         <div className="alp-hero-inner">
           <div className="alp-hero-top">
-            <Link to="/portal" className="alp-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="alp-backlink">← comida de dragão</a>
             <DragonLogo className="alp-hero-logo" />
           </div>
 

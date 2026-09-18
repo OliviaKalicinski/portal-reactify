@@ -193,7 +193,7 @@ const Suplemento = () => {
       <section className="slp-hero">
         <div className="slp-hero-inner">
           <div className="slp-hero-top">
-            <Link to="/portal" className="slp-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="slp-backlink">← comida de dragão</a>
             <DragonLogo className="slp-hero-logo" />
           </div>
 

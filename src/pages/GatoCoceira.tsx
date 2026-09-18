@@ -138,7 +138,7 @@ const GatoCoceira = () => {
       <section className="gcp-hero">
         <div className="gcp-hero-inner">
           <div className="gcp-hero-top">
-            <Link to="/portal" className="gcp-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="gcp-backlink">← comida de dragão</a>
             <DragonLogo className="gcp-hero-logo" />
           </div>
 

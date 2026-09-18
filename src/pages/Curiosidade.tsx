@@ -146,7 +146,7 @@ const Curiosidade = () => {
       <section className="cur-hero">
         <div className="cur-hero-inner">
           <div className="cur-hero-top">
-            <Link to="/portal" className="cur-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="cur-backlink">← comida de dragão</a>
             <DragonLogo className="cur-hero-logo" />
           </div>
 

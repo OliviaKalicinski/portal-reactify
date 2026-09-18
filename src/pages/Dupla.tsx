@@ -276,7 +276,7 @@ const Dupla = () => {
       <section className="mdp-hero">
         <div className="mdp-hero-inner">
           <div className="mdp-hero-top">
-            <Link to="/portal" className="mdp-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="mdp-backlink">← comida de dragão</a>
           </div>
 
           {/* Desktop = 2 colunas: título+texto à esquerda, foto grande + botão à direita.

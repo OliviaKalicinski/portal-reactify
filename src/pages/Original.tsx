@@ -129,7 +129,7 @@ const Original = () => {
       <section className="olp-hero">
         <div className="olp-hero-inner">
           <div className="olp-hero-top">
-            <Link to="/portal" className="olp-backlink">← comida de dragão</Link>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" className="olp-backlink">← comida de dragão</a>
             <DragonLogo className="olp-hero-logo" />
           </div>
 
