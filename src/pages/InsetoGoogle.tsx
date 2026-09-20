@@ -49,7 +49,7 @@ const CHIPS = [
   "💚 Garantia 14 dias",
 ];
 
-/* ÂNGULO "VÍCIO DO BOM": o petisco que o cão ama E que faz bem por dentro.
+/* ÂNGULO "o cão ama E o corpo aproveita": o petisco que faz bem por dentro.
    Benefícios no eixo PET (aceitação + digestão + nutrição) — sem liderar por
    alergia (isso é da /alergia) nem idoso. */
 const BENEFICIOS = [
@@ -74,7 +74,7 @@ const BENEFICIOS = [
 ];
 
 /* Reviews REAIS em texto (paridade com /alergia · verbatim do banco de Vozes).
-   Voz da PALATABILIDADE ('vício do bom'): o cão ama + faz bem. NÃO inventar. */
+   Voz da PALATABILIDADE: o cão ama + faz bem. NÃO inventar. */
 const REVIEWS_TXT = [
   {
     quote: "O PETISCO QUE LEVA MEUS CÃES A <strong>LOUCURA</strong> E O MELHOR <strong>SEEEEEM DAR DOR DE BARRIGA</strong>! EU AMEI!",
@@ -218,7 +218,7 @@ const InsetoGoogle = () => {
         <div className="cur-section-inner">
           <span className="cur-tag">por que faz bem</span>
           <h2 className="cur-section-title">
-            Vício, sim.<br /><span>Do bom.</span>
+            Proteína que o corpo<br /><span>aproveita de verdade.</span>
           </h2>
           <p className="cur-section-lead">
             Petisco que deixa o cão louco quase sempre é porcaria — ultraprocessado, dá dor de barriga.
@@ -279,7 +279,7 @@ const InsetoGoogle = () => {
         <div className="cur-section-inner">
           <span className="cur-tag">tutores reais · cães reais</span>
           <h2 className="cur-section-title">
-            Eles viram vício.<br /><span>Do bom.</span>
+            Cão amou.<br /><span>Tutor confirma.</span>
           </h2>
 
           <div className="cur-quotes">
