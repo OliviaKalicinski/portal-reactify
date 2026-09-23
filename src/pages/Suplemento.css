@@ -805,7 +805,7 @@
   .slp-hero-inner {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: 16px 48px; /* 23/09: o gap de 48px valia entre LINHAS também e empurrava o botão pra fora da 1ª tela */
+    gap: 16px 80px; /* 23/09: o gap de 48px valia entre LINHAS também e empurrava o botão pra fora da 1ª tela */
     align-items: center;
     text-align: left;
   }
@@ -830,6 +830,8 @@
   .slp-hero-title { font-size: 56px; line-height: 0.92; }
   /* botão logo depois do preço; o aviso do cupom desce pra baixo dele */
   .slp-hero-coupon { order: 1; }
+  /* 23/09 (Olivia): texto do topo centralizado no desktop */
+  .slp-hero-sub { justify-self: center; text-align: center; }
   .slp-hero-chips { order: 2; }
 }
 
