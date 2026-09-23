@@ -91,6 +91,12 @@ const CHIPS = [
    ⚠️ O PRIMEIRO item é o cão que está bem (Olivia, 26/08): a lista começava
    direto na queixa e contradizia o "pra todos os cães" do hero. */
 const PROBLEMAS = [
+  /* 23/09 — o enjoado entra PRIMEIRO: é a promessa do anúncio da @tascha_shihtzu
+     ("se eu coloco só a ração, elas não querem comer"), CTR 3,24%. */
+  {
+    dor: "Enjoou da ração e deixa sobrar na tigela",
+    causa: "uma colher por cima muda a tigela de sempre — e cada colher leva proteína de verdade, não só sabor.",
+  },
   {
     dor: "Ele está bem — e você quer que continue",
     causa: "manutenção também é trabalho: músculo, pelo e defesa se sustentam com proteína boa entrando todo dia, não só quando algo dá errado.",
@@ -102,10 +108,6 @@ const PROBLEMAS = [
   {
     dor: "O idoso está perdendo massa",
     causa: "com a idade ele aproveita menos a proteína da mesma tigela, e a perna fina aparece antes de a balança mudar.",
-  },
-  {
-    dor: "Come pouco, e você fica na dúvida se foi o bastante",
-    causa: "quando o apetite é curto, o que importa não é o volume no pote: é o quanto de proteína cabe em cada colher.",
   },
   {
     dor: "Já tentou suplemento e não viu diferença",
@@ -227,18 +229,19 @@ const Suplemento = () => {
               "para todos os cães" — que a Olivia pediu no H1, então a eyebrow deixou de
               repetir a frase —, e as fases continuam na sub,
               mas como exemplos — com o cão saudável incluído na lista. */}
-          <span className="slp-hero-eyebrow">45% de proteína · pó pra polvilhar · Reg. MAPA</span>
+          <span className="slp-hero-eyebrow">para todos os cães · 45% de proteína · Reg. MAPA</span>
 
+          {/* 23/09 — campanha Meta 30% com o criativo da @tascha_shihtzu: o H1 abre pela
+              promessa do anúncio (cão enjoado da ração) e fecha no nutricional.
+              "Para todos os cães" (decisão de 26/08) segue na eyebrow e na sub. */}
           <h1 className="slp-hero-title">
-            Proteína a mais,<br /><span>para todos os cães.</span>
+            Enjoou da ração?<br /><span>Polvilha proteína por cima.</span>
           </h1>
 
           <p className="slp-hero-sub">
-            <strong>Todo cão come melhor com mais proteína</strong> — o filhote que está crescendo, o
-            adulto que corre, o idoso que precisa segurar o músculo e também o saudável que você quer
-            manter assim. O Integral é <strong>pó</strong>: polvilha por cima da ração de sempre, uma
-            vez por dia. São <strong>45% de proteína</strong> de larva, com cúrcuma e spirulina,{" "}
-            <strong>sem frango, boi, soja nem glúten</strong>.
+            Uma colher na ração de sempre e ele volta pra tigela. São{" "}
+            <strong>45% de proteína</strong> de larva, com cúrcuma e spirulina: músculo, pelo e
+            defesa <strong>pra todo cão</strong>, do filhote ao idoso.
           </p>
 
           <div className="slp-hero-product-frame">
