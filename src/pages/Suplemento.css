@@ -167,6 +167,9 @@
   margin: 0 auto 24px;
 }
 .slp-hero-sub strong { color: var(--ink-primary); }
+/* 23/09 (Olivia): `.suplemento-lp p { margin: 0 }` ganhava por especificidade e prendia o
+   bloco à esquerda entre 720 e 980px. */
+.suplemento-lp .slp-hero-sub { margin: 0 auto 24px; }
 
 .slp-hero-product-frame {
   position: relative;
