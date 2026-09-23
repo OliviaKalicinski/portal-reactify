@@ -95,11 +95,11 @@ const PROBLEMAS = [
      ("se eu coloco só a ração, elas não querem comer"), CTR 3,24%. */
   {
     dor: "Enjoou da ração e deixa sobrar na tigela",
-    causa: "uma colher por cima muda a tigela de sempre — e cada colher leva proteína de verdade, não só sabor.",
+    causa: "uma colher por cima muda a ração de sempre e leva proteína de verdade, não só sabor.",
   },
   {
     dor: "Ele está bem — e você quer que continue",
-    causa: "manutenção também é trabalho: músculo, pelo e defesa se sustentam com proteína boa entrando todo dia, não só quando algo dá errado.",
+    causa: "músculo, pelo e defesa se sustentam com proteína boa todo dia, não só quando algo dá errado.",
   },
   {
     dor: "Ele come tudo e continua magrelo",
@@ -132,7 +132,7 @@ const BENEFICIOS = [
     stat: "0",
     statLbl: "alérgenos comuns",
     title: "Hipoalergênico de verdade",
-    desc: "Sem frango, boi, soja ou glúten. Mistura na ração sem risco pra pet sensível. <strong>Acompanha dosador.</strong>",
+    desc: "Sem frango, boi, soja ou glúten. Vai por cima da ração sem risco pra pet sensível. <strong>Acompanha dosador.</strong>",
   },
 ];
 
@@ -309,7 +309,7 @@ const Suplemento = () => {
 
           <div className="slp-section-cta">
             <a href={ctaUrl("problema")} className="slp-btn-primary" data-cta="problema" onClick={onCta("problema")}>
-              Quero resolver a proteína →
+              Quero pro meu cão →
             </a>
           </div>
         </div>
@@ -325,8 +325,7 @@ const Suplemento = () => {
           <p className="slp-section-lead">
             A gente faz na nossa biofábrica em Cachoeiras de Macacu. Farinha
             de larva de Mosca Soldado Negra, <strong>registro MAPA</strong>,
-            rastreabilidade do começo ao fim. Sustentável de verdade — sem
-            greenwashing.
+            rastreabilidade do começo ao fim.
           </p>
 
           <div className="slp-beneficios">
@@ -379,7 +378,7 @@ const Suplemento = () => {
 
           <ul className="slp-problemas-list">
             <li className="slp-problema-item">
-              <b>Comece com meia medida</b> — polvilha por cima da ração de sempre, sem misturar, e vai aumentando até a medida do porte dele.
+              <b>Começa com meia medida</b> — polvilha por cima da ração de sempre, sem misturar, e vai aumentando até a medida do porte dele.
             </li>
             <li className="slp-problema-item">
               <b>Um pote dura semanas</b> — de 12 dias num cão grande a mais de um mês num mini. Dá tempo de o hábito pegar.
