@@ -204,10 +204,11 @@ const Suplemento = () => {
       <section className="slp-hero">
         <div className="slp-hero-inner">
           <div className="slp-hero-top">
-            <a href="https://www.comidadedragao.com.br/collections/produtos" className="slp-backlink">← comida de dragão</a>
-            <a href="https://www.comidadedragao.com.br/collections/produtos">
-              <DragonLogo className="slp-hero-logo" />
-            </a>
+            {/* 23/09 (auditoria mobile): saíram o "← comida de dragão" e o link do logo.
+                Eram a única saída da primeira tela e levavam o tráfego pago pra loja,
+                a preço cheio e sem o SUPLEMENTO30. */}
+            <span />
+            <DragonLogo className="slp-hero-logo" />
           </div>
 
           {/* HERO REESCRITO 25/08 (opção A, escolhida pela Olivia).
@@ -263,7 +264,7 @@ const Suplemento = () => {
             <span className="slp-price-from">Suplemento Integral 180g</span>
             <s className="slp-price-old">R$ {PRECO_CHEIO}</s>
             <span className="slp-price-now"><small>R$</small>{PRECO_OFERTA}</span>
-            <span className="slp-price-installment">4× sem juros · 180g</span>
+            <span className="slp-price-installment">4× sem juros · frete pelo CEP no checkout</span>
           </div>
 
           <div className="slp-hero-coupon">
@@ -407,10 +408,12 @@ const Suplemento = () => {
             <div
               className="slp-slider"
               role="region"
+              aria-roledescription="carrossel"
               aria-label="Fotos de pets e reviews de tutores"
+              tabIndex={0}
             >
               {SLIDES.map((s, i) => (
-                <figure className="slp-slide" key={i}>
+                <figure className="slp-slide" key={i} aria-roledescription="slide" aria-label={`${i + 1} de ${SLIDES.length}`}>
                   <span
                     className={`slp-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}
                   >
@@ -471,7 +474,7 @@ const Suplemento = () => {
           </a>
 
           <p className="slp-hero-note" style={{ marginTop: 16 }}>
-            Compra 100% segura via Yampi · cartão, Pix ou boleto
+            Frete calculado pelo CEP no checkout · compra 100% segura via Yampi · cartão, Pix ou boleto
           </p>
         </div>
       </section>
