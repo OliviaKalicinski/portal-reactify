@@ -6,7 +6,6 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Suplemento.css";
 import LeadPopup from "@/components/LeadPopup";
-import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — SUPLEMENTO INTEGRAL
@@ -37,8 +36,17 @@ import { isDayOfClienteActive } from "@/lib/promotions";
    que a página menciona agora é o do CREATOR: quem acompanha a marca no
    Instagram tem o cupom de algum influenciador e digita no checkout.
    Mesmo padrão da /original desde 19/08.
-   UTMs marcam tráfego como Meta Ads + utm_content varia por CTA. */
-const PRODUCT_URL = "https://seguro.comidadedragao.com.br/r/BII063ST2H";
+   UTMs marcam tráfego como Meta Ads + utm_content varia por CTA.
+   23/09 — VOLTA cupom no link: campanha Meta do Suplemento com 30% (autorizado
+   pelo Timm). `SUPLEMENTO30` só existe nesta página, 1 uso por cliente, e precisa
+   estar ATIVO NA YAMPI (cupom da Shopify não atravessa). Com ele no link o cupom
+   de creator não entra por cima — por isso a caixa "tem cupom de creator?" saiu. */
+const CUPOM = "SUPLEMENTO30";
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/BII063ST2H?promocode=${CUPOM}`;
+
+/* Preço cheio conferido na Shopify em 23/09 (SKU 302, R$ 110,00). 30% = R$ 77,00. */
+const PRECO_CHEIO = "110,00";
+const PRECO_OFERTA = "77,00";
 
 /** Fallback usado SO quando o anuncio nao trouxe utm_ (trafego direto/organico). */
 const UTM_FALLBACK = {
@@ -178,7 +186,8 @@ const Suplemento = () => {
   /* AddToCart no clique — não bloqueia a navegação: o fbq usa sendBeacon e o
      link segue normalmente pro carrinho. */
   const onCta = (cta: string) => () => trackAddToCart({ ...PIXEL_PRODUTO, cta });
-  const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
+  /* 23/09 — o Dia do Cliente (-10%) não aparece mais aqui: os 30% do link valem
+     sozinhos e dois descontos na mesma página confundem. */
   return (
     <div className="suplemento-lp">
       <PageMeta
@@ -233,11 +242,9 @@ const Suplemento = () => {
           </p>
 
           <div className="slp-hero-product-frame">
-            {daydeal && (
-              <span className="slp-daydeal-corner">
-                dia do<br />cliente<br /><strong>-10%</strong>
-              </span>
-            )}
+            <span className="slp-daydeal-corner">
+              só por<br />aqui<br /><strong>-30%</strong>
+            </span>
             <img
               src={HERO_IMG}
               alt="Pote Comida de Dragão Suplemento Integral — 180g de farinha de larva BSF"
@@ -251,13 +258,13 @@ const Suplemento = () => {
 
           <div className="slp-hero-price">
             <span className="slp-price-from">Suplemento Integral 180g</span>
-            {daydeal && <s className="slp-price-old">R$ 110,00</s>}
-            <span className="slp-price-now"><small>R$</small>{daydeal ? "99,00" : "110,00"}</span>
+            <s className="slp-price-old">R$ {PRECO_CHEIO}</s>
+            <span className="slp-price-now"><small>R$</small>{PRECO_OFERTA}</span>
             <span className="slp-price-installment">4× sem juros · 180g</span>
           </div>
 
           <div className="slp-hero-coupon">
-            🎟️ segue algum creator nosso no Instagram? o cupom dele vale no checkout
+            🎟️ 30% de desconto já aplicado no carrinho — só pra quem chega por esta página
           </div>
 
           <div className="slp-hero-cta-wrap">
@@ -429,7 +436,7 @@ const Suplemento = () => {
               adiante, na oferta. */}
           <div className="slp-section-cta">
             <a href={ctaUrl("prova")} className="slp-btn-primary" data-cta="prova" onClick={onCta("prova")}>
-              Quero o meu · R$ {daydeal ? "99,00" : "110,00"} →
+              Quero o meu · R$ {PRECO_OFERTA} →
             </a>
           </div>
         </div>
@@ -443,17 +450,17 @@ const Suplemento = () => {
               em 19/08) e o cupom BORALA, por decisão da Olivia. O desconto que
               sobra é o do creator, que a pessoa digita no checkout — a página
               avisa que existe, não promete valor que o link não entrega. */}
-          <span className="slp-tag tag-lime">{daydeal ? "dia do cliente · -10%" : "pronto pra levar"}</span>
+          <span className="slp-tag tag-lime">só por esta página · -30%</span>
           <h2 className="slp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             Suplemento Integral<br />
-            <span>{daydeal ? <><s className="slp-price-old">R$ 110,00</s> por R$ 99,00</> : "180g por R$ 110,00"}</span>
+            <span><s className="slp-price-old">R$ {PRECO_CHEIO}</s> por R$ {PRECO_OFERTA}</span>
           </h2>
 
           <div className="slp-oferta-coupon-box">
-            <div className="slp-oferta-coupon-label">tem cupom de creator?</div>
+            <div className="slp-oferta-coupon-label">o desconto já vai no carrinho</div>
             <div className="slp-oferta-coupon-desc">
-              Vários creators que a gente repostou no Instagram têm cupom — se você
-              segue algum, é só digitar o dele no checkout.
+              Clicou, o Integral entra no carrinho com os 30% aplicados. Não precisa
+              digitar cupom. Vale uma compra por pessoa.
             </div>
           </div>
 
@@ -525,7 +532,7 @@ const Suplemento = () => {
         <div className="slp-sticky-info">
           <span className="slp-sticky-name">Suplemento Integral 180g</span>
           <span className="slp-sticky-price">
-            {daydeal ? <><s className="slp-price-old">R$ 110,00</s> R$ 99,00</> : "R$ 110,00"} · 4× sem juros
+            <s className="slp-price-old">R$ {PRECO_CHEIO}</s> R$ {PRECO_OFERTA} · 4× sem juros
           </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky" onClick={onCta("sticky")}>Comprar →</a>
