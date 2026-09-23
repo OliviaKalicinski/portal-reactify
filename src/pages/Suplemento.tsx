@@ -453,7 +453,7 @@ const Suplemento = () => {
           <span className="slp-tag tag-lime">só por esta página · -30%</span>
           <h2 className="slp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             Suplemento Integral<br />
-            <span><s className="slp-price-old">R$ {PRECO_CHEIO}</s> por R$ {PRECO_OFERTA}</span>
+            <span><s className="slp-price-old">R$ {PRECO_CHEIO}</s> por <span style={{ whiteSpace: "nowrap" }}>R$ {PRECO_OFERTA}</span></span>
           </h2>
 
           <div className="slp-oferta-coupon-box">
@@ -532,7 +532,7 @@ const Suplemento = () => {
         <div className="slp-sticky-info">
           <span className="slp-sticky-name">Suplemento Integral 180g</span>
           <span className="slp-sticky-price">
-            <s className="slp-price-old">R$ {PRECO_CHEIO}</s> R$ {PRECO_OFERTA} · 4× sem juros
+            <s className="slp-price-old">R$ {PRECO_CHEIO}</s> <span style={{ whiteSpace: "nowrap" }}>R$ {PRECO_OFERTA}</span> · <span style={{ whiteSpace: "nowrap" }}>4× sem juros</span>
           </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky" onClick={onCta("sticky")}>Comprar →</a>
