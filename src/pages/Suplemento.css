@@ -805,7 +805,7 @@
   .slp-hero-inner {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: 48px;
+    gap: 16px 48px; /* 23/09: o gap de 48px valia entre LINHAS também e empurrava o botão pra fora da 1ª tela */
     align-items: center;
     text-align: left;
   }
@@ -824,7 +824,18 @@
   .slp-hero-cta-wrap { justify-self: start; }
   .slp-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
   .slp-section-title, .slp-cta-final h2 { font-size: 60px; }
+  /* 23/09 (auditoria desktop): em 82px o título quebrava em 5 linhas e empurrava
+     preço (y 841) e botão (y 1185) pra fora da 1ª tela em 1440×900 e 1280×800 —
+     e a barra fixa some acima de 720px. */
+  .slp-hero-title { font-size: 56px; line-height: 0.92; }
+  /* botão logo depois do preço; o aviso do cupom desce pra baixo dele */
+  .slp-hero-coupon { order: 1; }
+  .slp-hero-chips { order: 2; }
 }
+
+/* 23/09 (auditoria desktop): parágrafos de seção batiam ~90 caracteres por linha. */
+.slp-section-lead { max-width: 600px; margin-left: auto; margin-right: auto; }
+.slp-btn-primary:focus-visible { outline: 3px solid var(--ink-primary); outline-offset: 3px; }
 
 /* ============= 25/08 — BLOCO ANTI-REJEIÇÃO + CTA DA SEÇÃO =============
    Clonado do Original.css (mesmos valores), que por sua vez veio da
