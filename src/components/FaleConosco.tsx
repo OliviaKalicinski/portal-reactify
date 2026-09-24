@@ -4,7 +4,8 @@ import { useLocation } from "react-router-dom";
 /*
  * Bolinha fixa de WhatsApp ("Fale conosco") nas LPs de venda — igual à da loja Shopify
  * (snippets/fale-conosco.liquid do tema, 23–24/09/2026): círculo 48px violeta #925AED do Brand Guide,
- * ícone branco 26px, canto inferior esquerdo, borda e sombra #0f2626, foco rosa #ff0066.
+ * ícone branco 26px, borda e sombra #0f2626, foco rosa #ff0066.
+ * Nas LPs fica no canto inferior DIREITO, logo acima da barra fixa de compra (Olivia, 24/09); na loja é à esquerda.
  * Número: SAC (21) 3950-0576 (Persona de atendimento; rodapé da loja; 10h–17h).
  *
  * Só aparece depois que a pessoa rola um pouco (60% da altura da tela): na primeira tela ela cobria a tag de
@@ -100,7 +101,7 @@ const FaleConosco = () => {
       <style>{`
         .cdd-fale-conosco {
           position: fixed;
-          left: 16px;
+          right: 16px;
           bottom: 16px;
           z-index: 40;
           display: inline-flex;
@@ -128,7 +129,7 @@ const FaleConosco = () => {
         .cdd-fale-conosco.is-visivel:hover { transform: translate(-1px, calc(-1px - var(--sobe, 0px))); box-shadow: 4px 4px 0 #0f2626; }
         .cdd-fale-conosco:focus-visible { outline: 3px solid #ff0066; outline-offset: 3px; }
         @media (max-width: 749px) {
-          .cdd-fale-conosco { left: ${ESPACO}px; bottom: ${ESPACO}px; }
+          .cdd-fale-conosco { right: ${ESPACO}px; bottom: ${ESPACO}px; }
         }
         @media (prefers-reduced-motion: reduce) {
           .cdd-fale-conosco, .cdd-fale-conosco.is-visivel { transition: none; }
