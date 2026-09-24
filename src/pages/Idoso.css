@@ -855,7 +855,7 @@
   .ilp-hero-inner {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: 48px;
+    gap: 16px 80px; /* 24/09: o gap de 48px valia entre linhas também e empurrava o botão para fora da 1ª tela (como na /suplemento) */
     align-items: center;
     text-align: left;
   }
@@ -874,4 +874,15 @@
   .ilp-hero-cta-wrap { justify-self: start; }
   .ilp-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
   .ilp-section-title, .ilp-cta-final h2 { font-size: 60px; }
+  /* 24/09 (auditoria desktop, fase 3): título de 82px empurrava preço e botão para fora da 1ª tela; a barra fixa some acima de 720px */
+  .ilp-hero-title { font-size: 56px; line-height: 0.92; }
+  /* botão logo depois do preço; o aviso do cupom e os chips descem para baixo dele */
+  .ilp-hero-coupon { order: 1; }
+  .ilp-hero-chips { order: 2; }
+  /* 24/09 (fase 3): as margens do topo somavam ~120px ao espaço da grade; apertadas para o botão caber em 1280×800 */
+  .ilp-hero-top { margin-bottom: 0; }
+  .ilp-hero-eyebrow { margin-bottom: 4px; }
+  .ilp-hero-title { margin-bottom: 4px; }
+  .ilp-hero-sub { margin-bottom: 8px; }
+  .ilp-hero-price { margin-bottom: 4px; }
 }

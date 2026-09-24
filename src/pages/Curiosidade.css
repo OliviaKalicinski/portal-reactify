@@ -833,7 +833,7 @@
   .cur-hero-inner {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: 48px;
+    gap: 16px 80px; /* 24/09: o gap de 48px valia entre linhas também e empurrava o botão para fora da 1ª tela (como na /suplemento) */
     align-items: center;
     text-align: left;
   }
@@ -852,6 +852,19 @@
   .cur-hero-cta-wrap { justify-self: start; }
   .cur-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
   .cur-section-title, .cur-cta-final h2 { font-size: 60px; }
+  /* 24/09 (auditoria desktop, fase 3): título de 82px empurrava preço e botão para fora da 1ª tela; a barra fixa some acima de 720px */
+  /* 48px, não 56: com a coluna de 428px o título da /curiosidade quebrava em 3 linhas e o botão ficava a 740–815px */
+  .cur-hero-title { font-size: 48px; line-height: 0.92; }
+  /* botão logo depois do preço; o aviso do cupom e os chips descem para baixo dele */
+  .cur-hero-coupon { order: 1; }
+  .cur-hero-chips { order: 2; }
+  /* 24/09 (fase 3): as margens do topo somavam ~120px ao espaço da grade; apertadas para o botão caber em 1280×800 */
+  .cur-hero-top { margin-bottom: 0; }
+  .cur-hero-eyebrow { margin-bottom: 4px; }
+  .cur-hero-title { margin-bottom: 4px; }
+  .cur-hero-claim { margin-bottom: 4px; }
+  .cur-hero-sub { margin-bottom: 8px; }
+  .cur-hero-price { margin-bottom: 4px; }
 }
 
 /* ============= REVIEWS EM TEXTO (paridade com /alergia) ============= */

@@ -765,7 +765,7 @@
   .mdp-hero-inner {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: 48px;
+    gap: 16px 80px; /* 24/09: o gap de 48px valia entre linhas também e empurrava o botão para fora da 1ª tela (como na /suplemento) */
     align-items: center;
     text-align: left;
   }
@@ -784,6 +784,11 @@
   .mdp-hero-cta-wrap { justify-self: start; }
   .mdp-hero-chips { justify-content: flex-start; margin-left: 0; margin-right: 0; }
   .mdp-section-title, .mdp-cta-final h2 { font-size: 60px; }
+  /* 24/09 (auditoria desktop, fase 3): título de 82px empurrava preço e botão para fora da 1ª tela; a barra fixa some acima de 720px */
+  .mdp-hero-title { font-size: 56px; line-height: 0.92; }
+  /* botão logo depois do preço; o aviso do cupom e os chips descem para baixo dele */
+  .mdp-hero-coupon { order: 1; }
+  .mdp-hero-chips { order: 2; }
 }
 
 
