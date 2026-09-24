@@ -5,6 +5,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import FaleConosco from "@/components/FaleConosco";
 
 /* Code-splitting por rota — cada página vira um chunk separado.
    Ganho crítico em LPs de tráfego pago: o usuário só baixa
@@ -119,6 +120,8 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          {/* Bolinha de WhatsApp igual à da loja, só nas LPs de venda (lista em FaleConosco.tsx) */}
+          <FaleConosco />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

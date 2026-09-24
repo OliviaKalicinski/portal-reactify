@@ -615,7 +615,7 @@ const Dupla = () => {
         inert={!stickyVisivel ? "" : undefined}
       >
         <div className="mdp-sticky-info">
-          <span className="mdp-sticky-name">Mordida de Dragão · 180g</span>
+          <span className="mdp-sticky-name">Kit Original + Mordida · 270g</span>
           <span className="mdp-sticky-price">R$ {PRICE} · garantia 14 dias</span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>

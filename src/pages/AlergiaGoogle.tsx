@@ -186,7 +186,7 @@ const AlergiaGoogle = () => {
           </h1>
 
           <p className="alp-hero-sub">
-            Na maioria das vezes a alergia não é "do nada" — é a <strong>proteína que está na comida dele</strong>
+            Na maioria das vezes a alergia não é "do nada" — é a <strong>proteína que está na comida dele</strong>{" "}
             (frango, boi, grão) que o corpo já conhece. A Comida de Dragão é
             <strong> proteína de inseto</strong>: nova pro organismo, <strong>hipoalergênica de verdade</strong>.
             O <strong>Kit Cachorro</strong> junta o petisco e o suplemento pra cuidar da pele e do intestino.

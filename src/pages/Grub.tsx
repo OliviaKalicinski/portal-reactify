@@ -656,7 +656,7 @@ const Grub = () => {
             <a href="https://www.comidadedragao.com.br">Loja</a>
             <Link to="/produtos">Linha completa</Link>
             <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="https://wa.me/5521993049400" target="_blank" rel="noreferrer">Contato</a>
+            <a href="https://wa.me/552139500576" target="_blank" rel="noreferrer">Contato</a>
           </nav>
           <p className="grb-footer-tagline">Nojento é o desperdício.</p>
           <p className="grb-footer-credits">

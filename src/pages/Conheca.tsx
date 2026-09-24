@@ -149,7 +149,7 @@ const Conheca = () => {
           <p className="cnh-hero-sub">
             A gente faz <strong>alimento pra pet de larva de inseto</strong> — parece estranho por
             5 segundos, aí a ficha cai: é uma das proteínas mais <strong>completas, digestíveis e
-            hipoalergênicas</strong> que existem, e o seu cão ama. O <strong>Kit Cachorro</strong>
+            hipoalergênicas</strong> que existem, e o seu cão ama. O <strong>Kit Cachorro</strong>{" "}
             junta o petisco de larva (Original) + o Suplemento Integral do dia a dia. E como você
             é de casa, já vai com <strong>10% off</strong>.
           </p>
