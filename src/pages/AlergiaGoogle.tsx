@@ -424,7 +424,7 @@ const AlergiaGoogle = () => {
             </li>
           </ul>
 
-          <p className="alp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+          <p className="alp-section-lead" style={{ marginTop: 20, fontSize: 16, opacity: 0.7 }}>
             Dieta de proteína nova é uma abordagem reconhecida — mas <strong>não substitui a
             prescrição do seu veterinário</strong>. Leve o rótulo pra ele e decidam juntos.
           </p>

@@ -413,7 +413,7 @@ const GrubGoogle = () => {
             ))}
           </ul>
 
-          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 15 }}>
+          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 16 }}>
             <strong>Não serve pra tarântula nem outras aranhas.</strong> Nenhum produto da linha
             Comida de Dragão é indicado pra elas — a gente prefere falar isso na cara do que
             vender errado.
@@ -461,7 +461,7 @@ const GrubGoogle = () => {
             </li>
           </ul>
 
-          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 15 }}>
+          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 16 }}>
             E tem uma coisa que joga a favor: <strong>o Grub não tem cheiro</strong>. Não é o odor
             que afasta o bicho nem que toma conta da casa — e, diferente do inseto vivo, o que
             sobra não estraga em cima da hora.
@@ -513,7 +513,7 @@ const GrubGoogle = () => {
             ))}
           </div>
 
-          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 16, opacity: 0.7 }}>
             É alimento completo, mas para usar dentro de uma alimentação variada — não substitui
             tudo o que ele come, nem o acompanhamento do veterinário.
           </p>

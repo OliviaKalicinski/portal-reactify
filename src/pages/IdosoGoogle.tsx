@@ -310,7 +310,7 @@ const IdosoGoogle = () => {
             <Link to="/ciencia">Como a proteína de inseto age no corpo dele →</Link>
           </p>
 
-          <p className="ilp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+          <p className="ilp-section-lead" style={{ marginTop: 20, fontSize: 16, opacity: 0.7 }}>
             Complemento nutricional — não substitui a ração nem o acompanhamento veterinário.
             Todo cão sênior merece dieta específica e checagem regular com o vet.
           </p>

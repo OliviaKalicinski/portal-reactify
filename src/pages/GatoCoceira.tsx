@@ -247,7 +247,7 @@ const GatoCoceira = () => {
             ))}
           </div>
 
-          <p className="gcp-section-lead" style={{ marginTop: 20, fontSize: 14, opacity: 0.7 }}>
+          <p className="gcp-section-lead" style={{ marginTop: 20, fontSize: 16, opacity: 0.7 }}>
             Complemento nutricional — não substitui a ração nem o acompanhamento veterinário.
             Coceira tem várias causas: o diagnóstico é sempre do vet.
           </p>

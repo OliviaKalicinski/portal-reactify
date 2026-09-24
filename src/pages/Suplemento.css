@@ -231,7 +231,7 @@
 }
 .slp-price-from {
   font-family: 'Space Mono', monospace;
-  font-size: 12px;
+  font-size: 13px; /* era 12px (auditoria de tipografia, 24/09) */
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-muted);
@@ -251,7 +251,7 @@
 }
 .slp-price-installment {
   font-family: 'Space Mono', monospace;
-  font-size: 12px;
+  font-size: 13px; /* era 12px (auditoria de tipografia, 24/09) */
   color: var(--ink-muted);
   letter-spacing: 0.04em;
 }
@@ -285,7 +285,7 @@
 }
 .slp-chip {
   font-family: 'Space Mono', monospace;
-  font-size: 10px;
+  font-size: 12px; /* era 10px (auditoria de tipografia, 24/09) */
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
