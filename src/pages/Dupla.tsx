@@ -37,6 +37,8 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
 const HERO_IMG =
   "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/kit-petiscos.png?v=1785150064";
 
+const SELOS = ["Sem glúten", "Sem conservante artificial", "Natural", "Proteína hipoalergênica"];
+
 const CHIPS = [
   "🚚 Entrega Brasil",
   "🛡️ Compra segura",
@@ -131,7 +133,9 @@ const FAQ = [
 const Dupla = () => {
   useEffect(() => { captureEntryUtms(); }, []);
   return (
-    <div className="curiosidade-lp">
+    <div className="curiosidade-lp dupla-lp">
+      {/* desktop: a faixa de selos é um item a mais na coluna da direita do grid do hero */}
+      <style>{`@media (min-width: 980px) { .dupla-lp .cur-hero-product-wrap { grid-row: 2 / span 7; } .dupla-lp .dupla-selos { grid-column: 2; justify-content: flex-start !important; margin: 0 0 8px !important; } }`}</style>
       <PageMeta
         title="O petisco que seu cão ama — e que faz bem | Comida de Dragão"
         description="Larva de inseto, comida de verdade. O raro petisco que o cão vira vício e o corpo aproveita. Kit Original + Mordida."
@@ -166,6 +170,25 @@ const Dupla = () => {
             1 ingrediente só, <strong>88,9% digestível</strong>, comida de verdade do jeito que o corpo
             dele aproveita. Na dupla <strong>Original + Mordida</strong>.
           </p>
+
+          {/* 25/09 (opção B) — selos de benefício numa faixa ACIMA da foto, sem cobrir a embalagem.
+              Claims conferidos em "Produtos - decisões e claims": sem glúten vale nos dois
+              (wording da Mordida a validar com a Marcelle); a Mordida é "sem conservante
+              ARTIFICIAL" (usa extrato de alecrim); hipoalergênica é a PROTEÍNA, não o kit (ovo). */}
+          <div className="dupla-selos" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, margin: "4px auto 18px", maxWidth: 380 }}>
+            {SELOS.map((t, i) => (
+              <span
+                className="cur-hero-frete-tag"
+                key={t}
+                style={{
+                  transform: `rotate(${i % 2 ? 2 : -2}deg)`,
+                  ...(i % 2 ? { background: "var(--dragon-lime)", color: "var(--ink-primary)" } : {}),
+                }}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
 
           <div className="cur-hero-product-wrap">
             <img
