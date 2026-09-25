@@ -312,20 +312,13 @@ const Curiosidade = () => {
           25/09 — faixa verde neon de ponta a ponta para destacar a seção (Olivia) */}
       <section
         className="cur-section"
-        style={{ background: "var(--dragon-lime)", borderTop: "3px solid var(--ink-primary)", borderBottom: "3px solid var(--ink-primary)", padding: "44px 0 36px" }}
+        style={{ background: "var(--dragon-lime)", borderTop: "3px solid var(--ink-primary)", borderBottom: "3px solid var(--ink-primary)", padding: "28px 0 20px" }}
       >
         {/* o estilo do ReelsSection é escopado em .portal-page */}
         <div className="cur-section-inner portal-page" style={{ background: "transparent" }}>
-          <div style={{ textAlign: "center", padding: "0 20px" }}>
-            <span className="cur-tag">tutores reais · em vídeo</span>
-            <h2 className="cur-section-title" style={{ marginTop: 12 }}>
-              Quem deu,<br /><span>filmou.</span>
-            </h2>
-            <p className="cur-section-lead" style={{ marginBottom: 0 }}>Toque no vídeo pra ver com som.</p>
-          </div>
+          {/* 25/09 — sem textos na faixa (Olivia): só os vídeos */}
           {/* sem "ver tudo no Instagram": numa LP de venda, é uma saída da página */}
           <ReelsSection reels={REELS_VENCEDORES} title="" seeAllUrl="" />
-          <p className="cur-slider-hint" style={{ marginTop: 0 }}>← arraste pra ver mais →</p>
         </div>
       </section>
 

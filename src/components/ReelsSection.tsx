@@ -94,7 +94,7 @@ const ReelsSection = ({
 
   const open = useCallback((i: number) => {
     setActiveIdx(i);
-    setMuted(true);
+    setMuted(false); // 25/09 (Olivia): abriu no toque, já toca com som
   }, []);
 
   const close = useCallback(() => {
@@ -132,7 +132,14 @@ const ReelsSection = ({
     if (activeIdx !== null) {
       document.body.style.overflow = "hidden";
       const t = setTimeout(() => {
-        modalVideoRef.current?.play().catch(() => {});
+        const v = modalVideoRef.current;
+        // se o navegador barrar som sem gesto, cai para mudo em vez de não tocar
+        v?.play().catch(() => {
+          if (!v) return;
+          v.muted = true;
+          setMuted(true);
+          v.play().catch(() => {});
+        });
       }, 80);
       return () => { clearTimeout(t); document.body.style.overflow = ""; };
     } else {
