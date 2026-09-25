@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import "./Alergia.css";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
+import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — ALERGIA · /alergia
@@ -338,27 +339,7 @@ const Alergia = () => {
             ))}
           </div>
 
-          <div className="alp-slider-wrap">
-            <div className="alp-slider" role="region" aria-label="Reviews de tutores de cães alérgicos">
-              {SLIDES.map((s, i) => (
-                <figure className="alp-slide" key={i}>
-                  <span className={`alp-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}>
-                    {s.type === "ugc" ? "o kit" : "review"}
-                  </span>
-                  <img
-                    src={s.src}
-                    alt={s.alt}
-                    width={600}
-                    height={600}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                  />
-                </figure>
-              ))}
-            </div>
-          </div>
-
-          <p className="alp-slider-hint">← arraste pra ver mais →</p>
+          {/* 25/09 — carrossel de reviews em FOTO saiu (Olivia); os vídeos vencedores vêm logo abaixo */}
 
           <div className="alp-secao-cta">
             <a href={ctaUrl("secao-prova")} className="alp-btn-primary" data-cta="secao-prova">
@@ -367,6 +348,9 @@ const Alergia = () => {
           </div>
         </div>
       </section>
+
+      {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
+      <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla]} />
 
       {/* ════ OFERTA ════ */}
       <section className="alp-oferta">

@@ -5,6 +5,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Mordida.css";
 import { isDayOfClienteActive } from "@/lib/promotions";
+import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 
 /* ──────────────────────────────────────────────────────────────
    LP DE LANÇAMENTO — MORDIDA V2 · /mordida
@@ -458,6 +459,9 @@ const Mordida = () => {
           </div>
         </div>
       </section>
+
+      {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
+      <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga]} />
 
       {/* ════ PRA QUEM TEM CORAGEM ════ */}
 

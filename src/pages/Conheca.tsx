@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import "./Conheca.css";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
+import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CONHEÇA · /conheca
@@ -257,29 +258,12 @@ const Conheca = () => {
             Estranho no começo.<br /><span>Viciante no fim.</span>
           </h2>
 
-          <div className="cnh-slider-wrap">
-            <div className="cnh-slider" role="region" aria-label="Reviews de tutores">
-              {SLIDES.map((s, i) => (
-                <figure className="cnh-slide" key={i}>
-                  <span className={`cnh-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}>
-                    {s.type === "ugc" ? "o kit" : "review"}
-                  </span>
-                  <img
-                    src={s.src}
-                    alt={s.alt}
-                    width={600}
-                    height={600}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                  />
-                </figure>
-              ))}
-            </div>
-          </div>
-
-          <p className="cnh-slider-hint">← arraste pra ver mais →</p>
+          {/* 25/09 — carrossel de reviews em FOTO saiu (Olivia); os vídeos vencedores vêm logo abaixo */}
         </div>
       </section>
+
+      {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
+      <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla]} />
 
       {/* ════ OFERTA ════ */}
       <section className="cnh-oferta">

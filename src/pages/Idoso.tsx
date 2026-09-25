@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import "./Idoso.css";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
+import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CÃO IDOSO · /idoso
@@ -307,29 +308,12 @@ const Idoso = () => {
             <cite>— Déborah Morato · Santo Cristo/RS · Kit Original · Judge.me 5★</cite>
           </blockquote>
 
-          <div className="ilp-slider-wrap">
-            <div className="ilp-slider" role="region" aria-label="Reviews de tutores de cães idosos">
-              {SLIDES.map((s, i) => (
-                <figure className="ilp-slide" key={i}>
-                  <span className={`ilp-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}>
-                    {s.type === "ugc" ? "o kit" : "review"}
-                  </span>
-                  <img
-                    src={s.src}
-                    alt={s.alt}
-                    width={600}
-                    height={600}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                  />
-                </figure>
-              ))}
-            </div>
-          </div>
-
-          <p className="ilp-slider-hint">← arraste pra ver mais →</p>
+          {/* 25/09 — carrossel de reviews em FOTO saiu (Olivia); os vídeos vencedores vêm logo abaixo */}
         </div>
       </section>
+
+      {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
+      <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla]} />
 
       {/* ════ OFERTA ════ */}
       <section className="ilp-oferta">

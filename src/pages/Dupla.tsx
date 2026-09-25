@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Curiosidade.css";
+import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 
 /* ──────────────────────────────────────────────────────────────
    LP DUPLA · /dupla · Kit Original + Mordida
@@ -311,29 +312,12 @@ const Dupla = () => {
             ))}
           </div>
 
-          <div className="cur-slider-wrap">
-            <div className="cur-slider" role="region" aria-label="Reviews de tutores">
-              {SLIDES.map((s, i) => (
-                <figure className="cur-slide" key={i}>
-                  <span className={`cur-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}>
-                    {s.type === "ugc" ? "o kit" : "review"}
-                  </span>
-                  <img
-                    src={s.src}
-                    alt={s.alt}
-                    width={600}
-                    height={600}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                  />
-                </figure>
-              ))}
-            </div>
-          </div>
-
-          <p className="cur-slider-hint">← arraste pra ver mais →</p>
+          {/* 25/09 — carrossel de reviews em FOTO saiu (Olivia); os vídeos vencedores vêm logo abaixo */}
         </div>
       </section>
+
+      {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
+      <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.mytribesete, VIDEOS.pipo]} />
 
       {/* ════ OFERTA ════ */}
       <section className="cur-oferta">

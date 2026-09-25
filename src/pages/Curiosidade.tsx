@@ -5,7 +5,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Curiosidade.css";
 import LeadPopup from "@/components/LeadPopup";
-import ReelsSection, { type Reel } from "@/components/ReelsSection";
+import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
@@ -105,15 +105,6 @@ const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
 ];
 
 
-/* 25/09 — prova social em vídeo: os ANÚNCIOS VENCEDORES desta LP (lucro por venda > 0,
-   planilha "Originais de creator" de 25/09). Arquivo = post original do creator, 720×1280,
-   em public/assets/videos/reels/. Com poster, o vídeo só carrega no toque. */
-const REELS_VENCEDORES: Reel[] = [
-  { id: "mytribesete", src: "/assets/videos/reels/vencedor-mytribesete.mp4", poster: "/assets/videos/reels/vencedor-mytribesete.jpg", title: "@mytribesete" },
-  { id: "pipo", src: "/assets/videos/reels/vencedor-pipo.mp4", poster: "/assets/videos/reels/vencedor-pipo.jpg", title: "@pipo.odachshund" },
-  { id: "carla", src: "/assets/videos/reels/vencedor-carlavaccaroadestramento.mp4", poster: "/assets/videos/reels/vencedor-carlavaccaroadestramento.jpg", title: "@carlavaccaroadestramento" },
-  { id: "gabi", src: "/assets/videos/reels/vencedor-gabibraunaguiar.mp4", poster: "/assets/videos/reels/vencedor-gabibraunaguiar.jpg", title: "@gabibraunaguiar" },
-];
 
 const FAQ = [
   {
@@ -308,19 +299,8 @@ const Curiosidade = () => {
         </div>
       </section>
 
-      {/* ════ VÍDEOS DE QUEM JÁ DEU PRO CÃO (anúncios vencedores) ════
-          25/09 — faixa verde neon de ponta a ponta para destacar a seção (Olivia) */}
-      <section
-        className="cur-section"
-        style={{ background: "var(--dragon-lime)", borderTop: "3px solid var(--ink-primary)", borderBottom: "3px solid var(--ink-primary)", padding: "28px 0 20px" }}
-      >
-        {/* o estilo do ReelsSection é escopado em .portal-page */}
-        <div className="cur-section-inner portal-page" style={{ background: "transparent" }}>
-          {/* 25/09 — sem textos na faixa (Olivia): só os vídeos */}
-          {/* sem "ver tudo no Instagram": numa LP de venda, é uma saída da página */}
-          <ReelsSection reels={REELS_VENCEDORES} title="" seeAllUrl="" />
-        </div>
-      </section>
+      {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
+      <VideosVencedores reels={[VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
 
       {/* ════ OFERTA ════ */}
       <section className="cur-oferta">
