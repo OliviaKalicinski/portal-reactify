@@ -135,7 +135,7 @@ const Dupla = () => {
   return (
     <div className="curiosidade-lp dupla-lp">
       {/* desktop: a faixa de selos é um item a mais na coluna da direita do grid do hero */}
-      <style>{`@media (min-width: 980px) { .dupla-lp .cur-hero-product-wrap { grid-row: 2 / span 7; } .dupla-lp .dupla-selos { grid-column: 2; justify-content: flex-start !important; margin: 0 0 8px !important; } }`}</style>
+      <style>{`@media (min-width: 980px) { .dupla-lp .cur-hero-product-wrap { grid-row: 2 / span 7; } .dupla-lp .dupla-selos { grid-column: 2; align-items: flex-start !important; margin: 8px 0 12px !important; } .dupla-lp .dupla-selos > div { justify-content: flex-start !important; } }`}</style>
       <PageMeta
         title="O petisco que seu cão ama — e que faz bem | Comida de Dragão"
         description="Larva de inseto, comida de verdade. O raro petisco que o cão vira vício e o corpo aproveita. Kit Original + Mordida."
@@ -175,18 +175,29 @@ const Dupla = () => {
               Claims conferidos em "Produtos - decisões e claims": sem glúten vale nos dois
               (wording da Mordida a validar com a Marcelle); a Mordida é "sem conservante
               ARTIFICIAL" (usa extrato de alecrim); hipoalergênica é a PROTEÍNA, não o kit (ovo). */}
-          <div className="dupla-selos" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, margin: "4px auto 18px", maxWidth: 380 }}>
-            {SELOS.map((t, i) => (
-              <span
-                className="cur-hero-frete-tag"
-                key={t}
-                style={{
-                  transform: `rotate(${i % 2 ? 2 : -2}deg)`,
-                  ...(i % 2 ? { background: "var(--dragon-lime)", color: "var(--ink-primary)" } : {}),
-                }}
-              >
-                {t}
-              </span>
+          <div className="dupla-selos" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, margin: "20px auto 22px" }}>
+            {/* 2×2, centralizado (Olivia, 25/09): rosa / verde · verde / rosa */}
+            {[SELOS.slice(0, 2), SELOS.slice(2, 4)].map((linha, l) => (
+              <div key={l} style={{ display: "flex", justifyContent: "center", gap: 8 }}>
+                {linha.map((t, k) => {
+                  const verde = (l + k) % 2 === 1;
+                  return (
+                    <span
+                      className="cur-hero-frete-tag"
+                      key={t}
+                      style={{
+                        fontSize: 11,
+                        padding: "4px 8px",
+                        boxShadow: "2px 2px 0 var(--ink-primary)",
+                        transform: `rotate(${verde ? 2 : -2}deg)`,
+                        ...(verde ? { background: "var(--dragon-lime)", color: "var(--ink-primary)" } : {}),
+                      }}
+                    >
+                      {t}
+                    </span>
+                  );
+                })}
+              </div>
             ))}
           </div>
 
