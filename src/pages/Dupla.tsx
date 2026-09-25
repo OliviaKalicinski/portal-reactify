@@ -189,7 +189,7 @@ const Dupla = () => {
                         fontSize: 11,
                         padding: "4px 8px",
                         boxShadow: "2px 2px 0 var(--ink-primary)",
-                        transform: `rotate(${verde ? 2 : -2}deg)`,
+                        transform: `rotate(${verde ? -2 : 2}deg)`, /* ângulos invertidos (Olivia, 25/09) */
                         ...(verde ? { background: "var(--dragon-lime)", color: "var(--ink-primary)" } : {}),
                       }}
                     >
