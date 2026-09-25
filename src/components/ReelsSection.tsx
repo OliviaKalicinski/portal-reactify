@@ -142,13 +142,41 @@ const ReelsSection = ({
 
   const active = activeIdx !== null ? reels[activeIdx] : null;
 
+  /* 25/09 — setas na faixa: mostram que há mais vídeos pro lado (auditoria UX) */
+  const stripRef = useRef<HTMLDivElement>(null);
+  const [podeVoltar, setPodeVoltar] = useState(false);
+  const [podeAvancar, setPodeAvancar] = useState(false);
+  const atualizarSetas = useCallback(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    setPodeVoltar(el.scrollLeft > 4);
+    setPodeAvancar(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
+  useEffect(() => {
+    atualizarSetas();
+    window.addEventListener("resize", atualizarSetas);
+    return () => window.removeEventListener("resize", atualizarSetas);
+  }, [atualizarSetas, reels.length]);
+  const rolar = (dir: 1 | -1) => {
+    const el = stripRef.current;
+    const card = el?.querySelector(".reel-card") as HTMLElement | null;
+    if (!el) return;
+    el.scrollBy({ left: dir * ((card?.offsetWidth ?? 200) + 14), behavior: "smooth" });
+  };
+
   return (
     <>
       <style>{REELS_STYLES}</style>
-      <div className="section-label" style={{ marginTop: 40 }}>{title}</div>
+      {title && <div className="section-label" style={{ marginTop: 40 }}>{title}</div>}
       {subtitle && <div className="reels-subtitle">{subtitle}</div>}
       <div className="reels-strip-wrap">
-        <div className="reels-strip">
+        {podeVoltar && (
+          <button type="button" className="reels-arrow reels-arrow-prev" onClick={() => rolar(-1)} aria-label="Vídeos anteriores">‹</button>
+        )}
+        {podeAvancar && (
+          <button type="button" className="reels-arrow reels-arrow-next" onClick={() => rolar(1)} aria-label="Mais vídeos">›</button>
+        )}
+        <div className="reels-strip" ref={stripRef} onScroll={atualizarSetas}>
           {reels.map((r, i) => (
             <ReelCard key={r.id} reel={r} onClick={() => open(i)} />
           ))}
@@ -285,6 +313,28 @@ export default ReelsSection;
    Quando a gente consolidar tudo, movo essas regras pro Portal.css
    e removo este bloco. */
 const REELS_STYLES = `
+.portal-page .reels-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #0A0A0A;
+  background: #FAFAFA;
+  color: #0A0A0A;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #0A0A0A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portal-page .reels-arrow-prev { left: 6px; }
+.portal-page .reels-arrow-next { right: 6px; }
+.portal-page .reels-arrow:focus-visible { outline: 3px solid #FF2D78; outline-offset: 2px; }
 .portal-page .reels-subtitle {
   max-width: 1280px;
   margin: 0 auto 8px;
@@ -348,7 +398,7 @@ const REELS_STYLES = `
   flex-direction: column;
   justify-content: flex-end;
   padding: 14px;
-  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%);
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 30%, transparent 60%); /* 25/09: @ do creator legível em vídeo claro */
   pointer-events: none;
   transition: opacity 0.2s;
 }

@@ -304,42 +304,28 @@ const Curiosidade = () => {
             ))}
           </div>
 
-          <div className="cur-slider-wrap">
-            <div className="cur-slider" role="region" aria-label="Reviews de tutores">
-              {SLIDES.map((s, i) => (
-                <figure className="cur-slide" key={i}>
-                  <span className={`cur-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}>
-                    {s.type === "ugc" ? "o kit" : "review"}
-                  </span>
-                  <img
-                    src={s.src}
-                    alt={s.alt}
-                    width={600}
-                    height={600}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                  />
-                </figure>
-              ))}
-            </div>
-          </div>
-
-          <p className="cur-slider-hint">← arraste pra ver mais →</p>
+          {/* 25/09 — o carrossel de reviews em FOTO saiu (Olivia): ficam os reviews escritos e, logo abaixo, os vídeos */}
         </div>
       </section>
 
-      {/* ════ VÍDEOS DE QUEM JÁ DEU PRO CÃO (anúncios vencedores) ════ */}
-      <section className="cur-section">
+      {/* ════ VÍDEOS DE QUEM JÁ DEU PRO CÃO (anúncios vencedores) ════
+          25/09 — faixa verde neon de ponta a ponta para destacar a seção (Olivia) */}
+      <section
+        className="cur-section"
+        style={{ background: "var(--dragon-lime)", borderTop: "3px solid var(--ink-primary)", borderBottom: "3px solid var(--ink-primary)", padding: "44px 0 36px" }}
+      >
         {/* o estilo do ReelsSection é escopado em .portal-page */}
         <div className="cur-section-inner portal-page" style={{ background: "transparent" }}>
-          <span className="cur-tag">tutores reais · em vídeo</span>
+          <div style={{ textAlign: "center", padding: "0 20px" }}>
+            <span className="cur-tag">tutores reais · em vídeo</span>
+            <h2 className="cur-section-title" style={{ marginTop: 12 }}>
+              Quem deu,<br /><span>filmou.</span>
+            </h2>
+            <p className="cur-section-lead" style={{ marginBottom: 0 }}>Toque no vídeo pra ver com som.</p>
+          </div>
           {/* sem "ver tudo no Instagram": numa LP de venda, é uma saída da página */}
-          <ReelsSection
-            reels={REELS_VENCEDORES}
-            title=""
-            subtitle="Toque pra ver com som."
-            seeAllUrl=""
-          />
+          <ReelsSection reels={REELS_VENCEDORES} title="" seeAllUrl="" />
+          <p className="cur-slider-hint" style={{ marginTop: 0 }}>← arraste pra ver mais →</p>
         </div>
       </section>
 
