@@ -259,7 +259,8 @@ const ReelCard = ({ reel, onClick }: { reel: Reel; onClick: () => void }) => {
         muted
         loop
         playsInline
-        preload="metadata"
+        /* com capa (poster), não baixa nada do vídeo antes do toque/hover (LPs de venda, 25/09) */
+        preload={reel.poster ? "none" : "metadata"}
         className="reel-card-video"
         onLoadedMetadata={handleMetadata}
       />

@@ -5,6 +5,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Curiosidade.css";
 import LeadPopup from "@/components/LeadPopup";
+import ReelsSection, { type Reel } from "@/components/ReelsSection";
 import { isDayOfClienteActive } from "@/lib/promotions";
 
 /* ──────────────────────────────────────────────────────────────
@@ -101,6 +102,17 @@ const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
   { type: "review", src: "/assets/images/reviews/9.webp",        alt: "Review — natural e sustentável, aprovado" },
   { type: "review", src: "/assets/images/reviews/4.webp",        alt: "Review — pele e pelo melhores" },
   { type: "review", src: "/assets/images/reviews/8.webp",        alt: "Review — fácil de usar, mistura na ração" },
+];
+
+
+/* 25/09 — prova social em vídeo: os ANÚNCIOS VENCEDORES desta LP (lucro por venda > 0,
+   planilha "Originais de creator" de 25/09). Arquivo = post original do creator, 720×1280,
+   em public/assets/videos/reels/. Com poster, o vídeo só carrega no toque. */
+const REELS_VENCEDORES: Reel[] = [
+  { id: "mytribesete", src: "/assets/videos/reels/vencedor-mytribesete.mp4", poster: "/assets/videos/reels/vencedor-mytribesete.jpg", title: "@mytribesete" },
+  { id: "pipo", src: "/assets/videos/reels/vencedor-pipo.mp4", poster: "/assets/videos/reels/vencedor-pipo.jpg", title: "@pipo.odachshund" },
+  { id: "carla", src: "/assets/videos/reels/vencedor-carlavaccaroadestramento.mp4", poster: "/assets/videos/reels/vencedor-carlavaccaroadestramento.jpg", title: "@carlavaccaroadestramento" },
+  { id: "gabi", src: "/assets/videos/reels/vencedor-gabibraunaguiar.mp4", poster: "/assets/videos/reels/vencedor-gabibraunaguiar.jpg", title: "@gabibraunaguiar" },
 ];
 
 const FAQ = [
@@ -313,6 +325,21 @@ const Curiosidade = () => {
           </div>
 
           <p className="cur-slider-hint">← arraste pra ver mais →</p>
+        </div>
+      </section>
+
+      {/* ════ VÍDEOS DE QUEM JÁ DEU PRO CÃO (anúncios vencedores) ════ */}
+      <section className="cur-section">
+        {/* o estilo do ReelsSection é escopado em .portal-page */}
+        <div className="cur-section-inner portal-page" style={{ background: "transparent" }}>
+          <span className="cur-tag">tutores reais · em vídeo</span>
+          {/* sem "ver tudo no Instagram": numa LP de venda, é uma saída da página */}
+          <ReelsSection
+            reels={REELS_VENCEDORES}
+            title=""
+            subtitle="Toque pra ver com som."
+            seeAllUrl=""
+          />
         </div>
       </section>
 
