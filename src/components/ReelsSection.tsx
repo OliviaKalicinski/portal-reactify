@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 
 /**
  * REELS SECTION — estilo Reels/Shorts nativo no portal
@@ -164,7 +165,11 @@ const ReelsSection = ({
         )}
       </div>
 
-      {active && (
+      {/* 25/09 — a janela abre no <body> (portal): dentro da seção, as seções seguintes
+          da página (ex.: a oferta das LPs) ficavam por cima dela. O wrapper .portal-page
+          com display:contents mantém o estilo escopado sem ocupar espaço. */}
+      {active && createPortal(
+        <div className="portal-page" style={{ display: "contents" }}>
         <div
           className="reels-riso-overlay"
           onClick={e => { if (e.target === e.currentTarget) close(); }}
@@ -209,6 +214,8 @@ const ReelsSection = ({
             aria-label="Próximo reel"
           >›</button>
         </div>
+        </div>,
+        document.body
       )}
     </>
   );
