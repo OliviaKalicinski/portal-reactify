@@ -129,6 +129,7 @@ const QuizDragao = () => {
   const [fotoPreview, setFotoPreview] = useState<string | null>(null);
 
   const [telefone, setTelefone] = useState("");
+  const [instagram, setInstagram] = useState("");
   const [okContato, setOkContato] = useState(false);
   const [okImagem, setOkImagem] = useState(false);
   const [enviando, setEnviando] = useState(false);
@@ -293,6 +294,7 @@ const QuizDragao = () => {
         especie: "cao",
         consentimento_contato: okContato,
         consentimento_imagem: okImagem,
+        instagram: instagramLimpo(),
         foto_enviada: !!photoUrl,
         foto_erro: fotoErro,
       },
@@ -313,6 +315,7 @@ const QuizDragao = () => {
       extra: {
         dragao: resultado.vencedor.id,
         nome_pet: nomePet || null,
+        instagram: instagramLimpo(),
         top4: resultado.top4.map((t) => ({ id: t.dragao.id, pontos: t.pontos })),
         consentimento_contato: okContato,
         consentimento_imagem: okImagem,
@@ -349,6 +352,19 @@ const QuizDragao = () => {
         placeholder="(11) 91234-5678"
       />
 
+      <label className="qd-label" htmlFor="qd-ig">@ no Instagram — seu ou dele (opcional)</label>
+      <input
+        id="qd-ig"
+        className="qd-input"
+        autoCapitalize="none"
+        autoCorrect="off"
+        spellCheck={false}
+        value={instagram}
+        onChange={(e) => setInstagram(e.target.value)}
+        placeholder="@"
+        maxLength={60}
+      />
+
       <label className="qd-check">
         <input type="checkbox" checked={okContato} onChange={(e) => setOkContato(e.target.checked)} />
         <span>Aceito receber mensagens da Comida de Dragão no WhatsApp.</span>
@@ -366,6 +382,13 @@ const QuizDragao = () => {
       <div className="qd-mini">Você pode pedir pra sair quando quiser.</div>
     </div>
   );
+
+  /* @ do Instagram, OPCIONAL (pedido da Olivia, 28/09). Guarda só o usuário:
+     sem @, sem espaço, sem o link inteiro que alguém cola. */
+  const instagramLimpo = () => {
+    const u = instagram.trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i, "").replace(/^@+/, "").split(/[/?\s]/)[0].toLowerCase();
+    return u || null;
+  };
 
   const compartilhar = async () => {
     if (!cartaBlob || !dragao) return;
