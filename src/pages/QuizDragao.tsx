@@ -603,7 +603,7 @@ const QuizDragao = () => {
             {/* 🔴 CTA de produto — SECO (§0). Não colocar piada aqui. */}
             <Card faixa="A COMIDA DE DRAGAO">
               <p className="qsd8-sub" style={{ margin: 0 }}>
-                A Comida de Dragão faz alimento e petisco de proteína de inseto para cães e gatos.
+                A Comida de Dragão faz alimento de proteína de inseto para cães e gatos.
               </p>
               <a
                 className="qsd8-btn"
