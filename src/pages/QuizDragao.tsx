@@ -7,6 +7,7 @@ import { submitLead } from "@/lib/leads";
 import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
 import { uploadProfilePhoto } from "@/lib/uploads";
 import { gerarCarteira } from "@/lib/carteira";
+import { trackQuizIniciado, trackQuizConcluido, trackLead } from "@/lib/pixel";
 import { DRAGOES, PERGUNTAS, calcular, type Resultado, type Dragao } from "@/data/dragoes";
 import "./QueroSerDragao.css"; /* sistema visual retrô-OS (.qsd8) */
 import "./OqueFalam.css";      /* tema cf-pink 8-bit (creme + acento) */
@@ -198,7 +199,9 @@ const QuizDragao = () => {
     if (passo < PERGUNTAS.length - 1) {
       setPasso(passo + 1);
     } else {
-      setResultado(calcular(novas));
+      const r = calcular(novas);
+      setResultado(r);
+      trackQuizConcluido("quiz-qual-dragao", r.vencedor.id);
       setFase("lendo");
     }
   };
@@ -249,7 +252,10 @@ const QuizDragao = () => {
      jeito (padrão da casa em lib/leads.ts — UX vem antes da captura). */
   const enviarGate = async () => {
     if (!isValidPhoneBR(telefone)) { setErroGate("Confere o número, ele parece incompleto."); return; }
-    if (!okContato) { setErroGate("Precisamos do seu aceite para liberar o download."); return; }
+    /* o aceite de mensagens é OPCIONAL (decisão da Olivia, 28/09): o telefone
+       é o lead; o aceite é só a permissão de mandar mensagem, e viaja no lead
+       (consentimento_contato) pra separar quem pode receber campanha.
+       Consentimento condicionado ao download seria questionável pela LGPD. */
     if (!resultado) return;
 
     setErroGate(null);
@@ -292,6 +298,7 @@ const QuizDragao = () => {
       photoUrl,
     });
 
+    trackLead("quiz-qual-dragao", resultado.vencedor.id);
     setLeadOk(true);
     setEnviando(false);
   };
@@ -411,7 +418,7 @@ const QuizDragao = () => {
               Responda <strong>seis perguntas</strong> e o Dragão diz quem mora aí.
               No fim, um presente — com a cara dele dentro.
             </p>
-              <button className="qsd8-btn" onClick={() => setFase("quiz")}>Começar →</button>
+              <button className="qsd8-btn" onClick={() => { trackQuizIniciado("quiz-qual-dragao"); setFase("quiz"); }}>Começar →</button>
               <div className="qd-eta">leva 1 minuto</div>
             </Card>
           </>

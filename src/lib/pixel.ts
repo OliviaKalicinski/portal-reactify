@@ -71,3 +71,19 @@ export function trackAddToCart(p: PixelParams & { cta?: string }) {
     fbq("track", "AddToCart", { ...payload(p), ...(p.cta ? { cta_pos: p.cta } : {}) })
   );
 }
+
+/* ── QUIZ "QUE DRAGÃO MORA NA SUA CASA?" (28/09/2026) ─────────────────────
+   O quiz é máquina de LEAD. Três sinais, na ordem do funil, pra dar (1) público
+   de retarget de quem começou e não terminou e (2) campanha otimizada pra Lead.
+   · QuizIniciado / QuizConcluido são customizados (trackCustom): não existem
+     no padrão da Meta e não podem se confundir com compra.
+   · Lead é o padrão — é o único que a campanha usa como otimização. */
+export function trackQuizIniciado(quiz: string) {
+  comFbq((fbq) => fbq("trackCustom", "QuizIniciado", { quiz }));
+}
+export function trackQuizConcluido(quiz: string, resultado: string) {
+  comFbq((fbq) => fbq("trackCustom", "QuizConcluido", { quiz, resultado }));
+}
+export function trackLead(quiz: string, resultado: string) {
+  comFbq((fbq) => fbq("track", "Lead", { content_name: quiz, content_category: resultado }));
+}
