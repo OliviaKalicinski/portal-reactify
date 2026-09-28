@@ -82,7 +82,7 @@ const Progresso = ({ passo }: { passo: number }) => (
   </div>
 );
 
-type Fase = "intro" | "quiz" | "lendo" | "foto" | "gate" | "carteira";
+type Fase = "intro" | "quiz" | "lendo" | "foto" | "carteira";
 
 /* A tela de LENDO existe por dois motivos, os dois de fonte:
    - Thomas & Johnston, princípio 2 (ANTICIPATION): o recuo antes do gesto prepara o
@@ -135,7 +135,6 @@ const QuizDragao = () => {
      gate so' abre quando a pessoa QUER levar a imagem embora. Quem ja' viu o que
      ganha tem motivo pra dar o numero; quem paga antes de ver, nao. */
   const [leadOk, setLeadOk] = useState(false);
-  const [acaoPendente, setAcaoPendente] = useState<null | "baixar" | "compartilhar">(null);
 
   const [cartaUrl, setCartaUrl] = useState<string | null>(null);
   const [cartaBlob, setCartaBlob] = useState<Blob | null>(null);
@@ -241,9 +240,8 @@ const QuizDragao = () => {
   /* pedido de saída: se já demos o número, executa; se não, abre o gate guardando
      a intenção, pra retomá-la assim que o lead entrar. */
   const pedirSaida = (acao: "baixar" | "compartilhar") => {
-    if (leadOk) { acao === "baixar" ? baixar() : compartilhar(); return; }
-    setAcaoPendente(acao);
-    setFase("gate");
+    if (!leadOk) return; /* a ficha só fica nítida (e os botões só aparecem) com o lead */
+    acao === "baixar" ? baixar() : compartilhar();
   };
 
   /* GATE — grava o lead e devolve a pessoa pra carteira, executando o que ela
@@ -296,12 +294,50 @@ const QuizDragao = () => {
 
     setLeadOk(true);
     setEnviando(false);
-    setFase("carteira");
-    const acao = acaoPendente;
-    setAcaoPendente(null);
-    /* deixa o React pintar a carteira antes de disparar o download/share */
-    setTimeout(() => { acao === "compartilhar" ? void compartilhar() : baixar(); }, 60);
   };
+
+  /* 🔴 GATE — HUMOR ZERO. Objetivo é ação.
+     Decisão da Olivia (28/09): o propósito do quiz é LEAD. A ficha monta na
+     frente da pessoa, mas DESFOCADA — só fica nítida depois do WhatsApp. Antes
+     o gate só abria ao Baixar/Compartilhar, e quem tirava print levava a ficha
+     sem deixar o número. */
+  const formLead = (
+    <div className="qd-gate">
+      <h2 className="qd-pergunta">Falta só o seu WhatsApp.</h2>
+      <p className="qsd8-sub">
+        {/* 🔴 NÃO PROMETER ENVIO POR WHATSAPP — a gente não manda a imagem por lá. */}
+        A ficha de {nomePet || "ele"} já está pronta. Ela aparece assim que você
+        deixar o seu WhatsApp — é assim que a gente sabe quem passou por aqui.
+      </p>
+
+      <label className="qd-label" htmlFor="qd-tel">WhatsApp com DDD</label>
+      <input
+        id="qd-tel"
+        className="qd-input"
+        inputMode="numeric"
+        autoComplete="tel"
+        value={telefone}
+        onChange={(e) => setTelefone(formatPhoneBR(e.target.value))}
+        placeholder="(11) 91234-5678"
+      />
+
+      <label className="qd-check">
+        <input type="checkbox" checked={okContato} onChange={(e) => setOkContato(e.target.checked)} />
+        <span>Aceito receber mensagens da Comida de Dragão no WhatsApp.</span>
+      </label>
+      <label className="qd-check">
+        <input type="checkbox" checked={okImagem} onChange={(e) => setOkImagem(e.target.checked)} />
+        <span>Autorizo o uso da foto do meu pet nas redes da Comida de Dragão.</span>
+      </label>
+
+      {erroGate && <div className="qd-erro">{erroGate}</div>}
+
+      <button className="qsd8-btn" onClick={enviarGate} disabled={enviando}>
+        {enviando ? "Enviando…" : "Ver a ficha →"}
+      </button>
+      <div className="qd-mini">Você pode pedir pra sair quando quiser.</div>
+    </div>
+  );
 
   const compartilhar = async () => {
     if (!cartaBlob || !dragao) return;
@@ -486,56 +522,11 @@ const QuizDragao = () => {
           </Card>
         )}
 
-        {/* ══ 🔴 GATE — HUMOR ZERO. Objetivo é ação. ══════════════ */}
-        {fase === "gate" && dragao && (
-          <Card faixa="SO FALTA ISSO">
-            <h2 className="qd-pergunta">
-              {/* "de <nome>" e nao "do/da": nome de pet nao tem genero confiavel pela terminacao */}
-              Falta só o seu WhatsApp.
-            </h2>
-            <p className="qsd8-sub">
-              {/* 🔴 NÃO PROMETER ENVIO POR WHATSAPP — a gente não manda a imagem por lá.
-                  O pedágio é o pedágio; dizer o que ele é custa menos que a mentira. */}
-              Já está pronto. O download é liberado com o seu WhatsApp — é assim
-              que a gente sabe quem passou por aqui.
-            </p>
-
-            <label className="qd-label" htmlFor="qd-tel">WhatsApp com DDD</label>
-            <input
-              id="qd-tel"
-              className="qd-input"
-              inputMode="numeric"
-              value={telefone}
-              onChange={(e) => setTelefone(formatPhoneBR(e.target.value))}
-              placeholder="(11) 91234-5678"
-            />
-
-            <label className="qd-check">
-              <input type="checkbox" checked={okContato} onChange={(e) => setOkContato(e.target.checked)} />
-              <span>Aceito receber mensagens da Comida de Dragão no WhatsApp.</span>
-            </label>
-            <label className="qd-check">
-              <input type="checkbox" checked={okImagem} onChange={(e) => setOkImagem(e.target.checked)} />
-              <span>Autorizo o uso da foto do meu pet nas redes da Comida de Dragão.</span>
-            </label>
-
-            {erroGate && <div className="qd-erro">{erroGate}</div>}
-
-            <button className="qsd8-btn" onClick={enviarGate} disabled={enviando}>
-              {enviando ? "Enviando…" : acaoPendente === "compartilhar" ? "Compartilhar" : "Baixar pro story"}
-            </button>
-            <button className="qd-voltar" onClick={() => { setAcaoPendente(null); setFase("carteira"); }}>
-              ← voltar
-            </button>
-            <div className="qd-mini">Você pode pedir pra sair quando quiser.</div>
-          </Card>
-        )}
-
         {/* ══ A CARTEIRA ══════════════════════════════════════════ */}
         {fase === "carteira" && dragao && (
           <>
-            <Card faixa={`E ${dragao.nomePix}`}>
-              {gerando && <div className="qd-gerando">Montando a carteira…</div>}
+            <Card faixa={leadOk ? `E ${dragao.nomePix}` : "SUA FICHA ESTA PRONTA"}>
+              {gerando && <div className="qd-gerando">Montando a ficha…</div>}
               {cartaUrl && (
                 <>
                   {/* A CARTEIRA MONTA NA FRENTE DA PESSOA, em três tempos:
@@ -545,12 +536,14 @@ const QuizDragao = () => {
                       mesma ordem — o que ela vê é o que vai baixar.
                       A imagem final (cartaUrl) segue existindo pro Compartilhar
                       e pro Salvar; aqui é só a encenação. */}
-                  <div className="qd-montagem" role="img"
-                       aria-label={`${dragao.nome}, com a foto de ${nomePet}`}>
+                  <div className={`qd-montagem${leadOk ? "" : " qd-bloqueada"}`} role="img"
+                       aria-label={leadOk ? `${dragao.nome}, com a foto de ${nomePet}` : "Ficha pronta, desfocada até o WhatsApp"}>
                     <img className="qd-m-card" src={`/assets/quiz-cards/${dragao.id}.webp`} alt="" />
                     {fotoPreview && <img className="qd-m-foto" src={fotoPreview} alt="" />}
                     <img className="qd-m-colagem" src={`/assets/quiz-overlay/${dragao.id}.webp`} alt="" />
                   </div>
+                  {!leadOk && formLead}
+                  {leadOk && (<>
                   <div className="qd-acoes">
                     <button className="qsd8-btn" onClick={() => pedirSaida("compartilhar")}>Compartilhar</button>
                     {/* o rotulo diz o FORMATO, e nao a acao: o print de celular pega a tela
@@ -591,6 +584,7 @@ const QuizDragao = () => {
                     </div>
                     {/* sem frase aqui: a linha dos seis fala sozinha */}
                   </div>
+                  </>)}
                 </>
               )}
               {!gerando && !cartaUrl && (
@@ -600,8 +594,9 @@ const QuizDragao = () => {
               )}
             </Card>
 
-            {/* 🔴 CTA de produto — SECO (§0). Não colocar piada aqui. */}
-            <Card faixa="A COMIDA DE DRAGAO">
+            {/* 🔴 CTA de produto — SECO (§0). Não colocar piada aqui.
+                Só depois do lead: antes dele, a única saída da tela é o WhatsApp. */}
+            {leadOk && <Card faixa="A COMIDA DE DRAGAO">
               <p className="qsd8-sub" style={{ margin: 0 }}>
                 A Comida de Dragão faz alimento de proteína de inseto para cães e gatos.
               </p>
@@ -612,7 +607,7 @@ const QuizDragao = () => {
               >
                 Conhecer os produtos
               </a>
-            </Card>
+            </Card>}
           </>
         )}
 

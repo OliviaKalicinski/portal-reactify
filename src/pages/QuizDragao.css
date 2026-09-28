@@ -426,3 +426,13 @@
 /* o retrato longo na tela da ficha: separado do que veio antes por um respiro,
    porque ali ele e' leitura opcional — quem quis ja' baixou. */
 .qd-carta-fim { margin-top: 22px; padding-top: 20px; border-top: 3px dashed rgba(0,0,0,.2); }
+
+/* ── FICHA BLOQUEADA — desfocada até o WhatsApp (decisão 28/09) ──
+   A cor do card atravessa o desfoque de propósito: dá vontade de ver, sem
+   entregar o nome do dragão. */
+.qd-montagem.qd-bloqueada img { filter: blur(14px) saturate(1.1); }
+.qd-montagem img { transition: filter .6s ease; }
+.qd-gate { margin-top: 26px; text-align: left; }
+/* bloqueada, a ficha encolhe: o formulário tem que caber na primeira tela do celular */
+.qd-montagem.qd-bloqueada { max-width: 140px; box-shadow: 6px 6px 0 0 var(--tinta); border-width: 4px; }
+.qd-gate { margin-top: 18px; }
