@@ -576,8 +576,8 @@ const QuizDragao = () => {
         {/* ══ A CARTEIRA ══════════════════════════════════════════ */}
         {fase === "carteira" && dragao && (
           <>
-            <Card faixa={leadOk ? `E ${dragao.nomePix}` : "SUA FICHA ESTA PRONTA"}>
-              {gerando && <div className="qd-gerando">Montando a ficha…</div>}
+            <Card faixa={gerando ? "O DRAGAO ESTA CALCULANDO" : leadOk ? `E ${dragao.nomePix}` : "SUA FICHA ESTA PRONTA"}>
+              {gerando && <div className="qd-gerando">O DRAGAO ESTA CALCULANDO O RESULTADO...</div>}
               {cartaUrl && (
                 <>
                   {/* A CARTEIRA MONTA NA FRENTE DA PESSOA, em três tempos:
@@ -603,6 +603,9 @@ const QuizDragao = () => {
                         ja' existia; so' nao estava dito em lugar nenhum. */}
                     <button className="qsd8-btn ghost" onClick={() => pedirSaida("baixar")}>Baixar pro story</button>
                   </div>
+                  {/* foto ruim (cabeça cortada, escura) não pode obrigar a refazer o quiz:
+                      volta pra tela da foto e remonta, sem pedir o WhatsApp de novo */}
+                  <button className="qd-voltar" onClick={() => setFase("foto")}>Trocar a foto</button>
                   <p className="qd-marca">{dragao.marca}</p>
 
                   {/* o retrato inteiro, agora que ela ja' tem a imagem na mao.
