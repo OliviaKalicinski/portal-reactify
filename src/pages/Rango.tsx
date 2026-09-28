@@ -251,7 +251,7 @@ const Rango = () => {
   return (
     <div className="portal-page theme-light skin-2 rango-page">
       <PageMeta
-        title="Rango do Dragão — lista de espera do drop 05/10"
+        title="Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto"
         description="Alimento completo úmido para cães adultos, com proteína de inseto. Drop em 5 de outubro, lote limitado. Entre na lista e receba o aviso primeiro."
       />
 
@@ -261,16 +261,16 @@ const Rango = () => {
       <section className="rg-hero">
         <div className="rg-hero-grid">
           <div className="rg-hero-pitch">
-            <div className="rg-eyebrow">lista de espera · drop em 5 de outubro</div>
-            {/* 🔴 PROPOSTA de hero — o conceito central é decisão da Olivia (to-do
-                "Fechar UM conceito central"). Frase e apoio aprovados em 25/09. */}
+            <div className="rg-eyebrow">Rango do Dragão · drop em 5 de outubro</div>
+            {/* 28/09 — a Olivia pediu título CLARO: diz o que é e de quem é. A frase
+                de conceito ("Ele come inseto desde sempre") saiu do H1. */}
             <h1 className="rg-titulo">
-              Ele come inseto desde sempre.<br /><span>A novidade é o rótulo.</span>
+              O alimento completo da Comida de Dragão.<br /><span>Feito com inseto.</span>
             </h1>
             <p className="rg-sub">
-              O <strong>Rango do Dragão</strong> é alimento completo úmido para cães adultos:
-              filé mignon suíno, batata-doce, abóbora, chuchu e farinha de larva, prontos no
-              pouch de 500 g. Sai em <strong>lote limitado</strong> no dia 5 de outubro.
+              O <strong>Rango do Dragão</strong> é úmido, para cães adultos: filé mignon suíno,
+              batata-doce, abóbora, chuchu e farinha de larva, prontos no pouch de 500 g. Sai em{" "}
+              <strong>lote limitado</strong> no dia 5 de outubro.
             </p>
           </div>
 
