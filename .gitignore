@@ -25,3 +25,4 @@ dist-ssr
 
 # originais das imagens antes da otimizacao de 18/08 — fora do build
 .backup-imagens/
+.vercel
