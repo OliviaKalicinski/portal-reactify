@@ -29,6 +29,10 @@ export async function submitLpLead(payload: {
   phone: string;
   /** slug da LP, ex.: "alergia" -> origem vira "popup_alergia" */
   slug: string;
+  /** origem pronta, quando a captura não é popup (ex.: "quiz_qual-dragao") */
+  origem?: string;
+  /** o que mais a captura sabe (resultado do quiz, nome do pet, aceites…) */
+  extra?: Record<string, unknown>;
 }): Promise<{ ok: boolean; error?: string }> {
   try {
     const { error } = await dashClient.from("lp_leads").insert({
@@ -37,7 +41,8 @@ export async function submitLpLead(payload: {
       // dígito e comia o final de quem digitava o +55 (9 leads perdidos na
       // lista da Mordida V2, 27/07). Ver lib/phone.ts.
       telefone: normalizePhoneDigits(payload.phone),
-      origem: `popup_${payload.slug}`,
+      origem: payload.origem ?? `popup_${payload.slug}`,
+      ...(payload.extra ? { extra: payload.extra } : {}),
       utm: getEntryUtms(),
       user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
       referrer: typeof document !== "undefined" ? document.referrer || null : null,

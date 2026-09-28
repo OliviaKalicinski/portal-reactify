@@ -7,6 +7,7 @@ import { submitLead } from "@/lib/leads";
 import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
 import { uploadProfilePhoto } from "@/lib/uploads";
 import { gerarCarteira } from "@/lib/carteira";
+import { submitLpLead } from "@/lib/lpLeads";
 import { trackQuizIniciado, trackQuizConcluido, trackLead } from "@/lib/pixel";
 import { DRAGOES, PERGUNTAS, calcular, type Resultado, type Dragao } from "@/data/dragoes";
 import "./QueroSerDragao.css"; /* sistema visual retrô-OS (.qsd8) */
@@ -298,6 +299,26 @@ const QuizDragao = () => {
       photoUrl,
     });
 
+    /* 🔴 O LEAD VAI PRO DASH TAMBÉM (lp_leads do dash-lets-fly, origem
+       "quiz_qual-dragao") — decisão de 28/07 de ter UM lugar só pros leads, que o
+       quiz ainda furava: gravava só no dragon_leads do Lovable, que ninguém lê.
+       O dragon_leads segue recebendo (a foto e o histórico moram lá).
+       `nome` fica vazio: o quiz não pergunta o nome do tutor, e pôr o do pet
+       ali faria o WhatsApp chamar a pessoa pelo nome do cachorro. */
+    void submitLpLead({
+      name: "",
+      phone: telefone,
+      slug: "qual-dragao",
+      origem: "quiz_qual-dragao",
+      extra: {
+        dragao: resultado.vencedor.id,
+        nome_pet: nomePet || null,
+        top4: resultado.top4.map((t) => ({ id: t.dragao.id, pontos: t.pontos })),
+        consentimento_contato: okContato,
+        consentimento_imagem: okImagem,
+        foto_url: photoUrl,
+      },
+    });
     trackLead("quiz-qual-dragao", resultado.vencedor.id);
     setLeadOk(true);
     setEnviando(false);
