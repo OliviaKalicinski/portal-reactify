@@ -13,6 +13,11 @@ import { componentTagger } from "lovable-tagger";
    da SPA. Conferir depois do Publish: curl na rota e ler o og:title. */
 const SITE = "https://caverna.comidadedragao.com.br";
 const METAS_POR_ROTA: Record<string, { title: string; description: string; image: string }> = {
+  rango: {
+    title: "Rango do Dragão — lista de espera do drop 05/10",
+    description: "Alimento completo úmido para cães adultos, com proteína de inseto. Drop em 5 de outubro, lote limitado. Entre na lista e receba o aviso primeiro.",
+    image: `${SITE}/assets/images/og-default.jpg`,
+  },
   "qual-dragao": {
     title: "Que dragão mora na sua casa? — Comida de Dragão",
     description: "Seis perguntas sobre o seu cachorro. No fim, o veredito do Dragão, com a foto dele dentro.",
