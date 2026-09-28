@@ -20,7 +20,7 @@ import { getEntryUtms } from "./utm";
 const DASH_URL = "https://rbjvwdsfpalyypimfrkf.supabase.co";
 const DASH_PUBLISHABLE_KEY = "sb_publishable_M9kG9XFt-z4SRrciu2G8iQ_F1_FeNro";
 
-const dashClient = createClient(DASH_URL, DASH_PUBLISHABLE_KEY, {
+export const dashClient = createClient(DASH_URL, DASH_PUBLISHABLE_KEY, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 

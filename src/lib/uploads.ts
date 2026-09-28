@@ -1,4 +1,7 @@
-import { supabase } from "./supabase";
+/* 28/09/2026 — as fotos saíram do Supabase do Lovable (pnqf…) para o dash-lets-fly,
+   bucket público `dragon-photos` (anon só envia, e só em profiles/). O portal saiu
+   do Lovable no mesmo dia e o upload lá passou a falhar em silêncio. */
+import { dashClient as supabase } from "./lpLeads";
 
 const BUCKET = "dragon-photos";
 

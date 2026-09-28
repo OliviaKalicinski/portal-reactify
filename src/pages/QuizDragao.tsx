@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
-import { submitLead } from "@/lib/leads";
 import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
 import { uploadProfilePhoto } from "@/lib/uploads";
 import { gerarCarteira } from "@/lib/carteira";
@@ -279,27 +278,6 @@ const QuizDragao = () => {
       if (up.error) console.error("[quiz-dragao] a foto NAO subiu:", up.error);
     }
 
-    void submitLead({
-      phone: telefone,
-      /* o gate pede só o telefone (decisão do brief) — o nome que temos é o do pet */
-      name: nomePet || "Tutor",
-      firstQuizId: "quiz-qual-dragao",
-      firstQuizResultKey: resultado.vencedor.id,
-      firstQuizResultLabel: resultado.vencedor.nome,
-      allResults: {
-        placar: resultado.placar,
-        top4: resultado.top4.map((t) => ({ id: t.dragao.id, pontos: t.pontos })),
-        respostas,
-        nome_pet: nomePet || null,
-        especie: "cao",
-        consentimento_contato: okContato,
-        consentimento_imagem: okImagem,
-        instagram: instagramLimpo(),
-        foto_enviada: !!photoUrl,
-        foto_erro: fotoErro,
-      },
-      photoUrl,
-    });
 
     /* 🔴 O LEAD VAI PRO DASH TAMBÉM (lp_leads do dash-lets-fly, origem
        "quiz_qual-dragao") — decisão de 28/07 de ter UM lugar só pros leads, que o
@@ -320,6 +298,7 @@ const QuizDragao = () => {
         consentimento_contato: okContato,
         consentimento_imagem: okImagem,
         foto_url: photoUrl,
+        foto_erro: fotoErro,
       },
     });
     trackLead("quiz-qual-dragao", resultado.vencedor.id);

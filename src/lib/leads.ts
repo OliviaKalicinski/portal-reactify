@@ -1,4 +1,9 @@
-import { supabase } from "./supabase";
+/* 28/09/2026 — os leads saíram do `dragon_leads` (Supabase do Lovable) para o
+   `lp_leads` do dash-lets-fly, a tabela única de leads (decisão de 28/07). O que
+   era coluna própria do dragon_leads vai em `extra`. Assinaturas mantidas: quem
+   chama (Quizzes.tsx) não muda. */
+import { dashClient as supabase } from "./lpLeads";
+import { getEntryUtms } from "./utm";
 import { normalizePhoneDigits } from "./phone";
 
 /**
@@ -49,17 +54,12 @@ export async function submitPrelaunch(payload: {
   try {
     // Espelha a forma do insert que já funciona (mesmas colunas), trocando só
     // os campos de quiz por sentinelas — evita esbarrar em NOT NULL do schema.
-    const { error } = await supabase.from("dragon_leads").insert({
-      // normalizePhoneDigits, não replace: tira o +55 em vez de deixar o
-      // número inteiro e o final ser perdido lá na frente. Ver lib/phone.ts.
-      phone: normalizePhoneDigits(payload.phone),
-      name: payload.name.trim(),
-      first_quiz_id: source,
-      first_quiz_result_key: "lista-espera",
-      first_quiz_result_label: payload.label ?? "Lista de espera",
-      all_results: null,
-      photo_url: null,
-      source,
+    const { error } = await supabase.from("lp_leads").insert({
+      nome: payload.name.trim(),
+      telefone: normalizePhoneDigits(payload.phone),
+      origem: source,
+      utm: getEntryUtms(),
+      extra: { label: payload.label ?? "Lista de espera" },
       user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
       referrer: typeof document !== "undefined" ? document.referrer || null : null,
     });
@@ -84,15 +84,17 @@ export async function submitLead(payload: LeadPayload): Promise<{ ok: boolean; e
   }
 
   try {
-    const { error } = await supabase.from("dragon_leads").insert({
-      phone: normalizePhoneDigits(payload.phone), // nacional, sem +55 (lib/phone)
-      name: payload.name.trim(),
-      first_quiz_id: payload.firstQuizId,
-      first_quiz_result_key: payload.firstQuizResultKey,
-      first_quiz_result_label: payload.firstQuizResultLabel,
-      all_results: payload.allResults ?? null,
-      photo_url: payload.photoUrl ?? null,
-      source: "quiz_gate",
+    const { error } = await supabase.from("lp_leads").insert({
+      nome: payload.name.trim(),
+      telefone: normalizePhoneDigits(payload.phone), // nacional, sem +55 (lib/phone)
+      origem: `quiz_${payload.firstQuizId}`,
+      utm: getEntryUtms(),
+      extra: {
+        resultado: payload.firstQuizResultKey,
+        resultado_label: payload.firstQuizResultLabel,
+        resultados: payload.allResults ?? null,
+        foto_url: payload.photoUrl ?? null,
+      },
       user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
       referrer: typeof document !== "undefined" ? document.referrer || null : null,
     });
