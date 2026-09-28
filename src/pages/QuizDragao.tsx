@@ -626,7 +626,7 @@ const QuizDragao = () => {
             <Link to="/ciencia">Ciência</Link>
             <Link to="/oquefalam">O que falam</Link>
           </nav>
-          <div className="qsd8-footer-tag">Nojento é o desperdício.</div>
+          <div className="qsd8-footer-tag">Alimento para pet à base de insetos.</div>
         </footer>
       </div>
     </div>
