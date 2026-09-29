@@ -498,13 +498,13 @@
 }
 
 /* ══ DESKTOP: CADA TELA CABE SEM ROLAR (Olivia, 29/09) ════════════════════
-   Régua: notebook 1366×768, que no navegador vira ~650 px úteis. As 6 opções
-   em duas colunas (A B / C D / E F) cortam a pergunta pela metade da altura;
-   em tela baixa, o mesmo aperto de espaço do celular. */
+   Régua: notebook 1366×768, que no navegador vira ~650 px úteis. Caixa mais
+   larga (uma coluna) e, em tela baixa, o mesmo aperto de espaço do celular. */
+/* uma coluna só, mais larga (Olivia preferiu a duas colunas, 29/09): com a
+   caixa em 860 px, a escolha e a linha de apoio cabem numa linha cada */
 @media (min-width: 700px) {
-  .qd-opcoes { grid-template-columns: 1fr 1fr; gap: 6px 18px; }
-  .qd-opcao:last-child { border-bottom: 3px solid rgba(0,0,0,.13); }
-  .qd-opcao:nth-last-child(-n+2) { border-bottom: 0; }
+  .qd .qsd8-wrap { max-width: 860px; }
+  .qd-pergunta { max-width: 36em; }
 }
 @media (min-width: 481px) and (max-height: 900px) {
   .qsd8-wrap.qd-wrap { padding-top: 20px; padding-bottom: 24px; }
