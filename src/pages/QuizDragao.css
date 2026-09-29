@@ -436,3 +436,51 @@
 /* bloqueada, a ficha encolhe: o formulário tem que caber na primeira tela do celular */
 .qd-montagem.qd-bloqueada { max-width: 140px; box-shadow: 6px 6px 0 0 var(--tinta); border-width: 4px; }
 .qd-gate { margin-top: 18px; }
+
+/* ══ CELULAR: CADA TELA CABE SEM ROLAR (auditoria UX mobile, 29/09) ══════════
+   Régua: 360×640, a área útil real de um celular com as barras do navegador ou
+   do Instagram. Medido antes: última opção em 691–801 px, botão do WhatsApp em
+   916 px, [Ver o resultado] em 765 px depois da foto. A letra da escolha fica
+   em 16 px (piso de leitura); o que encolhe é espaço, borda e a linha de apoio. */
+.qd-ig-abrir {
+  display: block; background: none; border: 0; padding: 8px 0 2px; cursor: pointer;
+  font-family: "Space Grotesk", sans-serif; font-size: 14px; color: var(--tinta);
+  text-decoration: underline; text-underline-offset: 3px;
+}
+@media (max-width: 480px) {
+  .qsd8-wrap.qd-wrap { padding: 12px 12px 28px; }
+  .qd-card { border-width: 4px; box-shadow: 6px 6px 0 0 var(--tinta); margin-bottom: 18px; }
+  .qd-faixa { padding: 8px 8px; gap: 10px; border-bottom-width: 4px; }
+  .qd-faixa b { font-size: 10px; }
+  .qd-faixa i { width: 10px; height: 10px; }
+  .qd-card-body { padding: 12px 12px 12px; }
+
+  /* perguntas */
+  .qd-prog { height: 12px; margin-bottom: 8px; border-width: 3px; padding: 2px; gap: 3px; }
+  .qd-pergunta { font-size: 18px; line-height: 1.25; margin: 0 0 6px; padding: 2px 0 4px; }
+  .qd-opcao { padding: 7px 6px; gap: 9px; border-bottom-width: 2px; }
+  .qd-opcao-txt b { font-size: 16px; line-height: 1.25; }
+  .qd-opcao-txt em { font-size: 13px; line-height: 1.3; margin-top: 1px; }
+  .qd-opcao-key { font-size: 8px; padding: 4px 4px; border-width: 2px; }
+  .qd-rodape-pergunta { margin-top: 4px; min-height: 0; align-items: center; }
+  .qd-lider { width: 40px; }
+
+  /* foto: a prévia vira miniatura para o botão continuar à vista */
+  .qd-label { margin: 10px 0 6px; }
+  .qd-upload { margin: 12px 0 6px; }
+  .qd-preview { max-width: 110px; margin: 6px 0 12px; border-width: 3px; box-shadow: 4px 4px 0 0 var(--slot); }
+
+  /* pedido do WhatsApp */
+  .qd-montagem.qd-bloqueada { max-width: 96px; }
+  .qd-gate { margin-top: 10px; }
+  .qd-gate .qsd8-sub { margin: 0 0 4px; font-size: 15px; }
+  .qd-check { margin: 8px 0; font-size: 13px; line-height: 1.35; gap: 8px; }
+  .qd-mini { margin-top: 8px; }
+
+  /* ficha pronta: altura limitada pela tela, botões logo abaixo */
+  .qd-montagem:not(.qd-bloqueada) {
+    max-width: min(340px, calc((100vh - 200px) * 1080 / 1920));
+    max-width: min(340px, calc((100svh - 200px) * 1080 / 1920));
+  }
+  .qd-acoes { margin-top: 14px; }
+}

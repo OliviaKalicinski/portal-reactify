@@ -129,6 +129,9 @@ const QuizDragao = () => {
 
   const [telefone, setTelefone] = useState("");
   const [instagram, setInstagram] = useState("");
+  /* o campo do @ fica recolhido: aberto, empurrava o botão do lead para fora da
+     tela do celular (auditoria UX mobile, 29/09, C1) */
+  const [mostrarIg, setMostrarIg] = useState(false);
   const [okContato, setOkContato] = useState(false);
   const [okImagem, setOkImagem] = useState(false);
   const [enviando, setEnviando] = useState(false);
@@ -316,8 +319,7 @@ const QuizDragao = () => {
       <h2 className="qd-pergunta">Falta só o seu WhatsApp.</h2>
       <p className="qsd8-sub">
         {/* 🔴 NÃO PROMETER ENVIO POR WHATSAPP — a gente não manda a imagem por lá. */}
-        A ficha de {nomePet || "ele"} já está pronta. Ela aparece assim que você
-        deixar o seu WhatsApp — é assim que a gente sabe quem passou por aqui.
+        A ficha de {nomePet || "ele"} aparece assim que você deixar o seu WhatsApp.
       </p>
 
       <label className="qd-label" htmlFor="qd-tel">WhatsApp com DDD</label>
@@ -331,8 +333,14 @@ const QuizDragao = () => {
         placeholder="(11) 91234-5678"
       />
 
+      {!mostrarIg ? (
+        <button type="button" className="qd-ig-abrir" onClick={() => setMostrarIg(true)}>
+          + adicionar @ do Instagram (opcional)
+        </button>
+      ) : (<>
       <label className="qd-label" htmlFor="qd-ig">@ no Instagram — seu ou dele (opcional)</label>
       <input
+        autoFocus
         id="qd-ig"
         className="qd-input"
         autoCapitalize="none"
@@ -343,6 +351,7 @@ const QuizDragao = () => {
         placeholder="@"
         maxLength={60}
       />
+      </>)}
 
       <label className="qd-check">
         <input type="checkbox" checked={okContato} onChange={(e) => setOkContato(e.target.checked)} />
