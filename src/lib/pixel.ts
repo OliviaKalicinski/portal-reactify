@@ -72,24 +72,56 @@ export function trackAddToCart(p: PixelParams & { cta?: string }) {
   );
 }
 
-/* ── QUIZ "QUE DRAGÃO MORA NA SUA CASA?" (28/09/2026) ─────────────────────
-   O quiz é máquina de LEAD. Três sinais, na ordem do funil, pra dar (1) público
-   de retarget de quem começou e não terminou e (2) campanha otimizada pra Lead.
-   · QuizIniciado / QuizConcluido são customizados (trackCustom): não existem
-     no padrão da Meta e não podem se confundir com compra.
-   · Lead é o padrão — é o único que a campanha usa como otimização. */
+/* ── QUIZ E LISTAS: O MESMO AVISO EM TODAS AS FERRAMENTAS (29/09/2026) ─────
+   Antes só a Meta sabia do funil do quiz; GA4 e TikTok (os dois pelo GTM
+   GTM-NC7F2PNS) só viam a visita. Cada aviso agora sai em três lugares:
+   · Meta: fbq (padrão Lead; o resto trackCustom)
+   · GA4: gtag('event') na fila do dataLayer — o Google tag do GTM lê os
+     comandos gtag dessa fila. O mesmo push com `event` deixa um gatilho
+     pronto no GTM, se um dia alguém quiser tag própria.
+   · TikTok: ttq.track (SubmitForm é o padrão de lead do TikTok)
+   Nenhum deles pode quebrar a página: tudo em try/catch. */
+type Dict = Record<string, unknown>;
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    ttq?: { track: (ev: string, p?: Dict) => void };
+  }
+}
+function ga4(evento: string, params: Dict) {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    // eslint-disable-next-line prefer-rest-params
+    (function gtag(..._a: unknown[]) { window.dataLayer!.push(arguments); })("event", evento, params);
+    window.dataLayer.push({ event: evento, ...params });
+  } catch { /* nunca quebra a página */ }
+}
+function tiktok(evento: string, params: Dict, tentativa = 0) {
+  try {
+    if (window.ttq?.track) { window.ttq.track(evento, params); return; }
+  } catch { return; }
+  if (tentativa < MAX_TENTATIVAS) window.setTimeout(() => tiktok(evento, params, tentativa + 1), RETRY_MS);
+}
+
 export function trackQuizIniciado(quiz: string) {
   comFbq((fbq) => fbq("trackCustom", "QuizIniciado", { quiz }));
+  ga4("quiz_iniciado", { quiz });
+  tiktok("ClickButton", { content_name: quiz, description: "quiz_iniciado" });
 }
 export function trackQuizConcluido(quiz: string, resultado: string) {
   comFbq((fbq) => fbq("trackCustom", "QuizConcluido", { quiz, resultado }));
+  ga4("quiz_concluido", { quiz, resultado });
+  tiktok("ViewContent", { content_name: quiz, content_category: resultado, description: "quiz_concluido" });
 }
 export function trackLead(quiz: string, resultado: string) {
   comFbq((fbq) => fbq("track", "Lead", { content_name: quiz, content_category: resultado }));
+  ga4("generate_lead", { lead_source: quiz, resultado });
+  tiktok("SubmitForm", { content_name: quiz, content_category: resultado });
 }
-
 /** Levou o retrato embora: `como` = "compartilhar" (share nativo concluído) ou
  *  "baixar". É o sinal de que o quiz está se espalhando (29/09). */
 export function trackQuizCompartilhou(quiz: string, resultado: string, como: "compartilhar" | "baixar") {
   comFbq((fbq) => fbq("trackCustom", "QuizCompartilhou", { quiz, resultado, como }));
+  ga4("share", { method: como, content_type: quiz, item_id: resultado });
+  tiktok("ClickButton", { content_name: quiz, content_category: resultado, description: `quiz_${como}` });
 }
