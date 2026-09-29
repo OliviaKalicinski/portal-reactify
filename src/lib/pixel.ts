@@ -88,11 +88,14 @@ declare global {
     ttq?: { track: (ev: string, p?: Dict) => void };
   }
 }
+/* 🔴 send_to é obrigatório: o Google tag do GTM ignora gtag('event') sem
+   destino (testado ao vivo em 29/09 — sem send_to o evento não saía). */
+const GA4_ID = "G-YG2DYZSGBV";
 function ga4(evento: string, params: Dict) {
   try {
     window.dataLayer = window.dataLayer || [];
     // eslint-disable-next-line prefer-rest-params
-    (function gtag(..._a: unknown[]) { window.dataLayer!.push(arguments); })("event", evento, params);
+    (function gtag(..._a: unknown[]) { window.dataLayer!.push(arguments); })("event", evento, { ...params, send_to: GA4_ID });
     window.dataLayer.push({ event: evento, ...params });
   } catch { /* nunca quebra a página */ }
 }
