@@ -414,7 +414,7 @@ const QuizDragao = () => {
       <PageMeta
         title="Que dragão mora na sua casa? — Comida de Dragão"
         description="Seis perguntas sobre o seu cachorro. No fim, o veredito do Dragão, com a foto dele dentro, pra você guardar."
-        image="/assets/images/produtos/kit-caes.png"
+        image="/assets/images/og-qual-dragao.jpg"
       />
 
       {/* rabiscos dos cards, nas bordas — os cards têm; as telas estavam em cor

@@ -21,7 +21,7 @@ const METAS_POR_ROTA: Record<string, { title: string; description: string; image
   "qual-dragao": {
     title: "Que dragão mora na sua casa? — Comida de Dragão",
     description: "Seis perguntas sobre o seu cachorro. No fim, o veredito do Dragão, com a foto dele dentro.",
-    image: `${SITE}/assets/images/produtos/kit-caes.png`,
+    image: `${SITE}/assets/images/og-qual-dragao.jpg`,
   },
 };
 const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
