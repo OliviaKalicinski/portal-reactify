@@ -20,7 +20,7 @@ const METAS_POR_ROTA: Record<string, { title: string; description: string; image
   },
   "qual-dragao": {
     title: "Que dragão mora na sua casa? — Comida de Dragão",
-    description: "Seis perguntas sobre o seu cachorro. No fim, o veredito do Dragão, com a foto dele dentro.",
+    description: "Seis perguntas sobre o seu pet. No fim, o veredito do Dragão, com a foto dele dentro.",
     image: `${SITE}/assets/images/og-qual-dragao.jpg`,
   },
 };

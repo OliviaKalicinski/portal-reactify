@@ -413,7 +413,7 @@ const QuizDragao = () => {
     <div className={`qsd8 cf-pink qd${skin}`}>
       <PageMeta
         title="Que dragão mora na sua casa? — Comida de Dragão"
-        description="Seis perguntas sobre o seu cachorro. No fim, o veredito do Dragão, com a foto dele dentro, pra você guardar."
+        description="Seis perguntas sobre o seu pet. No fim, o veredito do Dragão, com a foto dele dentro, pra você guardar."
         image="/assets/images/og-qual-dragao.jpg"
       />
 
@@ -533,7 +533,7 @@ const QuizDragao = () => {
               className="qd-input"
               value={nomePet}
               onChange={(e) => setNomePet(e.target.value)}
-              placeholder="Nome do seu cachorro"
+              placeholder="Nome do seu pet"
               maxLength={24}
             />
 
