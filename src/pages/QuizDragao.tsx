@@ -132,6 +132,18 @@ const QuizDragao = () => {
   /* o campo do @ fica recolhido: aberto, empurrava o botão do lead para fora da
      tela do celular (auditoria UX mobile, 29/09, C1) */
   const [mostrarIg, setMostrarIg] = useState(false);
+  /* UTM DESTA VISITA (29/09): o `utm` do lead é first-touch de 7 dias (lib/utm),
+     então quem já tinha vindo de outra campanha chegava com a origem antiga e o
+     canal do quiz sumia. Esta é a do link clicado agora, lida na chegada — vai
+     em extra.utm_desta_visita, ao lado da original. */
+  const [utmVisita] = useState<Record<string, string> | null>(() => {
+    try {
+      const q = new URLSearchParams(window.location.search);
+      const u: Record<string, string> = {};
+      q.forEach((v, k) => { if (k.startsWith("utm_")) u[k] = v; });
+      return Object.keys(u).length ? u : null;
+    } catch { return null; }
+  });
   const [okContato, setOkContato] = useState(false);
   const [okImagem, setOkImagem] = useState(false);
   const [enviando, setEnviando] = useState(false);
@@ -302,6 +314,7 @@ const QuizDragao = () => {
         consentimento_imagem: okImagem,
         foto_url: photoUrl,
         foto_erro: fotoErro,
+        utm_desta_visita: utmVisita,
       },
     });
     trackLead("quiz-qual-dragao", resultado.vencedor.id);
