@@ -448,7 +448,7 @@ const QuizDragao = () => {
             </p>
             <p className="qsd8-sub">
               Responda <strong>seis perguntas</strong> e o Dragão diz quem mora aí.
-              No fim, o retrato dele — com a cara dele dentro.
+              No fim, um retrato sobre a natureza do seu dragão.
             </p>
               <button className="qsd8-btn" onClick={() => { trackQuizIniciado("quiz-qual-dragao"); setFase("quiz"); }}>Começar →</button>
               <div className="qd-eta">leva 1 minuto</div>
