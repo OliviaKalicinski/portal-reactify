@@ -128,9 +128,9 @@ export const DRAGOES: Dragao[] = [
     nomePix: "O GUARDIAO",
     epiteto: "Cem por cento de eficácia contra o que não existe",
     completa:
-      "Late pro entregador, pro vento e pra folha que caiu lá fora. Nunca entrou um ladrão nesta casa — ele considera isso currículo. Quem pediu desculpa pro entregador três vezes esta semana foi você.",
+      "Dá o alarme pro entregador, pro vento e pra folha que caiu lá fora. Nunca entrou um ladrão nesta casa — ele considera isso currículo. Quem pediu desculpa pro entregador três vezes esta semana foi você.",
     curta:
-      "Late pro entregador, pro vento, pra folha que caiu. Nunca entrou um ladrão — ele considera isso currículo.",
+      "Dá o alarme pro entregador, pro vento, pra folha que caiu. Nunca entrou um ladrão — ele considera isso currículo.",
     confissao: "JÁ PEDI DESCULPA PRO ENTREGADOR TRÊS VEZES ESTA SEMANA",
     marca: "Marca quem pede desculpa pro entregador.",
     conector: "\"nunca entrou um ladrão\" (coincidência → currículo)",
