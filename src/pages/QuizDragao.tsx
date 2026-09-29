@@ -432,7 +432,7 @@ const QuizDragao = () => {
               <h1 className="qd-display">Que dragão mora na sua casa?</h1>
             </div>
 
-            <Card>
+            <Card className="qd-intro">
             {/* 🔴 A ABERTURA SEGUE A REGRA DE UM (Great Leads, Masterson & Forde):
                 UMA ideia (quem manda na casa não é você), UMA emoção (o riso de se
                 reconhecer), UMA cena, UM benefício, UMA ação. A versão anterior

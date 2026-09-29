@@ -484,3 +484,11 @@
   }
   .qd-acoes { margin-top: 14px; }
 }
+
+/* abertura no celular (Olivia, 29/09): mais ar entre o título e a caixa, e o
+   texto da caixa mais grosso — o 400 do Space Grotesk ficava fino demais */
+@media (max-width: 480px) {
+  .qd-sparks { margin-bottom: 30px; }
+  .qd-intro .qsd8-sub { font-weight: 600; }
+  .qd-intro .qsd8-sub strong { font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+}
