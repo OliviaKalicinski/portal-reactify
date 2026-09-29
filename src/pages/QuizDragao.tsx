@@ -367,7 +367,7 @@ const QuizDragao = () => {
       <button className="qsd8-btn" onClick={enviarGate} disabled={enviando}>
         {enviando ? "Enviando…" : "Ver a ficha →"}
       </button>
-      <div className="qd-mini">Você pode pedir pra sair quando quiser.</div>
+      <div className="qd-mini">Não quer mais mensagens? É só pedir.</div>
     </div>
   );
 
@@ -521,7 +521,7 @@ const QuizDragao = () => {
           <Card faixa="O DRAGAO DECIDIU">
             <h2 className="qd-pergunta">Sobe a cara dele pra ver o resultado.</h2>
             <p className="qsd8-sub">
-              Escolhe uma em pé, com ele bem visível. A imagem é vertical.
+              Escolhe uma foto na vertical, com ele bem visível.
             </p>
 
             <label className="qd-label" htmlFor="qd-nome-pet">Como ele se chama?</label>
@@ -630,9 +630,18 @@ const QuizDragao = () => {
                 </>
               )}
               {!gerando && !cartaUrl && (
-                <p className="qsd8-sub">
-                  Não deu pra montar a imagem agora. Recarrega a página e tenta de novo.
-                </p>
+                <>
+                  {/* recarregar a página apagava as 6 respostas (revisão de clareza, 29/09):
+                      a causa provável é a foto, então a saída é trocar ou tentar de novo */}
+                  <p className="qsd8-sub">
+                    Não deu pra montar a ficha com essa foto. Toca em <strong>Trocar a foto</strong> e
+                    tenta com outra.
+                  </p>
+                  <div className="qd-acoes">
+                    <button className="qsd8-btn" onClick={() => setFase("foto")}>Trocar a foto</button>
+                    <button className="qsd8-btn ghost" onClick={montarCarteira}>Tentar de novo</button>
+                  </div>
+                </>
               )}
             </Card>
 
