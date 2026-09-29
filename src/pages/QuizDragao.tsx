@@ -144,7 +144,10 @@ const QuizDragao = () => {
       return Object.keys(u).length ? u : null;
     } catch { return null; }
   });
-  const [okContato, setOkContato] = useState(false);
+  /* aceite de mensagens já vem marcado (Olivia, 29/09); o da FOTO não — pela LGPD,
+     caixa pré-marcada vale pouco como consentimento, e o risco maior é usar a
+     foto do pet nas redes sem autorização clara. */
+  const [okContato, setOkContato] = useState(true);
   const [okImagem, setOkImagem] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [erroGate, setErroGate] = useState<string | null>(null);
