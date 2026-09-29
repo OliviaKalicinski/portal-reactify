@@ -406,7 +406,7 @@ const QuizDragao = () => {
            (Berger, cap. Público: o resíduo tem que dizer sozinho onde ir.) */
         await navigator.share({
           files: [file],
-          text: `${dragao.marca}\n\nDescubra o dragão do seu: ${QUIZ_URL}`,
+          text: `${dragao.marca}\n\nDescubra o dragão do seu: ${QUIZ_URL}\n@comidadedragao`,
         });
         /* só conta se a pessoa concluiu: cancelar cai no catch abaixo */
         trackQuizCompartilhou("quiz-qual-dragao", dragao.id, "compartilhar");
@@ -613,6 +613,9 @@ const QuizDragao = () => {
                   {/* foto ruim (cabeça cortada, escura) não pode obrigar a refazer o quiz:
                       volta pra tela da foto e remonta, sem pedir o WhatsApp de novo */}
                   <button className="qd-voltar" onClick={() => setFase("foto")}>Trocar a foto</button>
+                  {/* aviso de marcar a marca (Olivia, 29/09): o repost depende de a gente
+                      ver o story — sem a marcação, o retrato circula e a marca não fica sabendo */}
+                  <p className="qd-marcar">Postou? Marca a gente: <strong>@comidadedragao</strong></p>
                   <p className="qd-marca">{dragao.marca}</p>
 
                   {/* o retrato inteiro, agora que ela ja' tem a imagem na mao.

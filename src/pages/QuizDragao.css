@@ -492,3 +492,7 @@
   .qd-intro .qsd8-sub { font-weight: 600; }
   .qd-intro .qsd8-sub strong { font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 }
+.qd-marcar {
+  margin: 12px 0 0; text-align: center;
+  font-family: "Space Grotesk", sans-serif; font-size: 15px; font-weight: 600;
+}
