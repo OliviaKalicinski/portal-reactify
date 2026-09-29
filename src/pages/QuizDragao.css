@@ -496,3 +496,37 @@
   margin: 12px 0 0; text-align: center;
   font-family: "Space Grotesk", sans-serif; font-size: 15px; font-weight: 600;
 }
+
+/* ══ DESKTOP: CADA TELA CABE SEM ROLAR (Olivia, 29/09) ════════════════════
+   Régua: notebook 1366×768, que no navegador vira ~650 px úteis. As 6 opções
+   em duas colunas (A B / C D / E F) cortam a pergunta pela metade da altura;
+   em tela baixa, o mesmo aperto de espaço do celular. */
+@media (min-width: 700px) {
+  .qd-opcoes { grid-template-columns: 1fr 1fr; gap: 6px 18px; }
+  .qd-opcao:last-child { border-bottom: 3px solid rgba(0,0,0,.13); }
+  .qd-opcao:nth-last-child(-n+2) { border-bottom: 0; }
+}
+@media (min-width: 481px) and (max-height: 900px) {
+  .qsd8-wrap.qd-wrap { padding-top: 20px; padding-bottom: 24px; }
+  .qd-card { margin-bottom: 18px; }
+  .qd-faixa { padding: 9px 10px; }
+  .qd-card-body { padding: 16px 20px 16px; }
+  .qd-prog { height: 14px; margin-bottom: 10px; }
+  .qd-pergunta { margin-bottom: 8px; padding: 2px 0 6px; font-size: 21px; }
+  .qd-opcao { padding: 8px 10px; }
+  .qd-opcao-txt b { font-size: 16px; line-height: 1.28; }
+  .qd-opcao-txt em { font-size: 14px; }
+  .qd-rodape-pergunta { margin-top: 6px; min-height: 0; }
+  .qd-label { margin: 10px 0 6px; }
+  .qd-upload { margin: 12px 0 6px; }
+  .qd-preview { max-width: 150px; margin: 6px 0 12px; }
+  .qd-montagem.qd-bloqueada { max-width: 120px; }
+  .qd-gate { margin-top: 10px; }
+  .qd-check { margin: 8px 0; }
+  .qd-acoes { margin-top: 14px; }
+}
+/* o retrato pronto se mede pela altura da tela em qualquer largura */
+.qd-montagem:not(.qd-bloqueada) {
+  max-width: min(340px, calc((100vh - 230px) * 1080 / 1920));
+  max-width: min(340px, calc((100svh - 230px) * 1080 / 1920));
+}
