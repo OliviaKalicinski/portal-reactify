@@ -319,7 +319,7 @@ const QuizDragao = () => {
       <h2 className="qd-pergunta">Falta só o seu WhatsApp.</h2>
       <p className="qsd8-sub">
         {/* 🔴 NÃO PROMETER ENVIO POR WHATSAPP — a gente não manda a imagem por lá. */}
-        A ficha de {nomePet || "ele"} aparece assim que você deixar o seu WhatsApp.
+        O retrato de {nomePet || "ele"} aparece assim que você deixar o seu WhatsApp.
       </p>
 
       <label className="qd-label" htmlFor="qd-tel">WhatsApp com DDD</label>
@@ -365,7 +365,7 @@ const QuizDragao = () => {
       {erroGate && <div className="qd-erro">{erroGate}</div>}
 
       <button className="qsd8-btn" onClick={enviarGate} disabled={enviando}>
-        {enviando ? "Enviando…" : "Ver a ficha →"}
+        {enviando ? "Enviando…" : "Ver o retrato →"}
       </button>
       <div className="qd-mini">Não quer mais mensagens? É só pedir.</div>
     </div>
@@ -448,7 +448,7 @@ const QuizDragao = () => {
             </p>
             <p className="qsd8-sub">
               Responda <strong>seis perguntas</strong> e o Dragão diz quem mora aí.
-              No fim, um presente — com a cara dele dentro.
+              No fim, o retrato dele — com a cara dele dentro.
             </p>
               <button className="qsd8-btn" onClick={() => { trackQuizIniciado("quiz-qual-dragao"); setFase("quiz"); }}>Começar →</button>
               <div className="qd-eta">leva 1 minuto</div>
@@ -564,7 +564,7 @@ const QuizDragao = () => {
         {/* ══ A CARTEIRA ══════════════════════════════════════════ */}
         {fase === "carteira" && dragao && (
           <>
-            <Card faixa={gerando ? "O DRAGAO ESTA CALCULANDO" : leadOk ? `E ${dragao.nomePix}` : "SUA FICHA ESTA PRONTA"}>
+            <Card faixa={gerando ? "O DRAGAO ESTA CALCULANDO" : leadOk ? `E ${dragao.nomePix}` : "SEU RETRATO ESTA PRONTO"}>
               {gerando && <div className="qd-gerando">O DRAGAO ESTA CALCULANDO O RESULTADO...</div>}
               {cartaUrl && (
                 <>
@@ -576,7 +576,7 @@ const QuizDragao = () => {
                       A imagem final (cartaUrl) segue existindo pro Compartilhar
                       e pro Salvar; aqui é só a encenação. */}
                   <div className={`qd-montagem${leadOk ? "" : " qd-bloqueada"}`} role="img"
-                       aria-label={leadOk ? `${dragao.nome}, com a foto de ${nomePet}` : "Ficha pronta, desfocada até o WhatsApp"}>
+                       aria-label={leadOk ? `${dragao.nome}, com a foto de ${nomePet}` : "Retrato pronto, desfocado até o WhatsApp"}>
                     <img className="qd-m-card" src={`/assets/quiz-cards/${dragao.id}.webp`} alt="" />
                     {fotoPreview && <img className="qd-m-foto" src={fotoPreview} alt="" />}
                     <img className="qd-m-colagem" src={`/assets/quiz-overlay/${dragao.id}.webp`} alt="" />
@@ -634,7 +634,7 @@ const QuizDragao = () => {
                   {/* recarregar a página apagava as 6 respostas (revisão de clareza, 29/09):
                       a causa provável é a foto, então a saída é trocar ou tentar de novo */}
                   <p className="qsd8-sub">
-                    Não deu pra montar a ficha com essa foto. Toca em <strong>Trocar a foto</strong> e
+                    Não deu pra montar o retrato com essa foto. Toca em <strong>Trocar a foto</strong> e
                     tenta com outra.
                   </p>
                   <div className="qd-acoes">
