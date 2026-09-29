@@ -87,3 +87,9 @@ export function trackQuizConcluido(quiz: string, resultado: string) {
 export function trackLead(quiz: string, resultado: string) {
   comFbq((fbq) => fbq("track", "Lead", { content_name: quiz, content_category: resultado }));
 }
+
+/** Levou o retrato embora: `como` = "compartilhar" (share nativo concluído) ou
+ *  "baixar". É o sinal de que o quiz está se espalhando (29/09). */
+export function trackQuizCompartilhou(quiz: string, resultado: string, como: "compartilhar" | "baixar") {
+  comFbq((fbq) => fbq("trackCustom", "QuizCompartilhou", { quiz, resultado, como }));
+}

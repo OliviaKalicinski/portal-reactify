@@ -7,7 +7,7 @@ import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
 import { uploadProfilePhoto } from "@/lib/uploads";
 import { gerarCarteira } from "@/lib/carteira";
 import { submitLpLead } from "@/lib/lpLeads";
-import { trackQuizIniciado, trackQuizConcluido, trackLead } from "@/lib/pixel";
+import { trackQuizIniciado, trackQuizConcluido, trackLead, trackQuizCompartilhou } from "@/lib/pixel";
 import { DRAGOES, PERGUNTAS, calcular, type Resultado, type Dragao } from "@/data/dragoes";
 import "./QueroSerDragao.css"; /* sistema visual retrô-OS (.qsd8) */
 import "./OqueFalam.css";      /* tema cf-pink 8-bit (creme + acento) */
@@ -392,6 +392,8 @@ const QuizDragao = () => {
           files: [file],
           text: `${dragao.marca}\n\nDescubra o dragão do seu: ${QUIZ_URL}`,
         });
+        /* só conta se a pessoa concluiu: cancelar cai no catch abaixo */
+        trackQuizCompartilhou("quiz-qual-dragao", dragao.id, "compartilhar");
         return;
       } catch { /* cancelou */ }
     }
@@ -404,6 +406,7 @@ const QuizDragao = () => {
     a.href = cartaUrl;
     a.download = `meu-dragao-${dragao.id}.png`;
     a.click();
+    trackQuizCompartilhou("quiz-qual-dragao", dragao.id, "baixar");
   };
 
   return (
