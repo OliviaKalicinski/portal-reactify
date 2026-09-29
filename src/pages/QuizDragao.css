@@ -530,3 +530,14 @@
   max-width: min(340px, calc((100vh - 230px) * 1080 / 1920));
   max-width: min(340px, calc((100svh - 230px) * 1080 / 1920));
 }
+
+/* tela do retrato no desktop: retrato à esquerda, ações e texto à direita */
+@media (min-width: 900px) {
+  .qd-retrato-grid { display: grid; grid-template-columns: auto 1fr; gap: 36px; align-items: start; }
+  .qd-retrato-col .qd-montagem { margin: 0; width: min(340px, calc((100svh - 190px) * 1080 / 1920)); }
+  .qd-retrato-col .qd-montagem.qd-bloqueada { width: 180px; max-width: 180px; }
+  .qd-retrato-info .qd-acoes { justify-content: flex-start; margin-top: 0; }
+  .qd-retrato-info .qd-gate { margin-top: 0; }
+  .qd-retrato-info .qd-marcar { text-align: left; }
+  .qd-retrato-info .qd-voltar { margin-top: 14px; }
+}

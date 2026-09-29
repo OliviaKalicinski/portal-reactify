@@ -594,12 +594,17 @@ const QuizDragao = () => {
                       mesma ordem — o que ela vê é o que vai baixar.
                       A imagem final (cartaUrl) segue existindo pro Compartilhar
                       e pro Salvar; aqui é só a encenação. */}
+                  {/* no desktop, retrato e o resto lado a lado (Olivia, 29/09) */}
+                  <div className="qd-retrato-grid">
+                  <div className="qd-retrato-col">
                   <div className={`qd-montagem${leadOk ? "" : " qd-bloqueada"}`} role="img"
                        aria-label={leadOk ? `${dragao.nome}, com a foto de ${nomePet}` : "Retrato pronto, desfocado até o WhatsApp"}>
                     <img className="qd-m-card" src={`/assets/quiz-cards/${dragao.id}.webp`} alt="" />
                     {fotoPreview && <img className="qd-m-foto" src={fotoPreview} alt="" />}
                     <img className="qd-m-colagem" src={`/assets/quiz-overlay/${dragao.id}.webp`} alt="" />
                   </div>
+                  </div>
+                  <div className="qd-retrato-info">
                   {!leadOk && formLead}
                   {leadOk && (<>
                   <div className="qd-acoes">
@@ -649,6 +654,8 @@ const QuizDragao = () => {
                     {/* sem frase aqui: a linha dos seis fala sozinha */}
                   </div>
                   </>)}
+                  </div>
+                  </div>
                 </>
               )}
               {!gerando && !cartaUrl && (
