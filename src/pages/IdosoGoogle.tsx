@@ -94,8 +94,8 @@ const REFERENCIAS = [
 
 const BENEFICIOS = [
   {
-    stat: "45%",
-    statLbl: "proteína",
+    stat: "40%",
+    statLbl: "de proteína, no mínimo",
     title: "Músculo que a idade leva",
     desc: "O Suplemento Integral tem <strong>no mínimo 40% de proteína, podendo chegar a 45%</strong>, altamente digestível (estudos apontam de 81% a 96% de digestibilidade). Proteína que o corpo aproveita de verdade ajuda a <strong>preservar a massa magra</strong> que o cão idoso costuma perder.",
   },

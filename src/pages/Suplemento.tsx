@@ -117,8 +117,8 @@ const PROBLEMAS = [
 
 const BENEFICIOS = [
   {
-    stat: "45%",
-    statLbl: "proteína",
+    stat: "40%",
+    statLbl: "de proteína, no mínimo",
     title: "Mais proteína na mesma tigela",
     desc: "<strong>Farinha de larva de mosca soldado negra</strong>, com o perfil completo de aminoácidos essenciais. Uma colher por cima da ração muda o que entra de proteína no dia, sem trocar a comida dele.",
   },
