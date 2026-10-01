@@ -30,7 +30,7 @@ import LeadPopup from "@/components/LeadPopup";
 
    ⚠️ GUARDRAILS: é COMPLEMENTO nutricional (petisco + suplemento), NÃO
    substitui ração nem tratamento veterinário. Sem promessa de cura.
-   Proteina: claim da casa = 45% no Original E no Suplemento Integral (Olivia, 02/09/26).
+   Proteina: claim da casa = "no minimo 40%, podendo chegar a 45%" no Original E no Suplemento Integral (Olivia, 25/09/26).
 
    ⚠️ PENDÊNCIAS ANTES DE PUBLICAR (flag pra Olivia):
    1. CUPOM: "VITALIDADE" precisa ser cadastrado na Yampi (10% off, 1ª compra).
@@ -97,7 +97,7 @@ const BENEFICIOS = [
     stat: "45%",
     statLbl: "proteína",
     title: "Músculo que a idade leva",
-    desc: "O Suplemento Integral tem <strong>no mínimo 45% de proteína</strong>, altamente digestível (estudos apontam de 81% a 96% de digestibilidade). Proteína que o corpo aproveita de verdade ajuda a <strong>preservar a massa magra</strong> que o cão idoso costuma perder.",
+    desc: "O Suplemento Integral tem <strong>no mínimo 40% de proteína, podendo chegar a 45%</strong>, altamente digestível (estudos apontam de 81% a 96% de digestibilidade). Proteína que o corpo aproveita de verdade ajuda a <strong>preservar a massa magra</strong> que o cão idoso costuma perder.",
   },
   {
     stat: "0,4%",

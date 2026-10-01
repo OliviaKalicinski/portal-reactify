@@ -74,10 +74,10 @@ const MOTIVOS: Motivo[] = [
     tocLabel: "Superalimento",
     titulo: "Superalimento, não suplemento qualquer.",
     paragrafos: [
-      "Larva BSF concentra de 40% a 55% de proteína pura — quase o dobro de uma ração premium convencional. Todos os aminoácidos essenciais em proporção ideal. Ácido láurico com ação antimicrobiana natural. Ômegas 3, 6 e 9 pra pelagem brilhante e pele saudável.",
+      "Larva BSF concentra no mínimo 40% de proteína, podendo chegar a 45% — quase o dobro de uma ração premium convencional. Todos os aminoácidos essenciais em proporção ideal. Ácido láurico com ação antimicrobiana natural. Ômegas 3, 6 e 9 pra pelagem brilhante e pele saudável.",
       "Energia concentrada, sem aditivo químico, sem corante, sem conservante. O perfil nutricional é o que faltava no mercado de petisco brasileiro.",
     ],
-    quote: "40-55% de proteína pura — vs. 25-30% das rações comuns.",
+    quote: "No mínimo 40% de proteína, podendo chegar a 45% — vs. 25-30% das rações comuns.",
     quoteFonte: "Tabela nutricional Comida de Dragão.",
     evidencias: [
       "Aminoácidos essenciais em proporção ideal",
@@ -156,9 +156,9 @@ const MOTIVOS: Motivo[] = [
     titulo: "Funciona como suplemento proteico natural.",
     paragrafos: [
       "Seu pet tá em recuperação, é muito ativo, acima do peso ou precisa ganhar massa muscular? Suplementos comerciais são caros e nem sempre confiáveis.",
-      "Larva BSF é proteína concentrada — funciona como suplemento nutricional sem precisar trocar a ração base. A linha Suplemento tem duas versões: Integral (45% proteína, uso diário) e Concentrado (55% proteína, máxima densidade).",
+      "Larva BSF é proteína concentrada — funciona como suplemento nutricional sem precisar trocar a ração base. A linha Suplemento tem duas versões: Integral (no mínimo 40% de proteína, podendo chegar a 45%, uso diário) e Concentrado (50,5% de proteína, máxima densidade).",
     ],
-    quote: "Duas versões: Integral 45% e Concentrado 55%.",
+    quote: "Duas versões: Integral 41,5% e Concentrado 50,5%.",
     quoteFonte: "Linha Suplemento Comida de Dragão.",
     evidencias: [
       "Ideal pra ganho de massa muscular",

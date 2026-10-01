@@ -158,9 +158,9 @@ const Dupla = () => {
             Seu cão vai enlouquecer.<br /><span>E dessa vez, faz bem.</span>
           </h1>
 
-          {/* Claim de proteina = 45%, decidido pela Olivia 02/09/26. Ver _TESES-DERRUBADAS.md. */}
+          {/* Claim de proteina = "no minimo 40%, podendo chegar a 45%" (Olivia, 25/09/26; o 45% sozinho caiu). Ver _TESES-DERRUBADAS.md. */}
           <p className="cur-hero-claim">
-            Original: <strong>45% de proteína</strong>, 88,9% digestível e 1 ingrediente só.
+            Original: <strong>no mínimo 40% de proteína, podendo chegar a 45%</strong>, 88,9% digestível e 1 ingrediente só.
           </p>
 
           <p className="cur-hero-sub">

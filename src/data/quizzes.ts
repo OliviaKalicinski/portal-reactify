@@ -710,7 +710,7 @@ const quizProduto: QuizDef = {
     integral: {
       label: 'SUPLEMENTO INTEGRAL',
       category: 'O boost diário: mistura na ração e acabou',
-      description: '45% de proteína, cúrcuma e spirulina em pó. Entra na rotina sem briga. Pra cão em crescimento, muito ativo, ou pet com apetite meio assim-assim.\n\nIngrediente adicional sobe a palatabilidade — o seletivo volta a atacar o prato.',
+      description: 'No mínimo 40% de proteína, podendo chegar a 45%, com cúrcuma e spirulina em pó. Entra na rotina sem briga. Pra cão em crescimento, muito ativo, ou pet com apetite meio assim-assim.\n\nIngrediente adicional sobe a palatabilidade — o seletivo volta a atacar o prato.',
       emoji: '💪',
       profileLabel: 'Meu pet treina como atleta',
       manifestoLine: 'Meu pet treina como atleta — e eu alimento como tal',
@@ -727,7 +727,7 @@ const quizProduto: QuizDef = {
     concentrado: {
       label: 'SUPLEMENTO CONCENTRADO',
       category: 'Quando proteína é tudo',
-      description: '55% de proteína — a maior concentração da linha — com só 9,45% de gordura. Pra recuperação, pancreatite, restrição de gordura, reconstrução muscular real.\n\nQuando o vet pede "proteína alta, gordura baixa", o produto tá aqui.',
+      description: '50,5% de proteína — a maior concentração da linha — com só 9,45% de gordura. Pra recuperação, pancreatite, restrição de gordura, reconstrução muscular real.\n\nQuando o vet pede "proteína alta, gordura baixa", o produto tá aqui.',
       emoji: '🔬',
       profileLabel: 'Proteína máxima, gordura mínima',
       manifestoLine: 'Meu pet precisa de proteína máxima e gordura mínima',

@@ -90,8 +90,8 @@ const PRODUTOS: Produto[] = [
       "/assets/images/produtos/original-08.webp",
       "/assets/images/produtos/original-09.webp",
     ],
-    destaques: ["45% proteína", "3.507 kcal/kg", "Hipoalergênico"],
-    proteina: "45%",
+    destaques: ["Mín. 40% proteína", "3.507 kcal/kg", "Hipoalergênico"],
+    proteina: "40% (mín. 400 g/kg)",
     gordura: "30% (mín. 300 g/kg)",
     energia: "3.507 kcal/kg",
     composicao: [
@@ -186,8 +186,8 @@ const PRODUTOS: Produto[] = [
       "/assets/images/produtos/integral-07.webp",
       "/assets/images/produtos/integral-08.webp",
     ],
-    destaques: ["45% proteína", "4.350 kcal/kg", "Hipoalergênico"],
-    proteina: "45%",
+    destaques: ["Mín. 40% proteína", "4.350 kcal/kg", "Hipoalergênico"],
+    proteina: "41,5% (mín. 415 g/kg)",
     gordura: "26,1% (mín. 261 g/kg)",
     energia: "4.350 kcal/kg",
     composicao: [
@@ -210,7 +210,7 @@ const PRODUTOS: Produto[] = [
       { porte: "Grande (>25kg)", qtd: "4 medidas (20g/dia)" },
     ],
     diferenciais: [
-      "No mínimo 45% de proteína",
+      "No mínimo 40% de proteína, podendo chegar a 45%",
       "Perfil completo de aminoácidos essenciais",
       "Hipoalergênico",
       "Acompanha dosador",
@@ -237,8 +237,8 @@ const PRODUTOS: Produto[] = [
       "/assets/images/produtos/concentrado-07.webp",
       "/assets/images/produtos/concentrado-08.webp",
     ],
-    destaques: ["55% proteína", "Baixa gordura (9,45%)", "Máxima concentração"],
-    proteina: "55% (505 g/kg) — MÁXIMA DA LINHA",
+    destaques: ["50,5% proteína", "Baixa gordura (9,45%)", "Máxima concentração"],
+    proteina: "50,5% (mín. 505 g/kg) — MÁXIMA DA LINHA",
     gordura: "9,45% (mín. 94,5 g/kg) — BAIXO TEOR",
     energia: "3.320 kcal/kg",
     composicao: [
@@ -247,7 +247,7 @@ const PRODUTOS: Produto[] = [
       "Spirulina",
     ],
     quandoUsar: [
-      "Máxima concentração proteica (55%)",
+      "Máxima concentração proteica (50,5%)",
       "Crescimento acelerado (filhotes grandes)",
       "Gestação/lactação (pico de demanda)",
       "Recuperação pós-operatória",
@@ -262,7 +262,7 @@ const PRODUTOS: Produto[] = [
       { porte: "Grande (>25kg)", qtd: "4 medidas (20g/dia)" },
     ],
     diferenciais: [
-      "55% de proteína — maior concentração da linha",
+      "50,5% de proteína — maior concentração da linha",
       "Baixíssimo teor de gordura — ideal para restrições",
       "Hipoalergênico",
       "Livre de gorduras trans",

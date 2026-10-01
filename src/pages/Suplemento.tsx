@@ -193,8 +193,8 @@ const Suplemento = () => {
   return (
     <div className="suplemento-lp">
       <PageMeta
-        title="Suplemento Integral — 45% de proteína pra todos os cães"
-        description="Suplemento em pó com 45% de proteína de Mosca Soldado Negra. Hipoalergênico, cúrcuma e spirulina, acompanha dosador. Polvilha na ração e pronto."
+        title="Suplemento Integral — no mínimo 40% de proteína pra todos os cães"
+        description="Suplemento em pó com no mínimo 40% de proteína de Mosca Soldado Negra. Hipoalergênico, cúrcuma e spirulina, acompanha dosador. Polvilha na ração e pronto."
         image={OG_IMG}
         preload={HERO_IMG}
       />
@@ -230,7 +230,7 @@ const Suplemento = () => {
               "para todos os cães" — que a Olivia pediu no H1, então a eyebrow deixou de
               repetir a frase —, e as fases continuam na sub,
               mas como exemplos — com o cão saudável incluído na lista. */}
-          <span className="slp-hero-eyebrow">para todos os cães · 45% de proteína · Reg. MAPA</span>
+          <span className="slp-hero-eyebrow">para todos os cães · no mínimo 40% de proteína · Reg. MAPA</span>
 
           {/* 23/09 — campanha Meta 30% com o criativo da @tascha_shihtzu: o H1 abre pela
               promessa do anúncio (cão enjoado da ração) e fecha no nutricional.
@@ -241,7 +241,7 @@ const Suplemento = () => {
 
           <p className="slp-hero-sub">
             Uma colher na ração de sempre e ele volta pra tigela. São{" "}
-            <strong>45% de proteína</strong> de larva, com cúrcuma e spirulina: músculo, pelo e
+            <strong>no mínimo 40% de proteína</strong> de larva, podendo chegar a 45%, com cúrcuma e spirulina: músculo, pelo e
             defesa <strong>pra todo cão</strong>, do filhote ao idoso.
           </p>
 

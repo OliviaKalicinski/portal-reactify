@@ -141,13 +141,13 @@ const PRODUTOS = [
   {
     nome: "Original — Comida de Dragão",
     pet: [{ ico: "dog", label: "Cães" }, { ico: "cat", label: "Gatos" }, { ico: "reptile", label: "Répteis" }, { ico: "bird", label: "Aves" }],
-    specs: ["Proteína: 45%", "Digestibilidade: 88,9%", "1 ingrediente único · 90g"],
+    specs: ["Proteína: no mínimo 40%", "Digestibilidade: 88,9%", "1 ingrediente único · 90g"],
     ideal: "Petisco diário, treino, pets com alergias, pets seletivos, viagens e enriquecimento ambiental.",
   },
   {
     nome: "Suplemento Proteico Integral",
     pet: [{ ico: "dog", label: "Cães" }],
-    specs: ["Proteína: no mínimo 45%", "4.350 kcal/kg · 180g em pó", "Farinha BSF + cúrcuma + spirulina"],
+    specs: ["Proteína: no mínimo 40%", "4.350 kcal/kg · 180g em pó", "Farinha BSF + cúrcuma + spirulina"],
     ideal: "Boost proteico diário, cães ativos, filhotes e gestação/lactação. Acompanha dosador.",
   },
   {

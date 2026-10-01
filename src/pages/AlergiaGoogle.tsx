@@ -87,8 +87,8 @@ const BENEFICIOS = [
     desc: "Anti-inflamatório natural da própria larva. Tutores relatam a <strong>coceira dando trégua</strong> e o pet mais tranquilo em poucas semanas.",
   },
   {
-    stat: "45%",
-    statLbl: "proteína",
+    stat: "40%",
+    statLbl: "de proteína, no mínimo",
     title: "Pele, pelo e intestino",
     desc: "O suplemento reforça proteína e ômegas pra <strong>pelagem voltar a brilhar</strong> — e cai bem no intestino, com fezes mais firmes.",
   },

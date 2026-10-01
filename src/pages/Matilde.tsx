@@ -41,7 +41,7 @@ const PRESS_LOGOS = [
 const FAQ_ITEMS = [
   {
     q: "Por que larva, de todos os ingredientes?",
-    a: "Porque é o que faz sentido quando você para de aceitar qualquer coisa. A larva BSF tem 45% de proteína, 88,9% de digestibilidade e um único ingrediente. Quando você lê o rótulo das rações convencionais — conservantes, corantes, proteínas de origem duvidosa — a larva deixa de ser estranha e vira a resposta mais óbvia do mundo.",
+    a: "Porque é o que faz sentido quando você para de aceitar qualquer coisa. A larva BSF tem no mínimo 40% de proteína, 88,9% de digestibilidade e um único ingrediente. Quando você lê o rótulo das rações convencionais — conservantes, corantes, proteínas de origem duvidosa — a larva deixa de ser estranha e vira a resposta mais óbvia do mundo.",
   },
   {
     q: "Tem conservante, corante ou químico artificial?",
@@ -90,7 +90,7 @@ export default function Matilde() {
     <div className="portal-page matilde-page skin-3">
       <PageMeta
         title="Quero Alimentar Bem — Matilde & Comida de Dragão"
-        description="Um ingrediente. 45% de proteína. Zero conservante. O petisco que tutores que pesquisam escolhem."
+        description="Um ingrediente. No mínimo 40% de proteína. Zero conservante. O petisco que tutores que pesquisam escolhem."
         image="/assets/images/matilde/7.webp"
       />
 
@@ -149,8 +149,8 @@ export default function Matilde() {
       </section>
       <div className="m-benefits-marquee-wrap">
         <div className="m-benefits-marquee">
-          {["45% de proteína", "Um ingrediente", "Zero conservante", "Hipoalergênico", "88,9% digestibilidade", "83% menos carbono", "Rastreável por lote"].concat(
-            ["45% de proteína", "Um ingrediente", "Zero conservante", "Hipoalergênico", "88,9% digestibilidade", "83% menos carbono", "Rastreável por lote"]
+          {["No mínimo 40% de proteína", "Um ingrediente", "Zero conservante", "Hipoalergênico", "88,9% digestibilidade", "83% menos carbono", "Rastreável por lote"].concat(
+            ["No mínimo 40% de proteína", "Um ingrediente", "Zero conservante", "Hipoalergênico", "88,9% digestibilidade", "83% menos carbono", "Rastreável por lote"]
           ).map((item, i) => (
             <span key={i} className="m-benefits-marquee-item">
               {item} <span className="m-marquee-sep">✦</span>
@@ -224,7 +224,7 @@ export default function Matilde() {
           </h2>
           <p className="m-discovery-body">
             A pesquisa levou a um lugar inesperado: entomologia aplicada à nutrição animal.
-            Um único ingrediente — larva BSF desidratada. 45% de proteína.
+            Um único ingrediente — larva BSF desidratada. No mínimo 40% de proteína, podendo chegar a 45%.
             88,9% de digestibilidade. Rastreável do início ao fim.
           </p>
           <p className="m-discovery-body m-discovery-quote">
@@ -265,7 +265,7 @@ export default function Matilde() {
             <div className="m-buy-info">
               <div className="m-buy-label">Análise garantida</div>
               <dl className="m-buy-dados">
-                <div><dt>Proteína</dt><dd>45%</dd></div>
+                <div><dt>Proteína</dt><dd>mín. 40%</dd></div>
                 <div><dt>Digestib.</dt><dd>88,9%</dd></div>
                 <div><dt>Embalagem</dt><dd>90g</dd></div>
                 <div><dt>Conservante</dt><dd>Zero</dd></div>
@@ -468,7 +468,7 @@ export default function Matilde() {
             <div className="m-buy-info">
               <div className="m-buy-label">Análise garantida</div>
               <dl className="m-buy-dados">
-                <div><dt>Proteína</dt><dd>45%</dd></div>
+                <div><dt>Proteína</dt><dd>mín. 40%</dd></div>
                 <div><dt>Digestib.</dt><dd>88,9%</dd></div>
                 <div><dt>Embalagem</dt><dd>90g</dd></div>
                 <div><dt>Conservante</dt><dd>Zero</dd></div>

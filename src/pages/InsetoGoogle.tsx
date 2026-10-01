@@ -143,7 +143,7 @@ const InsetoGoogle = () => {
           independente do noindex. */}
       <PageMeta
         title="Proteína de inseto para cachorro | Comida de Dragão"
-        description="Petisco de larva de inseto para cães: 45% de proteína, 88,9% digestível, 1 ingrediente. Kit Cachorro com 10% de desconto e frete grátis."
+        description="Petisco de larva de inseto para cães: no mínimo 40% de proteína, 88,9% digestível, 1 ingrediente. Kit Cachorro com 10% de desconto e frete grátis."
         image={HERO_IMG}
         preload={HERO_IMG}
         noindex
@@ -165,9 +165,9 @@ const InsetoGoogle = () => {
             Proteína de inseto<br /><span>para o seu cachorro.</span>
           </h1>
 
-          {/* Claim de proteina = 45%, decidido pela Olivia 02/09/26. Ver _TESES-DERRUBADAS.md. */}
+          {/* Claim de proteina = "no minimo 40%, podendo chegar a 45%" (Olivia, 25/09/26; o 45% sozinho caiu). Ver _TESES-DERRUBADAS.md. */}
           <p className="cur-hero-claim">
-            <strong>45% de proteína</strong>, 88,9% digestível e 1 ingrediente só.
+            <strong>No mínimo 40% de proteína, podendo chegar a 45%</strong>, 88,9% digestível e 1 ingrediente só.
           </p>
 
           <p className="cur-hero-sub">
