@@ -101,18 +101,9 @@ const CHIPS = [
    outros. O peso vai pra composição (três farinhas de inseto), nutrição
    e modo de uso. */
 const PROBLEMAS = [
-  {
-    dor: "Num dia ele come uma coisa, no outro come outra",
-    causa: "e o nutriente muda junto. Variar de verdade é comprar, guardar e revezar três coisas — quase ninguém mantém.",
-  },
-  {
-    dor: "O cálcio fica por sua conta",
-    causa: "é pra isso que serve aquele pó que se polvilha antes de servir. E é por isso que esquecer algumas vezes cobra caro lá na frente.",
-  },
-  {
-    dor: "Guardar bicho vivo em casa cansa",
-    causa: "tem cheiro, ocupa espaço e sempre acaba na semana em que você não pode sair pra comprar.",
-  },
+  { dor: "A comida muda toda semana", causa: "e o nutriente muda junto." },
+  { dor: "O cálcio fica por sua conta", causa: "é o pó que se polvilha antes de servir. Esquecer cobra caro lá na frente." },
+  { dor: "Bicho vivo em casa cansa", causa: "tem cheiro, ocupa espaço e acaba na semana errada." },
 ];
 
 const BENEFICIOS = [
@@ -120,19 +111,19 @@ const BENEFICIOS = [
     stat: "2,5",
     statLbl: "vezes mais cálcio que fósforo",
     title: "A conta que não dá pra errar",
-    desc: "Réptil precisa de <strong>bem mais cálcio do que fósforo</strong>, e quase todo inseto vem ao contrário — por isso o pó que se polvilha antes de servir. Faltando cálcio por meses, o osso fica <strong>fraco e mole</strong>, e quando dá pra ver já foi longe. Aqui a conta <strong>já sai certa de fábrica</strong>.",
+    desc: "Réptil precisa de <strong>bem mais cálcio do que fósforo</strong>, e quase todo inseto vem ao contrário. Aqui a conta <strong>já sai certa de fábrica</strong>.",
   },
   {
     stat: "3",
     statLbl: "insetos no pote",
     title: "Larva, grilo e tenébrio",
-    desc: "São <strong>três</strong> — larva de mosca soldado negra, grilo preto e tenébrio —, mais cúrcuma, spirulina e levedura. A variedade que você montaria com três potes diferentes, igual em toda porção.",
+    desc: "Mais cúrcuma, spirulina e levedura. A variedade de três potes, <strong>igual em toda porção</strong>.",
   },
   {
     stat: "2 min",
     statLbl: "e está na tigela",
-    title: "E ainda é rápido de fazer",
-    desc: "Vira <strong>gel firme</strong> ou <strong>papinha</strong>, do jeito que ele aceita melhor. Fechado dura <strong>meses</strong>; pronto, de 3 a 5 dias na geladeira. E <strong>não tem cheiro</strong> — nem no pote, nem na casa.",
+    title: "Rápido e sem cheiro",
+    desc: "Vira <strong>gel firme</strong> ou <strong>papinha</strong>. Fechado dura <strong>meses</strong>; pronto, de 3 a 5 dias na geladeira.",
   },
 ];
 
@@ -140,16 +131,8 @@ const BENEFICIOS = [
    o inseto vivo", que virou item de FAQ. Praticidade demonstrada vale mais
    que praticidade afirmada. Proporções conferidas no DOC2. */
 const PREPARO = [
-  {
-    modo: "Gel firme",
-    receita: "2 partes de água quente para 1 de Grub",
-    como: "Misture até dissolver e deixe gelificar, em temperatura ambiente ou na geladeira. Corta em cubos e vai pro pote.",
-  },
-  {
-    modo: "Papinha cremosa",
-    receita: "3 partes de água morna para 1 de Grub",
-    como: "Água morna de torneira quente, não fervendo. Misture até ficar sem grumos e sirva em temperatura ambiente. É a versão pra iguana e pros geckos-de-crista.",
-  },
+  { modo: "Gel firme", receita: "2 partes de água quente para 1 de Grub", como: "Misture, deixe gelificar e corte em cubos." },
+  { modo: "Papinha", receita: "3 partes de água morna para 1 de Grub", como: "Misture até ficar sem grumos. É a versão pra iguana e gecko-de-crista." },
 ];
 
 /* Lista de bichos — pedido da Olivia (28/07): estava enterrada no FAQ e
@@ -230,20 +213,8 @@ const FAQ = [
     a: "Farinha de larva de mosca soldado negra, farinha de grilo preto e farinha de tenébrio — as três fontes de inseto. Mais cúrcuma, spirulina, levedura de cervejaria, gelatina, fécula de mandioca modificada, <strong>lecitina de soja</strong>, páprica, goma xantana, cloreto de sódio e carbonato de cálcio. É a composição inteira do rótulo, sem corte.",
   },
   {
-    q: "Como eu preparo?",
-    a: "Dois jeitos, escolhe o que o seu bicho aceita melhor. <strong>Gel firme:</strong> 2 partes de água quente pra 1 de Grub, mistura e deixa endurecer. <strong>Papinha:</strong> 3 partes de água morna pra 1 de Grub, mistura até ficar sem bolinha. Depois de pronto dura de <strong>3 a 5 dias na geladeira</strong> — e dá pra congelar em porções.",
-  },
-  {
-    q: "Serve pra qual bicho?",
-    a: "Vai bem em <strong>leopard gecko, teiú-preto-e-branco e teiú-vermelho</strong> — nesses, em qualquer idade. No <strong>dragão-barbudo</strong>, enquanto ele ainda come inseto: filhote e jovem podem receber com frequência; adulto, mais ou menos 1x por semana, junto com os vegetais. Também <strong>gekko tokay, phelsumas, tiliquas e varanus</strong>. Em anfíbios: <strong>sapo-pacman, sapo-pipa, sapo-boi, rãs arborícolas e salamandras</strong>. Iguana e crested gecko aceitam em preparação mais hidratada, de forma esporádica.",
-  },
-  {
     q: "E pra tartaruga ou jabuti?",
     a: "Para <strong>quelônios o Grub entra como complemento</strong>, não como alimento base — a alimentação principal deles é outra. Dá pra usar como enriquecimento pontual, sem substituir a dieta.",
-  },
-  {
-    q: "Serve pra tarântula?",
-    a: "<strong>Não.</strong> Tarântulas não são espécie indicada para nenhum produto da linha Comida de Dragão. Preferimos falar isso na cara do que vender errado.",
   },
   {
     q: "Como funciona a entrega e o frete?",
@@ -401,10 +372,6 @@ const Grub = () => {
           <h2 className="grb-section-title">
             Serve pro seu bicho?<br /><span>Olha a lista.</span>
           </h2>
-          <p className="grb-section-lead">
-            Nem todo bicho come do mesmo jeito, então vale olhar onde o seu se encaixa.
-          </p>
-
           <ul className="grb-problemas-list">
             {BICHOS.map((b, i) => (
               <li className="grb-problema-item" key={i}>
@@ -414,9 +381,7 @@ const Grub = () => {
           </ul>
 
           <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 16 }}>
-            <strong>Não serve pra tarântula nem outras aranhas.</strong> Nenhum produto da linha
-            Comida de Dragão é indicado pra elas — a gente prefere falar isso na cara do que
-            vender errado.
+            <strong>Não serve pra tarântula nem outras aranhas.</strong>
           </p>
         </div>
       </section>
@@ -437,35 +402,25 @@ const Grub = () => {
             E se ele<br /><span>não comer?</span>
           </h2>
           <p className="grb-section-lead">
-            Pode acontecer, e a gente não vai fingir que não. Bicho que caça reage a{" "}
-            <strong>movimento</strong> — comida parada na tigela não é o que ele espera. A boa
-            notícia é que existe caminho, e quem já faz isso há tempo faz assim:
+            Pode acontecer. Bicho que caça reage a <strong>movimento</strong>, e comida parada
+            na tigela não é o que ele espera. Quem já usa faz assim:
           </p>
 
           <ul className="grb-problemas-list">
             <li className="grb-problema-item">
-              <b>Ofereça na pinça</b> — enrole um pedaço em formato de larva e balance devagar na
-              frente dele. O movimento é o que liga a fome.
+              <b>Ofereça na pinça</b> — enrole em formato de larva e balance devagar.
             </li>
             <li className="grb-problema-item">
-              <b>Deixe ele sentir o cheiro</b> — um pedaço parado perto do focinho, sem insistir.
-              Muitos aceitam no segundo ou terceiro dia, não no primeiro.
+              <b>Deixe ele sentir o cheiro</b> — muitos aceitam no segundo ou terceiro dia.
             </li>
             <li className="grb-problema-item">
-              <b>Use como isca no que ele já come</b> — passe o gel no inseto vivo. Ele associa o
-              sabor ao que já conhece.
+              <b>Passe o gel no inseto vivo</b> — ele associa ao que já conhece.
             </li>
             <li className="grb-problema-item">
-              <b>Mude a textura</b> — se recusar o gel firme, faça a papinha, que é mais aguada e
-              mais fácil de lamber.
+              <b>Mude a textura</b> — recusou o gel firme, faça a papinha.
             </li>
           </ul>
 
-          <p className="grb-section-lead" style={{ marginTop: 20, fontSize: 16 }}>
-            E tem uma coisa que joga a favor: <strong>o Grub não tem cheiro</strong>. Não é o odor
-            que afasta o bicho nem que toma conta da casa — e, diferente do inseto vivo, o que
-            sobra não estraga em cima da hora.
-          </p>
         </div>
       </section>
 
@@ -476,10 +431,6 @@ const Grub = () => {
           <h2 className="grb-section-title title-pink">
             O bicho come todo dia.<br /><span>O que ele recebe é que muda.</span>
           </h2>
-          <p className="grb-section-lead">
-            O que ele come muda toda semana, e lembrar do cálcio é sempre com você.
-          </p>
-
           <ul className="grb-problemas-list">
             {PROBLEMAS.map((p, i) => (
               <li className="grb-problema-item" key={i}>
@@ -495,10 +446,9 @@ const Grub = () => {
               PRODUTO é isento de registro e o ESTABELECIMENTO é que é
               registrado (RJ 001924-0). */}
           <p className="grb-section-lead" style={{ marginTop: 32 }}>
-            <strong>É isso que o Grub resolve.</strong> A larva é criada na nossa biofábrica no
-            Rio, em <strong>fábrica registrada no MAPA</strong>. O que sai de lá é um{" "}
-            <strong>pó com a proporção já fechada</strong> — em vez de você montar a dieta
-            juntando produto e torcendo pra conta bater.
+            <strong>É isso que o Grub resolve:</strong> um{" "}
+            <strong>pó com a proporção já fechada</strong>, feito na nossa biofábrica no Rio, em{" "}
+            <strong>fábrica registrada no MAPA</strong>.
           </p>
 
           <div className="grb-beneficios">
@@ -531,11 +481,6 @@ const Grub = () => {
           <h2 className="grb-section-title title-pink">
             Água, mexer,<br /><span>e escolher a textura.</span>
           </h2>
-          <p className="grb-section-lead">
-            O mesmo pote serve dos dois jeitos. Você escolhe pelo que o seu bicho aceita melhor —
-            e dá pra preparar a quantidade da semana de uma vez.
-          </p>
-
           <ul className="grb-problemas-list">
             {PREPARO.map((p, i) => (
               <li className="grb-problema-item" key={i}>
@@ -543,12 +488,11 @@ const Grub = () => {
               </li>
             ))}
             <li className="grb-problema-item">
-              <b>Guarda fácil</b> — fechado dura <strong>meses na prateleira</strong>; preparado,
-              de <strong>3 a 5 dias na geladeira</strong>. Dá pra congelar em porções e ir tirando.
+              <b>Guarda fácil</b> — pronto, dura <strong>3 a 5 dias na geladeira</strong> e dá pra
+              congelar em porções.
             </li>
             <li className="grb-problema-item">
-              <b>Não colou?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem
-              letrinha miúda.
+              <b>Não colou?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong>
             </li>
           </ul>
         </div>
