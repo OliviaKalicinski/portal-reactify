@@ -1,0 +1,22 @@
+/* ════════════════════════════════════════════════════════════════
+   PARCEIROS em janelinhas (02/10/2026) — estende QueroSerDragao.css,
+   como a Matilha.css faz. Só a paleta rosa e dois ajustes.
+   ════════════════════════════════════════════════════════════════ */
+
+.qsd8.cf-pink {
+  --lime:   #FF2D78;   /* rosa da marca = acento (era o verde) */
+  --limed:  #C2185B;
+  --paper:  #FFF7FA;   /* branco quente */
+  --paper2: #FFD9E6;
+}
+.qsd8.cf-pink .qsd8-h2 span { display: inline-block; white-space: nowrap; }
+
+/* três números da marca lado a lado */
+.qsd8.cf-pink .pj-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px; }
+.qsd8.cf-pink .pj-stats .qsd8-card { padding: 14px 6px; }
+.qsd8.cf-pink .pj-stats .qsd8-card-title { font-size: 15px !important; }
+.qsd8.cf-pink .pj-stats .qsd8-card-desc { font-size: 12px !important; }
+
+/* selo SIM / NÃO das regras */
+.pj-simnao { display: inline-block; padding: 4px 8px; background: var(--lime); color: var(--ink) !important; }
+.pj-simnao.pj-nao { background: transparent; border: 2px solid var(--lime); color: var(--lime) !important; }

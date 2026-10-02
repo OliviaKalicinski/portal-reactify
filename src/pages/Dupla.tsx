@@ -317,7 +317,7 @@ const Dupla = () => {
       </section>
 
       {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
-      <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.mytribesete, VIDEOS.pipo]} />
+      <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.sushijullie, VIDEOS.carla, VIDEOS.gabi]} />
 
       {/* ════ OFERTA ════ */}
       <section className="cur-oferta">

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Original.css";
+import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
 
@@ -329,6 +330,9 @@ const Original = () => {
           <p className="olp-slider-hint">← arraste pra ver mais →</p>
         </div>
       </section>
+
+      {/* ════ VÍDEOS VENCEDORES do Original (faixa verde; padrão 25/09) ════ */}
+      <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
 
       {/* ════ OFERTA + CUPOM ═════════════════════════════════════ */}
       <section className="olp-oferta">

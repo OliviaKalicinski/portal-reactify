@@ -350,7 +350,7 @@ const Alergia = () => {
       </section>
 
       {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
-      <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla]} />
+      <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
 
       {/* ════ OFERTA ════ */}
       <section className="alp-oferta">

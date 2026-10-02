@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
+import { VIDEOS } from "@/components/VideosVencedores";
 import PageMeta from "@/components/PageMeta";
 import "./QueroSerDragao.css";
 
@@ -9,7 +10,7 @@ const INFLOWZ_URL = "https://app.inflowz.io/signup/comida-de-dragao";
 const ICON = "/assets/pixel-icons";
 
 const MARQUEE_TOP = [
-  "QUERO SER DRAGAO", "30% DE COMISSAO", "PRODUTOS MENSAIS", "CUPOM EXCLUSIVO",
+  "QUERO SER DRAGAO", "COMISSAO DE ATE 18%", "PRODUTO A CADA VIDEO", "CUPOM EXCLUSIVO",
   "SEM EXCLUSIVIDADE", "VOCE POSTA DO SEU JEITO", "BIOFABRICA REGISTRADA NO MAPA",
 ];
 
@@ -77,6 +78,12 @@ const TrashEgg = ({ onClose }: { onClose: () => void }) => (
   </div>
 );
 
+/* vídeos de creator vencedores (planilha "Originais de creator"), do maior lucro por venda ao menor */
+const VENCEDORES = [
+  VIDEOS.sushijullie, VIDEOS.carla, VIDEOS.pipo, VIDEOS.mytribesete,
+  VIDEOS.gabi, VIDEOS.omeninomerlin, VIDEOS.vitydalmata, VIDEOS.pitanga,
+];
+
 const STATS = [
   { num: "88,9%", label: "Digestibilidade" },
   { num: "83%",   label: "Menos carbono" },
@@ -84,9 +91,9 @@ const STATS = [
 ];
 
 const BENEFICIOS = [
-  { img: "games.png",      title: "Produtos pra testar", desc: "A gente manda alguns dos nossos produtos pra você e seu pet experimentarem. Review honesto, sem roteiro." },
+  { img: "games.png",      title: "Produtos pra testar", desc: "O produto é presente pra você e seu pet experimentarem. No primeiro envio você adianta só o frete (R$ 12), que volta com a sua comissão. Depois, cada vídeo que conta libera o próximo." },
   { img: "love.png",       title: "Cupom exclusivo",     desc: "Você recebe um cupom personalizado pra compartilhar com sua audiência. Desconto real, fácil de divulgar." },
-  { img: "crown.png",      title: "Comissão por venda",  desc: "Cada compra feita com seu cupom gera comissão direto pra você. Quanto mais vende, mais ganha." },
+  { img: "crown.png",      title: "Comissão por venda",  desc: "De 10% a 18% por compra feita com seu cupom. Quanto mais você grava e vende, maior a sua faixa." },
   { img: "heart-eyes.png", title: "Suporte direto",      desc: "Você fala com a gente pelo WhatsApp — sem chatbot, sem demora. Qualquer dúvida, a gente resolve na hora." },
 ];
 
@@ -238,8 +245,9 @@ const QueroSerDragao = () => {
         <Win name="MATILHA-ONLINE.MOV" inverted className="qsd8-reels-win">
           <div className="portal-page skin-2 qsd8-reels-host">
             <ReelsSection
+              reels={VENCEDORES}
               title="Matilha online"
-              subtitle="Conteúdo real dos criadores que já toparam. Toca pra ver."
+              subtitle="Os vídeos de creator que mais venderam. Toca pra ver."
               seeAllUrl="https://www.instagram.com/comidadedragao"
               seeAllLabel="Mais no @comidadedragao →"
             />

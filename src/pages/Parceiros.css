@@ -916,3 +916,21 @@
   letter-spacing: 0;
   opacity: 0.85;
 }
+
+/* ========= auditoria mobile 02/10/2026 ========= */
+/* faixas da Matilha lado a lado */
+.parceiros-faixas { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 0 0 20px; font-family: 'Space Grotesk', sans-serif; }
+.parceiros-faixas th, .parceiros-faixas td { border: 1px solid rgba(250,250,250,0.14); text-align: center; padding: 12px 6px; }
+.parceiros-faixas thead th { background: var(--dragon-gray); }
+.parceiros-faixas-nome { display: block; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,250,250,0.72); margin-bottom: 4px; }
+.parceiros-faixas-pct { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 34px; line-height: 1; color: var(--dragon-lime); }
+.parceiros-faixas-rotulo { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dragon-lime); padding: 8px 6px; background: rgba(123,255,0,0.06); }
+.parceiros-faixas td { font-size: 15px; line-height: 1.3; color: var(--dragon-white); }
+.parceiros-faixas-notas { margin: 0 0 26px; padding-left: 20px; font-family: 'Space Grotesk', sans-serif; font-size: 15px; line-height: 1.6; color: rgba(250,250,250,0.78); }
+.parceiros-faixas-notas li { margin-bottom: 6px; }
+.parceiros-faixas-notas strong { color: var(--dragon-white); }
+
+/* selo SIM / NÃO: no celular fica deitado e legível */
+@media (max-width: 640px) {
+  .parceiros-regra-badge { writing-mode: horizontal-tb; width: 52px; font-size: 15px; }
+}

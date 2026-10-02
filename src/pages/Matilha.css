@@ -42,3 +42,24 @@
   background-image: radial-gradient(rgba(255,122,0,.45) 1px, transparent 1.4px);
   opacity: .06;
 }
+
+/* ─── auditoria mobile 02/10/2026 ─────────────────────────────── */
+/* palavra em destaque do título: texto escuro na tarja âmbar (branco dava 1,76 de contraste) */
+.qsd8.cf-amber .qsd8-title span { color: var(--ink); }
+
+/* faixas da Matilha: uma faixa por linha (vendas, vídeos e frete nas colunas) */
+.mat-faixas { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 0 0 18px; }
+.mat-faixas th, .mat-faixas td { border: 3px solid var(--ink); text-align: center; padding: 10px 4px; vertical-align: middle; }
+.mat-faixas thead th { background: var(--paper2); color: var(--ink); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.25; }
+.mat-faixas tbody th { background: var(--ink); color: var(--paper); }
+.mat-faixas-nome { display: block; font-family: "Press Start 2P", monospace; font-size: 9px; margin-bottom: 8px; }
+.mat-faixas-pct { display: block; font-family: "Press Start 2P", monospace; font-size: 13px; color: var(--lime); }
+.mat-faixas td { font-size: 14.5px; line-height: 1.3; }
+.mat-faixas-notas { margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.5; }
+.mat-faixas-notas li { margin-bottom: 6px; }
+
+/* foto da embalagem no cartão de produto */
+.mat-prod-img { display: block; width: 100%; height: 140px; object-fit: contain; margin: 0 0 14px; background: var(--paper); border: 2px solid var(--lime); }
+
+/* tarja do título de seção não quebra no meio */
+.qsd8.cf-amber .qsd8-h2 span { display: inline-block; white-space: nowrap; }

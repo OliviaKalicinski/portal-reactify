@@ -300,7 +300,7 @@ const Curiosidade = () => {
       </section>
 
       {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
-      <VideosVencedores reels={[VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
+      <VideosVencedores reels={[VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi, VIDEOS.sushijullie]} />
 
       {/* ════ OFERTA ════ */}
       <section className="cur-oferta">

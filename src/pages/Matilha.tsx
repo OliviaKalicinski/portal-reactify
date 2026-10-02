@@ -117,9 +117,9 @@ const PASSOS = [
     title: "Solicite seu produto",
     desc: (
       <>
-        Menu → <strong>Amostras</strong> → <strong>Solicitar amostra</strong>. Você pode
-        pedir <strong>1 produto por mês</strong>. Escolha o que mais combina com o pet do
-        seu canal.
+        Menu → <strong>Amostras</strong> → <strong>Solicitar amostra</strong>. Cada
+        <strong> vídeo que conta</strong> libera um novo pedido. Escolha o que mais combina
+        com o pet do seu canal.
       </>
     ),
   },
@@ -136,28 +136,39 @@ const PASSOS = [
   },
 ];
 
+/* ── faixas da Matilha (régua de outubro/2026) ── */
+const FAIXAS = [
+  { nome: "Bronze", comissao: "10%",   vendas: "sem mínimo", videos: "sem mínimo", frete: "você adianta R$ 12" },
+  { nome: "Prata",  comissao: "12,5%", vendas: "R$ 50",      videos: "3",          frete: "por nossa conta" },
+  { nome: "Ouro",   comissao: "18%",   vendas: "R$ 250",     videos: "2",          frete: "por nossa conta" },
+];
+
 /* ── produtos ── */
 const PRODUTOS = [
   {
     nome: "Original — Comida de Dragão",
+    img: "/assets/images/produtos/original-frente.webp",
     pet: [{ ico: "dog", label: "Cães" }, { ico: "cat", label: "Gatos" }, { ico: "reptile", label: "Répteis" }, { ico: "bird", label: "Aves" }],
     specs: ["Proteína: no mínimo 40%", "Digestibilidade: 88,9%", "1 ingrediente único · 90g"],
     ideal: "Petisco diário, treino, pets com alergias, pets seletivos, viagens e enriquecimento ambiental.",
   },
   {
     nome: "Suplemento Proteico Integral",
+    img: "/assets/images/produtos/suplemento-integral-frente.webp",
     pet: [{ ico: "dog", label: "Cães" }],
     specs: ["Proteína: no mínimo 40%", "4.350 kcal/kg · 180g em pó", "Farinha BSF + cúrcuma + spirulina"],
     ideal: "Boost proteico diário, cães ativos, filhotes e gestação/lactação. Acompanha dosador.",
   },
   {
     nome: "Suplemento Felino — Rico em Taurina",
+    img: "/assets/images/produtos/suplemento-felino-frente.webp",
     pet: [{ ico: "cat", label: "Só gatos" }],
     specs: ["Proteína: no mínimo 40%", "1.520 mg/kg de taurina · 180g", "Farinha BSF + cúrcuma + spirulina + taurina"],
     ideal: "Boost proteico diário, gatos cardiopatas, ração vegetal/caseira e gestação/lactação felina.",
   },
   {
     nome: "GRUB — Répteis e Anfíbios",
+    img: "/assets/images/produtos/grub-frente.webp",
     pet: [{ ico: "reptile", label: "Répteis" }, { ico: "frog", label: "Anfíbios" }],
     specs: ["Proteína: no mínimo 47%", "Cálcio:Fósforo 2,5:1 · 120g", "Pó pra gel (BSF + grilo + tenébrio)"],
     ideal: "Leopard gecko, dragão-barbudo, sapo-pacman e mais. Prepara como gel (mais firme) ou papinha (mais cremosa).",
@@ -208,7 +219,7 @@ const Matilha = () => {
         <Win name="BEM-VINDO-A-MATILHA.EXE" mac className="qsd8-hero-win">
           <DragonLogo className="qsd8-hero-logo" />
           <div className="qsd8-eyebrow">// você é da matilha agora</div>
-          <h1 className="qsd8-title">Bem-vindo à matilha, <span>criador</span></h1>
+          <h1 className="qsd8-title">Bem-vindo à matilha, <span>creator</span></h1>
           <p className="qsd8-sub">
             Aqui está tudo que você precisa pra começar — do primeiro acesso à
             plataforma até a ideia do primeiro post. Você é da revolução da proteína
@@ -226,16 +237,56 @@ const Matilha = () => {
         {/* ══ ENVIO / KIT ══════════════════════════════════════════ */}
         <Win name="COMO-FUNCIONA-O-ENVIO.SYS" inverted>
           <div className="qsd8-eyebrow" style={{ color: "var(--lime)" }}>// como funciona o envio</div>
-          <h2 className="qsd8-h2">Seu primeiro kit <span>já está a caminho</span></h2>
+          <h2 className="qsd8-h2">Gravou, ganhou <span>o próximo</span></h2>
           <p className="qsd8-sub" style={{ color: "var(--paper)" }}>
-            O primeiro envio é por nossa conta — você não precisa fazer nada agora. A
-            partir do <strong>mês seguinte</strong>, o produto não chega automaticamente:
-            entre no Inflowz, vá em <strong>Amostras → Solicitar amostra</strong> e escolha
-            o que quer receber. É rápido, mas precisa ser feito <strong>todo mês</strong>.
+            O produto é presente. No primeiro envio você adianta só o frete
+            (<strong>R$ 12</strong>), que volta junto com a sua comissão na primeira venda.
+            Depois disso, <strong>cada vídeo que conta libera um novo envio</strong>: entre
+            no Inflowz, vá em <strong>Amostras → Solicitar amostra</strong> e escolha o que
+            quer receber.
+          </p>
+          <p className="qsd8-note" style={{ color: "var(--paper)" }}>
+            Para combinar o frete, fala com a Luana: (24) 98163-4847
           </p>
           <div className="qsd8-btnrow">
             <a href={INFLOWZ_URL} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Acessar Inflowz →</a>
           </div>
+        </Win>
+
+        {/* ══ FAIXAS DA MATILHA ════════════════════════════════════ */}
+        <Win name="AS-FAIXAS.TXT">
+          <div className="qsd8-eyebrow">// quanto mais grava e vende, mais ganha</div>
+          <h2 className="qsd8-h2">As três <span>faixas</span></h2>
+          <table className="mat-faixas">
+            <thead>
+              <tr>
+                <th scope="col">Faixa</th>
+                <th scope="col">Vendas no mês</th>
+                <th scope="col">Vídeos em 3 meses</th>
+                <th scope="col">Frete do produto</th>
+              </tr>
+            </thead>
+            <tbody>
+              {FAIXAS.map((f) => (
+                <tr key={f.nome}>
+                  <th scope="row">
+                    <span className="mat-faixas-nome">{f.nome}</span>
+                    <span className="mat-faixas-pct">{f.comissao}</span>
+                  </th>
+                  <td>{f.vendas}</td>
+                  <td>{f.videos}</td>
+                  <td>{f.frete}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <ul className="mat-faixas-notas">
+            <li>Você começa na <strong>Prata</strong>. Para ficar nela: um vídeo por mês e, a partir do segundo mês, R$ 50 de venda.</li>
+            <li>Bateu a meta do mês, <strong>sobe</strong>. Só desce uma faixa por vez.</li>
+            <li>Mês sem venda e sem vídeo volta para a Bronze.</li>
+            <li><strong>Vídeo que conta:</strong> o que tem o @comidadedragao marcado ou em colab.</li>
+            <li>O frete que você adianta volta junto com a comissão.</li>
+          </ul>
         </Win>
 
         {/* ══ PASSO A PASSO INFLOWZ ════════════════════════════════ */}
@@ -274,6 +325,7 @@ const Matilha = () => {
           <div className="qsd8-loot">
             {PRODUTOS.map((p, i) => (
               <div className="qsd8-card" key={i}>
+                <img className="mat-prod-img" src={p.img} alt={`Embalagem: ${p.nome}`} loading="lazy" />
                 <div className="qsd8-card-title">{p.nome}</div>
                 <div className="qsd8-card-desc" style={{ marginBottom: 8, fontSize: 13, textTransform: "uppercase", letterSpacing: ".04em", display: "flex", flexWrap: "wrap", gap: "4px 14px", alignItems: "center" }}>
                   {p.pet.map((x, k) => (

@@ -461,7 +461,7 @@ const Mordida = () => {
       </section>
 
       {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
-      <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga]} />
+      <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga, VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
 
       {/* ════ PRA QUEM TEM CORAGEM ════ */}
 
