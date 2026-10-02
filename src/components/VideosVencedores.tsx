@@ -42,10 +42,13 @@ export const VIDEOS_GATOS: Reel[] = [
   c("amandaeospetss-gatos", "amandaeospetss"),
 ];
 
-/* Grub — esquema pronto: ainda não há vídeo de réptil hospedado. Pôr o arquivo em
-   public/assets/videos/reels/creator-<id>.mp4/.jpg e acrescentar c("<id>", "<handle>") aqui;
-   a faixa aparece sozinha na /grub e na /g/grub. */
-export const VIDEOS_GRUB: Reel[] = [];
+/* Grub — vídeos de creator baixados do Instagram em 02/10/26 e cortados no fim
+   (enricozoo: sai a chamada "parte 2"; tukanbyericacouto: sai o cartão com telefone da loja).
+   Para acrescentar: arquivo em public/assets/videos/reels/creator-<id>.mp4/.jpg + uma linha aqui. */
+export const VIDEOS_GRUB: Reel[] = [
+  c("enricozoo-grub", "enricozoo"),
+  c("tukanbyericacouto-grub", "tukanbyericacouto"),
+];
 
 const VideosVencedores = ({ reels }: { reels: Reel[] }) => (
   <section
