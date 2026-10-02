@@ -321,52 +321,7 @@ const AlergiaGoogle = () => {
         </div>
       </section>
 
-      {/* ════ PROVA SOCIAL ════ */}
-      <section className="alp-section">
-        <div className="alp-section-inner">
-          <span className="alp-tag">tutores reais · cães reais</span>
-          <h2 className="alp-section-title">
-            Atópico, alérgico<br /><span>e comendo tranquilo.</span>
-          </h2>
-
-          <div className="alp-quotes">
-            {REVIEWS_TXT.map((r, i) => (
-              <blockquote className="alp-quote" key={i}>
-                <p dangerouslySetInnerHTML={{ __html: `“${r.quote}”` }} />
-                <cite>— {r.author}</cite>
-              </blockquote>
-            ))}
-          </div>
-
-          <div className="alp-slider-wrap">
-            <div className="alp-slider" role="region" aria-label="Reviews de tutores de cães alérgicos">
-              {SLIDES.map((s, i) => (
-                <figure className="alp-slide" key={i}>
-                  <span className={`alp-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}>
-                    {s.type === "ugc" ? "o kit" : "review"}
-                  </span>
-                  <img
-                    src={s.src}
-                    alt={s.alt}
-                    width={600}
-                    height={600}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                  />
-                </figure>
-              ))}
-            </div>
-          </div>
-
-          <p className="alp-slider-hint">← arraste pra ver mais →</p>
-
-          <div className="alp-secao-cta">
-            <a href={ctaUrl("secao-prova")} className="alp-btn-primary" data-cta="secao-prova">
-              Comprar o Kit Cachorro — R$ {PRICE_OFF} →
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
 
       {/* ════ VÍDEOS VENCEDORES do Original (faixa verde; padrão 25/09) ════ */}
       <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
@@ -469,13 +424,6 @@ const AlergiaGoogle = () => {
             </li>
           </ul>
 
-          <blockquote className="alp-quote">
-            <p>
-              “Confesso que não estava acreditando não, que era só mkt mesmo. Mas a Kate
-              <strong> amou os petiscos</strong>, ficava enlouquecida cada vez q eu pegava o pacote… 😊”
-            </p>
-            <cite>— Michelle Klemar · Osasco/SP · Amostra · Judge.me 5★</cite>
-          </blockquote>
 
           <div className="alp-secao-cta">
             <a href={ctaUrl("secao-aceitacao")} className="alp-btn-primary" data-cta="secao-aceitacao">

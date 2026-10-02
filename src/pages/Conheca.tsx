@@ -250,17 +250,7 @@ const Conheca = () => {
         </div>
       </section>
 
-      {/* ════ PROVA SOCIAL ════ */}
-      <section className="cnh-section">
-        <div className="cnh-section-inner">
-          <span className="cnh-tag">tutores reais · cães reais</span>
-          <h2 className="cnh-section-title">
-            Estranho no começo.<br /><span>Viciante no fim.</span>
-          </h2>
-
-          {/* 25/09 — carrossel de reviews em FOTO saiu (Olivia); os vídeos vencedores vêm logo abaixo */}
-        </div>
-      </section>
+      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
 
       {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
       <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />

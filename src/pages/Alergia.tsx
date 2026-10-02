@@ -322,32 +322,7 @@ const Alergia = () => {
         </div>
       </section>
 
-      {/* ════ PROVA SOCIAL ════ */}
-      <section className="alp-section">
-        <div className="alp-section-inner">
-          <span className="alp-tag">tutores reais · cães reais</span>
-          <h2 className="alp-section-title">
-            Atópico, alérgico<br /><span>e comendo tranquilo.</span>
-          </h2>
-
-          <div className="alp-quotes">
-            {REVIEWS_TXT.map((r, i) => (
-              <blockquote className="alp-quote" key={i}>
-                <p dangerouslySetInnerHTML={{ __html: `“${r.quote}”` }} />
-                <cite>— {r.author}</cite>
-              </blockquote>
-            ))}
-          </div>
-
-          {/* 25/09 — carrossel de reviews em FOTO saiu (Olivia); os vídeos vencedores vêm logo abaixo */}
-
-          <div className="alp-secao-cta">
-            <a href={ctaUrl("secao-prova")} className="alp-btn-primary" data-cta="secao-prova">
-              Comprar o Kit Cachorro — R$ {displayPrice} →
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
 
       {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
       <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
@@ -452,13 +427,6 @@ const Alergia = () => {
             </li>
           </ul>
 
-          <blockquote className="alp-quote">
-            <p>
-              “Confesso que não estava acreditando não, que era só mkt mesmo. Mas a Kate
-              <strong> amou os petiscos</strong>, ficava enlouquecida cada vez q eu pegava o pacote… 😊”
-            </p>
-            <cite>— Michelle Klemar · Osasco/SP · Amostra · Judge.me 5★</cite>
-          </blockquote>
 
           <div className="alp-secao-cta">
             <a href={ctaUrl("secao-aceitacao")} className="alp-btn-primary" data-cta="secao-aceitacao">

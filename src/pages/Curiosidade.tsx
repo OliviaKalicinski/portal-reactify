@@ -268,36 +268,10 @@ const Curiosidade = () => {
             </li>
           </ul>
 
-          <blockquote className="cur-quote">
-            <p>
-              “Confesso que não estava acreditando não, que era só mkt mesmo. Mas a Kate
-              <strong> amou os petiscos</strong>, ficava enlouquecida cada vez q eu pegava o pacote… 😊”
-            </p>
-            <cite>— Michelle Klemar · Osasco/SP · Amostra · Judge.me 5★</cite>
-          </blockquote>
         </div>
       </section>
 
-      {/* ════ PROVA SOCIAL ════ */}
-      <section className="cur-section">
-        <div className="cur-section-inner">
-          <span className="cur-tag">tutores reais · cães reais</span>
-          <h2 className="cur-section-title">
-            Eles viram vício.<br /><span>Do bom.</span>
-          </h2>
-
-          <div className="cur-quotes">
-            {REVIEWS_TXT.map((r, i) => (
-              <blockquote className="cur-quote" key={i}>
-                <p dangerouslySetInnerHTML={{ __html: `“${r.quote}”` }} />
-                <cite>— {r.author}</cite>
-              </blockquote>
-            ))}
-          </div>
-
-          {/* 25/09 — o carrossel de reviews em FOTO saiu (Olivia): ficam os reviews escritos e, logo abaixo, os vídeos */}
-        </div>
-      </section>
+      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
 
       {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
       <VideosVencedores reels={[VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi, VIDEOS.sushijullie]} />

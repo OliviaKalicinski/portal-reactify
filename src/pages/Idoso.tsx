@@ -215,23 +215,6 @@ const Idoso = () => {
         </div>
       </section>
 
-      {/* ════ DEPOIMENTO (texto) ════
-          Sobe prova social pra 2ª tela: 74% da atenção fica nas 2 primeiras
-          telas e só ~50% chega na 3ª seção. Texto (não imagem) também conta
-          pra relevância de landing page no Índice de Qualidade do Google. */}
-      <section className="ilp-section ilp-quote-section">
-        <div className="ilp-section-inner">
-          <blockquote className="ilp-quote">
-            <p>
-              “Estou testando tem alguns meses o suplemento no meu cachorro idoso. Tô gostando
-              bastante. <strong>Ele está mantendo bem a massa muscular e tava perdendo antes.</strong>{" "}
-              Daqui a pouco vou começar a receitar para os meus pacientes.”
-            </p>
-            <cite>— veterinária, cliente Comida de Dragão</cite>
-          </blockquote>
-        </div>
-      </section>
-
       {/* ════ PROBLEMA ════ */}
       <section className="ilp-section">
         <div className="ilp-section-inner">
@@ -288,29 +271,7 @@ const Idoso = () => {
         </div>
       </section>
 
-      {/* ════ PROVA SOCIAL ════ */}
-      <section className="ilp-section">
-        <div className="ilp-section-inner">
-          <span className="ilp-tag">tutores reais · cães reais</span>
-          <h2 className="ilp-section-title">
-            Velhinhos comendo bem<br /><span>e com mais ânimo.</span>
-          </h2>
-
-          {/* Review em TEXTO (real, banco Vozes & Argumentos) — conta pro Índice
-              de Qualidade; o print/imagem do slider não conta. Foco no idoso:
-              apetite que volta. */}
-          <blockquote className="ilp-quote" style={{ marginBottom: 20 }}>
-            <p>
-              “Tenho duas, uma <strong>golden idosa</strong> e uma srd de 3 anos… Elas amaram. Depois dei
-              misturada na ração e <strong>a golden pula e late desesperada querendo comer</strong>.
-              Filhas felizes, mamãe feliz :)”
-            </p>
-            <cite>— Déborah Morato · Santo Cristo/RS · Kit Original · Judge.me 5★</cite>
-          </blockquote>
-
-          {/* 25/09 — carrossel de reviews em FOTO saiu (Olivia); os vídeos vencedores vêm logo abaixo */}
-        </div>
-      </section>
+      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
 
       {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
       <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />

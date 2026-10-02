@@ -435,30 +435,7 @@ const Mordida = () => {
         </div>
       </section>
 
-      {/* ════ PROVA — nível MARCA (é lançamento: ninguém provou ESTE ainda) ════ */}
-      <section className="mdp-section">
-        <div className="mdp-section-inner">
-          <span className="mdp-tag">quem já é de casa</span>
-          <h2 className="mdp-section-title">
-            Veja o que já falam<br /><span>da Comida de Dragão.</span>
-          </h2>
-
-          <div className="mdp-reviews">
-            {REVIEWS.map((r, i) => (
-              <figure className="mdp-review" key={i}>
-                <blockquote>"{r.quote}"</blockquote>
-                <figcaption>— {r.who}</figcaption>
-              </figure>
-            ))}
-          </div>
-
-          <div className="mdp-section-cta">
-            <a href={ctaUrl("reviews")} className="mdp-btn-primary" data-cta="secao-reviews">
-              Quero a Mordida nova
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
 
       {/* ════ VÍDEOS VENCEDORES (faixa verde; padrão 25/09) ════ */}
       <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga, VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />

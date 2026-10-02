@@ -346,45 +346,10 @@ const GatoCoceiraGoogle = () => {
             </li>
           </ul>
 
-          <blockquote className="gcp-quote">
-            <p>
-              “Na primeira vez que ofertei, apenas 1 dos meus gatos comeu (tenho 7 ao total), mas
-              percebi que ofertei ‘pura’, daí <strong>triturei e misturei na ração úmida, após isso
-              eles comeram</strong>.”
-            </p>
-            <cite>— cliente real, pesquisa pós-compra</cite>
-          </blockquote>
         </div>
       </section>
 
-      {/* ════ PROVA SOCIAL ════ */}
-      <section className="gcp-section">
-        <div className="gcp-section-inner">
-          <span className="gcp-tag">tutores reais · gatos reais</span>
-          <h2 className="gcp-section-title">
-            Tem gato que<br /><span>faz festa.</span>
-          </h2>
-
-          <blockquote className="gcp-quote">
-            <p>
-              “Amei muito!! Aqui em casa ninguém dispensou <strong>nem mesmo os 5 gatos</strong>,
-              auxilia em caso de necessidade de fezes mais firmes e também{" "}
-              <strong>notei uma diferença na queda dos pelos</strong>.”
-            </p>
-            <cite>— Yasa, review 5★ no Judge.me</cite>
-          </blockquote>
-
-          <div className="gcp-slider" role="region" aria-label="Reviews de tutores">
-            {SLIDES.map((s, i) => (
-              <figure className="gcp-slide" key={i}>
-                <span className="gcp-slide-badge">{s.type === "ugc" ? "o kit" : "review"}</span>
-                <img src={s.src} alt={s.alt} loading="lazy" decoding="async" />
-              </figure>
-            ))}
-          </div>
-          <p className="gcp-slider-hint">← arraste pra ver mais →</p>
-        </div>
-      </section>
+      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
 
       {/* ════ VÍDEOS DE CREATOR (faixa verde; padrão 25/09) — só aparece se houver vídeo ════ */}
       {VIDEOS_GATOS.length > 0 && <VideosVencedores reels={VIDEOS_GATOS} />}

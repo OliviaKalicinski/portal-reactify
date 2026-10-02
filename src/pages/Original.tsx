@@ -280,56 +280,10 @@ const Original = () => {
             </li>
           </ul>
 
-          <blockquote className="olp-quote">
-            <p>
-              “Confesso que não estava acreditando não, que era só mkt mesmo. Mas a Kate
-              <strong> amou os petiscos</strong>, ficava enlouquecida cada vez q eu pegava o pacote… 😊”
-            </p>
-            <cite>— Michelle Klemar · Osasco/SP · Amostra · Judge.me 5★</cite>
-          </blockquote>
         </div>
       </section>
 
-      {/* ════ SLIDER · UGC + REVIEWS EM IMAGEM ═══════════════════ */}
-      <section className="olp-section">
-        <div className="olp-section-inner">
-          <span className="olp-tag">tutores reais · pets reais</span>
-          <h2 className="olp-section-title">
-            Quem topou,<br /><span>não larga mais.</span>
-          </h2>
-
-          <div className="olp-slider-wrap">
-            <div
-              className="olp-slider"
-              role="region"
-              aria-label="Fotos de pets e reviews de tutores"
-            >
-              {SLIDES.map((s, i) => (
-                <figure className="olp-slide" key={i}>
-                  <span
-                    className={`olp-slide-tag${s.type === "ugc" ? " tag-orange" : ""}`}
-                  >
-                    {s.type === "ugc" ? "pet real" : "review"}
-                  </span>
-                  <img
-                    src={s.src}
-                    alt={s.alt}
-                    width={600}
-                    height={600}
-                    /* tudo lazy: esta seção fica ~2.900px abaixo da dobra (3 telas).
-                       O primeiro slide estava eager e baixava 266 KB disputando
-                       banda com a imagem da hero — medido em 17/08/2026. */
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </figure>
-              ))}
-            </div>
-          </div>
-
-          <p className="olp-slider-hint">← arraste pra ver mais →</p>
-        </div>
-      </section>
+      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
 
       {/* ════ VÍDEOS VENCEDORES do Original (faixa verde; padrão 25/09) ════ */}
       <VideosVencedores reels={[VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
