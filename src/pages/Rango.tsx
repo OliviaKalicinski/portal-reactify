@@ -75,7 +75,7 @@ const NO_POTE = [
   {
     tag: "o que tem",
     nome: "Tem larva. Tem 8%.",
-    desc: "Farinha de larva de mosca soldado negra, declarada na composição. Junto dela: filé mignon suíno, batata-doce, abóbora e chuchu, cozidos e reconhecíveis — dá para ver pedaço.",
+    desc: "Farinha de larva de mosca soldado negra, declarada na composição. Junto dela: filé mignon suíno, batata-doce, abóbora e chuchu.",
     dado: "8%",
     dadoLabel: "de farinha de larva",
   },
@@ -102,16 +102,8 @@ const FAQ = [
     a: "Depende do porte, e a tabela vem no rótulo. Em geral, meio pacote para cão pequeno e um para cão médio.",
   },
   {
-    q: "Serve para gato?",
-    a: "Não. O Rango é para cães adultos.",
-  },
-  {
     q: "Quanto custa?",
     a: "O preço sai no dia do drop. Quem está na lista recebe primeiro.",
-  },
-  {
-    q: "Como fico sabendo?",
-    a: "No WhatsApp que você deixar aqui. O aviso chega antes de abrir para todo mundo.",
   },
 ];
 
@@ -267,10 +259,20 @@ const Rango = () => {
             <h1 className="rg-titulo">
               O alimento completo da Comida de Dragão.<br /><span>Feito com inseto.</span>
             </h1>
+            {/* 02/10 — foto misteriosa do lançamento (arte da Bianca, "Vem aí"): o pacote
+                segue pixelado até o drop. Fica logo abaixo do título (Olivia, 02/10). */}
+            <img
+              className="rg-misterio"
+              src="/assets/images/rango/rango-vem-ai.webp"
+              alt="Pacote do Rango do Dragão pixelado, segurado na mão, com o selo Vem aí"
+              width={864}
+              height={1080}
+              loading="eager"
+              decoding="async"
+            />
             <p className="rg-sub">
-              O <strong>Rango do Dragão</strong> é úmido, para cães adultos: filé mignon suíno,
-              batata-doce, abóbora, chuchu e farinha de larva, prontos no pouch de 500 g. Sai em{" "}
-              <strong>lote limitado</strong> no dia 5 de outubro.
+              Úmido, para cães adultos: filé mignon suíno, batata-doce, abóbora, chuchu e farinha
+              de larva, no pouch de 500 g. <strong>Lote limitado</strong> em 5 de outubro.
             </p>
           </div>
 
@@ -280,16 +282,6 @@ const Rango = () => {
             <p className="rg-sub">
               <strong>Levou menos tempo que ler isto.</strong> Abrir e servir é a receita inteira.
             </p>
-            <div className="rg-quando">
-              <div className="rg-quando-bloco">
-                <span className="rg-quando-label">quando</span>
-                <strong className="rg-quando-valor">{DROP_EXTENSO}</strong>
-              </div>
-              <div className="rg-quando-bloco">
-                <span className="rg-quando-label">como</span>
-                <strong className="rg-quando-valor">Aviso no seu WhatsApp, antes de abrir para todos</strong>
-              </div>
-            </div>
             <div className="rg-selos">
               <span className="rg-selo">Alimento completo</span>
               <span className="rg-selo">Úmido · 500 g</span>
@@ -310,10 +302,6 @@ const Rango = () => {
               <div className="rg-nov-tag">{n.tag}</div>
               <div className="rg-nov-nome">{n.nome}</div>
               <div className="rg-nov-desc">{n.desc}</div>
-              <div className="rg-nov-dado">
-                <strong>{n.dado}</strong>
-                <span>{n.dadoLabel}</span>
-              </div>
             </div>
           ))}
         </div>

@@ -599,3 +599,17 @@
   .rg-marca-cdd { height: 48px; }
   .rg-marca-parceiro { height: 42px; }
 }
+
+/* ========= FOTO MISTERIOSA DO LANÇAMENTO (02/10) ========= */
+.rg-misterio {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin: 0 0 24px;
+  border: 4px solid var(--ink-primary);
+  box-shadow: 6px 6px 0 0 var(--ink-primary);
+}
+@media (max-width: 980px) {
+  .rg-misterio { margin-left: auto; margin-right: auto; }
+}
