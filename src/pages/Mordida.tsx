@@ -80,7 +80,7 @@ const MARQUEE = [
    Mordida de Dragão p/ Cães · handle mordida-de-dragao · SKU 203 · R$42,20
    · ACTIVE (verificado na Shopify em 28/07).
    ⚠️ CONSEQUÊNCIA CRÍTICA: a Mordida sozinha NÃO TEM a tag `frete-gratis` e
-   custa R$42,20, muito abaixo do piso de R$150. TODA promessa de frete
+   custa R$42,20 (o piso de R$150 acabou em 01/10/26). TODA promessa de frete
    grátis saiu da página — ela existia porque o produto era o kit (SKU 1305,
    que tem a tag). Prometer frete aqui seria mentira no checkout. */
 const PRODUCT_URL = "https://seguro.comidadedragao.com.br/r/AK5VFR5RLO";
@@ -207,7 +207,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil pra todo o Brasil. O frete aparece no checkout — e é <strong>por nossa conta acima de R$ 150</strong>. A compra é 100% segura: cartão, Pix ou boleto.",
+    a: "Despachamos em até 1 dia útil pra todo o Brasil. O frete aparece no checkout, e <strong>nos kits é por nossa conta</strong>. A compra é 100% segura: cartão, Pix ou boleto.",
   },
 ];
 

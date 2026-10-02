@@ -14,7 +14,7 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
    produto (nome, preço, conteúdo, frete, claims por produto).
 
    Kit Original + Mordida · SKU 1303 · R$81,10 (Shopify, conferido 25/09/26)
-   · token 8YXY3HISC4. 🔴 SEM frete grátis (abaixo do piso de R$150, sem a
+   · token 8YXY3HISC4. 🔴 SEM frete grátis (o piso de R$150 acabou em 01/10/26; sem a
    tag frete-gratis): nenhuma promessa de frete grátis nesta página.
    🔴 CLAIM: a MORDIDA LEVA OVO. "1 ingrediente" e "88,9% digestível" valem
    para o ORIGINAL; o kit não é hipoalergênico.

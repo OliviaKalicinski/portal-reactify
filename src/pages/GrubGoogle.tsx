@@ -45,9 +45,9 @@ import LeadPopup from "@/components/LeadPopup";
      defeito: pág. 1 diz 40% (valor herdado do Original) e pág. 2 diz 47%.
      Ver `BIBLIOTECA/02 - Produtos/Ficha Técnica/_CORRIGIR - ficha-tecnica-
      grub (2026-07-28).md`. Liberar o número SÓ quando a ficha fechar.
-   - ❌ SEM FRETE GRÁTIS. O Grub custa R$110 e o piso é R$150 (Olivia,
-     28/07). A página usa isso como empurrão pra 2ª unidade, não como
-     promessa.
+   - ❌ SEM FRETE GRÁTIS. O frete grátis acima de R$150 ACABOU (Olivia,
+     01/10/26); só os kits saem com frete grátis. A página não promete
+     frete: diz que é calculado no checkout.
    - ⚠️ TARTARUGA/QUELÔNIO = COMPLEMENTO, nunca alimento base (DOC2:
      "quelônios/tartarugas — apenas complemento", uso esporádico).
      Entrar nesse mercado foi decisão da Olivia em 28/07; a promessa fica
@@ -60,7 +60,6 @@ import LeadPopup from "@/components/LeadPopup";
 const COUPON = "GOOGLE10";     // 10% — testado no carrinho Yampi em 02/09/26: R$110 -> R$99
 const PRICE = "110,00";        // Shopify, verificado 28/07/2026 · SKU 401
 const PRICE_OFF = "99,00";     // R$ 110,00 com o GOOGLE10, aplicado sozinho na URL
-const FRETE_GRATIS_A_PARTIR = "150,00";
 /* Grub — Répteis & Anfíbios · SKU 401 · token 9ZCGSMOOBC */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/9ZCGSMOOBC?promocode=${COUPON}`;
 
@@ -252,7 +251,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega e o frete?",
-    a: `Despachamos em até 1 dia útil pra todo o Brasil, com compra <strong>100% segura</strong> via Yampi — cartão, Pix ou boleto. O <strong>frete fica grátis acima de R$&nbsp;${FRETE_GRATIS_A_PARTIR}</strong>, então duas unidades já passam do valor.`,
+    a: `Despachamos em até 1 dia útil pra todo o Brasil, com compra <strong>100% segura</strong> via Yampi — cartão, Pix ou boleto. O frete é calculado no checkout, pelo seu CEP.`,
   },
 ];
 
@@ -372,11 +371,11 @@ const GrubGoogle = () => {
           <div className="grb-hero-price">
             <span className="grb-price-from">Grub 120g de <s>R$ {PRICE}</s> por</span>
             <span className="grb-price-now"><small>R$</small>{PRICE_OFF}</span>
-            <span className="grb-price-installment">4× sem juros · frete grátis acima de R$ {FRETE_GRATIS_A_PARTIR}</span>
+            <span className="grb-price-installment">4× sem juros · frete calculado no checkout</span>
           </div>
 
           <div className="grb-hero-coupon">
-            🏷️ <strong>10% de desconto já aplicado</strong> · 🚚 duas unidades passam do frete grátis
+            🏷️ <strong>10% de desconto já aplicado</strong>
           </div>
 
           <div className="grb-hero-cta-wrap">
@@ -579,9 +578,9 @@ const GrubGoogle = () => {
           <p className="grb-slider-hint">← arraste pra ver mais →</p>
         </div>
       </section>
+
       {/* ════ VÍDEOS DE CREATOR (faixa verde; padrão 25/09) — só aparece se houver vídeo ════ */}
       {VIDEOS_GRUB.length > 0 && <VideosVencedores reels={VIDEOS_GRUB} />}
-
 
       {/* ════ OFERTA ════ */}
       <section className="grb-oferta">
@@ -593,9 +592,9 @@ const GrubGoogle = () => {
 
           <div className="grb-oferta-coupon-box">
             <div className="grb-oferta-coupon-label">🏷️ 10% já aplicado</div>
-            <div className="grb-oferta-coupon-code">2 POTES = FRETE GRÁTIS</div>
+            <div className="grb-oferta-coupon-code">10% OFF</div>
             <div className="grb-oferta-coupon-desc">
-              Grub de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · frete grátis a partir de R$ {FRETE_GRATIS_A_PARTIR}
+              Grub de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong>
             </div>
           </div>
 
