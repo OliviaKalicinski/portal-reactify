@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./GatoCoceira.css";
+import VideosVencedores, { VIDEOS_GATOS } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
 
 /* ──────────────────────────────────────────────────────────────
@@ -384,6 +385,9 @@ const GatoCoceiraGoogle = () => {
           <p className="gcp-slider-hint">← arraste pra ver mais →</p>
         </div>
       </section>
+
+      {/* ════ VÍDEOS DE CREATOR (faixa verde; padrão 25/09) — só aparece se houver vídeo ════ */}
+      {VIDEOS_GATOS.length > 0 && <VideosVencedores reels={VIDEOS_GATOS} />}
 
       {/* ════ OFERTA ════ */}
       <section className="gcp-oferta">

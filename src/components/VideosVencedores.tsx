@@ -27,6 +27,26 @@ export const VIDEOS = {
   pitanga: v("pitanga", "pitanga_tanguinha"),
 };
 
+/* Vídeos de creator que ainda NÃO rodaram em anúncio (prova social, não "vencedor").
+   Arquivos: public/assets/videos/reels/creator-<id>.mp4/.jpg (720×1280). */
+const c = (id: string, handle: string): Reel => ({
+  id,
+  src: `/assets/videos/reels/creator-${id}.mp4`,
+  poster: `/assets/videos/reels/creator-${id}.jpg`,
+  title: `@${handle}`,
+});
+
+/* Gatos — Suplemento para Gatos (lata laranja), triados como "pronto" em 29/09/26 */
+export const VIDEOS_GATOS: Reel[] = [
+  c("bolthenriquee-gatos", "bolthenriquee"),
+  c("amandaeospetss-gatos", "amandaeospetss"),
+];
+
+/* Grub — esquema pronto: ainda não há vídeo de réptil hospedado. Pôr o arquivo em
+   public/assets/videos/reels/creator-<id>.mp4/.jpg e acrescentar c("<id>", "<handle>") aqui;
+   a faixa aparece sozinha na /grub e na /g/grub. */
+export const VIDEOS_GRUB: Reel[] = [];
+
 const VideosVencedores = ({ reels }: { reels: Reel[] }) => (
   <section
     style={{

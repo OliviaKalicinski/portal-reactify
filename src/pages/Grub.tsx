@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Grub.css";
+import VideosVencedores, { VIDEOS_GRUB } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
 
@@ -578,6 +579,9 @@ const Grub = () => {
           <p className="grb-slider-hint">← arraste pra ver mais →</p>
         </div>
       </section>
+      {/* ════ VÍDEOS DE CREATOR (faixa verde; padrão 25/09) — só aparece se houver vídeo ════ */}
+      {VIDEOS_GRUB.length > 0 && <VideosVencedores reels={VIDEOS_GRUB} />}
+
 
       {/* ════ OFERTA ════ */}
       <section className="grb-oferta">
