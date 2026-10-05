@@ -10,7 +10,7 @@ import "./Portal.css";
 import "./Rango.css";
 
 /* ──────────────────────────────────────────────────────────────
-   RANGO DO DRAGÃO — LISTA DE ESPERA DO DROP (05/10/2026)
+   RANGO DO DRAGÃO — LISTA DE ESPERA DO DROP (07/10/2026; era 05/10, adiado pela Olivia em 05/10)
 
    Clonada da /webinar (28/09): mesma forma — inscrição na primeira dobra,
    data no topo, tela de "você está na lista" no lugar do formulário.
@@ -35,8 +35,8 @@ import "./Rango.css";
    · nome de concorrente.
    ────────────────────────────────────────────────────────────── */
 
-const DROP_DATA = "05/10";
-const DROP_EXTENSO = "Segunda, 5 de outubro";
+const DROP_DATA = "07/10";
+const DROP_EXTENSO = "Quarta, 7 de outubro";
 
 const MARQUEE = [
   "RANGO DO DRAGÃO",
@@ -294,7 +294,7 @@ const Rango = () => {
     <div className="portal-page theme-light skin-2 rango-page">
       <PageMeta
         title="Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto"
-        description="Comida natural úmida e completa para cães adultos, com proteína de inseto. Drop em 5 de outubro, lote limitado. Entre na lista e receba o aviso primeiro."
+        description="Comida natural úmida e completa para cães adultos, com proteína de inseto. Drop em 7 de outubro, lote limitado. Entre na lista e receba o aviso primeiro."
       />
 
       <MarqueeBar />
@@ -308,7 +308,7 @@ const Rango = () => {
             <div className="rg-marcas">
               <DragonLogo className="rg-marca-cdd" />
             </div>
-            <div className="rg-eyebrow">Rango do Dragão · drop em 5 de outubro</div>
+            <div className="rg-eyebrow">Rango do Dragão · drop em 7 de outubro</div>
             {/* 28/09 — a Olivia pediu título CLARO: diz o que é e de quem é. A frase
                 de conceito ("Ele come inseto desde sempre") saiu do H1. */}
             <h1 className="rg-titulo">
@@ -327,7 +327,7 @@ const Rango = () => {
             />
             <p className="rg-sub">
               <strong>Comida natural</strong>, úmida, para cães adultos: filé mignon suíno, batata-doce, abóbora, chuchu e farinha
-              de larva, no pouch de 500 g. <strong>Lote limitado</strong> em 5 de outubro.
+              de larva, no pouch de 500 g. <strong>Lote limitado</strong> em 7 de outubro.
             </p>
           </div>
 

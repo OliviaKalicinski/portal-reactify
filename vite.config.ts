@@ -15,7 +15,7 @@ const SITE = "https://caverna.comidadedragao.com.br";
 const METAS_POR_ROTA: Record<string, { title: string; description: string; image: string }> = {
   rango: {
     title: "Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto",
-    description: "Comida natural úmida e completa para cães adultos, com proteína de inseto. Drop em 5 de outubro, lote limitado. Entre na lista e receba o aviso primeiro.",
+    description: "Comida natural úmida e completa para cães adultos, com proteína de inseto. Drop em 7 de outubro, lote limitado. Entre na lista e receba o aviso primeiro.",
     image: `${SITE}/assets/images/og-default.jpg`,
   },
   "qual-dragao": {
