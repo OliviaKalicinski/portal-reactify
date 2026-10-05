@@ -100,7 +100,9 @@ const FAQ = [
   },
   {
     q: "Quanto ele come por dia?",
-    a: "Depende do porte, e a tabela vem no rótulo. Em geral, meio pacote para cão pequeno e um para cão médio.",
+    // 05/10 — números do rótulo (dose confirmada pela Olivia em 19/08). A frase antiga,
+    // "meio pacote para cão pequeno e um para cão médio", ficava abaixo da dose real.
+    a: "Depende do peso, e a tabela vem no rótulo. Por dia: até 5 kg, de 80 a 270 g; de 6 a 10 kg, de 310 a 460 g; de 11 a 25 kg, de 490 a 910 g; de 26 a 30 kg, de 940 a 1.050 g. O pacote tem 500 g.",
   },
   {
     q: "Quanto custa?",
