@@ -58,8 +58,8 @@
 }
 .rg-titulo {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(48px, 6.2vw, 88px);
-  line-height: 0.9;
+  font-size: clamp(40px, 4.2vw, 60px);
+  line-height: 0.92;
   letter-spacing: 0.01em;
   color: var(--ink-primary);
   margin: 0 0 22px;
@@ -225,7 +225,7 @@
 .rg-tag.tag-alt2 { background: var(--dragon-pink); color: #fff; }
 .rg-secao-titulo {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(34px, 5vw, 58px);
+  font-size: clamp(30px, 3.4vw, 44px);
   line-height: 0.95;
   color: var(--ink-primary);
   margin: 0 0 32px;
@@ -340,7 +340,7 @@
 }
 .rg-campo-label em {
   font-style: normal;
-  color: var(--ink-faded);
+  color: var(--ink-muted);
   letter-spacing: 0.1em;
 }
 .rg-input {
@@ -353,7 +353,7 @@
   padding: 12px 14px;
   width: 100%;
 }
-.rg-input::placeholder { color: var(--ink-faded); }
+.rg-input::placeholder { color: var(--ink-muted); }
 .rg-input:focus {
   outline: none;
   border-color: var(--dragon-green);
@@ -406,6 +406,9 @@
   border: 1px solid var(--ink-border-strong);
   border-radius: 999px;
   padding: 8px 13px;
+  /* alvo de toque: 44px de altura, 48px de largura no mínimo */
+  min-height: 44px;
+  min-width: 48px;
   cursor: pointer;
   transition: all 0.12s ease;
 }
@@ -420,11 +423,28 @@
 
 .rg-form-legal {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.55;
-  color: var(--ink-faded);
+  /* é o texto de consentimento: precisa dar para ler (era 12px a 35%) */
+  color: var(--ink-secondary);
   margin: 4px 0 0;
   text-align: center;
+}
+.rg-form-aviso { margin: -4px 0 0; text-align: center; }
+/* laranja da marca escurecido: como letra pequena sobre branco o #FF6600 não se lê */
+.rg-campo-erro { font-weight: 600; color: #B23C00; }
+.rg-done-corrigir {
+  display: block;
+  margin: 0 auto 18px;
+  min-height: 44px;
+  padding: 0 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  color: var(--dragon-green);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* ========= CONFIRMAÇÃO ========= */
@@ -468,9 +488,11 @@
 }
 .rg-faq-a {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--ink-secondary);
+  /* linha de leitura: sem isto a resposta passava de 120 caracteres no desktop */
+  max-width: 640px;
 }
 
 /* ========= CTA FINAL ========= */
@@ -519,15 +541,17 @@
     row-gap: 28px;
   }
   .rg-sub, .rg-quando, .rg-hero-nota { max-width: none; }
-  .rg-titulo { font-size: clamp(42px, 11vw, 64px); }
+  .rg-titulo { font-size: clamp(40px, 11vw, 56px); }
 }
 
 /* ========= STICKY MOBILE =========
-   Só no mobile: no desktop o CTA do hero e o formulário já dão conta, e
-   barra fixa em tela grande come área de leitura sem ganhar clique. */
+   Só em janela estreita: no desktop largo o formulário já está na primeira
+   dobra, e barra fixa em tela grande come área de leitura sem ganhar clique. */
 .rg-sticky { display: none; }
 
-@media (max-width: 768px) {
+/* até 980px, não 768: é a largura em que o hero vira uma coluna e o formulário
+   sai da primeira tela (metade de um monitor Full HD cai aqui) — 05/10 */
+@media (max-width: 980px) {
   .rg-sticky {
     display: flex;
     position: fixed;
@@ -559,8 +583,12 @@
 
   /* o rodapé precisa caber acima da barra */
   .rango-page .portal-footer { padding-bottom: 92px; }
+}
 
+@media (max-width: 768px) {
   .rg-hero { padding: 40px 20px 44px; }
+  /* espaçamento menor: o eyebrow cabe em uma linha em 375px */
+  .rg-eyebrow { letter-spacing: 0.14em; }
   .rg-secao { padding: 46px 20px; }
   .rg-card { padding: 20px 18px 18px; }
   .rg-escolha { grid-template-columns: 1fr; }
@@ -604,12 +632,13 @@
 .rg-misterio {
   display: block;
   width: 100%;
-  max-width: 420px;
+  max-width: 300px;
   height: auto;
   margin: 0 0 24px;
   border: 4px solid var(--ink-primary);
   box-shadow: 6px 6px 0 0 var(--ink-primary);
 }
 @media (max-width: 980px) {
-  .rg-misterio { margin-left: auto; margin-right: auto; }
+  /* no celular a foto segue larga: é ela que segura a primeira tela */
+  .rg-misterio { max-width: 420px; margin-left: auto; margin-right: auto; }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
@@ -42,6 +42,7 @@ const MARQUEE = [
   "RANGO DO DRAGÃO",
   `DROP ${DROP_DATA}`,
   "ALIMENTO COMPLETO ÚMIDO",
+  "COMIDA NATURAL",
   "PROTEÍNA NOVA",
   "TEM LARVA. TEM 8%",
   "LOTE LIMITADO",
@@ -62,7 +63,7 @@ const CAES: Caes[] = ["1", "2", "3+"];
 const MarqueeBar = ({ bottom = false }: { bottom?: boolean }) => {
   const doubled = [...MARQUEE, ...MARQUEE];
   return (
-    <div className={`marquee-bar${bottom ? " bottom" : ""}`}>
+    <div className={`marquee-bar${bottom ? " bottom" : ""}`} aria-hidden="true">
       <div className="marquee-track" style={bottom ? { animationDirection: "reverse" } : undefined}>
         {doubled.map((t, i) => <span key={i}>{t}</span>)}
       </div>
@@ -91,7 +92,7 @@ const NO_POTE = [
 const FAQ = [
   {
     q: "O que é o Rango do Dragão?",
-    a: "Alimento completo úmido para cães adultos, em pouch de 500 g. Completo quer dizer que pode ser a refeição inteira: carne, legumes, vitaminas e minerais na conta certa.",
+    a: "Comida natural úmida e completa para cães adultos, em pouch de 500 g. Natural quer dizer ingrediente que você reconhece: filé mignon suíno, batata-doce, abóbora e chuchu. Completo quer dizer que pode ser a refeição inteira: carne, legumes, vitaminas e minerais na conta certa.",
   },
   {
     q: "Por que tem larva?",
@@ -112,30 +113,62 @@ const Rango = () => {
   const [telefone, setTelefone] = useState("");
   const [comeHoje, setComeHoje] = useState<ComeHoje | "">("");
   const [caes, setCaes] = useState<Caes | "">("");
-  const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [telTocado, setTelTocado] = useState(false);
+  const [listaVisivel, setListaVisivel] = useState(false);
+  const leadDisparado = useRef(false);
 
   useEffect(() => { captureEntryUtms(); }, []);
 
-  const valid = nome.trim().length >= 2 && isValidPhoneBR(telefone);
+  /* A barra fixa do mobile some enquanto o formulário está na tela: dois
+     "Entrar na lista" juntos, um que rola e um que envia, confundem (05/10). */
+  useEffect(() => {
+    const el = document.getElementById("lista");
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setListaVisivel(e.isIntersecting), { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const nomeOk = nome.trim().length >= 2;
+  const telOk = isValidPhoneBR(telefone);
+  const valid = nomeOk && telOk;
+  const telErro = telTocado && telefone.length > 0 && !telOk;
+  // o botão apagado diz o que falta, depois que a pessoa começou a preencher
+  const falta = !nome && !telefone ? "" : !nomeOk ? "Falta seu nome." : !telOk ? "Falta um WhatsApp válido." : "";
 
   const entrar = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!valid || status === "sending") return;
     setStatus("sending");
-    await submitLpLead({
+    const res = await submitLpLead({
       name: nome,
       phone: telefone,
       slug: "rango",
       origem: "espera_rango",
       extra: { come_hoje: comeHoje || null, caes: caes || null, drop: DROP_DATA },
     });
-    trackLead("espera-rango", comeHoje || "nao-respondeu");
-    // sucesso pra pessoa mesmo se o insert falhar — mesma disciplina das LPs.
+    /* 05/10 — aqui a confirmação só aparece se o contato foi gravado. Numa lista
+       de espera, "tá salvo" sem estar salvo é a pessoa esperando um aviso que
+       não vem. Contato repetido conta como salvo. */
+    if (!res.ok && !/duplicate/i.test(res.error ?? "")) {
+      setStatus("error");
+      return;
+    }
+    if (!leadDisparado.current) {
+      trackLead("espera-rango", comeHoje || "nao-respondeu");
+      leadDisparado.current = true;
+    }
     setStatus("done");
   };
 
   const irPraLista = () => {
     document.getElementById("lista")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    // com mouse e teclado, o cursor já cai no Nome; no toque não, para o teclado
+    // do celular não cobrir o formulário antes de a pessoa ver onde chegou.
+    if (window.matchMedia?.("(hover: hover)").matches) {
+      document.querySelector<HTMLInputElement>("#lista input")?.focus({ preventScroll: true });
+    }
   };
 
   const CardLista = (
@@ -145,8 +178,11 @@ const Rango = () => {
           <div className="rg-done-mark">Você está na lista 🐉</div>
           <p className="rg-done-sub">
             Tá salvo, {nome.trim().split(" ")[0]}. No dia <strong>{DROP_DATA}</strong> o aviso
-            chega no seu WhatsApp, antes de abrir para todo mundo.
+            chega no WhatsApp <strong>{telefone}</strong>, antes de abrir para todo mundo.
           </p>
+          <button type="button" className="rg-done-corrigir" onClick={() => setStatus("idle")}>
+            Número errado? Corrigir
+          </button>
           <p className="rg-done-nota">Tem alguém com cachorro que ia gostar? Manda esta página.</p>
           <Link to="/produtos" className="rg-btn rg-btn-ghost">
             Enquanto isso, conheça os outros produtos
@@ -184,8 +220,15 @@ const Rango = () => {
                 placeholder="(21) 98765-4321"
                 value={telefone}
                 onChange={(e) => setTelefone(formatPhoneBR(e.target.value))}
+                onBlur={() => setTelTocado(true)}
                 autoComplete="tel"
+                aria-invalid={telErro}
               />
+              {telErro && (
+                <span className="rg-campo-erro" role="alert">
+                  Confere o número: DDD + 9 dígitos.
+                </span>
+              )}
             </label>
 
             <div className="rg-campo">
@@ -229,6 +272,13 @@ const Rango = () => {
             <button className="rg-btn rg-btn-full" type="submit" disabled={!valid || status === "sending"}>
               {status === "sending" ? "Entrando…" : "Entrar na lista"}
             </button>
+            {status === "error" ? (
+              <p className="rg-campo-erro rg-form-aviso" role="alert">
+                Não deu para salvar seu contato. Tenta de novo?
+              </p>
+            ) : falta ? (
+              <p className="rg-campo-ajuda rg-form-aviso">{falta}</p>
+            ) : null}
 
             <p className="rg-form-legal">
               A gente usa seu contato pra avisar do drop e falar do que a Comida de Dragão faz.
@@ -244,7 +294,7 @@ const Rango = () => {
     <div className="portal-page theme-light skin-2 rango-page">
       <PageMeta
         title="Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto"
-        description="Alimento completo úmido para cães adultos, com proteína de inseto. Drop em 5 de outubro, lote limitado. Entre na lista e receba o aviso primeiro."
+        description="Comida natural úmida e completa para cães adultos, com proteína de inseto. Drop em 5 de outubro, lote limitado. Entre na lista e receba o aviso primeiro."
       />
 
       <MarqueeBar />
@@ -253,6 +303,11 @@ const Rango = () => {
       <section className="rg-hero">
         <div className="rg-hero-grid">
           <div className="rg-hero-pitch">
+            {/* 05/10 — a marca no topo (Olivia: "tá faltando a logo"). Mesmo lugar e
+                mesma classe da /webinar, de onde esta página foi clonada. */}
+            <div className="rg-marcas">
+              <DragonLogo className="rg-marca-cdd" />
+            </div>
             <div className="rg-eyebrow">Rango do Dragão · drop em 5 de outubro</div>
             {/* 28/09 — a Olivia pediu título CLARO: diz o que é e de quem é. A frase
                 de conceito ("Ele come inseto desde sempre") saiu do H1. */}
@@ -271,7 +326,7 @@ const Rango = () => {
               decoding="async"
             />
             <p className="rg-sub">
-              Úmido, para cães adultos: filé mignon suíno, batata-doce, abóbora, chuchu e farinha
+              <strong>Comida natural</strong>, úmida, para cães adultos: filé mignon suíno, batata-doce, abóbora, chuchu e farinha
               de larva, no pouch de 500 g. <strong>Lote limitado</strong> em 5 de outubro.
             </p>
           </div>
@@ -283,6 +338,7 @@ const Rango = () => {
               <strong>Levou menos tempo que ler isto.</strong> Abrir e servir é a receita inteira.
             </p>
             <div className="rg-selos">
+              <span className="rg-selo">Comida natural</span>
               <span className="rg-selo">Alimento completo</span>
               <span className="rg-selo">Úmido · 500 g</span>
               <span className="rg-selo">Cães adultos</span>
@@ -346,7 +402,7 @@ const Rango = () => {
         <div className="footer-tagline">Nojento é o desperdício.</div>
       </footer>
 
-      {status !== "done" && (
+      {status !== "done" && !listaVisivel && (
         <div className="rg-sticky">
           <div className="rg-sticky-info">
             <strong>Drop {DROP_DATA}</strong>
