@@ -46,6 +46,11 @@
    nasce na primeira dobra e há um CTA no fim que rola de volta pra cá.
    Card que persegue a pessoa em página curta é ruído, não conversão. */
 .rg-hero-form { grid-area: form; }
+/* 05/10 — no desktop o cartão começa na altura do título, não da logo (Olivia).
+   119px = logo (62) + respiro (22) + linha de cima do título (17 + 18). */
+@media (min-width: 981px) {
+  .rg-hero-form { margin-top: 119px; }
+}
 
 .rg-eyebrow {
   font-family: 'Space Mono', monospace;
