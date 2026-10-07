@@ -10,7 +10,8 @@ import "./Portal.css";
 import "./Rango.css";
 
 /* ──────────────────────────────────────────────────────────────
-   RANGO DO DRAGÃO — LISTA DE ESPERA DO DROP (07/10/2026; era 05/10, adiado pela Olivia em 05/10)
+   RANGO DO DRAGÃO — LISTA DE ESPERA DO DROP (07/10/2026: a Olivia tirou a data; era 07/10, antes 05/10.
+   A página segue chamando para a lista, sem dia marcado)
 
    Clonada da /webinar (28/09): mesma forma — inscrição na primeira dobra,
    data no topo, tela de "você está na lista" no lugar do formulário.
@@ -35,12 +36,13 @@ import "./Rango.css";
    · nome de concorrente.
    ────────────────────────────────────────────────────────────── */
 
-const DROP_DATA = "07/10";
-const DROP_EXTENSO = "Quarta, 7 de outubro";
+/* 07/10 — sem data (Olivia: "vamos colocar sem data e continuar chamando gente pro pré-lançamento").
+   Quando a data voltar, ela volta aqui e nos textos marcados com "sem data". */
+const DROP_DATA = "sem data";
 
 const MARQUEE = [
   "RANGO DO DRAGÃO",
-  `DROP ${DROP_DATA}`,
+  "VEM AÍ",
   "ALIMENTO COMPLETO ÚMIDO",
   "COMIDA NATURAL",
   "PROTEÍNA NOVA",
@@ -179,7 +181,7 @@ const Rango = () => {
         <div className="rg-done">
           <div className="rg-done-mark">Você está na lista 🐉</div>
           <p className="rg-done-sub">
-            Tá salvo, {nome.trim().split(" ")[0]}. No dia <strong>{DROP_DATA}</strong> o aviso
+            Tá salvo, {nome.trim().split(" ")[0]}. Quando o Rango sair, o aviso
             chega no WhatsApp <strong>{telefone}</strong>, antes de abrir para todo mundo.
           </p>
           <button type="button" className="rg-done-corrigir" onClick={() => setStatus("idle")}>
@@ -296,7 +298,7 @@ const Rango = () => {
     <div className="portal-page theme-light skin-2 rango-page">
       <PageMeta
         title="Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto"
-        description="Comida natural úmida e completa para cães adultos, com proteína de inseto. Drop em 7 de outubro, lote limitado. Entre na lista e receba o aviso primeiro."
+        description="Comida natural úmida e completa para cães adultos, com proteína de inseto. Vem aí, em lote limitado. Entre na lista e receba o aviso primeiro."
       />
 
       <MarqueeBar />
@@ -310,7 +312,7 @@ const Rango = () => {
             <div className="rg-marcas">
               <DragonLogo className="rg-marca-cdd" />
             </div>
-            <div className="rg-eyebrow">Rango do Dragão · drop em 7 de outubro</div>
+            <div className="rg-eyebrow">Rango do Dragão · vem aí</div>
             {/* 28/09 — a Olivia pediu título CLARO: diz o que é e de quem é. A frase
                 de conceito ("Ele come inseto desde sempre") saiu do H1. */}
             <h1 className="rg-titulo">
@@ -329,7 +331,7 @@ const Rango = () => {
             />
             <p className="rg-sub">
               <strong>Comida natural</strong>, úmida, para cães adultos: filé mignon suíno, batata-doce, abóbora, chuchu e farinha
-              de larva, no pouch de 500 g. <strong>Lote limitado</strong> em 7 de outubro.
+              de larva, no pouch de 500 g. Vem aí, em <strong>lote limitado</strong>.
             </p>
           </div>
 
@@ -407,7 +409,7 @@ const Rango = () => {
       {status !== "done" && !listaVisivel && (
         <div className="rg-sticky">
           <div className="rg-sticky-info">
-            <strong>Drop {DROP_DATA}</strong>
+            <strong>Vem aí</strong>
             <span>Lote limitado</span>
           </div>
           <button className="rg-btn rg-btn-sticky" onClick={irPraLista}>
