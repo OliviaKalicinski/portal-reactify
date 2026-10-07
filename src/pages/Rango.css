@@ -613,6 +613,19 @@
   margin-bottom: 22px;
   flex-wrap: wrap;
 }
+/* 07/10 — mesmo desenho do .olp-backlink da /original */
+.rg-backlink {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: var(--ink-muted, #5b655e);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.rg-backlink:hover { color: var(--dragon-pink, #F53B82); }
+.rg-marcas a { display: inline-flex; align-items: center; }
 .rg-marca-cdd {
   height: 62px;
   width: auto;

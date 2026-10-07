@@ -309,8 +309,14 @@ const Rango = () => {
           <div className="rg-hero-pitch">
             {/* 05/10 — a marca no topo (Olivia: "tá faltando a logo"). Mesmo lugar e
                 mesma classe da /webinar, de onde esta página foi clonada. */}
+            {/* 07/10 — a marca leva para a home da loja, com o "← comida de dragão" ao lado,
+                como na /original, /mordida e /curiosidade (Olivia: "para ela voltar, como
+                nas outras LPs"). Aqui o destino é a home, não a coleção. */}
             <div className="rg-marcas">
-              <DragonLogo className="rg-marca-cdd" />
+              <a href="https://www.comidadedragao.com.br" className="rg-backlink">← comida de dragão</a>
+              <a href="https://www.comidadedragao.com.br" aria-label="Comida de Dragão: ir para a home da loja">
+                <DragonLogo className="rg-marca-cdd" />
+              </a>
             </div>
             <div className="rg-eyebrow">Rango do Dragão · vem aí</div>
             {/* 28/09 — a Olivia pediu título CLARO: diz o que é e de quem é. A frase
