@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
-import { captureEntryUtms } from "@/lib/utm";
+import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
 import { submitLpLead } from "@/lib/lpLeads";
 import { trackLead } from "@/lib/pixel";
@@ -40,9 +40,31 @@ import "./Rango.css";
    Quando a data voltar, ela volta aqui e nos textos marcados com "sem data". */
 const DROP_DATA = "sem data";
 
+/* ══ A CHAVE DA VENDA (07/10) ══════════════════════════════════════
+   Olivia, 07/10: "vamos deixar pronta a LP do rango, para amanhã ativar".
+   Enquanto MODO for "espera", a página é a lista de espera de sempre.
+   PARA ATIVAR A VENDA, são três trocas e um deploy:
+     1. MODO = "venda"
+     2. VENDA.checkoutUrl = o link do carrinho da Yampi do Rango (seguro.comidadedragao.com.br/r/<TOKEN>)
+     3. a descrição do link em vite.config.ts (METAS_POR_ROTA, rota /rango): trocar "Vem aí..." pela de venda
+   Sem o link do carrinho a página NÃO vira venda, mesmo com MODO = "venda" (trava abaixo).
+   Preço: o da Shopify em 07/10 (produto "Rango do Dragão - Alimento Completo", SKU 501). Mudou lá, muda aqui.
+   Foto: a 1ª da galeria do produto na Shopify, servida de lá. */
+const MODO: "espera" | "venda" = "espera";
+const VENDA = {
+  checkoutUrl: "",
+  preco: "30,90",
+  foto: "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/1_1.png?v=1791295426&width=900",
+};
+const VENDENDO = MODO === "venda" && VENDA.checkoutUrl.startsWith("https://seguro.comidadedragao.com.br/r/");
+
+/** Fallback usado só quando a pessoa não trouxe utm_ de anúncio ou campanha (mesma regra das outras LPs). */
+const UTM_FALLBACK = { utm_source: "lp-rango", utm_medium: "lp", utm_campaign: "lp-rango" };
+const ctaUrl = (cta: "hero" | "final" | "sticky") => buildCheckoutUrl(VENDA.checkoutUrl, UTM_FALLBACK, cta);
+
 const MARQUEE = [
   "RANGO DO DRAGÃO",
-  "VEM AÍ",
+  ...(VENDENDO ? [] : ["VEM AÍ"]),
   "ALIMENTO COMPLETO ÚMIDO",
   "COMIDA NATURAL",
   "PROTEÍNA NOVA",
@@ -108,7 +130,9 @@ const FAQ = [
   },
   {
     q: "Quanto custa?",
-    a: "O preço sai no dia do drop. Quem está na lista recebe primeiro.",
+    a: VENDENDO
+      ? `R$ ${VENDA.preco} o pacote de 500 g. Frete calculado no fim do pedido pelo seu CEP.`
+      : "O preço sai no dia do drop. Quem está na lista recebe primeiro.",
   },
 ];
 
@@ -294,11 +318,34 @@ const Rango = () => {
     </div>
   );
 
+  /* Card de compra: ocupa o lugar do formulário quando a venda está ligada.
+     Preço e botão vêm depois do pacote (regra da casa nas LPs). */
+  const CardCompra = (
+    <div className="rg-card" id="lista">
+      <div className="rg-card-topo">
+        <span className="rg-card-tag">lote limitado</span>
+        <strong className="rg-card-titulo">Rango do Dragão · 500 g</strong>
+        <span className="rg-card-sub">Alimento completo úmido para cães adultos.</span>
+      </div>
+      <div className="rg-preco">
+        <small>R$</small>{VENDA.preco}
+      </div>
+      <a className="rg-btn rg-btn-full rg-btn-link" href={VENDENDO ? ctaUrl("hero") : undefined}>
+        Comprar agora
+      </a>
+      <p className="rg-form-legal">
+        Frete calculado no fim do pedido pelo seu CEP. Compra segura pela Yampi, com cartão, Pix ou boleto.
+      </p>
+    </div>
+  );
+
   return (
     <div className="portal-page theme-light skin-2 rango-page">
       <PageMeta
         title="Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto"
-        description="Comida natural úmida e completa para cães adultos, com proteína de inseto. Vem aí, em lote limitado. Entre na lista e receba o aviso primeiro."
+        description={VENDENDO
+          ? "Comida natural úmida e completa para cães adultos, com proteína de inseto. Pouch de 500 g, em lote limitado."
+          : "Comida natural úmida e completa para cães adultos, com proteína de inseto. Vem aí, em lote limitado. Entre na lista e receba o aviso primeiro."}
       />
 
       <MarqueeBar />
@@ -318,7 +365,7 @@ const Rango = () => {
                 <DragonLogo className="rg-marca-cdd" />
               </a>
             </div>
-            <div className="rg-eyebrow">Rango do Dragão · vem aí</div>
+            <div className="rg-eyebrow">{VENDENDO ? "Rango do Dragão · lote limitado" : "Rango do Dragão · vem aí"}</div>
             {/* 28/09 — a Olivia pediu título CLARO: diz o que é e de quem é. A frase
                 de conceito ("Ele come inseto desde sempre") saiu do H1. */}
             <h1 className="rg-titulo">
@@ -328,20 +375,20 @@ const Rango = () => {
                 segue pixelado até o drop. Fica logo abaixo do título (Olivia, 02/10). */}
             <img
               className="rg-misterio"
-              src="/assets/images/rango/rango-vem-ai.webp"
-              alt="Pacote do Rango do Dragão pixelado, segurado na mão, com o selo Vem aí"
-              width={864}
-              height={1080}
+              src={VENDENDO ? VENDA.foto : "/assets/images/rango/rango-vem-ai.webp"}
+              alt={VENDENDO ? "Pacote do Rango do Dragão, 500 g" : "Pacote do Rango do Dragão pixelado, segurado na mão, com o selo Vem aí"}
+              width={VENDENDO ? 900 : 864}
+              height={VENDENDO ? 900 : 1080}
               loading="eager"
               decoding="async"
             />
             <p className="rg-sub">
               <strong>Comida natural</strong>, úmida, para cães adultos: filé mignon suíno, batata-doce, abóbora, chuchu e farinha
-              de larva, no pouch de 500 g. Vem aí, em <strong>lote limitado</strong>.
+              de larva, no pouch de 500 g. {VENDENDO ? "" : "Vem aí, em "}<strong>{VENDENDO ? "Lote limitado" : "lote limitado"}</strong>.
             </p>
           </div>
 
-          <div className="rg-hero-form">{CardLista}</div>
+          <div className="rg-hero-form">{VENDENDO ? CardCompra : CardLista}</div>
 
           <div className="rg-hero-detalhes">
             <p className="rg-sub">
@@ -393,7 +440,9 @@ const Rango = () => {
         {status !== "done" && (
           <div className="rg-cta-final">
             <strong>Ele já sabe. Falta você.</strong>
-            <button className="rg-btn" onClick={irPraLista}>Entrar na lista</button>
+            {VENDENDO
+              ? <a className="rg-btn rg-btn-link" href={ctaUrl("final")}>Comprar agora</a>
+              : <button className="rg-btn" onClick={irPraLista}>Entrar na lista</button>}
           </div>
         )}
       </section>
@@ -415,12 +464,16 @@ const Rango = () => {
       {status !== "done" && !listaVisivel && (
         <div className="rg-sticky">
           <div className="rg-sticky-info">
-            <strong>Vem aí</strong>
+            <strong>{VENDENDO ? `R$ ${VENDA.preco}` : "Vem aí"}</strong>
             <span>Lote limitado</span>
           </div>
-          <button className="rg-btn rg-btn-sticky" onClick={irPraLista}>
-            Entrar na lista
-          </button>
+          {VENDENDO ? (
+            <a className="rg-btn rg-btn-sticky rg-btn-link" href={ctaUrl("sticky")}>Comprar agora</a>
+          ) : (
+            <button className="rg-btn rg-btn-sticky" onClick={irPraLista}>
+              Entrar na lista
+            </button>
+          )}
         </div>
       )}
     </div>

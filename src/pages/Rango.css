@@ -660,3 +660,15 @@
   /* no celular a foto segue larga: é ela que segura a primeira tela */
   .rg-misterio { max-width: 420px; margin-left: auto; margin-right: auto; }
 }
+
+/* ========= VENDA (07/10): card de compra no lugar do formulário ========= */
+.rg-preco {
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-size: 56px;
+  line-height: 1;
+  color: var(--ink-primary, #16211A);
+  margin: 4px 0 16px;
+}
+.rg-preco small { font-size: 22px; margin-right: 6px; font-weight: 700; }
+.rg-btn-link { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; text-align: center; box-sizing: border-box; }
