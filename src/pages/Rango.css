@@ -773,6 +773,33 @@ details.rg-faq-item[open] > summary { margin-bottom: 8px; }
 .rango-venda details.rg-faq-item > .rg-faq-a { padding: 0 22px 20px; }
 .rango-venda .rg-backlink { display: inline-flex; align-items: center; min-height: 44px; }
 .rango-venda .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
+/* 08/10 — no computador o card com os dois preços fica ao lado da foto; o preço
+   "a partir de" embaixo dela repetia a informação. Ele aparece só quando o card desce. */
+@media (min-width: 981px) {
+  .rango-venda .rg-hero-preco { display: none; }
+}
+/* 08/10 — no celular tudo centralizado (Olivia). Lista de itens e resposta do FAQ
+   seguem alinhadas à esquerda, que é como se lê texto corrido. */
+@media (max-width: 980px) {
+  .rango-venda .rg-hero-pitch,
+  .rango-venda .rg-hero-detalhes,
+  .rango-venda .rg-secao,
+  .rango-venda .rg-card-topo { text-align: center; }
+  .rango-venda .rg-marcas,
+  .rango-venda .rg-hero-preco,
+  .rango-venda .rg-selos { justify-content: center; }
+  .rango-venda .rg-titulo,
+  .rango-venda .rg-secao-titulo,
+  .rango-venda .rg-sub { margin-left: auto; margin-right: auto; }
+  .rango-venda .rg-lista,
+  .rango-venda .rg-faq,
+  .rango-venda .rg-nov-card,
+  .rango-venda .rg-garantia,
+  .rango-venda .rg-oferta { text-align: left; }
+  .rango-venda .rg-nota { border-left: 0; padding-left: 0; }
+  .rango-venda .rg-ofertas-grade { margin-left: auto; margin-right: auto; }
+  .rango-venda .rg-cta-final { align-items: center; text-align: center; }
+}
 .rg-garantia {
   display: flex;
   gap: 14px;

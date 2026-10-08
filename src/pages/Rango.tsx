@@ -468,16 +468,20 @@ const Rango = () => {
             <p className="rg-sub">
               <strong>Levou menos tempo que ler isto.</strong> Abrir e servir é a receita inteira.
             </p>
-            <div className="rg-selos">
-              <span className="rg-selo">Comida natural</span>
-              <span className="rg-selo">Alimento completo</span>
-              <span className="rg-selo">Úmido · 500 g</span>
-              <span className="rg-selo">Cães adultos</span>
-              <span className="rg-selo">Proteína nova</span>
-            </div>
-            {VENDENDO && (
+            {/* 08/10 — eram duas fileiras e oito selos (Olivia: "bem confuso"). Na venda fica
+                uma fileira só, com os três de confiança; os de produto repetiam o parágrafo
+                de cima e seguem só na lista de espera. */}
+            {VENDENDO ? (
               <div className="rg-selos">
                 {CONFIANCA.map((c) => <span className="rg-selo rg-selo-conf" key={c}>{c}</span>)}
+              </div>
+            ) : (
+              <div className="rg-selos">
+                <span className="rg-selo">Comida natural</span>
+                <span className="rg-selo">Alimento completo</span>
+                <span className="rg-selo">Úmido · 500 g</span>
+                <span className="rg-selo">Cães adultos</span>
+                <span className="rg-selo">Proteína nova</span>
               </div>
             )}
           </div>
