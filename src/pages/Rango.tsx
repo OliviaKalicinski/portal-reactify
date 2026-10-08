@@ -61,7 +61,9 @@ const VENDA = {
   kitUrl: "https://seguro.comidadedragao.com.br/r/MJ9H9ZNKPG",
   kitPreco: "185,40",
   kitPorPacote: "26,49",
-  foto: "/assets/images/rango/rango-pacote.webp",
+  /* 08/10 (auditoria mobile, A1 e M1): a foto é a mesma arte cortada na frente do pacote.
+     A arte inteira mostrava uma tabela de dose diferente da do FAQ e ocupava meia tela. */
+  foto: "/assets/images/rango/rango-pacote-frente.webp",
 };
 const VENDENDO = MODO === "venda" && VENDA.checkoutUrl.startsWith("https://seguro.comidadedragao.com.br/r/");
 
@@ -212,8 +214,19 @@ const Rango = () => {
   };
 
   /* 08/10 — com duas ofertas, os botões de fora do card levam até ele, onde a pessoa escolhe. */
+  /* Auditoria mobile (M2): vai para o bloco de compra mais perto de onde a pessoa está
+     (o card do hero ou o bloco de oferta), em vez de sempre voltar ao topo. */
   const irPraOfertas = () => {
-    document.getElementById("lista")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    const alvos = ["lista", "oferta"]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => !!el);
+    if (!alvos.length) return;
+    const meio = window.innerHeight / 2;
+    const dist = (el: HTMLElement) => {
+      const r = el.getBoundingClientRect();
+      return Math.abs(r.top + r.height / 2 - meio);
+    };
+    alvos.sort((a, b) => dist(a) - dist(b))[0].scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const irPraLista = () => {
@@ -387,7 +400,7 @@ const Rango = () => {
   );
 
   return (
-    <div className="portal-page theme-light skin-2 rango-page">
+    <div className={`portal-page theme-light skin-2 rango-page${VENDENDO ? " rango-venda" : ""}`}>
       <PageMeta
         title="Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto"
         description={VENDENDO
@@ -425,7 +438,7 @@ const Rango = () => {
               src={VENDENDO ? VENDA.foto : "/assets/images/rango/rango-vem-ai.webp"}
               alt={VENDENDO ? "Pacote do Rango do Dragão, 500 g" : "Pacote do Rango do Dragão pixelado, segurado na mão, com o selo Vem aí"}
               width={864}
-              height={1080}
+              height={VENDENDO ? 636 : 1080}
               loading="eager"
               decoding="async"
             />
@@ -536,7 +549,7 @@ const Rango = () => {
           <VideosVencedores reels={REELS_PROVA} />
 
           {/* ══ OFERTA ═══════════════════════════════════════════════════ */}
-          <section className="rg-secao rg-secao-oferta">
+          <section className="rg-secao rg-secao-oferta" id="oferta">
             <div className="rg-tag">pronto pra levar</div>
             <h2 className="rg-secao-titulo">Rango do Dragão <span>· 500 g</span></h2>
             <div className="rg-ofertas-grade">{ofertas("oferta")}</div>

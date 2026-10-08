@@ -754,6 +754,21 @@ details.rg-faq-item > summary::-webkit-details-marker { display: none; }
 details.rg-faq-item > summary::after { content: "+"; font-family: 'Space Mono', monospace; }
 details.rg-faq-item[open] > summary::after { content: "–"; }
 details.rg-faq-item[open] > summary { margin-bottom: 8px; }
+/* Auditoria mobile de 08/10 — só no modo venda (.rango-venda no topo da página):
+   A4 e baixos: texto de preço, frete e apoio a 16 px, sem opacidade;
+   M3: pergunta do FAQ, link de volta e rodapé com 44 px de altura para o dedo. */
+.rango-venda .rg-oferta-apoio,
+.rango-venda .rg-form-legal,
+.rango-venda .rg-sub,
+.rango-venda .rg-nov-desc { font-size: 16px; line-height: 1.55; }
+.rango-venda .rg-card-sub { font-size: 16px; color: var(--ink-secondary); opacity: 1; }
+.rango-venda .rg-nota { font-size: 14px; color: var(--ink-secondary); }
+.rango-venda details.rg-faq-item { padding: 0; }
+.rango-venda details.rg-faq-item > summary { padding: 16px 22px; min-height: 44px; align-items: center; margin-bottom: 0; }
+.rango-venda details.rg-faq-item[open] > summary { margin-bottom: 0; }
+.rango-venda details.rg-faq-item > .rg-faq-a { padding: 0 22px 20px; }
+.rango-venda .rg-backlink { display: inline-flex; align-items: center; min-height: 44px; }
+.rango-venda .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
 .rg-garantia {
   display: flex;
   gap: 14px;
