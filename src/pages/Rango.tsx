@@ -6,6 +6,8 @@ import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
 import { submitLpLead } from "@/lib/lpLeads";
 import { trackLead } from "@/lib/pixel";
+import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
+import LeadPopup from "@/components/LeadPopup";
 import "./Portal.css";
 import "./Rango.css";
 
@@ -49,18 +51,37 @@ const DROP_DATA = "sem data";
      3. a descrição do link em vite.config.ts (METAS_POR_ROTA, rota /rango): trocar "Vem aí..." pela de venda
    Sem o link do carrinho a página NÃO vira venda, mesmo com MODO = "venda" (trava abaixo).
    Preço: o da Shopify em 07/10 (produto "Rango do Dragão - Alimento Completo", SKU 501). Mudou lá, muda aqui.
-   Foto: a 1ª da galeria do produto na Shopify, servida de lá. */
-const MODO: "espera" | "venda" = "espera";
+   Foto (08/10): a arte do pacote que a Olivia trouxe, servida daqui em webp, como o hero da /original. */
+const MODO: "espera" | "venda" = "venda";
 const VENDA = {
-  checkoutUrl: "",
+  checkoutUrl: "https://seguro.comidadedragao.com.br/r/NZZ48AIGFF",
   preco: "30,90",
-  foto: "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/1_1.png?v=1791295426&width=900",
+  /* 08/10 — dois preços (Olivia): o pacote e o kit "compre 6 e ganhe 1".
+     Preço do kit lido no checkout da Yampi em 08/10: R$ 185,40 por 7 pacotes (6 × 30,90). */
+  kitUrl: "https://seguro.comidadedragao.com.br/r/MJ9H9ZNKPG",
+  kitPreco: "185,40",
+  kitPorPacote: "26,49",
+  foto: "/assets/images/rango/rango-pacote.webp",
 };
 const VENDENDO = MODO === "venda" && VENDA.checkoutUrl.startsWith("https://seguro.comidadedragao.com.br/r/");
 
 /** Fallback usado só quando a pessoa não trouxe utm_ de anúncio ou campanha (mesma regra das outras LPs). */
 const UTM_FALLBACK = { utm_source: "lp-rango", utm_medium: "lp", utm_campaign: "lp-rango" };
-const ctaUrl = (cta: "hero" | "final" | "sticky") => buildCheckoutUrl(VENDA.checkoutUrl, UTM_FALLBACK, cta);
+type CtaPos = "hero" | "hero-kit" | "oferta" | "oferta-kit";
+const ctaUrl = (cta: CtaPos) =>
+  buildCheckoutUrl(cta.endsWith("-kit") ? VENDA.kitUrl : VENDA.checkoutUrl, UTM_FALLBACK, cta);
+
+/* 08/10 — blocos que a /original tem e a /rango não tinha (Olivia: "bora").
+   Só aparecem com a venda ligada. Textos sem claim de saúde (trava de 25/09). */
+const CONFIANCA = ["🚚 Entrega Brasil", "🛡️ Compra segura", "💚 Garantia 14 dias"];
+const PROBLEMAS = [
+  { dor: "Ele cheira a ração e vira a cara", causa: "o pote amanhece do jeito que você deixou." },
+  { dor: "Ele quase não bebe água", causa: "e a comida de todo dia é seca." },
+  { dor: "Você quer dar comida de verdade", causa: "mas cozinhar toda semana não cabe na rotina." },
+];
+/* Prova social emprestada: o Rango ainda não tem vídeo de creator, então entram os
+   vencedores dos outros produtos (os mesmos da /original), com o aviso em cima. */
+const REELS_PROVA = [VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi];
 
 const MARQUEE = [
   "RANGO DO DRAGÃO",
@@ -69,7 +90,7 @@ const MARQUEE = [
   "COMIDA NATURAL",
   "PROTEÍNA NOVA",
   "TEM LARVA. TEM 8%",
-  "LOTE LIMITADO",
+  ...(VENDENDO ? ["COMPRE 6, GANHE 1"] : ["LOTE LIMITADO"]),
 ];
 
 /* Duas perguntas opcionais. Não são enfeite: respondem as duas decisões em
@@ -131,7 +152,7 @@ const FAQ = [
   {
     q: "Quanto custa?",
     a: VENDENDO
-      ? `R$ ${VENDA.preco} o pacote de 500 g. Frete calculado no fim do pedido pelo seu CEP.`
+      ? `R$ ${VENDA.preco} o pacote de 500 g. No kit, você compra 6 e ganha 1: 7 pacotes por R$ ${VENDA.kitPreco}, R$ ${VENDA.kitPorPacote} cada. Frete calculado no fim do pedido pelo seu CEP.`
       : "O preço sai no dia do drop. Quem está na lista recebe primeiro.",
   },
 ];
@@ -188,6 +209,11 @@ const Rango = () => {
       leadDisparado.current = true;
     }
     setStatus("done");
+  };
+
+  /* 08/10 — com duas ofertas, os botões de fora do card levam até ele, onde a pessoa escolhe. */
+  const irPraOfertas = () => {
+    document.getElementById("lista")?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const irPraLista = () => {
@@ -318,21 +344,42 @@ const Rango = () => {
     </div>
   );
 
+  /* 08/10 — duas ofertas (Olivia): o kit em destaque, o pacote embaixo. Aparecem no card
+     do hero e no bloco de oferta; `pos` marca de onde veio o clique (cta_pos). */
+  const ofertas = (pos: "hero" | "oferta") => (
+    <>
+      <div className="rg-oferta rg-oferta-kit">
+        <span className="rg-oferta-selo">compre 6, ganhe 1</span>
+        <strong className="rg-oferta-nome">Kit com 7 pacotes</strong>
+        <div className="rg-preco">
+          <small>R$</small>{VENDA.kitPreco}
+        </div>
+        <span className="rg-oferta-apoio">R$ {VENDA.kitPorPacote} por pacote</span>
+        <a className="rg-btn rg-btn-full rg-btn-link" href={VENDENDO ? ctaUrl(`${pos}-kit`) : undefined}>
+          Quero o kit
+        </a>
+      </div>
+      <div className="rg-oferta">
+        <strong className="rg-oferta-nome">1 pacote</strong>
+        <div className="rg-preco rg-preco-menor">
+          <small>R$</small>{VENDA.preco}
+        </div>
+        <a className="rg-btn rg-btn-full rg-btn-link rg-btn-sec" href={VENDENDO ? ctaUrl(pos) : undefined}>
+          Comprar 1 pacote
+        </a>
+      </div>
+    </>
+  );
+
   /* Card de compra: ocupa o lugar do formulário quando a venda está ligada.
      Preço e botão vêm depois do pacote (regra da casa nas LPs). */
   const CardCompra = (
     <div className="rg-card" id="lista">
       <div className="rg-card-topo">
-        <span className="rg-card-tag">lote limitado</span>
         <strong className="rg-card-titulo">Rango do Dragão · 500 g</strong>
         <span className="rg-card-sub">Alimento completo úmido para cães adultos.</span>
       </div>
-      <div className="rg-preco">
-        <small>R$</small>{VENDA.preco}
-      </div>
-      <a className="rg-btn rg-btn-full rg-btn-link" href={VENDENDO ? ctaUrl("hero") : undefined}>
-        Comprar agora
-      </a>
+      {ofertas("hero")}
       <p className="rg-form-legal">
         Frete calculado no fim do pedido pelo seu CEP. Compra segura pela Yampi, com cartão, Pix ou boleto.
       </p>
@@ -344,7 +391,7 @@ const Rango = () => {
       <PageMeta
         title="Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto"
         description={VENDENDO
-          ? "Comida natural úmida e completa para cães adultos, com proteína de inseto. Pouch de 500 g, em lote limitado."
+          ? "Comida natural úmida e completa para cães adultos, com proteína de inseto. Pouch de 500 g."
           : "Comida natural úmida e completa para cães adultos, com proteína de inseto. Vem aí, em lote limitado. Entre na lista e receba o aviso primeiro."}
       />
 
@@ -365,7 +412,7 @@ const Rango = () => {
                 <DragonLogo className="rg-marca-cdd" />
               </a>
             </div>
-            <div className="rg-eyebrow">{VENDENDO ? "Rango do Dragão · lote limitado" : "Rango do Dragão · vem aí"}</div>
+            <div className="rg-eyebrow">{VENDENDO ? "Rango do Dragão" : "Rango do Dragão · vem aí"}</div>
             {/* 28/09 — a Olivia pediu título CLARO: diz o que é e de quem é. A frase
                 de conceito ("Ele come inseto desde sempre") saiu do H1. */}
             <h1 className="rg-titulo">
@@ -377,14 +424,22 @@ const Rango = () => {
               className="rg-misterio"
               src={VENDENDO ? VENDA.foto : "/assets/images/rango/rango-vem-ai.webp"}
               alt={VENDENDO ? "Pacote do Rango do Dragão, 500 g" : "Pacote do Rango do Dragão pixelado, segurado na mão, com o selo Vem aí"}
-              width={VENDENDO ? 900 : 864}
-              height={VENDENDO ? 900 : 1080}
+              width={864}
+              height={1080}
               loading="eager"
               decoding="async"
             />
+            {/* 08/10 — preço na primeira dobra, logo abaixo da foto, como na /original. */}
+            {VENDENDO && (
+              <div className="rg-hero-preco">
+                <span>a partir de</span>
+                <strong><small>R$</small>{VENDA.preco}</strong>
+                <em>compre 6, ganhe 1</em>
+              </div>
+            )}
             <p className="rg-sub">
               <strong>Comida natural</strong>, úmida, para cães adultos: filé mignon suíno, batata-doce, abóbora, chuchu e farinha
-              de larva, no pouch de 500 g. {VENDENDO ? "" : "Vem aí, em "}<strong>{VENDENDO ? "Lote limitado" : "lote limitado"}</strong>.
+              de larva, no pouch de 500 g.{VENDENDO ? "" : <> Vem aí, em <strong>lote limitado</strong>.</>}
             </p>
           </div>
 
@@ -401,47 +456,133 @@ const Rango = () => {
               <span className="rg-selo">Cães adultos</span>
               <span className="rg-selo">Proteína nova</span>
             </div>
+            {VENDENDO && (
+              <div className="rg-selos">
+                {CONFIANCA.map((c) => <span className="rg-selo rg-selo-conf" key={c}>{c}</span>)}
+              </div>
+            )}
           </div>
         </div>
       </section>
+
+      {/* ══ PROBLEMA (08/10, só na venda) ═════════════════════════════ */}
+      {VENDENDO && (
+        <>
+          <section className="rg-secao">
+            <div className="rg-tag tag-alt2">se isso te soa familiar</div>
+            <h2 className="rg-secao-titulo">A mudança <span>começa no pote</span></h2>
+            <p className="rg-sub">Trocar a base da alimentação, não só a marca.</p>
+            <ul className="rg-lista">
+              {PROBLEMAS.map((p) => (
+                <li key={p.dor}><b>{p.dor}</b>: {p.causa}</li>
+              ))}
+            </ul>
+          </section>
+          <div className="rg-divider" />
+        </>
+      )}
 
       {/* ══ O QUE TEM NO POTE ════════════════════════════════════════ */}
       <section className="rg-secao">
         <div className="rg-tag">no pote</div>
         <h2 className="rg-secao-titulo">Ele merece um prato, <span>não um punhado</span></h2>
+        {/* 08/10 — a frase ganhou a linha de apoio aprovada em 25/09 ("frase sozinha não se
+            explica"), os cards passaram a mostrar o número grande, como os benefícios da
+            /original, e a seção fecha com botão quando a venda está ligada. */}
+        <p className="rg-sub">Alimento completo úmido, servido no pote. É a refeição inteira, não o petisco.</p>
         <div className="rg-novidades">
           {NO_POTE.map((n) => (
             <div className="rg-nov-card" key={n.nome}>
               <div className="rg-nov-tag">{n.tag}</div>
               <div className="rg-nov-nome">{n.nome}</div>
               <div className="rg-nov-desc">{n.desc}</div>
+              <div className="rg-nov-dado"><strong>{n.dado}</strong><span>{n.dadoLabel}</span></div>
             </div>
           ))}
         </div>
         <p className="rg-nota">
           Não é ingrediente exótico. É ingrediente honesto: criado para isso, rastreado e declarado.
         </p>
+        {VENDENDO && (
+          <div className="rg-cta-final">
+            <strong>Bora encher o pote?</strong>
+            <button className="rg-btn" onClick={irPraOfertas}>Ver as ofertas</button>
+          </div>
+        )}
       </section>
 
       <div className="rg-divider" />
 
+      {VENDENDO && (
+        <>
+          {/* ══ É LARVA MESMO (anti-rejeição, como na /original) ═════════ */}
+          <section className="rg-secao">
+            <div className="rg-tag tag-alt2">é larva mesmo</div>
+            <h2 className="rg-secao-titulo">Ele não liga que é larva. <span>Só sabe que quer mais.</span></h2>
+            <p className="rg-sub">O nojo é humano; o apetite dele é que decide. Se o seu for do tipo desconfiado:</p>
+            <ul className="rg-lista">
+              <li><b>Comece misturando</b>: uma colher por cima do que ele já come, e vá aumentando.</li>
+              <li><b>Sirva como refeição</b>: a dose por peso vem no rótulo.</li>
+              <li><b>Não colou mesmo?</b> <strong>A gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.</li>
+            </ul>
+          </section>
+
+          {/* ══ PROVA SOCIAL emprestada dos outros produtos ══════════════ */}
+          <section className="rg-secao rg-secao-colada">
+            <div className="rg-tag">quem já serve comida de dragão</div>
+            <h2 className="rg-secao-titulo">O Rango acabou de chegar. <span>Os petiscos já têm fã.</span></h2>
+            <p className="rg-sub">Vídeos de tutores com os outros produtos da marca.</p>
+          </section>
+          <VideosVencedores reels={REELS_PROVA} />
+
+          {/* ══ OFERTA ═══════════════════════════════════════════════════ */}
+          <section className="rg-secao rg-secao-oferta">
+            <div className="rg-tag">pronto pra levar</div>
+            <h2 className="rg-secao-titulo">Rango do Dragão <span>· 500 g</span></h2>
+            <div className="rg-ofertas-grade">{ofertas("oferta")}</div>
+            <p className="rg-form-legal">
+              Frete calculado no fim do pedido pelo seu CEP. Compra segura pela Yampi, com cartão, Pix ou boleto.
+            </p>
+          </section>
+
+          <div className="rg-divider" />
+        </>
+      )}
+
       {/* ══ FAQ ═════════════════════════════════════════════════════ */}
       <section className="rg-secao">
         <div className="rg-tag tag-alt">perguntas rápidas</div>
+        {/* 08/10 — na venda o FAQ ganha título e abre e fecha, como na /original;
+            a garantia fecha a seção. Na lista de espera segue aberto, como estava. */}
+        {VENDENDO && <h2 className="rg-secao-titulo">Antes de comprar, <span>tudo o que importa</span></h2>}
         <div className="rg-faq">
-          {FAQ.map((f) => (
+          {FAQ.map((f, i) => VENDENDO ? (
+            <details className="rg-faq-item" key={f.q} open={i === 0}>
+              <summary className="rg-faq-q">{f.q}</summary>
+              <div className="rg-faq-a">{f.a}</div>
+            </details>
+          ) : (
             <div className="rg-faq-item" key={f.q}>
               <div className="rg-faq-q">{f.q}</div>
               <div className="rg-faq-a">{f.a}</div>
             </div>
           ))}
         </div>
+        {VENDENDO && (
+          <div className="rg-garantia">
+            <div className="rg-garantia-icone">💚</div>
+            <div>
+              <strong>Garantia da matilha</strong>
+              <span>Se ele não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+            </div>
+          </div>
+        )}
 
         {status !== "done" && (
           <div className="rg-cta-final">
             <strong>Ele já sabe. Falta você.</strong>
             {VENDENDO
-              ? <a className="rg-btn rg-btn-link" href={ctaUrl("final")}>Comprar agora</a>
+              ? <button className="rg-btn" onClick={irPraOfertas}>Ver as ofertas</button>
               : <button className="rg-btn" onClick={irPraLista}>Entrar na lista</button>}
           </div>
         )}
@@ -464,11 +605,11 @@ const Rango = () => {
       {status !== "done" && !listaVisivel && (
         <div className="rg-sticky">
           <div className="rg-sticky-info">
-            <strong>{VENDENDO ? `R$ ${VENDA.preco}` : "Vem aí"}</strong>
-            <span>Lote limitado</span>
+            <strong>{VENDENDO ? `A partir de R$ ${VENDA.preco}` : "Vem aí"}</strong>
+            <span>{VENDENDO ? "Compre 6, ganhe 1" : "Lote limitado"}</span>
           </div>
           {VENDENDO ? (
-            <a className="rg-btn rg-btn-sticky rg-btn-link" href={ctaUrl("sticky")}>Comprar agora</a>
+            <button className="rg-btn rg-btn-sticky" onClick={irPraOfertas}>Ver as ofertas</button>
           ) : (
             <button className="rg-btn rg-btn-sticky" onClick={irPraLista}>
               Entrar na lista
@@ -476,6 +617,9 @@ const Rango = () => {
           )}
         </div>
       )}
+
+      {/* 08/10 — pop-up de lead só na venda (na espera a própria página é o formulário). */}
+      {VENDENDO && <LeadPopup slug="rango" />}
     </div>
   );
 };

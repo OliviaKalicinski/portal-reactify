@@ -671,4 +671,99 @@
   margin: 4px 0 16px;
 }
 .rg-preco small { font-size: 22px; margin-right: 6px; font-weight: 700; }
+/* 08/10 — duas ofertas no card: o kit em destaque, o pacote embaixo */
+.rg-oferta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 16px;
+  margin-bottom: 14px;
+  border: 2px solid var(--ink-primary, #16211A);
+  background: var(--bg-card, #FFFDF8);
+}
+.rg-oferta-kit { border-width: 3px; background: #EAFFD6; }
+.rg-oferta-selo {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: var(--ink-primary, #16211A);
+  color: #fff;
+  padding: 3px 8px;
+}
+.rg-oferta-nome { font-size: 16px; font-weight: 700; }
+.rg-oferta .rg-preco { margin: 2px 0 0; }
+.rg-preco-menor { font-size: 40px; }
+.rg-oferta-apoio { font-size: 13px; margin-bottom: 10px; }
+.rg-oferta .rg-preco-menor { margin-bottom: 10px; }
+.rg-btn-sec { background: var(--bg-card, #FFFDF8); }
+
+/* 08/10 — blocos trazidos da /original para a venda */
+.rg-hero-preco {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+.rg-hero-preco span,
+.rg-hero-preco em {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-style: normal;
+  color: var(--ink-secondary);
+}
+.rg-hero-preco em { background: var(--dragon-lime); color: var(--ink-primary); padding: 4px 9px; font-weight: 700; }
+.rg-hero-preco strong {
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--ink-primary);
+}
+.rg-hero-preco strong small { font-size: 20px; margin-right: 5px; }
+.rg-selo-conf { border-color: var(--ink-primary); font-weight: 700; }
+.rg-secao .rg-secao-titulo + .rg-sub { margin-top: -18px; margin-bottom: 26px; }
+.rg-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.rg-lista li {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--ink-border);
+  border-left: 4px solid var(--dragon-pink);
+  padding: 16px 18px;
+}
+.rg-lista li b, .rg-lista li strong { color: var(--ink-primary); }
+/* a faixa dos vídeos usa um .portal-page por dentro; aqui a página já é .portal-page
+   e o min-height de tela inteira dela esticava o verde (Olivia, 08/10). */
+.rango-page .portal-page { min-height: 0; }
+.rg-secao-colada { padding-bottom: 20px; }
+.rg-secao-colada .rg-sub { margin-bottom: 0; }
+.rg-ofertas-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: stretch; }
+.rg-ofertas-grade .rg-oferta { margin-bottom: 0; }
+.rg-ofertas-grade .rg-oferta .rg-btn { margin-top: auto; }
+.rg-secao-oferta .rg-form-legal { margin-top: 16px; }
+details.rg-faq-item > summary { cursor: pointer; margin-bottom: 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+details.rg-faq-item > summary::-webkit-details-marker { display: none; }
+details.rg-faq-item > summary::after { content: "+"; font-family: 'Space Mono', monospace; }
+details.rg-faq-item[open] > summary::after { content: "–"; }
+details.rg-faq-item[open] > summary { margin-bottom: 8px; }
+.rg-garantia {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-top: 24px;
+  padding: 18px 20px;
+  background: #EAFFD6;
+  border: 2px solid var(--ink-primary);
+}
+.rg-garantia-icone { font-size: 26px; line-height: 1; }
+.rg-garantia strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: var(--ink-primary); margin-bottom: 3px; }
+.rg-garantia span { font-family: 'Space Grotesk', sans-serif; font-size: 15px; line-height: 1.5; color: var(--ink-secondary); }
 .rg-btn-link { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; text-align: center; box-sizing: border-box; }
