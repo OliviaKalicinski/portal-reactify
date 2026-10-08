@@ -674,30 +674,36 @@
 /* 08/10 — duas ofertas no card: o kit em destaque, o pacote embaixo */
 .rg-oferta {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 16px;
-  margin-bottom: 14px;
-  border: 2px solid var(--ink-primary, #16211A);
-  background: var(--bg-card, #FFFDF8);
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--ink-border, rgba(22, 33, 26, 0.15));
 }
-.rg-oferta-kit { border-width: 3px; background: #EAFFD6; }
+.rg-oferta-kit {
+  padding: 12px;
+  margin-bottom: 4px;
+  border: 2px solid var(--ink-primary, #16211A);
+  background: #EAFFD6;
+}
+.rg-oferta-kit + .rg-oferta { border-top: 0; padding-left: 12px; padding-right: 12px; }
+.rg-oferta-info { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0; }
 .rg-oferta-selo {
   font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 1.5px;
+  font-size: 10px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   font-weight: 700;
   background: var(--ink-primary, #16211A);
   color: #fff;
-  padding: 3px 8px;
+  padding: 2px 6px;
+  margin-bottom: 2px;
 }
-.rg-oferta-nome { font-size: 16px; font-weight: 700; }
-.rg-oferta .rg-preco { margin: 2px 0 0; }
-.rg-preco-menor { font-size: 40px; }
-.rg-oferta-apoio { font-size: 13px; margin-bottom: 10px; }
-.rg-oferta .rg-preco-menor { margin-bottom: 10px; }
+.rg-oferta-nome { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: var(--ink-primary); }
+.rg-oferta .rg-preco { font-size: 32px; margin: 0; }
+.rg-oferta .rg-preco small { font-size: 15px; margin-right: 4px; }
+.rg-oferta-apoio { font-family: 'Space Grotesk', sans-serif; color: var(--ink-secondary); }
+.rg-oferta .rg-btn { flex: 0 0 auto; width: auto; min-height: 48px; padding: 10px 16px; font-size: 15px; white-space: nowrap; }
 .rg-btn-sec { background: var(--bg-card, #FFFDF8); }
 
 /* 08/10 — blocos trazidos da /original para a venda */
@@ -745,9 +751,7 @@
 .rango-page .portal-page { min-height: 0; }
 .rg-secao-colada { padding-bottom: 20px; }
 .rg-secao-colada .rg-sub { margin-bottom: 0; }
-.rg-ofertas-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: stretch; }
-.rg-ofertas-grade .rg-oferta { margin-bottom: 0; }
-.rg-ofertas-grade .rg-oferta .rg-btn { margin-top: auto; }
+.rg-ofertas-grade { max-width: 460px; }
 .rg-secao-oferta .rg-form-legal { margin-top: 16px; }
 details.rg-faq-item > summary { cursor: pointer; margin-bottom: 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
 details.rg-faq-item > summary::-webkit-details-marker { display: none; }

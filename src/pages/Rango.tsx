@@ -361,24 +361,30 @@ const Rango = () => {
      do hero e no bloco de oferta; `pos` marca de onde veio o clique (cta_pos). */
   const ofertas = (pos: "hero" | "oferta") => (
     <>
+      {/* 08/10 — card simplificado (Olivia: "tá feio e enorme"): cada oferta é uma linha,
+          com nome e preço à esquerda e o botão à direita. */}
       <div className="rg-oferta rg-oferta-kit">
-        <span className="rg-oferta-selo">compre 6, ganhe 1</span>
-        <strong className="rg-oferta-nome">Kit com 7 pacotes</strong>
-        <div className="rg-preco">
-          <small>R$</small>{VENDA.kitPreco}
+        <div className="rg-oferta-info">
+          <span className="rg-oferta-selo">compre 6, ganhe 1</span>
+          <strong className="rg-oferta-nome">Kit com 7 pacotes</strong>
+          <div className="rg-preco">
+            <small>R$</small>{VENDA.kitPreco}
+          </div>
+          <span className="rg-oferta-apoio">R$ {VENDA.kitPorPacote} por pacote</span>
         </div>
-        <span className="rg-oferta-apoio">R$ {VENDA.kitPorPacote} por pacote</span>
-        <a className="rg-btn rg-btn-full rg-btn-link" href={VENDENDO ? ctaUrl(`${pos}-kit`) : undefined}>
+        <a className="rg-btn rg-btn-link" href={VENDENDO ? ctaUrl(`${pos}-kit`) : undefined}>
           Quero o kit
         </a>
       </div>
       <div className="rg-oferta">
-        <strong className="rg-oferta-nome">1 pacote</strong>
-        <div className="rg-preco rg-preco-menor">
-          <small>R$</small>{VENDA.preco}
+        <div className="rg-oferta-info">
+          <strong className="rg-oferta-nome">1 pacote</strong>
+          <div className="rg-preco">
+            <small>R$</small>{VENDA.preco}
+          </div>
         </div>
-        <a className="rg-btn rg-btn-full rg-btn-link rg-btn-sec" href={VENDENDO ? ctaUrl(pos) : undefined}>
-          Comprar 1 pacote
+        <a className="rg-btn rg-btn-link rg-btn-sec" href={VENDENDO ? ctaUrl(pos) : undefined}>
+          Comprar
         </a>
       </div>
     </>
