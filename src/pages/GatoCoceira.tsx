@@ -41,6 +41,13 @@ import LeadPopup from "@/components/LeadPopup";
    uma cliente real que salvou a própria compra.
 ────────────────────────────────────────────────────────────── */
 
+/* 🔄 REESCRITA DE 09/10/2026 (Olivia: "aplica o copy"):
+   a página deixou de falar só com quem tem gato com coceira. Quem chega
+   hoje é quem tocou "Tenho gato" no Boas Vindas do ManyChat. A coceira
+   virou um de três motivos; o bloco "e se ele não comer?" subiu para logo
+   depois do hero. Saiu o "88,9% de digestibilidade" (não conferido se o
+   estudo é com gato). Proposta e pendências no vault:
+   PROJETOS/CRO & Landing Pages/2026-10-09 - LP gato-coceira - proposta de reescrita. */
 const COUPON = "GATOALIVIO";  // criado na Shopify 13/07 · 10% off, 1 uso/cliente
 const PRICE = "145,00";       // compare-at do Shopify
 const PRICE_OFF = "104,40";   // R$116 no site (−20%) → −10% com cupom
@@ -65,30 +72,29 @@ const CHIPS = [
   "💚 Garantia 14 dias",
 ];
 
-const PROBLEMAS = [
-  { dor: "Se coça, se lambe demais e arranca o pelo", causa: "lambedura excessiva é como o gato coça — e costuma ser reação, não mania." },
-  { dor: "Já tratou a pulga e ele continua se coçando", causa: "quando não é parasita, a comida entra na lista de suspeitos." },
-  { dor: "Feridinhas, casquinhas e falhas no pelo", causa: "a pele inflamada pede pausa do que está irritando ela todo dia." },
+const KIT_ITENS = [
+  { nome: "Comida de Dragão Original", desc: "larvinhas inteiras. Dá pra oferecer na mão, como um agrado, ou por cima da comida." },
+  { nome: "Suplemento para Gatos", desc: "pó com taurina, pra misturar na refeição." },
 ];
 
 const BENEFICIOS = [
   {
-    stat: "Nova",
-    statLbl: "proteína",
-    title: "O corpo dele nunca viu isso",
-    desc: "Alergia alimentar é o corpo <strong>reconhecendo</strong> uma proteína e reagindo. A larva da Mosca Soldado Negra é uma <strong>proteína nova</strong> — ele nunca comeu, então nunca criou defesa. Em estudos com cães, a dieta de BSF <strong>não agravou a coceira</strong> e se mostrou promissora para dietas hipoalergênicas.",
-  },
-  {
     stat: "1.520",
     statLbl: "mg/kg taurina",
     title: "O que só o gato precisa",
-    desc: "Gato <strong>não produz taurina sozinho</strong> — ela é essencial pro coração, visão e imunidade. O Suplemento Felino tem <strong>1.520 mg/kg de taurina</strong> adicionada, além de no mínimo 40% de proteína.",
+    desc: "Gato <strong>não produz taurina suficiente sozinho</strong>. O Suplemento para Gatos tem <strong>taurina adicionada</strong> e no mínimo 40% de proteína.",
   },
   {
-    stat: "88,9%",
-    statLbl: "digestibilidade",
+    stat: "Nova",
+    statLbl: "proteína",
+    title: "Uma proteína que ele nunca comeu",
+    desc: "Quando o gato se coça, se lambe demais ou perde pelo, e pulga e ambiente já foram descartados, <strong>a comida entra na lista de suspeitos</strong>. A larva é uma proteína que ele nunca comeu. Quem fecha o diagnóstico é o veterinário.",
+  },
+  {
+    stat: "Leve",
+    statLbl: "pro intestino",
     title: "Intestino que agradece",
-    desc: "Em gatos, a BSF <strong>aumentou a digestibilidade</strong> da proteína e dos aminoácidos, deixou as <strong>fezes bem formadas</strong> e favoreceu bactérias boas (Bifidobacterium). A quitina da casca funciona como fibra prebiótica.",
+    desc: "Em estudos com gatos, a proteína da larva foi <strong>bem digerida</strong> e as <strong>fezes ficaram bem formadas</strong>.",
   },
 ];
 
@@ -103,24 +109,24 @@ const SLIDES: Array<{ src: string; alt: string; type: "ugc" | "review" }> = [
 
 const FAQ = [
   {
-    q: "Meu gato se coça, mas o veterinário não achou pulga. Pode ser comida?",
-    a: "Pode. Quando parasita e ambiente já foram descartados, <strong>alergia alimentar entra na lista</strong> — e o caminho é trocar a proteína por uma que o corpo dele não reconheça. O diagnóstico é sempre do veterinário; a gente entra na parte da comida.",
+    q: "Serve pra qualquer gato?",
+    a: "Pra gatos de <strong>todas as idades</strong>. Se o seu tem alguma doença ou toma remédio, combine com o veterinário.",
   },
   {
-    q: "E se o meu gato simplesmente não comer?",
-    a: "Gato é gato — acontece, e a gente não vai fingir que não. O que mais funciona: <strong>triturar e misturar no sachê</strong> em vez de oferecer puro. Uma cliente com 7 gatos fez exatamente isso depois da primeira recusa e todos comeram. E se mesmo assim não colar, <strong>a gente devolve seu dinheiro em 14 dias</strong>.",
+    q: "E se o meu gato não comer?",
+    a: "Gato é gato, acontece. O que mais funciona: <strong>triturar e misturar no sachê</strong> em vez de oferecer puro, começar com uma pitada e insistir alguns dias. Se mesmo assim não rolar, <strong>a gente devolve seu dinheiro em 14 dias</strong>.",
   },
   {
-    q: "Isso substitui a ração dele?",
-    a: "Não. O Kit é <strong>complemento</strong>: o Original é petisco/topper e o Suplemento Felino é pó pra misturar na refeição. Soma à alimentação — não troca a ração nem substitui tratamento veterinário.",
+    q: "Meu gato se coça. Isso resolve?",
+    a: "A gente não promete cura. Coceira tem várias causas; se pulga e ambiente já foram descartados, <strong>trocar a proteína</strong> é um caminho que o veterinário costuma testar.",
   },
   {
-    q: "O que vem no Kit para Gatos?",
-    a: "O <strong>Original</strong> (larvinhas inteiras, pra petisco ou por cima da comida) + o <strong>Suplemento Felino</strong> (pó com taurina, pra misturar na refeição).",
+    q: "Substitui a comida dele?",
+    a: "Não. É <strong>complemento</strong>: soma à alimentação dele, não troca a comida do dia a dia nem o acompanhamento do veterinário.",
   },
   {
-    q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    q: "Como chega?",
+    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Pagamento por cartão, Pix ou boleto.",
   },
 ];
 
@@ -129,8 +135,8 @@ const GatoCoceira = () => {
   return (
     <div className="gato-lp">
       <PageMeta
-        title="Gato se coçando e perdendo pelo? Pode ser a comida — Comida de Dragão"
-        description="Gato que se coça, se lambe demais e perde pelo — e a pulga já foi descartada. Proteína nova de inseto: o corpo dele nunca viu, então não reage. Kit para Gatos com taurina."
+        title="Para quem tem gato: proteína de inseto com taurina — Comida de Dragão"
+        description="Kit para Gatos: larvinhas inteiras e um pó com taurina pra misturar na comida. Proteína que ele nunca comeu. Se ele não topar em 14 dias, a gente devolve o dinheiro."
         image={HERO_IMG}
         preload={HERO_IMG}
       />
@@ -145,31 +151,24 @@ const GatoCoceira = () => {
             </a>
           </div>
 
-          <span className="gcp-hero-eyebrow">gato que se coça · proteína nova · com taurina</span>
+          <span className="gcp-hero-eyebrow">para quem tem gato · proteína de inseto · com taurina</span>
 
-          {/* H1 pergunta, não afirma: coceira em gato tem várias causas (pulga,
-              ácaro, ambiente) e a página NÃO pode cravar que é a comida.
-              A keyword real ("gato se coçando e perdendo pelo", 390+90/mês)
-              entra na subheadline — 1ª linha lida, resolve o Índice de
-              Qualidade sem sujar o título. */}
           <h1 className="gcp-hero-title">
-            E se a coceira do seu gato<br /><span>estiver no pote?</span>
+            Seu gato é exigente.<br /><span>A gente sabe.</span>
           </h1>
 
           <p className="gcp-hero-sub">
-            <strong>Ele se coça, se lambe demais e está perdendo pelo — e a pulga já foi
-            tratada?</strong> Quando o parasita é descartado e a coceira não passa, a comida entra
-            na lista de suspeitos. Alergia alimentar é o corpo <strong>reconhecendo</strong> uma
-            proteína e reagindo a ela. A Comida de Dragão é <strong>proteína nova</strong>: ele
-            nunca comeu larva, então nunca criou defesa contra ela. O <strong>Kit para Gatos</strong>{" "}
-            junta o petisco e o suplemento com taurina.
+            <strong>Proteína de larva, feita no Rio, pra gato:</strong> um pacote de larvinhas
+            inteiras e um pó com taurina pra misturar na comida dele. É uma proteína que ele
+            nunca comeu, e por isso costuma ser bem recebida por gato sensível. Vem com um
+            combinado: <strong>se ele não topar em 14 dias, a gente devolve o dinheiro.</strong>
           </p>
 
           <div className="gcp-hero-product-wrap">
             <img
               className="gcp-hero-product"
               src={HERO_IMG}
-              alt="Kit para Gatos Comida de Dragão — Original + Suplemento Felino"
+              alt="Kit para Gatos Comida de Dragão — Original + Suplemento para Gatos"
               width={460}
               height={410}
               loading="eager"
@@ -191,7 +190,7 @@ const GatoCoceira = () => {
 
           <div className="gcp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="gcp-btn-primary" data-cta="hero">
-              Comprar o Kit para Gatos — R$ {PRICE} →
+              Quero o Kit para Gatos — R$ {PRICE} →
             </a>
           </div>
 
@@ -201,39 +200,55 @@ const GatoCoceira = () => {
         </div>
       </section>
 
-      {/* ════ PROBLEMA ════ */}
+      {/* ════ E SE ELE NÃO COMER? ════
+          Bloco OBRIGATÓRIO nesta LP, e desde 09/10/26 o primeiro depois do hero.
+          É a fraqueza conhecida do produto em gatos (Suplemento Felino: 3,63★,
+          40% das reviews ≤3★ da marca). A instrução é de cliente real que salvou
+          a própria compra. */}
       <section className="gcp-section">
         <div className="gcp-section-inner">
-          <span className="gcp-tag tag-pink">se isso te soa familiar</span>
+          <span className="gcp-tag tag-pink">falando sério</span>
           <h2 className="gcp-section-title title-pink">
-            Já tratou a pulga<br /><span>e ele continua se coçando?</span>
+            E se ele<br /><span>não comer?</span>
           </h2>
           <p className="gcp-section-lead">
-            Coceira em gato tem várias causas — pulga, ácaro, ambiente. Mas quando essas já foram
-            descartadas e a coceira <strong>não passa</strong>, sobra o que ele come todo dia.
+            Gato é gato. Alguns devoram na primeira. Outros cheiram, olham pra você e vão embora.
+            A gente não vai fingir que isso não acontece.
           </p>
 
           <ul className="gcp-problemas-list">
-            {PROBLEMAS.map((p, i) => (
-              <li className="gcp-problema-item" key={i}>
-                <b>{p.dor}</b> — {p.causa}
-              </li>
-            ))}
+            <li className="gcp-problema-item">
+              <b>Triture e misture no sachê</b> — é o que mais funciona. Oferecer puro é onde
+              a maioria desiste.
+            </li>
+            <li className="gcp-problema-item">
+              <b>Comece com uma pitada</b> — por cima da comida de sempre, e vá aumentando.
+            </li>
+            <li className="gcp-problema-item">
+              <b>Insista alguns dias</b> — cheiro novo, gato desconfia.
+            </li>
+            <li className="gcp-problema-item">
+              <b>Não rolou?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong>
+            </li>
           </ul>
         </div>
       </section>
 
-      {/* ════ SOLUÇÃO ════ */}
+      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
+
+      {/* ════ VÍDEOS DE CREATOR (faixa verde; padrão 25/09) — só aparece se houver vídeo ════ */}
+      {VIDEOS_GATOS.length > 0 && <VideosVencedores reels={VIDEOS_GATOS} />}
+
+      {/* ════ POR QUE DAR ISSO PRA UM GATO ════ */}
       <section className="gcp-section">
         <div className="gcp-section-inner">
-          <span className="gcp-tag">a solução</span>
+          <span className="gcp-tag">três motivos</span>
           <h2 className="gcp-section-title">
-            Proteína que o corpo dele<br /><span>nunca aprendeu a rejeitar.</span>
+            Por que dar isso<br /><span>pra um gato.</span>
           </h2>
           <p className="gcp-section-lead">
             A gente cria a larva na nossa biofábrica no RJ, com <strong>registro MAPA</strong> e
-            rastreabilidade. Ingrediente único, sem frango, sem peixe, sem boi — nada do que
-            costuma disparar a reação.
+            rastreabilidade.
           </p>
 
           <div className="gcp-beneficios">
@@ -247,61 +262,38 @@ const GatoCoceira = () => {
               </div>
             ))}
           </div>
-
-          <p className="gcp-section-lead" style={{ marginTop: 20, fontSize: 16, opacity: 0.7 }}>
-            Complemento nutricional — não substitui a ração nem o acompanhamento veterinário.
-            Coceira tem várias causas: o diagnóstico é sempre do vet.
-          </p>
         </div>
       </section>
 
-      {/* ════ E SE ELE NÃO COMER? ════
-          Bloco OBRIGATÓRIO nesta LP. É a fraqueza conhecida do produto em
-          gatos (Suplemento Felino: 3,63★, 40% das reviews ≤3★ da marca).
-          A instrução é verbatim de cliente real que salvou a própria compra.
-          Sem isso, tráfego pago de gato = fábrica de review de 1 estrela. */}
+      {/* ════ O QUE VEM NO KIT ════ */}
       <section className="gcp-section">
         <div className="gcp-section-inner">
-          <span className="gcp-tag tag-pink">falando sério</span>
+          <span className="gcp-tag tag-pink">o que vem no kit</span>
           <h2 className="gcp-section-title title-pink">
-            E se ele<br /><span>simplesmente não comer?</span>
+            Dois produtos,<br /><span>um pra cada hora.</span>
           </h2>
-          <p className="gcp-section-lead">
-            Gato é gato. Alguns devoram na primeira; outros olham, cheiram e viram as costas.
-            A gente não vai fingir que isso não acontece — vai te contar o que funciona.
-          </p>
 
           <ul className="gcp-problemas-list">
-            <li className="gcp-problema-item">
-              <b>Triture e misture no sachê</b> — é o que mais funciona. Oferecer puro é onde
-              a maioria erra.
-            </li>
-            <li className="gcp-problema-item">
-              <b>Comece com pouco</b> — uma pitada por cima da comida de sempre, e vá aumentando.
-            </li>
-            <li className="gcp-problema-item">
-              <b>Insista alguns dias</b> — gato costuma estranhar cheiro novo antes de aceitar.
-            </li>
-            <li className="gcp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem
-              letrinha miúda.
-            </li>
+            {KIT_ITENS.map((k, i) => (
+              <li className="gcp-problema-item" key={i}>
+                <b>{k.nome}</b> — {k.desc}
+              </li>
+            ))}
           </ul>
 
+          <p className="gcp-section-lead" style={{ marginTop: 20, fontSize: 16, opacity: 0.7 }}>
+            É complemento: soma à alimentação dele, não troca a comida do dia a dia nem o
+            acompanhamento do veterinário.
+          </p>
         </div>
       </section>
-
-      {/* 02/10/26 — reviews em foto e em texto saíram desta página (Olivia): a prova social agora são os vídeos de creator */}
-
-      {/* ════ VÍDEOS DE CREATOR (faixa verde; padrão 25/09) — só aparece se houver vídeo ════ */}
-      {VIDEOS_GATOS.length > 0 && <VideosVencedores reels={VIDEOS_GATOS} />}
 
       {/* ════ OFERTA ════ */}
       <section className="gcp-oferta">
         <div className="gcp-oferta-inner">
           <span className="gcp-tag tag-lime">kit para gatos</span>
           <h2 className="gcp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
-            Tira a proteína<br /><span>que irrita ele</span>
+            Larvinhas + taurina<br /><span>com frete grátis</span>
           </h2>
 
           <div className="gcp-oferta-coupon-box">
@@ -311,7 +303,7 @@ const GatoCoceira = () => {
           </div>
 
           <a href={ctaUrl("oferta")} className="gcp-btn-primary" data-cta="oferta">
-              Comprar o Kit para Gatos — R$ {PRICE} →
+              Quero o Kit para Gatos — R$ {PRICE} →
             </a>
 
           <p className="gcp-hero-note" style={{ marginTop: 16 }}>
@@ -343,7 +335,6 @@ const GatoCoceira = () => {
               <div className="gcp-garantia-title">Garantia da matilha</div>
               <div className="gcp-garantia-text">
                 Se seu gato não topar em 14 dias da entrega, a gente devolve seu dinheiro.
-                Sem letrinha miúda.
               </div>
             </div>
           </div>
@@ -353,13 +344,12 @@ const GatoCoceira = () => {
       {/* ════ CTA FINAL ════ */}
       <section className="gcp-cta-final">
         <div className="gcp-section-inner">
-          <h2>Bora cuidar da pele dele?</h2>
+          <h2>Bora apresentar o Dragão pro seu gato?</h2>
           <p>
-            Proteína nova, taurina que ele precisa e intestino que agradece. A coceira tem causa —
-            e a comida é uma delas.
+            Taurina que ele precisa, proteína que ele nunca comeu e 14 dias pra ele decidir.
           </p>
           <a href={ctaUrl("final")} className="gcp-btn-primary" data-cta="final">
-              Comprar o Kit para Gatos — R$ {PRICE} →
+              Quero o Kit para Gatos — R$ {PRICE} →
             </a>
         </div>
       </section>
