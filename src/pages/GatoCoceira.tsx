@@ -8,7 +8,7 @@ import VideosVencedores, { VIDEOS_GATOS } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
 
 /* ──────────────────────────────────────────────────────────────
-   LP CAMPANHA — GATO QUE SE COÇA · /gato-coceira
+   LP PARA QUEM TEM GATO · /gatos (até 09/10/26: /gato-coceira)
    Página satélite · tráfego pago · público frio (Non-Brand "por dor").
    Tema: COCEIRA / ALERGIA ALIMENTAR EM GATOS.
    Produto-foco: KIT PARA GATOS (Original + Suplemento Felino).
@@ -55,9 +55,9 @@ const PRICE_OFF = "104,40";   // R$116 no site (−20%) → −10% com cupom
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/N9DLSJ6M4J`;
 
 const UTM_FALLBACK = {
-  utm_source: "lp-gato-coceira",
+  utm_source: "lp-gatos",          // até 09/10/26: lp-gato-coceira (nunca teve pedido)
   utm_medium: "lp",
-  utm_campaign: "lp-gato-coceira-kit",
+  utm_campaign: "lp-gatos-kit",
 };
 
 const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
@@ -380,7 +380,7 @@ const GatoCoceira = () => {
         </a>
       </div>
 
-      <LeadPopup slug="gato-coceira" aposSeletor=".gcp-oferta" />
+      <LeadPopup slug="gatos" aposSeletor=".gcp-oferta" />
     </div>
   );
 };

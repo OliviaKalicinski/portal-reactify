@@ -24,6 +24,7 @@ const MENSAGEM = "Oi! Vim pelo site e tenho uma dúvida.";
 const ROTAS = new Set([
   "/alergia",
   "/idoso",
+  "/gatos",
   "/gato-coceira",
   "/curiosidade",
   "/oquefalam",

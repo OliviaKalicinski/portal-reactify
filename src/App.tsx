@@ -108,7 +108,9 @@ const App = () => (
               {/* LP campanha CÃO IDOSO — Kit Cachorro */}
               <Route path="/idoso" element={<Idoso />} />
               {/* LP campanha GATO QUE SE COÇA — Kit para Gatos */}
-              <Route path="/gato-coceira" element={<GatoCoceira />} />
+              <Route path="/gatos" element={<GatoCoceira />} />
+              {/* 09/10/26 — a rota antiga leva para /gatos mantendo UTM e o resto do endereço (o vercel.json já redireciona no servidor; isto cobre navegação interna) */}
+              <Route path="/gato-coceira" element={<Navigate to={{ pathname: "/gatos", search: window.location.search }} replace />} />
               <Route path="/g/alergia" element={<AlergiaGoogle />} />
               <Route path="/g/idoso" element={<IdosoGoogle />} />
               <Route path="/g/gato-coceira" element={<GatoCoceiraGoogle />} />
