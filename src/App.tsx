@@ -27,6 +27,7 @@ const OqueFalam = lazy(() => import("./pages/OqueFalam.tsx"));
 const Veterinarios = lazy(() => import("./pages/Veterinarios.tsx"));
 const Webinar = lazy(() => import("./pages/Webinar.tsx"));
 const Rango = lazy(() => import("./pages/Rango.tsx"));
+const RangoJogo = lazy(() => import("./pages/RangoJogo.tsx"));
 const Original = lazy(() => import("./pages/Original.tsx"));
 const Suplemento = lazy(() => import("./pages/Suplemento.tsx"));
 const Obrigado = lazy(() => import("./pages/Obrigado.tsx"));
@@ -89,7 +90,11 @@ const App = () => (
                   (grava em lp_leads, origem webinar_mv_cogumelos). Depois do evento: virar
                   pagina da gravacao ou comentar esta rota + o lazy import. Ver _LANDING-PAGES.md */}
               <Route path="/webinar" element={<Webinar />} />
-              <Route path="/rango" element={<Rango />} />
+              {/* 10/10/2026: a página em janelinhas (RangoJogo) substitui a /rango (Olivia: "vamos substituir").
+                  A anterior fica em /rango-antiga para consulta e para voltar atrás. */}
+              <Route path="/rango" element={<RangoJogo />} />
+              <Route path="/rango-jogo" element={<RangoJogo />} />
+              <Route path="/rango-antiga" element={<Rango />} />
               {/* LPs de produto — tráfego pago, fora do portal */}
               <Route path="/original" element={<Original />} />
               <Route path="/suplemento" element={<Suplemento />} />

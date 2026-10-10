@@ -412,6 +412,8 @@ const Rango = () => {
         description={VENDENDO
           ? "Comida natural úmida e completa para cães adultos, com proteína de inseto. Pouch de 500 g."
           : "Comida natural úmida e completa para cães adultos, com proteína de inseto. Vem aí, em lote limitado. Entre na lista e receba o aviso primeiro."}
+        /* desde 10/10/2026 esta versão mora em /rango-antiga (a /rango é a RangoJogo): fora da busca */
+        noindex={typeof window !== "undefined" && window.location.pathname !== "/rango"}
       />
 
       <MarqueeBar />
