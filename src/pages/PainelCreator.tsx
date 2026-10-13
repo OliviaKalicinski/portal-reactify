@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
+import { DRAGOES } from "@/data/dragoes";
 import "./QueroSerDragao.css";
 import "./Matilha.css";
 import "./PainelCreator.css";
@@ -26,6 +27,8 @@ type Painel = {
   ok: true;
   creator: { primeiro_nome: string | null; instagram: string | null };
   cupons: string[]; legado: boolean;
+  /* foto, nome e dragão do pet, da resposta dele ao quiz "Que dragão mora na sua casa?" (nulo se não fez) */
+  pet: { foto_url: string; nome: string | null; dragao: string | null } | null;
   mes_atual: { mes: string; vendas: number; pedidos: number; videos_uteis_no_mes: number; videos_uteis_no_trimestre: number };
   ultimo_fechamento: { mes: string; oficial: boolean; linhas: Extrato[] } | null;
   videos: Video[]; atualizado_em: string; link_vence_em: string;
@@ -98,6 +101,7 @@ const PainelCreator = () => {
   const faltaVideos = m ? Math.max(0, PRATA_VIDEOS - Number(m.videos_uteis_no_trimestre)) : 0;
   const faltaVenda = m ? Math.max(0, PRATA_VENDA - Number(m.vendas)) : 0;
   const fech = d?.ultimo_fechamento && d.ultimo_fechamento.oficial ? d.ultimo_fechamento : null;
+  const dragao = d?.pet?.dragao ? DRAGOES.find((x) => x.id === d.pet!.dragao)?.nome ?? null : null;
 
   return (
     <div className="qsd8 cf-amber">
@@ -133,13 +137,28 @@ const PainelCreator = () => {
         {estado === "pronto" && d && m && (
           <>
             <Win name="MEU-PAINEL.EXE" mac className="qsd8-hero-win">
-              <DragonLogo className="qsd8-hero-logo" />
+              {d.pet ? (
+                <div className="pc-pet">
+                  <img src={d.pet.foto_url} alt={d.pet.nome ? `Foto de ${d.pet.nome}` : "Foto do seu pet"} loading="eager" />
+                  {dragao && <span className="pc-pet-dragao">{dragao}</span>}
+                </div>
+              ) : (
+                <DragonLogo className="qsd8-hero-logo" />
+              )}
               <div className="qsd8-eyebrow">// só você vê esta página</div>
-              <h1 className="qsd8-title">Oi, <span>{d.creator.primeiro_nome ?? "creator"}</span></h1>
+              <h1 className="qsd8-title">
+                Oi, <span>{d.creator.primeiro_nome ?? "creator"}</span>
+                {d.pet?.nome && <> e <span>{d.pet.nome}</span></>}
+              </h1>
               <p className="qsd8-sub">
                 {d.creator.instagram && <>@{d.creator.instagram} · </>}
                 {d.cupons.length > 0 ? <>cupom <strong>{d.cupons.join(" e ")}</strong></> : <>ainda sem cupom no nosso cadastro</>}
               </p>
+              {!d.pet && (
+                <p className="qsd8-note">
+                  Quer a foto do seu pet aqui? <Link to="/qual-dragao">Faça o quiz "Que dragão mora na sua casa?"</Link> e ela aparece.
+                </p>
+              )}
               {d.cupons.length === 0 && (
                 <p className="qsd8-note">Sem cupom, a gente não consegue ligar suas vendas e seus vídeos a você. Crie o seu no Inflowz e avise no grupo.</p>
               )}
