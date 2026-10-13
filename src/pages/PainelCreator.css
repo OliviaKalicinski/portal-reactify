@@ -1,0 +1,18 @@
+/* Painel do creator: só o que falta para os números e a lista de vídeos. O resto vem da /matilha (QueroSerDragao.css). */
+.pc-numeros { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 6px 0 18px; }
+@media (min-width: 640px) { .pc-numeros { grid-template-columns: repeat(4, 1fr); } }
+.pc-numeros > div { border: 3px solid var(--paper); padding: 12px 10px; }
+.pc-numeros strong { display: block; font-family: "Press Start 2P", monospace; font-size: 15px; line-height: 1.4; color: var(--lime); overflow-wrap: anywhere; }
+.pc-numeros span { display: block; font-size: 13.5px; line-height: 1.35; margin-top: 6px; color: var(--paper); }
+.pc-falta { color: var(--paper); }
+.pc-videos { display: grid; gap: 14px; margin-top: 8px; }
+.pc-video { border: 3px solid var(--ink); padding: 14px; background: var(--paper); }
+.pc-video header { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 14px; }
+.pc-video header a { color: var(--ink); font-weight: 700; }
+.pc-video p { font-size: 15px; line-height: 1.5; margin: 6px 0 0; }
+.pc-data { font-family: "Press Start 2P", monospace; font-size: 11px; }
+.pc-selo { display: inline-block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; padding: 2px 7px; border: 2px solid var(--ink); }
+.pc-selo.sim { background: var(--lime); color: var(--ink); }
+.pc-selo.nao { background: var(--ink); color: var(--paper); }
+.pc-selo.neutro { background: var(--paper2); color: var(--ink); }
+.pc-aviso { border-left: 4px solid var(--lime); padding-left: 10px; }

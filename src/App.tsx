@@ -21,6 +21,7 @@ const Lojas = lazy(() => import("./pages/Lojas.tsx"));
 const Matilde = lazy(() => import("./pages/Matilde.tsx"));
 const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
 const Matilha = lazy(() => import("./pages/Matilha.tsx"));
+const PainelCreator = lazy(() => import("./pages/PainelCreator.tsx"));
 const Conheca = lazy(() => import("./pages/Conheca.tsx"));
 const Curiosidade = lazy(() => import("./pages/Curiosidade.tsx"));
 const OqueFalam = lazy(() => import("./pages/OqueFalam.tsx"));
@@ -76,6 +77,8 @@ const App = () => (
               <Route path="/quero-ser-dragao" element={<QueroSerDragao />} />
               {/* Onboarding de criadores "Bem-vindo à Matilha" — página oculta, só via link direto (igual /original) */}
               <Route path="/matilha" element={<Matilha />} />
+              {/* Painel do creator — abre só pelo link pessoal (segredo depois do #) */}
+              <Route path="/painel" element={<PainelCreator />} />
               <Route path="/conheca" element={<Conheca />} />
               {/* LP PRÉ-LANÇAMENTO · Drop Mordida V2 — captura de lead (lista de espera), público frio */}
               <Route path="/mordida" element={<Mordida />} />
