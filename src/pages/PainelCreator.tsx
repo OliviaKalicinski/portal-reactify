@@ -79,22 +79,29 @@ const PainelCreator = () => {
   const [d, setD] = useState<Painel | null>(null);
 
   useEffect(() => {
-    const segredo = segredoDoLink();
-    if (!segredo) { setEstado("sem_link"); return; }
     let vivo = true;
-    fetch(DASH_RPC, {
-      method: "POST",
-      headers: { apikey: DASH_CHAVE_PUBLICA, "Content-Type": "application/json" },
-      body: JSON.stringify({ p_token: segredo }),
-    })
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((j) => {
-        if (!vivo) return;
-        if (j && j.ok === true) { setD(j as Painel); setEstado("pronto"); }
-        else { try { sessionStorage.removeItem(GUARDADO); } catch { /* nada a limpar */ } setEstado("invalido"); }
+    const abrir = () => {
+      const segredo = segredoDoLink();
+      if (!segredo) { setEstado("sem_link"); return; }
+      setEstado("carregando");
+      fetch(DASH_RPC, {
+        method: "POST",
+        headers: { apikey: DASH_CHAVE_PUBLICA, "Content-Type": "application/json" },
+        body: JSON.stringify({ p_token: segredo }),
       })
-      .catch(() => vivo && setEstado("erro"));
-    return () => { vivo = false; };
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .then((j) => {
+          if (!vivo) return;
+          if (j && j.ok === true) { setD(j as Painel); setEstado("pronto"); }
+          else { try { sessionStorage.removeItem(GUARDADO); } catch { /* nada a limpar */ } setD(null); setEstado("invalido"); }
+        })
+        .catch(() => vivo && setEstado("erro"));
+    };
+    abrir();
+    /* Outro link aberto na mesma aba só troca o que vem depois do "#": a página não recarrega sozinha. */
+    const aoTrocar = () => { if (/^#[0-9a-f]{64}$/.test(window.location.hash)) abrir(); };
+    window.addEventListener("hashchange", aoTrocar);
+    return () => { vivo = false; window.removeEventListener("hashchange", aoTrocar); };
   }, []);
 
   const m = d?.mes_atual;
