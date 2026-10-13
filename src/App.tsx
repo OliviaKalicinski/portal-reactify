@@ -22,6 +22,7 @@ const Matilde = lazy(() => import("./pages/Matilde.tsx"));
 const QueroSerDragao = lazy(() => import("./pages/QueroSerDragao.tsx"));
 const Matilha = lazy(() => import("./pages/Matilha.tsx"));
 const PainelCreator = lazy(() => import("./pages/PainelCreator.tsx"));
+const NO_ENDERECO_DA_MATILHA = typeof window !== "undefined" && window.location.hostname.startsWith("matilha.");
 const Conheca = lazy(() => import("./pages/Conheca.tsx"));
 const Curiosidade = lazy(() => import("./pages/Curiosidade.tsx"));
 const OqueFalam = lazy(() => import("./pages/OqueFalam.tsx"));
@@ -63,7 +64,8 @@ const App = () => (
         <BrowserRouter>
           <Suspense fallback={<div style={{ minHeight: "100vh", background: "#0A0A0A" }} />}>
             <Routes>
-              <Route path="/" element={<Portal />} />
+              {/* No endereço matilha.comidadedragao.com.br a página inicial é o painel do creator; nos outros, o portal. */}
+              <Route path="/" element={NO_ENDERECO_DA_MATILHA ? <PainelCreator /> : <Portal />} />
               <Route path="/portal" element={<Navigate to="/" replace />} />
               <Route path="/biblioteca" element={<Biblioteca />} />
               <Route path="/imprensa" element={<Imprensa />} />
