@@ -330,7 +330,7 @@ const Matilha = () => {
                 <div className="qsd8-card-desc" style={{ marginBottom: 8, fontSize: 13, textTransform: "uppercase", letterSpacing: ".04em", display: "flex", flexWrap: "wrap", gap: "4px 14px", alignItems: "center" }}>
                   {p.pet.map((x, k) => (
                     <span key={k} style={{ display: "inline-flex", alignItems: "center" }}>
-                      <img className="qsd8-pet-ico" src={`${ICON}/${x.ico}.png`} alt="" />{x.label}
+                      {x.label}
                     </span>
                   ))}
                 </div>
