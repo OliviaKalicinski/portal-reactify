@@ -17,7 +17,19 @@
 .pc-selo.neutro { background: var(--paper2); color: var(--ink); }
 .pc-aviso { border-left: 4px solid var(--lime); padding-left: 10px; }
 
-/* foto do pet no topo (a que o creator mandou no quiz) */
-.pc-pet { position: relative; width: 168px; max-width: 64%; aspect-ratio: 1 / 1; margin: 0 0 18px; border: 3px solid var(--ink); box-shadow: 6px 6px 0 0 var(--lime); background: var(--paper2); }
+/* topo compacto: foto pequena do pet (a que o creator mandou no quiz) ao lado do nome */
+.pc-hero .qsd8-win-body { padding: 14px 16px 14px; }
+.pc-topo { display: flex; gap: 14px; align-items: center; margin-bottom: 8px; }
+.pc-pet { width: 64px; flex: none; aspect-ratio: 1 / 1; border: 3px solid var(--ink); box-shadow: 4px 4px 0 0 var(--lime); background: var(--paper2); }
 .pc-pet img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.pc-pet-dragao { position: absolute; left: -3px; bottom: -3px; background: var(--ink); color: var(--paper); font-family: "Press Start 2P", monospace; font-size: 9px; line-height: 1.5; padding: 5px 7px; max-width: calc(100% + 6px); }
+.qsd8-title.pc-titulo { font-size: clamp(13px, 3.8vw, 20px); margin: 0 0 6px; }
+.pc-linha { font-size: 14px; line-height: 1.45; margin: 0; overflow-wrap: anywhere; }
+.pc-fraco { font-size: 12.5px; opacity: .75; margin-top: 4px; }
+.pc-fraco a { color: inherit; }
+
+/* a regra do vídeo útil e a lista de referência */
+.pc-regra { margin: 0 0 14px; padding-left: 22px; color: var(--paper); font-size: 15px; line-height: 1.5; }
+.pc-regra li { margin-bottom: 8px; }
+.pc-refs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.pc-refs li { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border: 3px solid var(--ink); padding: 10px 12px; background: var(--paper); font-size: 15px; }
+.pc-refs a { color: var(--ink); font-weight: 700; overflow-wrap: anywhere; }
