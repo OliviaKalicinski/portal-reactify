@@ -244,7 +244,8 @@ const PainelCreator = () => {
   const dragao = d?.pet?.dragao ? DRAGOES.find((x) => x.id === d.pet!.dragao)?.nome ?? null : null;
 
   return (
-    <div className="qsd8 cf-amber">
+    /* visual "fofo" (aprovado pela Olivia em 14/10/2026): pastel, cantos redondos, mesmo espírito de janelinha */
+    <div className="qsd8 pc-fofo">
       <PageMeta title="Meu painel · Matilha do Dragão" description="Painel do creator da Matilha do Dragão." noindex />
       <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
       <div className="qsd8-wrap">

@@ -60,4 +60,80 @@
 .pc-grafico figcaption { font-size: 13px; color: var(--paper); margin-top: 10px; }
 .pc-taxa { font-size: 14px; line-height: 1.45; color: var(--paper); margin: -8px 0 16px; }
 .pc-link { font: inherit; background: none; border: 0; padding: 0 4px; min-height: 44px; color: inherit; text-decoration: underline; cursor: pointer; }
-.pc-fraco a { display: inline-flex; align-items: center; min-height: 44px; }
+.pc-fraco a { padding: 12px 0; }   /* área de toque maior sem quebrar a linha do texto */
+
+/* ─── visual "fofo" (aprovado pela Olivia em 14/10/2026; é o padrão do painel) ─────────────────────────────────────────────────
+   Mesmo espírito de janelinha anos 2000, mais macio: tons pastel (rosa chiclete, lilás, menta), cantos arredondados,
+   sombra lilás no lugar da preta, botão em pílula com brilho, sem o "×" de enfeite. */
+.qsd8.pc-fofo {
+  --lime:   #FF5FA8;   /* rosa chiclete = acento */
+  --limed:  #D9468C;
+  --violet: #B79BFF;   /* lilás */
+  --menta:  #8FE8C6;
+  --mel:    #FFE38A;
+  --paper:  #FFF8FC;   /* branco rosado */
+  --paper2: #FFE4F2;
+  --ink:    #3A2356;   /* berinjela no lugar do preto */
+}
+.qsd8.pc-fofo::before { background-image: radial-gradient(rgba(255,95,168,.5) 1px, transparent 1.4px); opacity: .08; }
+.pc-fofo .qsd8-bg { filter: saturate(.8) brightness(1.08) hue-rotate(-12deg); }
+
+/* janelas */
+.pc-fofo .qsd8-win { border: 2px solid var(--ink); border-radius: 16px; box-shadow: 6px 6px 0 0 var(--violet); overflow: hidden; }
+.pc-fofo .qsd8-titlebar { background: linear-gradient(90deg, var(--paper2), #EFE6FF); border-bottom: 2px solid var(--ink); padding: 7px 10px; }
+.pc-fofo .qsd8-tb-name { background: #fff; color: var(--ink); border: 2px solid var(--ink); border-radius: 999px; font-size: 8px; padding: 5px 10px; }
+.pc-fofo .qsd8-tb-stripes { height: 10px; background: radial-gradient(circle, var(--lime) 1.6px, transparent 2px) 0 50% / 12px 10px repeat-x; opacity: .7; }
+.pc-fofo .qsd8-tb-x { display: none; }
+.pc-fofo .qsd8-mac-dots i { border-color: var(--ink); }
+.pc-fofo .qsd8-mac-dots i:nth-child(1) { background: var(--lime); }
+.pc-fofo .qsd8-mac-dots i:nth-child(2) { background: var(--mel); }
+/* janela escura vira lilás clarinho */
+.pc-fofo .qsd8-win.inverted { background: #F3ECFF; color: var(--ink); }
+.pc-fofo .qsd8-win.inverted .qsd8-titlebar { background: linear-gradient(90deg, #E7DBFF, var(--paper2)); border-bottom-color: var(--ink); }
+.pc-fofo .qsd8-win.inverted .qsd8-tb-name { background: #fff; color: var(--ink); }
+.pc-fofo .qsd8-win.inverted .qsd8-tb-stripes { background: radial-gradient(circle, var(--violet) 1.6px, transparent 2px) 0 50% / 12px 10px repeat-x; }
+.pc-fofo .qsd8-win.inverted .qsd8-sub, .pc-fofo .qsd8-win.inverted .qsd8-note, .pc-fofo .qsd8-win.inverted .pc-regra,
+.pc-fofo .pc-falta, .pc-fofo .pc-taxa { color: var(--ink) !important; }
+
+/* títulos: tarja vira adesivo arredondado */
+.pc-fofo .qsd8-title span, .pc-fofo .qsd8-h2 span { background: var(--lime); color: var(--ink); border-radius: 10px; padding: 2px 10px; }
+.pc-fofo .qsd8-win.inverted .qsd8-h2 { color: var(--ink); }
+.pc-fofo .qsd8-eyebrow { color: var(--limed) !important; }
+.pc-fofo .qsd8-eyebrow::first-letter { color: var(--violet); }
+
+/* botões em pílula com brilho */
+.pc-fofo .qsd8-btn { border-radius: 999px; border: 2px solid var(--ink); background: #C93A80; color: #fff;
+  box-shadow: inset 0 3px 0 rgba(255,255,255,.45), 4px 4px 0 0 var(--violet); font-size: 11px; padding: 14px 22px; }
+.pc-fofo .qsd8-btn:hover { background: #A82D69; color: #fff; }
+.pc-fofo .qsd8-btn.ghost { background: #fff; color: var(--ink); }
+
+/* formulário */
+.pc-fofo .pc-form input { border: 2px solid var(--violet); border-radius: 14px; background: #fff; }
+.pc-fofo .pc-form input:focus { outline: 3px solid var(--paper2); border-color: var(--lime); }
+.pc-fofo .pc-problema { background: var(--paper2); color: var(--ink); border: 2px solid var(--lime); border-radius: 12px; }
+
+/* números do mês: cartõezinhos pastel */
+.pc-fofo .pc-numeros > div { border: 2px solid var(--ink); border-radius: 14px; background: #fff; }
+.pc-fofo .pc-numeros > div:nth-child(1) { background: var(--paper2); }
+.pc-fofo .pc-numeros > div:nth-child(2) { background: #EFE6FF; }
+.pc-fofo .pc-numeros > div:nth-child(3) { background: #E3FBF2; }
+.pc-fofo .pc-numeros > div:nth-child(4) { background: #FFF6D6; }
+.pc-fofo .pc-numeros strong { color: var(--limed); }
+.pc-fofo .pc-numeros span { color: var(--ink); }
+
+/* gráfico */
+.pc-fofo .pc-grafico { border: 2px solid var(--ink); border-radius: 14px; background: #fff; }
+.pc-fofo .pc-barra-coluna { border-bottom-color: var(--ink); }
+.pc-fofo .pc-barra-coluna i { background: var(--violet); opacity: 1; border-radius: 8px 8px 0 0; }
+.pc-fofo .pc-barra.atual .pc-barra-coluna i { background: var(--lime); }
+.pc-fofo .pc-barra-valor, .pc-fofo .pc-barra-mes, .pc-fofo .pc-grafico figcaption { color: var(--ink); }
+.pc-fofo .pc-barra.atual .pc-barra-valor { color: var(--limed); }
+
+/* vídeos e selos */
+.pc-fofo .pc-video, .pc-fofo .pc-refs li { border: 2px solid var(--ink); border-radius: 14px; background: #fff; }
+.pc-fofo .pc-selo { border-radius: 999px; border-width: 2px; }
+.pc-fofo .pc-selo.sim { background: var(--menta); color: var(--ink); }
+.pc-fofo .pc-selo.nao { background: var(--paper2); color: var(--ink); border-color: var(--lime); }
+.pc-fofo .pc-selo.neutro { background: #EFE6FF; color: var(--ink); }
+.pc-fofo .pc-pet { border-radius: 50%; overflow: hidden; border: 3px solid var(--lime); box-shadow: 3px 3px 0 0 var(--violet); }
+.pc-fofo .pc-aviso { border-left: 0; background: #FFF6D6; border-radius: 10px; padding: 8px 12px; }
