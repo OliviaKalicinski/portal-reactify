@@ -58,6 +58,16 @@ type Painel = {
 };
 
 type Referencia = { url: string; creator: string | null; no_ar: boolean };
+/* assunto da semana (R658): sai da mensagem semanal aos creators, depois do sim da Olivia */
+type Tema = { semana_inicio: string; titulo: string; o_que_fazer: string; ideias: string[]; imagem_url: string | null;
+  clima?: string; material_url?: string | null };
+/* climas que a página conhece (R659); outro valor cai no padrão */
+const CLIMAS: Record<string, { janela: string; selo: string }> = {
+  halloween:      { janela: "NOITE-DO-DRAGAO.EXE", selo: "Halloween" },
+  "black-friday": { janela: "BLACK-FRIDAY.EXE",    selo: "Black Friday" },
+  natal:          { janela: "NATAL-DO-DRAGAO.EXE", selo: "Natal" },
+  "dia-dos-pets": { janela: "DIA-DOS-PETS.EXE",    selo: "Dia dos pets" },
+};
 
 const MES_CURTO = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
 const reaisCurto = (v: number) => `R$ ${Math.round(Number(v || 0)).toLocaleString("pt-BR")}`;
@@ -140,6 +150,7 @@ const PainelCreator = () => {
   const [estado, setEstado] = useState<"carregando" | "entrar" | "criar_senha" | "erro" | "pronto">("carregando");
   const [d, setD] = useState<Painel | null>(null);
   const [refs, setRefs] = useState<Referencia[]>([]);
+  const [tema, setTema] = useState<Tema | null>(null);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [senha2, setSenha2] = useState("");
@@ -159,6 +170,9 @@ const PainelCreator = () => {
           chamar("creator_painel_referencias", { p_token: passe })
             .then((k) => { if (vivo.current && k && k.ok === true && Array.isArray(k.videos)) setRefs(k.videos as Referencia[]); })
             .catch(() => { /* sem lista de referência */ });
+          chamar("creator_painel_tema", { p_token: passe })
+            .then((k) => { if (vivo.current && k && k.ok === true && k.tema) setTema(k.tema as Tema); })
+            .catch(() => { /* sem assunto da semana */ });
         } else {
           apagar(local(), PASSE); setD(null);
           setProblema("Sua entrada venceu. Entre de novo."); setEstado("entrar");
@@ -230,7 +244,7 @@ const PainelCreator = () => {
     const passe = ler(local(), PASSE);
     if (passe) chamar("creator_painel_sair", { p_passe: passe }).catch(() => { /* sai do mesmo jeito */ });
     apagar(local(), PASSE);
-    setD(null); setRefs([]); setAviso(null); setProblema(null); setEstado("entrar");
+    setD(null); setRefs([]); setTema(null); setAviso(null); setProblema(null); setEstado("entrar");
   };
 
   const m = d?.mes_atual;
@@ -327,6 +341,28 @@ const PainelCreator = () => {
                 <p className="qsd8-note">Sem cupom, não dá para ligar suas vendas e seus vídeos a você. Crie o seu no Inflowz e avise no grupo.</p>
               )}
             </Win>
+
+            {tema && (
+              <Win name={CLIMAS[tema.clima ?? ""]?.janela ?? "ESTA-SEMANA.TXT"} className={`pc-tema pc-clima-${CLIMAS[tema.clima ?? ""] ? tema.clima : "padrao"}`}>
+                <div className="qsd8-eyebrow">// semana de {dataCurta(tema.semana_inicio)}{CLIMAS[tema.clima ?? ""] && <> · {CLIMAS[tema.clima ?? ""].selo}</>}</div>
+                <h2 className="qsd8-h2">Assunto da semana: <span>{tema.titulo}</span></h2>
+                {tema.imagem_url && <img className="pc-tema-img" src={tema.imagem_url} alt="" loading="lazy" />}
+                <p className="qsd8-sub">{tema.o_que_fazer}</p>
+                {tema.ideias && tema.ideias.length > 0 && (
+                  <>
+                    <p className="pc-linha"><strong>Ideias de vídeo</strong></p>
+                    <ul className="pc-regra pc-tema-ideias">
+                      {tema.ideias.map((x, i) => <li key={i}>{x}</li>)}
+                    </ul>
+                  </>
+                )}
+                {tema.material_url && (
+                  <div className="qsd8-btnrow">
+                    <a className="qsd8-btn" href={tema.material_url} target="_blank" rel="noopener noreferrer">Material de divulgação ↗</a>
+                  </div>
+                )}
+              </Win>
+            )}
 
             <Win name={`${mesPorExtenso(m.mes).toUpperCase()}-ATE-AGORA.SYS`} inverted>
               <div className="qsd8-eyebrow" style={{ color: "var(--lime)" }}>// {mesPorExtenso(m.mes)}, até agora</div>

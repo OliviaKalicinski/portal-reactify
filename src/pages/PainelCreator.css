@@ -137,3 +137,25 @@
 .pc-fofo .pc-selo.neutro { background: #EFE6FF; color: var(--ink); }
 .pc-fofo .pc-pet { border-radius: 50%; overflow: hidden; border: 3px solid var(--lime); box-shadow: 3px 3px 0 0 var(--violet); }
 .pc-fofo .pc-aviso { border-left: 0; background: #FFF6D6; border-radius: 10px; padding: 8px 12px; }
+
+/* assunto da semana (R658) */
+.pc-tema .pc-tema-ideias { color: var(--ink); }
+.pc-tema-img { display: block; width: 100%; height: auto; border: 2px solid var(--ink); border-radius: 14px; margin: 0 0 14px; }
+
+/* climas do assunto da semana (R659): só o bloco muda, o resto do painel segue fofo */
+.qsd8.fofo .pc-clima-halloween { background: #2B1D45; color: #FFF4E6; box-shadow: 6px 6px 0 0 #FF8A3D; }
+.qsd8.fofo .pc-clima-halloween .qsd8-titlebar { background: linear-gradient(90deg, #FF8A3D, #B88CFF); color: #2B1D45; }
+.qsd8.fofo .pc-clima-halloween :is(.qsd8-sub, .pc-linha, .pc-regra, .qsd8-h2, li) { color: #FFF4E6 !important; }
+.qsd8.fofo .pc-clima-halloween .qsd8-h2 span { background: #FF8A3D; color: #2B1D45; }
+.qsd8.fofo .pc-clima-halloween .qsd8-eyebrow { color: #FFB27A !important; }
+.qsd8.fofo .pc-clima-halloween .qsd8-btn { background: #FF8A3D; color: #2B1D45; box-shadow: inset 0 3px 0 rgba(255,255,255,.35), 4px 4px 0 0 #B88CFF; }
+.qsd8.fofo .pc-clima-halloween .qsd8-win-body { background:
+  radial-gradient(circle at 92% 12%, rgba(255,230,160,.9) 0 14px, transparent 15px),
+  radial-gradient(circle, rgba(255,255,255,.18) 1px, transparent 1.6px) 0 0 / 18px 18px; }
+.qsd8.fofo .pc-clima-black-friday { background: #17131F; color: #F5F0FF; box-shadow: 6px 6px 0 0 #9BE15D; }
+.qsd8.fofo .pc-clima-black-friday :is(.qsd8-sub, .pc-linha, .pc-regra, .qsd8-h2, li) { color: #F5F0FF !important; }
+.qsd8.fofo .pc-clima-black-friday .qsd8-h2 span { background: #9BE15D; color: #17131F; }
+.qsd8.fofo .pc-clima-natal { background: #F2FFF4; box-shadow: 6px 6px 0 0 #E4545E; }
+.qsd8.fofo .pc-clima-natal .qsd8-h2 span { background: #E4545E; color: #fff; }
+.qsd8.fofo .pc-clima-dia-dos-pets { background: #FFF9E8; box-shadow: 6px 6px 0 0 #FFC94A; }
+.qsd8.fofo .pc-clima-dia-dos-pets .qsd8-h2 span { background: #FFC94A; color: var(--ink); }
