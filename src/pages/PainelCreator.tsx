@@ -345,22 +345,31 @@ const PainelCreator = () => {
             {tema && (
               <Win name={CLIMAS[tema.clima ?? ""]?.janela ?? "ESTA-SEMANA.TXT"} className={`pc-tema pc-clima-${CLIMAS[tema.clima ?? ""] ? tema.clima : "padrao"}`}>
                 <div className="qsd8-eyebrow">// semana de {dataCurta(tema.semana_inicio)}{CLIMAS[tema.clima ?? ""] && <> · {CLIMAS[tema.clima ?? ""].selo}</>}</div>
-                <h2 className="qsd8-h2">Assunto da semana: <span>{tema.titulo}</span></h2>
-                {tema.imagem_url && <img className="pc-tema-img" src={tema.imagem_url} alt="" loading="lazy" />}
-                <p className="qsd8-sub">{tema.o_que_fazer}</p>
-                {tema.ideias && tema.ideias.length > 0 && (
-                  <>
-                    <p className="pc-linha"><strong>Ideias de vídeo</strong></p>
-                    <ul className="pc-regra pc-tema-ideias">
-                      {tema.ideias.map((x, i) => <li key={i}>{x}</li>)}
-                    </ul>
-                  </>
-                )}
-                {tema.material_url && (
-                  <div className="qsd8-btnrow">
-                    <a className="qsd8-btn" href={tema.material_url} target="_blank" rel="noopener noreferrer">Material de divulgação ↗</a>
+                {/* fechado por padrão: só o tema; toque abre o que fazer, as ideias e o material (Olivia, 14/10) */}
+                <details className="pc-tema-caixa">
+                  <summary>
+                    <span className="pc-tema-rotulo">Assunto da semana</span>
+                    <span className="pc-tema-titulo">{tema.titulo}</span>
+                    <span className="pc-tema-abrir" aria-hidden="true">ver o que fazer ▾</span>
+                  </summary>
+                  <div className="pc-tema-corpo">
+                    {tema.imagem_url && <img className="pc-tema-img" src={tema.imagem_url} alt="" loading="lazy" />}
+                    <p className="qsd8-sub">{tema.o_que_fazer}</p>
+                    {tema.ideias && tema.ideias.length > 0 && (
+                      <>
+                        <p className="pc-linha"><strong>Ideias de vídeo</strong></p>
+                        <ul className="pc-regra pc-tema-ideias">
+                          {tema.ideias.map((x, i) => <li key={i}>{x}</li>)}
+                        </ul>
+                      </>
+                    )}
+                    {tema.material_url && (
+                      <div className="qsd8-btnrow">
+                        <a className="qsd8-btn" href={tema.material_url} target="_blank" rel="noopener noreferrer">Material de divulgação ↗</a>
+                      </div>
+                    )}
                   </div>
-                )}
+                </details>
               </Win>
             )}
 

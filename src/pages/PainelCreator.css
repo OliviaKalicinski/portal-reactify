@@ -159,3 +159,15 @@
 .qsd8.fofo .pc-clima-natal .qsd8-h2 span { background: #E4545E; color: #fff; }
 .qsd8.fofo .pc-clima-dia-dos-pets { background: #FFF9E8; box-shadow: 6px 6px 0 0 #FFC94A; }
 .qsd8.fofo .pc-clima-dia-dos-pets .qsd8-h2 span { background: #FFC94A; color: var(--ink); }
+
+/* assunto da semana em caixinha que abre (14/10) */
+.pc-tema .qsd8-win-body { padding: 14px 16px 16px; }
+.pc-tema .qsd8-eyebrow { margin-bottom: 8px; }
+.pc-tema-caixa > summary { list-style: none; cursor: pointer; display: grid; gap: 4px; min-height: 44px; }
+.pc-tema-caixa > summary::-webkit-details-marker { display: none; }
+.pc-tema-rotulo { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; opacity: .85; }
+.pc-tema-titulo { font-family: "Press Start 2P", monospace; font-size: 14px; line-height: 1.4; }
+.pc-tema-abrir { font-size: 13px; font-weight: 700; text-decoration: underline; }
+.pc-tema-caixa[open] .pc-tema-abrir { display: none; }
+.pc-tema-corpo { margin-top: 12px; }
+.qsd8.fofo .pc-clima-halloween .pc-tema-titulo { color: #FFB27A; }
