@@ -392,6 +392,8 @@ const PainelCreator = () => {
               {temComissao && <GraficoVendas meses={d.vendas_por_mes!} />}
               {taxaMes != null && <p className="pc-taxa">A sua comissão é {String(Math.round(taxaMes * 1000) / 10).replace(".", ",")}% do valor de cada pedido feito com o seu cupom.</p>}
               <ul className="mat-faixas-notas pc-falta">
+                {/* legado (piso_30): 30% sempre; a faixa muda o que se pede e os envios, não a comissão (Olivia, 08/10) */}
+                {d.legado && <li>Os seus <strong>30%</strong> não mudam com a faixa. A faixa muda o que a gente pede de você e como funcionam os envios.</li>}
                 {faltaVideos > 0
                   ? <li>Para a Prata {faltaVideos === 1 ? "falta" : "faltam"} <strong>{faltaVideos} {faltaVideos === 1 ? "vídeo útil" : "vídeos úteis"}</strong>. Ela pede {PRATA_VIDEOS} em 3 meses.</li>
                   : <li>Vídeos: você já tem os <strong>{PRATA_VIDEOS} em 3 meses</strong> que a Prata pede.</li>}
