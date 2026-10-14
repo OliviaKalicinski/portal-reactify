@@ -309,6 +309,7 @@ const PainelCreator = () => {
         {estado === "pronto" && d && m && (
           <>
             <Win name="MEU-PAINEL.EXE" mac className="qsd8-hero-win pc-hero">
+              <DragonLogo className="qsd8-hero-logo pc-logo-painel" />
               <div className="pc-topo">
                 {d.pet && (
                   <div className="pc-pet">

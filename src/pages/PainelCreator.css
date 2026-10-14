@@ -36,6 +36,7 @@
 
 /* entrar e criar senha (R648) */
 .pc-logo-entrar { width: 120px; margin-bottom: 12px; }
+.pc-logo-painel { width: 96px; margin: 0 0 10px; }   /* logo da marca no topo do painel (Olivia, 14/10) */
 .pc-form { display: grid; gap: 12px; max-width: 420px; }
 .pc-form label { display: grid; gap: 6px; font-size: 14px; font-weight: 700; }
 .pc-form input { font: inherit; font-size: 16px; padding: 10px 12px; border: 3px solid var(--ink); background: var(--paper); color: var(--ink); border-radius: 0; }
