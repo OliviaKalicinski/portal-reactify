@@ -228,9 +228,10 @@ const Matilha = () => {
             de inseto agora.
           </p>
           <div className="qsd8-btnrow">
-            <Link to="/painel" className="qsd8-btn">
+            {/* o painel mora em matilha.comidadedragao.com.br, endereço sem medição (o passe fica guardado lá) */}
+            <a href="https://matilha.comidadedragao.com.br/" className="qsd8-btn">
               <span className="qsd8-blink">▶</span> Acessar o painel da Matilha
-            </Link>
+            </a>
             <Link to="/portal" className="qsd8-btn ghost">Voltar</Link>
           </div>
           <p className="qsd8-note">Cria do seu jeito · Sem script · Nojento é o desperdício</p>

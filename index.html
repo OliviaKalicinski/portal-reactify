@@ -6,14 +6,15 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/favicon.ico" />
     <!-- Google Tag Manager -->
-    <!-- Painel do creator: o segredo do link vem depois do "#". Antes de a medição carregar, ele sai do endereço e
-         fica só nesta aba, para não ir junto em nenhum evento de página. -->
-    <script>(function(){try{if(location.pathname.indexOf('/painel')===0||location.hostname.indexOf('matilha.')===0){var h=location.hash.replace(/^#/,'');if(/^[0-9a-f]{64}$/.test(h)){sessionStorage.setItem('cd_painel_creator',h);history.replaceState(null,'',location.pathname);}}}catch(e){}})();</script>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <!-- Painel do creator (endereço matilha.* e a rota /painel): SEM medição. O passe de entrada fica no navegador e o
+         convite chega no endereço; nenhum script de terceiro (GTM, Meta, TikTok, Clarity) carrega nessas páginas
+         (revisão do Codex, 14/10/2026). O convite sai do endereço primeiro e só depois é guardado na aba. -->
+    <script>(function(){var painel=location.pathname.indexOf('/painel')===0||location.hostname.indexOf('matilha.')===0;window.__cdSemMedicao=painel;if(!painel)return;var h=location.hash.replace(/^#/,'');if(!/^[0-9a-f]{64}$/.test(h))return;try{history.replaceState(null,'',location.pathname);}catch(e){}window.__cdConvite=h;try{sessionStorage.setItem('cd_painel_creator',h);}catch(e){}})();</script>
+    <script>if(!window.__cdSemMedicao){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NC7F2PNS');</script>
+    })(window,document,'script','dataLayer','GTM-NC7F2PNS');}</script>
     <!-- End Google Tag Manager -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

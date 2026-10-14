@@ -114,7 +114,7 @@ function conviteDoEndereco(): string | null {
     window.history.replaceState(null, "", window.location.pathname);
     return doEndereco;
   }
-  const guardado = ler(sessao(), CONVITE);
+  const guardado = ler(sessao(), CONVITE) ?? (window as unknown as { __cdConvite?: string }).__cdConvite ?? null;
   return guardado && HEX64.test(guardado) ? guardado : null;
 }
 
@@ -189,6 +189,7 @@ const PainelCreator = () => {
       .then((j) => {
         if (j && j.ok === true && HEX64.test(j.passe)) { gravar(local(), PASSE, j.passe); setSenha(""); carregar(j.passe); }
         else if (j && j.motivo === "travado") setProblema(`Muitas tentativas erradas. Tente de novo em ${j.minutos ?? 15} minutos.`);
+        else if (j && j.motivo === "ocupado") setProblema("Muita gente entrando agora. Tente de novo em um minuto.");
         else setProblema(ERRO_ENTRAR[j?.motivo] ?? ERRO_ENTRAR.senha);
       })
       .catch(() => setProblema("Não deu para entrar agora. Tente de novo em alguns minutos."))
@@ -200,19 +201,19 @@ const PainelCreator = () => {
     if (ocupado) return;
     if (senha.length < 8) { setProblema(ERRO_SENHA.senha_curta); return; }
     if (senha !== senha2) { setProblema("As duas senhas não são iguais."); return; }
-    const convite = ler(sessao(), CONVITE);
+    const convite = conviteDoEndereco();
     if (!convite) { setProblema(ERRO_SENHA.convite); return; }
     setOcupado(true); setProblema(null);
     chamar("creator_painel_criar_senha", { p_convite: convite, p_senha: senha })
       .then((j) => {
         if (j && j.ok === true && HEX64.test(j.passe)) {
-          apagar(sessao(), CONVITE); gravar(local(), PASSE, j.passe);
+          apagar(sessao(), CONVITE); (window as unknown as { __cdConvite?: string }).__cdConvite = undefined; gravar(local(), PASSE, j.passe);
           setSenha(""); setSenha2("");
           setAviso(`Senha criada. Da próxima vez, entre com ${j.email} e a sua senha.`);
           carregar(j.passe);
         } else if (j?.motivo === "convite") {
           /* link já usado ou vencido: quem já criou a senha só precisa entrar */
-          apagar(sessao(), CONVITE); setSenha(""); setSenha2("");
+          apagar(sessao(), CONVITE); (window as unknown as { __cdConvite?: string }).__cdConvite = undefined; setSenha(""); setSenha2("");
           setProblema("Este link já foi usado ou venceu. Se você já criou a sua senha, é só entrar abaixo.");
           setEstado("entrar");
         } else {
@@ -273,7 +274,7 @@ const PainelCreator = () => {
                 <div className="qsd8-btnrow"><button type="submit" className="qsd8-btn" disabled={ocupado}>{ocupado ? "Criando…" : "Criar senha e entrar"}</button></div>
                 <p className="pc-linha pc-fraco">
                   Já criou a sua senha?{" "}
-                  <button type="button" className="pc-link" onClick={() => { apagar(sessao(), CONVITE); setSenha(""); setSenha2(""); setProblema(null); setEstado("entrar"); }}>Entrar</button>
+                  <button type="button" className="pc-link" onClick={() => { apagar(sessao(), CONVITE); (window as unknown as { __cdConvite?: string }).__cdConvite = undefined; setSenha(""); setSenha2(""); setProblema(null); setEstado("entrar"); }}>Entrar</button>
                 </p>
               </form>
             )}
