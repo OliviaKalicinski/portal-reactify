@@ -103,7 +103,7 @@ const REQUISITOS = [
   { title: "Ter pet — cão, gato, réptil ou exótico", desc: "O animal precisa fazer parte da sua vida e do seu conteúdo." },
   { title: "Conta ativa nos últimos 30 dias", desc: "Não precisa postar todo dia, mas a relação com a audiência precisa ser real." },
   { title: "Nicho: pets, sustentabilidade ou lifestyle consciente", desc: "Qualquer combinação dessas três áreas funciona." },
-  { title: "Abertura pra conteúdo diferente", desc: "Proteína de inseto é novidade — a gente precisa de criadores que topam questionar o óbvio." },
+  { title: "Abertura pra conteúdo diferente", desc: "Proteína de inseto é novidade — a gente precisa de creators que topam questionar o óbvio." },
 ];
 
 const REGRAS = [

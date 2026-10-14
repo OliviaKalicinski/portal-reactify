@@ -289,7 +289,7 @@ const Matilha = () => {
             <li>Você começa na <strong>Prata</strong>. Para ficar nela: um vídeo por mês e, a partir do segundo mês, R$ 50 de venda.</li>
             <li>Bateu a meta do mês, <strong>sobe</strong>. Só desce uma faixa por vez.</li>
             <li>Mês sem venda e sem vídeo volta para a Bronze.</li>
-            <li><strong>Vídeo que conta:</strong> o que tem o @comidadedragao marcado ou em colab.</li>
+            <li><strong>Vídeo que conta:</strong> marca a @comidadedragao (no post ou em collab), é sobre a Comida de Dragão, mostra o produto de verdade (seu pet comendo, ou você com o pacote na mão), dá para ver bem e não tem criança em cena, imagem de IA nem voz fingindo ser o pet.</li>
             <li>O frete que você adianta volta junto com a comissão.</li>
           </ul>
         </Win>

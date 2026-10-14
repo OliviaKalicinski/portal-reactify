@@ -258,7 +258,7 @@ const Parceiros = () => {
           </table>
 <ul className="mat-faixas-notas">
             <li>Quem entra agora começa na <strong>Prata</strong>. Bateu a meta do mês, sobe; só desce uma faixa por vez.</li>
-            <li><strong>Vídeo que conta:</strong> o que tem o @comidadedragao marcado ou em colab.</li>
+            <li><strong>Vídeo que conta:</strong> marca a @comidadedragao (no post ou em collab), é sobre a Comida de Dragão, mostra o produto de verdade (seu pet comendo, ou você com o pacote na mão), dá para ver bem e não tem criança em cena, imagem de IA nem voz fingindo ser o pet.</li>
             <li>O frete que você adianta volta junto com a comissão.</li>
           </ul>
           <div className="qsd8-btnrow" style={{ marginTop: 20 }}>
