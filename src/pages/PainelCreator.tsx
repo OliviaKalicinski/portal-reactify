@@ -122,7 +122,7 @@ const ERRO_ENTRAR: Record<string, string> = {
   senha: "E-mail ou senha não conferem.",
 };
 const ERRO_SENHA: Record<string, string> = {
-  convite: "Este link já foi usado ou venceu. Peça um novo no grupo da Matilha.",
+  convite: "Este link já foi usado ou venceu. Escreva para somos@letsfly.com.br e a gente manda um novo.",
   senha_curta: "A senha precisa de pelo menos 8 caracteres.",
   sem_email: "Seu cadastro está sem e-mail. Avise no grupo da Matilha.",
   email_em_uso: "Este e-mail já tem conta. Entre com ele, ou peça ajuda no grupo da Matilha.",
@@ -210,8 +210,12 @@ const PainelCreator = () => {
           setSenha(""); setSenha2("");
           setAviso(`Senha criada. Da próxima vez, entre com ${j.email} e a sua senha.`);
           carregar(j.passe);
+        } else if (j?.motivo === "convite") {
+          /* link já usado ou vencido: quem já criou a senha só precisa entrar */
+          apagar(sessao(), CONVITE); setSenha(""); setSenha2("");
+          setProblema("Este link já foi usado ou venceu. Se você já criou a sua senha, é só entrar abaixo.");
+          setEstado("entrar");
         } else {
-          if (j?.motivo === "convite") apagar(sessao(), CONVITE);
           setProblema(ERRO_SENHA[j?.motivo] ?? ERRO_SENHA.convite);
         }
       })
@@ -255,7 +259,7 @@ const PainelCreator = () => {
                 {problema && <p className="pc-problema" role="alert">{problema}</p>}
                 <div className="qsd8-btnrow"><button type="submit" className="qsd8-btn" disabled={ocupado}>{ocupado ? "Entrando…" : "Entrar"}</button></div>
                 <p className="pc-linha pc-fraco">Primeira vez? Abra o link que a gente te mandou para criar a sua senha.</p>
-                <p className="pc-linha pc-fraco">Esqueceu a senha? Peça um link novo no grupo da Matilha.</p>
+                <p className="pc-linha pc-fraco">Esqueceu a senha? Escreva para <a href="mailto:somos@letsfly.com.br?subject=Link%20novo%20do%20painel%20da%20Matilha">somos@letsfly.com.br</a> e a gente manda um link novo.</p>
               </form>
             )}
 
@@ -267,6 +271,10 @@ const PainelCreator = () => {
                 <label>Repita a senha<input type="password" autoComplete="new-password" required minLength={8} value={senha2} onChange={(e) => setSenha2(e.target.value)} /></label>
                 {problema && <p className="pc-problema" role="alert">{problema}</p>}
                 <div className="qsd8-btnrow"><button type="submit" className="qsd8-btn" disabled={ocupado}>{ocupado ? "Criando…" : "Criar senha e entrar"}</button></div>
+                <p className="pc-linha pc-fraco">
+                  Já criou a sua senha?{" "}
+                  <button type="button" className="pc-link" onClick={() => { apagar(sessao(), CONVITE); setSenha(""); setSenha2(""); setProblema(null); setEstado("entrar"); }}>Entrar</button>
+                </p>
               </form>
             )}
 
