@@ -46,6 +46,8 @@ type Painel = {
   ok: true;
   creator: { primeiro_nome: string | null; instagram: string | null };
   cupons: string[]; legado: boolean;
+  /* últimos 6 meses, o corrente incluído; mês sem venda vem zerado (R649) */
+  vendas_por_mes?: { mes: string; vendas: number; pedidos: number }[];
   /* foto, nome e dragão do pet, da resposta dele ao quiz "Que dragão mora na sua casa?" (nulo se não fez) */
   pet: { foto_url: string; nome: string | null; dragao: string | null } | null;
   mes_atual: { mes: string; vendas: number; pedidos: number; videos_uteis_no_mes: number; videos_uteis_no_trimestre: number };
@@ -54,6 +56,34 @@ type Painel = {
 };
 
 type Referencia = { url: string; creator: string | null; no_ar: boolean };
+
+const MES_CURTO = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+const reaisCurto = (v: number) => `R$ ${Math.round(Number(v || 0)).toLocaleString("pt-BR")}`;
+
+/* Gráfico de barras das vendas por mês: uma barra por mês, valor escrito em cima, mês embaixo.
+   O mês corrente fica destacado e marcado "até agora". */
+const GraficoVendas = ({ meses }: { meses: { mes: string; vendas: number; pedidos: number }[] }) => {
+  const maior = Math.max(...meses.map((x) => Number(x.vendas) || 0), 1);
+  const total = meses.reduce((s, x) => s + (Number(x.vendas) || 0), 0);
+  return (
+    <figure className="pc-grafico" aria-label={`Vendas com o seu cupom nos últimos ${meses.length} meses: ${meses.map((x) => `${MESES[Number(x.mes.slice(5, 7)) - 1]} ${reais(Number(x.vendas))}`).join(", ")}`}>
+      <div className="pc-barras" aria-hidden="true">
+        {meses.map((x, i) => {
+          const v = Number(x.vendas) || 0;
+          const atual = i === meses.length - 1;
+          return (
+            <div className={`pc-barra${atual ? " atual" : ""}`} key={x.mes}>
+              <span className="pc-barra-valor">{v > 0 ? reaisCurto(v) : "–"}</span>
+              <span className="pc-barra-coluna"><i style={{ height: `${Math.max(v > 0 ? 4 : 0, (v / maior) * 100)}%` }} /></span>
+              <span className="pc-barra-mes">{MES_CURTO[Number(x.mes.slice(5, 7)) - 1]}</span>
+            </div>
+          );
+        })}
+      </div>
+      <figcaption>{reais(total)} em vendas com o seu cupom nos últimos {meses.length} meses. O mês em destaque vai até hoje.</figcaption>
+    </figure>
+  );
+};
 
 const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
 const mesPorExtenso = (iso: string) => MESES[Number(iso.slice(5, 7)) - 1] ?? "";
@@ -289,6 +319,7 @@ const PainelCreator = () => {
                 <div><strong>{m.videos_uteis_no_mes}</strong><span>{Number(m.videos_uteis_no_mes) === 1 ? "vídeo útil no mês" : "vídeos úteis no mês"}</span></div>
                 <div><strong>{m.videos_uteis_no_trimestre}</strong><span>{Number(m.videos_uteis_no_trimestre) === 1 ? "vídeo útil em 3 meses" : "vídeos úteis em 3 meses"}</span></div>
               </div>
+              {d.vendas_por_mes && d.vendas_por_mes.length > 0 && <GraficoVendas meses={d.vendas_por_mes} />}
               <ul className="mat-faixas-notas pc-falta">
                 {faltaVideos > 0
                   ? <li>Para a Prata {faltaVideos === 1 ? "falta" : "faltam"} <strong>{faltaVideos} {faltaVideos === 1 ? "vídeo útil" : "vídeos úteis"}</strong>. Ela pede {PRATA_VIDEOS} em 3 meses.</li>

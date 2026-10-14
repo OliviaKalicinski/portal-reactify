@@ -6,6 +6,8 @@ import "./QueroSerDragao.css";
 import "./Matilha.css";
 
 const INFLOWZ_URL = "https://app.inflowz.io";
+/* atendimento da Comida de Dragão (SAC e WhatsApp, o mesmo do rodapé da loja) */
+const ATENDIMENTO_WA = "https://wa.me/552139500576";
 const ICON = "/assets/pixel-icons";
 
 const MARQUEE_TOP = [
@@ -226,9 +228,9 @@ const Matilha = () => {
             de inseto agora.
           </p>
           <div className="qsd8-btnrow">
-            <a href={INFLOWZ_URL} target="_blank" rel="noopener noreferrer" className="qsd8-btn">
-              <span className="qsd8-blink">▶</span> Acessar Inflowz
-            </a>
+            <Link to="/painel" className="qsd8-btn">
+              <span className="qsd8-blink">▶</span> Acessar o painel da Matilha
+            </Link>
             <Link to="/portal" className="qsd8-btn ghost">Voltar</Link>
           </div>
           <p className="qsd8-note">Cria do seu jeito · Sem script · Nojento é o desperdício</p>
@@ -246,7 +248,8 @@ const Matilha = () => {
             quer receber.
           </p>
           <p className="qsd8-note" style={{ color: "var(--paper)" }}>
-            Para combinar o frete, fala com a Luana: (24) 98163-4847
+            Para combinar o frete, fala com o atendimento da Comida de Dragão no WhatsApp:{" "}
+            <a href={ATENDIMENTO_WA} target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>(21) 3950-0576</a>
           </p>
           <div className="qsd8-btnrow">
             <a href={INFLOWZ_URL} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Acessar Inflowz →</a>
@@ -399,7 +402,7 @@ const Matilha = () => {
           <div className="qsd8-btnrow" style={{ justifyContent: "center", marginTop: 22 }}>
             <a href={INFLOWZ_URL} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Acessar Inflowz ↗</a>
           </div>
-          <p className="qsd8-cta-note">Dúvidas? Fala com a Luana: (24) 98163-4847</p>
+          <p className="qsd8-cta-note">Dúvidas? Fala com o atendimento da Comida de Dragão no WhatsApp:{" "}<a href={ATENDIMENTO_WA} target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>(21) 3950-0576</a></p>
         </Win>
 
         {/* ══ FOOTER ═══════════════════════════════════════════════ */}
