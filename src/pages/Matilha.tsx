@@ -133,7 +133,7 @@ const PASSOS = [
       <>
         Toque em <strong>Vendas</strong> (barra inferior no app / menu lateral no
         navegador). Você vê o <strong>GMV</strong> do mês atual, mês anterior e o ranking
-        de criadores. Atualizado diariamente às 2h.
+        de creators. Atualizado diariamente às 2h.
       </>
     ),
   },
@@ -196,7 +196,7 @@ const Matilha = () => {
       {egg && <TrashEgg onClose={() => setEgg(false)} />}
       <PageMeta
         title="Bem-vindo à Matilha — Comida de Dragão"
-        description="Onboarding de criadores Comida de Dragão. Do primeiro acesso ao Inflowz até a ideia do primeiro post. Você é da matilha agora."
+        description="Onboarding de creators da Comida de Dragão. Do primeiro acesso ao Inflowz até a ideia do primeiro post. Você é da matilha agora."
         image="/assets/images/poster-punk-converte.webp"
       />
 
