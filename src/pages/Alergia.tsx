@@ -25,11 +25,11 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
    - Trocar imagens de review por screenshots de alergia reais quando tiver.
 ────────────────────────────────────────────────────────────── */
 
-const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
-const PRICE_OFF = "130,50";   // "por" — preço CHEIO R$145 com cupom afiliado (−10%). Frete grátis no Kit (Yampi).
+const PRICE = "144,50";       // preço cheio do kit na Shopify (14/10/26: soma a preço cheio −5%)
+const PRICE_OFF = "130,05";   // R$ 144,50 −10% (cupom de 10%), como o checkout calcula
 /* 🧪 PREVIEW — Dia do Cliente: -20% automático no Kit na Yampi (R$145 → R$116).
    Mesmo padrão aplicado em /original e /curiosidade. */
-const PRICE_DAYDEAL = "116,00";
+const PRICE_DAYDEAL = "115,60"; // R$ 144,50 −20% (Dia do Cliente)
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
 

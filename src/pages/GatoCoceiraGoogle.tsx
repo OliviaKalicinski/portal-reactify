@@ -48,8 +48,8 @@ import LeadPopup from "@/components/LeadPopup";
 ────────────────────────────────────────────────────────────── */
 
 const COUPON = "GOOGLE10";  // 10% off — aprovado pela Olivia 10/08/26
-const PRICE = "145,00";       // compare-at do Shopify
-const PRICE_OFF = "130,50";  // "por" — R$ 145,00 com o cupom GOOGLE10 (-10%), aplicado sozinho na URL
+const PRICE = "144,50";       // preço cheio do kit na Shopify (14/10/26: soma a preço cheio −5%)
+const PRICE_OFF = "130,05";  // R$ 144,50 −10% (cupom de 10%), como o checkout calcula
 /* Kit para Gatos · SKU 1301 · token N9DLSJ6M4J */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/N9DLSJ6M4J?promocode=${COUPON}`;
 

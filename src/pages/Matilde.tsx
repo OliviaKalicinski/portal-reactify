@@ -281,7 +281,7 @@ export default function Matilde() {
               </ul>
 
               <div className="m-buy-sep" />
-              <div className="m-buy-price">R$ 38,90</div>
+              <div className="m-buy-price">R$ 42,20</div>
               <a href={ctaUrl("compra-1")} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime m-btn-full">
                 🛒 Comprar agora com 10% OFF
               </a>
@@ -484,7 +484,7 @@ export default function Matilde() {
               </ul>
 
               <div className="m-buy-sep" />
-              <div className="m-buy-price">R$ 38,90</div>
+              <div className="m-buy-price">R$ 42,20</div>
               <a href={ctaUrl("compra-2")} target="_blank" rel="noopener noreferrer" className="m-btn m-btn-lime m-btn-full">
                 🛒 Comprar agora com 10% OFF
               </a>

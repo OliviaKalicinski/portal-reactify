@@ -103,8 +103,8 @@ const PRICE_DAYDEAL = "37,98";
    (links-checkout-yampi-tokens.md, lido na Yampi em 28/07). É o kit que
    TEM a tag frete-gratis — por isso o upsell continua fazendo sentido. */
 const PRODUCT_URL_KIT = "https://seguro.comidadedragao.com.br/r/ZWOQZDQBW1";
-const PRICE_KIT = "145,00";
-const PRICE_KIT_DAYDEAL = "116,00"; // 🧪 Dia do Cliente -20% (é kit)
+const PRICE_KIT = "144,50"; // Shopify 14/10/26
+const PRICE_KIT_DAYDEAL = "115,60"; // 🧪 Dia do Cliente -20% (é kit)
 
 const UTM_FALLBACK = {
   utm_source: "lp-mordida",

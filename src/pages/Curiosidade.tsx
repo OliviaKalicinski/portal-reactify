@@ -22,10 +22,10 @@ import { isDayOfClienteActive } from "@/lib/promotions";
    SEM promocode: o desconto é o cupom do AFILIADO (−10%) que a pessoa digita.
 ────────────────────────────────────────────────────────────── */
 
-const PRICE = "145,00";       // preço-cheio exibido (Yampi cobra R$145 no Kit)
+const PRICE = "144,50";       // preço cheio do kit na Shopify (14/10/26: soma a preço cheio −5%)
 /* 🧪 PREVIEW — Dia do Cliente: -20% automático no Kit na Yampi (R$145 → R$116).
    Mesmo padrão aplicado na /original (10%, produto avulso). */
-const PRICE_DAYDEAL = "116,00";
+const PRICE_DAYDEAL = "115,60"; // R$ 144,50 −20% (Dia do Cliente)
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
 

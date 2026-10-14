@@ -170,8 +170,8 @@ const Original = () => {
 
           <div className="olp-hero-price">
             <span className="olp-price-from">a partir de</span>
-            {daydeal && <s className="olp-price-old">R$ 38,90</s>}
-            <span className="olp-price-now"><small>R$</small>{daydeal ? "35,01" : "38,90"}</span>
+            {daydeal && <s className="olp-price-old">R$ 42,20</s>}
+            <span className="olp-price-now"><small>R$</small>{daydeal ? "37,98" : "42,20"}</span>
             <span className="olp-price-installment">4× sem juros</span>
           </div>
 
@@ -299,12 +299,12 @@ const Original = () => {
           <span className="olp-tag tag-lime">{daydeal ? "dia do cliente · -10%" : "pronto pra levar"}</span>
           <h2 className="olp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             Original 90g<br />
-            <span>{daydeal ? <><s className="olp-price-old">R$ 38,90</s> por R$ 35,01</> : "por R$ 38,90"}</span>
+            <span>{daydeal ? <><s className="olp-price-old">R$ 42,20</s> por R$ 37,98</> : "por R$ 42,20"}</span>
           </h2>
 
           <div className="olp-oferta-coupon-box">
             <div className="olp-oferta-coupon-label">tem cupom de afiliado?</div>
-            <div className="olp-oferta-coupon-desc">Original por R$ {daydeal ? "35,01" : "38,90"} · conhece um afiliado? usa o cupom dele no checkout</div>
+            <div className="olp-oferta-coupon-desc">Original por R$ {daydeal ? "37,98" : "42,20"} · conhece um afiliado? usa o cupom dele no checkout</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="olp-btn-primary" data-cta="oferta">
@@ -375,7 +375,7 @@ const Original = () => {
         <div className="olp-sticky-info">
           <span className="olp-sticky-name">Original 90g</span>
           <span className="olp-sticky-price">
-            {daydeal ? <><s className="olp-price-old">R$ 38,90</s> R$ 35,01</> : "R$ 38,90"}
+            {daydeal ? <><s className="olp-price-old">R$ 42,20</s> R$ 37,98</> : "R$ 42,20"}
           </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>

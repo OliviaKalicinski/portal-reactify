@@ -49,8 +49,8 @@ import LeadPopup from "@/components/LeadPopup";
    estudo é com gato). Proposta e pendências no vault:
    PROJETOS/CRO & Landing Pages/2026-10-09 - LP gato-coceira - proposta de reescrita. */
 const COUPON = "GATOALIVIO";  // criado na Shopify 13/07 · 10% off, 1 uso/cliente
-const PRICE = "145,00";       // compare-at do Shopify
-const PRICE_OFF = "104,40";   // R$116 no site (−20%) → −10% com cupom
+const PRICE = "144,50";       // preço cheio do kit na Shopify (14/10/26: soma a preço cheio −5%)
+const PRICE_OFF = "130,05";   // R$ 144,50 −10% (cupom de 10%), como o checkout calcula
 /* Kit para Gatos · SKU 1301 · token N9DLSJ6M4J */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/N9DLSJ6M4J`;
 

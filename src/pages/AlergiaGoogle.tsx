@@ -31,8 +31,8 @@ import LeadPopup from "@/components/LeadPopup";
 ────────────────────────────────────────────────────────────── */
 
 const COUPON = "GOOGLE10";  // 10% off — aprovado pela Olivia 10/08/26
-const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
-const PRICE_OFF = "130,50";  // "por" — R$ 145,00 com o cupom GOOGLE10 (-10%), aplicado sozinho na URL
+const PRICE = "144,50";       // preço cheio do kit na Shopify (14/10/26: soma a preço cheio −5%)
+const PRICE_OFF = "130,05";  // R$ 144,50 −10% (cupom de 10%), como o checkout calcula
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=${COUPON}`;
 

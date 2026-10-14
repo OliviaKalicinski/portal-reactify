@@ -22,13 +22,13 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
    FRETE GRÁTIS no Kit (verificado ativo na Yampi em 17/07).
 ────────────────────────────────────────────────────────────── */
 
-const PRICE = "145,00";       // "de" — preço cheio do Kit
-const PRICE_OFF = "130,50";   // "por" — R$145 −10% com BEMZAO
+const PRICE = "144,50";       // preço cheio do kit na Shopify (14/10/26: soma a preço cheio −5%)
+const PRICE_OFF = "130,05";   // R$ 144,50 −10% (cupom de 10%), como o checkout calcula
 const COUPON = "BEMZAO";
 /* 🧪 Dia do Cliente SUBSTITUI o BEMZAO (dois cupons/descontos automáticos não
    empilham na Yampi — Olivia, confirmado). Dentro da janela: -20% automático
    no produto, token puro, sem promocode. Fora da janela: volta o BEMZAO. */
-const PRICE_DAYDEAL = "116,00";
+const PRICE_DAYDEAL = "115,60"; // R$ 144,50 −20% (Dia do Cliente)
 const TOKEN_URL = "https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK";
 /* Kit Cachorro · token KQXZ5J7LWK · promocode BEMZAO (10%) embutido · frete grátis. */
 const PRODUCT_URL_BEMZAO = `${TOKEN_URL}?promocode=${COUPON}`;
@@ -98,7 +98,7 @@ const FAQ = [
   },
   {
     q: "Como funciona o cupom BEMZAO?",
-    a: "É o nosso desconto de boas-vindas: <strong>10% OFF no Kit</strong>, e ele já vem <strong>aplicado sozinho</strong> no link — você não precisa digitar nada. O Kit sai por R$ 130,50, com frete grátis.",
+    a: "É o nosso desconto de boas-vindas: <strong>10% OFF no Kit</strong>, e ele já vem <strong>aplicado sozinho</strong> no link — você não precisa digitar nada. O Kit sai por R$ 130,05, com frete grátis.",
   },
   {
     q: "E se ele não comer?",

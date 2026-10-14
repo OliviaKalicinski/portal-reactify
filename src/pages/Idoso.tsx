@@ -45,11 +45,11 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 ────────────────────────────────────────────────────────────── */
 
 const COUPON = "VITALIDADE";  // ⚠️ cadastrar na Yampi: 10% off (1ª compra). Fallback: ALIVIO/BORALA.
-const PRICE = "145,00";       // "de" — compare-at do Shopify (preço cheio)
-const PRICE_OFF = "104,40";   // "por" — preço de loja R$116 (−20%) com cupom (−10%)
+const PRICE = "144,50";       // preço cheio do kit na Shopify (14/10/26: soma a preço cheio −5%)
+const PRICE_OFF = "130,05";   // R$ 144,50 −10% (cupom de 10%), como o checkout calcula
 /* 🧪 PREVIEW — Dia do Cliente: -20% automático no Kit na Yampi (R$145 → R$116).
    Mesmo padrão de /original, /curiosidade e /alergia. */
-const PRICE_DAYDEAL = "116,00";
+const PRICE_DAYDEAL = "115,60"; // R$ 144,50 −20% (Dia do Cliente)
 /* Kit Cachorro · token KQXZ5J7LWK · checkout direto Yampi (domínio seguro). */
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK`;
 

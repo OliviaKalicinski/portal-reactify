@@ -13,7 +13,7 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
    Estrutura, CSS e copy clonados de Curiosidade.tsx; mudou só o que é do
    produto (nome, preço, conteúdo, frete, claims por produto).
 
-   Kit Original + Mordida · SKU 1303 · R$81,10 (Shopify, conferido 25/09/26)
+   Kit Original + Mordida · SKU 1303 · R$80,10 (Shopify, conferido 14/10/26: soma a preço cheio −5%)
    · token 8YXY3HISC4. 🔴 SEM frete grátis (o piso de R$150 acabou em 01/10/26; sem a
    tag frete-gratis): nenhuma promessa de frete grátis nesta página.
    🔴 CLAIM: a MORDIDA LEVA OVO. "1 ingrediente" e "88,9% digestível" valem
@@ -22,7 +22,7 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
    SEM Dia do Cliente: a /dupla nunca teve.
 ────────────────────────────────────────────────────────────── */
 
-const PRICE = "81,10"; // Shopify, SKU 1303, conferido 25/09/26
+const PRICE = "80,10"; // Shopify, SKU 1303, conferido 14/10/26
 const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/8YXY3HISC4`;
 
 const UTM_FALLBACK = {
