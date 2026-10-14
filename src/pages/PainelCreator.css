@@ -150,7 +150,6 @@
 .qsd8.fofo .pc-clima-halloween .qsd8-eyebrow { color: #FFB27A !important; }
 .qsd8.fofo .pc-clima-halloween .qsd8-btn { background: #FF8A3D; color: #2B1D45; box-shadow: inset 0 3px 0 rgba(255,255,255,.35), 4px 4px 0 0 #B88CFF; }
 .qsd8.fofo .pc-clima-halloween .qsd8-win-body { background:
-  radial-gradient(circle at 92% 12%, rgba(255,230,160,.9) 0 14px, transparent 15px),
   radial-gradient(circle, rgba(255,255,255,.18) 1px, transparent 1.6px) 0 0 / 18px 18px; }
 .qsd8.fofo .pc-clima-black-friday { background: #17131F; color: #F5F0FF; box-shadow: 6px 6px 0 0 #9BE15D; }
 .qsd8.fofo .pc-clima-black-friday :is(.qsd8-sub, .pc-linha, .pc-regra, .qsd8-h2, li) { color: #F5F0FF !important; }

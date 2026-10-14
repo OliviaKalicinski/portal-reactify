@@ -63,7 +63,7 @@ type Tema = { semana_inicio: string; titulo: string; o_que_fazer: string; ideias
   clima?: string; material_url?: string | null };
 /* climas que a página conhece (R659); outro valor cai no padrão */
 const CLIMAS: Record<string, { janela: string; selo: string }> = {
-  halloween:      { janela: "NOITE-DO-DRAGAO.EXE", selo: "Halloween" },
+  halloween:      { janela: "HALLOWEEN.EXE",       selo: "Halloween" },
   "black-friday": { janela: "BLACK-FRIDAY.EXE",    selo: "Black Friday" },
   natal:          { janela: "NATAL-DO-DRAGAO.EXE", selo: "Natal" },
   "dia-dos-pets": { janela: "DIA-DOS-PETS.EXE",    selo: "Dia dos pets" },
