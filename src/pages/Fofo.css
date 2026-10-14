@@ -1,0 +1,86 @@
+/* ═══ Visual "fofo" das páginas em janelinhas (aprovado pela Olivia em 14/10/2026) ═══════════════════════════════
+   Mesmo espírito de janelinha anos 2000, mais macio. Duas classes, para usar junto com .qsd8:
+   · .fofo-forma  = só o formato: cantos redondos, sombra macia, botão em pílula, tarja em adesivo, sem o "×" de enfeite.
+   · .fofo        = formato + paleta pastel (rosa chiclete, lilás, menta, mel, berinjela no lugar do preto).
+   O quiz usa só .fofo-forma (cada dragão tem a sua cor); Matilha, Quero ser Dragão, Parceiros e o painel usam .fofo. */
+
+/* ─── paleta ─────────────────────────────────────────────────────────────────────────────────────────────────── */
+.qsd8.fofo {
+  --lime:   #FF5FA8;   /* rosa chiclete = acento */
+  --limed:  #D9468C;
+  --violet: #B79BFF;   /* lilás */
+  --menta:  #8FE8C6;
+  --mel:    #FFE38A;
+  --paper:  #FFF8FC;   /* branco rosado */
+  --paper2: #FFE4F2;
+  --ink:    #3A2356;   /* berinjela no lugar do preto */
+  --fofo-sombra: var(--violet);
+  --fofo-btn: #C93A80; /* rosa mais fundo: texto branco legível */
+}
+.qsd8.fofo::before { background-image: radial-gradient(rgba(255,95,168,.5) 1px, transparent 1.4px); opacity: .08; }
+.qsd8.fofo .qsd8-bg { filter: saturate(.8) brightness(1.08) hue-rotate(-12deg); }
+
+/* ─── formato (vale para .fofo e .fofo-forma) ───────────────────────────────────────────────────────────────── */
+.qsd8:is(.fofo, .fofo-forma) .qsd8-win { border-width: 2px; border-radius: 16px; box-shadow: 6px 6px 0 0 var(--fofo-sombra, var(--lime)); overflow: hidden; }
+.qsd8:is(.fofo, .fofo-forma) .qsd8-titlebar { border-bottom-width: 2px; padding: 7px 10px; }
+.qsd8:is(.fofo, .fofo-forma) .qsd8-tb-name { border-radius: 999px; font-size: 8px; padding: 5px 10px; }
+.qsd8:is(.fofo, .fofo-forma) .qsd8-tb-stripes { height: 10px; background: radial-gradient(circle, currentColor 1.6px, transparent 2px) 0 50% / 12px 10px repeat-x; opacity: .45; }
+.qsd8:is(.fofo, .fofo-forma) .qsd8-tb-x { display: none; }
+.qsd8:is(.fofo, .fofo-forma) .qsd8-title span,
+.qsd8:is(.fofo, .fofo-forma) .qsd8-h2 span,
+.qsd8:is(.fofo, .fofo-forma) .qsd8-cta-title span { border-radius: 10px; padding: 2px 10px; }
+.qsd8:is(.fofo, .fofo-forma) .qsd8-btn { border-radius: 999px; border-width: 2px; padding: 14px 22px; font-size: 11px;
+  box-shadow: inset 0 3px 0 rgba(255,255,255,.4), 4px 4px 0 0 var(--fofo-sombra, var(--ink)); }
+.qsd8:is(.fofo, .fofo-forma) .qsd8-btn:active { transform: translate(2px, 2px); box-shadow: inset 0 3px 0 rgba(255,255,255,.4), 2px 2px 0 0 var(--fofo-sombra, var(--ink)); }
+.qsd8:is(.fofo, .fofo-forma) :is(.qsd8-card, .qsd8-rule, .qsd8-req, .qsd8-duo > *, .qsd8-badge, .mat-prod-img) { border-radius: 14px; }
+.qsd8:is(.fofo, .fofo-forma) .qsd8-prog { border-radius: 999px; overflow: hidden; }
+.qsd8:is(.fofo, .fofo-forma) .qsd8-marquee { border-radius: 999px; }
+.qsd8:is(.fofo, .fofo-forma) .mat-faixas { border-collapse: separate; border-spacing: 0; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; }
+.qsd8:is(.fofo, .fofo-forma) .mat-faixas th, .qsd8:is(.fofo, .fofo-forma) .mat-faixas td { border-width: 0 2px 2px 0; }
+.qsd8:is(.fofo, .fofo-forma) .mat-faixas tr > :last-child { border-right: 0; }
+.qsd8:is(.fofo, .fofo-forma) .mat-faixas tbody tr:last-child > * { border-bottom: 0; }
+.qsd8:is(.fofo, .fofo-forma) input:not([type="checkbox"]):not([type="radio"]), .qsd8:is(.fofo, .fofo-forma) select, .qsd8:is(.fofo, .fofo-forma) textarea { border-radius: 14px; }
+
+/* ─── cores do formato com a paleta fofa ────────────────────────────────────────────────────────────────────── */
+.qsd8.fofo .qsd8-win { border-color: var(--ink); }
+.qsd8.fofo .qsd8-titlebar { background: linear-gradient(90deg, var(--paper2), #EFE6FF); border-bottom-color: var(--ink); color: var(--lime); }
+.qsd8.fofo .qsd8-tb-name { background: #fff; color: var(--ink); border: 2px solid var(--ink); }
+.qsd8.fofo .qsd8-mac-dots i { border-color: var(--ink); }
+.qsd8.fofo .qsd8-mac-dots i:nth-child(1) { background: var(--lime); }
+.qsd8.fofo .qsd8-mac-dots i:nth-child(2) { background: var(--mel); }
+.qsd8.fofo .qsd8-title span, .qsd8.fofo .qsd8-h2 span, .qsd8.fofo .qsd8-cta-title span { background: var(--lime); color: var(--ink); }
+.qsd8.fofo .qsd8-eyebrow { color: var(--limed); }
+.qsd8.fofo .qsd8-btn { background: var(--fofo-btn); color: #fff; border-color: var(--ink); }
+.qsd8.fofo .qsd8-btn:hover { background: #A82D69; color: #fff; }
+.qsd8.fofo .qsd8-btn.ghost { background: #fff; color: var(--ink); }
+.qsd8.fofo .qsd8-btn.ghost:hover { background: var(--paper2); color: var(--ink); }
+
+/* janela escura e janela roxa viram lilás clarinho, com texto berinjela */
+.qsd8.fofo :is(.qsd8-win.inverted, .qsd8-win.violet) { background: #F3ECFF; color: var(--ink); }
+.qsd8.fofo :is(.qsd8-win.inverted, .qsd8-win.violet) .qsd8-titlebar { background: linear-gradient(90deg, #E7DBFF, var(--paper2)); border-bottom-color: var(--ink); color: var(--violet); }
+.qsd8.fofo :is(.qsd8-win.inverted, .qsd8-win.violet) .qsd8-tb-name { background: #fff; color: var(--ink); }
+.qsd8.fofo :is(.qsd8-win.inverted, .qsd8-win.violet) :is(.qsd8-sub, .qsd8-note, .qsd8-cta-sub, .qsd8-cta-title, .qsd8-eta, .qsd8-h2, p, li) { color: var(--ink) !important; }
+.qsd8.fofo :is(.qsd8-win.inverted, .qsd8-win.violet) .qsd8-eyebrow { color: var(--limed) !important; }
+.qsd8.fofo .qsd8-cta-win .qsd8-tb-name { background: #fff; color: var(--ink); }
+.qsd8.fofo :is(.qsd8-win.inverted, .qsd8-win.violet) .qsd8-prog { border-color: var(--ink); background: #fff; }
+.qsd8.fofo .qsd8-prog i { background: var(--lime); }
+
+/* tabela das faixas da Matilha */
+.qsd8.fofo .mat-faixas thead th { background: var(--paper2); color: var(--ink); }
+.qsd8.fofo .mat-faixas tbody th { background: #EFE6FF; color: var(--ink); }
+.qsd8.fofo .mat-faixas-pct { color: var(--limed); }
+.qsd8.fofo .mat-prod-img { border-color: var(--violet); }
+
+/* cartões, regras e requisitos: branco com sombra lilás (também dentro das janelas que eram escuras) */
+.qsd8.fofo :is(.qsd8-card, .qsd8-rule, .qsd8-req),
+.qsd8.fofo .qsd8-win.inverted :is(.qsd8-card, .qsd8-rule, .qsd8-req) {
+  background: #fff; color: var(--ink); border: 2px solid var(--ink); box-shadow: 4px 4px 0 0 var(--violet);
+}
+.qsd8.fofo .qsd8-win.inverted :is(.qsd8-card, .qsd8-rule, .qsd8-req) * { color: var(--ink); }
+.qsd8.fofo .qsd8-win.inverted .qsd8-card :is(strong, .qsd8-card-title, b) { color: var(--limed); }
+/* ícones de pixel verdes ganham o tom rosado da paleta */
+.qsd8.fofo :is(.qsd8-card-ico, .qsd8-pet-ico) { filter: hue-rotate(215deg) saturate(.85); }
+.qsd8.fofo .qsd8-badge { border-radius: 999px; background: var(--paper2); color: var(--ink); }
+
+/* janela dos vídeos (Parceiros, Quero ser Dragão): o componente de vídeos escreve em claro, então o fundo fica berinjela */
+.qsd8.fofo .qsd8-win.inverted.qsd8-reels-win { background: var(--ink); color: var(--paper); }

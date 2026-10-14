@@ -6,6 +6,7 @@ import { DRAGOES } from "@/data/dragoes";
 import "./QueroSerDragao.css";
 import "./Matilha.css";
 import "./PainelCreator.css";
+import "./Fofo.css";
 
 /* Painel do creator. Entra com e-mail e senha (R648, 14/10/2026): o creator NÃO é usuário do dash; a conta dele mora
    numa tabela própria e entrar devolve um "passe" que só abre as portas do painel. O link pessoal (o segredo depois do
@@ -245,7 +246,7 @@ const PainelCreator = () => {
 
   return (
     /* visual "fofo" (aprovado pela Olivia em 14/10/2026): pastel, cantos redondos, mesmo espírito de janelinha */
-    <div className="qsd8 pc-fofo">
+    <div className="qsd8 fofo pc-fofo">
       <PageMeta title="Meu painel · Matilha do Dragão" description="Painel do creator da Matilha do Dragão." noindex />
       <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
       <div className="qsd8-wrap">

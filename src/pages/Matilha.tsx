@@ -4,6 +4,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./QueroSerDragao.css";
 import "./Matilha.css";
+import "./Fofo.css";
 
 const INFLOWZ_URL = "https://app.inflowz.io";
 /* atendimento da Comida de Dragão (SAC e WhatsApp, o mesmo do rodapé da loja) */
@@ -191,7 +192,7 @@ const REELS = [
 const Matilha = () => {
   const [egg, setEgg] = useState(false);
   return (
-    <div className="qsd8 cf-amber">
+    <div className="qsd8 fofo">
       {egg && <TrashEgg onClose={() => setEgg(false)} />}
       <PageMeta
         title="Bem-vindo à Matilha — Comida de Dragão"

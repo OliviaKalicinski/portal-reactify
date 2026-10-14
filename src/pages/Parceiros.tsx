@@ -7,6 +7,7 @@ import PageMeta from "@/components/PageMeta";
 import "./QueroSerDragao.css";
 import "./Matilha.css";
 import "./ParceirosJanelas.css";
+import "./Fofo.css";
 
 const INFLOWZ_URL = "https://app.inflowz.io/signup/comida-de-dragao";
 const ICON = "/assets/pixel-icons";
@@ -135,7 +136,7 @@ const Marquee = () => {
 const Parceiros = () => {
   const [egg, setEgg] = useState(false);
   return (
-    <div className="qsd8 cf-pink">
+    <div className="qsd8 fofo">
       {egg && <TrashEgg onClose={() => setEgg(false)} />}
       <PageMeta
         title="Parceiros · Comida de Dragão"

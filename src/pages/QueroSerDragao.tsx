@@ -5,6 +5,7 @@ import ReelsSection from "@/components/ReelsSection";
 import { VIDEOS } from "@/components/VideosVencedores";
 import PageMeta from "@/components/PageMeta";
 import "./QueroSerDragao.css";
+import "./Fofo.css";
 
 const INFLOWZ_URL = "https://app.inflowz.io/signup/comida-de-dragao";
 const ICON = "/assets/pixel-icons";
@@ -130,7 +131,7 @@ const ProgressBar = ({ total = 14, cta = false }: { total?: number; cta?: boolea
 const QueroSerDragao = () => {
   const [egg, setEgg] = useState(false);
   return (
-    <div className="qsd8">
+    <div className="qsd8 fofo">
       {egg && <TrashEgg onClose={() => setEgg(false)} />}
       <PageMeta
         title="Quero ser Dragão — Comida de Dragão"

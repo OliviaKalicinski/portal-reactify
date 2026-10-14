@@ -12,6 +12,7 @@ import { DRAGOES, PERGUNTAS, calcular, type Resultado, type Dragao } from "@/dat
 import "./QueroSerDragao.css"; /* sistema visual retrô-OS (.qsd8) */
 import "./OqueFalam.css";      /* tema cf-pink 8-bit (creme + acento) */
 import "./QuizDragao.css";     /* skin por dragão + telas do quiz */
+import "./Fofo.css";          /* formato fofo (cantos redondos, pílula), sem trocar a cor de cada dragão */
 
 /* ──────────────────────────────────────────────────────────────
    QUIZ "QUE DRAGÃO MORA NA SUA CASA?" · /qual-dragao
@@ -426,7 +427,7 @@ const QuizDragao = () => {
   };
 
   return (
-    <div className={`qsd8 cf-pink qd${skin}`}>
+    <div className={`qsd8 cf-pink fofo-forma qd${skin}`}>
       <PageMeta
         title="Que dragão mora na sua casa? — Comida de Dragão"
         description="Seis perguntas sobre o seu pet. No fim, o veredito do Dragão, com a foto dele dentro, pra você guardar."
