@@ -110,6 +110,7 @@ const Win = ({ name, children, inverted, mac, className }: { name: string; child
 function conviteDoEndereco(): string | null {
   const doEndereco = window.location.hash.replace(/^#/, "");
   if (HEX64.test(doEndereco)) {
+    (window as unknown as { __cdConvite?: string }).__cdConvite = doEndereco;   // vale mesmo se a aba não guardar
     gravar(sessao(), CONVITE, doEndereco);
     window.history.replaceState(null, "", window.location.pathname);
     return doEndereco;
