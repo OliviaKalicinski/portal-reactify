@@ -2,7 +2,7 @@
    Mesmo espírito de janelinha anos 2000, mais macio. Duas classes, para usar junto com .qsd8:
    · .fofo-forma  = só o formato: cantos redondos, sombra macia, botão em pílula, tarja em adesivo, sem o "×" de enfeite.
    · .fofo        = formato + paleta pastel (rosa chiclete, lilás, menta, mel, berinjela no lugar do preto).
-   O quiz usa só .fofo-forma (cada dragão tem a sua cor); Matilha, Quero ser Dragão, Parceiros e o painel usam .fofo. */
+   Matilha e o painel usam .fofo (rosa); Quero ser Dragão, Parceiros e O que falam usam .fofo.fofo-verde. O quiz fica como estava. */
 
 /* ─── paleta ─────────────────────────────────────────────────────────────────────────────────────────────────── */
 .qsd8.fofo {
@@ -84,3 +84,27 @@
 
 /* janela dos vídeos (Parceiros, Quero ser Dragão): o componente de vídeos escreve em claro, então o fundo fica berinjela */
 .qsd8.fofo .qsd8-win.inverted.qsd8-reels-win { background: var(--ink); color: var(--paper); }
+
+/* ─── paleta "verde" (14/10/2026): o fofo nas cores da marca, sem rosa ──────────────────────────────────────────
+   Para Quero ser Dragão, Parceiros e O que falam (a Olivia: o rosa "fica muito girly e limita"). Use .qsd8.fofo.fofo-verde. */
+.qsd8.fofo.fofo-verde {
+  --lime:   #9BE15D;   /* verde-limão suave = acento */
+  --limed:  #4E9A2A;
+  --violet: #A98BFF;   /* lilás da marca, nas sombras */
+  --menta:  #BDF3D8;
+  --mel:    #FFE38A;
+  --paper:  #FAFFF4;
+  --paper2: #E6F8D2;
+  --ink:    #23203A;   /* quase preto, puxado para o roxo */
+  --fofo-btn: #6E45D6; /* roxo da marca: texto branco legível */
+}
+.qsd8.fofo.fofo-verde::before { background-image: radial-gradient(rgba(110,69,214,.45) 1px, transparent 1.4px); }
+.qsd8.fofo.fofo-verde .qsd8-bg { filter: saturate(.85) brightness(1.05); }
+.qsd8.fofo.fofo-verde .qsd8-titlebar { background: linear-gradient(90deg, var(--paper2), #EEE7FF); color: var(--limed); }
+.qsd8.fofo.fofo-verde .qsd8-btn:hover { background: #5631B8; }
+.qsd8.fofo.fofo-verde .qsd8-mac-dots i:nth-child(1) { background: var(--lime); }
+.qsd8.fofo.fofo-verde .qsd8-mac-dots i:nth-child(2) { background: var(--violet); }
+.qsd8.fofo.fofo-verde .qsd8-eyebrow { color: #6E45D6; }
+.qsd8.fofo.fofo-verde :is(.qsd8-card-ico, .qsd8-pet-ico) { filter: none; }
+.qsd8.fofo.fofo-verde .qsd8-win.inverted .qsd8-card :is(strong, .qsd8-card-title, b) { color: #6E45D6; }
+.qsd8.fofo.fofo-verde .qsd8-badge { background: var(--paper2); }

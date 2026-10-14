@@ -6,6 +6,10 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import "./Portal.css";
 import "./Rango.css";
 import "./RangoJogo.css";
+import "./RangoFofo.css";
+
+/* versão fofa (azul e verde do pacote) para teste de anúncio: só com ?visual=fofo; sem o parâmetro, a página não muda */
+const VISUAL_FOFO = (() => { try { return new URLSearchParams(window.location.search).get("visual") === "fofo"; } catch { return false; } })();
 
 /* ──────────────────────────────────────────────────────────────
    RANGO DO DRAGÃO — VERSÃO DE TESTE EM JANELINHAS (10/10/2026)
@@ -103,7 +107,7 @@ const Rango = () => {
   );
 
   return (
-    <div className="portal-page theme-light skin-2 rango-page rango-venda rj-page">
+    <div className={`portal-page theme-light skin-2 rango-page rango-venda rj-page${VISUAL_FOFO ? " rj-fofo" : ""}`}>
       <PageMeta
         title="Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto"
         description="Comida natural úmida e completa para cães adultos, com proteína de inseto. Pouch de 500 g."

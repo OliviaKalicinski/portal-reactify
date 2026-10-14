@@ -131,7 +131,7 @@ const ProgressBar = ({ total = 14, cta = false }: { total?: number; cta?: boolea
 const QueroSerDragao = () => {
   const [egg, setEgg] = useState(false);
   return (
-    <div className="qsd8 fofo">
+    <div className="qsd8 fofo fofo-verde">
       {egg && <TrashEgg onClose={() => setEgg(false)} />}
       <PageMeta
         title="Quero ser Dragão — Comida de Dragão"

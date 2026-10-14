@@ -136,7 +136,7 @@ const Marquee = () => {
 const Parceiros = () => {
   const [egg, setEgg] = useState(false);
   return (
-    <div className="qsd8 fofo">
+    <div className="qsd8 fofo fofo-verde">
       {egg && <TrashEgg onClose={() => setEgg(false)} />}
       <PageMeta
         title="Parceiros · Comida de Dragão"

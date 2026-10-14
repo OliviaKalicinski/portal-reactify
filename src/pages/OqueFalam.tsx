@@ -6,6 +6,7 @@ import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import LeadPopup from "@/components/LeadPopup";
 import "./QueroSerDragao.css"; // sistema visual retrô-OS / duotone (.qsd8)
 import "./OqueFalam.css";      // tema cf-pink 8-bit (cópia do antigo Conheca.css — Conheca virou verde)
+import "./Fofo.css";           // visual fofo, paleta verde (14/10/2026)
 
 /* ──────────────────────────────────────────────────────────────
    LP PROVA SOCIAL — O QUE FALAM · /oquefalam
@@ -152,7 +153,7 @@ const OqueFalam = () => {
   }, []);
 
   return (
-    <div className="qsd8 cf-pink">
+    <div className="qsd8 cf-pink fofo fofo-verde">
       <PageMeta
         title="O que falam da Comida de Dragão — 177 avaliações reais, 4,91★"
         description="Avaliações reais de clientes da Comida de Dragão (larva BSF pra pets): 177 publicadas, média 4,91★. Sem filtro, sem roteiro — o que a matilha escreveu de verdade."

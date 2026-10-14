@@ -1,0 +1,48 @@
+/* ═══ Rango do Dragão, versão "fofa" para teste (14/10/2026, pedido da Olivia: "podemos mudar para testar a LP
+   diferente. Vamos usar outra cor, azul e verde, cores do pack"). Só vale com ?visual=fofo no endereço: a versão que
+   roda em anúncio não muda. Cores medidas na foto do pacote: azul #2B81D9 / #1B5089, verde #9DC973 / #D0E6A7. ═══ */
+.rj-page.rj-fofo {
+  --ink-primary: #17365C;     /* azul-marinho do pacote no lugar do preto */
+  --dragon-lime: #9DC973;     /* verde do pacote */
+  --dragon-aqua: #CFE6FA;     /* azul clarinho */
+  --dragon-pink: #2B81D9;     /* contorno de foco: azul do pacote */
+  --bg-page: #F4FAFF;
+  --bg-card: #FFFFFF;
+}
+.rj-page.rj-fofo::before {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(157, 201, 115, 0.28) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 12%, rgba(43, 129, 217, 0.14) 0%, transparent 60%),
+    radial-gradient(circle, rgba(23, 54, 92, 0.07) 1px, transparent 1.4px) 0 0 / 9px 9px;
+}
+
+/* cantos redondos e sombra macia em tudo que era quadrado */
+.rj-fofo :is(.rj-janela, .rj-aberta, .rj-peso, .rj-frase-janela, .rj-nota-caixa) { border-radius: 16px; overflow: hidden; }
+/* a caixa de compra tem o adesivo "compre 6, ganhe 1" saindo pela borda: canto redondo sem cortar o que sai */
+.rj-fofo .rj-caixa { border-radius: 16px; }
+.rj-fofo .rj-foto { border-radius: 20px; overflow: hidden; box-shadow: 6px 6px 0 #2B81D9; }
+.rj-fofo :is(.rj-janela, .rj-caixa, .rj-frase-janela, .rj-nota-caixa) { box-shadow: 4px 4px 0 #2B81D9; }
+.rj-fofo .rj-aberta { box-shadow: 6px 6px 0 #2B81D9; }
+.rj-fofo .rj-janela:hover, .rj-fofo .rj-caixa:hover { box-shadow: 6px 6px 0 #2B81D9; }
+.rj-fofo .rj-janela.ativa, .rj-fofo .rj-caixa:active { box-shadow: 2px 2px 0 #2B81D9; }
+.rj-fofo .rj-barra i { border-radius: 50%; }
+.rj-fofo .rj-barra { border-radius: 14px 14px 0 0; }
+
+/* botões e selos em pílula */
+.rj-fofo :is(.rj-caixa-acao, .rj-caixa-adesivo, .rj-caixa-selo, .rj-etiqueta, .rj-fechar) { border-radius: 999px; }
+.rj-fofo .rj-caixa-acao { box-shadow: inset 0 3px 0 rgba(255, 255, 255, .35), 3px 3px 0 #17365C; }
+.rj-fofo .rj-caixa:not(.rj-caixa-kit) .rj-caixa-acao { background: #1B5089; color: #fff; box-shadow: inset 0 3px 0 rgba(255,255,255,.25), 3px 3px 0 #9DC973; }
+.rj-fofo .rj-caixa-kit, .rj-fofo .rj-nota-caixa { background: #EEF7E2; }
+.rj-fofo .rj-caixa-barra { background: #CFE6FA; }
+.rj-fofo .rj-etiqueta { border-color: #2B81D9; color: #1B5089; }
+
+/* cores das janelinhas: tons do pacote no lugar do arco-íris */
+.rj-fofo .rj-lima { --rj-cor: #D0E6A7; }
+.rj-fofo .rj-amarelo { --rj-cor: #FFF1B8; }
+.rj-fofo .rj-aqua { --rj-cor: #CFE6FA; }
+.rj-fofo .rj-violeta { --rj-cor: #DCE3FF; }
+.rj-fofo .rj-rosa { --rj-cor: #E2F0FF; }
+.rj-fofo .rj-laranja { --rj-cor: #E9F5DA; }
+
+/* faixa dos vídeos: o verde-limão forte vira o verde do pacote, com cantos redondos */
+.rj-fofo .rj-secao-videos section { background: #D0E6A7 !important; border-radius: 20px; }
