@@ -46,8 +46,9 @@ type Painel = {
   ok: true;
   creator: { primeiro_nome: string | null; instagram: string | null };
   cupons: string[]; legado: boolean;
-  /* últimos 6 meses, o corrente incluído; mês sem venda vem zerado (R649) */
-  vendas_por_mes?: { mes: string; vendas: number; pedidos: number }[];
+  /* últimos 6 meses, o corrente incluído; mês sem venda vem zerado (R649). Comissão e taxa desde a R650: mesma conta da
+     Inflowz, taxa × total do pedido com frete */
+  vendas_por_mes?: { mes: string; vendas: number; pedidos: number; comissao?: number; taxa?: number }[];
   /* foto, nome e dragão do pet, da resposta dele ao quiz "Que dragão mora na sua casa?" (nulo se não fez) */
   pet: { foto_url: string; nome: string | null; dragao: string | null } | null;
   mes_atual: { mes: string; vendas: number; pedidos: number; videos_uteis_no_mes: number; videos_uteis_no_trimestre: number };
@@ -62,14 +63,14 @@ const reaisCurto = (v: number) => `R$ ${Math.round(Number(v || 0)).toLocaleStrin
 
 /* Gráfico de barras das vendas por mês: uma barra por mês, valor escrito em cima, mês embaixo.
    O mês corrente fica destacado e marcado "até agora". */
-const GraficoVendas = ({ meses }: { meses: { mes: string; vendas: number; pedidos: number }[] }) => {
-  const maior = Math.max(...meses.map((x) => Number(x.vendas) || 0), 1);
-  const total = meses.reduce((s, x) => s + (Number(x.vendas) || 0), 0);
+const GraficoVendas = ({ meses }: { meses: { mes: string; comissao?: number }[] }) => {
+  const maior = Math.max(...meses.map((x) => Number(x.comissao) || 0), 1);
+  const total = meses.reduce((s, x) => s + (Number(x.comissao) || 0), 0);
   return (
-    <figure className="pc-grafico" aria-label={`Vendas com o seu cupom nos últimos ${meses.length} meses: ${meses.map((x) => `${MESES[Number(x.mes.slice(5, 7)) - 1]} ${reais(Number(x.vendas))}`).join(", ")}`}>
+    <figure className="pc-grafico" aria-label={`Sua comissão nos últimos ${meses.length} meses: ${meses.map((x) => `${MESES[Number(x.mes.slice(5, 7)) - 1]} ${reais(Number(x.comissao))}`).join(", ")}`}>
       <div className="pc-barras" aria-hidden="true">
         {meses.map((x, i) => {
-          const v = Number(x.vendas) || 0;
+          const v = Number(x.comissao) || 0;
           const atual = i === meses.length - 1;
           return (
             <div className={`pc-barra${atual ? " atual" : ""}`} key={x.mes}>
@@ -80,7 +81,7 @@ const GraficoVendas = ({ meses }: { meses: { mes: string; vendas: number; pedido
           );
         })}
       </div>
-      <figcaption>{reais(total)} em vendas com o seu cupom nos últimos {meses.length} meses. O mês em destaque vai até hoje.</figcaption>
+      <figcaption>{reais(total)} de comissão nos últimos {meses.length} meses. O mês em destaque vai até hoje.</figcaption>
     </figure>
   );
 };
@@ -228,6 +229,11 @@ const PainelCreator = () => {
   const m = d?.mes_atual;
   const faltaVideos = m ? Math.max(0, PRATA_VIDEOS - Number(m.videos_uteis_no_trimestre)) : 0;
   const faltaVenda = m ? Math.max(0, PRATA_VENDA - Number(m.vendas)) : 0;
+  /* comissão do mês corrente = último mês da série (R650); sem a série, o card some em vez de mostrar venda */
+  const ultimoMes = d?.vendas_por_mes && d.vendas_por_mes.length > 0 ? d.vendas_por_mes[d.vendas_por_mes.length - 1] : null;
+  const temComissao = !!ultimoMes && ultimoMes.comissao != null;
+  const comissaoMes = temComissao ? Number(ultimoMes!.comissao) : null;
+  const taxaMes = temComissao && ultimoMes!.taxa != null ? Number(ultimoMes!.taxa) : null;
   const fech = d?.ultimo_fechamento && d.ultimo_fechamento.oficial ? d.ultimo_fechamento : null;
   const dragao = d?.pet?.dragao ? DRAGOES.find((x) => x.id === d.pet!.dragao)?.nome ?? null : null;
 
@@ -314,12 +320,13 @@ const PainelCreator = () => {
               <div className="qsd8-eyebrow" style={{ color: "var(--lime)" }}>// {mesPorExtenso(m.mes)}, até agora</div>
               <h2 className="qsd8-h2">Seu <span>mês</span></h2>
               <div className="pc-numeros">
-                <div><strong>{reais(Number(m.vendas))}</strong><span>em vendas com o seu cupom</span></div>
+                <div><strong>{reais(Number(comissaoMes ?? 0))}</strong><span>de comissão até agora</span></div>
                 <div><strong>{m.pedidos}</strong><span>{Number(m.pedidos) === 1 ? "pedido" : "pedidos"}</span></div>
                 <div><strong>{m.videos_uteis_no_mes}</strong><span>{Number(m.videos_uteis_no_mes) === 1 ? "vídeo útil no mês" : "vídeos úteis no mês"}</span></div>
                 <div><strong>{m.videos_uteis_no_trimestre}</strong><span>{Number(m.videos_uteis_no_trimestre) === 1 ? "vídeo útil em 3 meses" : "vídeos úteis em 3 meses"}</span></div>
               </div>
-              {d.vendas_por_mes && d.vendas_por_mes.length > 0 && <GraficoVendas meses={d.vendas_por_mes} />}
+              {temComissao && <GraficoVendas meses={d.vendas_por_mes!} />}
+              {taxaMes != null && <p className="pc-taxa">A sua comissão é {String(Math.round(taxaMes * 1000) / 10).replace(".", ",")}% do valor de cada pedido feito com o seu cupom.</p>}
               <ul className="mat-faixas-notas pc-falta">
                 {faltaVideos > 0
                   ? <li>Para a Prata {faltaVideos === 1 ? "falta" : "faltam"} <strong>{faltaVideos} {faltaVideos === 1 ? "vídeo útil" : "vídeos úteis"}</strong>. Ela pede {PRATA_VIDEOS} em 3 meses.</li>
