@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
@@ -7,15 +7,31 @@ import "./QueroSerDragao.css";
 import "./Matilha.css";
 import "./PainelCreator.css";
 
-/* Painel do creator: a página chama UMA função do dash (creator_painel_dados), que só devolve os dados de quem é o
-   dono do link. O segredo chega no fim do endereço, depois do "#": essa parte não vai para o servidor. Um script no
-   index.html tira o segredo do endereço e guarda na aba antes de a medição carregar. A chave abaixo é a pública. */
+/* Painel do creator. Entra com e-mail e senha (R648, 14/10/2026): o creator NÃO é usuário do dash; a conta dele mora
+   numa tabela própria e entrar devolve um "passe" que só abre as portas do painel. O link pessoal (o segredo depois do
+   "#") virou CONVITE: abre a tela de criar a senha e serve uma vez. Um script no index.html tira o convite do endereço
+   e guarda na aba antes de a medição carregar. A chave abaixo é a pública. */
 const DASH = "https://rbjvwdsfpalyypimfrkf.supabase.co/rest/v1/rpc/";
-const DASH_RPC = DASH + "creator_painel_dados";
-/* Vídeos de referência: os vídeos de creator que venceram como anúncio. A lista vem do dash e muda sozinha. */
-const DASH_RPC_REFERENCIAS = DASH + "creator_painel_referencias";
+/* Vídeos de referência (creator_painel_referencias): os vídeos de creator que venceram como anúncio. A lista vem do
+   dash e muda sozinha. */
 const DASH_CHAVE_PUBLICA = "sb_publishable_M9kG9XFt-z4SRrciu2G8iQ_F1_FeNro";
-const GUARDADO = "cd_painel_creator";
+const CONVITE = "cd_painel_creator";   // o mesmo nome que o index.html usa
+const PASSE = "cd_painel_passe";        // fica no navegador até sair ou vencer (30 dias)
+const INFLOWZ = "https://app.inflowz.io";
+
+const ler = (onde: Storage | undefined, chave: string) => { try { return onde?.getItem(chave) ?? null; } catch { return null; } };
+const gravar = (onde: Storage | undefined, chave: string, valor: string) => { try { onde?.setItem(chave, valor); } catch { /* sem armazenamento */ } };
+const apagar = (onde: Storage | undefined, chave: string) => { try { onde?.removeItem(chave); } catch { /* nada a apagar */ } };
+const sessao = () => { try { return window.sessionStorage; } catch { return undefined; } };
+const local = () => { try { return window.localStorage; } catch { return undefined; } };
+const HEX64 = /^[0-9a-f]{64}$/;
+
+const chamar = (nome: string, corpo: Record<string, string>) =>
+  fetch(DASH + nome, {
+    method: "POST",
+    headers: { apikey: DASH_CHAVE_PUBLICA, "Content-Type": "application/json" },
+    body: JSON.stringify(corpo),
+  }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))));
 
 type Video = {
   url: string; publicado_em: string; views: number | null; e_video: boolean; conta_para_a_faixa: boolean;
@@ -60,18 +76,26 @@ const Win = ({ name, children, inverted, mac, className }: { name: string; child
   </section>
 );
 
-function segredoDoLink(): string | null {
+function conviteDoEndereco(): string | null {
   const doEndereco = window.location.hash.replace(/^#/, "");
-  if (/^[0-9a-f]{64}$/.test(doEndereco)) {
-    try { sessionStorage.setItem(GUARDADO, doEndereco); } catch { /* aba sem armazenamento: segue só com o que veio */ }
+  if (HEX64.test(doEndereco)) {
+    gravar(sessao(), CONVITE, doEndereco);
     window.history.replaceState(null, "", window.location.pathname);
     return doEndereco;
   }
-  try {
-    const guardado = sessionStorage.getItem(GUARDADO);
-    return guardado && /^[0-9a-f]{64}$/.test(guardado) ? guardado : null;
-  } catch { return null; }
+  const guardado = ler(sessao(), CONVITE);
+  return guardado && HEX64.test(guardado) ? guardado : null;
 }
+
+const ERRO_ENTRAR: Record<string, string> = {
+  senha: "E-mail ou senha não conferem.",
+};
+const ERRO_SENHA: Record<string, string> = {
+  convite: "Este link já foi usado ou venceu. Peça um novo no grupo da Matilha.",
+  senha_curta: "A senha precisa de pelo menos 8 caracteres.",
+  sem_email: "Seu cadastro está sem e-mail. Avise no grupo da Matilha.",
+  email_em_uso: "Este e-mail já tem conta. Entre com ele, ou peça ajuda no grupo da Matilha.",
+};
 
 const ANUNCIO_ROTULO: Record<string, string> = {
   testado: "já rodou como anúncio", aprovado: "selecionado", aprovado_com_edicao: "selecionado, com edição",
@@ -80,46 +104,96 @@ const ANUNCIO_ROTULO: Record<string, string> = {
 };
 
 const PainelCreator = () => {
-  const [estado, setEstado] = useState<"carregando" | "sem_link" | "invalido" | "erro" | "pronto">("carregando");
+  const [estado, setEstado] = useState<"carregando" | "entrar" | "criar_senha" | "erro" | "pronto">("carregando");
   const [d, setD] = useState<Painel | null>(null);
   const [refs, setRefs] = useState<Referencia[]>([]);
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [senha2, setSenha2] = useState("");
+  const [ocupado, setOcupado] = useState(false);
+  const [problema, setProblema] = useState<string | null>(null);   // erro do formulário
+  const [aviso, setAviso] = useState<string | null>(null);         // recado no topo do painel
+  const vivo = useRef(true);
+
+  const carregar = (passe: string) => {
+    setEstado("carregando");
+    chamar("creator_painel_dados", { p_token: passe })
+      .then((j) => {
+        if (!vivo.current) return;
+        if (j && j.ok === true) {
+          setD(j as Painel); setEstado("pronto");
+          /* a lista de referência é um extra: se não vier, o painel abre igual, só sem esse bloco */
+          chamar("creator_painel_referencias", { p_token: passe })
+            .then((k) => { if (vivo.current && k && k.ok === true && Array.isArray(k.videos)) setRefs(k.videos as Referencia[]); })
+            .catch(() => { /* sem lista de referência */ });
+        } else {
+          apagar(local(), PASSE); setD(null);
+          setProblema("Sua entrada venceu. Entre de novo."); setEstado("entrar");
+        }
+      })
+      .catch(() => vivo.current && setEstado("erro"));
+  };
 
   useEffect(() => {
-    let vivo = true;
+    vivo.current = true;
     const abrir = () => {
-      const segredo = segredoDoLink();
-      if (!segredo) { setEstado("sem_link"); return; }
-      setEstado("carregando");
-      fetch(DASH_RPC, {
-        method: "POST",
-        headers: { apikey: DASH_CHAVE_PUBLICA, "Content-Type": "application/json" },
-        body: JSON.stringify({ p_token: segredo }),
-      })
-        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-        .then((j) => {
-          if (!vivo) return;
-          if (j && j.ok === true) {
-            setD(j as Painel); setEstado("pronto");
-            /* a lista de referência é um extra: se não vier, o painel abre igual, só sem esse bloco */
-            fetch(DASH_RPC_REFERENCIAS, {
-              method: "POST",
-              headers: { apikey: DASH_CHAVE_PUBLICA, "Content-Type": "application/json" },
-              body: JSON.stringify({ p_token: segredo }),
-            })
-              .then((r) => (r.ok ? r.json() : null))
-              .then((k) => { if (vivo && k && k.ok === true && Array.isArray(k.videos)) setRefs(k.videos as Referencia[]); })
-              .catch(() => { /* sem lista de referência */ });
-          }
-          else { try { sessionStorage.removeItem(GUARDADO); } catch { /* nada a limpar */ } setD(null); setEstado("invalido"); }
-        })
-        .catch(() => vivo && setEstado("erro"));
+      setProblema(null);
+      if (conviteDoEndereco()) { setEstado("criar_senha"); return; }
+      const passe = ler(local(), PASSE);
+      if (passe && HEX64.test(passe)) carregar(passe); else setEstado("entrar");
     };
     abrir();
-    /* Outro link aberto na mesma aba só troca o que vem depois do "#": a página não recarrega sozinha. */
-    const aoTrocar = () => { if (/^#[0-9a-f]{64}$/.test(window.location.hash)) abrir(); };
+    /* outro convite aberto na mesma aba só troca o que vem depois do "#": a página não recarrega sozinha */
+    const aoTrocar = () => { if (HEX64.test(window.location.hash.replace(/^#/, ""))) abrir(); };
     window.addEventListener("hashchange", aoTrocar);
-    return () => { vivo = false; window.removeEventListener("hashchange", aoTrocar); };
+    return () => { vivo.current = false; window.removeEventListener("hashchange", aoTrocar); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const entrar = (e: FormEvent) => {
+    e.preventDefault();
+    if (ocupado) return;
+    setOcupado(true); setProblema(null);
+    chamar("creator_painel_entrar", { p_email: email, p_senha: senha })
+      .then((j) => {
+        if (j && j.ok === true && HEX64.test(j.passe)) { gravar(local(), PASSE, j.passe); setSenha(""); carregar(j.passe); }
+        else if (j && j.motivo === "travado") setProblema(`Muitas tentativas erradas. Tente de novo em ${j.minutos ?? 15} minutos.`);
+        else setProblema(ERRO_ENTRAR[j?.motivo] ?? ERRO_ENTRAR.senha);
+      })
+      .catch(() => setProblema("Não deu para entrar agora. Tente de novo em alguns minutos."))
+      .finally(() => setOcupado(false));
+  };
+
+  const criarSenha = (e: FormEvent) => {
+    e.preventDefault();
+    if (ocupado) return;
+    if (senha.length < 8) { setProblema(ERRO_SENHA.senha_curta); return; }
+    if (senha !== senha2) { setProblema("As duas senhas não são iguais."); return; }
+    const convite = ler(sessao(), CONVITE);
+    if (!convite) { setProblema(ERRO_SENHA.convite); return; }
+    setOcupado(true); setProblema(null);
+    chamar("creator_painel_criar_senha", { p_convite: convite, p_senha: senha })
+      .then((j) => {
+        if (j && j.ok === true && HEX64.test(j.passe)) {
+          apagar(sessao(), CONVITE); gravar(local(), PASSE, j.passe);
+          setSenha(""); setSenha2("");
+          setAviso(`Senha criada. Da próxima vez, entre com ${j.email} e a sua senha.`);
+          carregar(j.passe);
+        } else {
+          if (j?.motivo === "convite") apagar(sessao(), CONVITE);
+          setProblema(ERRO_SENHA[j?.motivo] ?? ERRO_SENHA.convite);
+        }
+      })
+      .catch(() => setProblema("Não deu para criar a senha agora. Tente de novo em alguns minutos."))
+      .finally(() => setOcupado(false));
+  };
+
+  const sair = () => {
+    const passe = ler(local(), PASSE);
+    if (passe) chamar("creator_painel_sair", { p_passe: passe }).catch(() => { /* sai do mesmo jeito */ });
+    apagar(local(), PASSE);
+    setD(null); setRefs([]); setAviso(null); setProblema(null); setEstado("entrar");
+  };
 
   const m = d?.mes_atual;
   const faltaVideos = m ? Math.max(0, PRATA_VIDEOS - Number(m.videos_uteis_no_trimestre)) : 0;
@@ -134,23 +208,35 @@ const PainelCreator = () => {
       <div className="qsd8-wrap">
         {estado !== "pronto" && (
           <Win name="MEU-PAINEL.EXE" mac className="qsd8-hero-win">
-            <DragonLogo className="qsd8-hero-logo" />
+            <DragonLogo className="qsd8-hero-logo pc-logo-entrar" />
             {estado === "carregando" && <p className="qsd8-sub">Abrindo o seu painel…</p>}
-            {estado === "sem_link" && (
-              <>
-                <h1 className="qsd8-title">Painel da <span>Matilha</span></h1>
-                <p className="qsd8-sub">Esta página só abre pelo seu link pessoal. Use o link que a gente te mandou.</p>
-              </>
+
+            {estado === "entrar" && (
+              <form className="pc-form" onSubmit={entrar}>
+                <h1 className="qsd8-title pc-titulo">Painel da <span>Matilha</span></h1>
+                <label>E-mail<input type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} /></label>
+                <label>Senha<input type="password" autoComplete="current-password" required value={senha} onChange={(e) => setSenha(e.target.value)} /></label>
+                {problema && <p className="pc-problema" role="alert">{problema}</p>}
+                <div className="qsd8-btnrow"><button type="submit" className="qsd8-btn" disabled={ocupado}>{ocupado ? "Entrando…" : "Entrar"}</button></div>
+                <p className="pc-linha pc-fraco">Primeira vez? Abra o link que a gente te mandou para criar a sua senha.</p>
+                <p className="pc-linha pc-fraco">Esqueceu a senha? Peça um link novo no grupo da Matilha.</p>
+              </form>
             )}
-            {estado === "invalido" && (
-              <>
-                <h1 className="qsd8-title">Este link <span>venceu</span></h1>
-                <p className="qsd8-sub">Peça um link novo no grupo da Matilha.</p>
-              </>
+
+            {estado === "criar_senha" && (
+              <form className="pc-form" onSubmit={criarSenha}>
+                <h1 className="qsd8-title pc-titulo">Crie a sua <span>senha</span></h1>
+                <p className="pc-linha">Com ela você entra no seu painel sempre que quiser, usando o e-mail do seu cadastro na Matilha.</p>
+                <label>Senha (pelo menos 8 caracteres)<input type="password" autoComplete="new-password" required minLength={8} value={senha} onChange={(e) => setSenha(e.target.value)} /></label>
+                <label>Repita a senha<input type="password" autoComplete="new-password" required minLength={8} value={senha2} onChange={(e) => setSenha2(e.target.value)} /></label>
+                {problema && <p className="pc-problema" role="alert">{problema}</p>}
+                <div className="qsd8-btnrow"><button type="submit" className="qsd8-btn" disabled={ocupado}>{ocupado ? "Criando…" : "Criar senha e entrar"}</button></div>
+              </form>
             )}
+
             {estado === "erro" && (
               <>
-                <h1 className="qsd8-title">Não deu para <span>abrir</span></h1>
+                <h1 className="qsd8-title pc-titulo">Não deu para <span>abrir</span></h1>
                 <p className="qsd8-sub">Tente de novo em alguns minutos.</p>
               </>
             )}
@@ -179,7 +265,11 @@ const PainelCreator = () => {
                   </p>
                 </div>
               </div>
-              <p className="pc-linha pc-fraco">Só quem tem este link vê esta página.</p>
+              {aviso && <p className="pc-aviso pc-linha">{aviso}</p>}
+              <div className="pc-acoes">
+                <a href={INFLOWZ} target="_blank" rel="noopener noreferrer">Minha conta na Inflowz ↗</a>
+                <button type="button" onClick={sair}>Sair</button>
+              </div>
               {!d.pet && (
                 <p className="pc-linha pc-fraco">
                   Quer a foto do seu pet aqui? <Link to="/qual-dragao">Faça o quiz do dragão</Link>.

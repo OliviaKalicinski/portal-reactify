@@ -33,3 +33,16 @@
 .pc-refs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .pc-refs li { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border: 3px solid var(--ink); padding: 10px 12px; background: var(--paper); font-size: 15px; }
 .pc-refs a { color: var(--ink); font-weight: 700; overflow-wrap: anywhere; }
+
+/* entrar e criar senha (R648) */
+.pc-logo-entrar { width: 120px; margin-bottom: 12px; }
+.pc-form { display: grid; gap: 12px; max-width: 420px; }
+.pc-form label { display: grid; gap: 6px; font-size: 14px; font-weight: 700; }
+.pc-form input { font: inherit; font-size: 16px; padding: 10px 12px; border: 3px solid var(--ink); background: var(--paper); color: var(--ink); border-radius: 0; }
+.pc-form input:focus { outline: 3px solid var(--lime); outline-offset: 1px; }
+.pc-form .qsd8-btnrow { margin-top: 4px; }
+.pc-form button[disabled] { opacity: .6; cursor: wait; }
+.pc-problema { margin: 0; padding: 8px 10px; border: 3px solid var(--ink); background: var(--ink); color: var(--paper); font-size: 14px; }
+.pc-acoes { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-top: 8px; font-size: 13.5px; }
+.pc-acoes a { color: var(--ink); font-weight: 700; }
+.pc-acoes button { font: inherit; font-size: 13.5px; background: none; border: 0; padding: 0; color: var(--ink); text-decoration: underline; cursor: pointer; }
