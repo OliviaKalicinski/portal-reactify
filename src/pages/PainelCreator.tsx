@@ -351,6 +351,7 @@ const PainelCreator = () => {
                     <span className="pc-tema-rotulo">Assunto da semana</span>
                     <span className="pc-tema-titulo">{tema.titulo}</span>
                     <span className="pc-tema-abrir" aria-hidden="true">ver o que fazer ▾</span>
+                    <span className="pc-tema-fechar" aria-hidden="true">recolher ▴</span>
                   </summary>
                   <div className="pc-tema-corpo">
                     {tema.imagem_url && <img className="pc-tema-img" src={tema.imagem_url} alt="" loading="lazy" />}
@@ -368,6 +369,11 @@ const PainelCreator = () => {
                         <a className="qsd8-btn" href={tema.material_url} target="_blank" rel="noopener noreferrer">Material de divulgação ↗</a>
                       </div>
                     )}
+                    {/* recolher também no fim: quem leu até embaixo não precisa voltar ao título */}
+                    <button type="button" className="pc-tema-recolher"
+                      onClick={(e) => { const d = e.currentTarget.closest("details"); if (d) { d.open = false; d.scrollIntoView({ block: "nearest" }); } }}>
+                      recolher ▴
+                    </button>
                   </div>
                 </details>
               </Win>

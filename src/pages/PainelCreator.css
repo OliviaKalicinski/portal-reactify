@@ -168,5 +168,9 @@
 .pc-tema-titulo { font-family: "Press Start 2P", monospace; font-size: 14px; line-height: 1.4; }
 .pc-tema-abrir { font-size: 13px; font-weight: 700; text-decoration: underline; }
 .pc-tema-caixa[open] .pc-tema-abrir { display: none; }
+.pc-tema-fechar { display: none; font-size: 13px; font-weight: 700; text-decoration: underline; }
+.pc-tema-caixa[open] .pc-tema-fechar { display: inline; }
+.pc-tema-recolher { display: block; margin: 14px 0 0; padding: 12px 0; min-height: 44px; background: none; border: 0; color: inherit;
+  font: inherit; font-size: 13px; font-weight: 700; text-decoration: underline; cursor: pointer; }
 .pc-tema-corpo { margin-top: 12px; }
 .qsd8.fofo .pc-clima-halloween .pc-tema-titulo { color: #FFB27A; }
