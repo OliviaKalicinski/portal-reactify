@@ -1650,11 +1650,11 @@ const Portal = () => {
               </a>
             </div>
           </Win>
-          <Win name="O-DRAGAO-FALA.MOV" mac className="hj-fala-win">
+          {/* O Dragão Fala, sem dizer o que é (pedido da Olivia, 15/10): só o desafio e o botão */}
+          <Win name="SEGREDO.EXE" mac className="hj-fala-win">
             <button type="button" className="hj-fala" onClick={openModal}>
-              <span className="hj-fala-eyebrow">// apertou aqui você some por um tempo</span>
-              <span className="hj-fala-title">O Dragão Fala</span>
-              <span className="qsd8-btn hj-fala-btn"><span className="qsd8-blink">▶</span> Clica se tiver coragem</span>
+              <span className="hj-fala-title">Clica se tiver coragem</span>
+              <span className="qsd8-btn hj-fala-btn">Não clique</span>
             </button>
           </Win>
           <Win name="CONTEUDOS.DIR"><div className={host}>{conteudos}</div></Win>
