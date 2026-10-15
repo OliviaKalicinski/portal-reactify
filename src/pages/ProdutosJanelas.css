@@ -62,7 +62,7 @@
 
 /* 15/10: ajustes da auditoria (mobile e tipografia) */
 /* barra de título presa no topo enquanto a ficha rola: o × fica sempre à vista */
-.qsd8.hj .pj-ficha > .qsd8-titlebar { position: sticky; top: -28px; z-index: 3; }
+.qsd8.hj .pj-ficha > .qsd8-titlebar { position: sticky; top: 0; z-index: 3; }
 /* × com área de toque de 44 px, desenho de 32 px */
 .qsd8.hj .pj-fechar { width: 44px; height: 44px; margin: -7px -7px -7px 4px; border: 0; background: transparent; position: relative; font-size: 0; }
 .qsd8.hj .pj-fechar::before {
@@ -83,3 +83,22 @@
 .qsd8.hj .pj-secoes + .pj-secao-titulo, .qsd8.hj .pj-alerta + .pj-secoes ~ .pj-secao-titulo { margin-top: 20px; }
 /* overflow: hidden da janela prende a barra (sticky não funciona); clip recorta os cantos sem isso */
 .qsd8.hj .pj-ficha { overflow: clip; }
+
+/* 15/10: seções da ficha em caixinhas, como os cartões das janelas (pedido "melhore essa parte") */
+.qsd8.hj .pj-secao {
+  background: #fff; border: 2px solid var(--ink); border-radius: 14px;
+  padding: 14px 16px; box-shadow: 4px 4px 0 0 var(--violet);
+}
+.qsd8.hj .pj-secao-titulo { display: inline-block; background: var(--lime); padding: 4px 8px; border-radius: 6px; margin-bottom: 10px; }
+.qsd8.hj .pj-secao ul { list-style: none; padding-left: 0; }
+.qsd8.hj .pj-secao li { position: relative; padding-left: 22px; margin: 6px 0; line-height: 1.45; }
+.qsd8.hj .pj-secao li::before {
+  content: ""; position: absolute; left: 4px; top: .55em; width: 8px; height: 8px;
+  background: var(--violet); border-radius: 2px;
+}
+.qsd8.hj .pj-secoes { gap: 14px; }
+.qsd8.hj .pj-secoes + .pj-secao-titulo { margin-top: 22px; }
+/* barra presa colada no topo da tela: o respiro de cima vira margem da janela, não padding do fundo */
+.qsd8.hj .pj-overlay { padding-top: 0; }
+.qsd8.hj .pj-ficha { margin-top: 28px; margin-bottom: 28px; }
+.qsd8.hj .pj-ficha > .qsd8-titlebar { top: 0; }
