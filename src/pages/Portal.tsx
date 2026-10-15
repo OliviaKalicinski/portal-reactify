@@ -14,9 +14,9 @@ import "./QueroSerDragao.css";
 import "./Fofo.css";
 import "./PortalJanelas.css";
 
-/* versão em janelinhas (o visual da /parceiros e da /revenda), em teste: só com ?visual=janelas.
-   Sem o parâmetro, a home não muda. */
-const VISUAL_JANELAS = (() => { try { return new URLSearchParams(window.location.search).get("visual") === "janelas"; } catch { return false; } })();
+/* versão em janelinhas (o visual da /parceiros e da /revenda): é a home desde 15/10/2026, aprovada
+   pela Olivia. A home anterior continua no código e abre com ?visual=antiga, para comparar ou voltar. */
+const VISUAL_JANELAS = (() => { try { return new URLSearchParams(window.location.search).get("visual") !== "antiga"; } catch { return true; } })();
 
 /* vídeos de creator vencedores (planilha "Originais de creator"), do maior lucro por venda ao
    menor; a mesma lista da /parceiros e da /revenda (15/10/2026, pedido da Olivia) */

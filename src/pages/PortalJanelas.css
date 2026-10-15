@@ -1,6 +1,6 @@
-/* Home em janelinhas (?visual=janelas), 15/10/2026, em teste.
+/* Home em janelinhas: é a home desde 15/10/2026 (a anterior abre com ?visual=antiga).
    Cada bloco da home entra numa janela qsd8; o miolo continua com as classes do Portal.css
-   dentro de um .portal-page "hospedeiro" sem fundo. Sem o parâmetro, nada daqui se aplica. */
+   dentro de um .portal-page "hospedeiro" sem fundo. Com ?visual=antiga, nada daqui se aplica. */
 .qsd8.hj .hj-host {
   min-height: 0 !important;
   background: transparent !important;
