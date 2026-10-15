@@ -4,6 +4,10 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
 import "./Produtos.css";
+import "./QueroSerDragao.css";
+import "./Fofo.css";
+import "./PortalJanelas.css";
+import "./ProdutosJanelas.css";
 
 const MARQUEE_TOP = [
   "PRODUTOS COMIDA DE DRAGÃO",
@@ -34,6 +38,21 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
     </div>
   );
 };
+
+/* janela OS, a mesma da home e da /parceiros (15/10/26: a página entra no estilo das janelas) */
+const Win = ({ name, children, className, inverted, mac }: {
+  name: string; children: React.ReactNode; className?: string; inverted?: boolean; mac?: boolean;
+}) => (
+  <section className={`qsd8-win${inverted ? " inverted" : ""}${className ? " " + className : ""}`}>
+    <div className="qsd8-titlebar">
+      {mac && <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>}
+      <span className="qsd8-tb-name">{name}</span>
+      <span className="qsd8-tb-stripes" aria-hidden="true" />
+      <span className="qsd8-tb-x" aria-hidden="true">×</span>
+    </div>
+    <div className="qsd8-win-body">{children}</div>
+  </section>
+);
 
 // ================ RETAILERS ================
 const RETAILERS = [
@@ -233,8 +252,8 @@ const PRODUTOS: Produto[] = [
     corTag: "var(--dragon-lime)",
     corCard: "#9DC973",
     fotos: [
-      "/assets/images/rango/rango-pacote-frente.webp",
-      "/assets/images/rango/rango-pacote.webp",
+      // a foto do produto da loja (Shopify, 1ª imagem do Rango), só o pacote, 15/10/26
+      "/assets/images/produtos/rango-frente.webp",
     ],
     destaques: ["Alimento completo", "Até 75,6% de água", "Só para cães adultos"],
     proteina: "— níveis no pacote",
@@ -416,38 +435,31 @@ const Produtos = () => {
   }, [activeProduto, closeProduto]);
 
   return (
-    <div className="portal-page produtos-page skin-2">
+    <div className="qsd8 fofo fofo-verde hj">
       <PageMeta
         title="Produtos · Comida de Dragão"
         description="A linha de proteína de inseto BSF pra pets: Original, Mordida, Suplementos, Rango do Dragão e GRUB — pra cães, gatos, répteis e anfíbios. Ficha técnica e compra em um clique."
         image="/assets/images/nossos-produtos.webp"
       />
-      <MarqueeBar items={MARQUEE_TOP} />
+      <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
 
-      {/* HERO (padrão) */}
-      <section className="archive-hero">
-        <div className="archive-hero-bg" />
-        <div className="dragon-silhouette" aria-hidden="true" />
-        <div className="archive-hero-content">
-          <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
-          <div className="hero-row">
-            <DragonLogo className="hero-logo" />
-            <div className="hero-copy">
-              <div className="hero-eyebrow">Comida de Dragão — Produtos</div>
-              <h1 className="archive-hero-title">
-                O que tem na
-                <span>despensa?</span>
-              </h1>
-              <p className="archive-hero-sub">
-                {PRODUTOS.length} produtos formulados a partir da mosca soldado negro.
-                Do snack à comida natural, do cachorro ao lagarto — proteína de verdade,
-                rastreável, feita na nossa biofábrica em Cachoeiras de Macacu.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="qsd8-wrap hj-wrap">
+        <Link to="/" className="pj-voltar">← voltar pra caverna</Link>
 
+        {/* HERO */}
+        <Win name="DESPENSA.EXE" mac className="qsd8-hero-win">
+          <DragonLogo className="qsd8-hero-logo" />
+          <div className="qsd8-eyebrow">Comida de Dragão — Produtos</div>
+          <h1 className="qsd8-title">O que tem na <span>despensa?</span></h1>
+          <p className="qsd8-sub">
+            {PRODUTOS.length} produtos feitos com a mosca soldado negro. Do snack à comida natural,
+            do cachorro ao lagarto, com proteína rastreável da nossa biofábrica em Cachoeiras de Macacu.
+          </p>
+        </Win>
+
+        {/* PRODUTOS: filtros e grade da página de antes, dentro da janela */}
+        <Win name="PRODUTOS.DIR" className="pj-produtos">
+          <div className="portal-page produtos-page skin-2 qsd8-reels-host hj-host">
       {/* FILTROS */}
       <div className="produtos-filtros">
         {PET_FILTERS.map((f) => {
@@ -500,7 +512,13 @@ const Produtos = () => {
             </div>
             <div className="produto-card-footer">
               <div className="produto-card-title">
-                {p.nome.split(' ').map((word, i) => (
+                {/* uma palavra por linha; "do", "de" vão junto da seguinte ("Rango / do Dragão"),
+                    para o título do Rango não cobrir a foto */}
+                {p.nome.split(' ').reduce<string[]>((acc, w) => {
+                  if (acc.length && acc[acc.length - 1].length <= 2) acc[acc.length - 1] += ` ${w}`;
+                  else acc.push(w);
+                  return acc;
+                }, []).map((word, i) => (
                   <span key={i} className="produto-card-title-word">{word}</span>
                 ))}
               </div>
@@ -513,42 +531,38 @@ const Produtos = () => {
         ))}
       </div>
 
-      {/* CTA FINAL */}
-      <section className="produtos-cta-final">
-        <h2 className="produtos-cta-titulo">
-          Bora pra <span>loja oficial?</span>
-        </h2>
-        <p className="produtos-cta-sub">
-          O menor preço, o catálogo completo e entrega direto da biofábrica.
-        </p>
-        <a
-          href="https://www.comidadedragao.com.br"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="produtos-btn-primary"
-        >
-          Ir pra loja oficial ↗
-        </a>
-      </section>
+          </div>
+        </Win>
 
-      <MarqueeBar items={MARQUEE_BOTTOM} bottom />
+        {/* CTA FINAL */}
+        <Win name="LOJA.EXE" inverted className="qsd8-cta-win">
+          <h2 className="qsd8-cta-title">Bora pra <span>loja oficial?</span></h2>
+          <p className="qsd8-cta-sub">O catálogo completo e entrega direto da biofábrica.</p>
+          <div className="qsd8-btnrow" style={{ justifyContent: "center", marginTop: 22 }}>
+            <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn">
+              Ir pra loja oficial ↗
+            </a>
+          </div>
+        </Win>
 
-      {/* FOOTER */}
-      <footer className="portal-footer">
-        <DragonLogo className="footer-logo-svg" />
-        <nav className="footer-links">
-          <Link to="/portal">Portal</Link>
-          <Link to="/parceiros">Parceiros</Link>
-          <Link to="/biblioteca">Biblioteca</Link>
-          <Link to="/imprensa">Imprensa</Link>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
-          <a href="mailto:somos@letsfly.com.br">Contato</a>
-        </nav>
-        <div className="footer-tagline">Nojento é o desperdício.</div>
-      </footer>
+        <footer className="qsd8-footer">
+          <DragonLogo className="qsd8-footer-logo" />
+          <nav className="qsd8-footer-nav">
+            <Link to="/">Caverna</Link>
+            <Link to="/parceiros">Parceiros</Link>
+            <Link to="/biblioteca">Biblioteca</Link>
+            <Link to="/imprensa">Imprensa</Link>
+            <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+            <a href="mailto:somos@letsfly.com.br">Contato</a>
+          </nav>
+          <div className="qsd8-footer-tag">Nojento é o desperdício.</div>
+        </footer>
+      </div>
 
+      {/* o modal usa as classes do Portal.css/Produtos.css: fica dentro de um .portal-page */}
+      <div className="portal-page produtos-page skin-2 hj-modais">
       {/* MODAL DE PRODUTO — Blueprint Design */}
       {activeProduto && (() => {
         const prot = parseStat(activeProduto.proteina);
@@ -759,6 +773,7 @@ const Produtos = () => {
           </div>
         );
       })()}
+      </div>
     </div>
   );
 };

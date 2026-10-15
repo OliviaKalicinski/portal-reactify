@@ -1,0 +1,14 @@
+/* /produtos no estilo das janelas (15/10/2026), como a home. Filtros, cartões coloridos e a
+   ficha que abre por cima seguem com o Produtos.css, dentro de um .portal-page sem fundo. */
+.qsd8.hj .pj-voltar {
+  align-self: flex-start; display: inline-block;
+  font-family: "Press Start 2P", monospace; font-size: 10px; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--ink); background: var(--paper); border: 3px solid var(--ink); padding: 9px 12px; text-decoration: none;
+}
+.qsd8.hj .pj-voltar:hover, .qsd8.hj .pj-voltar:focus-visible { background: var(--lime); }
+.qsd8.hj .pj-produtos .produtos-filtros,
+.qsd8.hj .pj-produtos .produtos-grid { padding-left: 0 !important; padding-right: 0 !important; max-width: none !important; }
+.qsd8.hj .pj-produtos .produtos-filtros { padding-top: 0 !important; }
+.qsd8.hj .pj-produtos .produtos-filtro { color: var(--ink); border-color: var(--ink); background: var(--paper); }
+.qsd8.hj .pj-produtos .produtos-filtro.active { background: var(--lime); color: var(--ink); }
+.qsd8.hj .hj-modais { min-height: 0 !important; background: transparent !important; }
