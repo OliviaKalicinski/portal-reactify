@@ -68,3 +68,11 @@
    A brincadeira do nome saiu desta versão (pedido da Olivia). */
 .qsd8.hj .hj-leitor { margin-top: 16px; }
 .qsd8.hj .hj-comprar { margin-top: 18px; }
+
+/* área por perfil: 4 cartões claros no lugar dos blocos coloridos (que vazavam da janela) */
+.qsd8.hj .hj-areas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 520px) { .qsd8.hj .hj-areas { grid-template-columns: 1fr; } }
+.qsd8.hj .hj-area { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--ink); }
+.qsd8.hj .hj-area-tag { font-family: "Press Start 2P", monospace; font-size: 8px; letter-spacing: .04em; text-transform: uppercase; opacity: .7; }
+.qsd8.hj .hj-area-cta { margin-top: auto; padding-top: 6px; font-weight: 700; }
+.qsd8.hj .hj-area:hover .hj-area-cta { text-decoration: underline; }

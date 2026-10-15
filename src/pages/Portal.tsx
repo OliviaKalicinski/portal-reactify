@@ -33,6 +33,14 @@ const STATS_JANELAS = [
   { num: "40%", label: "Proteína, no mínimo" },
 ];
 
+/* área por perfil da versão em janelinhas: os mesmos 4 cartões, textos e links da home de sempre */
+const AREAS = [
+  { icon: "dog.png", tag: "Tutor de pet", title: "Quero alimentar bem.", desc: "Produtos, quiz de recomendação, onde comprar. O Dragão te guia.", cta: "Ver produtos →", href: "/matilde" },
+  { icon: "paw2.png", tag: "Creator", title: "Quero ser dragão.", desc: "Produtos pra testar, cupom exclusivo e comissão por venda. Entra na matilha.", cta: "Quero ser parceiro →", href: "/quero-ser-dragao" },
+  { icon: "crown.png", tag: "Revenda / B2B", title: "Quero vender junto.", desc: "Catálogo, tabela de preços, materiais de PDV e contato comercial.", cta: "Ver catálogo →", href: "mailto:somos@letsfly.com.br?subject=Quero revender Comida de Dragão" },
+  { icon: "shield.png", tag: "Veterinário", title: "Quero indicar certo.", desc: "Amostras pra pacientes, cupom exclusivo, comissão e treinamento técnico. Vem pro time.", cta: "Quero ser vet parceiro →", href: "/veterinarios" },
+];
+
 const PERFIS = [
   { n: 1, name: "CURIOSO" },
   { n: 2, name: "NOJENTINHO" },
@@ -1664,7 +1672,26 @@ const Portal = () => {
           </Win>
           <Win name="REELS.MOV" className="qsd8-reels-win"><div className={host}>{reels}</div></Win>
           <Win name="COMUNIDADE.EXE"><div className={host}>{comunidade}</div></Win>
-          <Win name="AREA-POR-PERFIL.SYS" inverted><div className={host}>{perfis}</div></Win>
+          <Win name="AREA-POR-PERFIL.SYS">
+            <div className="qsd8-eyebrow">// escolhe a sua porta</div>
+            <h2 className="qsd8-h2">Área por <span>perfil</span></h2>
+            <div className="qsd8-loot hj-areas">
+              {AREAS.map((a) => {
+                const inner = (
+                  <>
+                    <img className="qsd8-card-ico" src={`/assets/pixel-icons/${a.icon}`} alt="" />
+                    <span className="hj-area-tag">{a.tag}</span>
+                    <div className="qsd8-card-title">{a.title}</div>
+                    <div className="qsd8-card-desc">{a.desc}</div>
+                    <span className="hj-area-cta">{a.cta}</span>
+                  </>
+                );
+                return a.href.startsWith("/")
+                  ? <Link key={a.tag} to={a.href} className="qsd8-card hj-area">{inner}</Link>
+                  : <a key={a.tag} href={a.href} className="qsd8-card hj-area">{inner}</a>;
+              })}
+            </div>
+          </Win>
           <Win name="ONDE-COMPRAR.EXE"><div className={host}>{comprar}</div></Win>
           <footer className="qsd8-footer">
             <DragonLogo className="qsd8-footer-logo" />
