@@ -255,9 +255,17 @@ const Rango = () => {
         {caixinhas("jogo-fim")}
       </main>
 
-      <footer className="portal-footer">
-        <DragonLogo className="footer-logo-svg" />
-        <div className="footer-tagline">Nojento é o desperdício.</div>
+      {/* RODAPÉ igual ao das outras LPs (/original, /alergia), a pedido da Olivia (15/10) */}
+      <footer className="rj-footer">
+        <DragonLogo className="rj-footer-logo-svg" />
+        <nav className="rj-footer-links">
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Loja</a>
+          <a href="/produtos">Linha completa</a>
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="mailto:somos@letsfly.com.br">Contato</a>
+        </nav>
+        <div className="rj-footer-tagline">Nojento é o desperdício.</div>
+        <div className="rj-footer-legal">Comida de Dragão · Lets Fly · Biofábrica RJ · Reg. MAPA</div>
       </footer>
 
       {!comprarVisivel && (

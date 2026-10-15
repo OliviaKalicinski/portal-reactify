@@ -46,3 +46,6 @@
 
 /* faixa dos vídeos: o verde-limão forte vira o verde do pacote, com cantos redondos */
 .rj-fofo .rj-secao-videos section { background: #D0E6A7 !important; border-radius: 20px; }
+
+/* rodapé (15/10): no azul do pacote, como o resto da versão fofa */
+.rj-fofo .rj-footer-tagline, .rj-fofo .rj-footer-links a:hover { color: #2B81D9; }

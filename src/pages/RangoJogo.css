@@ -373,3 +373,12 @@
 @media (max-width: 359px) {
   .rj-compra { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ── 15/10: rodapé igual ao das outras LPs (Original.css, .olp-footer) ── */
+.rj-footer { text-align: center; padding: 48px 20px 96px; background: var(--bg-page); border-top: 1px solid var(--ink-border); position: relative; z-index: 1; }
+.rj-footer-logo-svg { width: 80px; height: auto; color: var(--ink-primary); opacity: 0.5; display: block; margin: 0 auto 20px; }
+.rj-footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 22px; margin-bottom: 18px; }
+.rj-footer-links a { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); text-decoration: none; transition: color 0.15s; padding: 6px 0; }
+.rj-footer-links a:hover { color: var(--dragon-pink); }
+.rj-footer-tagline { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.06em; color: var(--dragon-pink); }
+.rj-footer-legal { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--ink-faded); margin-top: 18px; }
