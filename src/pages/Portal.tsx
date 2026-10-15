@@ -4,6 +4,7 @@ import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
 import { VIDEOS } from "@/components/VideosVencedores";
 import PageMeta from "@/components/PageMeta";
+import { captureEntryUtms } from "@/lib/utm";
 import portalDogImg from "@/assets/portal-dog.png";
 import lojasCoverImg from "@/assets/lojas-cover.png";
 import emailCoverImg from "@/assets/email-cover.png";
@@ -182,6 +183,9 @@ const Portal = () => {
   // Modal drag state
   const modalWindowRef = useRef<HTMLDivElement>(null);
   const [dragState, setDragState] = useState<{ dragging: boolean; sx: number; sy: number; ol: number; ot: number; left: number; top: number; manual: boolean }>({ dragging: false, sx: 0, sy: 0, ol: 0, ot: 0, left: 0, top: 0, manual: false });
+
+  // 15/10/26: grava a origem forte no cookie que a loja lê (mesmo caminho das LPs)
+  useEffect(() => { captureEntryUtms(); }, []);
 
   const openModal = useCallback(() => setModalOpen(true), []);
   const closeModal = useCallback(() => {
@@ -573,7 +577,7 @@ const Portal = () => {
             <div className="card-inner">
               <div className="card-body">
                 <div className="card-label">Nossos<br />Produtos</div>
-                <div className="card-sub" style={{ marginTop: 8 }}>Veja a linha completa — 7 SKUs</div>
+                <div className="card-sub" style={{ marginTop: 8 }}>Veja a linha completa</div>
               </div>
             </div>
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />

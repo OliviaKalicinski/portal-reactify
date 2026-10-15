@@ -1,0 +1,104 @@
+/* /produtos no estilo das janelas (15/10/2026), como a home. Filtros, cartões coloridos e a
+   ficha que abre por cima seguem com o Produtos.css, dentro de um .portal-page sem fundo. */
+.qsd8.hj .pj-voltar {
+  align-self: flex-start; display: inline-block;
+  font-family: "Press Start 2P", monospace; font-size: 10px; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--ink); background: var(--paper); border: 3px solid var(--ink); padding: 9px 12px; text-decoration: none;
+}
+.qsd8.hj .pj-voltar:hover, .qsd8.hj .pj-voltar:focus-visible { background: var(--lime); }
+.qsd8.hj .pj-produtos .produtos-filtros,
+.qsd8.hj .pj-produtos .produtos-grid { padding-left: 0 !important; padding-right: 0 !important; max-width: none !important; }
+.qsd8.hj .pj-produtos .produtos-filtros { padding-top: 0 !important; }
+.qsd8.hj .pj-produtos .produtos-filtro { color: var(--ink); border-color: var(--ink); background: var(--paper); }
+.qsd8.hj .pj-produtos .produtos-filtro.active { background: var(--lime); color: var(--ink); }
+.qsd8.hj .hj-modais { min-height: 0 !important; background: transparent !important; }
+
+/* ficha do produto: janela por cima da página */
+.qsd8.hj .pj-overlay {
+  position: fixed; inset: 0; z-index: 1000; overflow-y: auto;
+  background: rgba(35, 32, 58, .55); padding: 28px 16px;
+}
+.qsd8.hj .pj-ficha { max-width: 880px; margin: 0 auto; }
+.qsd8.hj .pj-fechar {
+  margin-left: 8px; width: 30px; height: 30px; flex: none; cursor: pointer;
+  border: 2px solid var(--ink); border-radius: 50%; background: var(--paper); color: var(--ink);
+  font-size: 18px; line-height: 1;
+}
+.qsd8.hj .pj-fechar:hover, .qsd8.hj .pj-fechar:focus-visible { background: var(--lime); }
+.qsd8.hj .pj-nome { margin-bottom: 4px; }
+.qsd8.hj .pj-variante { margin: 0 0 16px; opacity: .8; }
+.qsd8.hj .pj-topo { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 640px) { .qsd8.hj .pj-topo { grid-template-columns: 1fr; } }
+.qsd8.hj .pj-foto {
+  border: 3px solid var(--ink); border-radius: 14px; aspect-ratio: 1 / 1;
+  display: flex; align-items: center; justify-content: center; padding: 16px; overflow: hidden;
+}
+.qsd8.hj .pj-foto img { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity .2s; }
+.qsd8.hj .pj-thumbs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.qsd8.hj .pj-thumb { width: 52px; height: 52px; padding: 2px; border: 2px solid var(--ink); border-radius: 8px; background: var(--paper); cursor: pointer; }
+.qsd8.hj .pj-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.qsd8.hj .pj-thumb.ativo { background: var(--lime); }
+.qsd8.hj .pj-numeros { display: flex; flex-direction: column; gap: 10px; }
+.qsd8.hj .pj-numero { padding: 12px 14px; }
+.qsd8.hj .pj-numero-rotulo { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; opacity: .75; }
+.qsd8.hj .pj-numero-valor { font-size: 22px; margin: 4px 0 2px; }
+.qsd8.hj .pj-numero-resto { font-size: 14px; }
+.qsd8.hj .pj-pdf { align-self: flex-start; }
+.qsd8.hj .pj-alerta {
+  margin: 16px 0 0; padding: 12px 14px; border: 3px dashed var(--ink); border-radius: 12px; background: var(--paper);
+}
+.qsd8.hj .pj-secoes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 20px; margin-top: 18px; }
+@media (max-width: 640px) { .qsd8.hj .pj-secoes { grid-template-columns: 1fr; } }
+.qsd8.hj .pj-secao ul { margin: 0; padding-left: 18px; list-style: disc; }
+.qsd8.hj .pj-secao li { margin: 3px 0; }
+.qsd8.hj .pj-secao-titulo {
+  font-family: "Press Start 2P", monospace; font-size: 11px; letter-spacing: .04em; text-transform: uppercase;
+  margin: 0 0 8px; color: var(--ink);
+}
+.qsd8.hj .pj-dose { border-collapse: collapse; width: 100%; }
+.qsd8.hj .pj-dose th, .qsd8.hj .pj-dose td { text-align: left; padding: 5px 6px; border-bottom: 2px solid rgba(35,32,58,.15); font-size: 15px; }
+.qsd8.hj .pj-dose th { font-weight: 700; }
+.qsd8.hj .pj-lojas { margin-top: 4px; flex-wrap: wrap; }
+
+/* 15/10: ajustes da auditoria (mobile e tipografia) */
+/* barra de título presa no topo enquanto a ficha rola: o × fica sempre à vista */
+.qsd8.hj .pj-ficha > .qsd8-titlebar { position: sticky; top: 0; z-index: 3; }
+/* × com área de toque de 44 px, desenho de 32 px */
+.qsd8.hj .pj-fechar { width: 44px; height: 44px; margin: -7px -7px -7px 4px; border: 0; background: transparent; position: relative; font-size: 0; }
+.qsd8.hj .pj-fechar::before {
+  content: "×"; position: absolute; inset: 6px; display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--ink); border-radius: 50%; background: var(--paper); font-size: 20px; line-height: 1;
+}
+.qsd8.hj .pj-fechar:hover::before, .qsd8.hj .pj-fechar:focus-visible::before { background: var(--lime); }
+/* o nome é a maior voz da ficha; os números descem */
+.qsd8.hj .pj-nome { font-size: clamp(20px, 6vw, 26px); line-height: 1.25; }
+.qsd8.hj .pj-numero-valor { font-size: 18px; }
+.qsd8.hj .pj-para { text-transform: capitalize; }
+/* botões de compra e PDF em letra de ler */
+.qsd8.hj .pj-loja-btn, .qsd8.hj .pj-pdf {
+  font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-weight: 700;
+  letter-spacing: 0; text-transform: none;
+}
+.qsd8.hj .pj-lojas { margin-top: 0; }
+.qsd8.hj .pj-secoes + .pj-secao-titulo, .qsd8.hj .pj-alerta + .pj-secoes ~ .pj-secao-titulo { margin-top: 20px; }
+/* overflow: hidden da janela prende a barra (sticky não funciona); clip recorta os cantos sem isso */
+.qsd8.hj .pj-ficha { overflow: clip; }
+
+/* 15/10: seções da ficha em caixinhas, como os cartões das janelas (pedido "melhore essa parte") */
+.qsd8.hj .pj-secao {
+  background: #fff; border: 2px solid var(--ink); border-radius: 14px;
+  padding: 14px 16px; box-shadow: 4px 4px 0 0 var(--violet);
+}
+.qsd8.hj .pj-secao-titulo { display: inline-block; background: var(--lime); padding: 4px 8px; border-radius: 6px; margin-bottom: 10px; }
+.qsd8.hj .pj-secao ul { list-style: none; padding-left: 0; }
+.qsd8.hj .pj-secao li { position: relative; padding-left: 22px; margin: 6px 0; line-height: 1.45; }
+.qsd8.hj .pj-secao li::before {
+  content: ""; position: absolute; left: 4px; top: .55em; width: 8px; height: 8px;
+  background: var(--violet); border-radius: 2px;
+}
+.qsd8.hj .pj-secoes { gap: 14px; }
+.qsd8.hj .pj-secoes + .pj-secao-titulo { margin-top: 22px; }
+/* barra presa colada no topo da tela: o respiro de cima vira margem da janela, não padding do fundo */
+.qsd8.hj .pj-overlay { padding-top: 0; }
+.qsd8.hj .pj-ficha { margin-top: 28px; margin-bottom: 28px; }
+.qsd8.hj .pj-ficha > .qsd8-titlebar { top: 0; }

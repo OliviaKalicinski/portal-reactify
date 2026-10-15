@@ -1,13 +1,18 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
+import { captureEntryUtms } from "@/lib/utm";
 import "./Portal.css";
 import "./Produtos.css";
+import "./QueroSerDragao.css";
+import "./Fofo.css";
+import "./PortalJanelas.css";
+import "./ProdutosJanelas.css";
 
 const MARQUEE_TOP = [
   "PRODUTOS COMIDA DE DRAGÃO",
-  "6 SKUS · LINHA COMPLETA",
+  "LINHA COMPLETA",
   "88,9% DIGESTIBILIDADE",
   "BIOFÁBRICA RJ",
   "DO RESÍDUO À PROTEÍNA",
@@ -16,7 +21,7 @@ const MARQUEE_TOP = [
 
 const MARQUEE_BOTTOM = [
   "// CÃES · GATOS · RÉPTEIS · ANFÍBIOS",
-  "// PETISCO · SUPLEMENTO · GEL",
+  "// SNACK · SUPLEMENTO · COMIDA NATURAL · GEL",
   "NOJENTO É O DESPERDÍCIO",
   "MAIS QUE UM ALIMENTO, UMA REVOLUÇÃO",
 ];
@@ -35,12 +40,20 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
   );
 };
 
-// ================ RETAILERS ================
-const RETAILERS = [
-  { name: "Loja Oficial", url: "https://www.comidadedragao.com.br", tag: "Melhor preço", color: "var(--dragon-lime)" },
-  { name: "Amazon", url: "https://www.amazon.com.br/s?k=comida+de+dragao", tag: "Prime", color: "var(--dragon-violet)" },
-  { name: "Mercado Livre", url: "https://www.mercadolivre.com.br", tag: "Frete grátis", color: "var(--dragon-yellow)" },
-];
+/* janela OS, a mesma da home e da /parceiros (15/10/26: a página entra no estilo das janelas) */
+const Win = ({ name, children, className, inverted, mac }: {
+  name: string; children: React.ReactNode; className?: string; inverted?: boolean; mac?: boolean;
+}) => (
+  <section className={`qsd8-win${inverted ? " inverted" : ""}${className ? " " + className : ""}`}>
+    <div className="qsd8-titlebar">
+      {mac && <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>}
+      <span className="qsd8-tb-name">{name}</span>
+      <span className="qsd8-tb-stripes" aria-hidden="true" />
+      <span className="qsd8-tb-x" aria-hidden="true">×</span>
+    </div>
+    <div className="qsd8-win-body">{children}</div>
+  </section>
+);
 
 // ================ PRODUTOS ================
 type PetType = "caes" | "gatos" | "repteis";
@@ -66,11 +79,15 @@ interface Produto {
   diferenciais: string[];
   alerta?: string;             // ⚠️ caso tenha
   ficha?: string;              // PDF da ficha técnica
+  loja: string;                // página do produto na loja oficial (Shopify)
+  ml?: string;                 // anúncio ativo no Mercado Livre (ml_items do dash); sem ele, só a loja
 }
 
 const PRODUTOS: Produto[] = [
   {
     id: "original",
+    loja: "https://www.comidadedragao.com.br/products/comida-de-dragao-original",
+    ml: "https://produto.mercadolivre.com.br/MLB-4729016795-petisco-natural-proteina-bsf-para-ces-e-gatos-_JM",
     nome: "Original",
     variante: "Larvas inteiras desidratadas",
     tamanho: "90g",
@@ -94,24 +111,28 @@ const PRODUTOS: Produto[] = [
     proteina: "40% (mín. 400 g/kg)",
     gordura: "30% (mín. 300 g/kg)",
     energia: "3.507 kcal/kg",
+    /* 15/10/26: textos reescritos pela ficha do cofre (Produtos - decisões e claims, Original).
+       Saiu "(anti-inflamatório natural)": a ficha do Original lista só "alto ácido láurico". */
     composicao: [
-      "100% Larva de Mosca Soldado Negra (Hermetia illucens)",
-      "Ácido Láurico mín. 130 g/kg",
+      "Larva inteira de mosca soldado negra (Hermetia illucens), desidratada. Só isso.",
+      "Ácido láurico: no mínimo 130 g/kg",
     ],
     quandoUsar: [
-      "Petisco diário — recompensa, agrado, carinho",
-      "Treinamento (alta palatabilidade)",
+      "Agrado do dia a dia, prêmio e recompensa",
+      "Treino: o sabor prende a atenção",
+      "Pet com alergia alimentar: um ingrediente só, fácil de controlar",
+      "Pet enjoado, que recusa outros agrados",
+      "Primeiro contato com a proteína de inseto",
       "Enriquecimento ambiental",
-      "Pets com alergias alimentares (ingrediente único)",
-      "Transição para proteína de inseto",
-      "Viagens e passeios (não suja, fácil de carregar)",
+      "Viagem e passeio: seco, não suja, fácil de levar",
     ],
     diferenciais: [
-      "Ingrediente único — máxima rastreabilidade",
-      "100% natural, hipoalergênico",
-      "Rico em Ômega 6 e 9",
-      "Alto teor de ácido láurico (anti-inflamatório natural)",
+      "Um ingrediente só: você sabe exatamente o que ele come",
+      "100% natural e hipoalergênico",
+      "Com ômega 6 e 9",
+      "Alto teor de ácido láurico",
     ],
+    alerta: "É agrado, não refeição: no máximo 10% do que o pet come no dia",
     ficha: "/assets/pdfs/fichas/ficha-original.pdf",
   },
   {
@@ -120,6 +141,8 @@ const PRODUTOS: Produto[] = [
        técnica oficial (Ficha Técnica - Mordida, 27/07/26).
        ⚠️ CLAIM: a PROTEÍNA (BSF) é hipoalergênica; o PRODUTO não é — tem OVO. */
     id: "mordida",
+    loja: "https://www.comidadedragao.com.br/products/mordida-de-dragao",
+    ml: "https://produto.mercadolivre.com.br/MLB-7447551170-petisco-para-ces-mordida-de-drago-180g-_JM",
     nome: "Mordida",
     variante: "Snack sem grão e sem glúten",
     tamanho: "180g",
@@ -169,6 +192,8 @@ const PRODUTOS: Produto[] = [
   },
   {
     id: "suplemento-integral",
+    loja: "https://www.comidadedragao.com.br/products/suplemento-integral-para-caes",
+    ml: "https://produto.mercadolivre.com.br/MLB-6881958918-comida-de-drago-suplemento-proteico-para-ces-_JM",
     nome: "Suplemento Integral",
     variante: "Pó / farinha — mistura na ração",
     tamanho: "180g",
@@ -218,60 +243,60 @@ const PRODUTOS: Produto[] = [
     ficha: "/assets/pdfs/fichas/ficha-suplemento-integral.pdf",
   },
   {
-    id: "suplemento-concentrado",
-    nome: "Suplemento Concentrado",
-    variante: "Pó desengordurado — máxima proteína",
-    tamanho: "200g",
-    tag: "SÓ CÃES",
+    /* RANGO DO DRAGÃO — entra em 15/10/26 (pedido da Olivia), no lugar do Suplemento
+       Concentrado, que saiu de linha. Dados do produto_nodes do dash (produto_id "rango"),
+       conferidos na ficha do fabricante (Sensitive BSF, Drive) em 13/10/26.
+       ⚠️ CLAIMS: é alimento completo, NÃO é petisco. Não citar % de proteína (os níveis vêm
+       no pacote) e nada de hipoalergênico, alergia, pele ou intestino: a regra da proteína
+       da larva não se estende a este produto. Não serve para gatos nem filhotes. */
+    id: "rango",
+    loja: "https://www.comidadedragao.com.br/products/rango-do-dragao-comida-natural-completa-para-caes-adultos-500g",
+    nome: "Rango do Dragão",
+    variante: "Comida natural úmida — refeição completa",
+    tamanho: "500g",
+    tag: "CÃES ADULTOS",
     pets: ["caes"],
-    corTag: "var(--dragon-pink)",
-    corCard: "#FF0066",
+    corTag: "var(--dragon-lime)",
+    corCard: "#2E7BD6",          // azul da LP do Rango (RangoJogo.css)
     corTexto: "#ffffff",
     fotos: [
-      "/assets/images/produtos/suplemento-concentrado-frente.webp",
-      "/assets/images/produtos/concentrado-02.webp",
-      "/assets/images/produtos/concentrado-03.webp",
-      "/assets/images/produtos/concentrado-04.webp",
-      "/assets/images/produtos/concentrado-05.webp",
-      "/assets/images/produtos/concentrado-06.webp",
-      "/assets/images/produtos/concentrado-07.webp",
-      "/assets/images/produtos/concentrado-08.webp",
+      // a foto do produto da loja (Shopify, 1ª imagem do Rango), só o pacote, 15/10/26
+      "/assets/images/produtos/rango-frente.webp",
     ],
-    destaques: ["50,5% proteína", "Baixa gordura (9,45%)", "Máxima concentração"],
-    proteina: "50,5% (mín. 505 g/kg) — MÁXIMA DA LINHA",
-    gordura: "9,45% (mín. 94,5 g/kg) — BAIXO TEOR",
-    energia: "3.320 kcal/kg",
+    destaques: ["Alimento completo", "Até 75,6% de água", "Só para cães adultos"],
+    proteina: "— níveis no pacote",
+    gordura: "— níveis no pacote",
+    energia: "— níveis no pacote",
     composicao: [
-      "Farinha de Larva BSF Desengordurada",
-      "Cúrcuma",
-      "Spirulina",
+      "Filé mignon suíno",
+      "Batata-doce",
+      "Abóbora",
+      "Chuchu",
+      "Farinha de larva de mosca soldado negra (8%: entra como farinha, não aparece)",
+      "A composição completa vem no rótulo",
     ],
     quandoUsar: [
-      "Máxima concentração proteica (50,5%)",
-      "Crescimento acelerado (filhotes grandes)",
-      "Gestação/lactação (pico de demanda)",
-      "Recuperação pós-operatória",
-      "Pets com restrição de gordura (pancreatite, obesidade)",
-      "Perda de massa muscular (idosos, doenças)",
-      "Atletas caninos",
+      "Refeição completa do dia, não é agrado nem complemento",
+      "Trocar para comida natural, introduzindo aos poucos",
+      "Cão que estranha comida nova: comece misturando ao que ele já come",
     ],
     dosagem: [
-      { porte: "Mini (até 5kg)", qtd: "1 medida (5g/dia)" },
-      { porte: "Pequeno (5–10kg)", qtd: "2 medidas (10g/dia)" },
-      { porte: "Médio (10–25kg)", qtd: "3 medidas (15g/dia)" },
-      { porte: "Grande (>25kg)", qtd: "4 medidas (20g/dia)" },
+      { porte: "1 a 5 kg", qtd: "80 a 270 g por dia" },
+      { porte: "6 a 10 kg", qtd: "310 a 460 g por dia" },
+      { porte: "11 a 25 kg", qtd: "490 a 910 g por dia" },
+      { porte: "26 a 30 kg", qtd: "940 a 1.050 g por dia" },
     ],
     diferenciais: [
-      "50,5% de proteína — maior concentração da linha",
-      "Baixíssimo teor de gordura — ideal para restrições",
-      "Hipoalergênico",
-      "Livre de gorduras trans",
+      "Alimento completo para cães adultos",
+      "Filé mignon suíno e proteína de inseto: proteínas pouco comuns na dieta da maioria dos cães",
+      "Até 75,6% de água: ele bebe comendo",
+      "Contém ácido láurico, naturalmente presente na proteína de inseto",
     ],
-    alerta: "Alta concentração — usar em quantidades menores que o Integral",
-    ficha: "/assets/pdfs/fichas/ficha-suplemento-concentrado.pdf",
+    alerta: "Não serve para gatos nem para filhotes. Acima de 30 kg a tabela não cobre: fale com o atendimento",
   },
   {
     id: "suplemento-felino",
+    loja: "https://www.comidadedragao.com.br/products/suplemento-para-gatos",
     nome: "Suplemento Felino",
     variante: "Rico em taurina",
     tamanho: "180g",
@@ -319,6 +344,8 @@ const PRODUTOS: Produto[] = [
   },
   {
     id: "grub",
+    loja: "https://www.comidadedragao.com.br/products/grub",
+    ml: "https://produto.mercadolivre.com.br/MLB-4729004663-grub-raco-para-repteis-_JM",
     nome: "GRUB Gel",
     variante: "Alimento em gel para répteis e anfíbios",
     tamanho: "120g",
@@ -386,6 +413,12 @@ const Produtos = () => {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [fotoIdx, setFotoIdx] = useState(0);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const abriuDe = useRef<HTMLElement | null>(null);
+  const fecharRef = useRef<HTMLButtonElement | null>(null);
+
+  // 15/10/26: grava a origem forte (anúncio, rptn, creator) no cookie que a loja lê, como as LPs;
+  // os botões levam à loja sem UTM, e é esse cookie que leva a origem até o checkout
+  useEffect(() => { captureEntryUtms(); }, []);
 
   const filtrados = useMemo(() => {
     if (filtro === "todos") return PRODUTOS;
@@ -398,11 +431,16 @@ const Produtos = () => {
   );
 
   const openProduto = useCallback((id: string) => {
+    abriuDe.current = document.activeElement as HTMLElement | null;
     setActiveId(id);
     setFotoIdx(0);
     setImgLoaded(false);
   }, []);
-  const closeProduto = useCallback(() => setActiveId(null), []);
+  const closeProduto = useCallback(() => {
+    setActiveId(null);
+    // devolve o foco ao cartão que abriu a ficha
+    setTimeout(() => abriuDe.current?.focus(), 0);
+  }, []);
 
   useEffect(() => {
     if (activeProduto) {
@@ -411,6 +449,7 @@ const Produtos = () => {
         if (e.key === "Escape") closeProduto();
       };
       document.addEventListener("keydown", h);
+      fecharRef.current?.focus();
       return () => {
         document.removeEventListener("keydown", h);
         document.body.style.overflow = "";
@@ -419,38 +458,31 @@ const Produtos = () => {
   }, [activeProduto, closeProduto]);
 
   return (
-    <div className="portal-page produtos-page skin-2">
+    <div className="qsd8 fofo fofo-verde hj">
       <PageMeta
         title="Produtos · Comida de Dragão"
-        description="6 SKUs de proteína de inseto BSF pra pets. Original, Mordida, Suplementos e GRUB — pra cães, gatos, répteis e anfíbios. Ficha técnica e compra em um clique."
+        description="A linha de proteína de inseto BSF pra pets: Original, Mordida, Suplementos, Rango do Dragão e GRUB — pra cães, gatos, répteis e anfíbios. Ficha técnica e compra em um clique."
         image="/assets/images/nossos-produtos.webp"
       />
-      <MarqueeBar items={MARQUEE_TOP} />
+      <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
 
-      {/* HERO (padrão) */}
-      <section className="archive-hero">
-        <div className="archive-hero-bg" />
-        <div className="dragon-silhouette" aria-hidden="true" />
-        <div className="archive-hero-content">
-          <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
-          <div className="hero-row">
-            <DragonLogo className="hero-logo" />
-            <div className="hero-copy">
-              <div className="hero-eyebrow">Comida de Dragão — Produtos</div>
-              <h1 className="archive-hero-title">
-                O que tem na
-                <span>despensa?</span>
-              </h1>
-              <p className="archive-hero-sub">
-                {PRODUTOS.length} produtos formulados a partir da mosca soldado negro.
-                Do petisco pro suplemento, do cachorro ao lagarto — proteína de verdade,
-                rastreável, feita na nossa biofábrica em Cachoeiras de Macacu.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="qsd8-wrap hj-wrap">
+        <Link to="/" className="pj-voltar">← voltar pra caverna</Link>
 
+        {/* HERO */}
+        <Win name="DESPENSA.EXE" mac className="qsd8-hero-win">
+          <DragonLogo className="qsd8-hero-logo" />
+          <div className="qsd8-eyebrow">Comida de Dragão — Produtos</div>
+          <h1 className="qsd8-title">O que tem na <span>despensa?</span></h1>
+          <p className="qsd8-sub">
+            {PRODUTOS.length} produtos feitos com a mosca soldado negro. Do snack à comida natural,
+            do cachorro ao lagarto, com proteína rastreável da nossa biofábrica em Cachoeiras de Macacu.
+          </p>
+        </Win>
+
+        {/* PRODUTOS: filtros e grade da página de antes, dentro da janela */}
+        <Win name="PRODUTOS.DIR" className="pj-produtos">
+          <div className="portal-page produtos-page skin-2 qsd8-reels-host hj-host">
       {/* FILTROS */}
       <div className="produtos-filtros">
         {PET_FILTERS.map((f) => {
@@ -503,7 +535,13 @@ const Produtos = () => {
             </div>
             <div className="produto-card-footer">
               <div className="produto-card-title">
-                {p.nome.split(' ').map((word, i) => (
+                {/* uma palavra por linha; "do", "de" vão junto da seguinte ("Rango / do Dragão"),
+                    para o título do Rango não cobrir a foto */}
+                {p.nome.split(' ').reduce<string[]>((acc, w) => {
+                  if (acc.length && acc[acc.length - 1].length <= 2) acc[acc.length - 1] += ` ${w}`;
+                  else acc.push(w);
+                  return acc;
+                }, []).map((word, i) => (
                   <span key={i} className="produto-card-title-word">{word}</span>
                 ))}
               </div>
@@ -516,249 +554,167 @@ const Produtos = () => {
         ))}
       </div>
 
-      {/* CTA FINAL */}
-      <section className="produtos-cta-final">
-        <h2 className="produtos-cta-titulo">
-          Bora pra <span>loja oficial?</span>
-        </h2>
-        <p className="produtos-cta-sub">
-          O menor preço, o catálogo completo e entrega direto da biofábrica.
-        </p>
-        <a
-          href="https://www.comidadedragao.com.br"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="produtos-btn-primary"
-        >
-          Ir pra loja oficial ↗
-        </a>
-      </section>
+          </div>
+        </Win>
 
-      <MarqueeBar items={MARQUEE_BOTTOM} bottom />
+        {/* CTA FINAL */}
+        <Win name="LOJA.EXE" inverted className="qsd8-cta-win">
+          <h2 className="qsd8-cta-title">Bora pra <span>loja oficial?</span></h2>
+          <p className="qsd8-cta-sub">O catálogo completo e entrega direto da biofábrica.</p>
+          <div className="qsd8-btnrow" style={{ justifyContent: "center", marginTop: 22 }}>
+            <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn">
+              Ir pra loja oficial ↗
+            </a>
+          </div>
+        </Win>
 
-      {/* FOOTER */}
-      <footer className="portal-footer">
-        <DragonLogo className="footer-logo-svg" />
-        <nav className="footer-links">
-          <Link to="/portal">Portal</Link>
-          <Link to="/parceiros">Parceiros</Link>
-          <Link to="/biblioteca">Biblioteca</Link>
-          <Link to="/imprensa">Imprensa</Link>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
-          <a href="mailto:somos@letsfly.com.br">Contato</a>
-        </nav>
-        <div className="footer-tagline">Nojento é o desperdício.</div>
-      </footer>
+        <footer className="qsd8-footer">
+          <DragonLogo className="qsd8-footer-logo" />
+          <nav className="qsd8-footer-nav">
+            <Link to="/">Caverna</Link>
+            <Link to="/parceiros">Parceiros</Link>
+            <Link to="/biblioteca">Biblioteca</Link>
+            <Link to="/imprensa">Imprensa</Link>
+            <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+            <a href="mailto:somos@letsfly.com.br">Contato</a>
+          </nav>
+          <div className="qsd8-footer-tag">Nojento é o desperdício.</div>
+        </footer>
+      </div>
 
-      {/* MODAL DE PRODUTO — Blueprint Design */}
+      {/* FICHA DO PRODUTO — janela no estilo da página (15/10/26; antes era a "blueprint" escura).
+          Mesmo conteúdo; saíram o selo "Em estoque" (texto fixo, ninguém conferia) e a tabela
+          "Ficha técnica", que repetia os três números de cima. */}
       {activeProduto && (() => {
-        const prot = parseStat(activeProduto.proteina);
-        const gord = parseStat(activeProduto.gordura);
-        const ener = parseStat(activeProduto.energia);
         const prodIdx = PRODUTOS.findIndex((p) => p.id === activeProduto.id);
+        const numeros = [
+          { rotulo: "Proteína bruta", valor: activeProduto.proteina },
+          { rotulo: "Gordura bruta", valor: activeProduto.gordura },
+          { rotulo: "Energia metabolizável", valor: activeProduto.energia },
+        ].filter((n) => n.valor && !n.valor.startsWith("—"));
         return (
           <div
-            className="produto-modal-overlay"
+            className="pj-overlay"
             onClick={(e) => { if (e.target === e.currentTarget) closeProduto(); }}
           >
-            <div className="produto-modal bp-modal">
-              <div className="bp-grid-bg" aria-hidden="true" />
-              <div className="bp-scan-line" aria-hidden="true" />
-
-              {/* HEADER */}
-              <div className="bp-header">
-                <div>
-                  <div className="bp-eyebrow">Ficha de Produto · {String(prodIdx + 1).padStart(3, "0")}</div>
-                  <h2 className="bp-hero-title">{activeProduto.nome}</h2>
-                  <div className="bp-hero-sub">
-                    {activeProduto.variante && `${activeProduto.variante} · `}{activeProduto.tamanho}
-                  </div>
-                  {activeProduto.ficha && (
-                    <a href={activeProduto.ficha} target="_blank" rel="noopener noreferrer" className="bp-ficha-btn bp-ficha-btn-header">
-                      <span className="bp-arrow">↗</span>
-                      Ver ficha técnica em PDF
-                    </a>
-                  )}
-                </div>
-                <div className="bp-header-right">
-                  <div className="bp-eyebrow">Espécie alvo</div>
-                  <div className="bp-species">{activeProduto.tag}</div>
-                </div>
-                <button type="button" className="produto-modal-close" onClick={closeProduto} aria-label="Fechar">✕</button>
+            <section className="qsd8-win pj-ficha" role="dialog" aria-modal="true" aria-label={activeProduto.nome}>
+              <div className="qsd8-titlebar">
+                <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>
+                <span className="qsd8-tb-name">{activeProduto.id.toUpperCase()}.TXT</span>
+                <span className="qsd8-tb-stripes" aria-hidden="true" />
+                <button type="button" ref={fecharRef} className="pj-fechar" onClick={closeProduto} aria-label="Fechar">×</button>
               </div>
+              <div className="qsd8-win-body">
+                <div className="qsd8-eyebrow">Ficha de produto · {String(prodIdx + 1).padStart(2, "0")}</div>
+                <h2 className="qsd8-h2 pj-nome">{activeProduto.nome}</h2>
+                <p className="pj-variante">
+                  <strong className="pj-para">{activeProduto.tag.toLowerCase()}</strong>
+                  {" · "}{activeProduto.variante && `${activeProduto.variante} · `}{activeProduto.tamanho}
+                </p>
 
-              <div className="bp-divider" />
-
-              {/* MAIN GRID: stats | foto flutuando | stats */}
-              <div className="bp-main-grid">
-                {/* ESQUERDA */}
-                <div className="bp-col bp-col-left">
-                  <div className="bp-stat bp-stat-right">
-                    <div className="bp-stat-label">Proteína bruta</div>
-                    <div className="bp-stat-num bp-lime">{prot.num}</div>
-                    {prot.rest && <div className="bp-stat-unit">{prot.rest}</div>}
-                  </div>
-                  <div className="bp-connector" />
-                  <div className="bp-stat bp-stat-right">
-                    <div className="bp-stat-label">Gordura bruta</div>
-                    <div className="bp-stat-num bp-violet">{gord.num}</div>
-                    {gord.rest && <div className="bp-stat-unit">{gord.rest}</div>}
-                  </div>
-                  <div className="bp-connector" />
-                  <div className="bp-stat bp-stat-right">
-                    <div className="bp-stat-label">Destaque</div>
-                    <div className="bp-stat-text bp-text-right">{activeProduto.destaques[2]}</div>
-                  </div>
-                </div>
-
-                {/* CENTRO: foto flutuando */}
-                <div className="bp-product-col">
-                  <div className="bp-float-wrap">
-                    <div className={`bp-product-frame${imgLoaded ? " bp-img-ready" : ""}`}>
-                      <span className="bp-corner bp-tl" /><span className="bp-corner bp-tr" />
-                      <span className="bp-corner bp-bl" /><span className="bp-corner bp-br" />
+                <div className="pj-topo">
+                  <div className="pj-foto-col">
+                    <div className="pj-foto" style={{ background: activeProduto.corCard }}>
                       {activeProduto.fotos[fotoIdx] ? (
                         <img
                           key={`${activeProduto.id}-${fotoIdx}`}
                           src={activeProduto.fotos[fotoIdx]}
                           alt={activeProduto.nome}
-                          className={`bp-product-img${imgLoaded ? " bp-img-visible" : ""}`}
                           loading="eager"
                           onLoad={() => setImgLoaded(true)}
+                          style={{ opacity: imgLoaded ? 1 : 0 }}
                         />
-                      ) : (
-                        <span className="bp-product-placeholder">[ ]</span>
-                      )}
+                      ) : null}
                     </div>
-                    <div className="bp-float-shadow" />
+                    {activeProduto.fotos.length > 1 && (
+                      <div className="pj-thumbs">
+                        {activeProduto.fotos.map((f, i) => (
+                          <button
+                            type="button"
+                            key={i}
+                            className={`pj-thumb${i === fotoIdx ? " ativo" : ""}`}
+                            onClick={() => { setFotoIdx(i); setImgLoaded(false); }}
+                            aria-label={`Foto ${i + 1}`}
+                          >
+                            <img loading="lazy" src={f} alt="" />
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  <div className="bp-status-pill">
-                    <span className="bp-dot" />Em estoque
+
+                  <div className="pj-numeros">
+                    {numeros.length > 0 ? numeros.map((n) => {
+                      const st = parseStat(n.valor);
+                      return (
+                        <div className="qsd8-card pj-numero" key={n.rotulo}>
+                          <div className="pj-numero-rotulo">{n.rotulo}</div>
+                          <div className="qsd8-card-title pj-numero-valor">{st.num}</div>
+                          {st.rest && <div className="pj-numero-resto">{st.rest}</div>}
+                        </div>
+                      );
+                    }) : (
+                      <div className="qsd8-card pj-numero">
+                        <div className="pj-numero-rotulo">Níveis de garantia</div>
+                        <div className="pj-numero-resto">Vêm impressos no pacote.</div>
+                      </div>
+                    )}
+                    {activeProduto.ficha && (
+                      <a href={activeProduto.ficha} target="_blank" rel="noopener noreferrer" className="qsd8-btn ghost pj-pdf">
+                        Ficha técnica em PDF ↗
+                      </a>
+                    )}
                   </div>
                 </div>
 
-                {/* DIREITA */}
-                <div className="bp-col bp-col-right">
-                  <div className="bp-stat">
-                    <div className="bp-stat-label">Energia metabolizável</div>
-                    <div className="bp-stat-num bp-lime">{ener.num}</div>
-                    {ener.rest && <div className="bp-stat-unit">{ener.rest}</div>}
+                {activeProduto.alerta && (
+                  <div className="pj-alerta"><strong>Atenção:</strong> {activeProduto.alerta}</div>
+                )}
+
+                <div className="pj-secoes">
+                  <div className="pj-secao">
+                    <h3 className="pj-secao-titulo">Quando usar</h3>
+                    <ul>{activeProduto.quandoUsar.map((q, i) => <li key={i}>{q}</li>)}</ul>
                   </div>
-                  <div className="bp-connector bp-connector-right" />
-                  <div className="bp-stat">
-                    <div className="bp-stat-label">Diferencial</div>
-                    <div className="bp-stat-text">{activeProduto.diferenciais[0]}</div>
+                  <div className="pj-secao">
+                    <h3 className="pj-secao-titulo">Composição</h3>
+                    <ul>{activeProduto.composicao.map((c, i) => <li key={i}>{c}</li>)}</ul>
                   </div>
-                  <div className="bp-connector bp-connector-right" />
-                  <div className="bp-stat">
-                    <div className="bp-stat-label">{activeProduto.dosagem ? "Dosagem mín." : "Embalagem"}</div>
-                    <div className="bp-stat-text">
-                      {activeProduto.dosagem ? activeProduto.dosagem[0].qtd : activeProduto.tamanho}
-                    </div>
+                  <div className="pj-secao">
+                    <h3 className="pj-secao-titulo">Diferenciais</h3>
+                    <ul>{activeProduto.diferenciais.map((d, i) => <li key={i}>{d}</li>)}</ul>
                   </div>
-                </div>
-              </div>
-
-              <div className="bp-divider" />
-
-              {/* THUMBNAILS */}
-              {activeProduto.fotos.length > 1 && (
-                <div className="bp-thumbs">
-                  {activeProduto.fotos.map((f, i) => (
-                    <button
-                      type="button"
-                      key={i}
-                      className={`bp-thumb${i === fotoIdx ? " active" : ""}`}
-                      onClick={() => { setFotoIdx(i); setImgLoaded(false); }}
-                    >
-                      <img loading="lazy" src={f} alt="" />
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* INFO 3 COLUNAS */}
-              <div className="bp-info-grid">
-                <div className="bp-desc-section">
-                  <div className="bp-section-label">Quando usar</div>
-                  <ul className="bp-quando-list">
-                    {activeProduto.quandoUsar.map((q, i) => <li key={i}>{q}</li>)}
-                  </ul>
-                </div>
-
-                <div className="bp-desc-section">
-                  <div className="bp-section-label">Composição</div>
-                  <ul className="bp-quando-list">
-                    {activeProduto.composicao.map((c, i) => <li key={i}>{c}</li>)}
-                  </ul>
-                </div>
-
-                <div className="bp-desc-section">
-                  <div className="bp-section-label">Diferenciais</div>
-                  <ul className="bp-quando-list bp-diferenciais-list">
-                    {activeProduto.diferenciais.map((d, i) => <li key={i}>{d}</li>)}
-                  </ul>
                   {activeProduto.dosagem && (
-                    <>
-                      <div className="bp-section-label" style={{ marginTop: "14px" }}>Dosagem por porte</div>
-                      <table className="bp-dosagem-table">
+                    <div className="pj-secao">
+                      <h3 className="pj-secao-titulo">Quanto dar</h3>
+                      <table className="pj-dose">
                         <tbody>
                           {activeProduto.dosagem.map((d, i) => (
-                            <tr key={i}>
-                              <td className="bp-dosagem-porte">{d.porte}</td>
-                              <td className="bp-dosagem-qtd">{d.qtd}</td>
-                            </tr>
+                            <tr key={i}><th scope="row">{d.porte}</th><td>{d.qtd}</td></tr>
                           ))}
                         </tbody>
                       </table>
-                    </>
+                    </div>
+                  )}
+                </div>
+
+                <h3 className="pj-secao-titulo">Onde comprar</h3>
+                {/* 15/10/26: a Loja oficial leva à página do produto; o Mercado Livre, ao anúncio ativo
+                    dele (ml_items do dash). Amazon fora: a loja lá está em construção (Olivia, 15/10). */}
+                <div className="qsd8-btnrow pj-lojas">
+                  <a href={activeProduto.loja} target="_blank" rel="noopener noreferrer" className="qsd8-btn pj-loja-btn">
+                    Comprar na loja oficial ↗
+                  </a>
+                  {activeProduto.ml && (
+                    <a href={activeProduto.ml} target="_blank" rel="noopener noreferrer" className="qsd8-btn ghost pj-loja-btn">
+                      Mercado Livre ↗
+                    </a>
                   )}
                 </div>
               </div>
-
-              {/* FICHA TÉCNICA */}
-              <div className="bp-section-label" style={{ marginTop: "16px" }}>Ficha Técnica</div>
-              <div className="bp-ficha-grid">
-                <div className="bp-ficha-row">
-                  <span className="bp-ficha-key">Proteína bruta</span>
-                  <span className="bp-ficha-val">{activeProduto.proteina}</span>
-                </div>
-                <div className="bp-ficha-row">
-                  <span className="bp-ficha-key">Gordura bruta</span>
-                  <span className="bp-ficha-val">{activeProduto.gordura}</span>
-                </div>
-                <div className="bp-ficha-row bp-ficha-wide">
-                  <span className="bp-ficha-key">Energia metabolizável</span>
-                  <span className="bp-ficha-val">{activeProduto.energia}</span>
-                </div>
-              </div>
-
-              {/* ALERTA */}
-              {activeProduto.alerta && (
-                <div className="bp-alerta">// ATENÇÃO · {activeProduto.alerta}</div>
-              )}
-
-              {/* ONDE COMPRAR */}
-              <div className="bp-section-label" style={{ marginTop: "20px" }}>Onde comprar</div>
-              <div className="bp-retailers">
-                {RETAILERS.map((r) => (
-                  <a
-                    key={r.name}
-                    href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bp-retailer"
-                    style={{ borderColor: r.color }}
-                  >
-                    <span className="bp-retailer-name" style={{ color: r.color }}>{r.name}</span>
-                    <span className="bp-retailer-tag">{r.tag}</span>
-                    <span className="bp-retailer-arrow">↗</span>
-                  </a>
-                ))}
-              </div>
-            </div>
+            </section>
           </div>
         );
       })()}
