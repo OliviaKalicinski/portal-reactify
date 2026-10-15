@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
@@ -54,13 +54,6 @@ const Win = ({ name, children, className, inverted, mac }: {
   </section>
 );
 
-// ================ RETAILERS ================
-const RETAILERS = [
-  { name: "Loja Oficial", url: "https://www.comidadedragao.com.br", tag: "Melhor preço", color: "var(--dragon-lime)" },
-  { name: "Amazon", url: "https://www.amazon.com.br/s?k=comida+de+dragao", tag: "Prime", color: "var(--dragon-violet)" },
-  { name: "Mercado Livre", url: "https://www.mercadolivre.com.br", tag: "Frete grátis", color: "var(--dragon-yellow)" },
-];
-
 // ================ PRODUTOS ================
 type PetType = "caes" | "gatos" | "repteis";
 
@@ -85,11 +78,15 @@ interface Produto {
   diferenciais: string[];
   alerta?: string;             // ⚠️ caso tenha
   ficha?: string;              // PDF da ficha técnica
+  loja: string;                // página do produto na loja oficial (Shopify)
+  ml?: string;                 // anúncio ativo no Mercado Livre (ml_items do dash); sem ele, só a loja
 }
 
 const PRODUTOS: Produto[] = [
   {
     id: "original",
+    loja: "https://www.comidadedragao.com.br/products/comida-de-dragao-original",
+    ml: "https://produto.mercadolivre.com.br/MLB-4729016795-petisco-natural-proteina-bsf-para-ces-e-gatos-_JM",
     nome: "Original",
     variante: "Larvas inteiras desidratadas",
     tamanho: "90g",
@@ -139,6 +136,8 @@ const PRODUTOS: Produto[] = [
        técnica oficial (Ficha Técnica - Mordida, 27/07/26).
        ⚠️ CLAIM: a PROTEÍNA (BSF) é hipoalergênica; o PRODUTO não é — tem OVO. */
     id: "mordida",
+    loja: "https://www.comidadedragao.com.br/products/mordida-de-dragao",
+    ml: "https://produto.mercadolivre.com.br/MLB-7447551170-petisco-para-ces-mordida-de-drago-180g-_JM",
     nome: "Mordida",
     variante: "Snack sem grão e sem glúten",
     tamanho: "180g",
@@ -188,6 +187,8 @@ const PRODUTOS: Produto[] = [
   },
   {
     id: "suplemento-integral",
+    loja: "https://www.comidadedragao.com.br/products/suplemento-integral-para-caes",
+    ml: "https://produto.mercadolivre.com.br/MLB-6881958918-comida-de-drago-suplemento-proteico-para-ces-_JM",
     nome: "Suplemento Integral",
     variante: "Pó / farinha — mistura na ração",
     tamanho: "180g",
@@ -244,6 +245,7 @@ const PRODUTOS: Produto[] = [
        no pacote) e nada de hipoalergênico, alergia, pele ou intestino: a regra da proteína
        da larva não se estende a este produto. Não serve para gatos nem filhotes. */
     id: "rango",
+    loja: "https://www.comidadedragao.com.br/products/rango-do-dragao-comida-natural-completa-para-caes-adultos-500g",
     nome: "Rango do Dragão",
     variante: "Comida natural úmida — refeição completa",
     tamanho: "500g",
@@ -289,6 +291,7 @@ const PRODUTOS: Produto[] = [
   },
   {
     id: "suplemento-felino",
+    loja: "https://www.comidadedragao.com.br/products/suplemento-para-gatos",
     nome: "Suplemento Felino",
     variante: "Rico em taurina",
     tamanho: "180g",
@@ -336,6 +339,8 @@ const PRODUTOS: Produto[] = [
   },
   {
     id: "grub",
+    loja: "https://www.comidadedragao.com.br/products/grub",
+    ml: "https://produto.mercadolivre.com.br/MLB-4729004663-grub-raco-para-repteis-_JM",
     nome: "GRUB Gel",
     variante: "Alimento em gel para répteis e anfíbios",
     tamanho: "120g",
@@ -403,6 +408,8 @@ const Produtos = () => {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [fotoIdx, setFotoIdx] = useState(0);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const abriuDe = useRef<HTMLElement | null>(null);
+  const fecharRef = useRef<HTMLButtonElement | null>(null);
 
   const filtrados = useMemo(() => {
     if (filtro === "todos") return PRODUTOS;
@@ -415,11 +422,16 @@ const Produtos = () => {
   );
 
   const openProduto = useCallback((id: string) => {
+    abriuDe.current = document.activeElement as HTMLElement | null;
     setActiveId(id);
     setFotoIdx(0);
     setImgLoaded(false);
   }, []);
-  const closeProduto = useCallback(() => setActiveId(null), []);
+  const closeProduto = useCallback(() => {
+    setActiveId(null);
+    // devolve o foco ao cartão que abriu a ficha
+    setTimeout(() => abriuDe.current?.focus(), 0);
+  }, []);
 
   useEffect(() => {
     if (activeProduto) {
@@ -428,6 +440,7 @@ const Produtos = () => {
         if (e.key === "Escape") closeProduto();
       };
       document.addEventListener("keydown", h);
+      fecharRef.current?.focus();
       return () => {
         document.removeEventListener("keydown", h);
         document.body.style.overflow = "";
@@ -582,13 +595,14 @@ const Produtos = () => {
                 <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>
                 <span className="qsd8-tb-name">{activeProduto.id.toUpperCase()}.TXT</span>
                 <span className="qsd8-tb-stripes" aria-hidden="true" />
-                <button type="button" className="pj-fechar" onClick={closeProduto} aria-label="Fechar">×</button>
+                <button type="button" ref={fecharRef} className="pj-fechar" onClick={closeProduto} aria-label="Fechar">×</button>
               </div>
               <div className="qsd8-win-body">
-                <div className="qsd8-eyebrow">Ficha de produto · {String(prodIdx + 1).padStart(2, "0")} · {activeProduto.tag}</div>
+                <div className="qsd8-eyebrow">Ficha de produto · {String(prodIdx + 1).padStart(2, "0")}</div>
                 <h2 className="qsd8-h2 pj-nome">{activeProduto.nome}</h2>
                 <p className="pj-variante">
-                  {activeProduto.variante && `${activeProduto.variante} · `}{activeProduto.tamanho}
+                  <strong className="pj-para">{activeProduto.tag.toLowerCase()}</strong>
+                  {" · "}{activeProduto.variante && `${activeProduto.variante} · `}{activeProduto.tamanho}
                 </p>
 
                 <div className="pj-topo">
@@ -678,12 +692,17 @@ const Produtos = () => {
                 </div>
 
                 <h3 className="pj-secao-titulo">Onde comprar</h3>
+                {/* 15/10/26: a Loja oficial leva à página do produto; o Mercado Livre, ao anúncio ativo
+                    dele (ml_items do dash). Amazon fora: a loja lá está em construção (Olivia, 15/10). */}
                 <div className="qsd8-btnrow pj-lojas">
-                  {RETAILERS.map((r, i) => (
-                    <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" className={`qsd8-btn${i ? " ghost" : ""}`}>
-                      {r.name} ↗
+                  <a href={activeProduto.loja} target="_blank" rel="noopener noreferrer" className="qsd8-btn pj-loja-btn">
+                    Comprar na loja oficial ↗
+                  </a>
+                  {activeProduto.ml && (
+                    <a href={activeProduto.ml} target="_blank" rel="noopener noreferrer" className="qsd8-btn ghost pj-loja-btn">
+                      Mercado Livre ↗
                     </a>
-                  ))}
+                  )}
                 </div>
               </div>
             </section>

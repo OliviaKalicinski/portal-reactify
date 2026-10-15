@@ -59,3 +59,27 @@
 .qsd8.hj .pj-dose th, .qsd8.hj .pj-dose td { text-align: left; padding: 5px 6px; border-bottom: 2px solid rgba(35,32,58,.15); font-size: 15px; }
 .qsd8.hj .pj-dose th { font-weight: 700; }
 .qsd8.hj .pj-lojas { margin-top: 4px; flex-wrap: wrap; }
+
+/* 15/10: ajustes da auditoria (mobile e tipografia) */
+/* barra de título presa no topo enquanto a ficha rola: o × fica sempre à vista */
+.qsd8.hj .pj-ficha > .qsd8-titlebar { position: sticky; top: -28px; z-index: 3; }
+/* × com área de toque de 44 px, desenho de 32 px */
+.qsd8.hj .pj-fechar { width: 44px; height: 44px; margin: -7px -7px -7px 4px; border: 0; background: transparent; position: relative; font-size: 0; }
+.qsd8.hj .pj-fechar::before {
+  content: "×"; position: absolute; inset: 6px; display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--ink); border-radius: 50%; background: var(--paper); font-size: 20px; line-height: 1;
+}
+.qsd8.hj .pj-fechar:hover::before, .qsd8.hj .pj-fechar:focus-visible::before { background: var(--lime); }
+/* o nome é a maior voz da ficha; os números descem */
+.qsd8.hj .pj-nome { font-size: clamp(20px, 6vw, 26px); line-height: 1.25; }
+.qsd8.hj .pj-numero-valor { font-size: 18px; }
+.qsd8.hj .pj-para { text-transform: capitalize; }
+/* botões de compra e PDF em letra de ler */
+.qsd8.hj .pj-loja-btn, .qsd8.hj .pj-pdf {
+  font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-weight: 700;
+  letter-spacing: 0; text-transform: none;
+}
+.qsd8.hj .pj-lojas { margin-top: 0; }
+.qsd8.hj .pj-secoes + .pj-secao-titulo, .qsd8.hj .pj-alerta + .pj-secoes ~ .pj-secao-titulo { margin-top: 20px; }
+/* overflow: hidden da janela prende a barra (sticky não funciona); clip recorta os cantos sem isso */
+.qsd8.hj .pj-ficha { overflow: clip; }
