@@ -1,0 +1,24 @@
+/* Home em janelinhas (?visual=janelas), 15/10/2026, em teste.
+   Cada bloco da home entra numa janela qsd8; o miolo continua com as classes do Portal.css
+   dentro de um .portal-page "hospedeiro" sem fundo. Sem o parâmetro, nada daqui se aplica. */
+.qsd8.hj .hj-host {
+  min-height: 0 !important;
+  background: transparent !important;
+  overflow: visible;
+}
+.qsd8.hj .qsd8-win-body { padding: 14px 12px 18px; }
+.qsd8.hj .hj-host .content-grid,
+.qsd8.hj .hj-host .audience-hub { padding-left: 0 !important; padding-right: 0 !important; max-width: 100% !important; }
+.qsd8.hj .hj-host .hero { background: transparent; min-height: 0; padding-top: 8px; }
+.qsd8.hj .hj-host .hero-bg { display: none; }
+.qsd8.hj .hj-host .hero-title,
+.qsd8.hj .hj-host .hero-produto-line,
+.qsd8.hj .hj-host .hero-tagline-sub,
+.qsd8.hj .hj-host .hero-name-label,
+.qsd8.hj .hj-host .perfil-selector-label { color: var(--ink); }
+.qsd8.hj .hj-modais { min-height: 0 !important; background: transparent !important; }
+/* perfis não escolhidos: texto em tinta (lima e rosa sobre o papel claro somem) */
+.qsd8.hj .hj-host .perfil-card:not(.active) .perfil-name,
+.qsd8.hj .hj-host .perfil-card:not(.active) .perfil-num,
+.qsd8.hj .hj-host .perfil-card:not(.active) .perfil-cta { color: var(--ink); }
+.qsd8.hj .hj-host .perfil-buy-link { color: var(--ink); }

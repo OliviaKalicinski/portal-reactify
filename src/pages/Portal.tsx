@@ -9,6 +9,28 @@ import emailCoverImg from "@/assets/email-cover.png";
 import shopAmazonCover from "@/assets/shop-amazon-cover.png";
 import shopMlCover from "@/assets/shop-ml-cover.png";
 import "./Portal.css";
+import "./QueroSerDragao.css";
+import "./Fofo.css";
+import "./PortalJanelas.css";
+
+/* versão em janelinhas (o visual da /parceiros e da /revenda), em teste: só com ?visual=janelas.
+   Sem o parâmetro, a home não muda. */
+const VISUAL_JANELAS = (() => { try { return new URLSearchParams(window.location.search).get("visual") === "janelas"; } catch { return false; } })();
+
+/* janela OS, a mesma da /parceiros */
+const Win = ({ name, children, className, inverted, mac }: {
+  name: string; children: React.ReactNode; className?: string; inverted?: boolean; mac?: boolean;
+}) => (
+  <section className={`qsd8-win${inverted ? " inverted" : ""}${className ? " " + className : ""}`}>
+    <div className="qsd8-titlebar">
+      {mac && <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>}
+      <span className="qsd8-tb-name">{name}</span>
+      <span className="qsd8-tb-stripes" aria-hidden="true" />
+      <span className="qsd8-tb-x" aria-hidden="true">×</span>
+    </div>
+    <div className="qsd8-win-body">{children}</div>
+  </section>
+);
 
 const PORTAL_COVER = "/assets/images/" + encodeURIComponent("PORTAL COMIDA DE DRAGÃO.png");
 
@@ -301,13 +323,886 @@ const Portal = () => {
     ? `O Dragão viu, ${nameUpper}. O Dragão aprovou. Agora é sua vez.`
     : "O Dragão viu. O Dragão aprovou. Agora é sua vez.";
 
-  return (
-    <div className={`portal-page skin-${skin}`}>
-      <PageMeta
-        title="Comida de Dragão — Hub do Dragão"
-        description="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade, feita na nossa biofábrica em Cachoeiras de Macacu. Mais que um alimento, uma revolução."
-        image="/assets/images/canal-dragao-cover.webp"
-      />
+  // 15/10/2026: os blocos da home viraram pedaços para a versão em janelinhas (?visual=janelas)
+  // montar os mesmos blocos. Sem o parâmetro, a ordem e o conteúdo são os de antes.
+  const topMarquee = (
+    <>
+      <MarqueeBar items={MARQUEE_TOP} />
+    </>
+  );
+  const hero = (
+    <>
+      <section className="hero hero-compact">
+        <div className="hero-bg" />
+        <div className="hero-content">
+          <div className="hero-row">
+            <DragonLogo className="hero-logo" />
+            <div className="hero-copy">
+              <h1 className="hero-title hero-title-inline">
+                Alimento para pets
+              </h1>
+
+              <div className="hero-phrase-row">
+                <p className="hero-produto-line">
+                  Proteína de inseto BSF
+                </p>
+
+                <div className="hero-name-block">
+                  {nameConfirmed && nameUpper.length >= 2 ? (
+                    <>
+                      <p className="hero-tagline-sub hero-tagline-sub-reveal">
+                        <span className="hero-tagline-name">{nameUpper}</span>
+                        <span className="hero-tagline-rest"> já faz parte da revolução.</span>
+                      </p>
+                      <button
+                        type="button"
+                        className="hero-name-edit"
+                        onClick={() => { setHeroName(""); setNameConfirmed(false); setTimeout(() => document.getElementById("hero-name-input")?.focus(), 50); }}
+                      >
+                        trocar nome
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <label className="hero-name-label" htmlFor="hero-name-input">como te chama?</label>
+                      <div className={`hero-name-input-wrap${nameUpper.length >= 2 ? " has-name" : ""}`}>
+                        <input
+                          id="hero-name-input"
+                          type="text"
+                          className="hero-name-input"
+                          placeholder="seu nome"
+                          maxLength={16}
+                          autoComplete="off"
+                          spellCheck={false}
+                          value={heroName}
+                          onChange={e => { setHeroName(e.target.value); setNameConfirmed(false); }}
+                          onKeyDown={e => { if (e.key === "Enter" && nameUpper.length >= 2) setNameConfirmed(true); }}
+                          style={nameUpper.length >= 2 ? { width: `${Math.max(heroName.length + 2, 6)}ch` } : undefined}
+                        />
+                        {nameUpper.length >= 2 && (
+                          <span className="hero-tagline-inline-phrase">já faz parte da revolução.</span>
+                        )}
+                      </div>
+                      {nameUpper.length < 2 && (
+                        <p className="hero-tagline-sub hero-tagline-sub-empty">segue o fio...</p>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+  const perfil = (
+    <>
+      <section className="perfil-selector">
+        <div className="perfil-selector-label">// quem é você?</div>
+        <div className="perfil-selector-grid">
+          {[
+            { n: 1, name: "CURIOSO" },
+            { n: 2, name: "NOJENTINHO" },
+            { n: 3, name: "ESTUDADO" },
+          ].map(p => (
+            <button
+              key={p.n}
+              type="button"
+              className={`perfil-card perfil-card-s${p.n}${skin === p.n ? " active" : ""}`}
+              onClick={() => { setSkin(p.n); setProfileJoke(p.n); }}
+              aria-pressed={skin === p.n}
+            >
+              <span className="perfil-num">{String(p.n).padStart(2, "0")}</span>
+              <span className="perfil-name">{p.name}</span>
+              <span className="perfil-indicator" aria-hidden="true" />
+              <span className="perfil-cta">{skin === p.n ? "●" : "→"}</span>
+            </button>
+          ))}
+          <a
+            href="https://www.comidadedragao.com.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="perfil-buy-link"
+          >
+            <span className="perfil-buy-label">comprar</span>
+            <span className="perfil-buy-cta">→</span>
+          </a>
+        </div>
+      </section>
+    </>
+  );
+  const dragonCta = (
+    <>
+      <nav className="dragon-cta-bar">
+        <button type="button" className="btn-dragon-hero" onClick={openModal}>
+          <span className="btn-dragon-hero-eyebrow">// apertou aqui você some por um tempo</span>
+          <span className="btn-dragon-hero-title">O Dragão Fala</span>
+          <span className="btn-dragon-hero-sub">clica se tiver coragem <span className="btn-dragon-hero-arrow">→</span></span>
+        </button>
+      </nav>
+    </>
+  );
+  const joke = (
+    <>
+      {profileJoke !== null && (
+        <div
+          className="profile-joke-overlay"
+          onClick={(e) => { if (e.target === e.currentTarget) setProfileJoke(null); }}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className={`profile-joke-card profile-joke-card-s${profileJoke}`}>
+            <button
+              type="button"
+              className="profile-joke-close"
+              onClick={() => setProfileJoke(null)}
+              aria-label="Fechar"
+            >
+              ×
+            </button>
+            <p className="profile-joke-text">
+              {PROFILE_JOKES[profileJoke]}
+            </p>
+            <button
+              type="button"
+              className="profile-joke-cta"
+              onClick={() => setProfileJoke(null)}
+            >
+              bora lá →
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+  const conteudosLabel = (
+    <>
+      <div className="section-label">Conteúdos</div>
+    </>
+  );
+  const conteudos = (
+    <>
+      <div className="content-grid">
+        {/* ROW 1 */}
+        <div className="row row-equal-h">
+          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-video ratio-16-9">
+            <div className="card-video-hover">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/yb68p_v-63M?autoplay=1&mute=1&controls=0&loop=1&playlist=yb68p_v-63M&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3"
+                allow="autoplay; encrypted-media"
+                title="Canal do Dragão"
+                tabIndex={-1}
+              />
+            </div>
+            <div className="card-inner">
+              <div className="yt-preview-wrap" aria-hidden="true">
+                <iframe
+                  className="yt-preview-iframe"
+                  src="https://www.youtube-nocookie.com/embed/yb68p_v-63M?autoplay=1&mute=1&controls=0&loop=1&playlist=yb68p_v-63M&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3"
+                  allow="autoplay; encrypted-media"
+                  title=""
+                  tabIndex={-1}
+                />
+              </div>
+              <div className="video-bg-placeholder"><span className="video-thumb-text">▶</span></div>
+              <div className="card-body">
+                <span className="card-tag">YouTube</span>
+                <div className="play-icon">▶</div>
+                <div className="card-label">O Canal<br />do Dragão</div>
+                <div className="card-sub">Vídeos, bastidores e tudo que o Dragão manda falar</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </a>
+
+          <Link to="/parceiros" className="card card-pdf card-pdf-dark ratio-3-4">
+            <HoverBg imgKey="manual" />
+            <div className="card-inner" />
+            <div className="card-hover-overlay" />
+          </Link>
+
+          <div onClick={openManifesto} style={{ cursor: "pointer" }} className="card card-manifesto-cta ratio-3-4">
+            <img src="/assets/images/team.gif" alt="A equipe Comida de Dragão" className="card-produtos-cover" draggable={false} />
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="card-tag">A Matilha</span>
+                <div className="card-label">Quem faz<br />acontecer</div>
+                <div className="card-sub">Conheça quem está por trás do Dragão</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </div>
+        </div>
+
+        {/* ROW 2 */}
+        <div className="row">
+          <Link to="/produtos" className="card card-produtos ratio-1-1">
+            <img src="/assets/images/nossos-produtos.webp" alt="" className="card-produtos-cover" draggable={false} />
+            <HoverBg imgKey="produtos" />
+            <div className="card-inner">
+              <div className="card-body">
+                <div className="card-label">Nossos<br />Produtos</div>
+                <div className="card-sub" style={{ marginTop: 8 }}>Veja a linha completa — 7 SKUs</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
+          </Link>
+
+          <Link to="/biblioteca" className="card card-manifesto ratio-5-4">
+            <HoverBg imgKey="manifesto" />
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="scratch-mark">// biblioteca</span>
+                <div className="card-label">Biblioteca<br />Científica.</div>
+                <div className="card-sub">17 artigos sobre inseto na alimentação pet — a ciência por trás do Dragão</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.04)" }} />
+          </Link>
+
+          <div onClick={openAudio} style={{ cursor: "pointer" }} className="card card-audio ratio-1-1">
+            <HoverBg imgKey="audio" />
+            <div className="card-audio-top">
+              <span className="card-tag">Audiocasts</span>
+            </div>
+            <div className="card-audio-bottom">
+              <div className="waveform">
+                {Array.from({ length: 14 }).map((_, i) => <div className="waveform-bar" key={i} />)}
+              </div>
+              <div className="card-label">O Dragão<br />Fala ao<br />Microfone</div>
+              <div className="card-sub">Clique e ouça enquanto navega</div>
+            </div>
+          </div>
+        </div>
+
+        {/* ROW 3: Quiz + Blog (par) | Imprensa + Perguntas (par) */}
+        <div className="row row-equal-h">
+          <Link to="/quizzes" className="card card-quiz ratio-1-1">
+            <HoverBg imgKey="quiz" />
+            <div className="quiz-bg" />
+            <div className="quiz-cta-content">
+              <div className="quiz-intro-label">// descubra seu perfil de tutor</div>
+              <div className="quiz-inner-box">
+                <div className="quiz-intro-title">O DRAGÃO<br />QUER TE<br />CONHECER</div>
+                <span className="quiz-start-btn">MONTAR MEU PERFIL →</span>
+              </div>
+            </div>
+          </Link>
+
+          <a
+            href="https://www.comidadedragao.com.br/blogs/news"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card card-lives ratio-1-1"
+          >
+            <HoverBg imgKey="blog" />
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="card-tag">Blog</span>
+                <div className="card-label">Blog do<br />Dragão</div>
+                <div className="card-sub">Histórias, ciência e o que o Dragão tá pensando</div>
+                <span className="lives-cta">Ler →</span>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </a>
+
+          <Link to="/imprensa" className="card card-quiz-companion card-quiz-companion-video ratio-3-4">
+            <HoverBg imgKey="companion" />
+            <video
+              className="card-bg-video"
+              src="/assets/videos/na-midia.mp4?v=1"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="cqc-label">// imprensa</span>
+                <div className="card-label">Na Mídia &<br />Cobertura</div>
+                <div className="card-sub">23 links — matérias, vídeos e o que falam sobre o Dragão</div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </Link>
+
+          <button
+            type="button"
+            onClick={openPerguntas}
+            className="card card-perguntas ratio-3-4"
+          >
+            <HoverBg imgKey="perguntas" />
+            <div className="card-inner">
+              <div className="card-body">
+                <span className="perg-bg-mark">?</span>
+                <span className="card-tag">FAQ secreto</span>
+                <div className="card-label">Perguntas<br />que ninguém<br />faz</div>
+                <div className="card-sub">O Dragão responde sem filtro</div>
+                <span className="perg-cta">Abrir →</span>
+              </div>
+            </div>
+            <div className="card-hover-overlay" />
+          </button>
+        </div>
+      </div>
+    </>
+  );
+  const statsTitle = (
+    <>
+      <h2 className="thesis-label thesis-label-center" style={{ marginTop: 40 }}>
+        Não é marketing, <span>é matemática.</span>
+      </h2>
+    </>
+  );
+  const stats = (
+    <>
+      <div className="stats-strip">
+        {[
+          { num: <>83<span className="stat-unit">%</span></>,     label: <>menos <em>carbono</em></>,      hint: "~500g CO₂/kg (BSF) vs ~2.850g/kg (boi)." },
+          { num: <>3140<span className="stat-unit">×</span></>,   label: <>mais <em>eficiente</em></>,     hint: "3140× menos terra do que carne bovina para produzir a mesma quantidade de proteína." },
+          { num: <>88,9<span className="stat-unit">%</span></>,   label: <>de <em>digestibilidade</em></>, hint: "Proteína de BSF é quase totalmente absorvida — superior à maioria das fontes convencionais em cães." },
+          { num: <>45<span className="stat-unit">%</span></>,     label: <>de <em>proteína</em></>,        hint: "Alta densidade proteica — quase o dobro da maioria das rações convencionais." },
+        ].map((s, i) => (
+          <div className="stat-item" key={i}>
+            <span className="stat-num">{s.num}</span>
+            <span className="stat-label">{s.label}</span>
+            <span className="stat-hint">{s.hint}</span>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+  const reels = (
+    <>
+      <ReelsSection />
+    </>
+  );
+  const comunidadeLabel = (
+    <>
+      <div className="section-label" style={{ marginTop: 40 }}>Comunidade</div>
+    </>
+  );
+  const comunidade = (
+    <>
+      <div className="content-grid" style={{ paddingTop: 8 }}>
+        <div className="row row-equal-h" style={{ flexWrap: "nowrap" }}>
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-social card-social-ig card-social-ig-img ratio-5-4">
+            <HoverBg imgKey="instagram" />
+            <div className="card-inner"><div className="card-body">
+              <span className="social-icon">📸</span>
+              <div className="card-tag">Instagram</div>
+              <div className="card-label">@comida<br />dedragao</div>
+              <div className="card-sub">Posts, stories, reels e o Dragão provocando todo dia</div>
+            </div></div>
+            <div className="card-hover-overlay" style={{ background: "rgba(255,45,120,0.08)" }} />
+          </a>
+
+          <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer" className="card card-social card-social-wa card-social-wa-img ratio-3-4">
+            <HoverBg imgKey="whatsapp" />
+            <div className="card-inner"><div className="card-body">
+              <div className="card-tag">WhatsApp SAC</div>
+              <div className="card-label">Fala<br />com<br />a gente</div>
+              <div className="card-sub">(21) 3950-0576 — O Dragão não abandona ninguém</div>
+            </div></div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,255,135,0.06)" }} />
+          </a>
+
+          <Link to="/lojas" className="card card-social card-social-map ratio-1-1">
+            <img src={lojasCoverImg} alt="" className="card-produtos-cover" draggable={false} />
+            <HoverBg imgKey="lojas" />
+            <div className="card-hover-overlay" />
+          </Link>
+
+
+          <button
+            type="button"
+            onClick={openEmail}
+            className="card card-manifesto card-email-manifesto ratio-1-1"
+            style={{ border: "none", font: "inherit", color: "inherit", textAlign: "left", cursor: "pointer" }}
+          >
+            <img src={emailCoverImg} alt="" className="card-produtos-cover" draggable={false} />
+            <HoverBg imgKey="email" />
+            <div className="card-hover-overlay" />
+          </button>
+        </div>
+      </div>
+    </>
+  );
+  const perfisLabel = (
+    <>
+      <div className="section-label" style={{ marginTop: 40 }}>Área por Perfil</div>
+    </>
+  );
+  const perfis = (
+    <>
+      <div className="audience-hub" style={{ paddingTop: 8 }}>
+        <div className="audience-grid">
+
+          {/* Consumidor */}
+          <Link to="/matilde" className="audience-card aud-consumer">
+            <HoverBg imgKey="consumer" />
+            <div className="audience-card-inner">
+              <div className="aud-bg-num">01</div>
+              <div className="aud-tag">Tutor de pet</div>
+              <div className="aud-title">Quero<br />alimentar<br />bem.</div>
+              <div className="aud-desc">Produtos, quiz de recomendação, onde comprar. O Dragão te guia.</div>
+              <div className="aud-cta">Ver produtos →</div>
+            </div>
+          </Link>
+
+          {/* Influenciador */}
+          <Link to="/quero-ser-dragao" className="audience-card aud-influencer">
+            <HoverBg imgKey="influencer" />
+            <div className="audience-card-inner">
+              <div className="aud-bg-num">02</div>
+              <div className="aud-tag">Criador de conteúdo</div>
+              <div className="aud-title">Quero<br />ser<br />dragão.</div>
+              <div className="aud-desc">Produtos pra testar, cupom exclusivo e comissão por venda. Entra na matilha.</div>
+              <div className="aud-cta">Quero ser parceiro →</div>
+            </div>
+          </Link>
+
+          {/* Vendedor */}
+          <a href="mailto:somos@letsfly.com.br?subject=Quero revender Comida de Dragão" className="audience-card aud-seller">
+            <HoverBg imgKey="seller" />
+            <div className="audience-card-inner">
+              <div className="aud-bg-num">03</div>
+              <div className="aud-tag">Revenda / B2B</div>
+              <div className="aud-title">Quero<br />vender<br />junto.</div>
+              <div className="aud-desc">Catálogo, tabela de preços, materiais de PDV e contato comercial.</div>
+              <div className="aud-cta" style={{ color: "var(--dragon-lime)" }}>Ver catálogo →</div>
+            </div>
+          </a>
+
+          {/* Veterinário */}
+          <Link to="/veterinarios" className="audience-card aud-vet">
+            <HoverBg imgKey="vet" />
+            <div className="audience-card-inner">
+              <div className="aud-bg-num">04</div>
+              <div className="aud-tag">Veterinário</div>
+              <div className="aud-title">Quero<br />indicar<br />certo.</div>
+              <div className="aud-desc">Amostras pra pacientes, cupom exclusivo, comissão e treinamento técnico. Vem pro time.</div>
+              <div className="aud-cta">Quero ser vet parceiro →</div>
+            </div>
+          </Link>
+
+        </div>
+      </div>
+    </>
+  );
+  const comprarLabel = (
+    <>
+      <div className="section-label" style={{ marginTop: 40 }}>Onde Comprar</div>
+    </>
+  );
+  const comprar = (
+    <>
+      <div className="content-grid" style={{ paddingTop: 8 }}>
+        <div className="row">
+          {[
+            { cls: "card-shop-oficial card-shop-large", href: "https://www.comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
+            { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Prime", hoverKey: "amazon", cover: shopAmazonCover },
+            { cls: "card-shop-ml", href: "https://lista.mercadolivre.com.br/comida-de-dragao", name: "Mercado\nLivre", tag: "Frete Grátis", hoverKey: "ml", cover: shopMlCover },
+          ].map((shop, i) => (
+            <a key={i} href={shop.href} target="_blank" rel="noopener noreferrer" className={`card card-shop ratio-shop ${shop.cls}`}>
+              {shop.cover && <img src={shop.cover} alt="" className="card-shop-cover" />}
+              <HoverBg imgKey={shop.hoverKey} />
+              {!shop.cover && (
+                <div className="card-inner">
+                  <div className="card-body">
+                    <div className="shop-name">{shop.name.split("\n").map((line, j) => j > 0 ? <span key={j}><br />{line}</span> : line)}</div>
+                    <span className="shop-tag">{shop.tag}</span>
+                    <span className="shop-arrow">→</span>
+                  </div>
+                </div>
+              )}
+              <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
+            </a>
+          ))}
+        </div>
+
+        {/* Biofábrica */}
+        <div className="row">
+          <a href="https://letsfly.com.br/" target="_blank" rel="noopener noreferrer" className="card card-biofabrica card-biofabrica-img">
+            <HoverBg imgKey="biofabrica_hover" />
+            <div className="card-inner">
+              <div className="card-body">
+                <div className="bio-left">
+                  <div className="bio-tag">// Cachoeiras de Macacu, RJ</div>
+                  <div className="bio-title">Nossa<br />Biofábrica</div>
+                  <div className="bio-sub">
+                    Produzimos nossos próprios insetos. Do resíduo orgânico à proteína de elite —
+                    tudo rastreável, tudo nosso. 83% menos carbono que proteína convencional.
+                  </div>
+                  <span className="bio-badge">MAPA · ESTAB. RJ 001924-0</span>
+                </div>
+                <div className="bio-right">
+                  <div className="bio-giant">🏭</div>
+                  <div className="bio-cert-stack">
+                    <span className="bio-cert">BSF · Hermetia illucens</span>
+                    <span className="bio-cert">Ciclo 45 dias</span>
+                    <span className="bio-cert">Do resíduo à proteína</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="card-hover-overlay" style={{ background: "rgba(0,255,135,0.04)" }} />
+          </a>
+        </div>
+      </div>
+    </>
+  );
+  const bottomMarquee = (
+    <>
+      <div style={{ marginTop: 24 }}>
+        <MarqueeBar items={MARQUEE_BOTTOM} bottom />
+      </div>
+    </>
+  );
+  const footer = (
+    <>
+      <footer className="portal-footer">
+        <DragonLogo className="footer-logo-svg" />
+        <nav className="footer-links">
+          <Link to="/produtos">Produtos</Link>
+          <Link to="/parceiros">Parceiros</Link>
+          <Link to="/biblioteca">Biblioteca</Link>
+          <Link to="/imprensa">Imprensa</Link>
+          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+          <a href="mailto:somos@letsfly.com.br">Contato</a>
+        </nav>
+        <div className="footer-tagline">{footerText}</div>
+      </footer>
+    </>
+  );
+  const modais = (
+    <>
+      {modalOpen && (
+        <div
+          className="reels-riso-overlay"
+          onClick={e => { if (e.target === e.currentTarget) closeModal(); }}
+        >
+          <article className="reels-riso" role="dialog">
+            <button className="reels-riso-close" onClick={closeModal} aria-label="Fechar">×</button>
+            <div className="reels-riso-frame">
+              <span className="reels-riso-counter">DRAGÃO FALA</span>
+              <video
+                autoPlay
+                playsInline
+                loop
+                muted={videoMuted}
+                src="/assets/videos/dragao-fala.mp4"
+                className="reels-riso-video"
+              />
+              <button
+                className="reels-mute-btn"
+                onClick={() => setVideoMuted(m => !m)}
+                type="button"
+                aria-label={videoMuted ? "Ativar som" : "Mutar"}
+              >{videoMuted ? "🔇 SOM" : "🔊 SOM"}</button>
+            </div>
+          </article>
+        </div>
+      )}
+      {/* MODAL EQUIPE — Risograph (laranja + pink) */}
+      {manifestoOpen && (
+        <div
+          className="riso-overlay"
+          onClick={e => { if (e.target === e.currentTarget) closeManifesto(); }}
+        >
+          <article className="riso riso-manifesto" role="dialog" aria-labelledby="manifesto-title">
+            <div className="riso-strip" />
+            <button className="riso-close" onClick={closeManifesto} aria-label="Fechar">×</button>
+            <div className="riso-pagenum">01</div>
+            <span className="riso-eyebrow">A MATILHA · LET'S FLY</span>
+            <h2 id="manifesto-title" className="riso-title">Quem faz<br/>aconte-<br/>cer.</h2>
+            <div className="riso-body">
+              <img src="/assets/images/team.gif" alt="Equipe Comida de Dragão" style={{ width: "100%", borderRadius: 4, marginBottom: 12 }} />
+              <p>Somos a Let's Fly — um time que acredita que comida boa pra pet não precisa destruir o planeta. A Comida de Dragão nasceu aqui, no Rio de Janeiro, com muita pesquisa, um cachorro preto e zero medo de ser diferente.</p>
+              <p className="pull">Nojento é o desperdício. A gente faz ao contrário.</p>
+            </div>
+            <div className="riso-signature">— LET'S FLY · CACHOEIRAS DE MACACU · RJ</div>
+            <a href="https://www.comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="riso-btn">VER PRODUTOS →</a>
+            <button className="riso-btn ghost" onClick={closeManifesto}>FECHAR</button>
+          </article>
+        </div>
+      )}
+
+      {/* MODAL EMAIL — Risograph (yellow + pink) · Escreve pro Dragão */}
+      {emailOpen && (
+        <div
+          className="riso-overlay"
+          onClick={e => { if (e.target === e.currentTarget) closeEmail(); }}
+        >
+          <article className="riso riso-email large" role="dialog" aria-labelledby="email-title">
+            <div className="riso-strip" />
+            <button className="riso-close" onClick={closeEmail} aria-label="Fechar">×</button>
+            <div className="riso-pagenum">02</div>
+            {emailStatus === "ok" ? (
+              <>
+                <span className="riso-eyebrow">STATUS · ENTREGUE</span>
+                <h2 id="email-title" className="riso-title">Mensagem<br/>enviada.</h2>
+                <div className="riso-body">
+                  <p>O Dragão recebeu. A gente responde no email que você deixou, normalmente em até 48h.</p>
+                  <p className="strong">Obrigado por escrever.</p>
+                </div>
+                <button className="riso-btn" onClick={closeEmail}>FECHAR →</button>
+                <button
+                  className="riso-btn ghost"
+                  onClick={() => { setEmailStatus("idle"); }}
+                >
+                  ENVIAR OUTRA
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="riso-eyebrow">CARTA ABERTA · SOMOS@</span>
+                <h2 id="email-title" className="riso-title">Manda<br/>o recado.</h2>
+                <div className="riso-body">
+                  <p>Dúvida, parceria, ideia maluca, elogio, crítica. <strong>O Dragão lê tudo.</strong> Resposta em até 48h no email que você deixar.</p>
+                </div>
+                <form className="riso-form" onSubmit={submitEmail}>
+                  <div className="riso-field">
+                    <label className="riso-field-label" htmlFor="email-nome">&gt; seu nome (opcional)</label>
+                    <input
+                      id="email-nome"
+                      type="text"
+                      className="riso-input"
+                      placeholder="como o Dragão te chama?"
+                      value={emailForm.nome}
+                      onChange={e => setEmailForm(f => ({ ...f, nome: e.target.value }))}
+                      maxLength={60}
+                    />
+                  </div>
+                  <div className="riso-field">
+                    <label className="riso-field-label" htmlFor="email-email">&gt; email *</label>
+                    <input
+                      id="email-email"
+                      type="email"
+                      required
+                      className="riso-input"
+                      placeholder="voce@email.com"
+                      value={emailForm.email}
+                      onChange={e => setEmailForm(f => ({ ...f, email: e.target.value }))}
+                    />
+                    <span className="riso-helper">pra onde o Dragão responde</span>
+                  </div>
+                  <div className="riso-field">
+                    <label className="riso-field-label" htmlFor="email-msg">&gt; mensagem *</label>
+                    <textarea
+                      id="email-msg"
+                      required
+                      className="riso-textarea"
+                      placeholder="escreve aqui. sem papo formal."
+                      value={emailForm.mensagem}
+                      onChange={e => setEmailForm(f => ({ ...f, mensagem: e.target.value }))}
+                      maxLength={2000}
+                    />
+                  </div>
+                  {emailStatus === "err" && (
+                    <div className="riso-status err">// {emailErrMsg}</div>
+                  )}
+                  <div style={{ marginTop: 4 }}>
+                    <button
+                      type="submit"
+                      className="riso-btn"
+                      disabled={emailStatus === "sending"}
+                    >
+                      {emailStatus === "sending" ? "ENVIANDO..." : "POSTAR →"}
+                    </button>
+                    <button
+                      type="button"
+                      className="riso-btn ghost"
+                      onClick={closeEmail}
+                    >
+                      CANCELAR
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+          </article>
+        </div>
+      )}
+      {/* MODAL PERGUNTAS QUE NINGUÉM FAZ — Risograph (violet + lime) */}
+      {perguntasOpen && (
+        <div
+          className="riso-overlay"
+          onClick={e => { if (e.target === e.currentTarget) closePerguntas(); }}
+        >
+          <article className="riso riso-perguntas large" role="dialog" aria-labelledby="perguntas-title">
+            <div className="riso-strip" />
+            <button className="riso-close" onClick={closePerguntas} aria-label="Fechar">×</button>
+            <div className="riso-pagenum">05</div>
+            <span className="riso-eyebrow">Q&amp;A · O QUE NINGUÉM PERGUNTA</span>
+            <h2 id="perguntas-title" className="riso-title">Pergunta<br/>sem filtro.</h2>
+            <div className="riso-body">
+              <p className="meta">// AS QUE FICAM NA CABEÇA E NINGUÉM MANDA NO DM</p>
+            </div>
+            <div className="riso-qa">
+              {[
+                {
+                  q: "Meu gato é super enjoado, vai aceitar mesmo?",
+                  a: "Gato aceita BSF melhor que muita ração comum — a palatabilidade é 1,93:1 a favor da farinha de inseto em testes. Dica: começa com 5% misturado na ração normal, não troca tudo de uma vez.",
+                },
+                {
+                  q: "Posso dar todo dia? Não cansa?",
+                  a: "Pode e deve. Ingrediente único, hipoalergênico, perfil completo de aminoácidos. Não é snack ocasional — é nutrição diária com 88,9% de digestibilidade.",
+                },
+                {
+                  q: "E se eu provar também? Tipo, de curiosidade.",
+                  a: "Experimenta. BSF é uma das proteínas mais limpas e completas da natureza — 2 bilhões de pessoas no mundo já comem inseto regularmente. Nossa linha é registrada no MAPA como pet food (questão de regulação, não de segurança), mas se seu pet tá comendo e bateu a curiosidade, manda bala. A gente não vai dedurar.",
+                },
+                {
+                  q: "Meu pet tem alergia a tudo. BSF pode desencadear?",
+                  a: "BSF é a proteína nova por excelência em dieta de eliminação — é exatamente o produto que veterinários usam quando o pet é alérgico a frango, boi e laticínio. Cuidado apenas se o pet é alérgico a ácaros/crustáceos (reatividade cruzada rara).",
+                },
+                {
+                  q: "Se eu der pro meu cachorro, meus amigos vão achar estranho. Como explico?",
+                  a: "Não explica — mostra o pet devorando. 90% dos tutores que deram pra experimentar mudaram de ideia em 1 semana. E se quiser argumentar: seu cão já come barata no quintal — o nosso só tem 88,9% mais digestibilidade.",
+                },
+              ].map((qa, i) => (
+                <div key={i} className="riso-qa-item">
+                  <div className="riso-qa-num">{String(i + 1).padStart(2, "0")}</div>
+                  <div className="riso-qa-q">{qa.q}</div>
+                  <div className="riso-qa-a">{qa.a}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 8 }}>
+              <a
+                href="https://wa.me/552139500576?text=Tenho%20uma%20pergunta%20pro%20Drag%C3%A3o"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="riso-btn"
+              >
+                PERGUNTA NO ZAP →
+              </a>
+              <button className="riso-btn ghost" onClick={closePerguntas}>FECHAR</button>
+            </div>
+          </article>
+        </div>
+      )}
+
+      {/* MODAL CATÁLOGO */}
+      {catalogOpen && (
+        <div
+          className="modal-overlay open"
+          onClick={e => { if (e.target === e.currentTarget) closeCatalog(); }}
+          style={{ zIndex: 1000 }}
+        >
+          <div style={{
+            position: "relative",
+            maxWidth: "90vw",
+            maxHeight: "90vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+            <button
+              onClick={closeCatalog}
+              style={{
+                position: "absolute",
+                top: -16,
+                right: -16,
+                background: "var(--dragon-lime, #aaff00)",
+                color: "#000",
+                border: "none",
+                borderRadius: "50%",
+                width: 36,
+                height: 36,
+                fontSize: 18,
+                fontWeight: 700,
+                cursor: "pointer",
+                zIndex: 10,
+                lineHeight: 1,
+              }}
+            >✕</button>
+            <img
+              src="/assets/images/Frente.webp"
+              alt="Catálogo Comida de Dragão"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "88vh",
+                objectFit: "contain",
+                borderRadius: 8,
+                boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
+              }}
+            />
+            <a
+              href="https://www.comidadedragao.com.br/collections/produtos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-dragon"
+              style={{ marginTop: 16 }}
+            >Ver todos os produtos →</a>
+          </div>
+        </div>
+      )}
+
+      {/* AUDIO PLAYER FLUTUANTE */}
+      {audioOpen && (
+        <div className={`audio-float-player${audioMinimized ? " minimized" : ""}`}>
+          <audio
+            ref={audioRef}
+            src="/assets/audio/audiocast.mp3"
+            preload="metadata"
+            onPlay={() => setAudioPlaying(true)}
+            onPause={() => setAudioPlaying(false)}
+            onEnded={() => setAudioPlaying(false)}
+          />
+          {!audioMinimized ? (
+            <>
+              <div className="afp-header">
+                <span className="afp-tag">// AUDIOCAST</span>
+                <div className="afp-controls">
+                  <button className="afp-btn" onClick={() => setAudioMinimized(true)} title="Minimizar">—</button>
+                  <button className="afp-btn" onClick={closeAudio} title="Fechar">✕</button>
+                </div>
+              </div>
+              <div className="afp-title">O Dragão Fala ao Microfone</div>
+              <div className={`afp-waveform${audioPlaying ? " playing" : ""}`}>
+                {Array.from({ length: 20 }).map((_, i) => <div className="afp-bar" key={i} />)}
+              </div>
+              <div className="afp-actions">
+                <button className="afp-play" onClick={() => {
+                  const a = audioRef.current;
+                  if (!a) return;
+                  a.paused ? a.play() : a.pause();
+                }}>
+                  {audioPlaying ? "⏸ Pausar" : "▶ Ouvir"}
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="afp-mini" onClick={() => setAudioMinimized(false)}>
+              <span>{audioPlaying ? "// TOCANDO..." : "// AUDIOCAST"}</span>
+              <button className="afp-btn" onClick={e => { e.stopPropagation(); closeAudio(); }}>✕</button>
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+
+  const meta = (
+    <PageMeta
+      title="Comida de Dragão — Hub do Dragão"
+      description="Nojento é o desperdício. Proteína de inseto pra pets — 88,9% de digestibilidade, feita na nossa biofábrica em Cachoeiras de Macacu. Mais que um alimento, uma revolução."
+      image="/assets/images/canal-dragao-cover.webp"
+    />
+  );
+
+  if (VISUAL_JANELAS) {
+    const host = `portal-page skin-${skin} qsd8-reels-host hj-host`;
+    return (
+      <div className="qsd8 fofo fofo-verde hj">
+        {meta}
       <style>{`
         .card-img-hover {
           position: absolute;
@@ -699,821 +1594,463 @@ const Portal = () => {
         }
 
       `}</style>
-      {/* TOP MARQUEE */}
-      <MarqueeBar items={MARQUEE_TOP} />
-
-      {/* HERO — compacto: logo pequena à esquerda, título embaixo, frase + brincadeira do nome lado a lado */}
-      <section className="hero hero-compact">
-        <div className="hero-bg" />
-        <div className="hero-content">
-          <div className="hero-row">
-            <DragonLogo className="hero-logo" />
-            <div className="hero-copy">
-              <h1 className="hero-title hero-title-inline">
-                Alimento para pets
-              </h1>
-
-              <div className="hero-phrase-row">
-                <p className="hero-produto-line">
-                  Proteína de inseto BSF
-                </p>
-
-                <div className="hero-name-block">
-                  {nameConfirmed && nameUpper.length >= 2 ? (
-                    <>
-                      <p className="hero-tagline-sub hero-tagline-sub-reveal">
-                        <span className="hero-tagline-name">{nameUpper}</span>
-                        <span className="hero-tagline-rest"> já faz parte da revolução.</span>
-                      </p>
-                      <button
-                        type="button"
-                        className="hero-name-edit"
-                        onClick={() => { setHeroName(""); setNameConfirmed(false); setTimeout(() => document.getElementById("hero-name-input")?.focus(), 50); }}
-                      >
-                        trocar nome
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <label className="hero-name-label" htmlFor="hero-name-input">como te chama?</label>
-                      <div className={`hero-name-input-wrap${nameUpper.length >= 2 ? " has-name" : ""}`}>
-                        <input
-                          id="hero-name-input"
-                          type="text"
-                          className="hero-name-input"
-                          placeholder="seu nome"
-                          maxLength={16}
-                          autoComplete="off"
-                          spellCheck={false}
-                          value={heroName}
-                          onChange={e => { setHeroName(e.target.value); setNameConfirmed(false); }}
-                          onKeyDown={e => { if (e.key === "Enter" && nameUpper.length >= 2) setNameConfirmed(true); }}
-                          style={nameUpper.length >= 2 ? { width: `${Math.max(heroName.length + 2, 6)}ch` } : undefined}
-                        />
-                        {nameUpper.length >= 2 && (
-                          <span className="hero-tagline-inline-phrase">já faz parte da revolução.</span>
-                        )}
-                      </div>
-                      {nameUpper.length < 2 && (
-                        <p className="hero-tagline-sub hero-tagline-sub-empty">segue o fio...</p>
-                      )}
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+        <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
+        <div className="qsd8-wrap hj-wrap">
+          <Win name="CAVERNA.EXE" mac className="hj-hero-win">
+            <div className={host}>{hero}{perfil}{dragonCta}</div>
+          </Win>
+          <Win name="CONTEUDOS.DIR"><div className={host}>{conteudos}</div></Win>
+          <Win name="MATEMATICA.TXT" inverted><div className={host}>{statsTitle}{stats}</div></Win>
+          <Win name="REELS.MOV" className="qsd8-reels-win"><div className={host}>{reels}</div></Win>
+          <Win name="COMUNIDADE.EXE"><div className={host}>{comunidade}</div></Win>
+          <Win name="AREA-POR-PERFIL.SYS" inverted><div className={host}>{perfis}</div></Win>
+          <Win name="ONDE-COMPRAR.EXE"><div className={host}>{comprar}</div></Win>
+          <footer className="qsd8-footer">
+            <DragonLogo className="qsd8-footer-logo" />
+            <nav className="qsd8-footer-nav">
+              <Link to="/produtos">Produtos</Link>
+              <Link to="/parceiros">Parceiros</Link>
+              <Link to="/biblioteca">Biblioteca</Link>
+              <Link to="/imprensa">Imprensa</Link>
+              <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+              <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+              <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+              <a href="mailto:somos@letsfly.com.br">Contato</a>
+            </nav>
+            <div className="qsd8-footer-tag">{footerText}</div>
+          </footer>
         </div>
-      </section>
-
-      {/* PERFIL SELECTOR — a brincadeira dos 3 modos + comprar discreto ao lado */}
-      <section className="perfil-selector">
-        <div className="perfil-selector-label">// quem é você?</div>
-        <div className="perfil-selector-grid">
-          {[
-            { n: 1, name: "CURIOSO" },
-            { n: 2, name: "NOJENTINHO" },
-            { n: 3, name: "ESTUDADO" },
-          ].map(p => (
-            <button
-              key={p.n}
-              type="button"
-              className={`perfil-card perfil-card-s${p.n}${skin === p.n ? " active" : ""}`}
-              onClick={() => { setSkin(p.n); setProfileJoke(p.n); }}
-              aria-pressed={skin === p.n}
-            >
-              <span className="perfil-num">{String(p.n).padStart(2, "0")}</span>
-              <span className="perfil-name">{p.name}</span>
-              <span className="perfil-indicator" aria-hidden="true" />
-              <span className="perfil-cta">{skin === p.n ? "●" : "→"}</span>
-            </button>
-          ))}
-          <a
-            href="https://www.comidadedragao.com.br"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="perfil-buy-link"
-          >
-            <span className="perfil-buy-label">comprar</span>
-            <span className="perfil-buy-cta">→</span>
-          </a>
-        </div>
-      </section>
-
-      {/* O DRAGÃO FALA — CTA principal, solo, gigante */}
-      <nav className="dragon-cta-bar">
-        <button type="button" className="btn-dragon-hero" onClick={openModal}>
-          <span className="btn-dragon-hero-eyebrow">// apertou aqui você some por um tempo</span>
-          <span className="btn-dragon-hero-title">O Dragão Fala</span>
-          <span className="btn-dragon-hero-sub">clica se tiver coragem <span className="btn-dragon-hero-arrow">→</span></span>
-        </button>
-      </nav>
-
-      {/* PROFILE JOKE POPUP — piadinha por perfil escolhido */}
-      {profileJoke !== null && (
-        <div
-          className="profile-joke-overlay"
-          onClick={(e) => { if (e.target === e.currentTarget) setProfileJoke(null); }}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className={`profile-joke-card profile-joke-card-s${profileJoke}`}>
-            <button
-              type="button"
-              className="profile-joke-close"
-              onClick={() => setProfileJoke(null)}
-              aria-label="Fechar"
-            >
-              ×
-            </button>
-            <p className="profile-joke-text">
-              {PROFILE_JOKES[profileJoke]}
-            </p>
-            <button
-              type="button"
-              className="profile-joke-cta"
-              onClick={() => setProfileJoke(null)}
-            >
-              bora lá →
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* CONTEÚDOS */}
-      <div className="section-label">Conteúdos</div>
-      <div className="content-grid">
-        {/* ROW 1 */}
-        <div className="row row-equal-h">
-          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-video ratio-16-9">
-            <div className="card-video-hover">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/yb68p_v-63M?autoplay=1&mute=1&controls=0&loop=1&playlist=yb68p_v-63M&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3"
-                allow="autoplay; encrypted-media"
-                title="Canal do Dragão"
-                tabIndex={-1}
-              />
-            </div>
-            <div className="card-inner">
-              <div className="yt-preview-wrap" aria-hidden="true">
-                <iframe
-                  className="yt-preview-iframe"
-                  src="https://www.youtube-nocookie.com/embed/yb68p_v-63M?autoplay=1&mute=1&controls=0&loop=1&playlist=yb68p_v-63M&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3"
-                  allow="autoplay; encrypted-media"
-                  title=""
-                  tabIndex={-1}
-                />
-              </div>
-              <div className="video-bg-placeholder"><span className="video-thumb-text">▶</span></div>
-              <div className="card-body">
-                <span className="card-tag">YouTube</span>
-                <div className="play-icon">▶</div>
-                <div className="card-label">O Canal<br />do Dragão</div>
-                <div className="card-sub">Vídeos, bastidores e tudo que o Dragão manda falar</div>
-              </div>
-            </div>
-            <div className="card-hover-overlay" />
-          </a>
-
-          <Link to="/parceiros" className="card card-pdf card-pdf-dark ratio-3-4">
-            <HoverBg imgKey="manual" />
-            <div className="card-inner" />
-            <div className="card-hover-overlay" />
-          </Link>
-
-          <div onClick={openManifesto} style={{ cursor: "pointer" }} className="card card-manifesto-cta ratio-3-4">
-            <img src="/assets/images/team.gif" alt="A equipe Comida de Dragão" className="card-produtos-cover" draggable={false} />
-            <div className="card-inner">
-              <div className="card-body">
-                <span className="card-tag">A Matilha</span>
-                <div className="card-label">Quem faz<br />acontecer</div>
-                <div className="card-sub">Conheça quem está por trás do Dragão</div>
-              </div>
-            </div>
-            <div className="card-hover-overlay" />
-          </div>
-        </div>
-
-        {/* ROW 2 */}
-        <div className="row">
-          <Link to="/produtos" className="card card-produtos ratio-1-1">
-            <img src="/assets/images/nossos-produtos.webp" alt="" className="card-produtos-cover" draggable={false} />
-            <HoverBg imgKey="produtos" />
-            <div className="card-inner">
-              <div className="card-body">
-                <div className="card-label">Nossos<br />Produtos</div>
-                <div className="card-sub" style={{ marginTop: 8 }}>Veja a linha completa — 7 SKUs</div>
-              </div>
-            </div>
-            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
-          </Link>
-
-          <Link to="/biblioteca" className="card card-manifesto ratio-5-4">
-            <HoverBg imgKey="manifesto" />
-            <div className="card-inner">
-              <div className="card-body">
-                <span className="scratch-mark">// biblioteca</span>
-                <div className="card-label">Biblioteca<br />Científica.</div>
-                <div className="card-sub">17 artigos sobre inseto na alimentação pet — a ciência por trás do Dragão</div>
-              </div>
-            </div>
-            <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.04)" }} />
-          </Link>
-
-          <div onClick={openAudio} style={{ cursor: "pointer" }} className="card card-audio ratio-1-1">
-            <HoverBg imgKey="audio" />
-            <div className="card-audio-top">
-              <span className="card-tag">Audiocasts</span>
-            </div>
-            <div className="card-audio-bottom">
-              <div className="waveform">
-                {Array.from({ length: 14 }).map((_, i) => <div className="waveform-bar" key={i} />)}
-              </div>
-              <div className="card-label">O Dragão<br />Fala ao<br />Microfone</div>
-              <div className="card-sub">Clique e ouça enquanto navega</div>
-            </div>
-          </div>
-        </div>
-
-        {/* ROW 3: Quiz + Blog (par) | Imprensa + Perguntas (par) */}
-        <div className="row row-equal-h">
-          <Link to="/quizzes" className="card card-quiz ratio-1-1">
-            <HoverBg imgKey="quiz" />
-            <div className="quiz-bg" />
-            <div className="quiz-cta-content">
-              <div className="quiz-intro-label">// descubra seu perfil de tutor</div>
-              <div className="quiz-inner-box">
-                <div className="quiz-intro-title">O DRAGÃO<br />QUER TE<br />CONHECER</div>
-                <span className="quiz-start-btn">MONTAR MEU PERFIL →</span>
-              </div>
-            </div>
-          </Link>
-
-          <a
-            href="https://www.comidadedragao.com.br/blogs/news"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="card card-lives ratio-1-1"
-          >
-            <HoverBg imgKey="blog" />
-            <div className="card-inner">
-              <div className="card-body">
-                <span className="card-tag">Blog</span>
-                <div className="card-label">Blog do<br />Dragão</div>
-                <div className="card-sub">Histórias, ciência e o que o Dragão tá pensando</div>
-                <span className="lives-cta">Ler →</span>
-              </div>
-            </div>
-            <div className="card-hover-overlay" />
-          </a>
-
-          <Link to="/imprensa" className="card card-quiz-companion card-quiz-companion-video ratio-3-4">
-            <HoverBg imgKey="companion" />
-            <video
-              className="card-bg-video"
-              src="/assets/videos/na-midia.mp4?v=1"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            />
-            <div className="card-inner">
-              <div className="card-body">
-                <span className="cqc-label">// imprensa</span>
-                <div className="card-label">Na Mídia &<br />Cobertura</div>
-                <div className="card-sub">23 links — matérias, vídeos e o que falam sobre o Dragão</div>
-              </div>
-            </div>
-            <div className="card-hover-overlay" />
-          </Link>
-
-          <button
-            type="button"
-            onClick={openPerguntas}
-            className="card card-perguntas ratio-3-4"
-          >
-            <HoverBg imgKey="perguntas" />
-            <div className="card-inner">
-              <div className="card-body">
-                <span className="perg-bg-mark">?</span>
-                <span className="card-tag">FAQ secreto</span>
-                <div className="card-label">Perguntas<br />que ninguém<br />faz</div>
-                <div className="card-sub">O Dragão responde sem filtro</div>
-                <span className="perg-cta">Abrir →</span>
-              </div>
-            </div>
-            <div className="card-hover-overlay" />
-          </button>
-        </div>
+        <div className={`portal-page skin-${skin} hj-modais`}>{joke}{modais}</div>
       </div>
+    );
+  }
 
-      {/* STATS STRIP */}
-      <h2 className="thesis-label thesis-label-center" style={{ marginTop: 40 }}>
-        Não é marketing, <span>é matemática.</span>
-      </h2>
-      <div className="stats-strip">
-        {[
-          { num: <>83<span className="stat-unit">%</span></>,     label: <>menos <em>carbono</em></>,      hint: "~500g CO₂/kg (BSF) vs ~2.850g/kg (boi)." },
-          { num: <>3140<span className="stat-unit">×</span></>,   label: <>mais <em>eficiente</em></>,     hint: "3140× menos terra do que carne bovina para produzir a mesma quantidade de proteína." },
-          { num: <>88,9<span className="stat-unit">%</span></>,   label: <>de <em>digestibilidade</em></>, hint: "Proteína de BSF é quase totalmente absorvida — superior à maioria das fontes convencionais em cães." },
-          { num: <>45<span className="stat-unit">%</span></>,     label: <>de <em>proteína</em></>,        hint: "Alta densidade proteica — quase o dobro da maioria das rações convencionais." },
-        ].map((s, i) => (
-          <div className="stat-item" key={i}>
-            <span className="stat-num">{s.num}</span>
-            <span className="stat-label">{s.label}</span>
-            <span className="stat-hint">{s.hint}</span>
-          </div>
-        ))}
-      </div>
+  return (
+    <div className={`portal-page skin-${skin}`}>
+      {meta}
+      <style>{`
+        .card-img-hover {
+          position: absolute;
+          inset: 0;
+          background-size: cover;
+          background-position: center;
+          opacity: 0;
+          transition: opacity 0.45s ease;
+          z-index: 0;
+          border-radius: inherit;
+        }
+        .card:hover .card-img-hover { opacity: 1; }
+        .card-inner, .card-body, .card-reveal,
+        .quiz-bg, .quiz-step { position: relative; z-index: 1; }
 
-      {/* REELS DO DRAGÃO */}
-      <ReelsSection />
+        /* ============================================================
+           RISOGRAPH DO DRAGÃO — popups com misregistration + grain
+           ============================================================ */
+        .riso-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(10,10,10,0.85);
+          backdrop-filter: blur(5px);
+          z-index: 2000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 24px;
+          animation: riso-fade 0.22s ease;
+        }
+        @keyframes riso-fade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .riso {
+          position: relative;
+          width: 100%;
+          max-width: 560px;
+          max-height: 90vh;
+          overflow-y: auto;
+          padding: 36px 30px 32px;
+          font-family: 'Space Grotesk', sans-serif;
+          box-shadow:
+            0 0 0 2.5px #0A0A0A,
+            12px 14px 0 0 #0A0A0A;
+          animation: riso-pop 0.24s cubic-bezier(0.2, 0.9, 0.4, 1.4);
+        }
+        .riso.large { max-width: 620px; }
+        @keyframes riso-pop {
+          from { opacity: 0; transform: scale(0.94) translateY(14px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .riso::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.28 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+          mix-blend-mode: multiply;
+          opacity: 1;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .riso > * { position: relative; z-index: 2; }
 
-      {/* COMUNIDADE */}
-      <div className="section-label" style={{ marginTop: 40 }}>Comunidade</div>
-      <div className="content-grid" style={{ paddingTop: 8 }}>
-        <div className="row row-equal-h" style={{ flexWrap: "nowrap" }}>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer" className="card card-social card-social-ig card-social-ig-img ratio-5-4">
-            <HoverBg imgKey="instagram" />
-            <div className="card-inner"><div className="card-body">
-              <span className="social-icon">📸</span>
-              <div className="card-tag">Instagram</div>
-              <div className="card-label">@comida<br />dedragao</div>
-              <div className="card-sub">Posts, stories, reels e o Dragão provocando todo dia</div>
-            </div></div>
-            <div className="card-hover-overlay" style={{ background: "rgba(255,45,120,0.08)" }} />
-          </a>
+        .riso-close {
+          position: absolute;
+          top: 14px;
+          right: 16px;
+          width: 36px;
+          height: 36px;
+          border: 2.5px solid #0A0A0A;
+          background: #FAFAFA;
+          color: #0A0A0A;
+          font-family: 'Space Mono', monospace;
+          font-size: 15px;
+          font-weight: 700;
+          cursor: pointer;
+          z-index: 10;
+          transition: transform 0.15s;
+          padding: 0;
+          line-height: 1;
+        }
+        .riso-close:hover { transform: rotate(90deg); }
 
-          <a href="https://wa.me/552139500576" target="_blank" rel="noopener noreferrer" className="card card-social card-social-wa card-social-wa-img ratio-3-4">
-            <HoverBg imgKey="whatsapp" />
-            <div className="card-inner"><div className="card-body">
-              <div className="card-tag">WhatsApp SAC</div>
-              <div className="card-label">Fala<br />com<br />a gente</div>
-              <div className="card-sub">(21) 3950-0576 — O Dragão não abandona ninguém</div>
-            </div></div>
-            <div className="card-hover-overlay" style={{ background: "rgba(0,255,135,0.06)" }} />
-          </a>
+        .riso-pagenum {
+          position: absolute;
+          font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+          font-size: 260px;
+          line-height: 0.78;
+          opacity: 0.09;
+          bottom: -34px;
+          right: -16px;
+          pointer-events: none;
+          z-index: 1;
+          letter-spacing: -0.04em;
+          color: #0A0A0A;
+          font-weight: 900;
+        }
 
-          <Link to="/lojas" className="card card-social card-social-map ratio-1-1">
-            <img src={lojasCoverImg} alt="" className="card-produtos-cover" draggable={false} />
-            <HoverBg imgKey="lojas" />
-            <div className="card-hover-overlay" />
-          </Link>
+        .riso-eyebrow {
+          font-family: 'Space Mono', monospace;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.26em;
+          text-transform: uppercase;
+          padding: 5px 9px;
+          display: inline-block;
+          border: 1.5px solid #0A0A0A;
+          background: rgba(0,0,0,0.08);
+          margin-bottom: 10px;
+          color: #0A0A0A;
+        }
 
+        .riso-title {
+          font-family: 'Archivo Black', 'Big Shoulders Display', sans-serif;
+          font-size: clamp(48px, 6.5vw, 82px);
+          line-height: 0.85;
+          letter-spacing: -0.015em;
+          text-transform: uppercase;
+          margin: 16px 0 22px;
+          color: #0A0A0A;
+          font-weight: 900;
+        }
 
-          <button
-            type="button"
-            onClick={openEmail}
-            className="card card-manifesto card-email-manifesto ratio-1-1"
-            style={{ border: "none", font: "inherit", color: "inherit", textAlign: "left", cursor: "pointer" }}
-          >
-            <img src={emailCoverImg} alt="" className="card-produtos-cover" draggable={false} />
-            <HoverBg imgKey="email" />
-            <div className="card-hover-overlay" />
-          </button>
-        </div>
-      </div>
+        .riso-body { }
+        .riso-body p {
+          font-size: 14.5px;
+          line-height: 1.55;
+          margin-bottom: 10px;
+          color: rgba(10,10,10,0.88);
+        }
+        .riso-body p.pull {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 26px;
+          line-height: 1;
+          letter-spacing: 0.01em;
+          color: #0A0A0A;
+          border-top: 3px solid #0A0A0A;
+          border-bottom: 3px solid #0A0A0A;
+          padding: 12px 0;
+          margin: 18px 0;
+        }
+        .riso-body p.meta {
+          font-family: 'Space Mono', monospace;
+          font-size: 12px;
+          font-weight: 700;
+          color: rgba(10,10,10,0.75);
+          letter-spacing: 0.08em;
+        }
+        .riso-body p.strong {
+          font-weight: 700;
+          color: #0A0A0A;
+        }
 
-      {/* PERFIS */}
-      <div className="section-label" style={{ marginTop: 40 }}>Área por Perfil</div>
-      <div className="audience-hub" style={{ paddingTop: 8 }}>
-        <div className="audience-grid">
+        .riso-signature {
+          font-family: 'Space Mono', monospace;
+          font-size: 11px;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          margin-top: 14px;
+          font-weight: 700;
+          color: rgba(10,10,10,0.7);
+        }
 
-          {/* Consumidor */}
-          <Link to="/matilde" className="audience-card aud-consumer">
-            <HoverBg imgKey="consumer" />
-            <div className="audience-card-inner">
-              <div className="aud-bg-num">01</div>
-              <div className="aud-tag">Tutor de pet</div>
-              <div className="aud-title">Quero<br />alimentar<br />bem.</div>
-              <div className="aud-desc">Produtos, quiz de recomendação, onde comprar. O Dragão te guia.</div>
-              <div className="aud-cta">Ver produtos →</div>
-            </div>
-          </Link>
+        .riso-btn {
+          display: inline-block;
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 18px;
+          letter-spacing: 0.12em;
+          padding: 13px 24px;
+          border: none;
+          cursor: pointer;
+          text-decoration: none;
+          margin-top: 16px;
+          margin-right: 8px;
+          box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+          transition: transform 0.12s, box-shadow 0.12s;
+          color: #0A0A0A;
+        }
+        .riso-btn:hover {
+          transform: translate(-2px, -2px);
+          box-shadow: 6px 6px 0 rgba(0,0,0,0.35);
+        }
+        .riso-btn:disabled {
+          opacity: 0.55;
+          cursor: wait;
+          transform: none;
+        }
+        .riso-btn.ghost {
+          background: transparent;
+          border: 2.5px solid #0A0A0A;
+          box-shadow: none;
+          color: #0A0A0A;
+        }
+        .riso-btn.ghost:hover {
+          background: #0A0A0A;
+          color: #FAFAFA;
+        }
 
-          {/* Influenciador */}
-          <Link to="/quero-ser-dragao" className="audience-card aud-influencer">
-            <HoverBg imgKey="influencer" />
-            <div className="audience-card-inner">
-              <div className="aud-bg-num">02</div>
-              <div className="aud-tag">Criador de conteúdo</div>
-              <div className="aud-title">Quero<br />ser<br />dragão.</div>
-              <div className="aud-desc">Produtos pra testar, cupom exclusivo e comissão por venda. Entra na matilha.</div>
-              <div className="aud-cta">Quero ser parceiro →</div>
-            </div>
-          </Link>
+        .riso-strip {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 9px;
+          background: #0A0A0A;
+          z-index: 3;
+        }
+        .riso-strip::after {
+          content: '';
+          position: absolute;
+          top: 5px;
+          left: 0;
+          right: 0;
+          height: 4px;
+        }
 
-          {/* Vendedor */}
-          <a href="mailto:somos@letsfly.com.br?subject=Quero revender Comida de Dragão" className="audience-card aud-seller">
-            <HoverBg imgKey="seller" />
-            <div className="audience-card-inner">
-              <div className="aud-bg-num">03</div>
-              <div className="aud-tag">Revenda / B2B</div>
-              <div className="aud-title">Quero<br />vender<br />junto.</div>
-              <div className="aud-desc">Catálogo, tabela de preços, materiais de PDV e contato comercial.</div>
-              <div className="aud-cta" style={{ color: "var(--dragon-lime)" }}>Ver catálogo →</div>
-            </div>
-          </a>
+        /* COMBO 2 — MANIFESTO (laranja + pink) */
+        .riso-manifesto { background: #FF7A00; }
+        .riso-manifesto .riso-title { text-shadow: 3px 3px 0 #FF2D78, 6px 6px 0 rgba(0,0,0,0.15); }
+        .riso-manifesto .riso-strip::after { background: #FF2D78; }
+        .riso-manifesto .riso-btn { background: #FF2D78; color: #0A0A0A; }
 
-          {/* Veterinário */}
-          <Link to="/veterinarios" className="audience-card aud-vet">
-            <HoverBg imgKey="vet" />
-            <div className="audience-card-inner">
-              <div className="aud-bg-num">04</div>
-              <div className="aud-tag">Veterinário</div>
-              <div className="aud-title">Quero<br />indicar<br />certo.</div>
-              <div className="aud-desc">Amostras pra pacientes, cupom exclusivo, comissão e treinamento técnico. Vem pro time.</div>
-              <div className="aud-cta">Quero ser vet parceiro →</div>
-            </div>
-          </Link>
+        /* COMBO 7 — EMAIL (yellow + pink) */
+        .riso-email { background: #FFE600; }
+        .riso-email .riso-title { text-shadow: 3px 3px 0 #FF2D78, 6px 6px 0 rgba(0,0,0,0.15); }
+        .riso-email .riso-strip::after { background: #FF2D78; }
+        .riso-email .riso-btn { background: #FF2D78; color: #FAFAFA; }
 
-        </div>
-      </div>
+        /* COMBO 4 — DRAGÃO FALA VIDEO — usa classes do .reels-riso (ReelsSection.tsx) */
 
-      {/* ONDE COMPRAR */}
-      <div className="section-label" style={{ marginTop: 40 }}>Onde Comprar</div>
-      <div className="content-grid" style={{ paddingTop: 8 }}>
-        <div className="row">
-          {[
-            { cls: "card-shop-oficial card-shop-large", href: "https://www.comidadedragao.com.br", name: "Loja\nOficial", tag: "Site próprio · melhor preço", hoverKey: "oficial", cover: null as string | null },
-            { cls: "card-shop-amazon", href: "https://www.amazon.com.br/s?k=comida+de+dragao", name: "Amazon", tag: "Prime", hoverKey: "amazon", cover: shopAmazonCover },
-            { cls: "card-shop-ml", href: "https://lista.mercadolivre.com.br/comida-de-dragao", name: "Mercado\nLivre", tag: "Frete Grátis", hoverKey: "ml", cover: shopMlCover },
-          ].map((shop, i) => (
-            <a key={i} href={shop.href} target="_blank" rel="noopener noreferrer" className={`card card-shop ratio-shop ${shop.cls}`}>
-              {shop.cover && <img src={shop.cover} alt="" className="card-shop-cover" />}
-              <HoverBg imgKey={shop.hoverKey} />
-              {!shop.cover && (
-                <div className="card-inner">
-                  <div className="card-body">
-                    <div className="shop-name">{shop.name.split("\n").map((line, j) => j > 0 ? <span key={j}><br />{line}</span> : line)}</div>
-                    <span className="shop-tag">{shop.tag}</span>
-                    <span className="shop-arrow">→</span>
-                  </div>
-                </div>
-              )}
-              <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
-            </a>
-          ))}
-        </div>
+        /* COMBO 10 — PERGUNTAS (violet + lime · texto branco) */
+        .riso-perguntas { background: #925AED; color: #FAFAFA; }
+        .riso-perguntas .riso-title { color: #FAFAFA; text-shadow: 3px 3px 0 #7BFF00, 6px 6px 0 rgba(0,0,0,0.3); }
+        .riso-perguntas .riso-strip::after { background: #7BFF00; }
+        .riso-perguntas .riso-btn { background: #7BFF00; color: #0A0A0A; }
+        .riso-perguntas .riso-eyebrow { border-color: #FAFAFA; background: rgba(255,255,255,0.1); color: #FAFAFA; }
+        .riso-perguntas .riso-body p { color: rgba(255,255,255,0.88); }
+        .riso-perguntas .riso-body p.pull { color: #FAFAFA; border-color: #FAFAFA; }
+        .riso-perguntas .riso-body p.strong { color: #FAFAFA; }
+        .riso-perguntas .riso-body p.meta { color: rgba(255,255,255,0.7); }
+        .riso-perguntas .riso-signature { color: rgba(255,255,255,0.65); }
+        .riso-perguntas .riso-pagenum { color: #FAFAFA; opacity: 0.1; }
+        .riso-perguntas .riso-btn.ghost { color: #FAFAFA; border-color: #FAFAFA; }
+        .riso-perguntas .riso-btn.ghost:hover { background: #FAFAFA; color: #0A0A0A; }
+        .riso-perguntas .riso-close { background: #FAFAFA; border-color: #FAFAFA; color: #0A0A0A; }
 
-        {/* Biofábrica */}
-        <div className="row">
-          <a href="https://letsfly.com.br/" target="_blank" rel="noopener noreferrer" className="card card-biofabrica card-biofabrica-img">
-            <HoverBg imgKey="biofabrica_hover" />
-            <div className="card-inner">
-              <div className="card-body">
-                <div className="bio-left">
-                  <div className="bio-tag">// Cachoeiras de Macacu, RJ</div>
-                  <div className="bio-title">Nossa<br />Biofábrica</div>
-                  <div className="bio-sub">
-                    Produzimos nossos próprios insetos. Do resíduo orgânico à proteína de elite —
-                    tudo rastreável, tudo nosso. 83% menos carbono que proteína convencional.
-                  </div>
-                  <span className="bio-badge">MAPA · ESTAB. RJ 001924-0</span>
-                </div>
-                <div className="bio-right">
-                  <div className="bio-giant">🏭</div>
-                  <div className="bio-cert-stack">
-                    <span className="bio-cert">BSF · Hermetia illucens</span>
-                    <span className="bio-cert">Ciclo 45 dias</span>
-                    <span className="bio-cert">Do resíduo à proteína</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="card-hover-overlay" style={{ background: "rgba(0,255,135,0.04)" }} />
-          </a>
-        </div>
-      </div>
+        /* Q&A list styles (usado no Perguntas) */
+        .riso-qa {
+          margin-top: 4px;
+        }
+        .riso-qa-item {
+          padding: 18px 0;
+          border-bottom: 2px dashed rgba(255,255,255,0.22);
+        }
+        .riso-qa-item:last-of-type { border-bottom: none; }
+        .riso-qa-num {
+          display: inline-block;
+          font-family: 'Archivo Black', 'Bebas Neue', sans-serif;
+          font-size: 22px;
+          line-height: 1;
+          color: #7BFF00;
+          text-shadow: 2px 2px 0 rgba(10,10,10,0.35);
+          margin-bottom: 6px;
+          letter-spacing: 0.02em;
+        }
+        .riso-qa-q {
+          font-family: 'Big Shoulders Display', 'Bebas Neue', sans-serif;
+          font-size: 20px;
+          line-height: 1.1;
+          color: #FAFAFA;
+          margin-bottom: 8px;
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: 0.01em;
+        }
+        .riso-qa-a {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 14px;
+          line-height: 1.55;
+          color: rgba(255,255,255,0.85);
+        }
 
-      {/* BOTTOM MARQUEE */}
-      <div style={{ marginTop: 24 }}>
-        <MarqueeBar items={MARQUEE_BOTTOM} bottom />
-      </div>
+        /* FORMS */
+        .riso-form {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          margin-top: 18px;
+        }
+        .riso-field { display: flex; flex-direction: column; gap: 5px; }
+        .riso-field-label {
+          font-family: 'Space Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          font-weight: 700;
+          color: rgba(10,10,10,0.72);
+        }
+        .riso-input,
+        .riso-textarea {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 14px;
+          color: #0A0A0A;
+          background: rgba(255,255,255,0.55);
+          border: 2.5px solid #0A0A0A;
+          padding: 10px 12px;
+          outline: none;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        .riso-input:focus,
+        .riso-textarea:focus {
+          background: #fff;
+          box-shadow: 3px 3px 0 #FF2D78;
+        }
+        .riso-textarea { min-height: 110px; resize: vertical; line-height: 1.45; font-family: 'Space Grotesk', sans-serif; }
+        .riso-helper {
+          font-family: 'Space Mono', monospace;
+          font-size: 10px;
+          color: rgba(10,10,10,0.55);
+          margin-top: -2px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+        }
+        .riso-status {
+          padding: 10px 12px;
+          font-family: 'Space Mono', monospace;
+          font-size: 12px;
+          line-height: 1.45;
+          border: 2px solid #0A0A0A;
+          font-weight: 700;
+        }
+        .riso-status.ok { background: #7BFF00; color: #0A0A0A; }
+        .riso-status.err { background: rgba(10,10,10,0.9); color: #FF2D78; }
 
-      {/* FOOTER */}
-      <footer className="portal-footer">
-        <DragonLogo className="footer-logo-svg" />
-        <nav className="footer-links">
-          <Link to="/produtos">Produtos</Link>
-          <Link to="/parceiros">Parceiros</Link>
-          <Link to="/biblioteca">Biblioteca</Link>
-          <Link to="/imprensa">Imprensa</Link>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
-          <a href="mailto:somos@letsfly.com.br">Contato</a>
-        </nav>
-        <div className="footer-tagline">{footerText}</div>
-      </footer>
+        /* VIDEO FRAMES (vertical 9:16 pra video de boas-vindas)
+           limite por altura — largura calculada pelo aspect-ratio
+           pra garantir que o popup caiba em viewport típico sem scroll */
+        .riso-video-frame {
+          margin: 10px auto 8px;
+          border: 3px solid #0A0A0A;
+          aspect-ratio: 9 / 16;
+          width: auto;
+          max-height: 42vh;
+          max-width: calc(42vh * 9 / 16);
+          background: #0A0A0A;
+          position: relative;
+          box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+          overflow: hidden;
+        }
+        .riso-video-frame video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .riso-video-frame::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: repeating-linear-gradient(
+            to bottom, transparent 0 2px, rgba(255,255,255,0.04) 2px 3px
+          );
+          pointer-events: none;
+          z-index: 3;
+        }
+        .riso-video-tag {
+          position: absolute;
+          top: 10px;
+          left: 12px;
+          font-family: 'Space Mono', monospace;
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          background: rgba(10,10,10,0.85);
+          padding: 3px 7px;
+          z-index: 5;
+          border: 1.5px solid;
+          color: #7BFF00;
+          border-color: #7BFF00;
+        }
 
-      {/* MODAL DRAGÃO FALA — VÍDEO (usa as mesmas classes do modal de Reels) */}
-      {modalOpen && (
-        <div
-          className="reels-riso-overlay"
-          onClick={e => { if (e.target === e.currentTarget) closeModal(); }}
-        >
-          <article className="reels-riso" role="dialog">
-            <button className="reels-riso-close" onClick={closeModal} aria-label="Fechar">×</button>
-            <div className="reels-riso-frame">
-              <span className="reels-riso-counter">DRAGÃO FALA</span>
-              <video
-                autoPlay
-                playsInline
-                loop
-                muted={videoMuted}
-                src="/assets/videos/dragao-fala.mp4"
-                className="reels-riso-video"
-              />
-              <button
-                className="reels-mute-btn"
-                onClick={() => setVideoMuted(m => !m)}
-                type="button"
-                aria-label={videoMuted ? "Ativar som" : "Mutar"}
-              >{videoMuted ? "🔇 SOM" : "🔊 SOM"}</button>
-            </div>
-          </article>
-        </div>
-      )}
-      {/* MODAL EQUIPE — Risograph (laranja + pink) */}
-      {manifestoOpen && (
-        <div
-          className="riso-overlay"
-          onClick={e => { if (e.target === e.currentTarget) closeManifesto(); }}
-        >
-          <article className="riso riso-manifesto" role="dialog" aria-labelledby="manifesto-title">
-            <div className="riso-strip" />
-            <button className="riso-close" onClick={closeManifesto} aria-label="Fechar">×</button>
-            <div className="riso-pagenum">01</div>
-            <span className="riso-eyebrow">A MATILHA · LET'S FLY</span>
-            <h2 id="manifesto-title" className="riso-title">Quem faz<br/>aconte-<br/>cer.</h2>
-            <div className="riso-body">
-              <img src="/assets/images/team.gif" alt="Equipe Comida de Dragão" style={{ width: "100%", borderRadius: 4, marginBottom: 12 }} />
-              <p>Somos a Let's Fly — um time que acredita que comida boa pra pet não precisa destruir o planeta. A Comida de Dragão nasceu aqui, no Rio de Janeiro, com muita pesquisa, um cachorro preto e zero medo de ser diferente.</p>
-              <p className="pull">Nojento é o desperdício. A gente faz ao contrário.</p>
-            </div>
-            <div className="riso-signature">— LET'S FLY · CACHOEIRAS DE MACACU · RJ</div>
-            <a href="https://www.comidadedragao.com.br/collections/produtos" target="_blank" rel="noopener noreferrer" className="riso-btn">VER PRODUTOS →</a>
-            <button className="riso-btn ghost" onClick={closeManifesto}>FECHAR</button>
-          </article>
-        </div>
-      )}
+        @media (max-width: 600px) {
+          .riso { padding: 28px 22px 24px; box-shadow: 0 0 0 2px #0A0A0A, 8px 10px 0 #0A0A0A; }
+          .riso-title { font-size: clamp(40px, 10vw, 62px); }
+          .riso-pagenum { font-size: 180px; bottom: -20px; right: -10px; }
 
-      {/* MODAL EMAIL — Risograph (yellow + pink) · Escreve pro Dragão */}
-      {emailOpen && (
-        <div
-          className="riso-overlay"
-          onClick={e => { if (e.target === e.currentTarget) closeEmail(); }}
-        >
-          <article className="riso riso-email large" role="dialog" aria-labelledby="email-title">
-            <div className="riso-strip" />
-            <button className="riso-close" onClick={closeEmail} aria-label="Fechar">×</button>
-            <div className="riso-pagenum">02</div>
-            {emailStatus === "ok" ? (
-              <>
-                <span className="riso-eyebrow">STATUS · ENTREGUE</span>
-                <h2 id="email-title" className="riso-title">Mensagem<br/>enviada.</h2>
-                <div className="riso-body">
-                  <p>O Dragão recebeu. A gente responde no email que você deixou, normalmente em até 48h.</p>
-                  <p className="strong">Obrigado por escrever.</p>
-                </div>
-                <button className="riso-btn" onClick={closeEmail}>FECHAR →</button>
-                <button
-                  className="riso-btn ghost"
-                  onClick={() => { setEmailStatus("idle"); }}
-                >
-                  ENVIAR OUTRA
-                </button>
-              </>
-            ) : (
-              <>
-                <span className="riso-eyebrow">CARTA ABERTA · SOMOS@</span>
-                <h2 id="email-title" className="riso-title">Manda<br/>o recado.</h2>
-                <div className="riso-body">
-                  <p>Dúvida, parceria, ideia maluca, elogio, crítica. <strong>O Dragão lê tudo.</strong> Resposta em até 48h no email que você deixar.</p>
-                </div>
-                <form className="riso-form" onSubmit={submitEmail}>
-                  <div className="riso-field">
-                    <label className="riso-field-label" htmlFor="email-nome">&gt; seu nome (opcional)</label>
-                    <input
-                      id="email-nome"
-                      type="text"
-                      className="riso-input"
-                      placeholder="como o Dragão te chama?"
-                      value={emailForm.nome}
-                      onChange={e => setEmailForm(f => ({ ...f, nome: e.target.value }))}
-                      maxLength={60}
-                    />
-                  </div>
-                  <div className="riso-field">
-                    <label className="riso-field-label" htmlFor="email-email">&gt; email *</label>
-                    <input
-                      id="email-email"
-                      type="email"
-                      required
-                      className="riso-input"
-                      placeholder="voce@email.com"
-                      value={emailForm.email}
-                      onChange={e => setEmailForm(f => ({ ...f, email: e.target.value }))}
-                    />
-                    <span className="riso-helper">pra onde o Dragão responde</span>
-                  </div>
-                  <div className="riso-field">
-                    <label className="riso-field-label" htmlFor="email-msg">&gt; mensagem *</label>
-                    <textarea
-                      id="email-msg"
-                      required
-                      className="riso-textarea"
-                      placeholder="escreve aqui. sem papo formal."
-                      value={emailForm.mensagem}
-                      onChange={e => setEmailForm(f => ({ ...f, mensagem: e.target.value }))}
-                      maxLength={2000}
-                    />
-                  </div>
-                  {emailStatus === "err" && (
-                    <div className="riso-status err">// {emailErrMsg}</div>
-                  )}
-                  <div style={{ marginTop: 4 }}>
-                    <button
-                      type="submit"
-                      className="riso-btn"
-                      disabled={emailStatus === "sending"}
-                    >
-                      {emailStatus === "sending" ? "ENVIANDO..." : "POSTAR →"}
-                    </button>
-                    <button
-                      type="button"
-                      className="riso-btn ghost"
-                      onClick={closeEmail}
-                    >
-                      CANCELAR
-                    </button>
-                  </div>
-                </form>
-              </>
-            )}
-          </article>
-        </div>
-      )}
-      {/* MODAL PERGUNTAS QUE NINGUÉM FAZ — Risograph (violet + lime) */}
-      {perguntasOpen && (
-        <div
-          className="riso-overlay"
-          onClick={e => { if (e.target === e.currentTarget) closePerguntas(); }}
-        >
-          <article className="riso riso-perguntas large" role="dialog" aria-labelledby="perguntas-title">
-            <div className="riso-strip" />
-            <button className="riso-close" onClick={closePerguntas} aria-label="Fechar">×</button>
-            <div className="riso-pagenum">05</div>
-            <span className="riso-eyebrow">Q&amp;A · O QUE NINGUÉM PERGUNTA</span>
-            <h2 id="perguntas-title" className="riso-title">Pergunta<br/>sem filtro.</h2>
-            <div className="riso-body">
-              <p className="meta">// AS QUE FICAM NA CABEÇA E NINGUÉM MANDA NO DM</p>
-            </div>
-            <div className="riso-qa">
-              {[
-                {
-                  q: "Meu gato é super enjoado, vai aceitar mesmo?",
-                  a: "Gato aceita BSF melhor que muita ração comum — a palatabilidade é 1,93:1 a favor da farinha de inseto em testes. Dica: começa com 5% misturado na ração normal, não troca tudo de uma vez.",
-                },
-                {
-                  q: "Posso dar todo dia? Não cansa?",
-                  a: "Pode e deve. Ingrediente único, hipoalergênico, perfil completo de aminoácidos. Não é snack ocasional — é nutrição diária com 88,9% de digestibilidade.",
-                },
-                {
-                  q: "E se eu provar também? Tipo, de curiosidade.",
-                  a: "Experimenta. BSF é uma das proteínas mais limpas e completas da natureza — 2 bilhões de pessoas no mundo já comem inseto regularmente. Nossa linha é registrada no MAPA como pet food (questão de regulação, não de segurança), mas se seu pet tá comendo e bateu a curiosidade, manda bala. A gente não vai dedurar.",
-                },
-                {
-                  q: "Meu pet tem alergia a tudo. BSF pode desencadear?",
-                  a: "BSF é a proteína nova por excelência em dieta de eliminação — é exatamente o produto que veterinários usam quando o pet é alérgico a frango, boi e laticínio. Cuidado apenas se o pet é alérgico a ácaros/crustáceos (reatividade cruzada rara).",
-                },
-                {
-                  q: "Se eu der pro meu cachorro, meus amigos vão achar estranho. Como explico?",
-                  a: "Não explica — mostra o pet devorando. 90% dos tutores que deram pra experimentar mudaram de ideia em 1 semana. E se quiser argumentar: seu cão já come barata no quintal — o nosso só tem 88,9% mais digestibilidade.",
-                },
-              ].map((qa, i) => (
-                <div key={i} className="riso-qa-item">
-                  <div className="riso-qa-num">{String(i + 1).padStart(2, "0")}</div>
-                  <div className="riso-qa-q">{qa.q}</div>
-                  <div className="riso-qa-a">{qa.a}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: 8 }}>
-              <a
-                href="https://wa.me/552139500576?text=Tenho%20uma%20pergunta%20pro%20Drag%C3%A3o"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="riso-btn"
-              >
-                PERGUNTA NO ZAP →
-              </a>
-              <button className="riso-btn ghost" onClick={closePerguntas}>FECHAR</button>
-            </div>
-          </article>
-        </div>
-      )}
+        }
 
-      {/* MODAL CATÁLOGO */}
-      {catalogOpen && (
-        <div
-          className="modal-overlay open"
-          onClick={e => { if (e.target === e.currentTarget) closeCatalog(); }}
-          style={{ zIndex: 1000 }}
-        >
-          <div style={{
-            position: "relative",
-            maxWidth: "90vw",
-            maxHeight: "90vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
-            <button
-              onClick={closeCatalog}
-              style={{
-                position: "absolute",
-                top: -16,
-                right: -16,
-                background: "var(--dragon-lime, #aaff00)",
-                color: "#000",
-                border: "none",
-                borderRadius: "50%",
-                width: 36,
-                height: 36,
-                fontSize: 18,
-                fontWeight: 700,
-                cursor: "pointer",
-                zIndex: 10,
-                lineHeight: 1,
-              }}
-            >✕</button>
-            <img
-              src="/assets/images/Frente.webp"
-              alt="Catálogo Comida de Dragão"
-              style={{
-                maxWidth: "100%",
-                maxHeight: "88vh",
-                objectFit: "contain",
-                borderRadius: 8,
-                boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
-              }}
-            />
-            <a
-              href="https://www.comidadedragao.com.br/collections/produtos"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-dragon"
-              style={{ marginTop: 16 }}
-            >Ver todos os produtos →</a>
-          </div>
-        </div>
-      )}
+      `}</style>
+      {topMarquee}
 
-      {/* AUDIO PLAYER FLUTUANTE */}
-      {audioOpen && (
-        <div className={`audio-float-player${audioMinimized ? " minimized" : ""}`}>
-          <audio
-            ref={audioRef}
-            src="/assets/audio/audiocast.mp3"
-            preload="metadata"
-            onPlay={() => setAudioPlaying(true)}
-            onPause={() => setAudioPlaying(false)}
-            onEnded={() => setAudioPlaying(false)}
-          />
-          {!audioMinimized ? (
-            <>
-              <div className="afp-header">
-                <span className="afp-tag">// AUDIOCAST</span>
-                <div className="afp-controls">
-                  <button className="afp-btn" onClick={() => setAudioMinimized(true)} title="Minimizar">—</button>
-                  <button className="afp-btn" onClick={closeAudio} title="Fechar">✕</button>
-                </div>
-              </div>
-              <div className="afp-title">O Dragão Fala ao Microfone</div>
-              <div className={`afp-waveform${audioPlaying ? " playing" : ""}`}>
-                {Array.from({ length: 20 }).map((_, i) => <div className="afp-bar" key={i} />)}
-              </div>
-              <div className="afp-actions">
-                <button className="afp-play" onClick={() => {
-                  const a = audioRef.current;
-                  if (!a) return;
-                  a.paused ? a.play() : a.pause();
-                }}>
-                  {audioPlaying ? "⏸ Pausar" : "▶ Ouvir"}
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="afp-mini" onClick={() => setAudioMinimized(false)}>
-              <span>{audioPlaying ? "// TOCANDO..." : "// AUDIOCAST"}</span>
-              <button className="afp-btn" onClick={e => { e.stopPropagation(); closeAudio(); }}>✕</button>
-            </div>
-          )}
-        </div>
-      )}
+      {hero}
+
+      {perfil}
+
+      {dragonCta}
+
+      {joke}
+
+      {conteudosLabel}
+      {conteudos}
+
+      {statsTitle}
+      {stats}
+
+      {reels}
+
+      {comunidadeLabel}
+      {comunidade}
+
+      {perfisLabel}
+      {perfis}
+
+      {comprarLabel}
+      {comprar}
+
+      {bottomMarquee}
+
+      {footer}
+
+      {modais}
 
     </div>
   );
