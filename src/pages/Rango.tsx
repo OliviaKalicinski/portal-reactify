@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
-import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
+import ReelsSection from "@/components/ReelsSection";
+import { VIDEOS_RANGO } from "@/components/VideosVencedores";
 import "./Portal.css";
 import "./Rango.css";
 import "./RangoJogo.css";
@@ -62,7 +63,6 @@ const FRASES = [
   { arquivo: "congelar.png", cor: "aqua", src: "/assets/images/rango/frase-nao-precisa-congelar.webp", alt: "Não precisa congelar" },
   { arquivo: "bsf.png", cor: "rosa", src: "/assets/images/rango/frase-com-farinha-de-bsf.webp", alt: "Com farinha de BSF" },
 ];
-const REELS_PROVA = [VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi];
 
 const Rango = () => {
   const [peso, setPeso] = useState(1);
@@ -162,11 +162,14 @@ const Rango = () => {
           </div>
         </div>
 
-        {/* VÍDEOS À VISTA (Olivia, 10/10: "coloca os vídeos"). São de tutores com os outros produtos da marca. */}
-        <section className="rj-secao rj-secao-videos">
-          <h2 className="rj-h2">Quem já provou a Comida de Dragão</h2>
-          <p className="rj-secao-sub">Vídeos de tutores com os outros produtos da marca. O Rango acabou de chegar.</p>
-          <VideosVencedores reels={REELS_PROVA} />
+        {/* VÍDEOS (Olivia, 15/10): numa janelinha "REELS.MOV", igual aos reels da home em janelinhas, e só com
+            vídeo do próprio Rango ("no rango, já temos vídeos sobre ele"; "coloca só o da amora"). Sem o
+            "ver tudo no Instagram": numa LP de venda, é uma saída da página. */}
+        <section className="rj-aberta rj-reels-janela" aria-label="Vídeo de quem já provou o Rango">
+          <div className="rj-barra rj-barra-aberta"><span><i aria-hidden="true" />REELS.MOV</span></div>
+          <div className="portal-page rj-reels-host">
+            <ReelsSection reels={VIDEOS_RANGO} title="Quem já provou o Rango" seeAllUrl="" />
+          </div>
         </section>
 
         {/* AS TRÊS FRASES, cada uma numa janelinha (Olivia, 10/10: "cria 3 janelinhas para as frases e coloca lá embaixo") */}
@@ -180,7 +183,10 @@ const Rango = () => {
         </div>
 
         {/* O RESTO, como uma LP normal: tudo aberto, uma seção depois da outra. */}
-        <section className="rj-secao">
+        {/* Olivia, 15/10: "isso vira outro card" — a lista dos ingredientes numa janelinha, como as outras. */}
+        <section className="rj-aberta rj-card-ingredientes">
+          <div className="rj-barra rj-barra-aberta"><span><i aria-hidden="true" />INGREDIENTES.TXT</span></div>
+          <div className="rj-card-corpo">
           {/* Olivia, 10/10: "fala normal aqui, só a lista dos ingredientes" e "larva = inseto". */}
           <h2 className="rj-h2">O que tem dentro</h2>
           <ul className="rj-ingredientes">
@@ -191,6 +197,7 @@ const Rango = () => {
             <li>Farinha de inseto (8%)</li>
           </ul>
           <p className="rj-nota">A composição completa vem no rótulo.</p>
+          </div>
         </section>
 
         <section className="rj-secao">

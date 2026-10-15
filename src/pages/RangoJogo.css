@@ -324,3 +324,40 @@
 .rj-frase-ceu { display: flex; align-items: center; justify-content: center; aspect-ratio: 1 / 1; padding: 8px; background: linear-gradient(#2E7BD6, #5FA3EA); }
 .rj-frase-ceu img { width: 100%; height: auto; display: block; }
 .rj-frases + .rj-secao { margin-top: 40px; }
+
+/* ── 15/10: os vídeos numa janelinha "REELS.MOV", no jeito dos reels da home em janelinhas
+   (QueroSerDragao.css, .qsd8-reels-win): slide com borda grossa, sombra dura e linhas de TV ── */
+.rj-reels-janela { margin: 40px 0 0; box-shadow: 6px 6px 0 var(--ink-primary); background: #F3ECFF; }
+.rj-reels-janela .rj-barra { --rj-cor: #CDB4FF; }
+.rj-reels-host {
+  min-height: 0 !important;
+  background: transparent !important;
+  font-family: inherit !important;
+  padding: 10px 12px 18px;
+  --skin-accent: #925AED;
+}
+.rj-reels-janela .section-label { padding: 4px 4px 8px !important; margin: 0 !important; color: #925AED; }
+.rj-reels-janela .reels-strip-wrap { padding: 4px 0 0 !important; max-width: 100% !important; }
+.rj-reels-janela .reels-strip { justify-content: center; }
+.rj-reels-janela .reels-strip .reel-card {
+  border: 3px solid var(--ink-primary);
+  box-shadow: 6px 6px 0 0 #7BFF00;
+  background: #000;
+  width: clamp(180px, 62vw, 240px);
+}
+.rj-reels-janela .reels-strip .reel-card:hover {
+  border-color: var(--ink-primary);
+  box-shadow: 6px 6px 0 0 #925AED;
+  transform: translateY(-3px);
+}
+.rj-reels-janela .reels-strip .reel-card::after {
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(255,255,255,.05) 2px 3px);
+}
+
+/* ── 15/10: "O que tem dentro" vira um card (janelinha), como os outros ── */
+.rj-card-ingredientes { margin: 40px 0 0; }
+.rj-card-ingredientes .rj-barra { --rj-cor: var(--dragon-lime); }
+.rj-card-corpo { padding: 14px 16px 16px; font-family: 'Space Grotesk', sans-serif; font-size: 16px; line-height: 1.5; color: var(--ink-primary); }
+.rj-card-corpo .rj-h2 { margin-top: 0; }
+.rj-card-ingredientes + .rj-secao { border-top: 0; }

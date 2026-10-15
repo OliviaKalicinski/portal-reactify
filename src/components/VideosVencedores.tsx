@@ -50,6 +50,12 @@ export const VIDEOS_GRUB: Reel[] = [
   c("tukanbyericacouto-grub", "tukanbyericacouto"),
 ];
 
+/* Rango — vídeo de creator com o próprio Rango, baixado do Instagram em 15/10/26 (reel de 14/10).
+   Termo de imagem aceito em 03/09 (Inflowz); sem criança em cena (conferido quadro a quadro). */
+export const VIDEOS_RANGO: Reel[] = [
+  c("amora-rango", "amora_quatro_patas"),
+];
+
 const VideosVencedores = ({ reels }: { reels: Reel[] }) => (
   <section
     style={{
