@@ -182,7 +182,8 @@ const Rango = () => {
           <div className="rj-barra rj-barra-aberta"><span><i aria-hidden="true" />ingredientes.txt</span></div>
           <div className="rj-card-corpo">
           {/* Olivia, 10/10: "fala normal aqui, só a lista dos ingredientes" e "larva = inseto". */}
-          <h2 className="rj-h2">O que tem dentro</h2>
+          {/* Olivia, 15/10: "escreve alimento completo e natural no título da primeira caixinha de explicação" */}
+          <h2 className="rj-h2">Alimento completo e natural</h2>
           <ul className="rj-ingredientes">
             <li>Filé mignon suíno</li>
             <li>Batata-doce</li>
