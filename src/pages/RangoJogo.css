@@ -355,9 +355,21 @@
   background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(255,255,255,.05) 2px 3px);
 }
 
-/* ── 15/10: "O que tem dentro" vira um card (janelinha), como os outros ── */
-.rj-card-ingredientes { margin: 40px 0 0; }
+/* ── 15/10: cada assunto numa caixinha (janelinha), na mesma ordem, antes dos vídeos ── */
+.rj-card { margin: 28px 0 0; }
 .rj-card-ingredientes .rj-barra { --rj-cor: var(--dragon-lime); }
 .rj-card-corpo { padding: 14px 16px 16px; font-family: 'Space Grotesk', sans-serif; font-size: 16px; line-height: 1.5; color: var(--ink-primary); }
+.rj-card-corpo p { margin: 0 0 10px; }
 .rj-card-corpo .rj-h2 { margin-top: 0; }
-.rj-card-ingredientes + .rj-secao { border-top: 0; }
+.rj-card-corpo > :last-child { margin-bottom: 0; }
+.rj-frases + .rj-card { margin-top: 40px; }
+.rj-reels-janela + .rj-fim-titulo { margin-top: 44px; }
+
+/* ── 15/10: o texto "comida natural" numa coluna e os preços em outra ── */
+.rj-compra { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: stretch; margin-top: 44px; }
+.rj-compra .rj-nota-caixa { margin: 0; display: flex; }
+.rj-compra .rj-nota-corpo { display: flex; flex-direction: column; justify-content: center; }
+.rj-compra .rj-caixas { grid-template-columns: minmax(0, 1fr); gap: 14px; margin-top: 0; }
+@media (max-width: 359px) {
+  .rj-compra { grid-template-columns: minmax(0, 1fr); }
+}
