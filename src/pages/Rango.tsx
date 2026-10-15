@@ -95,6 +95,8 @@ const Rango = () => {
         <span className="rj-caixa-nome">Kit com 7 pacotes</span>
         <span className="rj-caixa-preco"><small>R$</small>{VENDA.kitPreco}</span>
         <span className="rj-caixa-apoio">R$ {VENDA.kitPorPacote} por pacote</span>
+        {/* Olivia, 15/10: "vamos avisar do frete grátis no rango" (o kit passa da regra de frete grátis da Yampi) */}
+        <span className="rj-caixa-frete">Frete grátis</span>
         <span className="rj-caixa-acao">Quero o kit</span>
       </a>
       <a className="rj-caixa" href={ctaUrl(false, pos)}>
@@ -159,7 +161,7 @@ const Rango = () => {
                 <strong>Comida natural</strong>, úmida e completa para cães adultos. Vem pronta, no pouch de 500 g.
               </p>
               <p className="rg-form-legal rj-legal">
-                Frete calculado no fim do pedido pelo seu CEP. Compra segura pela Yampi, com cartão, Pix ou boleto.
+                <strong>No kit, o frete é grátis.</strong> No pacote avulso, o frete é calculado no fim do pedido pelo seu CEP. Compra segura pela Yampi, com cartão, Pix ou boleto.
               </p>
             </div>
           </div>
@@ -273,7 +275,7 @@ const Rango = () => {
         <div className="rg-sticky">
           <div className="rg-sticky-info">
             <strong>A partir de R$ {VENDA.preco}</strong>
-            <span>Compre 6, ganhe 1</span>
+            <span>Compre 6, ganhe 1 · frete grátis</span>
           </div>
           <button className="rg-btn rg-btn-sticky" onClick={irPraCompra}>Ver as ofertas</button>
         </div>

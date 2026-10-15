@@ -382,3 +382,6 @@
 .rj-footer-links a:hover { color: var(--dragon-pink); }
 .rj-footer-tagline { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.06em; color: var(--dragon-pink); }
 .rj-footer-legal { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--ink-faded); margin-top: 18px; }
+
+/* 15/10: aviso de frete grátis na caixinha do kit */
+.rj-caixa-frete { align-self: flex-start; margin-top: 4px; padding: 2px 8px; border: 2px solid var(--ink-primary); border-radius: 999px; background: var(--dragon-lime); font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-primary); }
