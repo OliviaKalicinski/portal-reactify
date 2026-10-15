@@ -1620,34 +1620,31 @@ const Portal = () => {
         <div className="qsd8-wrap hj-wrap">
           <Win name="CAVERNA.EXE" mac className="hj-hero-win">
             <div className={host}>{hero}</div>
-            <div className="qsd8-btnrow hj-comprar">
-              <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn">
-                <span className="qsd8-blink">▶</span> Comprar
-              </a>
-            </div>
-          </Win>
-          <Win name="QUEM-E-VOCE.SYS">
-            <div className="qsd8-eyebrow">// quem é você?</div>
-            <div className="hj-perfis">
+            <div className="hj-leitor">
+              <span className="hj-leitor-label">// quem é você?</span>
               {PERFIS.map((p) => (
                 <button
                   key={p.n}
                   type="button"
-                  className={`qsd8-card hj-perfil${skin === p.n ? " ativo" : ""}`}
+                  className={`hj-chip${skin === p.n ? " ativo" : ""}`}
                   onClick={() => { setSkin(p.n); setProfileJoke(p.n); }}
                   aria-pressed={skin === p.n}
                 >
-                  <span className="hj-perfil-num">{String(p.n).padStart(2, "0")}</span>
-                  <span className="qsd8-card-title">{p.name}</span>
+                  {p.name.toLowerCase()}
                 </button>
               ))}
             </div>
+            <div className="qsd8-btnrow hj-comprar">
+              <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn ghost">
+                Comprar →
+              </a>
+            </div>
           </Win>
-          <Win name="O-DRAGAO-FALA.MOV" inverted>
+          <Win name="O-DRAGAO-FALA.MOV" mac className="hj-fala-win">
             <button type="button" className="hj-fala" onClick={openModal}>
-              <span className="qsd8-eyebrow">// apertou aqui você some por um tempo</span>
-              <span className="qsd8-h2">O Dragão <span>Fala</span></span>
-              <span className="hj-fala-sub">clica se tiver coragem <span className="qsd8-blink">▶</span></span>
+              <span className="hj-fala-eyebrow">// apertou aqui você some por um tempo</span>
+              <span className="hj-fala-title">O Dragão Fala</span>
+              <span className="qsd8-btn hj-fala-btn"><span className="qsd8-blink">▶</span> Clica se tiver coragem</span>
             </button>
           </Win>
           <Win name="CONTEUDOS.DIR"><div className={host}>{conteudos}</div></Win>

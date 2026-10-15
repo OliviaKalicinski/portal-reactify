@@ -45,3 +45,21 @@
 .qsd8.hj .hj-fala-sub { font-weight: 700; }
 .qsd8.hj .hj-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .qsd8.hj .hj-fala .qsd8-eyebrow { color: var(--ink); opacity: .75; }
+
+/* 15/10: tipo de leitor bem pequeno, dentro da abertura; o Dragão Fala ganha o destaque */
+.qsd8.hj .hj-leitor { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; }
+.qsd8.hj .hj-leitor-label { font-family: "Press Start 2P", monospace; font-size: 8px; opacity: .7; margin-right: 4px; }
+.qsd8.hj .hj-chip {
+  font: inherit; font-size: 12px; font-weight: 700; color: var(--ink);
+  background: transparent; border: 2px solid var(--ink); border-radius: 999px;
+  padding: 3px 10px; cursor: pointer;
+}
+.qsd8.hj .hj-chip.ativo { background: var(--lime); }
+.qsd8.hj .hj-fala-win .qsd8-win-body { background: var(--lime); padding: 26px 18px 28px; }
+.qsd8.hj .hj-fala { align-items: center; text-align: center; gap: 12px; }
+.qsd8.hj .hj-fala-eyebrow { font-family: "Press Start 2P", monospace; font-size: 9px; color: var(--ink); opacity: .75; line-height: 1.6; }
+.qsd8.hj .hj-fala-title {
+  font-family: "Press Start 2P", monospace; font-size: clamp(24px, 7vw, 44px); line-height: 1.15;
+  color: var(--ink); text-transform: uppercase; text-shadow: 4px 4px 0 var(--violet);
+}
+.qsd8.hj .hj-fala-btn { pointer-events: none; }
