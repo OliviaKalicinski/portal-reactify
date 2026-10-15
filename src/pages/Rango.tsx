@@ -9,8 +9,9 @@ import "./Rango.css";
 import "./RangoJogo.css";
 import "./RangoFofo.css";
 
-/* versão fofa (azul e verde do pacote) para teste de anúncio: só com ?visual=fofo; sem o parâmetro, a página não muda */
-const VISUAL_FOFO = (() => { try { return new URLSearchParams(window.location.search).get("visual") === "fofo"; } catch { return false; } })();
+/* versão fofa (azul e verde do pacote): desde 15/10 é a /rango de todo mundo (Olivia: "vamos colocar o Rango Fofo
+   no ar com o mesmo URL da Rango"). A versão anterior, de janelinhas retas, ainda abre com ?visual=jogo. */
+const VISUAL_FOFO = (() => { try { return new URLSearchParams(window.location.search).get("visual") !== "jogo"; } catch { return true; } })();
 
 /* ──────────────────────────────────────────────────────────────
    RANGO DO DRAGÃO — VERSÃO DE TESTE EM JANELINHAS (10/10/2026)
