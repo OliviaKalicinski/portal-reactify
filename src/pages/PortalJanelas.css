@@ -59,7 +59,7 @@
 .qsd8.hj .hj-fala { align-items: center; text-align: center; gap: 12px; }
 .qsd8.hj .hj-fala-eyebrow { font-family: "Press Start 2P", monospace; font-size: 9px; color: var(--ink); opacity: .75; line-height: 1.6; }
 .qsd8.hj .hj-fala-title {
-  font-family: "Press Start 2P", monospace; font-size: clamp(24px, 7vw, 44px); line-height: 1.15;
+  font-family: "Press Start 2P", monospace; font-size: clamp(18px, 4.5vw, 28px); line-height: 1.25;
   color: var(--ink); text-transform: uppercase; text-shadow: 4px 4px 0 var(--violet);
 }
 .qsd8.hj .hj-fala-btn { pointer-events: none; }
