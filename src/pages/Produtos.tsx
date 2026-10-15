@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
+import { captureEntryUtms } from "@/lib/utm";
 import "./Portal.css";
 import "./Produtos.css";
 import "./QueroSerDragao.css";
@@ -414,6 +415,10 @@ const Produtos = () => {
   const [imgLoaded, setImgLoaded] = useState(false);
   const abriuDe = useRef<HTMLElement | null>(null);
   const fecharRef = useRef<HTMLButtonElement | null>(null);
+
+  // 15/10/26: grava a origem forte (anúncio, rptn, creator) no cookie que a loja lê, como as LPs;
+  // os botões levam à loja sem UTM, e é esse cookie que leva a origem até o checkout
+  useEffect(() => { captureEntryUtms(); }, []);
 
   const filtrados = useMemo(() => {
     if (filtro === "todos") return PRODUTOS;
