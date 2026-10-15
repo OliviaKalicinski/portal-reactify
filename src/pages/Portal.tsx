@@ -1618,8 +1618,40 @@ const Portal = () => {
       `}</style>
         <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
         <div className="qsd8-wrap hj-wrap">
-          <Win name="CAVERNA.EXE" mac className="hj-hero-win">
-            <div className={host}>{hero}</div>
+          <Win name="CAVERNA.EXE" mac className="qsd8-hero-win hj-hero-win">
+            <DragonLogo className="qsd8-hero-logo" />
+            <div className="qsd8-eyebrow">Proteína de inseto BSF</div>
+            <h1 className="qsd8-title">Alimento para <span>pets</span></h1>
+            {/* a brincadeira do nome, a mesma da home de sempre, numa linha só */}
+            <div className="hj-nome">
+              {nameConfirmed && nameUpper.length >= 2 ? (
+                <p className="hj-nome-frase">
+                  <strong>{nameUpper}</strong> já faz parte da revolução.{" "}
+                  <button
+                    type="button"
+                    className="hj-nome-trocar"
+                    onClick={() => { setHeroName(""); setNameConfirmed(false); setTimeout(() => document.getElementById("hj-nome-input")?.focus(), 50); }}
+                  >
+                    trocar nome
+                  </button>
+                </p>
+              ) : (
+                <form className="hj-nome-form" onSubmit={(e) => { e.preventDefault(); if (nameUpper.length >= 2) setNameConfirmed(true); }}>
+                  <label htmlFor="hj-nome-input" className="hj-nome-label">Como te chama?</label>
+                  <input
+                    id="hj-nome-input"
+                    className="hj-nome-input"
+                    placeholder="seu nome"
+                    maxLength={16}
+                    autoComplete="off"
+                    spellCheck={false}
+                    value={heroName}
+                    onChange={(e) => { setHeroName(e.target.value); setNameConfirmed(false); }}
+                  />
+                  <button type="submit" className="hj-nome-ok" disabled={nameUpper.length < 2}>ok</button>
+                </form>
+              )}
+            </div>
             <div className="hj-leitor">
               <span className="hj-leitor-label">// quem é você?</span>
               {PERFIS.map((p) => (

@@ -63,3 +63,22 @@
   color: var(--ink); text-transform: uppercase; text-shadow: 4px 4px 0 var(--violet);
 }
 .qsd8.hj .hj-fala-btn { pointer-events: none; }
+
+/* 15/10: abertura no mesmo desenho da /revenda; tudo alinhado à esquerda, sem a linha do meio */
+.qsd8.hj .hj-nome { margin-top: 14px; }
+.qsd8.hj .hj-nome-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.qsd8.hj .hj-nome-label { font-weight: 700; }
+.qsd8.hj .hj-nome-input {
+  font: inherit; font-size: 16px; color: var(--ink); background: var(--paper);
+  border: 2px solid var(--ink); border-radius: 999px; padding: 6px 14px; width: 11em; min-width: 0;
+}
+.qsd8.hj .hj-nome-input:focus { outline: 3px solid var(--lime); outline-offset: 0; }
+.qsd8.hj .hj-nome-ok {
+  font: inherit; font-weight: 700; color: var(--ink); background: var(--lime);
+  border: 2px solid var(--ink); border-radius: 999px; padding: 6px 14px; cursor: pointer;
+}
+.qsd8.hj .hj-nome-ok:disabled { opacity: .4; cursor: default; }
+.qsd8.hj .hj-nome-frase { margin: 0; font-size: 17px; }
+.qsd8.hj .hj-nome-trocar { font: inherit; font-size: 13px; background: none; border: 0; text-decoration: underline; cursor: pointer; color: var(--ink); opacity: .7; }
+.qsd8.hj .hj-leitor { margin-top: 16px; }
+.qsd8.hj .hj-comprar { margin-top: 18px; }
