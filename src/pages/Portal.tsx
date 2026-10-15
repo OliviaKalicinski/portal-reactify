@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
+import { VIDEOS } from "@/components/VideosVencedores";
 import PageMeta from "@/components/PageMeta";
 import portalDogImg from "@/assets/portal-dog.png";
 import lojasCoverImg from "@/assets/lojas-cover.png";
@@ -16,6 +17,27 @@ import "./PortalJanelas.css";
 /* versão em janelinhas (o visual da /parceiros e da /revenda), em teste: só com ?visual=janelas.
    Sem o parâmetro, a home não muda. */
 const VISUAL_JANELAS = (() => { try { return new URLSearchParams(window.location.search).get("visual") === "janelas"; } catch { return false; } })();
+
+/* vídeos de creator vencedores (planilha "Originais de creator"), do maior lucro por venda ao
+   menor; a mesma lista da /parceiros e da /revenda (15/10/2026, pedido da Olivia) */
+const VENCEDORES = [
+  VIDEOS.sushijullie, VIDEOS.carla, VIDEOS.pipo, VIDEOS.mytribesete,
+  VIDEOS.gabi, VIDEOS.omeninomerlin, VIDEOS.vitydalmata, VIDEOS.pitanga,
+];
+
+/* números da versão em janelinhas; proteína na forma da casa ("no mínimo 40%") */
+const STATS_JANELAS = [
+  { num: "83%", label: "Menos carbono" },
+  { num: "3140×", label: "Menos terra" },
+  { num: "88,9%", label: "Digestibilidade" },
+  { num: "40%", label: "Proteína, no mínimo" },
+];
+
+const PERFIS = [
+  { n: 1, name: "CURIOSO" },
+  { n: 2, name: "NOJENTINHO" },
+  { n: 3, name: "ESTUDADO" },
+];
 
 /* janela OS, a mesma da /parceiros */
 const Win = ({ name, children, className, inverted, mac }: {
@@ -677,7 +699,7 @@ const Portal = () => {
   );
   const reels = (
     <>
-      <ReelsSection />
+      <ReelsSection reels={VENCEDORES} subtitle="Os vídeos de creator que mais venderam. Toca pra ver." />
     </>
   );
   const comunidadeLabel = (
@@ -1597,10 +1619,50 @@ const Portal = () => {
         <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
         <div className="qsd8-wrap hj-wrap">
           <Win name="CAVERNA.EXE" mac className="hj-hero-win">
-            <div className={host}>{hero}{perfil}{dragonCta}</div>
+            <div className={host}>{hero}</div>
+            <div className="qsd8-btnrow hj-comprar">
+              <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn">
+                <span className="qsd8-blink">▶</span> Comprar
+              </a>
+            </div>
+          </Win>
+          <Win name="QUEM-E-VOCE.SYS">
+            <div className="qsd8-eyebrow">// quem é você?</div>
+            <div className="hj-perfis">
+              {PERFIS.map((p) => (
+                <button
+                  key={p.n}
+                  type="button"
+                  className={`qsd8-card hj-perfil${skin === p.n ? " ativo" : ""}`}
+                  onClick={() => { setSkin(p.n); setProfileJoke(p.n); }}
+                  aria-pressed={skin === p.n}
+                >
+                  <span className="hj-perfil-num">{String(p.n).padStart(2, "0")}</span>
+                  <span className="qsd8-card-title">{p.name}</span>
+                </button>
+              ))}
+            </div>
+          </Win>
+          <Win name="O-DRAGAO-FALA.MOV" inverted>
+            <button type="button" className="hj-fala" onClick={openModal}>
+              <span className="qsd8-eyebrow">// apertou aqui você some por um tempo</span>
+              <span className="qsd8-h2">O Dragão <span>Fala</span></span>
+              <span className="hj-fala-sub">clica se tiver coragem <span className="qsd8-blink">▶</span></span>
+            </button>
           </Win>
           <Win name="CONTEUDOS.DIR"><div className={host}>{conteudos}</div></Win>
-          <Win name="MATEMATICA.TXT" inverted><div className={host}>{statsTitle}{stats}</div></Win>
+          <Win name="MATEMATICA.TXT">
+            <div className="qsd8-eyebrow">// os números</div>
+            <h2 className="qsd8-h2">Não é marketing, <span>é matemática.</span></h2>
+            <div className="qsd8-loot hj-stats">
+              {STATS_JANELAS.map((st) => (
+                <div className="qsd8-card" key={st.label} style={{ textAlign: "center" }}>
+                  <div className="qsd8-card-title" style={{ fontSize: 20, marginBottom: 8 }}>{st.num}</div>
+                  <div className="qsd8-card-desc" style={{ fontSize: 15, textTransform: "uppercase" }}>{st.label}</div>
+                </div>
+              ))}
+            </div>
+          </Win>
           <Win name="REELS.MOV" className="qsd8-reels-win"><div className={host}>{reels}</div></Win>
           <Win name="COMUNIDADE.EXE"><div className={host}>{comunidade}</div></Win>
           <Win name="AREA-POR-PERFIL.SYS" inverted><div className={host}>{perfis}</div></Win>
