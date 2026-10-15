@@ -250,7 +250,8 @@ const PRODUTOS: Produto[] = [
     tag: "CÃES ADULTOS",
     pets: ["caes"],
     corTag: "var(--dragon-lime)",
-    corCard: "#9DC973",
+    corCard: "#2E7BD6",          // azul da LP do Rango (RangoJogo.css)
+    corTexto: "#ffffff",
     fotos: [
       // a foto do produto da loja (Shopify, 1ª imagem do Rango), só o pacote, 15/10/26
       "/assets/images/produtos/rango-frente.webp",
@@ -561,219 +562,134 @@ const Produtos = () => {
         </footer>
       </div>
 
-      {/* o modal usa as classes do Portal.css/Produtos.css: fica dentro de um .portal-page */}
-      <div className="portal-page produtos-page skin-2 hj-modais">
-      {/* MODAL DE PRODUTO — Blueprint Design */}
+      {/* FICHA DO PRODUTO — janela no estilo da página (15/10/26; antes era a "blueprint" escura).
+          Mesmo conteúdo; saíram o selo "Em estoque" (texto fixo, ninguém conferia) e a tabela
+          "Ficha técnica", que repetia os três números de cima. */}
       {activeProduto && (() => {
-        const prot = parseStat(activeProduto.proteina);
-        const gord = parseStat(activeProduto.gordura);
-        const ener = parseStat(activeProduto.energia);
         const prodIdx = PRODUTOS.findIndex((p) => p.id === activeProduto.id);
+        const numeros = [
+          { rotulo: "Proteína bruta", valor: activeProduto.proteina },
+          { rotulo: "Gordura bruta", valor: activeProduto.gordura },
+          { rotulo: "Energia metabolizável", valor: activeProduto.energia },
+        ].filter((n) => n.valor && !n.valor.startsWith("—"));
         return (
           <div
-            className="produto-modal-overlay"
+            className="pj-overlay"
             onClick={(e) => { if (e.target === e.currentTarget) closeProduto(); }}
           >
-            <div className="produto-modal bp-modal">
-              <div className="bp-grid-bg" aria-hidden="true" />
-              <div className="bp-scan-line" aria-hidden="true" />
-
-              {/* HEADER */}
-              <div className="bp-header">
-                <div>
-                  <div className="bp-eyebrow">Ficha de Produto · {String(prodIdx + 1).padStart(3, "0")}</div>
-                  <h2 className="bp-hero-title">{activeProduto.nome}</h2>
-                  <div className="bp-hero-sub">
-                    {activeProduto.variante && `${activeProduto.variante} · `}{activeProduto.tamanho}
-                  </div>
-                  {activeProduto.ficha && (
-                    <a href={activeProduto.ficha} target="_blank" rel="noopener noreferrer" className="bp-ficha-btn bp-ficha-btn-header">
-                      <span className="bp-arrow">↗</span>
-                      Ver ficha técnica em PDF
-                    </a>
-                  )}
-                </div>
-                <div className="bp-header-right">
-                  <div className="bp-eyebrow">Espécie alvo</div>
-                  <div className="bp-species">{activeProduto.tag}</div>
-                </div>
-                <button type="button" className="produto-modal-close" onClick={closeProduto} aria-label="Fechar">✕</button>
+            <section className="qsd8-win pj-ficha" role="dialog" aria-modal="true" aria-label={activeProduto.nome}>
+              <div className="qsd8-titlebar">
+                <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>
+                <span className="qsd8-tb-name">{activeProduto.id.toUpperCase()}.TXT</span>
+                <span className="qsd8-tb-stripes" aria-hidden="true" />
+                <button type="button" className="pj-fechar" onClick={closeProduto} aria-label="Fechar">×</button>
               </div>
+              <div className="qsd8-win-body">
+                <div className="qsd8-eyebrow">Ficha de produto · {String(prodIdx + 1).padStart(2, "0")} · {activeProduto.tag}</div>
+                <h2 className="qsd8-h2 pj-nome">{activeProduto.nome}</h2>
+                <p className="pj-variante">
+                  {activeProduto.variante && `${activeProduto.variante} · `}{activeProduto.tamanho}
+                </p>
 
-              <div className="bp-divider" />
-
-              {/* MAIN GRID: stats | foto flutuando | stats */}
-              <div className="bp-main-grid">
-                {/* ESQUERDA */}
-                <div className="bp-col bp-col-left">
-                  <div className="bp-stat bp-stat-right">
-                    <div className="bp-stat-label">Proteína bruta</div>
-                    <div className="bp-stat-num bp-lime">{prot.num}</div>
-                    {prot.rest && <div className="bp-stat-unit">{prot.rest}</div>}
-                  </div>
-                  <div className="bp-connector" />
-                  <div className="bp-stat bp-stat-right">
-                    <div className="bp-stat-label">Gordura bruta</div>
-                    <div className="bp-stat-num bp-violet">{gord.num}</div>
-                    {gord.rest && <div className="bp-stat-unit">{gord.rest}</div>}
-                  </div>
-                  <div className="bp-connector" />
-                  <div className="bp-stat bp-stat-right">
-                    <div className="bp-stat-label">Destaque</div>
-                    <div className="bp-stat-text bp-text-right">{activeProduto.destaques[2]}</div>
-                  </div>
-                </div>
-
-                {/* CENTRO: foto flutuando */}
-                <div className="bp-product-col">
-                  <div className="bp-float-wrap">
-                    <div className={`bp-product-frame${imgLoaded ? " bp-img-ready" : ""}`}>
-                      <span className="bp-corner bp-tl" /><span className="bp-corner bp-tr" />
-                      <span className="bp-corner bp-bl" /><span className="bp-corner bp-br" />
+                <div className="pj-topo">
+                  <div className="pj-foto-col">
+                    <div className="pj-foto" style={{ background: activeProduto.corCard }}>
                       {activeProduto.fotos[fotoIdx] ? (
                         <img
                           key={`${activeProduto.id}-${fotoIdx}`}
                           src={activeProduto.fotos[fotoIdx]}
                           alt={activeProduto.nome}
-                          className={`bp-product-img${imgLoaded ? " bp-img-visible" : ""}`}
                           loading="eager"
                           onLoad={() => setImgLoaded(true)}
+                          style={{ opacity: imgLoaded ? 1 : 0 }}
                         />
-                      ) : (
-                        <span className="bp-product-placeholder">[ ]</span>
-                      )}
+                      ) : null}
                     </div>
-                    <div className="bp-float-shadow" />
+                    {activeProduto.fotos.length > 1 && (
+                      <div className="pj-thumbs">
+                        {activeProduto.fotos.map((f, i) => (
+                          <button
+                            type="button"
+                            key={i}
+                            className={`pj-thumb${i === fotoIdx ? " ativo" : ""}`}
+                            onClick={() => { setFotoIdx(i); setImgLoaded(false); }}
+                            aria-label={`Foto ${i + 1}`}
+                          >
+                            <img loading="lazy" src={f} alt="" />
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  <div className="bp-status-pill">
-                    <span className="bp-dot" />Em estoque
+
+                  <div className="pj-numeros">
+                    {numeros.length > 0 ? numeros.map((n) => {
+                      const st = parseStat(n.valor);
+                      return (
+                        <div className="qsd8-card pj-numero" key={n.rotulo}>
+                          <div className="pj-numero-rotulo">{n.rotulo}</div>
+                          <div className="qsd8-card-title pj-numero-valor">{st.num}</div>
+                          {st.rest && <div className="pj-numero-resto">{st.rest}</div>}
+                        </div>
+                      );
+                    }) : (
+                      <div className="qsd8-card pj-numero">
+                        <div className="pj-numero-rotulo">Níveis de garantia</div>
+                        <div className="pj-numero-resto">Vêm impressos no pacote.</div>
+                      </div>
+                    )}
+                    {activeProduto.ficha && (
+                      <a href={activeProduto.ficha} target="_blank" rel="noopener noreferrer" className="qsd8-btn ghost pj-pdf">
+                        Ficha técnica em PDF ↗
+                      </a>
+                    )}
                   </div>
                 </div>
 
-                {/* DIREITA */}
-                <div className="bp-col bp-col-right">
-                  <div className="bp-stat">
-                    <div className="bp-stat-label">Energia metabolizável</div>
-                    <div className="bp-stat-num bp-lime">{ener.num}</div>
-                    {ener.rest && <div className="bp-stat-unit">{ener.rest}</div>}
+                {activeProduto.alerta && (
+                  <div className="pj-alerta"><strong>Atenção:</strong> {activeProduto.alerta}</div>
+                )}
+
+                <div className="pj-secoes">
+                  <div className="pj-secao">
+                    <h3 className="pj-secao-titulo">Quando usar</h3>
+                    <ul>{activeProduto.quandoUsar.map((q, i) => <li key={i}>{q}</li>)}</ul>
                   </div>
-                  <div className="bp-connector bp-connector-right" />
-                  <div className="bp-stat">
-                    <div className="bp-stat-label">Diferencial</div>
-                    <div className="bp-stat-text">{activeProduto.diferenciais[0]}</div>
+                  <div className="pj-secao">
+                    <h3 className="pj-secao-titulo">Composição</h3>
+                    <ul>{activeProduto.composicao.map((c, i) => <li key={i}>{c}</li>)}</ul>
                   </div>
-                  <div className="bp-connector bp-connector-right" />
-                  <div className="bp-stat">
-                    <div className="bp-stat-label">{activeProduto.dosagem ? "Dosagem mín." : "Embalagem"}</div>
-                    <div className="bp-stat-text">
-                      {activeProduto.dosagem ? activeProduto.dosagem[0].qtd : activeProduto.tamanho}
-                    </div>
+                  <div className="pj-secao">
+                    <h3 className="pj-secao-titulo">Diferenciais</h3>
+                    <ul>{activeProduto.diferenciais.map((d, i) => <li key={i}>{d}</li>)}</ul>
                   </div>
-                </div>
-              </div>
-
-              <div className="bp-divider" />
-
-              {/* THUMBNAILS */}
-              {activeProduto.fotos.length > 1 && (
-                <div className="bp-thumbs">
-                  {activeProduto.fotos.map((f, i) => (
-                    <button
-                      type="button"
-                      key={i}
-                      className={`bp-thumb${i === fotoIdx ? " active" : ""}`}
-                      onClick={() => { setFotoIdx(i); setImgLoaded(false); }}
-                    >
-                      <img loading="lazy" src={f} alt="" />
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* INFO 3 COLUNAS */}
-              <div className="bp-info-grid">
-                <div className="bp-desc-section">
-                  <div className="bp-section-label">Quando usar</div>
-                  <ul className="bp-quando-list">
-                    {activeProduto.quandoUsar.map((q, i) => <li key={i}>{q}</li>)}
-                  </ul>
-                </div>
-
-                <div className="bp-desc-section">
-                  <div className="bp-section-label">Composição</div>
-                  <ul className="bp-quando-list">
-                    {activeProduto.composicao.map((c, i) => <li key={i}>{c}</li>)}
-                  </ul>
-                </div>
-
-                <div className="bp-desc-section">
-                  <div className="bp-section-label">Diferenciais</div>
-                  <ul className="bp-quando-list bp-diferenciais-list">
-                    {activeProduto.diferenciais.map((d, i) => <li key={i}>{d}</li>)}
-                  </ul>
                   {activeProduto.dosagem && (
-                    <>
-                      <div className="bp-section-label" style={{ marginTop: "14px" }}>Dosagem por porte</div>
-                      <table className="bp-dosagem-table">
+                    <div className="pj-secao">
+                      <h3 className="pj-secao-titulo">Quanto dar</h3>
+                      <table className="pj-dose">
                         <tbody>
                           {activeProduto.dosagem.map((d, i) => (
-                            <tr key={i}>
-                              <td className="bp-dosagem-porte">{d.porte}</td>
-                              <td className="bp-dosagem-qtd">{d.qtd}</td>
-                            </tr>
+                            <tr key={i}><th scope="row">{d.porte}</th><td>{d.qtd}</td></tr>
                           ))}
                         </tbody>
                       </table>
-                    </>
+                    </div>
                   )}
                 </div>
-              </div>
 
-              {/* FICHA TÉCNICA */}
-              <div className="bp-section-label" style={{ marginTop: "16px" }}>Ficha Técnica</div>
-              <div className="bp-ficha-grid">
-                <div className="bp-ficha-row">
-                  <span className="bp-ficha-key">Proteína bruta</span>
-                  <span className="bp-ficha-val">{activeProduto.proteina}</span>
-                </div>
-                <div className="bp-ficha-row">
-                  <span className="bp-ficha-key">Gordura bruta</span>
-                  <span className="bp-ficha-val">{activeProduto.gordura}</span>
-                </div>
-                <div className="bp-ficha-row bp-ficha-wide">
-                  <span className="bp-ficha-key">Energia metabolizável</span>
-                  <span className="bp-ficha-val">{activeProduto.energia}</span>
+                <h3 className="pj-secao-titulo">Onde comprar</h3>
+                <div className="qsd8-btnrow pj-lojas">
+                  {RETAILERS.map((r, i) => (
+                    <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" className={`qsd8-btn${i ? " ghost" : ""}`}>
+                      {r.name} ↗
+                    </a>
+                  ))}
                 </div>
               </div>
-
-              {/* ALERTA */}
-              {activeProduto.alerta && (
-                <div className="bp-alerta">// ATENÇÃO · {activeProduto.alerta}</div>
-              )}
-
-              {/* ONDE COMPRAR */}
-              <div className="bp-section-label" style={{ marginTop: "20px" }}>Onde comprar</div>
-              <div className="bp-retailers">
-                {RETAILERS.map((r) => (
-                  <a
-                    key={r.name}
-                    href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bp-retailer"
-                    style={{ borderColor: r.color }}
-                  >
-                    <span className="bp-retailer-name" style={{ color: r.color }}>{r.name}</span>
-                    <span className="bp-retailer-tag">{r.tag}</span>
-                    <span className="bp-retailer-arrow">↗</span>
-                  </a>
-                ))}
-              </div>
-            </div>
+            </section>
           </div>
         );
       })()}
-      </div>
     </div>
   );
 };
