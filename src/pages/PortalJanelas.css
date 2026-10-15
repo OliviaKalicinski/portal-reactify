@@ -76,3 +76,29 @@
 .qsd8.hj .hj-area-tag { font-family: "Press Start 2P", monospace; font-size: 8px; letter-spacing: .04em; text-transform: uppercase; opacity: .7; }
 .qsd8.hj .hj-area-cta { margin-top: auto; padding-top: 6px; font-weight: 700; }
 .qsd8.hj .hj-area:hover .hj-area-cta { text-decoration: underline; }
+
+/* 15/10: no computador, Conteúdos e Comunidade enfileirados, sem vão (pedido da Olivia).
+   As fileiras da home de sempre somem (display: contents) e todos os cartões entram numa
+   grade de colunas iguais. No celular nada muda (decisão dela). */
+@media (min-width: 681px) {
+  .qsd8.hj .hj-conteudos .content-grid,
+  .qsd8.hj .hj-comunidade .content-grid {
+    display: grid; gap: 12px; padding: 0 !important; max-width: none;
+  }
+  .qsd8.hj .hj-conteudos .content-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .qsd8.hj .hj-comunidade .content-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .qsd8.hj .hj-conteudos .content-grid > .row,
+  .qsd8.hj .hj-comunidade .content-grid > .row { display: contents; }
+  .qsd8.hj .hj-conteudos .card,
+  .qsd8.hj .hj-comunidade .card {
+    flex: none !important; width: auto !important; height: auto !important; min-width: 0 !important;
+    aspect-ratio: 1 / 1 !important; margin: 0;
+  }
+  .qsd8.hj .hj-comunidade .card { aspect-ratio: 4 / 5 !important; }
+  .qsd8.hj .hj-conteudos .card > .card-inner,
+  .qsd8.hj .hj-comunidade .card > .card-inner { height: 100%; }
+  .qsd8.hj .hj-conteudos .card .card-inner::before,
+  .qsd8.hj .hj-comunidade .card .card-inner::before { display: none; }
+  /* o vídeo do canal ocupa a fileira de cima inteira; os outros 9 ficam em 3 fileiras de 3 */
+  .qsd8.hj .hj-conteudos .card-video { grid-column: 1 / -1; aspect-ratio: 21 / 9 !important; }
+}

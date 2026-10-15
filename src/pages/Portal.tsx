@@ -1657,7 +1657,7 @@ const Portal = () => {
               <span className="qsd8-btn hj-fala-btn">Não clique</span>
             </button>
           </Win>
-          <Win name="CONTEUDOS.DIR"><div className={host}>{conteudos}</div></Win>
+          <Win name="CONTEUDOS.DIR" className="hj-conteudos"><div className={host}>{conteudos}</div></Win>
           <Win name="MATEMATICA.TXT">
             <div className="qsd8-eyebrow">// os números</div>
             <h2 className="qsd8-h2">Não é marketing, <span>é matemática.</span></h2>
@@ -1671,7 +1671,7 @@ const Portal = () => {
             </div>
           </Win>
           <Win name="REELS.MOV" className="qsd8-reels-win"><div className={host}>{reels}</div></Win>
-          <Win name="COMUNIDADE.EXE"><div className={host}>{comunidade}</div></Win>
+          <Win name="COMUNIDADE.EXE" className="hj-comunidade"><div className={host}>{comunidade}</div></Win>
           <Win name="AREA-POR-PERFIL.SYS">
             <div className="qsd8-eyebrow">// escolhe a sua porta</div>
             <h2 className="qsd8-h2">Área por <span>perfil</span></h2>
