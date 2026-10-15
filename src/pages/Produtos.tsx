@@ -7,7 +7,7 @@ import "./Produtos.css";
 
 const MARQUEE_TOP = [
   "PRODUTOS COMIDA DE DRAGÃO",
-  "6 SKUS · LINHA COMPLETA",
+  "LINHA COMPLETA",
   "88,9% DIGESTIBILIDADE",
   "BIOFÁBRICA RJ",
   "DO RESÍDUO À PROTEÍNA",
@@ -16,7 +16,7 @@ const MARQUEE_TOP = [
 
 const MARQUEE_BOTTOM = [
   "// CÃES · GATOS · RÉPTEIS · ANFÍBIOS",
-  "// PETISCO · SUPLEMENTO · GEL",
+  "// SNACK · SUPLEMENTO · COMIDA NATURAL · GEL",
   "NOJENTO É O DESPERDÍCIO",
   "MAIS QUE UM ALIMENTO, UMA REVOLUÇÃO",
 ];
@@ -218,57 +218,54 @@ const PRODUTOS: Produto[] = [
     ficha: "/assets/pdfs/fichas/ficha-suplemento-integral.pdf",
   },
   {
-    id: "suplemento-concentrado",
-    nome: "Suplemento Concentrado",
-    variante: "Pó desengordurado — máxima proteína",
-    tamanho: "200g",
-    tag: "SÓ CÃES",
+    /* RANGO DO DRAGÃO — entra em 15/10/26 (pedido da Olivia), no lugar do Suplemento
+       Concentrado, que saiu de linha. Dados do produto_nodes do dash (produto_id "rango"),
+       conferidos na ficha do fabricante (Sensitive BSF, Drive) em 13/10/26.
+       ⚠️ CLAIMS: é alimento completo, NÃO é petisco. Não citar % de proteína (os níveis vêm
+       no pacote) e nada de hipoalergênico, alergia, pele ou intestino: a regra da proteína
+       da larva não se estende a este produto. Não serve para gatos nem filhotes. */
+    id: "rango",
+    nome: "Rango do Dragão",
+    variante: "Comida natural úmida — refeição completa",
+    tamanho: "500g",
+    tag: "CÃES ADULTOS",
     pets: ["caes"],
-    corTag: "var(--dragon-pink)",
-    corCard: "#FF0066",
-    corTexto: "#ffffff",
+    corTag: "var(--dragon-lime)",
+    corCard: "#9DC973",
     fotos: [
-      "/assets/images/produtos/suplemento-concentrado-frente.webp",
-      "/assets/images/produtos/concentrado-02.webp",
-      "/assets/images/produtos/concentrado-03.webp",
-      "/assets/images/produtos/concentrado-04.webp",
-      "/assets/images/produtos/concentrado-05.webp",
-      "/assets/images/produtos/concentrado-06.webp",
-      "/assets/images/produtos/concentrado-07.webp",
-      "/assets/images/produtos/concentrado-08.webp",
+      "/assets/images/rango/rango-pacote-frente.webp",
+      "/assets/images/rango/rango-pacote.webp",
     ],
-    destaques: ["50,5% proteína", "Baixa gordura (9,45%)", "Máxima concentração"],
-    proteina: "50,5% (mín. 505 g/kg) — MÁXIMA DA LINHA",
-    gordura: "9,45% (mín. 94,5 g/kg) — BAIXO TEOR",
-    energia: "3.320 kcal/kg",
+    destaques: ["Alimento completo", "Até 75,6% de água", "Só para cães adultos"],
+    proteina: "— níveis no pacote",
+    gordura: "— níveis no pacote",
+    energia: "— níveis no pacote",
     composicao: [
-      "Farinha de Larva BSF Desengordurada",
-      "Cúrcuma",
-      "Spirulina",
+      "Filé mignon suíno",
+      "Batata-doce",
+      "Abóbora",
+      "Chuchu",
+      "Farinha de larva de mosca soldado negra (8%: entra como farinha, não aparece)",
+      "A composição completa vem no rótulo",
     ],
     quandoUsar: [
-      "Máxima concentração proteica (50,5%)",
-      "Crescimento acelerado (filhotes grandes)",
-      "Gestação/lactação (pico de demanda)",
-      "Recuperação pós-operatória",
-      "Pets com restrição de gordura (pancreatite, obesidade)",
-      "Perda de massa muscular (idosos, doenças)",
-      "Atletas caninos",
+      "Refeição completa do dia, não é agrado nem complemento",
+      "Trocar para comida natural, introduzindo aos poucos",
+      "Cão que estranha comida nova: comece misturando ao que ele já come",
     ],
     dosagem: [
-      { porte: "Mini (até 5kg)", qtd: "1 medida (5g/dia)" },
-      { porte: "Pequeno (5–10kg)", qtd: "2 medidas (10g/dia)" },
-      { porte: "Médio (10–25kg)", qtd: "3 medidas (15g/dia)" },
-      { porte: "Grande (>25kg)", qtd: "4 medidas (20g/dia)" },
+      { porte: "1 a 5 kg", qtd: "80 a 270 g por dia" },
+      { porte: "6 a 10 kg", qtd: "310 a 460 g por dia" },
+      { porte: "11 a 25 kg", qtd: "490 a 910 g por dia" },
+      { porte: "26 a 30 kg", qtd: "940 a 1.050 g por dia" },
     ],
     diferenciais: [
-      "50,5% de proteína — maior concentração da linha",
-      "Baixíssimo teor de gordura — ideal para restrições",
-      "Hipoalergênico",
-      "Livre de gorduras trans",
+      "Alimento completo para cães adultos",
+      "Filé mignon suíno e proteína de inseto: proteínas pouco comuns na dieta da maioria dos cães",
+      "Até 75,6% de água: ele bebe comendo",
+      "Contém ácido láurico, naturalmente presente na proteína de inseto",
     ],
-    alerta: "Alta concentração — usar em quantidades menores que o Integral",
-    ficha: "/assets/pdfs/fichas/ficha-suplemento-concentrado.pdf",
+    alerta: "Não serve para gatos nem para filhotes. Acima de 30 kg a tabela não cobre: fale com o atendimento",
   },
   {
     id: "suplemento-felino",
@@ -422,7 +419,7 @@ const Produtos = () => {
     <div className="portal-page produtos-page skin-2">
       <PageMeta
         title="Produtos · Comida de Dragão"
-        description="6 SKUs de proteína de inseto BSF pra pets. Original, Mordida, Suplementos e GRUB — pra cães, gatos, répteis e anfíbios. Ficha técnica e compra em um clique."
+        description="A linha de proteína de inseto BSF pra pets: Original, Mordida, Suplementos, Rango do Dragão e GRUB — pra cães, gatos, répteis e anfíbios. Ficha técnica e compra em um clique."
         image="/assets/images/nossos-produtos.webp"
       />
       <MarqueeBar items={MARQUEE_TOP} />
@@ -443,7 +440,7 @@ const Produtos = () => {
               </h1>
               <p className="archive-hero-sub">
                 {PRODUTOS.length} produtos formulados a partir da mosca soldado negro.
-                Do petisco pro suplemento, do cachorro ao lagarto — proteína de verdade,
+                Do snack à comida natural, do cachorro ao lagarto — proteína de verdade,
                 rastreável, feita na nossa biofábrica em Cachoeiras de Macacu.
               </p>
             </div>

@@ -573,7 +573,7 @@ const Portal = () => {
             <div className="card-inner">
               <div className="card-body">
                 <div className="card-label">Nossos<br />Produtos</div>
-                <div className="card-sub" style={{ marginTop: 8 }}>Veja a linha completa — 7 SKUs</div>
+                <div className="card-sub" style={{ marginTop: 8 }}>Veja a linha completa</div>
               </div>
             </div>
             <div className="card-hover-overlay" style={{ background: "rgba(0,0,0,0.06)" }} />
