@@ -102,3 +102,9 @@
   /* o vídeo do canal ocupa a fileira de cima inteira; os outros 9 ficam em 3 fileiras de 3 */
   .qsd8.hj .hj-conteudos .card-video { grid-column: 1 / -1; aspect-ratio: 21 / 9 !important; }
 }
+
+/* 15/10 (Olivia: "mais discreto, uma linha, frase e botão"): a frase e o botão lado a lado */
+.qsd8.hj .hj-fala-win .qsd8-win-body { padding: 14px 16px; }
+.qsd8.hj .hj-fala { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 16px; padding: 0; }
+.qsd8.hj .hj-fala-title { font-size: clamp(12px, 3vw, 16px); line-height: 1.3; text-shadow: 2px 2px 0 var(--violet); }
+.qsd8.hj .hj-fala-btn { padding: 10px 18px; }
