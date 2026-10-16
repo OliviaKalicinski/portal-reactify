@@ -76,6 +76,7 @@ interface Produto {
   composicao: string[];
   quandoUsar: string[];
   dosagem?: Array<{ porte: string; qtd: string }>;
+  dosagemTitulo?: string;      // título da tabela (padrão "Quanto dar")
   diferenciais: string[];
   alerta?: string;             // ⚠️ caso tenha
   ficha?: string;              // PDF da ficha técnica
@@ -167,11 +168,11 @@ const PRODUTOS: Produto[] = [
       "Goma xantana e extrato de alecrim",
     ],
     quandoUsar: [
-      "Petisco diário — recompensa, agrado, treino",
-      "Cães sensíveis a grão e glúten",
-      "Troca de proteína — uma que ele nunca provou",
-      "Intestino que pede algo mais leve",
-      "Snack entre refeições",
+      "Agrado do dia a dia, prêmio e treino",
+      "Cão que estranha as proteínas de sempre: a de inseto é nova para ele (atenção: tem ovo)",
+      "Cão pequeno: quebra na mão, um vira uns quatro",
+      "Pet enjoado, que recusa outros agrados",
+      "Intestino: tem inulina, uma fibra prebiótica",
     ],
     dosagem: [
       { porte: "Mini (até 5kg)", qtd: "7g/dia (3 unidades)" },
@@ -180,14 +181,13 @@ const PRODUTOS: Produto[] = [
       { porte: "Grande (>25kg)", qtd: "38g/dia (16 unidades)" },
     ],
     diferenciais: [
-      "Proteína de inseto hipoalergênica, 88,9% digestível",
-      "Zero grão e zero glúten — mandioca e batata-doce no lugar",
-      "Conservação por extrato de alecrim, sem conservante artificial",
-      "Inulina: fibra prebiótica que age no intestino",
+      "Proteína de inseto hipoalergênica, com 88,9% de digestibilidade",
+      "Sem grão e sem glúten: mandioca e batata-doce no lugar do trigo",
       "Cúrcuma e spirulina na fórmula",
+      "Conservado com extrato de alecrim, sem conservante artificial",
       "Mais proteína que a versão anterior",
     ],
-    alerta: "Contém ovo — a proteína de inseto é hipoalergênica, mas o produto não é indicado pra pets com alergia a ovo. Máximo 10% do consumo diário de alimento",
+    alerta: "Contém ovo: não serve para pet com alergia a ovo. É agrado, não refeição: no máximo 10% do que ele come no dia",
     ficha: "/assets/pdfs/fichas/ficha-mordida.pdf",
   },
   {
@@ -221,12 +221,12 @@ const PRODUTOS: Produto[] = [
       "Spirulina",
     ],
     quandoUsar: [
-      "Boost proteico diário (complementar ração)",
-      "Cães muito ativos ou esportistas",
-      "Filhotes em crescimento",
-      "Gestação/lactação (alta demanda nutricional)",
-      "Pets com baixo apetite (concentração proteica)",
-      "Cães de trabalho (pastoreio, busca e resgate)",
+      "Reforço de proteína no dia a dia, misturado na ração",
+      "Cão muito ativo, esportista ou de trabalho",
+      "Filhote em crescimento",
+      "Gestação e amamentação",
+      "Pet com pouco apetite: dá mais sabor à ração",
+      "Para fazer petisco caseiro",
     ],
     dosagem: [
       { porte: "Mini (até 5kg)", qtd: "1 medida (5g/dia)" },
@@ -236,9 +236,9 @@ const PRODUTOS: Produto[] = [
     ],
     diferenciais: [
       "No mínimo 40% de proteína, podendo chegar a 45%",
-      "Perfil completo de aminoácidos essenciais",
-      "Hipoalergênico",
-      "Acompanha dosador",
+      "Todos os aminoácidos essenciais",
+      "Proteína hipoalergênica",
+      "Vem com dosador",
     ],
     ficha: "/assets/pdfs/fichas/ficha-suplemento-integral.pdf",
   },
@@ -325,20 +325,19 @@ const PRODUTOS: Produto[] = [
       "Taurina adicionada (mín. 1.520 mg/kg)",
     ],
     quandoUsar: [
-      "Boost proteico diário",
-      "Suplementação de taurina (essencial pro coração felino)",
-      "Gatos cardiopatas ou com problemas oculares",
-      "Gatos que comem ração vegetal ou caseira",
-      "Gestação/lactação felina",
+      "Reforço de proteína no dia a dia, misturado na ração",
+      "Para garantir taurina: gato não produz o suficiente sozinho",
+      "Gato que come ração vegetal ou comida caseira",
+      "Gestação e amamentação",
     ],
     dosagem: [
       { porte: "Dose geral", qtd: "1–2 medidas/dia (5–10g)" },
     ],
     diferenciais: [
-      "Formulação específica felina",
-      "Taurina adicionada — essencial pro coração",
-      "Hipoalergênico",
-      "Todas as fases da vida",
+      "Feito para gato, não adaptado do de cão",
+      "Com taurina adicionada, importante para o coração e a visão do gato",
+      "Proteína hipoalergênica",
+      "Para todas as fases da vida",
     ],
     ficha: "/assets/pdfs/fichas/ficha-suplemento-felino.pdf",
   },
@@ -360,34 +359,39 @@ const PRODUTOS: Produto[] = [
       "/assets/images/produtos/grub-04.webp",
       "/assets/images/produtos/grub-05.webp",
     ],
-    destaques: ["47% proteína", "Ca:P 2,5:1", "3 fontes de inseto"],
-    proteina: "47% (mín. 470 g/kg)",
-    gordura: "5,5% (mín. 55 g/kg)",
-    energia: "3.450 kcal/kg",
+    destaques: ["3 fontes de inseto", "Gel ou papinha", "Sem inseto vivo"],
+    proteina: "— níveis no pacote",
+    gordura: "— níveis no pacote",
+    energia: "— níveis no pacote",
     composicao: [
-      "Farinha de Larva BSF (Hermetia illucens)",
+      "Farinha de larva de mosca soldado negra (Hermetia illucens)",
       "Farinha de grilo preto (Gryllus assimilis)",
       "Farinha de tenébrio (Tenebrio molitor)",
-      "Cúrcuma, Spirulina, Levedura nutricional",
+      "Cúrcuma, spirulina e levedura nutricional",
       "Gelatina e fécula de mandioca modificada",
-      "Relação Ca:P 2,5:1 — ideal para répteis",
     ],
     quandoUsar: [
-      "Leopard gecko, teiú, dragão-barbudo (filhotes)",
-      "Iguana-verde (preparações hidratadas)",
-      "Crested gecko, tiliquas, varanus",
-      "Sapo-pacman, pipa, rãs arborícolas",
-      "Salamandras variadas",
+      "Leopard gecko e teiús: em todas as fases",
+      "Dragão-barbudo filhote e jovem (adulto: uma vez por semana, com vegetais)",
+      "Gekko tokay, phelsumas, tiliquas, varanus e jacarerana: como complemento",
+      "Iguana-verde, crested gecko e quelônios: de vez em quando",
+      "Anfíbios: sapo-pacman, sapo-pipa, sapo-boi, rãs arborícolas e salamandras",
     ],
     diferenciais: [
-      "Proteína de 3 fontes de insetos (aminoácidos completos)",
-      "Relação Ca:P otimizada para répteis (2,5:1)",
-      "Nutrição consistente — sem variação de lote",
-      "Zero odor, sem manejo de insetos vivos",
-      "Porções controláveis",
+      "Proteína de 3 insetos diferentes",
+      "Cálcio e fósforo na proporção pensada para répteis",
+      "Mesma nutrição em todo pacote, sem a variação do inseto vivo",
+      "Sem cheiro e sem criar inseto vivo em casa",
+      "Você controla o tamanho da porção",
     ],
-    alerta: "Não indicado para tarântulas · USO PROIBIDO PARA RUMINANTES",
-    ficha: "/assets/pdfs/fichas/ficha-grub.pdf",
+    alerta: "Não serve para tarântulas. Uso proibido na alimentação de ruminantes. Na dúvida sobre a sua espécie, consulte um veterinário de exóticos",
+    /* 16/10/26: a ficha do GRUB está em correção no cofre (o PDF traz números do Original):
+       sem números de garantia e sem o PDF até a corrigida chegar. O preparo vem da ficha do cofre. */
+    dosagemTitulo: "Como preparar",
+    dosagem: [
+      { porte: "Gel firme", qtd: "2 partes de água quente + 1 de GRUB. Na geladeira, até 5 dias" },
+      { porte: "Papinha", qtd: "3 partes de água morna + 1 de GRUB. Na geladeira, até 3 dias" },
+    ],
   },
 ];
 
@@ -688,7 +692,7 @@ const Produtos = () => {
                   </div>
                   {activeProduto.dosagem && (
                     <div className="pj-secao">
-                      <h3 className="pj-secao-titulo">Quanto dar</h3>
+                      <h3 className="pj-secao-titulo">{activeProduto.dosagemTitulo ?? "Quanto dar"}</h3>
                       <table className="pj-dose">
                         <tbody>
                           {activeProduto.dosagem.map((d, i) => (

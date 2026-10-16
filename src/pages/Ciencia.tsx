@@ -156,9 +156,9 @@ const MOTIVOS: Motivo[] = [
     titulo: "Funciona como suplemento proteico natural.",
     paragrafos: [
       "Seu pet tá em recuperação, é muito ativo, acima do peso ou precisa ganhar massa muscular? Suplementos comerciais são caros e nem sempre confiáveis.",
-      "Larva BSF é proteína concentrada — funciona como suplemento nutricional sem precisar trocar a ração base. A linha Suplemento tem duas versões: Integral (no mínimo 40% de proteína, podendo chegar a 45%, uso diário) e Concentrado (50,5% de proteína, máxima densidade).",
+      "Larva BSF é proteína concentrada — funciona como suplemento nutricional sem precisar trocar a ração base. A linha Suplemento tem duas versões: Integral, para cães (no mínimo 40% de proteína, podendo chegar a 45%, uso diário), e Felino, para gatos, com taurina.",
     ],
-    quote: "Duas versões: Integral 41,5% e Concentrado 50,5%.",
+    quote: "Integral para cães, Felino com taurina para gatos.",
     quoteFonte: "Linha Suplemento Comida de Dragão.",
     evidencias: [
       "Ideal pra ganho de massa muscular",

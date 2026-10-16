@@ -642,7 +642,6 @@ const quizProduto: QuizDef = {
       question: 'ALGUMA RESTRIÇÃO DE SAÚDE QUE VOCÊ JÁ CONHECE?',
       emoji: '🩺',
       options: [
-        { text: 'Cardíaco, renal ou precisa de menos gordura', value: 'cardiaco' },
         { text: 'É gato e precisa de taurina (sem ela, o coração sofre)', value: 'taurina' },
         { text: 'Alergia a frango ou bovino — o clássico', value: 'alergia' },
         { text: 'Nenhuma. Ele é um tanque.', value: 'saudavel' },
@@ -724,23 +723,6 @@ const quizProduto: QuizDef = {
       ctaText: 'COMPRAR SUPLEMENTO INTEGRAL →',
       ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
     },
-    concentrado: {
-      label: 'SUPLEMENTO CONCENTRADO',
-      category: 'Quando proteína é tudo',
-      description: '50,5% de proteína — a maior concentração da linha — com só 9,45% de gordura. Pra recuperação, pancreatite, restrição de gordura, reconstrução muscular real.\n\nQuando o vet pede "proteína alta, gordura baixa", o produto tá aqui.',
-      emoji: '🔬',
-      profileLabel: 'Proteína máxima, gordura mínima',
-      manifestoLine: 'Meu pet precisa de proteína máxima e gordura mínima',
-      stats: [
-        { label: 'PROTEÍNA',       value: 99 },
-        { label: 'NUTRIÇÃO',       value: 84 },
-        { label: 'ESPECIFICIDADE', value: 99 },
-        { label: 'VITALIDADE',     value: 86 },
-      ],
-      coupon: 'PRIMEIRODRAGO',
-      ctaText: 'COMPRAR SUPLEMENTO CONCENTRADO →',
-      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
-    },
     felino: {
       label: 'SUPLEMENTO FELINO',
       category: 'Gato não é cão pequeno. Pronto.',
@@ -780,9 +762,12 @@ const quizProduto: QuizDef = {
     const [pet, , perfil, restricao, comportamento, preocupacao] = answers;
     if (pet === 'gato' || restricao === 'taurina') return 'felino';
     if (pet === 'reptil' || comportamento === 'reptil') return 'grub';
-    if (restricao === 'cardiaco' || perfil === 'recuperacao') return 'concentrado';
+    // 16/10/26: o Suplemento Concentrado saiu de linha. Recuperação, gestação e "proteína de
+    // verdade" vão para o Integral (a ficha dele cobre gestação e alta demanda). A opção
+    // "cardíaco, renal ou menos gordura" saiu da pergunta: nenhum produto da linha atende.
+    if (perfil === 'recuperacao') return 'integral';
     if (perfil === 'ativo' || comportamento === 'boost') return 'integral';
-    if (preocupacao === 'proteina') return 'concentrado';
+    if (preocupacao === 'proteina') return 'integral';
     // Legumes e Spirulina viraram um SKU só: a V2 traz cúrcuma E spirulina na
     // mesma fórmula (ficha 27/07/26). Os três perfis caem na Mordida.
     if (preocupacao === 'pelagem' || comportamento === 'seletivo') return 'mordida';
