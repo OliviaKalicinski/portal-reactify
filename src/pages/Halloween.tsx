@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
-import { trackViewContent, trackAddToCart } from "@/lib/pixel";
+import { trackViewContent } from "@/lib/pixel";
 import "./Halloween.css";
 
 /* ──────────────────────────────────────────────────────────────
@@ -12,10 +12,9 @@ import "./Halloween.css";
    RASCUNHO (16/10/2026), não está no ar:
    - Promoção SÓ PARA CÃO (Olivia, 18/10): saiu o kit de gatos. Ficam os 7 kits
      ativos de cão na Shopify (preços lidos em 16/10).
-   - O carrinho de cada kit COM o suplemento de brinde ainda não existe na Yampi.
-     Enquanto `carrinho` estiver vazio, o botão fica desligado ("carrinho em preparo").
-     Não apontar para o carrinho do kit sem o brinde: a página prometeria algo
-     que o checkout não entrega.
+   - BOTÃO ÚNICO (Olivia, 18/10): todos os botões levam à loja, não a um carrinho por kit.
+     Os cards são só vitrine. O brinde vai ser configurado nos produtos depois:
+     ANTES DE IR AO AR, conferir que o suplemento entra sozinho no carrinho ao pôr um kit.
    - Qual suplemento vai de brinde e a validade do lote: a confirmar (ficha da campanha).
    ────────────────────────────────────────────────────────────── */
 
@@ -23,7 +22,11 @@ const UTM_FALLBACK = { utm_source: "lp-halloween", utm_medium: "lp", utm_campaig
 
 /* `vem`: o que vem na caixa, lido na descrição da Shopify em 18/10. `sku` vira content_id no pixel.
    `frete`: frete grátis automático dos kits; o Original + Mordida não tem (regra da casa). */
-type Kit = { nome: string; img: string; preco: string; sku: string; vem: string; frete: boolean; carrinho?: string };
+type Kit = { nome: string; img: string; preco: string; sku: string; vem: string; frete: boolean };
+
+/* Destino do botão único. A coleção "kits" tem 8 produtos, incluindo o Kit para Gatos (fora da
+   promoção). Trocar pela coleção só com os 7 kits de cão quando ela existir. */
+const LOJA = "https://www.comidadedragao.com.br/collections/kits";
 
 const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
 const KITS: Kit[] = [
@@ -55,8 +58,7 @@ export default function Halloween() {
     captureEntryUtms();
     trackViewContent({ content_name: "LP Halloween — kit + suplemento", content_id: "lp-halloween", value: 0 });
   }, []);
-  const preco = (k: Kit) => Number(k.preco.replace(",", "."));
-  const link = (k: Kit, pos: string) => (k.carrinho ? buildCheckoutUrl(k.carrinho, UTM_FALLBACK, pos) : undefined);
+  const loja = (pos: string) => buildCheckoutUrl(LOJA, UTM_FALLBACK, pos);
 
   return (
     <div className="hw">
@@ -80,7 +82,7 @@ export default function Halloween() {
         <p className="hw-oque">Comida de Dragão é alimento de larva de mosca soldado negra para cães: uma proteína que ele provavelmente nunca comeu.</p>
 
         <div className="hw-foto">
-          <a className="hw-botao hw-botao--foto" href="#kits">Escolher meu kit →</a>
+          <a className="hw-botao hw-botao--foto" href={loja("foto")} data-cta="foto">Escolher meu kit →</a>
           <img className="hw-cao" src="/assets/halloween/cena-chihuahua-suplemento.webp" alt="Cachorro de olho numa tigela de larvas, com o pote do suplemento ao lado" />
           <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         </div>
@@ -95,7 +97,7 @@ export default function Halloween() {
 
       </header>
 
-      <a className="hw-barra" href="#kits">
+      <a className="hw-barra" href={loja("barra")} data-cta="barra">
         <span className="hw-barra-txt">Kit + suplemento<small>de presente até 31/10</small></span>
         <strong className="hw-barra-btn">Escolher →</strong>
       </a>
@@ -104,25 +106,17 @@ export default function Halloween() {
         <img className="hw-selo hw-selo--esq" src="/assets/halloween/selo-halloween-gato-preto.webp" alt="" aria-hidden />
         <h2 className="hw-h2">Escolha o kit.<br />O suplemento vem junto.</h2>
         <div className="hw-kits">
-          {KITS.map((k) => {
-            const href = link(k, `kit-${k.sku}`);
-            return (
-              <article className="hw-kit" key={k.nome}>
-                <img src={k.img} alt={k.nome} loading="lazy" />
-                <h3>{k.nome}</h3>
-                <p className="hw-vem">{k.vem}</p>
-                <p className="hw-brinde">+ 1 suplemento de presente{k.frete ? " · frete grátis" : ""}</p>
-                <p className="hw-preco"><small>R$</small>{k.preco}</p>
-                {href ? (
-                  <a className="hw-botao hw-botao--kit" href={href} data-cta="kit"
-                    onClick={() => trackAddToCart({ content_name: k.nome, content_id: k.sku, value: preco(k), cta: `kit-${k.sku}` })}>Quero este</a>
-                ) : (
-                  <span className="hw-botao hw-botao--off" aria-disabled>carrinho em preparo</span>
-                )}
-              </article>
-            );
-          })}
+          {KITS.map((k) => (
+            <article className="hw-kit" key={k.nome}>
+              <img src={k.img} alt={k.nome} loading="lazy" />
+              <h3>{k.nome}</h3>
+              <p className="hw-vem">{k.vem}</p>
+              <p className="hw-brinde">+ 1 suplemento de presente{k.frete ? " · frete grátis" : ""}</p>
+              <p className="hw-preco"><small>R$</small>{k.preco}</p>
+            </article>
+          ))}
         </div>
+        <a className="hw-botao" href={loja("kits")} data-cta="kits">Escolher meu kit →</a>
       </section>
 
       <section className="hw-bloco">
@@ -143,7 +137,7 @@ export default function Halloween() {
       <footer className="hw-fim">
         <img className="hw-titulo hw-titulo--pequeno" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         <p className="hw-oferta-chamada">Compre um kit e <strong>ganhe um suplemento</strong>. Só até 31/10.</p>
-        <a className="hw-botao" href="#kits">Escolher meu kit</a>
+        <a className="hw-botao" href={loja("final")} data-cta="final">Escolher meu kit</a>
         <img className="hw-dragao" src="/assets/halloween/silhueta-dragao.webp" alt="" aria-hidden />
       </footer>
     </div>
