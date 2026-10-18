@@ -11,10 +11,17 @@
          (revisão do Codex, 14/10/2026). O convite sai do endereço primeiro e só depois é guardado na aba. A rota /painel em outro endereço da casa
          vai para matilha.* antes de tudo, para o passe nunca ficar numa origem que carrega medição. -->
     <script>(function(){if(location.pathname.indexOf('/painel')===0&&/(^|\.)comidadedragao\.com\.br$/.test(location.hostname)&&location.hostname.indexOf('matilha.')!==0){location.replace('https://matilha.comidadedragao.com.br/'+location.hash);window.__cdSemMedicao=true;return;}var painel=location.pathname.indexOf('/painel')===0||location.hostname.indexOf('matilha.')===0;window.__cdSemMedicao=painel;if(!painel)return;var h=location.hash.replace(/^#/,'');if(!/^[0-9a-f]{64}$/.test(h))return;try{history.replaceState(null,'',location.pathname);}catch(e){}window.__cdConvite=h;try{sessionStorage.setItem('cd_painel_creator',h);}catch(e){}})();</script>
-    <script>if(!window.__cdSemMedicao){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    <!-- 18/10/2026: o GTM (e o Meta, o TikTok, o GA4 e o Clarity que ele traz) carrega DEPOIS que a página
+         aparece: no evento load, quando o celular folga, ou em 4 s, o que vier primeiro. Medido no Lighthouse
+         (celular) na /original: com o GTM no começo, imagem principal em 11,7 s e 1.060 ms de tela travada;
+         sem ele, 3,7 s e 210 ms. A fila do dataLayer começa já, então nada que a página empurrar se perde;
+         o fbq e o ttq do código esperam até ~12 s (lib/pixel.ts). -->
+    <script>if(!window.__cdSemMedicao){(function(w,d,s,l,i){w[l]=w[l]||[];var foi=false;function carregar(){if(foi)return;foi=true;
+    w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}
+    function folga(){if(w.requestIdleCallback){w.requestIdleCallback(carregar,{timeout:1500});}else{setTimeout(carregar,1);}}
+    if(d.readyState==='complete'){folga();}else{w.addEventListener('load',folga);}setTimeout(carregar,4000);
     })(window,document,'script','dataLayer','GTM-NC7F2PNS');}</script>
     <!-- End Google Tag Manager -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
