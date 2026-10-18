@@ -82,7 +82,14 @@ export default function Halloween() {
         <p className="hw-oque">Comida de Dragão é alimento de larva de mosca soldado negra para cães: uma proteína que ele provavelmente nunca comeu.</p>
 
         <div className="hw-foto">
-          <a className="hw-botao hw-botao--foto" href={loja("foto")} data-cta="foto">Escolher meu kit →</a>
+          <div className="hw-cta-foto">
+            {/* suplemento "voando" com um + na frente, à esquerda do botão (Olivia, 18/10) */}
+            <span className="hw-cta-mais" aria-hidden>
+              <b>+</b>
+              <img src={SUPLEMENTO.img} alt="" />
+            </span>
+            <a className="hw-botao hw-botao--foto" href={loja("foto")} data-cta="foto">Escolher meu kit →</a>
+          </div>
           <img className="hw-cao" src="/assets/halloween/cena-chihuahua-suplemento.webp" alt="Cachorro de olho numa tigela de larvas, com o pote do suplemento ao lado" />
           <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         </div>
