@@ -77,10 +77,10 @@ export default function Halloween() {
         <span className="hw-eyebrow">promoção sinistra de Halloween</span>
         <h1 className="hw-h1">Compre um kit e<br /><span>ganhe um suplemento.</span></h1>
         <p className="hw-sub">Escolha qualquer kit desta página e o suplemento vai junto, de presente. Sem cupom. Só até 31/10.</p>
-        <a className="hw-botao" href="#kits">Escolher meu kit →</a>
         <p className="hw-oque">Comida de Dragão é alimento de larva de mosca soldado negra para cães: uma proteína que ele provavelmente nunca comeu.</p>
 
         <div className="hw-foto">
+          <a className="hw-botao hw-botao--foto" href="#kits">Escolher meu kit →</a>
           <img className="hw-cao" src="/assets/halloween/cena-chihuahua-suplemento.webp" alt="Cachorro de olho numa tigela de larvas, com o pote do suplemento ao lado" />
           <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         </div>

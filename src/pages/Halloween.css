@@ -100,3 +100,6 @@
 .hw-fim { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 50px 16px 60px; gap: 10px; }
 .hw-titulo--pequeno { width: min(80%, 340px); margin-top: 0 !important; }
 .hw-dragao { width: 90px; opacity: .5; margin-top: 18px; filter: invert(1); }
+
+/* botão em cima da foto, tortinho (Olivia, 18/10) */
+.hw-botao--foto { position: absolute; top: 22px; left: 50%; z-index: 2; margin-top: 0; white-space: nowrap; transform: translateX(-50%) rotate(-4deg); }
