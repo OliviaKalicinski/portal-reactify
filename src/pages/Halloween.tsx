@@ -55,25 +55,39 @@ export default function Halloween() {
         description="Halloween da Comida de Dragão: compre um kit e ganhe um suplemento. Só até 31/10."
       />
 
-      {/* A PROMOÇÃO VEM DE CARA (Olivia, 18/10): primeira coisa que se lê é o suplemento de presente. */}
+      {/* Topo no molde da /original (Olivia, 18/10): logo à esquerda, promoção de cara,
+          "Larvas e Travessuras" em cima da foto, barra fixa de compra no pé. */}
       <header className="hw-hero">
-        <img className="hw-logo" src="/assets/halloween/logo-comida-de-dragao-escorrendo.webp" alt="Comida de Dragão" />
-        <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
-        <div className="hw-promo">
-          <p className="hw-promo-kicker">promoção de Halloween</p>
-          <p className="hw-promo-titulo">Compre um kit e <span>ganhe um suplemento</span></p>
-          <div className="hw-promo-produto">
-            <img src={SUPLEMENTO.img} alt="Suplemento de presente" />
-            <span className="hw-promo-valor">de presente<br /><s>R$ {SUPLEMENTO.preco}</s> R$ 0</span>
-          </div>
-          <p className="hw-prazo">Só até 31/10 · sem cupom</p>
-          <a className="hw-botao" href="#kits">Escolher meu kit</a>
+        <div className="hw-topo">
+          <a href="https://www.comidadedragao.com.br/collections/produtos">
+            <img className="hw-logo" src="/assets/halloween/logo-comida-de-dragao-escorrendo.webp" alt="Comida de Dragão" />
+          </a>
+          <a className="hw-voltar" href="https://www.comidadedragao.com.br/collections/produtos">loja →</a>
         </div>
-        <img className="hw-cao" src="/assets/halloween/cao-com-tigela-cozinha-azul.webp" alt="Cão olhando uma tigela de larvas" />
+
+        <span className="hw-eyebrow">promoção sinistra de Halloween</span>
+        <h1 className="hw-h1">Compre um kit e<br /><span>ganhe um suplemento.</span></h1>
+        <p className="hw-sub">Escolha qualquer kit desta página e o suplemento vai junto, de presente. Sem cupom. Só até 31/10.</p>
+
+        <div className="hw-foto">
+          <img className="hw-cao" src="/assets/halloween/cao-com-tigela-cozinha-azul.webp" alt="Cão olhando uma tigela de larvas" />
+          <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
+        </div>
+
+        <div className="hw-presente">
+          <img src={SUPLEMENTO.img} alt="Suplemento de presente" />
+          <div>
+            <span className="hw-presente-rotulo">seu presente</span>
+            <span className="hw-presente-preco"><s>R$ {SUPLEMENTO.preco}</s> R$ 0</span>
+          </div>
+        </div>
+
+        <a className="hw-botao" href="#kits">Escolher meu kit →</a>
       </header>
 
       <a className="hw-barra" href="#kits">
-        <span>Ganhe 1 suplemento</span><strong>Escolher kit →</strong>
+        <span className="hw-barra-txt">Kit + suplemento<small>de presente até 31/10</small></span>
+        <strong className="hw-barra-btn">Escolher →</strong>
       </a>
 
       <section className="hw-bloco hw-papel" id="kits">
