@@ -103,3 +103,40 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Retorno no toque dos botões de compra das LPs (18/10/2026) — ver src/lib/retornoNoToque.ts.
+   O botão fica "apertado" e ganha um anel girando até o carrinho abrir. O texto não muda. */
+a[data-cta].cta-abrindo {
+  pointer-events: none;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 currentColor;
+  opacity: 0.9;
+}
+a[data-cta].cta-abrindo:not(.lp-foto-link)::after {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 0.5em;
+  vertical-align: -0.08em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: cta-gira 0.7s linear infinite;
+}
+/* Nos botões grandes o texto já ocupa a linha: o anel fica na sobra da direita, sem quebrar o texto. */
+.olp-btn-primary.cta-abrindo,
+.cur-btn-primary.cta-abrindo { position: relative; }
+a[data-cta].olp-btn-primary.cta-abrindo:not(.lp-foto-link)::after,
+a[data-cta].cur-btn-primary.cta-abrindo:not(.lp-foto-link)::after {
+  position: absolute;
+  right: 0.45em;
+  top: 50%;
+  margin: -0.4em 0 0;
+}
+.lp-foto-link { display: block; -webkit-tap-highlight-color: transparent; }
+a.lp-foto-link.cta-abrindo { transform: none; box-shadow: none; opacity: 0.75; }
+@keyframes cta-gira { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  a[data-cta].cta-abrindo:not(.lp-foto-link)::after { animation-duration: 2s; }
+}
