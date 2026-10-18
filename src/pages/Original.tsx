@@ -7,6 +7,7 @@ import "./Original.css";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
+import { useRetornoNoToque } from "@/lib/retornoNoToque";
 
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — ORIGINAL
@@ -40,7 +41,7 @@ const UTM_FALLBACK = {
 };
 
 /** Repassa a UTM de entrada (do anuncio); posicao do botao vai em cta_pos. */
-const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
+const ctaUrl = (cta: "hero" | "solucao" | "oferta" | "final" | "sticky" | "foto") =>
   buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 const HERO_IMG = "/assets/images/produtos/original-frente.webp";
@@ -115,6 +116,7 @@ const FAQ = [
 
 const Original = () => {
   useEffect(() => { captureEntryUtms(); }, []);
+  useRetornoNoToque();
   const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
   return (
     <div className="original-lp">
@@ -157,15 +159,19 @@ const Original = () => {
                 dia do<br />cliente<br /><strong>-10%</strong>
               </span>
             )}
-            <img
-              src={HERO_IMG}
-              alt="Pacote Comida de Dragão Original — 90g de larvas inteiras desidratadas"
-              width={440}
-              height={543}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
+            {/* 18/10/2026: a foto era o lugar com mais toques sem resposta (Clarity, 30 dias: 49).
+                Agora leva ao mesmo carrinho do botão do topo; cta_pos=foto separa na medição. */}
+            <a href={ctaUrl("foto")} data-cta="foto" className="lp-foto-link">
+              <img
+                src={HERO_IMG}
+                alt="Pacote Comida de Dragão Original — 90g de larvas inteiras desidratadas"
+                width={440}
+                height={543}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+            </a>
           </div>
 
           <div className="olp-hero-price">
