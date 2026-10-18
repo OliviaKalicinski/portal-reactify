@@ -9,8 +9,8 @@ import "./Halloween.css";
    Visual do cartão-postal da campanha (Canva), peças em /assets/halloween/.
 
    RASCUNHO (16/10/2026), não está no ar:
-   - Quais kits entram ainda não foi decidido: estão os 8 kits ativos na Shopify
-     (preços lidos em 16/10). Tirar da lista KITS os que não entrarem.
+   - Promoção SÓ PARA CÃO (Olivia, 18/10): saiu o kit de gatos. Ficam os 7 kits
+     ativos de cão na Shopify (preços lidos em 16/10).
    - O carrinho de cada kit COM o suplemento de brinde ainda não existe na Yampi.
      Enquanto `carrinho` estiver vazio, o botão fica desligado ("carrinho em preparo").
      Não apontar para o carrinho do kit sem o brinde: a página prometeria algo
@@ -26,11 +26,10 @@ const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
 const KITS: Kit[] = [
   { nome: "Kit Comida de Dragão para Cães", img: CDN + "Anuncios_Multiplataforma_Mordida_Suplemento_030f2ec7-353e-45e0-ae37-979a624c15ec.png?v=1785160455", preco: "144,50", para: "cães" },
   { nome: "Kit Completo para Cães", img: CDN + "kit-dog-supremo.png?v=1785150064", preco: "184,60", para: "cães" },
-  { nome: "Kit Comida de Dragão Original", img: CDN + "Anuncios_Multiplataforma_Original_3x_4804eede-2fc5-41aa-b9a6-3ca0a3c2c776.png?v=1785160614", preco: "120,20", para: "cães e gatos" },
+  { nome: "Kit Comida de Dragão Original", img: CDN + "Anuncios_Multiplataforma_Original_3x_4804eede-2fc5-41aa-b9a6-3ca0a3c2c776.png?v=1785160614", preco: "120,20", para: "cães" },
   { nome: "Kit 3 Mordidas", img: CDN + "kit-mordidas.png?v=1785150064", preco: "120,20", para: "cães" },
   { nome: "Kit Mordida + Suplemento", img: CDN + "kit-dog-mordida-suplemento.png?v=1785150064", preco: "144,50", para: "cães" },
   { nome: "Kit Original + Mordida", img: CDN + "kit-petiscos.png?v=1785150064", preco: "80,10", para: "cães" },
-  { nome: "Kit Comida de Dragão para Gatos", img: CDN + "Anuncios_Multiplataforma_Kit_Gato.png?v=1785160535", preco: "144,50", para: "gatos" },
   { nome: "Kit Rango do Dragão (compre 6, ganhe 1)", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", para: "cães" },
 ];
 
