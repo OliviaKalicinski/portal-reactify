@@ -34,6 +34,9 @@ const KITS: Kit[] = [
   { nome: "Kit Rango do Dragão (compre 6, ganhe 1)", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", para: "cães" },
 ];
 
+/* Suplemento de brinde: a confirmar qual (ficha da campanha). Integral, preço lido na Shopify em 18/10. */
+const SUPLEMENTO = { img: CDN + "Anuncios_Multiplataforma_Suplemento_Integral.png?v=1785161368", preco: "110,00" };
+
 const FAQ = [
   { q: "Como eu ganho o suplemento?", a: "É só comprar um dos kits desta página. O suplemento já vai junto no mesmo pedido, sem cupom." },
   { q: "Até quando vale?", a: "Até 31 de outubro, ou enquanto durar o estoque do suplemento." },
@@ -52,14 +55,26 @@ export default function Halloween() {
         description="Halloween da Comida de Dragão: compre um kit e ganhe um suplemento. Só até 31/10."
       />
 
+      {/* A PROMOÇÃO VEM DE CARA (Olivia, 18/10): primeira coisa que se lê é o suplemento de presente. */}
       <header className="hw-hero">
         <img className="hw-logo" src="/assets/halloween/logo-comida-de-dragao-escorrendo.webp" alt="Comida de Dragão" />
-        <img className="hw-cao" src="/assets/halloween/cao-com-tigela-cozinha-azul.webp" alt="Cão olhando uma tigela de larvas" />
         <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
-        <p className="hw-oferta-chamada">Compre um kit e <strong>ganhe um suplemento</strong>.</p>
-        <p className="hw-prazo">Só até 31/10</p>
-        <a className="hw-botao" href="#kits">Escolher meu kit</a>
+        <div className="hw-promo">
+          <p className="hw-promo-kicker">promoção de Halloween</p>
+          <p className="hw-promo-titulo">Compre um kit e <span>ganhe um suplemento</span></p>
+          <div className="hw-promo-produto">
+            <img src={SUPLEMENTO.img} alt="Suplemento de presente" />
+            <span className="hw-promo-valor">de presente<br /><s>R$ {SUPLEMENTO.preco}</s> R$ 0</span>
+          </div>
+          <p className="hw-prazo">Só até 31/10 · sem cupom</p>
+          <a className="hw-botao" href="#kits">Escolher meu kit</a>
+        </div>
+        <img className="hw-cao" src="/assets/halloween/cao-com-tigela-cozinha-azul.webp" alt="Cão olhando uma tigela de larvas" />
       </header>
+
+      <a className="hw-barra" href="#kits">
+        <span>Ganhe 1 suplemento</span><strong>Escolher kit →</strong>
+      </a>
 
       <section className="hw-bloco hw-papel" id="kits">
         <img className="hw-selo hw-selo--esq" src="/assets/halloween/selo-halloween-gato-preto.webp" alt="" aria-hidden />
