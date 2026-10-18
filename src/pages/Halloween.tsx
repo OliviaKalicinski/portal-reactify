@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
+import { trackViewContent, trackAddToCart } from "@/lib/pixel";
 import "./Halloween.css";
 
 /* ──────────────────────────────────────────────────────────────
@@ -20,17 +21,19 @@ import "./Halloween.css";
 
 const UTM_FALLBACK = { utm_source: "lp-halloween", utm_medium: "lp", utm_campaign: "halloween-2026" };
 
-type Kit = { nome: string; img: string; preco: string; para: string; carrinho?: string };
+/* `vem`: o que vem na caixa, lido na descrição da Shopify em 18/10. `sku` vira content_id no pixel.
+   `frete`: frete grátis automático dos kits; o Original + Mordida não tem (regra da casa). */
+type Kit = { nome: string; img: string; preco: string; sku: string; vem: string; frete: boolean; carrinho?: string };
 
 const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
 const KITS: Kit[] = [
-  { nome: "Kit Comida de Dragão para Cães", img: CDN + "Anuncios_Multiplataforma_Mordida_Suplemento_030f2ec7-353e-45e0-ae37-979a624c15ec.png?v=1785160455", preco: "144,50", para: "cães" },
-  { nome: "Kit Completo para Cães", img: CDN + "kit-dog-supremo.png?v=1785150064", preco: "184,60", para: "cães" },
-  { nome: "Kit Comida de Dragão Original", img: CDN + "Anuncios_Multiplataforma_Original_3x_4804eede-2fc5-41aa-b9a6-3ca0a3c2c776.png?v=1785160614", preco: "120,20", para: "cães" },
-  { nome: "Kit 3 Mordidas", img: CDN + "kit-mordidas.png?v=1785150064", preco: "120,20", para: "cães" },
-  { nome: "Kit Mordida + Suplemento", img: CDN + "kit-dog-mordida-suplemento.png?v=1785150064", preco: "144,50", para: "cães" },
-  { nome: "Kit Original + Mordida", img: CDN + "kit-petiscos.png?v=1785150064", preco: "80,10", para: "cães" },
-  { nome: "Kit Rango do Dragão (compre 6, ganhe 1)", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", para: "cães" },
+  { nome: "Kit Comida de Dragão para Cães", img: CDN + "Anuncios_Multiplataforma_Mordida_Suplemento_030f2ec7-353e-45e0-ae37-979a624c15ec.png?v=1785160455", preco: "144,50", sku: "1302", vem: "Original 90g + Suplemento Integral 180g", frete: true },
+  { nome: "Kit Completo para Cães", img: CDN + "kit-dog-supremo.png?v=1785150064", preco: "184,60", sku: "1306", vem: "Original 90g + Mordida 180g + Suplemento Integral 180g", frete: true },
+  { nome: "Kit Comida de Dragão Original", img: CDN + "Anuncios_Multiplataforma_Original_3x_4804eede-2fc5-41aa-b9a6-3ca0a3c2c776.png?v=1785160614", preco: "120,20", sku: "1101", vem: "3 Original", frete: true },
+  { nome: "Kit 3 Mordidas", img: CDN + "kit-mordidas.png?v=1785150064", preco: "120,20", sku: "1304", vem: "3 Mordida de 180g", frete: true },
+  { nome: "Kit Mordida + Suplemento", img: CDN + "kit-dog-mordida-suplemento.png?v=1785150064", preco: "144,50", sku: "1305", vem: "Mordida 180g + Suplemento Integral 180g", frete: true },
+  { nome: "Kit Original + Mordida", img: CDN + "kit-petiscos.png?v=1785150064", preco: "80,10", sku: "1303", vem: "Original 90g + Mordida 180g", frete: false },
+  { nome: "Kit Rango do Dragão (compre 6, ganhe 1)", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", sku: "1501", vem: "7 pacotes de Rango, refeição completa para cão adulto", frete: true },
 ];
 
 /* Suplemento de brinde: a confirmar qual (ficha da campanha). Integral, preço lido na Shopify em 18/10. */
@@ -40,11 +43,19 @@ const FAQ = [
   { q: "Como eu ganho o suplemento?", a: "É só comprar um dos kits desta página. O suplemento já vai junto no mesmo pedido, sem cupom." },
   { q: "Até quando vale?", a: "Até 31 de outubro, ou enquanto durar o estoque do suplemento." },
   { q: "É larva mesmo?", a: "É. Larva de mosca soldado negro, criada para isso e desidratada. Proteína que o seu pet reconhece como comida." },
-  { q: "E se o meu pet não gostar?", a: "Você tem garantia: fala com a gente e a gente resolve." },
+  { q: "O suplemento vem no mesmo pacote?", a: "Vem. Ele entra no mesmo pedido do kit, sem custo, e chega junto." },
+  /* Política de troca da loja (Shopify, lida em 18/10): arrependimento em 7 dias com o produto lacrado;
+     defeito ou avaria em 30 dias. NÃO usar a "garantia de 14 dias" da /original: não está na política. */
+  { q: "E se eu me arrepender?", a: "Você tem 7 dias depois de receber para desistir, com o produto lacrado. Se chegar com defeito, são 30 dias." },
+  { q: "Ficou alguma dúvida?", a: "Chama a gente no WhatsApp: (21) 3950-0576." },
 ];
 
 export default function Halloween() {
-  useEffect(() => { captureEntryUtms(); }, []);
+  useEffect(() => {
+    captureEntryUtms();
+    trackViewContent({ content_name: "LP Halloween — kit + suplemento", content_id: "lp-halloween", value: 0 });
+  }, []);
+  const preco = (k: Kit) => Number(k.preco.replace(",", "."));
   const link = (k: Kit, pos: string) => (k.carrinho ? buildCheckoutUrl(k.carrinho, UTM_FALLBACK, pos) : undefined);
 
   return (
@@ -61,12 +72,12 @@ export default function Halloween() {
           <a href="https://www.comidadedragao.com.br/collections/produtos">
             <img className="hw-logo" src="/assets/halloween/logo-comida-de-dragao-escorrendo.webp" alt="Comida de Dragão" />
           </a>
-          <a className="hw-voltar" href="https://www.comidadedragao.com.br/collections/produtos">loja →</a>
         </div>
 
         <span className="hw-eyebrow">promoção sinistra de Halloween</span>
         <h1 className="hw-h1">Compre um kit e<br /><span>ganhe um suplemento.</span></h1>
         <p className="hw-sub">Escolha qualquer kit desta página e o suplemento vai junto, de presente. Sem cupom. Só até 31/10.</p>
+        <p className="hw-oque">Comida de Dragão é alimento de larva de mosca soldado negra para cães: uma proteína que ele provavelmente nunca comeu.</p>
 
         <div className="hw-foto">
           <img className="hw-cao" src="/assets/halloween/cena-chihuahua-suplemento.webp" alt="Cachorro de olho numa tigela de larvas, com o pote do suplemento ao lado" />
@@ -94,16 +105,17 @@ export default function Halloween() {
         <h2 className="hw-h2">Escolha o kit.<br />O suplemento vem junto.</h2>
         <div className="hw-kits">
           {KITS.map((k) => {
-            const href = link(k, `kit-${k.nome}`);
+            const href = link(k, `kit-${k.sku}`);
             return (
               <article className="hw-kit" key={k.nome}>
                 <img src={k.img} alt={k.nome} loading="lazy" />
                 <h3>{k.nome}</h3>
-                <p className="hw-para">para {k.para}</p>
-                <p className="hw-brinde">+ 1 suplemento de presente</p>
+                <p className="hw-vem">{k.vem}</p>
+                <p className="hw-brinde">+ 1 suplemento de presente{k.frete ? " · frete grátis" : ""}</p>
                 <p className="hw-preco"><small>R$</small>{k.preco}</p>
                 {href ? (
-                  <a className="hw-botao hw-botao--kit" href={href} data-cta="kit">Quero este</a>
+                  <a className="hw-botao hw-botao--kit" href={href} data-cta="kit"
+                    onClick={() => trackAddToCart({ content_name: k.nome, content_id: k.sku, value: preco(k), cta: `kit-${k.sku}` })}>Quero este</a>
                 ) : (
                   <span className="hw-botao hw-botao--off" aria-disabled>carrinho em preparo</span>
                 )}
