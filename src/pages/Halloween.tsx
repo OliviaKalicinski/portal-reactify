@@ -70,7 +70,7 @@ export default function Halloween() {
         <p className="hw-sub">Escolha qualquer kit desta página e o suplemento vai junto, de presente. Sem cupom. Só até 31/10.</p>
 
         <div className="hw-foto">
-          <img className="hw-cao" src="/assets/halloween/cao-com-tigela-cozinha-azul.webp" alt="Cão olhando uma tigela de larvas" />
+          <img className="hw-cao" src="/assets/halloween/cena-chihuahua-suplemento.webp" alt="Cachorro de olho numa tigela de larvas, com o pote do suplemento ao lado" />
           <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         </div>
 
