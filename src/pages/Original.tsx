@@ -393,7 +393,8 @@ const Original = () => {
           de forma detectável nesse tamanho de amostra. E ele entrega lead
           (23 na semana de 17–23/08). Ficha: `BIBLIOTECA/00 - Agentes
           (Contexto CLAUDE)/03_EXPERIMENTOS/2026-08-26 - LP -original sem popup`. */}
-      <LeadPopup slug="original" />
+      {/* 18/10/2026: o popup abre só depois que a pessoa passa pela oferta (era aos 15 s). No Clarity (30 dias), fechar o popup era 42,7% dos toques da página. */}
+      <LeadPopup slug="original" aposSeletor=".olp-oferta" />
     </div>
   );
 };

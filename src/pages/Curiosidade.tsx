@@ -372,7 +372,8 @@ const Curiosidade = () => {
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>
 
-      <LeadPopup slug="curiosidade" />
+      {/* 18/10/2026: o popup abre só depois que a pessoa passa pela oferta (era aos 15 s). No Clarity (30 dias), fechar o popup era 40% dos toques da página. */}
+      <LeadPopup slug="curiosidade" aposSeletor=".cur-oferta" />
     </div>
   );
 };
