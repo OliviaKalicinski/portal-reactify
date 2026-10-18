@@ -112,3 +112,8 @@
 }
 @media (prefers-reduced-motion: reduce) { .hw-botao--foto { animation: none; } }
 .hw-papel .hw-texto { margin-bottom: 8px; }
+
+/* página toda preta (Olivia, 18/10): os blocos de papel creme viram o mesmo fundo preto */
+.hw-papel { background: transparent; color: var(--creme); }
+.hw-papel .hw-h2 { color: var(--neon); text-shadow: 3px 3px 0 var(--preto); }
+.hw-faq details { background: rgba(243, 230, 200, .06); border-color: rgba(243, 230, 200, .35); color: var(--creme); }
