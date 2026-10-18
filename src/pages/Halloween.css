@@ -102,4 +102,12 @@
 .hw-dragao { width: 90px; opacity: .5; margin-top: 18px; filter: invert(1); }
 
 /* botão em cima da foto, tortinho (Olivia, 18/10) */
-.hw-botao--foto { position: absolute; top: 22px; left: 50%; z-index: 2; margin-top: 0; white-space: nowrap; transform: translateX(-50%) rotate(-4deg); }
+.hw-botao--foto { position: absolute; top: 26px; left: 50%; z-index: 2; margin-top: 0; white-space: nowrap;
+  font-size: 18px; padding: 9px 16px; border-width: 2px; box-shadow: 3px 3px 0 var(--preto);
+  transform: translateX(-50%) rotate(-4deg); animation: hw-voando 3.2s ease-in-out infinite; }
+/* "voando" (Olivia, 18/10): sobe e desce devagar, balançando um pouco */
+@keyframes hw-voando {
+  0%, 100% { transform: translateX(-50%) translateY(0) rotate(-4deg); }
+  50% { transform: translateX(-50%) translateY(-8px) rotate(-1deg); }
+}
+@media (prefers-reduced-motion: reduce) { .hw-botao--foto { animation: none; } }
