@@ -7,6 +7,7 @@ import "./Curiosidade.css";
 import LeadPopup from "@/components/LeadPopup";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import { isDayOfClienteActive } from "@/lib/promotions";
+import { useRetornoNoToque } from "@/lib/retornoNoToque";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CURIOSIDADE (LARVA) · /curiosidade
@@ -35,7 +36,7 @@ const UTM_FALLBACK = {
   utm_campaign: "lp-curiosidade-kit-caes",
 };
 
-const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
+const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky" | "foto") =>
   buildCheckoutUrl(PRODUCT_URL, UTM_FALLBACK, cta);
 
 const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
@@ -135,6 +136,7 @@ const FAQ = [
 
 const Curiosidade = () => {
   useEffect(() => { captureEntryUtms(); }, []);
+  useRetornoNoToque();
   const daydeal = isDayOfClienteActive(); // 🧪 flag Dia do Cliente — src/lib/promotions.ts
   return (
     <div className="curiosidade-lp">
@@ -174,6 +176,9 @@ const Curiosidade = () => {
           </p>
 
           <div className="cur-hero-product-wrap">
+            {/* 18/10/2026: a foto era o lugar com mais toques sem resposta (Clarity, 30 dias: 36).
+                Agora leva ao mesmo carrinho do botão do topo; cta_pos=foto separa na medição. */}
+            <a href={ctaUrl("foto")} data-cta="foto" className="lp-foto-link">
             <img
               className="cur-hero-product"
               src={HERO_IMG}
@@ -184,6 +189,7 @@ const Curiosidade = () => {
               fetchPriority="high"
               decoding="async"
             />
+            </a>
             <div className="cur-hero-badges">
               <span className="cur-hero-frete-tag">Kit com frete grátis</span>
               {daydeal && (
