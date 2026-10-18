@@ -111,3 +111,4 @@
   50% { transform: translateX(-50%) translateY(-8px) rotate(-1deg); }
 }
 @media (prefers-reduced-motion: reduce) { .hw-botao--foto { animation: none; } }
+.hw-papel .hw-texto { margin-bottom: 8px; }

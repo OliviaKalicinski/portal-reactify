@@ -43,7 +43,7 @@ const KITS: Kit[] = [
 const SUPLEMENTO = { img: CDN + "Anuncios_Multiplataforma_Suplemento_Integral.png?v=1785161368", preco: "110,00" };
 
 const FAQ = [
-  { q: "Como eu ganho o suplemento?", a: "É só comprar um dos kits desta página. O suplemento já vai junto no mesmo pedido, sem cupom." },
+  { q: "Como eu ganho o suplemento?", a: "É só comprar um dos 7 kits para cães da loja. O suplemento já vai junto no mesmo pedido, sem cupom." },
   { q: "Até quando vale?", a: "Até 31 de outubro, ou enquanto durar o estoque do suplemento." },
   { q: "É larva mesmo?", a: "É. Larva de mosca soldado negro, criada para isso e desidratada. Proteína que o seu pet reconhece como comida." },
   { q: "O suplemento vem no mesmo pacote?", a: "Vem. Ele entra no mesmo pedido do kit, sem custo, e chega junto." },
@@ -78,7 +78,7 @@ export default function Halloween() {
 
         <span className="hw-eyebrow">promoção sinistra de Halloween</span>
         <h1 className="hw-h1">Compre um kit e<br /><span>ganhe um suplemento.</span></h1>
-        <p className="hw-sub">Escolha qualquer kit desta página e o suplemento vai junto, de presente. Sem cupom. Só até 31/10.</p>
+        <p className="hw-sub">Escolha qualquer kit para cães e o suplemento vai junto, de presente. Sem cupom. Só até 31/10.</p>
         <p className="hw-oque">Comida de Dragão é alimento de larva de mosca soldado negra para cães: uma proteína que ele provavelmente nunca comeu.</p>
 
         <div className="hw-foto">
@@ -105,17 +105,9 @@ export default function Halloween() {
       <section className="hw-bloco hw-papel" id="kits">
         <img className="hw-selo hw-selo--esq" src="/assets/halloween/selo-halloween-gato-preto.webp" alt="" aria-hidden />
         <h2 className="hw-h2">Escolha o kit.<br />O suplemento vem junto.</h2>
-        <div className="hw-kits">
-          {KITS.map((k) => (
-            <article className="hw-kit" key={k.nome}>
-              <img src={k.img} alt={k.nome} loading="lazy" />
-              <h3>{k.nome}</h3>
-              <p className="hw-vem">{k.vem}</p>
-              <p className="hw-brinde">+ 1 suplemento de presente{k.frete ? " · frete grátis" : ""}</p>
-              <p className="hw-preco"><small>R$</small>{k.preco}</p>
-            </article>
-          ))}
-        </div>
+        {/* Grade dos 7 kits retirada (Olivia, 18/10: "ficou muita coisa"); a lista KITS fica no
+            arquivo para voltar fácil. Os kits aparecem na loja, para onde o botão leva. */}
+        <p className="hw-texto">Vale para qualquer um dos 7 kits para cães da loja. Você escolhe lá, e o suplemento entra no pedido.</p>
         <a className="hw-botao" href={loja("kits")} data-cta="kits">Escolher meu kit →</a>
       </section>
 
