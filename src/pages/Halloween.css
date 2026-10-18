@@ -109,7 +109,7 @@
   transform: rotate(-4deg); animation: hw-voando 3.2s ease-in-out infinite; }
 .hw-cta-mais { display: flex; align-items: center; flex-shrink: 0; animation: hw-voando-sup 2.6s ease-in-out infinite; }
 .hw-cta-mais b { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 34px; line-height: 1;
-  color: var(--neon); text-shadow: 2px 2px 0 var(--preto); margin-right: -4px; }
+  color: var(--neon); text-shadow: 2px 2px 0 var(--preto); margin: 0 -2px 0 6px; }
 .hw-cta-mais img { width: 58px; height: 58px; flex-shrink: 0; max-width: none; object-fit: contain; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.5)); }
 /* "voando" (Olivia, 18/10): sobem e descem devagar, fora de compasso um do outro */
 @keyframes hw-voando {
