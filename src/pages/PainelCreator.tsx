@@ -60,7 +60,9 @@ type Painel = {
 type Referencia = { url: string; creator: string | null; no_ar: boolean };
 /* assunto da semana (R658): sai da mensagem semanal aos creators, depois do sim da Olivia */
 type Tema = { semana_inicio: string; titulo: string; o_que_fazer: string; ideias: string[]; imagem_url: string | null;
-  clima?: string; material_url?: string | null };
+  clima?: string; material_url?: string | null;
+  /* R669: botões de link (loja, landing page) e foto de referência com o prompt para o creator adaptar */
+  links?: { rotulo: string; url: string }[]; foto_url?: string | null; prompt?: string | null };
 /* climas que a página conhece (R659); outro valor cai no padrão */
 const CLIMAS: Record<string, { janela: string; selo: string }> = {
   halloween:      { janela: "HALLOWEEN.EXE",       selo: "Halloween" },
@@ -365,9 +367,29 @@ const PainelCreator = () => {
                         </ul>
                       </>
                     )}
-                    {tema.material_url && (
-                      <div className="qsd8-btnrow">
-                        <a className="qsd8-btn" href={tema.material_url} target="_blank" rel="noopener noreferrer">Material de divulgação ↗</a>
+                    {((tema.links && tema.links.length > 0) || tema.material_url) && (
+                      <div className="qsd8-btnrow pc-tema-links">
+                        {(tema.links ?? []).map((l) => (
+                          <a key={l.url} className="qsd8-btn ghost" href={l.url} target="_blank" rel="noopener noreferrer">{l.rotulo} ↗</a>
+                        ))}
+                        {tema.material_url && (
+                          <a className="qsd8-btn" href={tema.material_url} target="_blank" rel="noopener noreferrer">Material de divulgação ↗</a>
+                        )}
+                      </div>
+                    )}
+                    {(tema.foto_url || tema.prompt) && (
+                      <div className="pc-tema-foto">
+                        <p className="pc-linha"><strong>Foto da semana</strong> · use o prompt e troque pelo seu pet</p>
+                        {tema.foto_url && <img src={tema.foto_url} alt="Foto de referência da semana" loading="lazy" />}
+                        {tema.prompt && (
+                          <>
+                            <pre className="pc-tema-prompt">{tema.prompt}</pre>
+                            <button type="button" className="qsd8-btn ghost pc-tema-copiar"
+                              onClick={(e) => { const b = e.currentTarget; navigator.clipboard?.writeText(tema.prompt ?? "").then(() => { b.textContent = "Prompt copiado ✓"; }); }}>
+                              Copiar o prompt
+                            </button>
+                          </>
+                        )}
                       </div>
                     )}
                     {/* recolher também no fim: quem leu até embaixo não precisa voltar ao título */}
