@@ -14,6 +14,11 @@
       "source": "/gato-coceira",
       "destination": "/gatos",
       "permanent": false
+    },
+    {
+      "source": "/suplemento-gato",
+      "destination": "/halloween-gato",
+      "permanent": false
     }
   ]
 }

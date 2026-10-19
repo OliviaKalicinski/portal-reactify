@@ -1,0 +1,56 @@
+/* /suplemento-gato · peças próprias; o resto vem do Halloween.css (mesmo visual da /halloween) */
+.hwg-pacote { position: relative; width: min(78%, 320px); margin: 4px auto 0; }
+.hwg-foto { width: 100%; display: block; border-radius: 16px; border: 3px solid var(--preto); box-shadow: 6px 6px 0 var(--neon); background: var(--creme); }
+.hwg-selo { position: absolute; width: 84px; top: -26px; right: -22px; transform: rotate(10deg); z-index: 2; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.35)); }
+.hwg-preco { display: flex; align-items: baseline; justify-content: center; gap: 12px; margin-top: 14px; }
+.hwg-de { font-family: "Space Mono", monospace; font-size: 14px; letter-spacing: .06em; opacity: .85; }
+.hwg-de s { opacity: .8; }
+.hwg-por { font-family: "Bebas Neue", sans-serif; font-size: 64px; line-height: .9; color: var(--neon); text-shadow: 3px 3px 0 var(--preto); }
+.hwg-por small { font-size: 26px; margin-right: 4px; }
+.hwg-titulo { width: min(70%, 260px); margin-top: 18px; transform: rotate(-3deg); filter: drop-shadow(3px 3px 0 var(--preto)); }
+@media (min-width: 900px) {
+  .hwg-pacote { width: 360px; }
+  .hwg-por { font-size: 80px; }
+}
+
+/* 19/10: cena no topo; pote real pequeno ao lado do preço */
+.hwg-cena { width: min(92%, 400px); margin: 6px auto 0; }
+.hwg-cena img { width: 100%; display: block; }
+.hwg-preco { align-items: center; }
+.hwg-pote { width: 64px; height: 64px; object-fit: contain; border-radius: 10px; background: var(--creme); border: 2px solid var(--preto); }
+@media (min-width: 900px) { .hwg-cena { width: 420px; } .hwg-pote { width: 80px; height: 80px; } }
+
+/* 19/10: botão voando da /halloween; o preço vai na coluna do texto no computador */
+@media (min-width: 900px) {
+  .hwg .hw-hero {
+    grid-template-areas:
+      "topo topo"
+      "foto ."
+      "foto eyebrow"
+      "foto h1"
+      "foto cta"
+      "foto sub"
+      "foto oque"
+      "foto .";
+  }
+  .hwg .hwg-preco { grid-area: oque; justify-content: flex-start; }
+}
+
+/* 19/10 (Olivia): no celular o preço sobe para logo embaixo do título; no computador fica como está */
+@media (max-width: 899px) {
+  /* ordem no celular (Olivia, 19/10): título numa linha, frase da taurina, preço, depois a foto */
+  .hwg .hw-hero > * { order: 3; }
+  .hwg .hw-hero > .hw-topo, .hwg .hw-hero > .hw-eyebrow, .hwg .hw-hero > .hw-h1 { order: 0; }
+  .hwg .hw-hero > .hw-sub { order: 1; }
+  .hwg .hw-hero > .hwg-preco { order: 2; margin-top: -4px; }
+  .hwg .hwg-quebra { display: none; }
+  .hwg .hw-h1 { font-size: 36px; white-space: nowrap; }
+}
+
+/* 19/10 (Olivia): hierarquia no celular — título maior que o preço */
+@media (max-width: 899px) {
+  .hwg .hw-h1 { font-size: 42px; letter-spacing: 0; }
+  .hwg .hwg-por { font-size: 34px; }
+  .hwg .hwg-por small { font-size: 18px; }
+  .hwg .hwg-de { font-size: 13px; }
+}
