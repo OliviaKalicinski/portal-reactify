@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent } from "@/lib/pixel";
+import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import "./Halloween.css";
 
 /* ──────────────────────────────────────────────────────────────
@@ -108,6 +109,10 @@ export default function Halloween() {
         <p className="hw-texto">Vale para qualquer um dos 7 kits para cães da loja. Você escolhe lá, e o suplemento entra no pedido.</p>
         <a className="hw-botao" href={loja("kits")} data-cta="kits">Escolher meu kit →</a>
       </section>
+
+      {/* Reels vencedores logo abaixo do "Escolher meu kit" (Olivia, 19/10). Mesma faixa das outras LPs;
+          os 8 vencedores, na ordem da /mordida. Prova social da página (regra da casa: com vídeo, sem review). */}
+      <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga, VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
 
       <section className="hw-bloco">
         <img className="hw-selo hw-selo--dir" src="/assets/halloween/selo-halloween-original.webp" alt="" aria-hidden />
