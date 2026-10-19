@@ -90,7 +90,7 @@ export default function Halloween() {
               <img src={SUPLEMENTO.img} alt="" />
             </span>
           </div>
-          <img className="hw-cao" src="/assets/halloween/cena-chihuahua-po-caindo.webp" alt="Cachorro hipnotizado olhando o pote do suplemento flutuar e despejar o pó na tigela de ração" />
+          <img className="hw-cao" src="/assets/halloween/cena-chihuahua-larvas.webp" alt="Cachorro de olho arregalado diante de uma tigela de larvas, com a dona espiando da porta" />
           <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         </div>
       </header>
