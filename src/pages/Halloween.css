@@ -134,3 +134,6 @@
 .hw-botao--foto { font-size: 22px; padding: 11px 16px; border-width: 3px; box-shadow: 4px 4px 0 var(--preto); }
 .hw-cta-mais b { font-size: 40px; }
 .hw-cta-mais img { width: 72px; height: 72px; }
+
+/* faixa dos reels com fundo preto (Olivia, 19/10); o componente é das outras LPs, então só se sobrepõe aqui */
+.hw-reels > section { background: transparent !important; border-top: 0 !important; border-bottom: 0 !important; }

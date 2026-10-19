@@ -112,7 +112,9 @@ export default function Halloween() {
 
       {/* Reels vencedores logo abaixo do "Escolher meu kit" (Olivia, 19/10). Mesma faixa das outras LPs;
           os 8 vencedores, na ordem da /mordida. Prova social da página (regra da casa: com vídeo, sem review). */}
-      <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga, VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
+      <div className="hw-reels">
+        <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga, VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
+      </div>
 
       <section className="hw-bloco">
         <img className="hw-selo hw-selo--dir" src="/assets/halloween/selo-halloween-original.webp" alt="" aria-hidden />
