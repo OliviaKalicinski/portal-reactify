@@ -142,6 +142,14 @@
 /* assunto da semana (R658) */
 .pc-tema .pc-tema-ideias { color: var(--ink); }
 .pc-tema-img { display: block; width: 100%; height: auto; border: 2px solid var(--ink); border-radius: 14px; margin: 0 0 14px; }
+/* 19/10: no computador a arte do tema fica menor (Olivia) */
+@media (min-width: 768px) { .pc-tema-img { max-width: 340px; margin-left: 0; margin-right: auto; } }   /* alinhada à esquerda (Olivia, 19/10) */
+.pc-tema-links { flex-wrap: wrap; gap: 10px; }
+.pc-tema-foto { margin-top: 16px; display: grid; gap: 10px; }
+.pc-tema-foto img { display: block; width: 100%; max-width: 340px; height: auto; border: 2px solid var(--ink); border-radius: 14px; }
+.pc-tema-prompt { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; padding: 12px; font: inherit; font-size: 14px; line-height: 1.45;
+  background: rgba(255,255,255,.08); border: 2px dashed currentColor; border-radius: 12px; }
+.pc-tema-copiar { justify-self: start; }
 
 /* climas do assunto da semana (R659): só o bloco muda, o resto do painel segue fofo */
 .qsd8.fofo .pc-clima-halloween { background: #2B1D45; color: #FFF4E6; box-shadow: 6px 6px 0 0 #FF8A3D; }
