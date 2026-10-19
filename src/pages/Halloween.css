@@ -140,3 +140,31 @@
 
 /* "voltar para a home" no topo (Olivia, 19/10); área de toque de 44 px */
 .hw-topo .hw-voltar { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; font-size: 12px; letter-spacing: .12em; }
+
+/* Desktop (Olivia, 19/10): topo em duas colunas, a foto à esquerda e o texto à direita */
+@media (min-width: 900px) {
+  .hw-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 380px) minmax(0, 540px);
+    grid-template-rows: auto 1fr auto auto auto auto 1fr;
+    grid-template-areas:
+      "topo topo"
+      "foto ."
+      "foto eyebrow"
+      "foto h1"
+      "foto sub"
+      "foto oque"
+      "foto .";
+    column-gap: 64px;
+    row-gap: 16px;
+    justify-content: center;
+    text-align: left;
+    padding: 24px 32px 64px;
+  }
+  .hw-topo { grid-area: topo; max-width: none; margin-bottom: 16px; }
+  .hw-eyebrow { grid-area: eyebrow; justify-self: start; }
+  .hw-h1 { grid-area: h1; font-size: 76px; }
+  .hw-sub { grid-area: sub; font-size: 20px; max-width: none; }
+  .hw-oque { grid-area: oque; font-size: 16px; max-width: none; }
+  .hw-foto { grid-area: foto; width: 100%; margin-top: 0; }
+}
