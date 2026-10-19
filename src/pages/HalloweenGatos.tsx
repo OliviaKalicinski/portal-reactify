@@ -8,7 +8,7 @@ import "./Halloween.css";
 import "./HalloweenGatos.css";
 
 /* ──────────────────────────────────────────────────────────────
-   /suplemento-gato · Halloween dos gatos (19 a 31/10/2026)
+   /halloween-gato (era /suplemento-gato até 19/10; o endereço antigo redireciona) · Halloween dos gatos (19 a 31/10/2026)
    Página de VENDA: Suplemento para Gatos de R$ 110 por R$ 85 (Olivia, 19/10: "aprovado";
    "a página dos gatos deve ser de halloween"). Clonada da /halloween: mesmo visual e peças.
    - Preço na Shopify: R$ 85 com comparação R$ 110, posto em 19/10. Volta a R$ 110 em 01/11

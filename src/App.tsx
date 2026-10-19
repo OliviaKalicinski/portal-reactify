@@ -75,7 +75,7 @@ const App = () => (
               {/* quiz viral "Que dragão mora na sua casa?" — rota neutra: a versão gato entra como irmã, não como remendo */}
               <Route path="/qual-dragao" element={<QuizDragao />} />
               <Route path="/halloween" element={<Halloween />} />
-              <Route path="/suplemento-gato" element={<HalloweenGatos />} />
+              <Route path="/halloween-gato" element={<HalloweenGatos />} />
               <Route path="/parceiros" element={<Parceiros />} />
               <Route path="/produtos" element={<Produtos />} />
               <Route path="/lojas" element={<Lojas />} />
