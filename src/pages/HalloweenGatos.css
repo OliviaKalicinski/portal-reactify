@@ -38,7 +38,11 @@
 
 /* 19/10 (Olivia): no celular o preço sobe para logo embaixo do título; no computador fica como está */
 @media (max-width: 899px) {
-  .hwg .hw-hero > * { order: 2; }
+  /* ordem no celular (Olivia, 19/10): título numa linha, frase da taurina, preço, depois a foto */
+  .hwg .hw-hero > * { order: 3; }
   .hwg .hw-hero > .hw-topo, .hwg .hw-hero > .hw-eyebrow, .hwg .hw-hero > .hw-h1 { order: 0; }
-  .hwg .hw-hero > .hwg-preco { order: 1; margin-top: 4px; }
+  .hwg .hw-hero > .hw-sub { order: 1; }
+  .hwg .hw-hero > .hwg-preco { order: 2; margin-top: -4px; }
+  .hwg .hwg-quebra { display: none; }
+  .hwg .hw-h1 { font-size: 36px; white-space: nowrap; }
 }

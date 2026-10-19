@@ -68,7 +68,7 @@ export default function HalloweenGatos() {
         </div>
 
         <span className="hw-eyebrow">promoção sinistra de Halloween</span>
-        <h1 className="hw-h1">Suplemento<br /><span>para gatos.</span></h1>
+        <h1 className="hw-h1">Suplemento <br className="hwg-quebra" /><span>para gatos.</span></h1>
         {/* botão + pote voando, igual à /halloween (Olivia, 19/10): no computador fica embaixo do título */}
         <div className="hw-cta-texto">
           <a className="hw-botao hw-botao--foto" href={comprar("titulo")} data-cta="titulo">Quero o suplemento →</a>
@@ -94,9 +94,8 @@ export default function HalloweenGatos() {
           <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         </div>
 
-        {/* o pote real, depois o preço (regra da casa: pacote antes do preço) */}
+        {/* só o preço, logo depois da frase da taurina (Olivia, 19/10) */}
         <div className="hwg-preco">
-          <img className="hwg-pote" src={FOTO} alt="Pote do Suplemento para Gatos, Comida de Dragão" />
           <span className="hwg-de">de <s>R$ {PRECO_DE}</s></span>
           <span className="hwg-por"><small>por R$</small>{PRECO}</span>
         </div>
