@@ -23,6 +23,12 @@ const METAS_POR_ROTA: Record<string, { title: string; description: string; image
     description: "Seis perguntas sobre o seu pet. No fim, o veredito do Dragão, com a foto dele dentro.",
     image: `${SITE}/assets/images/og-qual-dragao.jpg`,
   },
+  /* Halloween 2026 (Olivia, 19/10): cena da cozinha do Magnific (criação kszY4Ii16B), 1200×630 */
+  halloween: {
+    title: "Larvas e Travessuras — Comida de Dragão",
+    description: "Promoção sinistra de Halloween: compre um kit e ganhe um suplemento. Só até 31/10.",
+    image: `${SITE}/assets/images/og-halloween.jpg`,
+  },
 };
 const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 function htmlPorRota() {
