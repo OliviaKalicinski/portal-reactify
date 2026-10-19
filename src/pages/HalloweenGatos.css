@@ -19,3 +19,19 @@
 .hwg-preco { align-items: center; }
 .hwg-pote { width: 64px; height: 64px; object-fit: contain; border-radius: 10px; background: var(--creme); border: 2px solid var(--preto); }
 @media (min-width: 900px) { .hwg-cena { width: 420px; } .hwg-pote { width: 80px; height: 80px; } }
+
+/* 19/10: botão voando da /halloween; o preço vai na coluna do texto no computador */
+@media (min-width: 900px) {
+  .hwg .hw-hero {
+    grid-template-areas:
+      "topo topo"
+      "foto ."
+      "foto eyebrow"
+      "foto h1"
+      "foto cta"
+      "foto sub"
+      "foto oque"
+      "foto .";
+  }
+  .hwg .hwg-preco { grid-area: oque; justify-content: flex-start; }
+}

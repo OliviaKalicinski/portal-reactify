@@ -69,22 +69,37 @@ export default function HalloweenGatos() {
 
         <span className="hw-eyebrow">promoção sinistra de Halloween</span>
         <h1 className="hw-h1">Suplemento<br /><span>para gatos.</span></h1>
+        {/* botão + pote voando, igual à /halloween (Olivia, 19/10): no computador fica embaixo do título */}
+        <div className="hw-cta-texto">
+          <a className="hw-botao hw-botao--foto" href={comprar("titulo")} data-cta="titulo">Quero o suplemento →</a>
+          <span className="hw-cta-mais" aria-hidden>
+            <b>+</b>
+            <img src={FOTO} alt="" />
+          </span>
+        </div>
+        <p className="hw-sub">Rico em taurina, com 40% de proteína. Só até 31/10.</p>
 
         {/* cena do gato hipnotizado pelo pote (Magnific, versão 7 escolhida pela Olivia em 19/10);
-            o rótulo do pote na cena é inventado pela IA, por isso o pote real aparece junto do preço */}
-        <div className="hwg-cena">
-          <img src="/assets/halloween/cena-gato-preto-suplemento.webp" alt="Gato preto hipnotizado levantando a pata para o pote do Suplemento para Gatos, que flutua e despeja o pó na tigela" />
+            no celular o botão e o pote voando ficam em cima da foto, como na /halloween */}
+        <div className="hw-foto">
+          <div className="hw-cta-foto">
+            <a className="hw-botao hw-botao--foto" href={comprar("foto")} data-cta="foto">Quero o suplemento →</a>
+            <span className="hw-cta-mais" aria-hidden>
+              <b>+</b>
+              <img src={FOTO} alt="" />
+            </span>
+          </div>
+          <img className="hw-cao" src="/assets/halloween/cena-gato-preto-suplemento.webp" alt="Gato preto hipnotizado levantando a pata para o pote do Suplemento para Gatos, que flutua e despeja o pó na tigela" />
+          {/* "Larvas e Travessuras" em cima da parte de baixo da foto, como na /halloween (Olivia, 19/10) */}
+          <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         </div>
 
-        {/* pacote primeiro, preço e botão depois (regra da casa) */}
+        {/* o pote real, depois o preço (regra da casa: pacote antes do preço) */}
         <div className="hwg-preco">
           <img className="hwg-pote" src={FOTO} alt="Pote do Suplemento para Gatos, Comida de Dragão" />
           <span className="hwg-de">de <s>R$ {PRECO_DE}</s></span>
           <span className="hwg-por"><small>por R$</small>{PRECO}</span>
         </div>
-        <a className="hw-botao" href={comprar("titulo")} data-cta="titulo">Quero o suplemento →</a>
-        <p className="hw-sub">Rico em taurina, com 40% de proteína. Só até 31/10.</p>
-        <img className="hwg-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
       </header>
 
       <a className="hw-barra" href={comprar("barra")} data-cta="barra">
