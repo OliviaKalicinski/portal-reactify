@@ -25,7 +25,7 @@ const UTM_FALLBACK = { utm_source: "lp-halloween", utm_medium: "lp", utm_campaig
    `frete`: frete grátis automático dos kits; o Original + Mordida não tem (regra da casa). */
 type Kit = { nome: string; img: string; preco: string; sku: string; vem: string; frete: boolean };
 
-/* Destino do botão único: a página nova de kits da loja (conversa "cd - site", 19/10), só com os 7 kits
+/* Destino do botão único: a página nova de kits da loja (conversa "cd - site", 19/10), só com os 6 kits (o Original + Mordida saiu em 19/10: o brinde é por valor mínimo de R$ 90 na Yampi e ele custa R$ 80,10)
    de cão; tocar no kit leva ao carrinho Yampi repassando a origem. Enquanto o tema com essa página
    não for publicado, o "?view=kits-anuncio" cai na página de kits normal (com o de gatos). */
 const LOJA = "https://www.comidadedragao.com.br/collections/kits?view=kits-anuncio";
@@ -45,7 +45,7 @@ const KITS: Kit[] = [
 const SUPLEMENTO = { img: CDN + "Anuncios_Multiplataforma_Suplemento_Integral.png?v=1785161368", preco: "110,00" };
 
 const FAQ = [
-  { q: "Como eu ganho o suplemento?", a: "É só comprar um dos 7 kits para cães da loja. O suplemento já vai junto no mesmo pedido, sem cupom." },
+  { q: "Como eu ganho o suplemento?", a: "É só comprar um dos 6 kits para cães da loja. O suplemento já vai junto no mesmo pedido, sem cupom." },
   { q: "Até quando vale?", a: "Até 31 de outubro, ou enquanto durar o estoque do suplemento." },
   { q: "É larva mesmo?", a: "É. Larva de mosca soldado negro, criada para isso e desidratada. Proteína que o seu pet reconhece como comida." },
   { q: "O suplemento vem no mesmo pacote?", a: "Vem. Ele entra no mesmo pedido do kit, sem custo, e chega junto." },
@@ -127,7 +127,7 @@ export default function Halloween() {
         <h2 className="hw-h2">Escolha o kit.<br />O suplemento vem junto.</h2>
         {/* Grade dos 7 kits retirada (Olivia, 18/10: "ficou muita coisa"); a lista KITS fica no
             arquivo para voltar fácil. Os kits aparecem na loja, para onde o botão leva. */}
-        <p className="hw-texto">Vale para qualquer um dos 7 kits para cães da loja. Você escolhe lá, e o suplemento entra no pedido.</p>
+        <p className="hw-texto">Vale para qualquer um dos 6 kits para cães da loja. Você escolhe lá, e o suplemento entra no pedido.</p>
         <a className="hw-botao" href={loja("kits")} data-cta="kits">Escolher meu kit →</a>
       </section>
 
