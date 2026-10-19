@@ -71,6 +71,17 @@ export default function Halloween() {
 
       {/* Topo no molde da /original (Olivia, 18/10): logo à esquerda, promoção de cara,
           "Larvas e Travessuras" em cima da foto, barra fixa de compra no pé. */}
+      {/* faixa passante no topo (Olivia, 19/10) */}
+      <div className="hw-faixa" aria-label="Halloween sinistro do Dragão: compre um kit e ganhe um suplemento, só até 31/10">
+        <div className="hw-faixa-trilho" aria-hidden>
+          {[0, 1].map((n) => (
+            <span key={n}>
+              Halloween sinistro do Dragão ✦ Compre um kit e ganhe um suplemento ✦ Só até 31/10 ✦ Halloween sinistro do Dragão ✦ Compre um kit e ganhe um suplemento ✦ Só até 31/10 ✦&nbsp;
+            </span>
+          ))}
+        </div>
+      </div>
+
       <header className="hw-hero">
         <div className="hw-topo">
           <a href="https://www.comidadedragao.com.br/collections/produtos">
@@ -81,6 +92,14 @@ export default function Halloween() {
 
         <span className="hw-eyebrow">promoção sinistra de Halloween</span>
         <h1 className="hw-h1">Compre um kit e<br /><span>ganhe um suplemento.</span></h1>
+        {/* no computador o botão sai da foto e fica embaixo do título (Olivia, 19/10) */}
+        <div className="hw-cta-texto">
+          <a className="hw-botao hw-botao--foto" href={loja("titulo")} data-cta="titulo">Escolher meu kit →</a>
+          <span className="hw-cta-mais" aria-hidden>
+            <b>+</b>
+            <img src={SUPLEMENTO.img} alt="" />
+          </span>
+        </div>
         <p className="hw-sub">Escolha qualquer kit para cães e o suplemento vai junto, de presente. Sem cupom. Só até 31/10.</p>
         <p className="hw-oque">Comida de Dragão é alimento de larva de mosca soldado negra para cães: uma proteína que ele provavelmente nunca comeu.</p>
 
