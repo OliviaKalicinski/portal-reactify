@@ -85,13 +85,13 @@ export default function Halloween() {
         <div className="hw-foto">
           <div className="hw-cta-foto">
             <a className="hw-botao hw-botao--foto" href={loja("foto")} data-cta="foto">Escolher meu kit →</a>
+            {/* suplemento "voando" com um + na frente, à direita do botão (Olivia, 18/10: trocou de lado) */}
+            <span className="hw-cta-mais" aria-hidden>
+              <b>+</b>
+              <img src={SUPLEMENTO.img} alt="" />
+            </span>
           </div>
-          {/* suplemento voando onde o cachorro está olhando (Olivia, 19/10) */}
-          <span className="hw-cta-mais hw-sup-voando" aria-hidden>
-            <b>+</b>
-            <img src={SUPLEMENTO.img} alt="" />
-          </span>
-          <img className="hw-cao" src="/assets/halloween/cena-chihuahua-lingua.webp" alt="Cachorro de boca aberta e língua de fora diante da tigela de ração, com a dona espiando da porta" />
+          <img className="hw-cao" src="/assets/halloween/cena-chihuahua-po-caindo.webp" alt="Cachorro hipnotizado olhando o pote do suplemento flutuar e despejar o pó na tigela de ração" />
           <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         </div>
       </header>
