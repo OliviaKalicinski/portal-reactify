@@ -1,0 +1,14 @@
+/* /suplemento-gato · peças próprias; o resto vem do Halloween.css (mesmo visual da /halloween) */
+.hwg-pacote { position: relative; width: min(78%, 320px); margin: 4px auto 0; }
+.hwg-foto { width: 100%; display: block; border-radius: 16px; border: 3px solid var(--preto); box-shadow: 6px 6px 0 var(--neon); background: var(--creme); }
+.hwg-selo { position: absolute; width: 84px; top: -26px; right: -22px; transform: rotate(10deg); z-index: 2; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.35)); }
+.hwg-preco { display: flex; align-items: baseline; justify-content: center; gap: 12px; margin-top: 14px; }
+.hwg-de { font-family: "Space Mono", monospace; font-size: 14px; letter-spacing: .06em; opacity: .85; }
+.hwg-de s { opacity: .8; }
+.hwg-por { font-family: "Bebas Neue", sans-serif; font-size: 64px; line-height: .9; color: var(--neon); text-shadow: 3px 3px 0 var(--preto); }
+.hwg-por small { font-size: 26px; margin-right: 4px; }
+.hwg-titulo { width: min(70%, 260px); margin-top: 18px; transform: rotate(-3deg); filter: drop-shadow(3px 3px 0 var(--preto)); }
+@media (min-width: 900px) {
+  .hwg-pacote { width: 360px; }
+  .hwg-por { font-size: 80px; }
+}
