@@ -143,7 +143,7 @@
 .pc-tema .pc-tema-ideias { color: var(--ink); }
 .pc-tema-img { display: block; width: 100%; height: auto; border: 2px solid var(--ink); border-radius: 14px; margin: 0 0 14px; }
 /* 19/10: no computador a arte do tema fica menor (Olivia) */
-@media (min-width: 768px) { .pc-tema-img { max-width: 340px; margin-left: auto; margin-right: auto; } }
+@media (min-width: 768px) { .pc-tema-img { max-width: 340px; margin-left: 0; margin-right: auto; } }   /* alinhada à esquerda (Olivia, 19/10) */
 .pc-tema-links { flex-wrap: wrap; gap: 10px; }
 .pc-tema-foto { margin-top: 16px; display: grid; gap: 10px; }
 .pc-tema-foto img { display: block; width: 100%; max-width: 340px; height: auto; border: 2px solid var(--ink); border-radius: 14px; }
