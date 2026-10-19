@@ -46,3 +46,11 @@
   .hwg .hwg-quebra { display: none; }
   .hwg .hw-h1 { font-size: 36px; white-space: nowrap; }
 }
+
+/* 19/10 (Olivia): hierarquia no celular — título maior que o preço */
+@media (max-width: 899px) {
+  .hwg .hw-h1 { font-size: 40px; }
+  .hwg .hwg-por { font-size: 34px; }
+  .hwg .hwg-por small { font-size: 18px; }
+  .hwg .hwg-de { font-size: 13px; }
+}
