@@ -93,15 +93,6 @@ export default function Halloween() {
           <img className="hw-cao" src="/assets/halloween/cena-chihuahua-po-caindo.webp" alt="Cachorro hipnotizado olhando o pote do suplemento flutuar e despejar o pó na tigela de ração" />
           <img className="hw-titulo" src="/assets/halloween/titulo-larvas-e-travessuras.webp" alt="Larvas e Travessuras" />
         </div>
-
-        <div className="hw-presente">
-          <img src={SUPLEMENTO.img} alt="Suplemento de presente" />
-          <div>
-            <span className="hw-presente-rotulo">seu presente</span>
-            <span className="hw-presente-preco"><s>R$ {SUPLEMENTO.preco}</s> R$ 0</span>
-          </div>
-        </div>
-
       </header>
 
       <a className="hw-barra" href={loja("barra")} data-cta="barra">
