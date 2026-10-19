@@ -25,9 +25,10 @@ const UTM_FALLBACK = { utm_source: "lp-halloween", utm_medium: "lp", utm_campaig
    `frete`: frete grátis automático dos kits; o Original + Mordida não tem (regra da casa). */
 type Kit = { nome: string; img: string; preco: string; sku: string; vem: string; frete: boolean };
 
-/* Destino do botão único. A coleção "kits" tem 8 produtos, incluindo o Kit para Gatos (fora da
-   promoção). Trocar pela coleção só com os 7 kits de cão quando ela existir. */
-const LOJA = "https://www.comidadedragao.com.br/collections/kits";
+/* Destino do botão único: a página nova de kits da loja (conversa "cd - site", 19/10), só com os 7 kits
+   de cão; tocar no kit leva ao carrinho Yampi repassando a origem. Enquanto o tema com essa página
+   não for publicado, o "?view=kits-anuncio" cai na página de kits normal (com o de gatos). */
+const LOJA = "https://www.comidadedragao.com.br/collections/kits?view=kits-anuncio";
 
 const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
 const KITS: Kit[] = [
