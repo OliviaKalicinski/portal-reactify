@@ -18,9 +18,9 @@ const QuizDragao = lazy(() => import("./pages/QuizDragao.tsx"));
 const Halloween = lazy(() => import("./pages/Halloween.tsx"));
 const HalloweenGatos = lazy(() => import("./pages/HalloweenGatos.tsx"));
 
-/* 19/10/26 (Olivia: "quero automatizar e não ter que fazer"): o Halloween acaba sozinho em 01/11/2026 00:00 (Brasília).
+/* 19/10/26 (Olivia: "quero automatizar e não ter que fazer"): o Halloween acaba sozinho em 01/11/2026 às 7h30 (Brasília; era 00:00, a Olivia mudou para 7h30).
    Depois disso, /halloween leva à loja e /halloween-gato leva à /gatos, mantendo a UTM de quem chegou. */
-const FIM_DO_HALLOWEEN = Date.parse("2026-11-01T00:00:00-03:00");
+const FIM_DO_HALLOWEEN = Date.parse("2026-11-01T07:30:00-03:00");
 function AteOFimDoHalloween({ pagina, depois }: { pagina: JSX.Element; depois: string }) {
   if (Date.now() < FIM_DO_HALLOWEEN) return pagina;
   if (depois.startsWith("http")) {
