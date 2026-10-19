@@ -17,6 +17,18 @@ const Quizzes = lazy(() => import("./pages/Quizzes.tsx"));
 const QuizDragao = lazy(() => import("./pages/QuizDragao.tsx"));
 const Halloween = lazy(() => import("./pages/Halloween.tsx"));
 const HalloweenGatos = lazy(() => import("./pages/HalloweenGatos.tsx"));
+
+/* 19/10/26 (Olivia: "quero automatizar e não ter que fazer"): o Halloween acaba sozinho em 01/11/2026 00:00 (Brasília).
+   Depois disso, /halloween leva à loja e /halloween-gato leva à /gatos, mantendo a UTM de quem chegou. */
+const FIM_DO_HALLOWEEN = Date.parse("2026-11-01T00:00:00-03:00");
+function AteOFimDoHalloween({ pagina, depois }: { pagina: JSX.Element; depois: string }) {
+  if (Date.now() < FIM_DO_HALLOWEEN) return pagina;
+  if (depois.startsWith("http")) {
+    window.location.replace(depois + window.location.search);
+    return null;
+  }
+  return <Navigate to={{ pathname: depois, search: window.location.search }} replace />;
+}
 const Parceiros = lazy(() => import("./pages/Parceiros.tsx"));
 const Produtos = lazy(() => import("./pages/Produtos.tsx"));
 const Lojas = lazy(() => import("./pages/Lojas.tsx"));
@@ -74,8 +86,8 @@ const App = () => (
               <Route path="/quizzes" element={<Quizzes />} />
               {/* quiz viral "Que dragão mora na sua casa?" — rota neutra: a versão gato entra como irmã, não como remendo */}
               <Route path="/qual-dragao" element={<QuizDragao />} />
-              <Route path="/halloween" element={<Halloween />} />
-              <Route path="/halloween-gato" element={<HalloweenGatos />} />
+              <Route path="/halloween" element={<AteOFimDoHalloween pagina={<Halloween />} depois="https://www.comidadedragao.com.br/collections/produtos" />} />
+              <Route path="/halloween-gato" element={<AteOFimDoHalloween pagina={<HalloweenGatos />} depois="/gatos" />} />
               <Route path="/parceiros" element={<Parceiros />} />
               <Route path="/produtos" element={<Produtos />} />
               <Route path="/lojas" element={<Lojas />} />
