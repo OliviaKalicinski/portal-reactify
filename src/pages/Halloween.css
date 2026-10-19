@@ -129,9 +129,8 @@
 .hw-faq details { background: rgba(243, 230, 200, .06); border-color: rgba(243, 230, 200, .35); color: var(--creme); }
 
 /* Olivia, 18/10: "Larvas e Travessuras" em cima da parte de baixo da foto; botão + suplemento maiores no topo */
-.hw-foto > .hw-titulo { position: absolute; left: -2%; bottom: -13%; width: 104%; margin-top: 0; z-index: 2; }
+.hw-foto > .hw-titulo { position: absolute; left: -2%; bottom: 3%; width: 104%; margin-top: 0; z-index: 2; }
 .hw-cta-foto { top: 4%; gap: 4px; }
 .hw-botao--foto { font-size: 22px; padding: 11px 16px; border-width: 3px; box-shadow: 4px 4px 0 var(--preto); }
 .hw-cta-mais b { font-size: 40px; }
 .hw-cta-mais img { width: 72px; height: 72px; }
-.hw-hero .hw-foto { margin-bottom: 56px; }
