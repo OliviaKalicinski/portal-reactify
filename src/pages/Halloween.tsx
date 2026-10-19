@@ -75,6 +75,7 @@ export default function Halloween() {
           <a href="https://www.comidadedragao.com.br/collections/produtos">
             <img className="hw-logo" src="/assets/halloween/logo-comida-de-dragao-escorrendo.webp" alt="Comida de Dragão" />
           </a>
+          <a className="hw-voltar" href="https://www.comidadedragao.com.br/">voltar para a home</a>
         </div>
 
         <span className="hw-eyebrow">promoção sinistra de Halloween</span>
