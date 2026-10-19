@@ -12,3 +12,10 @@
   .hwg-pacote { width: 360px; }
   .hwg-por { font-size: 80px; }
 }
+
+/* 19/10: cena no topo; pote real pequeno ao lado do preço */
+.hwg-cena { width: min(92%, 400px); margin: 6px auto 0; }
+.hwg-cena img { width: 100%; display: block; }
+.hwg-preco { align-items: center; }
+.hwg-pote { width: 64px; height: 64px; object-fit: contain; border-radius: 10px; background: var(--creme); border: 2px solid var(--preto); }
+@media (min-width: 900px) { .hwg-cena { width: 420px; } .hwg-pote { width: 80px; height: 80px; } }

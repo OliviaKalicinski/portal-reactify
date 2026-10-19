@@ -70,13 +70,15 @@ export default function HalloweenGatos() {
         <span className="hw-eyebrow">promoção sinistra de Halloween</span>
         <h1 className="hw-h1">Suplemento<br /><span>para gatos.</span></h1>
 
-        {/* pacote primeiro, preço e botão depois (regra da casa) */}
-        <div className="hwg-pacote">
-          <img className="hwg-selo" src="/assets/halloween/selo-halloween-gato-preto.webp" alt="" aria-hidden />
-          <img className="hwg-foto" src={FOTO} alt="Pote do Suplemento para Gatos, Comida de Dragão" />
+        {/* cena do gato hipnotizado pelo pote (Magnific, versão 7 escolhida pela Olivia em 19/10);
+            o rótulo do pote na cena é inventado pela IA, por isso o pote real aparece junto do preço */}
+        <div className="hwg-cena">
+          <img src="/assets/halloween/cena-gato-preto-suplemento.webp" alt="Gato preto hipnotizado levantando a pata para o pote do Suplemento para Gatos, que flutua e despeja o pó na tigela" />
         </div>
 
+        {/* pacote primeiro, preço e botão depois (regra da casa) */}
         <div className="hwg-preco">
+          <img className="hwg-pote" src={FOTO} alt="Pote do Suplemento para Gatos, Comida de Dragão" />
           <span className="hwg-de">de <s>R$ {PRECO_DE}</s></span>
           <span className="hwg-por"><small>por R$</small>{PRECO}</span>
         </div>
