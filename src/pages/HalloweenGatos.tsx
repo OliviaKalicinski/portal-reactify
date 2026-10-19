@@ -3,6 +3,7 @@ import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent } from "@/lib/pixel";
 import VideosVencedores, { VIDEOS_GATOS } from "@/components/VideosVencedores";
+import type { Reel } from "@/components/ReelsSection";
 import "./Halloween.css";
 import "./HalloweenGatos.css";
 
@@ -25,6 +26,21 @@ const CARRINHO = "https://seguro.comidadedragao.com.br/r/4DO9WVBVH0";
 const PRECO = "85";
 const PRECO_DE = "110";
 const FOTO = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/17_ac0e9ce0-1e13-4785-8cd9-cc31d8abffb6.png?v=1776965150";
+
+/* Vídeos de gato desta página (Olivia, 19/10: "pode colocar os dois"): os 2 da /gatos + Rani
+   (gata comendo o Suplemento para Gatos; card RANI10 no fim) + Dudu (gato comendo o Original).
+   Ficam só aqui para não mexer na /gatos. Cortes de "TESTES ADS" (13/10 e 30/09), reduzidos para 720×1280. */
+const reelGato = (id: string, handle: string): Reel => ({
+  id,
+  src: `/assets/videos/reels/creator-${id}.mp4`,
+  poster: `/assets/videos/reels/creator-${id}.jpg`,
+  title: `@${handle}`,
+});
+const VIDEOS_DESTA_PAGINA: Reel[] = [
+  ...VIDEOS_GATOS,
+  reelGato("rani-labradora-gatos", "rani.labradora"),
+  reelGato("ogatinhosamu-gatos", "ogatinhosamu"),
+];
 
 const FAQ = [
   { q: "Até quando vale?", a: "Até 31 de outubro, ou enquanto durar o estoque." },
@@ -112,11 +128,9 @@ export default function HalloweenGatos() {
         <a className="hw-botao" href={comprar("taurina")} data-cta="taurina">Quero por R$ {PRECO} →</a>
       </section>
 
-      {VIDEOS_GATOS.length > 0 && (
-        <div className="hw-reels">
-          <VideosVencedores reels={VIDEOS_GATOS} />
-        </div>
-      )}
+      <div className="hw-reels">
+        <VideosVencedores reels={VIDEOS_DESTA_PAGINA} />
+      </div>
 
       <section className="hw-bloco">
         <img className="hw-selo hw-selo--dir" src="/assets/halloween/selo-halloween-original.webp" alt="" aria-hidden />
