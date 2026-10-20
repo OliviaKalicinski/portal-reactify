@@ -160,7 +160,7 @@ const IdosoGoogle = () => {
           rastreia a landing page independente do noindex. */}
       <PageMeta
         title="Suplemento para Cão Idoso — proteína que ele aproveita | Comida de Dragão"
-        description="Suplemento para cachorro idoso à base de proteína de inseto: 43,68% de proteína altamente digestível, ômegas 6 e 9 e antioxidantes naturais. Para o cão que aproveita menos a proteína, come menos e perde músculo."
+        description="Suplemento para cachorro idoso à base de proteína de inseto: no mínimo 40% de proteína, podendo chegar a 45%, altamente digestível, ômegas 6 e 9 e antioxidantes naturais. Para o cão que aproveita menos a proteína, come menos e perde músculo."
         image={HERO_IMG}
         noindex
         preload={HERO_IMG}
