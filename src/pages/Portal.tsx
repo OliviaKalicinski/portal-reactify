@@ -48,6 +48,18 @@ const PERFIS = [
   { n: 3, name: "ESTUDADO" },
 ];
 
+/* ícones da área de trabalho, os mesmos da /quero-ser-dragao (sem a LIXEIRA) */
+const DESK_ICONES: { img: string; label: string; href: string; ext?: boolean }[] = [
+  { img: "bsf.png", label: "LARVA.BSF", href: "/ciencia" },
+  { img: "original-real.png", label: "ORIGINAL", href: "/original" },
+  { img: "paw2.png", label: "MATILHA", href: "/quero-ser-dragao" },
+  { img: "dog.png", label: "MEU-PET", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
+  { img: "stomach.png", label: "88.9%", href: "/assets/pdfs/artigos-cientificos/bsf-in-vivo-vitro-digestibility-dog-food.pdf", ext: true },
+  { img: "shield.png", label: "ALERGIA", href: "/alergia" },
+  { img: "earth.png", label: "PLANETA", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
+  { img: "crown.png", label: "PRODUTOS", href: "/produtos" },
+];
+
 /* janela OS, a mesma da /parceiros */
 const Win = ({ name, children, className, inverted, mac }: {
   name: string; children: React.ReactNode; className?: string; inverted?: boolean; mac?: boolean;
@@ -153,6 +165,7 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
 
 const Portal = () => {
   const [skin, setSkin] = useState(1);
+  const [lixeira, setLixeira] = useState(false);
   const [heroName, setHeroName] = useState("");
   const [nameConfirmed, setNameConfirmed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -1629,37 +1642,56 @@ const Portal = () => {
 
       `}</style>
         <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
+        {/* 21/10 (Olivia: "vamos resgatar isso para o desktop"): os ícones das LPs em janelinha, só no computador.
+            A LIXEIRA dá o cupom LIXODEOURO (10%, uma vez por cliente; criado e testado no checkout em 21/10). */}
+        <div className="qsd8-desk-icons left">
+          {DESK_ICONES.map((it) => {
+            const inner = <><img src={`/assets/pixel-icons/${it.img}`} alt="" /><span>{it.label}</span></>;
+            return it.ext
+              ? <a className="qsd8-icon" key={it.label} href={it.href} target="_blank" rel="noopener noreferrer">{inner}</a>
+              : <Link className="qsd8-icon" key={it.label} to={it.href}>{inner}</Link>;
+          })}
+          <button type="button" className="qsd8-icon" onClick={() => setLixeira(true)} title="???" style={{ background: "none", border: "none", padding: 0, font: "inherit" }}>
+            <img src="/assets/pixel-icons/trash.png" alt="" /><span>LIXEIRA</span>
+          </button>
+        </div>
+        {lixeira && (
+          <div className="qsd8-egg-overlay" onClick={(e) => { if (e.target === e.currentTarget) setLixeira(false); }}>
+            <section className="qsd8-win" style={{ maxWidth: 400, position: "relative" }}>
+              <div className="qsd8-titlebar">
+                <span className="qsd8-tb-name">PRESENTE.EXE</span>
+                <span className="qsd8-tb-stripes" aria-hidden="true" />
+              </div>
+              <button onClick={() => setLixeira(false)} aria-label="Fechar" style={{ position: "absolute", top: 8, right: 8, width: 26, height: 26, border: "2px solid var(--ink)", background: "var(--lime)", color: "var(--ink)", cursor: "pointer", fontFamily: '"Press Start 2P", monospace', fontSize: 11 }}>×</button>
+              <div className="qsd8-win-body" style={{ textAlign: "center" }}>
+                <img src="/assets/pixel-icons/gift.png" alt="" style={{ width: 72, margin: "0 auto 12px", display: "block", imageRendering: "pixelated" }} />
+                <h3 style={{ fontFamily: '"Press Start 2P", monospace', fontSize: 11, color: "var(--lime)", margin: "0 0 12px", lineHeight: 1.5 }}>🗑️ VOCÊ VIU OURO NO LIXO</h3>
+                <p style={{ fontSize: 16, margin: "0 0 14px" }}>A gente transforma resíduo orgânico em proteína de alta qualidade. Olho de Dragão, o seu 🐉. Toma um presente: <strong>10% de desconto</strong> na loja, uma vez por pessoa:</p>
+                <div style={{ fontFamily: '"Press Start 2P", monospace', fontSize: 15, border: "3px dashed var(--lime)", padding: 12, margin: "0 0 16px", letterSpacing: ".1em" }}>LIXODEOURO</div>
+                <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn">Ir à loja →</a>
+              </div>
+            </section>
+          </div>
+        )}
         <div className="qsd8-wrap hj-wrap">
           <Win name="CAVERNA.EXE" mac className="qsd8-hero-win hj-hero-win">
             <DragonLogo className="qsd8-hero-logo" />
-            <div className="qsd8-eyebrow">Proteína de inseto BSF</div>
             <h1 className="qsd8-title">Alimento para <span>pets</span></h1>
-            <div className="hj-leitor">
-              <span className="hj-leitor-label">// quem é você?</span>
-              {PERFIS.map((p) => (
-                <button
-                  key={p.n}
-                  type="button"
-                  className={`hj-chip${skin === p.n ? " ativo" : ""}`}
-                  onClick={() => { setSkin(p.n); setProfileJoke(p.n); }}
-                  aria-pressed={skin === p.n}
-                >
-                  {p.name.toLowerCase()}
-                </button>
-              ))}
+            <div className="qsd8-eyebrow hj-hero-sub">Proteína de inseto BSF</div>
+            {/* 21/10 (Olivia): sem as três categorias ("quem é você?"); logo em cima, título embaixo e figurinhas de cachorro e gato */}
+            <div className="hj-figurinhas" aria-hidden="true">
+              <img className="hj-figurinha hj-figurinha-cao" src="/assets/pixel-icons/dog.png" alt="" />
+              <img className="hj-figurinha hj-figurinha-gato" src="/assets/pixel-icons/cat-sem-fundo.png" alt="" />
             </div>
             <div className="qsd8-btnrow hj-comprar">
               <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn ghost">
                 Comprar →
               </a>
+              {/* O Dragão Fala: desde 21/10 só o botão, dentro do topo (pedido da Olivia: "pode ser apenas o box com NÃO CLIQUE") */}
+              <button type="button" className="qsd8-btn hj-naoclique" onClick={openModal}>
+                Não clique
+              </button>
             </div>
-          </Win>
-          {/* O Dragão Fala, sem dizer o que é (pedido da Olivia, 15/10): só o desafio e o botão */}
-          <Win name="SEGREDO.EXE" mac className="hj-fala-win">
-            <button type="button" className="hj-fala" onClick={openModal}>
-              <span className="hj-fala-title">Clica se tiver coragem</span>
-              <span className="qsd8-btn hj-fala-btn">Não clique</span>
-            </button>
           </Win>
           <Win name="CONTEUDOS.DIR" className="hj-conteudos"><div className={host}>{conteudos}</div></Win>
           <Win name="MATEMATICA.TXT">

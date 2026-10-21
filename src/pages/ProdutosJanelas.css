@@ -102,3 +102,32 @@
 .qsd8.hj .pj-overlay { padding-top: 0; }
 .qsd8.hj .pj-ficha { margin-top: 28px; margin-bottom: 28px; }
 .qsd8.hj .pj-ficha > .qsd8-titlebar { top: 0; }
+
+/* 21/10: topo compacto (padrão do portal desde 04/09: logo pequena e tortinha ao lado do título),
+   para os produtos aparecerem na primeira tela. Texto igual. */
+.qsd8.hj .pj-hero { margin-top: 12px; }
+.qsd8.hj .pj-hero .qsd8-win-body {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 18px; align-items: center;
+  padding: 18px 20px 20px;
+}
+.qsd8.hj .pj-hero .qsd8-hero-logo {
+  grid-row: 1 / 3; width: 132px; max-width: none; margin: 0; transform: rotate(-6deg);
+}
+.qsd8.hj .pj-hero .qsd8-eyebrow { margin-bottom: 8px; align-self: end; }
+.qsd8.hj .pj-hero .qsd8-title { margin: 0; align-self: start; }
+.qsd8.hj .pj-hero .qsd8-sub { grid-column: 1 / -1; margin: 14px 0 0; max-width: none; }
+@media (max-width: 640px) {
+  .qsd8.hj .pj-hero .qsd8-win-body { column-gap: 12px; padding: 14px 14px 16px; }
+  .qsd8.hj .pj-hero .qsd8-hero-logo { width: 84px; }
+  .qsd8.hj .pj-hero .qsd8-title { font-size: 15px; line-height: 1.5; }
+  .qsd8.hj .pj-hero .qsd8-sub { font-size: 14px; line-height: 1.5; margin-top: 10px; }
+}
+
+/* 21/10: cartões do tamanho da coluna. A altura mínima com proporção fixa forçava o cartão a ficar
+   mais largo que a coluna (262 px numa coluna de 198 no computador; 165 em 152 no celular) e um cobria
+   o outro. Computador: 3 por linha (6 produtos = 2 linhas certas); celular: 2 por linha. */
+.qsd8.hj .pj-produtos .produtos-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 16px; }
+.qsd8.hj .pj-produtos .produto-card { min-height: 0; min-width: 0; }
+@media (max-width: 640px) {
+  .qsd8.hj .pj-produtos .produtos-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
