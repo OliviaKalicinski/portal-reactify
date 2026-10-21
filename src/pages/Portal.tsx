@@ -165,6 +165,7 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
 
 const Portal = () => {
   const [skin, setSkin] = useState(1);
+  const [lixeira, setLixeira] = useState(false);
   const [heroName, setHeroName] = useState("");
   const [nameConfirmed, setNameConfirmed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -1642,7 +1643,7 @@ const Portal = () => {
       `}</style>
         <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
         {/* 21/10 (Olivia: "vamos resgatar isso para o desktop"): os ícones das LPs em janelinha, só no computador.
-            Sem a LIXEIRA: o presente dela é o cupom VOOLIVRE, que não existe mais na Shopify (conferido em 21/10). */}
+            A LIXEIRA dá o cupom LIXODEOURO (10%, uma vez por cliente; criado e testado no checkout em 21/10). */}
         <div className="qsd8-desk-icons left">
           {DESK_ICONES.map((it) => {
             const inner = <><img src={`/assets/pixel-icons/${it.img}`} alt="" /><span>{it.label}</span></>;
@@ -1650,7 +1651,28 @@ const Portal = () => {
               ? <a className="qsd8-icon" key={it.label} href={it.href} target="_blank" rel="noopener noreferrer">{inner}</a>
               : <Link className="qsd8-icon" key={it.label} to={it.href}>{inner}</Link>;
           })}
+          <button type="button" className="qsd8-icon" onClick={() => setLixeira(true)} title="???" style={{ background: "none", border: "none", padding: 0, font: "inherit" }}>
+            <img src="/assets/pixel-icons/trash.png" alt="" /><span>LIXEIRA</span>
+          </button>
         </div>
+        {lixeira && (
+          <div className="qsd8-egg-overlay" onClick={(e) => { if (e.target === e.currentTarget) setLixeira(false); }}>
+            <section className="qsd8-win" style={{ maxWidth: 400, position: "relative" }}>
+              <div className="qsd8-titlebar">
+                <span className="qsd8-tb-name">PRESENTE.EXE</span>
+                <span className="qsd8-tb-stripes" aria-hidden="true" />
+              </div>
+              <button onClick={() => setLixeira(false)} aria-label="Fechar" style={{ position: "absolute", top: 8, right: 8, width: 26, height: 26, border: "2px solid var(--ink)", background: "var(--lime)", color: "var(--ink)", cursor: "pointer", fontFamily: '"Press Start 2P", monospace', fontSize: 11 }}>×</button>
+              <div className="qsd8-win-body" style={{ textAlign: "center" }}>
+                <img src="/assets/pixel-icons/gift.png" alt="" style={{ width: 72, margin: "0 auto 12px", display: "block", imageRendering: "pixelated" }} />
+                <h3 style={{ fontFamily: '"Press Start 2P", monospace', fontSize: 11, color: "var(--lime)", margin: "0 0 12px", lineHeight: 1.5 }}>🗑️ VOCÊ VIU OURO NO LIXO</h3>
+                <p style={{ fontSize: 16, margin: "0 0 14px" }}>A gente transforma resíduo orgânico em proteína de alta qualidade. Olho de Dragão, o seu 🐉. Toma um presente: <strong>10% de desconto</strong> na loja, uma vez por pessoa:</p>
+                <div style={{ fontFamily: '"Press Start 2P", monospace', fontSize: 15, border: "3px dashed var(--lime)", padding: 12, margin: "0 0 16px", letterSpacing: ".1em" }}>LIXODEOURO</div>
+                <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn">Ir à loja →</a>
+              </div>
+            </section>
+          </div>
+        )}
         <div className="qsd8-wrap hj-wrap">
           <Win name="CAVERNA.EXE" mac className="qsd8-hero-win hj-hero-win">
             <DragonLogo className="qsd8-hero-logo" />
