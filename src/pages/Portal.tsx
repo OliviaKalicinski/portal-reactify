@@ -1654,12 +1654,12 @@ const Portal = () => {
         <div className="qsd8-wrap hj-wrap">
           <Win name="CAVERNA.EXE" mac className="qsd8-hero-win hj-hero-win">
             <DragonLogo className="qsd8-hero-logo" />
-            <div className="qsd8-eyebrow">Proteína de inseto BSF</div>
             <h1 className="qsd8-title">Alimento para <span>pets</span></h1>
+            <div className="qsd8-eyebrow hj-hero-sub">Proteína de inseto BSF</div>
             {/* 21/10 (Olivia): sem as três categorias ("quem é você?"); logo em cima, título embaixo e figurinhas de cachorro e gato */}
             <div className="hj-figurinhas" aria-hidden="true">
               <img className="hj-figurinha hj-figurinha-cao" src="/assets/pixel-icons/dog.png" alt="" />
-              <img className="hj-figurinha hj-figurinha-gato" src="/assets/pixel-icons/cat.png" alt="" />
+              <img className="hj-figurinha hj-figurinha-gato" src="/assets/pixel-icons/cat-sem-fundo.png" alt="" />
             </div>
             <div className="qsd8-btnrow hj-comprar">
               <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn ghost">

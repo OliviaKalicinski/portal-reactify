@@ -117,8 +117,9 @@
   padding: 18px 20px 20px;
 }
 .qsd8.hj .hj-hero-win .qsd8-hero-logo { grid-column: 1; width: 150px; max-width: none; margin: 0 0 12px; transform: rotate(-6deg); }
-.qsd8.hj .hj-hero-win .qsd8-eyebrow { grid-column: 1; margin-bottom: 8px; }
 .qsd8.hj .hj-hero-win .qsd8-title { grid-column: 1; margin: 0; }
+/* "Proteína de inseto BSF" embaixo do título e maior (Olivia, 21/10) */
+.qsd8.hj .hj-hero-win .hj-hero-sub { grid-column: 1; margin: 12px 0 0; font-size: 13px; line-height: 1.5; }
 .qsd8.hj .hj-hero-win .hj-figurinhas {
   grid-column: 2; grid-row: 1 / 4; align-self: center; display: flex; align-items: flex-end;
 }
@@ -130,6 +131,7 @@
   .qsd8.hj .hj-hero-win .qsd8-win-body { column-gap: 8px; padding: 14px 14px 16px; }
   .qsd8.hj .hj-hero-win .qsd8-hero-logo { width: 110px; margin-bottom: 10px; }
   .qsd8.hj .hj-hero-win .qsd8-title { font-size: 16px; line-height: 1.5; }
+  .qsd8.hj .hj-hero-win .hj-hero-sub { font-size: 10px; margin-top: 10px; }
   .qsd8.hj .hj-hero-win .hj-figurinha { width: 62px; height: 62px; }
   .qsd8.hj .hj-hero-win .hj-figurinha-gato { margin-left: -10px; transform: rotate(7deg) translateY(-10px); }
   .qsd8.hj .hj-hero-win .hj-comprar { margin-top: 12px; }
