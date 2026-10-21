@@ -474,7 +474,7 @@ const Produtos = () => {
         <Link to="/" className="pj-voltar">← voltar pra caverna</Link>
 
         {/* HERO */}
-        <Win name="DESPENSA.EXE" mac className="qsd8-hero-win">
+        <Win name="DESPENSA.EXE" mac className="qsd8-hero-win pj-hero">
           <DragonLogo className="qsd8-hero-logo" />
           <div className="qsd8-eyebrow">Comida de Dragão — Produtos</div>
           <h1 className="qsd8-title">O que tem na <span>despensa?</span></h1>
