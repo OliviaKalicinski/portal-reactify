@@ -108,3 +108,29 @@
 .qsd8.hj .hj-fala { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 16px; padding: 0; }
 .qsd8.hj .hj-fala-title { font-size: clamp(12px, 3vw, 16px); line-height: 1.3; text-shadow: 2px 2px 0 var(--violet); }
 .qsd8.hj .hj-fala-btn { padding: 10px 18px; }
+
+/* 21/10: topo compacto da home (pedido da Olivia): logo em cima, "Alimento para pets" embaixo, figurinhas de
+   cachorro e gato à direita, "Comprar" e "Não clique" lado a lado. Sem as três categorias. Texto igual. */
+.qsd8.hj .hj-hero-win { margin-top: 12px; }
+.qsd8.hj .hj-hero-win .qsd8-win-body {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; align-items: end;
+  padding: 18px 20px 20px;
+}
+.qsd8.hj .hj-hero-win .qsd8-hero-logo { grid-column: 1; width: 150px; max-width: none; margin: 0 0 12px; transform: rotate(-6deg); }
+.qsd8.hj .hj-hero-win .qsd8-eyebrow { grid-column: 1; margin-bottom: 8px; }
+.qsd8.hj .hj-hero-win .qsd8-title { grid-column: 1; margin: 0; }
+.qsd8.hj .hj-hero-win .hj-figurinhas {
+  grid-column: 2; grid-row: 1 / 4; align-self: center; display: flex; align-items: flex-end;
+}
+.qsd8.hj .hj-hero-win .hj-figurinha { width: 96px; height: 96px; object-fit: contain; image-rendering: pixelated; display: block; }
+.qsd8.hj .hj-hero-win .hj-figurinha-cao { transform: rotate(-8deg); }
+.qsd8.hj .hj-hero-win .hj-figurinha-gato { transform: rotate(7deg) translateY(-14px); margin-left: -14px; }
+.qsd8.hj .hj-hero-win .hj-comprar { grid-column: 1 / -1; margin-top: 16px; gap: 10px; }
+@media (max-width: 640px) {
+  .qsd8.hj .hj-hero-win .qsd8-win-body { column-gap: 8px; padding: 14px 14px 16px; }
+  .qsd8.hj .hj-hero-win .qsd8-hero-logo { width: 110px; margin-bottom: 10px; }
+  .qsd8.hj .hj-hero-win .qsd8-title { font-size: 16px; line-height: 1.5; }
+  .qsd8.hj .hj-hero-win .hj-figurinha { width: 62px; height: 62px; }
+  .qsd8.hj .hj-hero-win .hj-figurinha-gato { margin-left: -10px; transform: rotate(7deg) translateY(-10px); }
+  .qsd8.hj .hj-hero-win .hj-comprar { margin-top: 12px; }
+}
