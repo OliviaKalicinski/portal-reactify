@@ -934,3 +934,62 @@
 @media (max-width: 640px) {
   .parceiros-regra-badge { writing-mode: horizontal-tb; width: 52px; font-size: 15px; }
 }
+
+/* ========= CADASTRO DE VET (22/10/2026) =========
+   Formulário próprio da /veterinarios, no lugar do link da Inflowz.
+   Cores e fonte da casa (lime sobre preto), sem layout novo. */
+.vet-form {
+  max-width: 520px;
+  margin: 24px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+.vet-linha { display: grid; grid-template-columns: 1fr 96px; gap: 12px; }
+.vet-campo { display: flex; flex-direction: column; gap: 6px; }
+.vet-campo > span:first-child {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.08em;
+  font-size: 15px;
+  color: var(--dragon-white);
+}
+.vet-campo > span em { font-style: normal; opacity: 0.6; font-size: 13px; margin-left: 6px; }
+.vet-campo input,
+.vet-campo select {
+  background: var(--dragon-black);
+  color: var(--dragon-white);
+  border: 2px solid rgba(255,255,255,0.25);
+  padding: 12px 14px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.vet-campo input:focus,
+.vet-campo select:focus { outline: none; border-color: var(--dragon-lime); }
+.vet-opcoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.vet-opcao {
+  background: transparent;
+  color: var(--dragon-white);
+  border: 2px solid rgba(255,255,255,0.25);
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.vet-opcao.ativo { border-color: var(--dragon-lime); color: var(--dragon-lime); }
+.vet-campo > .vet-form-erro { color: #ff8a8a; font-size: 13px; font-family: inherit; letter-spacing: 0; }
+.vet-form-botao { margin-top: 8px; width: 100%; }
+.vet-form-botao:disabled { opacity: 0.6; cursor: wait; }
+.vet-form-nota { font-size: 12px; opacity: 0.6; margin: 0; }
+.vet-form-ok {
+  max-width: 520px;
+  margin: 24px auto 0;
+  border: 2px solid var(--dragon-lime);
+  padding: 24px;
+}
+.vet-form-ok-titulo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--dragon-lime);
+  letter-spacing: 0.06em;
+}
