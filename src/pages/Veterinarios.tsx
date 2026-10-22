@@ -1,53 +1,100 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
+import { VIDEOS } from "@/components/VideosVencedores";
 import PageMeta from "@/components/PageMeta";
+import "./QueroSerDragao.css";
+import "./Fofo.css";
+import "./Veterinarios.css";
 import { captureEntryUtms } from "@/lib/utm";
 import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
 import { submitVetLead, type AtendimentoVet } from "@/lib/vetLead";
-import "./Portal.css";
-import "./Parceiros.css";
 
 /* ──────────────────────────────────────────────────────────────
-   VETERINÁRIOS — espelho da /quero-ser-dragao com olhar de vet.
-   22/10/2026: o vet ganhou porta própria. O cadastro deixou de ir
-   pra Inflowz (onde era avaliado como creator e reprovado) e cai no
-   dash pelo formulário desta página (lib/vetLead.ts). Benefícios
-   seguem os mesmos (amostras, cupom, comissão, treinamento).
+   VETERINÁRIOS — 22/10/2026: mesmo layout da /quero-ser-dragao
+   (janelas retrô-OS, visual fofo verde), clonado dela.
+   O cadastro é próprio (formulário abaixo, lib/vetLead.ts), não vai
+   para a Inflowz: no dash, o gatilho R683/R685 cria o cadastro de vet.
 ────────────────────────────────────────────────────────────── */
+const ICON = "/assets/pixel-icons";
 
 const MARQUEE_TOP = [
-  "VETERINÁRIO PARCEIRO",
-  "COMISSÃO POR INDICAÇÃO",
-  "AMOSTRAS PRA PACIENTES",
-  "CUPOM EXCLUSIVO",
-  "TREINAMENTO TÉCNICO",
-  "SEM EXCLUSIVIDADE",
-  "BIOFÁBRICA REGISTRADA NO MAPA",
+  "VETERINARIO PARCEIRO", "COMISSAO POR INDICACAO", "AMOSTRAS PRA PACIENTES", "CUPOM EXCLUSIVO",
+  "TREINAMENTO TECNICO", "SEM EXCLUSIVIDADE", "BIOFABRICA REGISTRADA NO MAPA",
 ];
 
-const MARQUEE_BOTTOM = [
-  "// PARCEIROS",
-  "// MATILHA DO DRAGÃO",
-  "@COMIDADEDRAGAO",
-  "NOJENTO É O DESPERDÍCIO",
-  "ENTRA NA MATILHA",
-  "COMIDA DE DRAGÃO · LET'S FLY",
+/* ── ícones de desktop (laterais) ── */
+type DeskItem = { img: string; label: string; href?: string; ext?: boolean; egg?: boolean };
+/* mesmo conjunto de ícones nas 3 LPs (esquerda, 2 colunas) */
+const DESK: DeskItem[] = [
+  { img: "bsf.png", label: "LARVA.BSF", href: "/ciencia" },
+  { img: "original-real.png", label: "ORIGINAL", href: "/original" },
+  { img: "paw2.png", label: "MATILHA", href: "/quero-ser-dragao" },
+  { img: "dog.png", label: "MEU-PET", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
+  { img: "stomach.png", label: "88.9%", href: "/assets/pdfs/artigos-cientificos/bsf-in-vivo-vitro-digestibility-dog-food.pdf", ext: true },
+  { img: "shield.png", label: "ALERGIA", href: "/alergia" },
+  { img: "earth.png", label: "PLANETA", href: "https://www.comidadedragao.com.br/blogs/news", ext: true },
+  { img: "crown.png", label: "PRODUTOS", href: "/produtos" },
+  { img: "trash.png", label: "LIXEIRA", egg: true },
 ];
 
-const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
-  const doubled = [...items, ...items];
-  return (
-    <div className={`marquee-bar${bottom ? " bottom" : ""}`}>
-      <div className="marquee-track" style={bottom ? { animationDirection: "reverse" } : undefined}>
-        {doubled.map((t, i) => <span key={i}>{t}</span>)}
-      </div>
+/* ── janela OS reutilizável ── */
+const Win = ({ name, children, className, inverted, violet, mac }: {
+  name: string; children: ReactNode; className?: string; inverted?: boolean; violet?: boolean; mac?: boolean;
+}) => (
+  <section className={`qsd8-win${inverted ? " inverted" : ""}${violet ? " violet" : ""}${className ? " " + className : ""}`}>
+    <div className="qsd8-titlebar">
+      {mac && (
+        <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>
+      )}
+      <span className="qsd8-tb-name">{name}</span>
+      <span className="qsd8-tb-stripes" aria-hidden="true" />
+      <span className="qsd8-tb-x" aria-hidden="true">×</span>
     </div>
-  );
-};
+    <div className="qsd8-win-body">{children}</div>
+  </section>
+);
 
-// 22/10/2026: saíram "83% menos carbono" (só existia em doc arquivado) e
+const DeskCol = ({ items, side, onEgg }: { items: DeskItem[]; side: "left" | "right"; onEgg: () => void }) => (
+  <div className={`qsd8-desk-icons ${side}`}>
+    {items.map((it, i) => {
+      const inner = <><img src={`${ICON}/${it.img}`} alt="" /><span>{it.label}</span></>;
+      if (it.egg) return <button type="button" className="qsd8-icon" key={i} onClick={onEgg} title="???" style={{ background: "none", border: "none", padding: 0, font: "inherit" }}>{inner}</button>;
+      return it.ext
+        ? <a className="qsd8-icon" key={i} href={it.href} target="_blank" rel="noopener noreferrer">{inner}</a>
+        : <Link className="qsd8-icon" key={i} to={it.href!}>{inner}</Link>;
+    })}
+  </div>
+);
+
+/* easter egg da lixeira — reaproveitado nas 3 LPs */
+const TrashEgg = ({ onClose }: { onClose: () => void }) => (
+  <div className="qsd8-egg-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <section className="qsd8-win" style={{ maxWidth: 400, position: "relative" }}>
+      <div className="qsd8-titlebar">
+        <span className="qsd8-tb-name">PRESENTE.EXE</span>
+        <span className="qsd8-tb-stripes" aria-hidden="true" />
+      </div>
+      <button onClick={onClose} aria-label="Fechar" style={{ position: "absolute", top: 8, right: 8, width: 26, height: 26, border: "2px solid var(--ink)", background: "var(--lime)", color: "var(--ink)", cursor: "pointer", fontFamily: '"Press Start 2P", monospace', fontSize: 11 }}>×</button>
+      <div className="qsd8-win-body" style={{ textAlign: "center" }}>
+        <img src={`${ICON}/gift.png`} alt="" style={{ width: 72, margin: "0 auto 12px", display: "block", imageRendering: "pixelated" }} />
+        <h3 style={{ fontFamily: '"Press Start 2P", monospace', fontSize: 11, color: "var(--lime)", margin: "0 0 12px", lineHeight: 1.5 }}>🗑️ VOCÊ VIU OURO NO LIXO</h3>
+        <p style={{ fontSize: 16, margin: "0 0 14px" }}>A gente transforma resíduo orgânico em proteína de alta qualidade. Olho de Dragão, o seu 🐉. Toma um presente: <strong>10% de desconto</strong> na loja, uma vez por pessoa:</p>
+        <div style={{ fontFamily: '"Press Start 2P", monospace', fontSize: 15, border: "3px dashed var(--lime)", padding: 12, margin: "0 0 16px", letterSpacing: ".1em" }}>LIXODEOURO</div>
+        <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer" className="qsd8-btn">Ir à loja →</a>
+      </div>
+    </section>
+  </div>
+);
+
+/* vídeos de creator vencedores (planilha "Originais de creator"), do maior lucro por venda ao menor */
+const VENCEDORES = [
+  VIDEOS.sushijullie, VIDEOS.carla, VIDEOS.pipo, VIDEOS.mytribesete,
+  VIDEOS.gabi, VIDEOS.omeninomerlin, VIDEOS.vitydalmata, VIDEOS.pitanga,
+];
+
+// 22/10/2026: sem "83% menos carbono" (só existia em doc arquivado) e sem
 // "100% feito no RJ" (o Rango é fabricado em SP). 88,9% = digestibilidade da
 // proteína em cães (Produtos - decisões e claims).
 const STATS = [
@@ -57,82 +104,25 @@ const STATS = [
 ];
 
 const BENEFICIOS = [
-  {
-    icon: "📦",
-    title: "Amostras pra seus pacientes",
-    desc: "A gente manda kits de amostras pra você entregar aos tutores na consulta. O paciente testa em casa, você acompanha o resultado.",
-  },
-  {
-    icon: "🏷️",
-    title: "Cupom exclusivo",
-    desc: "Você recebe um cupom personalizado pra repassar aos tutores. Desconto real, fácil de indicar dentro do atendimento.",
-  },
-  {
-    icon: "💸",
-    title: "Comissão por indicação",
-    desc: "Cada compra feita com seu cupom gera comissão direto pra você. Recomendação que faz sentido e ainda vira retorno.",
-  },
-  {
-    icon: "🎓",
-    title: "Treinamento técnico",
-    desc: "Acesso a treinamentos sobre proteína de inseto BSF, fichas técnicas e a biblioteca científica pra embasar a sua recomendação.",
-  },
-  {
-    icon: "🤝",
-    title: "Suporte direto",
-    desc: "Você fala com a gente pelo WhatsApp — sem chatbot, sem demora. Dúvida técnica ou logística, a gente resolve na hora.",
-  },
-  {
-    icon: "🩺",
-    title: "Vet no time do Dragão",
-    desc: "Você entra como endossante da causa — pode aparecer nas nossas parcerias e materiais como veterinário parceiro.",
-  },
+  { img: "games.png",      title: "Amostras pra pacientes", desc: "A gente manda kits de amostras pra você entregar aos tutores na consulta. O paciente testa em casa, você acompanha o resultado." },
+  { img: "love.png",       title: "Cupom exclusivo",        desc: "Você recebe um cupom personalizado pra repassar aos tutores. Desconto real, fácil de indicar dentro do atendimento." },
+  { img: "crown.png",      title: "Comissão por indicação", desc: "Cada compra feita com seu cupom gera comissão direto pra você. Recomendação que faz sentido e ainda vira retorno." },
+  { img: "stomach.png",    title: "Treinamento técnico",    desc: "Treinamentos sobre proteína de inseto BSF, fichas técnicas e a biblioteca científica pra embasar a sua recomendação." },
+  { img: "heart-eyes.png", title: "Suporte direto",         desc: "Você fala com a gente pelo WhatsApp, sem chatbot e sem demora. Dúvida técnica ou logística, a gente resolve." },
 ];
 
 const REQUISITOS = [
-  {
-    title: "CRMV ativo e em situação regular",
-    desc: "A parceria é com profissionais habilitados — clínico geral ou especialista, todos são bem-vindos.",
-  },
-  {
-    title: "Atendimento ativo a cães, gatos, répteis ou exóticos",
-    desc: "Clínica, consultório, atendimento domiciliar ou hospital veterinário — todos contam.",
-  },
-  {
-    title: "Abertura pra nutrição diferente",
-    desc: "Proteína de inseto ainda é novidade no Brasil. A gente precisa de vets que topam estudar o que foge do óbvio.",
-  },
-  {
-    title: "Recomendação honesta",
-    desc: "Você só indica se fizer sentido pro paciente. A gente não pede recomendação forçada — endosso de verdade vale mais.",
-  },
-  {
-    title: "Compromisso com a causa",
-    desc: "Sustentabilidade e bem-estar animal precisam fazer parte do seu jeito de clinicar.",
-  },
+  { title: "CRMV ativo e em situação regular", desc: "A parceria é com profissionais habilitados: clínico geral ou especialista, todos são bem-vindos." },
+  { title: "Atendimento a cães, gatos, répteis ou exóticos", desc: "Clínica, consultório, atendimento domiciliar ou hospital veterinário, todos contam." },
+  { title: "Abertura pra nutrição diferente", desc: "Proteína de inseto ainda é novidade no Brasil. A gente precisa de vets que topam estudar o que foge do óbvio." },
+  { title: "Recomendação honesta", desc: "Você só indica se fizer sentido pro paciente. Endosso de verdade vale mais que recomendação forçada." },
 ];
 
 const REGRAS = [
-  {
-    num: "01",
-    title: "Recomendação técnica",
-    desc: "Indicação baseada no caso clínico, sem roteiro fixo. Você recomenda porque faz sentido, não por obrigação.",
-  },
-  {
-    num: "02",
-    title: "Uso das amostras",
-    desc: "As amostras são pra entregar aos tutores em consulta, sempre com orientação de uso. Sem revenda.",
-  },
-  {
-    num: "03",
-    title: "Cadastro e análise",
-    desc: "Você se cadastra aqui embaixo, a gente analisa e fala com você pelo WhatsApp pra combinar amostras, cupom e comissão.",
-  },
-  {
-    num: "04",
-    title: "Comunicação aberta",
-    desc: "Dúvida técnica, problema com um paciente ou logística? Nos avise antes. A gente prefere resolver junto.",
-  },
+  { num: "01", title: "Recomendação técnica", desc: "Indicação baseada no caso clínico, sem roteiro fixo. Você recomenda porque faz sentido, não por obrigação." },
+  { num: "02", title: "Uso das amostras", desc: "As amostras são pra entregar aos tutores em consulta, sempre com orientação de uso. Sem revenda." },
+  { num: "03", title: "Cadastro e análise", desc: "Você se cadastra aqui embaixo, a gente analisa e fala com você pelo WhatsApp pra combinar amostras, cupom e comissão." },
+  { num: "04", title: "Comunicação aberta", desc: "Dúvida técnica, problema com um paciente ou logística? Nos avise antes. A gente prefere resolver junto." },
 ];
 
 const ATENDIMENTOS: { id: AtendimentoVet; label: string }[] = [
@@ -266,7 +256,7 @@ const CadastroVet = () => {
         <span>Instagram <em>opcional</em></span>
         <input type="text" placeholder="@seuperfil" value={instagram} onChange={(e) => setInstagram(e.target.value)} />
       </label>
-      <button type="submit" className="parceiros-btn-primary vet-form-botao" disabled={status === "sending"}>
+      <button type="submit" className="qsd8-btn vet-form-botao" disabled={status === "sending"}>
         {status === "sending" ? "Enviando…" : "Quero ser vet parceiro"}
       </button>
       {status === "erro" && (
@@ -279,160 +269,183 @@ const CadastroVet = () => {
   );
 };
 
+const Marquee = () => {
+  const doubled = [...MARQUEE_TOP, ...MARQUEE_TOP];
+  return (
+    <div className="qsd8-marquee">
+      <div className="qsd8-marquee-track">{doubled.map((t, i) => <span key={i}>{t}</span>)}</div>
+    </div>
+  );
+};
+
+const ProgressBar = ({ total = 14, cta = false }: { total?: number; cta?: boolean }) => (
+  <div className={`qsd8-prog${cta ? " is-cta" : ""}`} aria-hidden="true">
+    {Array.from({ length: total }).map((_, i) => <i key={i} />)}
+  </div>
+);
+
+const irProCadastroVet = () =>
+  document.getElementById("cadastro-vet")?.scrollIntoView({ behavior: "smooth", block: "start" });
+
 const Veterinarios = () => {
+  const [egg, setEgg] = useState(false);
   useEffect(() => { captureEntryUtms(); }, []);
   return (
-    <div className="portal-page parceiros-page skin-2">
+    <div className="qsd8 fofo fofo-verde">
+      {egg && <TrashEgg onClose={() => setEgg(false)} />}
       <PageMeta
         title="Quero ser Vet Parceiro — Comida de Dragão"
-        description="Seja veterinário parceiro da Comida de Dragão. Amostras pra pacientes, cupom exclusivo, comissão por indicação e treinamento técnico. Entra na matilha."
+        description="Seja veterinário parceiro da Comida de Dragão. Amostras pra pacientes, cupom exclusivo, comissão por indicação e treinamento técnico."
         image="/assets/images/poster-punk-converte.webp"
       />
-      <MarqueeBar items={MARQUEE_TOP} />
 
-      {/* ══ HERO ══════════════════════════════════════════════════ */}
-      <section className="parceiros-hero">
-        <div className="parceiros-hero-bg" />
-        <div className="dragon-silhouette" aria-hidden="true" />
-        <div className="parceiros-hero-content">
-          <Link to="/portal" className="parceiros-backlink">← voltar pro portal</Link>
-          <div className="hero-row">
-            <DragonLogo className="hero-logo" />
-            <div className="hero-copy">
-              <div className="hero-eyebrow">Comida de Dragão — Parcerias com Veterinários</div>
-              <h1 className="parceiros-hero-title">
-                Quero virar<br />
-                <span>vet parceiro do dragão.</span>
-              </h1>
-              <p className="parceiros-hero-sub">
-                A gente faz <strong>alimento e suplemento pra pet com proteína de inseto BSF</strong> —
-                nutritivo, com proteína hipoalergênica e sustentável. Se você acredita em nutrição diferente e quer
-                embasar isso na sua clínica, bora fazer junto.
-              </p>
-            </div>
-          </div>
-          <div className="parceiros-hero-badges">
-            <span className="parceiros-badge">Amostras pra pacientes</span>
-            <span className="parceiros-badge">Cupom exclusivo</span>
-            <span className="parceiros-badge">Comissão por indicação</span>
-            <span className="parceiros-badge">Treinamento técnico</span>
-          </div>
-          <div className="parceiros-hero-cta">
-            <button type="button" onClick={irProCadastro} className="parceiros-btn-primary">
-              Quero ser vet parceiro ↓
-            </button>
-          </div>
-          <p className="parceiros-hero-note">
-            Cadastro gratuito · Sem exclusividade · Você recomenda do seu jeito
+      {/* filtro duotone (ink -> lime) aplicado aos PNGs de pixel */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
+        <filter id="qsd8-duotone" colorInterpolationFilters="sRGB">
+          <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues="0.055 0.482" />
+            <feFuncG type="table" tableValues="0.055 1.0" />
+            <feFuncB type="table" tableValues="0.055 0.0" />
+          </feComponentTransfer>
+        </filter>
+      </svg>
+
+      {/* fundo de céu azul natural */}
+      <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
+
+      <DeskCol items={DESK} side="left" onEgg={() => setEgg(true)} />
+
+      <div className="qsd8-wrap">
+        {/* ══ HERO — janela de instalação (limpo) ══════════════════ */}
+        <Win name="VET-PARCEIRO.EXE" mac className="qsd8-hero-win">
+          <DragonLogo className="qsd8-hero-logo" />
+          <div className="qsd8-eyebrow">Comida de Dragão — Parcerias com Veterinários</div>
+          <h1 className="qsd8-title">Quero virar vet parceiro do <span>dragão</span></h1>
+          <p className="qsd8-sub">
+            Alimento e suplemento pra pet com proteína de inseto BSF: nutritivo, com proteína
+            hipoalergênica e sustentável. Se você acredita em nutrição diferente e quer embasar
+            isso no seu atendimento, bora fazer junto.
           </p>
-        </div>
-      </section>
-
-      {/* ══ STATS BAR ═════════════════════════════════════════════ */}
-      <div className="parceiros-stats-bar">
-        {STATS.map((s, i) => (
-          <div className="parceiros-stat-item" key={i}>
-            <span className="pbs-num">{s.num}</span>
-            <span className="pbs-lbl">{s.label}</span>
+          <div className="qsd8-btnrow">
+            <button type="button" onClick={irProCadastroVet} className="qsd8-btn">
+              <span className="qsd8-blink">▶</span> Quero ser vet parceiro
+            </button>
+            <Link to="/portal" className="qsd8-btn ghost">Voltar</Link>
           </div>
-        ))}
-      </div>
+          <p className="qsd8-note">Cadastro gratuito · Sem exclusividade · Você recomenda do seu jeito</p>
+        </Win>
 
-      {/* ══ O QUE GANHA ═══════════════════════════════════════════ */}
-      <section className="parceiros-secao">
-        <div className="parceiros-tag">a parceria</div>
-        <h2 className="parceiros-secao-titulo titulo-orange">O que você <span>ganha</span></h2>
-        <div className="parceiros-beneficios">
-          {BENEFICIOS.map((b, i) => (
-            <div className="parceiros-beneficio" key={i}>
-              <div className="parceiros-beneficio-icon">{b.icon}</div>
-              <div className="parceiros-beneficio-titulo">{b.title}</div>
-              <div className="parceiros-beneficio-desc">{b.desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="parceiros-divider" />
-
-      {/* ══ PRÉ-REQUISITOS ════════════════════════════════════════ */}
-      <section className="parceiros-secao">
-        <div className="parceiros-tag tag-green">quem pode participar</div>
-        <h2 className="parceiros-secao-titulo titulo-green">Pré-<span>requisitos</span></h2>
-        <div className="parceiros-requisitos">
-          {REQUISITOS.map((r, i) => (
-            <div className="parceiros-req" key={i}>
-              <div className="parceiros-req-check">✓</div>
-              <div className="parceiros-req-body">
-                <strong>{r.title}</strong>
-                <span>{r.desc}</span>
+        {/* ══ STATS ════════════════════════════════════════════════ */}
+        <Win name="STATUS-DA-MARCA.SYS" inverted>
+          <div className="qsd8-loot">
+            {STATS.map((s, i) => (
+              <div className="qsd8-card" key={i} style={{ textAlign: "center" }}>
+                <div className="qsd8-card-title" style={{ fontSize: 20, marginBottom: 8 }}>{s.num}</div>
+                <div className="qsd8-card-desc" style={{ fontSize: 15, textTransform: "uppercase" }}>{s.label}</div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </Win>
 
-      <div className="parceiros-divider" />
+        {/* ══ DROPS / O QUE GANHA ══════════════════════════════════ */}
+        <Win name="DROPS-DA-PARCERIA.EXE">
+          <h2 className="qsd8-h2">O que você <span>ganha</span></h2>
+          <div className="qsd8-loot">
+            {BENEFICIOS.map((b, i) => (
+              <div className="qsd8-card" key={i}>
+                <img className="qsd8-card-ico qsd8-duo" src={`${ICON}/${b.img}`} alt="" />
+                <div className="qsd8-card-title">{b.title}</div>
+                <div className="qsd8-card-desc">{b.desc}</div>
+              </div>
+            ))}
+          </div>
+        </Win>
 
-      {/* ══ REGRAS ════════════════════════════════════════════════ */}
-      <section className="parceiros-secao">
-        <div className="parceiros-tag tag-pink">como funciona</div>
-        <h2 className="parceiros-secao-titulo titulo-pink">Principais <span>regras</span></h2>
-        <div className="parceiros-regras-grid">
-          {REGRAS.map((r, i) => (
-            <div className="parceiros-regra-card" key={i}>
-              <div className="parceiros-regra-num">{r.num}</div>
-              <div className="parceiros-regra-titulo">{r.title}</div>
-              <div className="parceiros-regra-desc">{r.desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+        {/* ══ ERRO brincalhão ══════════════════════════════════════ */}
+        <Win name="ERROR" className="qsd8-error-win">
+          <div className="qsd8-error-body">
+            <img className="qsd8-duo" src={`${ICON}/angry.png`} alt="" />
+            <p>
+              <strong>PACIENTE_ALERGICO.ERR</strong>
+              Proteína nova, de inseto, pra quem não aguenta mais trocar de ração. Vire parceiro e mostre pros tutores. [OK]
+            </p>
+          </div>
+        </Win>
 
-      <div className="parceiros-divider" />
+        {/* ══ REQUISITOS ═══════════════════════════════════════════ */}
+        <Win name="REQUISITOS-DO-PLAYER.SYS" inverted>
+          <h2 className="qsd8-h2">Pré-<span>requisitos</span></h2>
+          <div className="qsd8-reqs">
+            {REQUISITOS.map((r, i) => (
+              <div className="qsd8-req" key={i}>
+                <img className="cf-check" src={`${ICON}/check.png`} alt="" />
+                <div className="qsd8-req-body">
+                  <strong>{r.title}</strong>
+                  <span>{r.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Win>
 
-      {/* ══ REELS — prova social ═══════════════════════════════════ */}
-      <div className="parceiros-reels-wrap">
-        <ReelsSection
-          title="A matilha em campo"
-          subtitle="Conteúdo real de quem já está com a gente nessa. Toca pra ver."
-          seeAllUrl="https://www.instagram.com/comidadedragao"
-          seeAllLabel="Mais no @comidadedragao →"
-        />
-      </div>
+        {/* ══ REGRAS ═══════════════════════════════════════════════ */}
+        <Win name="REGRAS-DA-QUEST.BAT">
+          <h2 className="qsd8-h2">Principais <span>regras</span></h2>
+          <div className="qsd8-rules">
+            {REGRAS.map((r, i) => (
+              <div className="qsd8-rule" key={i}>
+                <div className="qsd8-rule-num">{r.num}</div>
+                <div className="qsd8-rule-title">{r.title}</div>
+                <div className="qsd8-rule-desc">{r.desc}</div>
+              </div>
+            ))}
+          </div>
+        </Win>
 
-      {/* ══ CTA FINAL ═════════════════════════════════════════════ */}
-      <section className="parceiros-cta-final">
-        <h2 className="parceiros-cta-final-titulo">
-          Bora<br /><span>fazer junto?</span>
-        </h2>
-        <p className="parceiros-cta-final-sub">
-          Se você chegou até aqui e fez sentido, o próximo passo é simples —
-          deixa seu cadastro e a gente entra em contato.
-        </p>
-        <div id="cadastro-vet">
+        {/* ══ REELS ════════════════════════════════════════════════ */}
+        <Win name="MATILHA-ONLINE.MOV" inverted className="qsd8-reels-win">
+          <div className="portal-page skin-2 qsd8-reels-host">
+            <ReelsSection
+              reels={VENCEDORES}
+              title="Matilha online"
+              subtitle="Conteúdo real de quem já está com a gente nessa. Toca pra ver."
+              seeAllUrl="https://www.instagram.com/comidadedragao"
+              seeAllLabel="Mais no @comidadedragao →"
+            />
+          </div>
+        </Win>
+
+        {/* ══ CTA — DOWNLOADING 99% ════════════════════════════════ */}
+        <Win name="CADASTRO-VET.EXE" inverted className="qsd8-cta-win">
+          <div id="cadastro-vet" />
+          <h2 className="qsd8-cta-title">Bora <span>fazer junto?</span></h2>
+          <p className="qsd8-cta-sub">
+            Se chegou até aqui e fez sentido, o próximo passo é simples:
+            deixa seu cadastro e a gente entra em contato.
+          </p>
+          <div className="qsd8-eta" style={{ textAlign: "center" }}>CADASTRO-VET.EXE … 99% — FALTA SÓ VOCÊ</div>
+          <ProgressBar total={16} cta />
           <CadastroVet />
-        </div>
-        <p className="parceiros-cta-final-note">Dúvidas? Escreve pra somos@letsfly.com.br</p>
-      </section>
+          <p className="qsd8-cta-note">Dúvidas? Escreve pra somos@letsfly.com.br</p>
+        </Win>
 
-      <MarqueeBar items={MARQUEE_BOTTOM} bottom />
-
-      {/* ══ FOOTER ════════════════════════════════════════════════ */}
-      <footer className="portal-footer">
-        <DragonLogo className="footer-logo-svg" />
-        <nav className="footer-links">
-          <Link to="/portal">Portal</Link>
-          <Link to="/produtos">Produtos</Link>
-          <Link to="/biblioteca">Biblioteca</Link>
-          <Link to="/imprensa">Imprensa</Link>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
-          <a href="mailto:somos@letsfly.com.br">Contato</a>
-        </nav>
-        <div className="footer-tagline">Nojento é o desperdício.</div>
-      </footer>
+        {/* ══ FOOTER ═══════════════════════════════════════════════ */}
+        <footer className="qsd8-footer">
+          <DragonLogo className="qsd8-footer-logo" />
+          <nav className="qsd8-footer-nav">
+            <Link to="/portal">Portal</Link>
+            <Link to="/produtos">Produtos</Link>
+            <Link to="/biblioteca">Biblioteca</Link>
+            <Link to="/imprensa">Imprensa</Link>
+            <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+            <a href="mailto:somos@letsfly.com.br">Contato</a>
+          </nav>
+          <div className="qsd8-footer-tag">Nojento é o desperdício.</div>
+        </footer>
+      </div>
     </div>
   );
 };

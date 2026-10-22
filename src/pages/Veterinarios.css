@@ -1,0 +1,54 @@
+/* Formulário de cadastro da /veterinarios (22/10/2026), dentro da janela CADASTRO-VET.EXE.
+   Usa as cores do sistema .qsd8 (ink, paper, lime); os cantos arredondados vêm do Fofo.css. */
+.qsd8 .vet-form {
+  max-width: 520px;
+  margin: 22px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+.qsd8 .vet-linha { display: grid; grid-template-columns: 1fr 96px; gap: 12px; }
+.qsd8 .vet-campo { display: flex; flex-direction: column; gap: 6px; }
+.qsd8 .vet-campo > span:first-child { font-weight: 700; font-size: 15px; }
+.qsd8 .vet-campo > span:first-child em { font-style: normal; font-weight: 400; opacity: .7; font-size: 13px; margin-left: 6px; }
+.qsd8 .vet-campo input,
+.qsd8 .vet-campo select {
+  background: var(--paper);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  padding: 11px 13px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.qsd8 .vet-campo input:focus,
+.qsd8 .vet-campo select:focus { outline: 3px solid var(--lime); outline-offset: 1px; }
+.qsd8 .vet-opcoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.qsd8 .vet-opcao {
+  background: var(--paper);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+.qsd8 .vet-opcao.ativo { background: var(--ink); color: var(--paper); }
+.qsd8 .vet-campo > .vet-form-erro,
+.qsd8 .vet-form-erro-envio { color: #C62828; font-size: 13px; font-weight: 700; margin: 0; }
+.qsd8 .vet-form-botao { margin-top: 6px; width: 100%; justify-content: center; }
+.qsd8 .vet-form-botao:disabled { opacity: .6; cursor: wait; }
+.qsd8 .vet-form-nota { font-size: 12px; opacity: .75; margin: 0; }
+.qsd8 .vet-form-ok {
+  max-width: 520px;
+  margin: 22px auto 0;
+  border: 3px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 22px;
+  text-align: center;
+}
+.qsd8 .vet-form-ok-titulo { font-family: "Press Start 2P", monospace; font-size: 14px; margin-bottom: 10px; line-height: 1.5; }
