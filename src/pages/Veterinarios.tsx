@@ -1,16 +1,20 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import ReelsSection from "@/components/ReelsSection";
 import PageMeta from "@/components/PageMeta";
+import { captureEntryUtms } from "@/lib/utm";
+import { formatPhoneBR, isValidPhoneBR } from "@/lib/phone";
+import { submitVetLead, type AtendimentoVet } from "@/lib/vetLead";
 import "./Portal.css";
 import "./Parceiros.css";
 
 /* ──────────────────────────────────────────────────────────────
    VETERINÁRIOS — espelho da /quero-ser-dragao com olhar de vet.
-   Mesma estrutura, mesmo Inflowz, mesmos contatos.
-   A parceria é a mesma dos criadores; muda o público e os
-   benefícios (amostras pra pacientes, treinamento técnico),
-   e o ângulo: vet como autoridade que endossa a causa.
+   22/10/2026: o vet ganhou porta própria. O cadastro deixou de ir
+   pra Inflowz (onde era avaliado como creator e reprovado) e cai no
+   dash pelo formulário desta página (lib/vetLead.ts). Benefícios
+   seguem os mesmos (amostras, cupom, comissão, treinamento).
 ────────────────────────────────────────────────────────────── */
 
 const MARQUEE_TOP = [
@@ -43,11 +47,13 @@ const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boole
   );
 };
 
+// 22/10/2026: saíram "83% menos carbono" (só existia em doc arquivado) e
+// "100% feito no RJ" (o Rango é fabricado em SP). 88,9% = digestibilidade da
+// proteína em cães (Produtos - decisões e claims).
 const STATS = [
   { num: "88,9%", label: "Digestibilidade" },
-  { num: "83%",   label: "Menos carbono" },
   { num: "6",     label: "Produtos na linha" },
-  { num: "100%",  label: "Feito no RJ" },
+  { num: "MAPA",  label: "Biofábrica registrada" },
 ];
 
 const BENEFICIOS = [
@@ -119,8 +125,8 @@ const REGRAS = [
   },
   {
     num: "03",
-    title: "Cadastro no Inflowz",
-    desc: "Toda a parceria é gerenciada pela plataforma — amostras, cupom e comissão tudo centralizado lá.",
+    title: "Cadastro e análise",
+    desc: "Você se cadastra aqui embaixo, a gente analisa e fala com você pelo WhatsApp pra combinar amostras, cupom e comissão.",
   },
   {
     num: "04",
@@ -129,9 +135,146 @@ const REGRAS = [
   },
 ];
 
-const INFLOWZ_URL = "https://app.inflowz.io/signup/comida-de-dragao";
+const ATENDIMENTOS: { id: AtendimentoVet; label: string }[] = [
+  { id: "clinica", label: "Clínica ou consultório" },
+  { id: "domiciliar", label: "Atendimento domiciliar" },
+  { id: "hospital", label: "Hospital veterinário" },
+  { id: "exoticos", label: "Exóticos e silvestres" },
+  { id: "outro", label: "Outro" },
+];
+
+const UFS = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
+
+const irProCadastro = () =>
+  document.getElementById("cadastro-vet")?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+const CadastroVet = () => {
+  const [nome, setNome] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [email, setEmail] = useState("");
+  const [crmv, setCrmv] = useState("");
+  const [uf, setUf] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [atendimento, setAtendimento] = useState<AtendimentoVet[]>([]);
+  const [instagram, setInstagram] = useState("");
+  const [tentou, setTentou] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+  const erros = {
+    nome: nome.trim().length < 2,
+    telefone: !isValidPhoneBR(telefone),
+    email: !emailOk,
+    crmv: crmv.trim().length < 3,
+    uf: uf === "",
+    cidade: cidade.trim().length < 2,
+    atendimento: atendimento.length === 0,
+  };
+  const valido = !Object.values(erros).some(Boolean);
+
+  const alternar = (id: AtendimentoVet) =>
+    setAtendimento((a) => (a.includes(id) ? a.filter((x) => x !== id) : [...a, id]));
+
+  const enviar = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setTentou(true);
+    if (!valido || status === "sending") return;
+    setStatus("sending");
+    await submitVetLead({ name: nome, phone: telefone, email, crmv, uf, cidade, atendimento, instagram });
+    // confirmação pra pessoa mesmo se a gravação falhar; o erro fica no console.
+    setStatus("done");
+  };
+
+  if (status === "done") {
+    return (
+      <div className="vet-form-ok">
+        <div className="vet-form-ok-titulo">Cadastro recebido 🐉</div>
+        <p>
+          Valeu, {nome.trim().split(" ")[0]}. A gente analisa e fala com você pelo WhatsApp
+          pra combinar amostras, cupom e comissão.
+        </p>
+      </div>
+    );
+  }
+
+  const erro = (campo: keyof typeof erros, texto: string) =>
+    tentou && erros[campo] ? <span className="vet-form-erro">{texto}</span> : null;
+
+  return (
+    <form className="vet-form" onSubmit={enviar} noValidate>
+      <label className="vet-campo">
+        <span>Nome completo</span>
+        <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} autoComplete="name" />
+        {erro("nome", "Escreve seu nome.")}
+      </label>
+      <label className="vet-campo">
+        <span>WhatsApp</span>
+        <input
+          type="tel"
+          inputMode="numeric"
+          placeholder="(21) 98765-4321"
+          value={telefone}
+          onChange={(e) => setTelefone(formatPhoneBR(e.target.value))}
+          autoComplete="tel"
+        />
+        {erro("telefone", "Confere o número com DDD.")}
+      </label>
+      <label className="vet-campo">
+        <span>E-mail</span>
+        <input type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+        {erro("email", "Esse e-mail parece incompleto.")}
+      </label>
+      <div className="vet-linha">
+        <label className="vet-campo">
+          <span>CRMV</span>
+          <input type="text" placeholder="00000" value={crmv} onChange={(e) => setCrmv(e.target.value)} />
+          {erro("crmv", "Informa o número do CRMV.")}
+        </label>
+        <label className="vet-campo vet-campo-uf">
+          <span>UF</span>
+          <select value={uf} onChange={(e) => setUf(e.target.value)}>
+            <option value="">—</option>
+            {UFS.map((u) => <option key={u} value={u}>{u}</option>)}
+          </select>
+          {erro("uf", "Escolhe a UF.")}
+        </label>
+      </div>
+      <label className="vet-campo">
+        <span>Cidade onde atende</span>
+        <input type="text" value={cidade} onChange={(e) => setCidade(e.target.value)} autoComplete="address-level2" />
+        {erro("cidade", "Escreve a cidade.")}
+      </label>
+      <div className="vet-campo">
+        <span>Como você atende? <em>marque quantos quiser</em></span>
+        <div className="vet-opcoes">
+          {ATENDIMENTOS.map((a) => (
+            <button
+              type="button"
+              key={a.id}
+              className={`vet-opcao${atendimento.includes(a.id) ? " ativo" : ""}`}
+              onClick={() => alternar(a.id)}
+              aria-pressed={atendimento.includes(a.id)}
+            >
+              {a.label}
+            </button>
+          ))}
+        </div>
+        {erro("atendimento", "Marca pelo menos um.")}
+      </div>
+      <label className="vet-campo">
+        <span>Instagram <em>opcional</em></span>
+        <input type="text" placeholder="@seuperfil" value={instagram} onChange={(e) => setInstagram(e.target.value)} />
+      </label>
+      <button type="submit" className="parceiros-btn-primary vet-form-botao" disabled={status === "sending"}>
+        {status === "sending" ? "Enviando…" : "Quero ser vet parceiro"}
+      </button>
+      <p className="vet-form-nota">Seus dados ficam só com a Comida de Dragão, pra gente falar com você sobre a parceria.</p>
+    </form>
+  );
+};
 
 const Veterinarios = () => {
+  useEffect(() => { captureEntryUtms(); }, []);
   return (
     <div className="portal-page parceiros-page skin-2">
       <PageMeta
@@ -156,8 +299,8 @@ const Veterinarios = () => {
                 <span>vet parceiro do dragão.</span>
               </h1>
               <p className="parceiros-hero-sub">
-                A gente faz <strong>petisco e suplemento pra pet com proteína de inseto BSF</strong> —
-                nutritivo, hipoalergênico e sustentável. Se você acredita em nutrição diferente e quer
+                A gente faz <strong>alimento e suplemento pra pet com proteína de inseto BSF</strong> —
+                nutritivo, com proteína hipoalergênica e sustentável. Se você acredita em nutrição diferente e quer
                 embasar isso na sua clínica, bora fazer junto.
               </p>
             </div>
@@ -169,14 +312,9 @@ const Veterinarios = () => {
             <span className="parceiros-badge">Treinamento técnico</span>
           </div>
           <div className="parceiros-hero-cta">
-            <a
-              href={INFLOWZ_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="parceiros-btn-primary"
-            >
-              Quero ser vet parceiro ↗
-            </a>
+            <button type="button" onClick={irProCadastro} className="parceiros-btn-primary">
+              Quero ser vet parceiro ↓
+            </button>
           </div>
           <p className="parceiros-hero-note">
             Cadastro gratuito · Sem exclusividade · Você recomenda do seu jeito
@@ -264,17 +402,12 @@ const Veterinarios = () => {
         </h2>
         <p className="parceiros-cta-final-sub">
           Se você chegou até aqui e fez sentido, o próximo passo é simples —
-          se cadastra no Inflowz e a gente entra em contato.
+          deixa seu cadastro e a gente entra em contato.
         </p>
-        <a
-          href={INFLOWZ_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="parceiros-btn-primary"
-        >
-          Quero ser vet parceiro ↗
-        </a>
-        <p className="parceiros-cta-final-note">Dúvidas? Fala com a Luana: (24) 98163-4847</p>
+        <div id="cadastro-vet">
+          <CadastroVet />
+        </div>
+        <p className="parceiros-cta-final-note">Dúvidas? Escreve pra somos@letsfly.com.br</p>
       </section>
 
       <MarqueeBar items={MARQUEE_BOTTOM} bottom />
