@@ -158,7 +158,7 @@ const CadastroVet = () => {
   const [atendimento, setAtendimento] = useState<AtendimentoVet[]>([]);
   const [instagram, setInstagram] = useState("");
   const [tentou, setTentou] = useState(false);
-  const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "done" | "erro">("idle");
 
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
   const erros = {
@@ -180,9 +180,10 @@ const CadastroVet = () => {
     setTentou(true);
     if (!valido || status === "sending") return;
     setStatus("sending");
-    await submitVetLead({ name: nome, phone: telefone, email, crmv, uf, cidade, atendimento, instagram });
-    // confirmação pra pessoa mesmo se a gravação falhar; o erro fica no console.
-    setStatus("done");
+    const r = await submitVetLead({ name: nome, phone: telefone, email, crmv, uf, cidade, atendimento, instagram });
+    // Revisão do Codex (22/10/2026): aqui o cadastro é o objetivo da página, então
+    // "recebido" só aparece quando gravou. Se falhar, os campos ficam e a pessoa tenta de novo.
+    setStatus(r.ok ? "done" : "erro");
   };
 
   if (status === "done") {
@@ -268,6 +269,11 @@ const CadastroVet = () => {
       <button type="submit" className="parceiros-btn-primary vet-form-botao" disabled={status === "sending"}>
         {status === "sending" ? "Enviando…" : "Quero ser vet parceiro"}
       </button>
+      {status === "erro" && (
+        <p className="vet-form-erro-envio">
+          Não conseguimos enviar agora. Tenta de novo em instantes ou escreve pra somos@letsfly.com.br.
+        </p>
+      )}
       <p className="vet-form-nota">Seus dados ficam só com a Comida de Dragão, pra gente falar com você sobre a parceria.</p>
     </form>
   );
