@@ -385,8 +385,11 @@ const PRODUTOS: Produto[] = [
       "Você controla o tamanho da porção",
     ],
     alerta: "Não serve para tarântulas. Uso proibido na alimentação de ruminantes. Na dúvida sobre a sua espécie, consulte um veterinário de exóticos",
-    /* 16/10/26: a ficha do GRUB está em correção no cofre (o PDF traz números do Original):
-       sem números de garantia e sem o PDF até a corrigida chegar. O preparo vem da ficha do cofre. */
+    /* A ficha do GRUB tinha sido tirada daqui em 16/10/26, porque o PDF trazia os números do
+       Original. A corrigida saiu em 20/10/26 e está conferida: proteína 47%, extrato etéreo 5,5%,
+       umidade 5,8%, matéria fibrosa 7,4%, e o modo de usar como alimento completo em dieta
+       variada. Os números de garantia na tela seguem fora; quem quiser o detalhe abre o PDF. */
+    ficha: "/assets/pdfs/fichas/ficha-grub.pdf",
     dosagemTitulo: "Como preparar",
     dosagem: [
       { porte: "Gel firme", qtd: "2 partes de água quente + 1 de GRUB. Na geladeira, até 5 dias" },
