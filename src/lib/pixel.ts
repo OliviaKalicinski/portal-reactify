@@ -35,7 +35,7 @@ declare global {
 }
 
 const RETRY_MS = 400;
-const MAX_TENTATIVAS = 12; // ~5s no total
+const MAX_TENTATIVAS = 30; // ~12s no total: o GTM agora entra depois da página (index.html, 18/10/2026)
 
 function comFbq(fn: (fbq: NonNullable<Window["fbq"]>) => void, tentativa = 0) {
   if (typeof window === "undefined") return;
