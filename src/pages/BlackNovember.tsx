@@ -51,13 +51,20 @@ const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
    só em 19/10. Preços lidos na Shopify em 26/10/2026. */
 type Kit = { nome: string; img: string; preco: string; sku: string; token: string; vem: string; frete: boolean; brinde: boolean };
 
+/* Ordem da grade (Olivia, 27/10): "temos que colocar os kits original e mordida em cima,
+   dar preferência pra não produto repetido." Então primeiro os que juntam produtos
+   DIFERENTES, com Original e Mordida na frente; por último os que repetem o mesmo item. */
 const KITS: Kit[] = [
   { nome: "Kit Completo para Cães", img: CDN + "kit-dog-supremo.png?v=1785150064", preco: "184,60", sku: "1306", token: "GPGITR0VZ1", vem: "Original 90g + Mordida 180g + Suplemento Integral 180g", frete: true, brinde: true },
   { nome: "Kit Comida de Dragão para Cães", img: CDN + "Anuncios_Multiplataforma_Mordida_Suplemento_030f2ec7-353e-45e0-ae37-979a624c15ec.png?v=1785160455", preco: "144,50", sku: "1302", token: "KQXZ5J7LWK", vem: "Original 90g + Suplemento Integral 180g", frete: true, brinde: true },
   { nome: "Kit Mordida + Suplemento", img: CDN + "kit-dog-mordida-suplemento.png?v=1785150064", preco: "144,50", sku: "1305", token: "ZWOQZDQBW1", vem: "Mordida 180g + Suplemento Integral 180g", frete: true, brinde: true },
-  { nome: "Kit Rango do Dragão", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", sku: "1501", token: "MJ9H9ZNKPG", vem: "7 pacotes de Rango — compre 6, ganhe 1", frete: true, brinde: true },
+  /* daqui para baixo, produto repetido */
   { nome: "Kit 3 Mordidas", img: CDN + "kit-mordidas.png?v=1785150064", preco: "120,20", sku: "1304", token: "AMX9A1HEPD", vem: "3 Mordida de 180g", frete: true, brinde: true },
-  { nome: "Kit Original + Mordida", img: CDN + "kit-petiscos.png?v=1785150064", preco: "80,10", sku: "1303", token: "8YXY3HISC4", vem: "Original 90g + Mordida 180g", frete: false, brinde: false },
+  { nome: "Kit Rango do Dragão", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", sku: "1501", token: "MJ9H9ZNKPG", vem: "7 pacotes de Rango — compre 6, ganhe 1", frete: true, brinde: true },
+  /* 🔴 Kit Original + Mordida (sku 1303, R$ 80,10, token 8YXY3HISC4) SAIU DA PÁGINA
+     (Olivia, 27/10). Ele fica abaixo do piso de R$ 90 do presente e teria de aparecer
+     com ressalva; ela preferiu tirá-lo da campanha — quem quiser, acha na loja.
+     Fica aqui comentado porque o token é bom e voltar é trocar duas linhas. */
   /* 🔴 FALTA O TOKEN: Kit Comida de Dragão Original (3 Original), sku 1101, R$ 120,20.
      É o único kit sem carrinho no inventário da casa. Pedir, não improvisar — por isso
      ele não está nesta lista: kit sem token é botão que não leva a lugar nenhum. */
@@ -84,7 +91,9 @@ const GATO = {
 
 const FAQ = [
   { q: "O suplemento de presente vem como?", a: "Ele entra sozinho no seu pedido quando você escolhe um kit, sem cupom. Chega na mesma caixa." },
-  { q: "Vale para qualquer kit?", a: "Vale para os kits a partir de R$ 90. O Kit Original + Mordida, de R$ 80,10, fica fora — nele o presente não entra." },
+  /* Todos os kits que aparecem na página ganham o presente, desde que o de R$ 80,10 saiu
+     (Olivia, 27/10). Então a resposta é simples, e não precisa falar de piso nenhum. */
+  { q: "Vale para qualquer kit?", a: "Vale para todos os kits desta página. Escolha o seu e o suplemento entra sozinho no pedido." },
   { q: "Até quando vale?", a: "Até 30 de novembro, ou enquanto durar o estoque do suplemento." },
   { q: "É larva mesmo?", a: "É. Larva de mosca soldado negro, criada para isso e desidratada. Proteína que o seu pet reconhece como comida." },
   { q: "Serve para pet com alergia?", a: "A proteína da larva é hipoalergênica, e é por isso que ela costuma funcionar em quem reage a frango e a boi. Na Mordida há ovo em pó, então nela o que é hipoalergênico é a proteína, não o petisco inteiro." },
@@ -177,7 +186,7 @@ export default function BlackNovember() {
         </p>
 
         <div className="bn-grade">
-          {KITS.filter((k) => k.brinde).map((k) => (
+          {KITS.map((k) => (
             <article className="bn-kit" key={k.sku}>
               <img className="bn-kit-foto" src={k.img} alt={k.nome} loading="lazy" />
               <h3 className="bn-kit-nome">{k.nome}</h3>
@@ -190,14 +199,6 @@ export default function BlackNovember() {
           ))}
         </div>
 
-        {/* O que fica abaixo do piso do presente, dito uma vez e sem alarde — mas dito, porque
-            esconder um kit da página também confunde quem já o conhece. */}
-        {KITS.filter((k) => !k.brinde).map((k) => (
-          <p className="bn-kit-fora" key={k.sku}>
-            Procurando o {k.nome}? Ele custa R$ {k.preco} e fica abaixo do valor do presente, então
-            vai sem o suplemento. <a href={comprar(k.token, k.sku)} data-cta={k.sku}>Comprar assim mesmo →</a>
-          </p>
-        ))}
       </section>
 
       {/* Prova social: os vídeos dos creators. Regra da casa (Olivia, 02/10): página com
