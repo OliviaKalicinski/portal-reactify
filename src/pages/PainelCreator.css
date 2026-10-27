@@ -20,7 +20,7 @@
 /* topo compacto: foto pequena do pet (a que o creator mandou no quiz) ao lado do nome */
 .pc-hero .qsd8-win-body { padding: 14px 16px 14px; }
 .pc-topo { display: flex; gap: 14px; align-items: center; margin-bottom: 8px; }
-.pc-pet { width: 64px; flex: none; aspect-ratio: 1 / 1; border: 3px solid var(--ink); box-shadow: 4px 4px 0 0 var(--lime); background: var(--paper2); }
+.pc-pet { width: clamp(88px, 24vw, 120px); flex: none; /* Bianca: era 64px */ aspect-ratio: 1 / 1; border: 3px solid var(--ink); box-shadow: 4px 4px 0 0 var(--lime); background: var(--paper2); }
 .pc-pet img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .qsd8-title.pc-titulo { font-size: clamp(13px, 3.8vw, 20px); margin: 0 0 6px; }
 .pc-linha { font-size: 14px; line-height: 1.45; margin: 0; overflow-wrap: anywhere; }
@@ -44,7 +44,7 @@
 .pc-form .qsd8-btnrow { margin-top: 4px; }
 .pc-form button[disabled] { opacity: .6; cursor: wait; }
 .pc-problema { margin: 0; padding: 8px 10px; border: 3px solid var(--ink); background: var(--ink); color: var(--paper); font-size: 14px; }
-.pc-acoes { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-top: 8px; font-size: 13.5px; }
+.pc-acoes { display: flex; flex-wrap: wrap; gap: 0 16px; align-items: center; margin-top: 2px; /* Bianca: sob o cupom */ font-size: 13.5px; }
 .pc-acoes a { color: var(--ink); font-weight: 700; display: inline-flex; align-items: center; min-height: 44px; }
 .pc-acoes button { font: inherit; font-size: 13.5px; background: none; border: 0; padding: 0 10px; min-height: 44px; min-width: 44px; color: var(--ink); text-decoration: underline; cursor: pointer; }
 
@@ -183,3 +183,130 @@
   font: inherit; font-size: 13px; font-weight: 700; text-decoration: underline; cursor: pointer; }
 .pc-tema-corpo { margin-top: 12px; }
 .qsd8.fofo .pc-clima-halloween .pc-tema-titulo { color: #FFB27A; }
+
+/* ── Bianca: cupom numa linha só, em pílula rosa clarinha no canto de cima, à direita ── */
+.pc-hero .qsd8-win-body { position: relative; }
+.pc-cupom-selo { position: absolute; top: 16px; right: 16px; margin: 0; display: flex; align-items: baseline; gap: 6px; white-space: nowrap; font-size: 13px; }
+.pc-cupom-selo span { opacity: .7; }
+.pc-cupom-selo strong { font-size: 15px; letter-spacing: .03em; color: var(--limed); }
+.pc-selo-a { padding: 5px 12px; background: #FFE3F0; border-radius: 999px; }
+/* até 640px o selo sai do canto e entra no fluxo, à direita, acima do "Oi" — no canto ele cobria o nome */
+@media (max-width: 640px) { .pc-cupom-selo { position: static; width: fit-content; margin: 0 0 10px auto; font-size: 12px; } .pc-cupom-selo strong { font-size: 13.5px; } }
+/* @ e dragão: mesma divisória, mesmo espaço dos dois lados */
+.pc-ident { display: flex; flex-wrap: wrap; align-items: center; }
+.pc-ident span + span::before { content: ""; display: inline-block; width: 2px; height: 1em; margin: 0 10px; vertical-align: -2px; background: currentColor; opacity: .35; }
+/* no celular a linha não cabe: @ e dragão um embaixo do outro, sem a divisória sobrando no começo da linha */
+@media (max-width: 480px) {
+  .pc-ident { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .pc-ident span + span::before { display: none; }
+}
+/* Bianca: o painel não tem os ícones da esquerda, então as janelas ficam no centro em qualquer largura
+   (a regra de 1100px+ do QueroSerDragao.css empurrava tudo 200px para a direita) */
+@media (min-width: 1100px) { .pc-fofo .qsd8-wrap { margin-left: auto; margin-right: auto; } }
+/* Bianca: Halloween sem pontilhado. Degradê de noite roxa com brilho de abóbora no canto de baixo */
+.qsd8.fofo .pc-clima-halloween .qsd8-win-body {
+  background:
+    radial-gradient(90% 120% at 100% 100%, rgba(255, 138, 61, .55) 0%, rgba(255, 138, 61, 0) 60%),
+    linear-gradient(160deg, #241638 0%, #3B2160 55%, #5B2A63 100%);
+}
+
+/* ── Bianca: bloco "Seu mês" ── */
+/* título + seletor de mês na mesma linha */
+.pc-mes-topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-bottom: 14px; }
+.pc-mes-topo .qsd8-h2 { margin: 0; }
+.pc-seletor { display: inline-flex; align-items: center; gap: 4px; padding: 3px; background: #fff; border: 1.5px solid var(--ink); border-radius: 999px; }
+.pc-seletor span { min-width: 9.5em; text-align: center; font-size: 14px; font-weight: 700; text-transform: capitalize; color: var(--ink); }
+.pc-seletor button { width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--paper2); color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer; }
+.pc-seletor button:disabled { opacity: .3; cursor: default; }
+.pc-seletor button:not(:disabled):hover { background: var(--lime); color: #fff; }
+/* cards: borda fina, texto mais escuro, comissão maior */
+.pc-fofo .pc-numeros > div { border-width: 1.5px; }
+.pc-fofo .pc-numeros span { color: #2A1840; font-weight: 500; }
+.pc-fofo .pc-card-comissao strong { font-size: 21px; }
+.pc-varia { display: block; margin-top: 8px; font-style: normal; font-size: 12.5px; font-weight: 700; }
+.pc-varia.sobe { color: #1E8A55; }
+.pc-varia.desce { color: #B8336F; }
+.pc-varia.igual { color: #5B4A70; }
+.pc-fofo .pc-card-comissao strong { white-space: nowrap; }
+@media (max-width: 480px) { .pc-fofo .pc-card-comissao strong { font-size: 14px; } }
+/* gráfico: borda fina, grade discreta, barras clicáveis */
+.pc-fofo .pc-grafico { border-width: 1.5px; }
+.pc-barras { gap: 0; }
+.pc-barra { font: inherit; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; }
+.pc-fofo .pc-barra-coluna { border-bottom-width: 1.5px;
+  background: repeating-linear-gradient(to top, transparent 0, transparent calc(25% - 1px), rgba(58, 35, 86, .12) calc(25% - 1px), rgba(58, 35, 86, .12) 25%); }
+.pc-fofo .pc-barra-coluna i { width: 66%; }
+.pc-fofo .pc-barra.escolhido:not(.atual) .pc-barra-coluna i { box-shadow: 0 0 0 2px var(--ink); }
+.pc-fofo .pc-barra.escolhido .pc-barra-mes { font-weight: 700; }
+/* sem registro ≠ R$ 0: coluna vazia tracejada e rótulo apagado */
+.pc-fofo .pc-barra-coluna i.vazio { height: 100%; background: none; border: 1.5px dashed rgba(58, 35, 86, .3); border-bottom: 0; }
+.pc-fofo .pc-barra.sem-registro .pc-barra-valor { font-size: 10.5px; opacity: .6; white-space: normal; }
+.pc-fofo .pc-barra-valor, .pc-fofo .pc-barra-mes { color: #2A1840; }
+/* resumo em duas partes */
+.pc-fofo .pc-resumo { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: 13.5px; color: #2A1840; }
+.pc-resumo strong { font-weight: 800; }
+.pc-resumo span + span { opacity: .75; }
+
+/* ── Bianca: abaixo do gráfico ── */
+.pc-fofo .pc-info { font-size: 12.5px; margin: -6px 0 14px; opacity: .85; display: flex; gap: 6px; align-items: baseline; }
+.pc-info span { font-size: 14px; color: var(--limed); }
+/* faixa atual + progresso, num bloco só, lado a lado no computador */
+.pc-progresso { display: grid; grid-template-columns: 1fr; border: 1.5px solid var(--ink); border-radius: 14px; background: #fff; overflow: hidden; color: var(--ink); }
+@media (min-width: 640px) { .pc-progresso { grid-template-columns: minmax(180px, 1fr) 2fr; } }
+.pc-progresso p { margin: 0; }
+.pc-prog-atual { padding: 16px; background: var(--paper2); border-bottom: 1.5px solid var(--ink); display: grid; gap: 4px; align-content: start; }
+@media (min-width: 640px) { .pc-prog-atual { border-bottom: 0; border-right: 1.5px solid var(--ink); } }
+.pc-prog-meta { padding: 16px; display: grid; gap: 14px; align-content: start; }
+.pc-prog-rotulo { font-family: "Press Start 2P", monospace; font-size: 9px; letter-spacing: .04em; text-transform: uppercase; color: #B8336F; line-height: 1.5; }
+.pc-prog-faixa { font-size: 15px; font-weight: 700; }
+.pc-prog-pct { font-family: "Press Start 2P", monospace; font-size: 26px; color: var(--limed); line-height: 1.3; }
+.pc-prog-pct span { font-family: inherit; font-size: 10px; color: var(--ink); margin-left: 4px; }
+.pc-prog-nota { font-size: 12.5px; line-height: 1.4; color: #4A3466; margin-top: 4px !important; }
+.pc-prog-linha { display: grid; gap: 6px; }
+.pc-prog-linha > p:first-child { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; flex-wrap: wrap; }
+.pc-prog-linha > p:first-child span { font-weight: 700; color: var(--limed); }
+.pc-prog-barra { height: 12px; border: 1.5px solid var(--ink); border-radius: 999px; background: #F3ECFF; overflow: hidden; }
+.pc-prog-barra i { display: block; height: 100%; background: var(--violet); border-radius: 999px; }
+.pc-prog-status { font-size: 12.5px; color: #4A3466; }
+/* ── Bianca: marca-texto dos títulos ("SEU MÊS", "OI, ANA"), só no painel. Escolhido: pincelada (26/10) ── */
+.qsd8.fofo.pc-mt-c :is(.qsd8-title, .qsd8-h2) span {
+  display: inline-block; background: #FFADD2; color: var(--ink); padding: 3px 10px;
+  border-radius: 14px 4px 12px 6px / 8px 12px 6px 14px; transform: rotate(-1.5deg); }
+
+/* ── Bianca: logo fora da janela do topo ── */
+.pc-logo-img.pc-logo-fora { position: relative; z-index: 1; display: block; width: 170px; height: auto; margin: 4px 0 10px -6px; }
+.pc-logo-img.pc-logo-adesivo { width: 180px; margin-left: -4px; }
+@media (max-width: 480px) { .pc-logo-img.pc-logo-fora { width: 136px; } }
+
+/* ── Bianca: botão de dragão no canto de baixo, à direita, com o menu de links úteis ── */
+.pc-menu { position: fixed; right: 20px; bottom: 20px; z-index: 60; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.pc-menu-botao { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper2); box-shadow: 3px 3px 0 0 var(--violet);
+  display: grid; place-items: center; cursor: pointer; transition: transform .12s; }
+.pc-menu-botao:hover { transform: translateY(-2px); }
+.pc-menu-botao[aria-expanded="true"] { background: var(--lime); }
+.pc-menu-botao img { width: 36px; height: 36px; image-rendering: pixelated; }
+.pc-menu-caixa { width: min(280px, calc(100vw - 40px)); background: #fff; border: 2px solid var(--ink); border-radius: 16px; box-shadow: 5px 5px 0 0 var(--violet); overflow: hidden; color: var(--ink); }
+.pc-menu-titulo { margin: 0; padding: 8px 14px; font-family: "Press Start 2P", monospace; font-size: 8px; background: linear-gradient(90deg, var(--paper2), #EFE6FF); border-bottom: 2px solid var(--ink); }
+.pc-menu-caixa ul { list-style: none; margin: 0; padding: 6px; }
+.pc-menu-caixa a { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 10px; border-radius: 10px; color: var(--ink); font-size: 14px; font-weight: 600; text-decoration: none; }
+.pc-menu-caixa a:hover, .pc-menu-caixa a:focus-visible { background: var(--paper2); }
+.pc-menu-caixa a img { width: 22px; height: 22px; image-rendering: pixelated; flex: none; }
+.pc-menu-caixa a span { margin-left: auto; opacity: .5; }
+@media (max-width: 480px) { .pc-menu { right: 14px; bottom: 14px; } .pc-menu-botao { width: 52px; height: 52px; } }
+
+/* ── Bianca: fechamento do mês anterior em caixa que abre e fecha ── */
+.pc-fech > summary { cursor: pointer; list-style: none; min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.pc-fech > summary::-webkit-details-marker { display: none; }
+.pc-fech > summary::after { content: "▾"; margin-left: auto; font-size: 13px; transition: transform .15s; }
+.pc-fech[open] > summary::after { transform: rotate(180deg); }
+.pc-fech-linhas { margin: 6px 0 0; padding-left: 18px; }
+.pc-fech-linhas li { font-size: 13px; line-height: 1.45; margin-bottom: 4px; color: var(--ink); }
+/* pequeno de propósito: o mês anterior importa, mas menos que o de agora (Bianca, 26/10) */
+.pc-fech-antes { position: relative; z-index: 1; background: rgba(255, 255, 255, .92); border: 1.5px solid var(--ink); border-radius: 12px; padding: 2px 12px; margin: 0 0 18px; color: var(--ink); }
+.pc-fech-antes > summary { font-size: 13px; min-height: 40px; gap: 2px 8px; }
+.pc-fech-quando { flex-basis: 100%; font-family: "Press Start 2P", monospace; font-size: 7px; color: #B8336F; margin-top: 6px; }
+.pc-fech-antes > summary::after { content: "ver ▾"; font-size: 12px; font-weight: 700; color: var(--limed); }
+.pc-fech-antes[open] > summary::after { content: "fechar ▴"; transform: none; }
+.pc-fech-antes .pc-fech-linhas li { font-size: 12.5px; }
+.pc-fech-antes .pc-fech-linhas { padding-bottom: 10px; }
+.pc-prog-rodape { font-size: 12.5px; padding-top: 10px; border-top: 1.5px dashed rgba(58, 35, 86, .25); color: #4A3466; }

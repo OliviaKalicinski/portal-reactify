@@ -76,25 +76,36 @@ const reaisCurto = (v: number) => `R$ ${Math.round(Number(v || 0)).toLocaleStrin
 
 /* Gráfico de barras das vendas por mês: uma barra por mês, valor escrito em cima, mês embaixo.
    O mês corrente fica destacado e marcado "até agora". */
-const GraficoVendas = ({ meses }: { meses: { mes: string; comissao?: number }[] }) => {
+/* Bianca: R$ em todas as barras, linhas de grade, "sem registro" (comissão nula) diferente de R$ 0, ano no rótulo
+   quando a série atravessa a virada do ano, mês escolhido no seletor com contorno, e o resumo em duas partes. */
+type MesSerie = { mes: string; comissao?: number | null };
+const GraficoVendas = ({ meses, escolhido, aoEscolher, atualizadoEm }: { meses: MesSerie[]; escolhido: number; aoEscolher: (i: number) => void; atualizadoEm: string }) => {
   const maior = Math.max(...meses.map((x) => Number(x.comissao) || 0), 1);
   const total = meses.reduce((s, x) => s + (Number(x.comissao) || 0), 0);
+  const variosAnos = new Set(meses.map((x) => x.mes.slice(0, 4))).size > 1;
+  const rotulo = (iso: string) => `${MES_CURTO[Number(iso.slice(5, 7)) - 1]}${variosAnos ? `/${iso.slice(2, 4)}` : ""}`;
+  const quando = new Date(atualizadoEm);
   return (
-    <figure className="pc-grafico" aria-label={`Sua comissão nos últimos ${meses.length} meses: ${meses.map((x) => `${MESES[Number(x.mes.slice(5, 7)) - 1]} ${reais(Number(x.comissao))}`).join(", ")}`}>
-      <div className="pc-barras" aria-hidden="true">
+    <figure className="pc-grafico" aria-label={`Sua comissão nos últimos ${meses.length} meses: ${meses.map((x) => `${MESES[Number(x.mes.slice(5, 7)) - 1]} ${x.comissao == null ? "sem registro" : reais(Number(x.comissao))}`).join(", ")}`}>
+      <div className="pc-barras">
         {meses.map((x, i) => {
+          const semRegistro = x.comissao == null;
           const v = Number(x.comissao) || 0;
           const atual = i === meses.length - 1;
           return (
-            <div className={`pc-barra${atual ? " atual" : ""}`} key={x.mes}>
-              <span className="pc-barra-valor">{v > 0 ? reaisCurto(v) : "–"}</span>
-              <span className="pc-barra-coluna"><i style={{ height: `${Math.max(v > 0 ? 4 : 0, (v / maior) * 100)}%` }} /></span>
-              <span className="pc-barra-mes">{MES_CURTO[Number(x.mes.slice(5, 7)) - 1]}</span>
-            </div>
+            <button type="button" aria-hidden="true" tabIndex={-1} onClick={() => aoEscolher(i)}
+              className={`pc-barra${atual ? " atual" : ""}${i === escolhido ? " escolhido" : ""}${semRegistro ? " sem-registro" : ""}`} key={x.mes}>
+              <span className="pc-barra-valor">{semRegistro ? "sem registro" : reaisCurto(v)}</span>
+              <span className="pc-barra-coluna">{semRegistro ? <i className="vazio" /> : <i style={{ height: `${Math.max(v > 0 ? 4 : 1.5, (v / maior) * 100)}%` }} />}</span>
+              <span className="pc-barra-mes">{rotulo(x.mes)}</span>
+            </button>
           );
         })}
       </div>
-      <figcaption>{reais(total)} de comissão nos últimos {meses.length} meses. O mês em destaque vai até hoje.</figcaption>
+      <figcaption className="pc-resumo">
+        <span><strong>{reais(total)}</strong> de comissão nos últimos {meses.length} meses</span>
+        <span>Atualizado em {quando.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })} às {quando.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</span>
+      </figcaption>
     </figure>
   );
 };
@@ -148,6 +159,62 @@ const ANUNCIO_ROTULO: Record<string, string> = {
   em_duvida: "em análise", bloqueado: "não conseguimos baixar", eliminado: "não selecionado", descartado_na_selecao: "não selecionado",
 };
 
+/* Bianca: as linhas do fechamento, iguais às da janela antiga (faixa, comissão, metas, original, régua, frete, incentivo) */
+const FechLinhas = ({ l }: { l: Extrato }) => (
+  <ul className="mat-faixas-notas pc-fech-linhas">
+    <li>Faixa: <strong>{l.faixa}</strong>{l.cupom ? <> · cupom {l.cupom}</> : null}</li>
+    <li>Comissão do mês seguinte: <strong>{l.comissao_mes_seguinte}</strong></li>
+    <li>{l.gate_venda}</li>
+    <li>{l.gate_video}</li>
+    <li>{l.original}</li>
+    {l.regua_de_origem && l.regua_de_origem !== "Não se aplica" && <li>{l.regua_de_origem}</li>}
+    {l.linha_frete && <li>{l.linha_frete}</li>}
+    <li><strong>{l.o_que_mais_te_move}</strong></li>
+  </ul>
+);
+/* Bianca: menu de links úteis no canto de baixo, à direita. Os links são os mesmos que a /matilha já dá ao creator. */
+const LINKS_UTEIS = [
+  { rotulo: "Templates do Canva", url: "https://www.canva.com/design/DAG6dSqYXRQ/sP8AFE4kewSeztzNm7hbPg/edit", icone: "star8" },
+  /* Manual do Criador fora até o link voltar: a pasta 1kDnH3… do Drive dá 404 (Bianca, 26/10) */
+  { rotulo: "Material de marketing", url: "https://drive.google.com/drive/u/0/folders/1DiTxfcg8ybCkv-1zhwaiThR8pfnijCpJ", icone: "gift" },
+  { rotulo: "Minha conta na Inflowz", url: INFLOWZ, icone: "crown" },
+  { rotulo: "Como funciona a Matilha", url: "/matilha", icone: "paw" },
+  { rotulo: "Falar com a gente no WhatsApp", url: "https://wa.me/552139500576", icone: "love" },
+];
+const MenuLinks = () => {
+  const [aberto, setAberto] = useState(false);
+  const caixa = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!aberto) return;
+    const fora = (e: MouseEvent) => { if (caixa.current && !caixa.current.contains(e.target as Node)) setAberto(false); };
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") setAberto(false); };
+    document.addEventListener("mousedown", fora); document.addEventListener("keydown", esc);
+    return () => { document.removeEventListener("mousedown", fora); document.removeEventListener("keydown", esc); };
+  }, [aberto]);
+  return (
+    <div className="pc-menu" ref={caixa}>
+      {aberto && (
+        <nav className="pc-menu-caixa" id="pc-menu-links" aria-label="Links úteis">
+          <p className="pc-menu-titulo">LINKS-UTEIS.EXE</p>
+          <ul>
+            {LINKS_UTEIS.map((l) => (
+              <li key={l.url}>
+                <a href={l.url} {...(l.url.startsWith("/") ? {} : { target: "_blank", rel: "noopener noreferrer" })}>
+                  <img src={`/assets/pixel-icons/${l.icone}.png`} alt="" />{l.rotulo}{!l.url.startsWith("/") && <span aria-hidden="true">↗</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+      <button type="button" className="pc-menu-botao" aria-expanded={aberto} aria-controls="pc-menu-links" onClick={() => setAberto((x) => !x)}>
+        <img src="/assets/pixel-icons/dragon.png" alt="" />
+        <span className="sr-only">{aberto ? "Fechar links úteis" : "Abrir links úteis"}</span>
+      </button>
+    </div>
+  );
+};
+
 const PainelCreator = () => {
   const [estado, setEstado] = useState<"carregando" | "entrar" | "criar_senha" | "erro" | "pronto">("carregando");
   const [d, setD] = useState<Painel | null>(null);
@@ -157,6 +224,7 @@ const PainelCreator = () => {
   const [senha, setSenha] = useState("");
   const [senha2, setSenha2] = useState("");
   const [ocupado, setOcupado] = useState(false);
+  const [mesSel, setMesSel] = useState<number | null>(null);   // Bianca: mês escolhido no seletor (nulo = o atual)
   const [problema, setProblema] = useState<string | null>(null);   // erro do formulário
   const [aviso, setAviso] = useState<string | null>(null);         // recado no topo do painel
   const vivo = useRef(true);
@@ -262,7 +330,7 @@ const PainelCreator = () => {
 
   return (
     /* visual "fofo" (aprovado pela Olivia em 14/10/2026): pastel, cantos redondos, mesmo espírito de janelinha */
-    <div className="qsd8 fofo pc-fofo">
+    <div className="qsd8 fofo pc-fofo pc-mt-c">
       <PageMeta title="Meu painel · Matilha do Dragão" description="Painel do creator da Matilha do Dragão." noindex />
       <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
       <div className="qsd8-wrap">
@@ -310,8 +378,12 @@ const PainelCreator = () => {
 
         {estado === "pronto" && d && m && (
           <>
+            {/* Bianca: logo P&B de adesivo (o da página do Rango) fora da janela, acima dela, à esquerda */}
+            <img className="pc-logo-fora pc-logo-img pc-logo-adesivo" src="/assets/images/rango/logo-adesivo-pb.webp" alt="Comida de Dragão" />
             <Win name="MEU-PAINEL.EXE" mac className="qsd8-hero-win pc-hero">
-              <DragonLogo className="qsd8-hero-logo pc-logo-painel" />
+              {d.cupons.length > 0 && (
+                <p className="pc-cupom-selo pc-selo-a"><span>seu cupom</span> <strong>{d.cupons.join(" e ")}</strong></p>
+              )}
               <div className="pc-topo">
                 {d.pet && (
                   <div className="pc-pet">
@@ -323,18 +395,20 @@ const PainelCreator = () => {
                     Oi, <span>{d.creator.primeiro_nome ?? "creator"}</span>
                     {d.pet?.nome && <> e <span>{d.pet.nome}</span></>}
                   </h1>
-                  <p className="pc-linha">
-                    {d.creator.instagram && <>@{d.creator.instagram} · </>}
-                    {d.cupons.length > 0 ? <>cupom <strong>{d.cupons.join(" e ")}</strong></> : <>sem cupom no nosso cadastro</>}
-                    {dragao && <> · {dragao}</>}
+                  {/* Bianca: o cupom sai desta linha e vira selo no canto de cima; @ e dragão com divisória igual */}
+                  <p className="pc-linha pc-ident">
+                    {d.creator.instagram && <span>@{d.creator.instagram}</span>}
+                    {d.cupons.length === 0 && <span>sem cupom no nosso cadastro</span>}
+                    {dragao && <span>{dragao}</span>}
                   </p>
+                  {/* Bianca: links logo abaixo do @ e do cupom, ao lado da foto */}
+                  <div className="pc-acoes">
+                    <a href={INFLOWZ} target="_blank" rel="noopener noreferrer">Minha conta na Inflowz ↗</a>
+                    <button type="button" onClick={sair}>Sair</button>
+                  </div>
                 </div>
               </div>
               {aviso && <p className="pc-aviso pc-linha">{aviso}</p>}
-              <div className="pc-acoes">
-                <a href={INFLOWZ} target="_blank" rel="noopener noreferrer">Minha conta na Inflowz ↗</a>
-                <button type="button" onClick={sair}>Sair</button>
-              </div>
               {!d.pet && (
                 <p className="pc-linha pc-fraco">
                   Quer a foto do seu pet aqui? <Link to="/qual-dragao">Faça o quiz do dragão</Link>.
@@ -402,45 +476,104 @@ const PainelCreator = () => {
               </Win>
             )}
 
-            <Win name={`${mesPorExtenso(m.mes).toUpperCase()}-ATE-AGORA.SYS`} inverted>
-              <div className="qsd8-eyebrow" style={{ color: "var(--lime)" }}>// {mesPorExtenso(m.mes)}, até agora</div>
-              <h2 className="qsd8-h2">Seu <span>mês</span></h2>
-              <div className="pc-numeros">
-                <div><strong>{reais(Number(comissaoMes ?? 0))}</strong><span>de comissão até agora</span></div>
-                <div><strong>{m.pedidos}</strong><span>{Number(m.pedidos) === 1 ? "pedido" : "pedidos"}</span></div>
-                <div><strong>{m.videos_uteis_no_mes}</strong><span>{Number(m.videos_uteis_no_mes) === 1 ? "vídeo útil no mês" : "vídeos úteis no mês"}</span></div>
-                <div><strong>{m.videos_uteis_no_trimestre}</strong><span>{Number(m.videos_uteis_no_trimestre) === 1 ? "vídeo útil em 3 meses" : "vídeos úteis em 3 meses"}</span></div>
-              </div>
-              {temComissao && <GraficoVendas meses={d.vendas_por_mes!} />}
-              {taxaMes != null && <p className="pc-taxa">A sua comissão é {String(Math.round(taxaMes * 1000) / 10).replace(".", ",")}% do valor de cada pedido feito com o seu cupom.</p>}
-              <ul className="mat-faixas-notas pc-falta">
-                {/* legado (piso_30): 30% sempre; a faixa muda o que se pede e os envios, não a comissão (Olivia, 08/10) */}
-                {d.legado && <li>Os seus <strong>30%</strong> não mudam com a faixa. A faixa muda o que a gente pede de você e como funcionam os envios.</li>}
-                {faltaVideos > 0
-                  ? <li>Para a Prata {faltaVideos === 1 ? "falta" : "faltam"} <strong>{faltaVideos} {faltaVideos === 1 ? "vídeo útil" : "vídeos úteis"}</strong>. Ela pede {PRATA_VIDEOS} em 3 meses.</li>
-                  : <li>Vídeos: você já tem os <strong>{PRATA_VIDEOS} em 3 meses</strong> que a Prata pede.</li>}
-                {faltaVenda > 0
-                  ? <li>Para a Prata faltam <strong>{reais(faltaVenda)}</strong> em vendas neste mês. Ela pede {reais(PRATA_VENDA)}.</li>
-                  : <li>Vendas: você já passou dos <strong>{reais(PRATA_VENDA)}</strong> no mês que a Prata pede.</li>}
-                <li>A sua faixa do mês sai no começo do mês seguinte.</li>
-              </ul>
-            </Win>
+            {fech && (
+              <details className="pc-fech pc-fech-antes">
+                <summary>
+                  <span className="pc-fech-quando">// fechamento do mês anterior</span>
+                  <span>Você fechou {mesPorExtenso(fech.mes)} na faixa <strong>{fech.linhas.map((l) => l.faixa).join(" e ")}</strong></span>
+                </summary>
+                {fech.linhas.map((l) => <FechLinhas l={l} key={l.cupom} />)}
+              </details>
+            )}
 
-            {fech && fech.linhas.map((l) => (
-              <Win name={`FECHAMENTO-DE-${mesPorExtenso(fech.mes).toUpperCase()}.TXT`} key={l.cupom}>
-                <div className="qsd8-eyebrow">// fechamento de {mesPorExtenso(fech.mes)}</div>
-                <h2 className="qsd8-h2">Faixa <span>{l.faixa}</span></h2>
-                <ul className="mat-faixas-notas">
-                  <li>Comissão do mês seguinte: <strong>{l.comissao_mes_seguinte}</strong></li>
-                  <li>{l.gate_venda}</li>
-                  <li>{l.gate_video}</li>
-                  <li>{l.original}</li>
-                  {l.regua_de_origem && l.regua_de_origem !== "Não se aplica" && <li>{l.regua_de_origem}</li>}
-                  {l.linha_frete && <li>{l.linha_frete}</li>}
-                  <li><strong>{l.o_que_mais_te_move}</strong></li>
-                </ul>
-              </Win>
-            ))}
+            <Win name={`${mesPorExtenso(m.mes).toUpperCase()}-ATE-AGORA.SYS`} inverted>
+              {/* Bianca: seletor de mês ao lado do título. Passeia pelos 6 meses da série; vídeos só existem no mês atual */}
+              {(() => {
+                const serie = d.vendas_por_mes ?? [];
+                const ult = serie.length - 1;
+                const i = mesSel ?? ult;
+                const sel = serie[i];
+                const ehAtual = !sel || i === ult;
+                const ant = i > 0 ? serie[i - 1] : null;
+                const valor = ehAtual ? comissaoMes : sel.comissao ?? null;
+                const base = ant?.comissao;
+                const varia = valor != null && base != null && Number(base) > 0 ? Math.round(((Number(valor) - Number(base)) / Number(base)) * 100) : null;
+                const mesIso = sel?.mes ?? m.mes;
+                return (
+                  <>
+                    {/* Bianca: saiu o "// outubro, até agora" — o título e o seletor de mês já dizem isso */}
+                    <div className="pc-mes-topo">
+                      <h2 className="qsd8-h2">Seu <span>mês</span></h2>
+                      {serie.length > 1 && (
+                        <div className="pc-seletor" role="group" aria-label="Escolher o mês">
+                          <button type="button" onClick={() => setMesSel(Math.max(0, i - 1))} disabled={i <= 0} aria-label="Mês anterior">‹</button>
+                          <span aria-live="polite">{mesPorExtenso(mesIso)} {mesIso.slice(0, 4)}</span>
+                          <button type="button" onClick={() => setMesSel(Math.min(ult, i + 1))} disabled={i >= ult} aria-label="Próximo mês">›</button>
+                        </div>
+                      )}
+                    </div>
+                    <div className="pc-numeros">
+                      <div className="pc-card-comissao">
+                        <strong>{valor == null ? "sem registro" : reais(Number(valor))}</strong>
+                        <span>de comissão {ehAtual ? "até agora" : `em ${mesPorExtenso(mesIso)}`}</span>
+                        {varia != null && ant && (
+                          <em className={`pc-varia ${varia > 0 ? "sobe" : varia < 0 ? "desce" : "igual"}`}>
+                            {varia > 0 ? "▲" : varia < 0 ? "▼" : "="} {Math.abs(varia)}% em relação a {mesPorExtenso(ant.mes)}
+                          </em>
+                        )}
+                      </div>
+                      <div><strong>{ehAtual ? m.pedidos : sel.pedidos}</strong><span>{Number(ehAtual ? m.pedidos : sel.pedidos) === 1 ? "pedido com o seu cupom" : "pedidos com o seu cupom"}</span></div>
+                      <div><strong>{ehAtual ? m.videos_uteis_no_mes : "–"}</strong><span>{ehAtual ? "vídeos que contaram para a sua faixa neste mês" : "vídeos que contaram: só aparece no mês atual"}</span></div>
+                      <div><strong>{ehAtual ? m.videos_uteis_no_trimestre : "–"}</strong><span>{ehAtual ? "vídeos que contaram, somando os últimos 3 meses" : "soma dos 3 meses: só aparece no mês atual"}</span></div>
+                    </div>
+                    {temComissao && <GraficoVendas meses={serie} escolhido={i} aoEscolher={setMesSel} atualizadoEm={d.atualizado_em} />}
+                  </>
+                );
+              })()}
+              {taxaMes != null && (
+                <p className="pc-taxa pc-info"><span aria-hidden="true">ⓘ</span> A sua comissão é {String(Math.round(taxaMes * 1000) / 10).replace(".", ",")}% do valor de cada pedido feito com o seu cupom.</p>
+              )}
+              {/* Bianca: faixa atual + progresso da Prata num bloco só, agrupado por assunto (antes era uma lista de frases).
+                  O título do progresso depende da faixa atual: quem já está na Prata não tem a Prata como "próxima". */}
+              {(() => {
+                const faixaAtual = fech?.linhas[0]?.faixa ?? null;
+                const tituloMeta = faixaAtual === "Prata" ? "Para continuar na Prata"
+                  : faixaAtual === "Ouro" ? "Mínimo da Prata"
+                  : "Próxima faixa: Prata";
+                const videos = Number(m.videos_uteis_no_trimestre);
+                const vendas = Number(m.vendas);
+                const pct = (v: number, meta: number) => `${Math.min(100, Math.round((v / meta) * 100))}%`;
+                return (
+                  <section className="pc-progresso" aria-label="Sua faixa e o que falta">
+                    <div className="pc-prog-atual">
+                      <p className="pc-prog-rotulo">Sua faixa atual</p>
+                      <p className="pc-prog-faixa">{faixaAtual ?? "—"}</p>
+                      {taxaMes != null && <p className="pc-prog-pct">{String(Math.round(taxaMes * 1000) / 10).replace(".", ",")}%<span> de comissão</span></p>}
+                      {/* legado (piso_30): 30% sempre; a faixa muda o que se pede e os envios, não a comissão (Olivia, 08/10) */}
+                      <p className="pc-prog-nota">{d.legado
+                        ? "Os seus 30% não mudam com a faixa. Ela muda o que a gente pede e os envios."
+                        : "A faixa muda a sua comissão, o que a gente pede e os envios."}</p>
+                    </div>
+                    <div className="pc-prog-meta">
+                      <p className="pc-prog-rotulo">{tituloMeta}</p>
+                      <div className="pc-prog-linha">
+                        <p><strong>Vídeos úteis</strong><span>{videos} de {PRATA_VIDEOS} vídeos</span></p>
+                        <div className="pc-prog-barra" role="progressbar" aria-valuemin={0} aria-valuemax={PRATA_VIDEOS} aria-valuenow={videos}><i style={{ width: pct(videos, PRATA_VIDEOS) }} /></div>
+                        <p className="pc-prog-status">{faltaVideos > 0
+                          ? `Falta${faltaVideos === 1 ? "" : "m"} ${faltaVideos} ${faltaVideos === 1 ? "vídeo útil" : "vídeos úteis"} ${faixaAtual === "Prata" ? "para continuar na Prata" : "para alcançar a próxima faixa"}.`
+                          : "Meta de vídeos batida ✓"}</p>
+                      </div>
+                      <div className="pc-prog-linha">
+                        <p><strong>Meta de vendas</strong><span>{reais(vendas)} de {reais(PRATA_VENDA)}</span></p>
+                        <div className="pc-prog-barra" role="progressbar" aria-valuemin={0} aria-valuemax={PRATA_VENDA} aria-valuenow={vendas}><i style={{ width: pct(vendas, PRATA_VENDA) }} /></div>
+                        <p className="pc-prog-status">{faltaVenda > 0 ? `Faltam ${reais(faltaVenda)} em vendas neste mês.` : "Meta de vendas batida ✓"}</p>
+                      </div>
+                      <p className="pc-prog-rodape">Sua nova faixa será definida no início do próximo mês.</p>
+                    </div>
+                  </section>
+                );
+              })()}
+            </Win>
 
             <Win name="MEUS-VIDEOS.MOV">
               <div className="qsd8-eyebrow">// últimos 6 meses</div>
@@ -509,6 +642,7 @@ const PainelCreator = () => {
               <div className="qsd8-btnrow"><Link to="/matilha" className="qsd8-btn">Ver as faixas →</Link></div>
               <p className="qsd8-note" style={{ color: "var(--paper)" }}>Números de {new Date(d.atualizado_em).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}.</p>
             </Win>
+            <MenuLinks />
           </>
         )}
       </div>
