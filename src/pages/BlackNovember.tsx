@@ -133,36 +133,28 @@ export default function BlackNovember() {
           <a className="bn-voltar" href="https://www.comidadedragao.com.br/">voltar para a home</a>
         </div>
 
+        {/* Reescrito em 27/10: a Olivia achou a primeira tela confusa, e estava.
+            O que confundia: três números de uma vez ("de R$ 80,10 a R$ 185,40" mais "a partir
+            de R$ 90"), nenhum deles sendo O preço; e a foto de um kit no topo, que fazia parecer
+            que a oferta era daquele kit só.
+            Agora a primeira tela mostra UMA coisa: o PRESENTE. É o que a oferta é — o resto
+            (qual kit, por quanto) se resolve na grade, um kit por cartão. */}
         <span className="bn-eyebrow">black november · 03 a 30 de novembro</span>
         <h1 className="bn-h1">Compre um kit e<br /><span>ganhe um suplemento.</span></h1>
 
-        {/* Preço na primeira tela. 🔴 Isto NÃO vem do clone: conferido no fonte em 26/10, a
-            /halloween não mostra preço nenhum (a grade de kits saiu em 18/10). É requisito novo,
-            e o estudo da LP foi corrigido nesse ponto. */}
+        {/* O presente em cena: é ele que a pessoa ganha, e é ele que faz decidir. */}
+        <div className="bn-foto bn-foto--presente">
+          <img className="bn-cao" src={SUPLEMENTO.img} alt="Pote do Suplemento Integral de 180 g" />
+          <span className="bn-selo-presente" aria-hidden>de presente</span>
+        </div>
+
         <p className="bn-preco-topo">
-          kits de <strong>R$ 80,10</strong> a <strong>R$ 185,40</strong>
-          <small>com o suplemento de R$ 110,00 de presente a partir de R$ 90</small>
+          o suplemento de <strong>R$ 110,00</strong>, zero
+          <small>vai junto com o seu kit, sem cupom</small>
         </p>
 
         <div className="bn-cta-texto">
           <a className="bn-botao" href="#kits" data-cta="titulo">Ver os kits ↓</a>
-          <span className="bn-cta-mais" aria-hidden>
-            <b>+</b>
-            <img src={SUPLEMENTO.img} alt="" />
-          </span>
-        </div>
-
-        <p className="bn-sub">Escolha um kit e o suplemento vai junto, de presente. Sem cupom.</p>
-
-        {/* Balão de fala humorado, na linha do Canva. */}
-        <p className="bn-balao">“ainda tá aí lendo? o dragão já separou o seu”</p>
-
-        {/* Olivia, 27/10: no lugar da cena de Halloween, o PRODUTO em cena — a página fala com
-            quem ainda não tem o material em casa, e precisa ver o que vem na caixa.
-            É o Kit Completo (o maior), com fundo transparente, do CDN da loja. */}
-        <div className="bn-foto">
-          <img className="bn-cao" src={CDN + "kit-dog-supremo.png?v=1785150064"} alt="Kit Completo para cães: o pacote Original, a Mordida e o pote do Suplemento Integral" />
-          <p className="bn-foto-legenda">é isto que chega na sua casa</p>
         </div>
       </header>
 
@@ -173,30 +165,39 @@ export default function BlackNovember() {
         <strong className="bn-barra-btn">Ver os kits ↓</strong>
       </a>
 
+      {/* Reescrito em 27/10. O que confundia: todo cartão trazia um selo dizendo se ganhava ou
+          não o presente, e a pessoa tinha de comparar seis cartões linha a linha para descobrir
+          qual era a regra. Agora o kit que NÃO ganha sai da grade e vira uma linha no pé: todos
+          os da grade ganham, e isso se diz uma vez, acima dela. */}
       <section className="bn-bloco" id="kits">
         <h2 className="bn-h2">Escolha o kit.<br />O suplemento vem junto.</h2>
         <p className="bn-texto">
-          Cada botão aqui abre o carrinho já com o kit dentro. O suplemento entra sozinho no pedido.
+          <strong>Todos estes ganham o suplemento</strong>, e todos têm frete grátis.
+          O botão abre o carrinho já com o kit dentro; o presente entra sozinho.
         </p>
 
         <div className="bn-grade">
-          {KITS.map((k) => (
+          {KITS.filter((k) => k.brinde).map((k) => (
             <article className="bn-kit" key={k.sku}>
               <img className="bn-kit-foto" src={k.img} alt={k.nome} loading="lazy" />
               <h3 className="bn-kit-nome">{k.nome}</h3>
               <p className="bn-kit-vem">{k.vem}</p>
               <p className="bn-kit-preco">R$ {k.preco}</p>
-              <ul className="bn-kit-selos">
-                {k.brinde && <li className="bn-selo-sim">+ suplemento de presente</li>}
-                {!k.brinde && <li className="bn-selo-nao">sem o suplemento de presente</li>}
-                {k.frete && <li className="bn-selo-sim">frete grátis</li>}
-              </ul>
               <a className="bn-botao bn-botao--kit" href={comprar(k.token, k.sku)} data-cta={k.sku}>
                 Comprar →
               </a>
             </article>
           ))}
         </div>
+
+        {/* O que fica abaixo do piso do presente, dito uma vez e sem alarde — mas dito, porque
+            esconder um kit da página também confunde quem já o conhece. */}
+        {KITS.filter((k) => !k.brinde).map((k) => (
+          <p className="bn-kit-fora" key={k.sku}>
+            Procurando o {k.nome}? Ele custa R$ {k.preco} e fica abaixo do valor do presente, então
+            vai sem o suplemento. <a href={comprar(k.token, k.sku)} data-cta={k.sku}>Comprar assim mesmo →</a>
+          </p>
+        ))}
       </section>
 
       {/* Prova social: os vídeos dos creators. Regra da casa (Olivia, 02/10): página com
