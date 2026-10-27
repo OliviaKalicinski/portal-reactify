@@ -6,11 +6,16 @@
    O que aperta: a foto menor, o título mais curto de linha e os espaços do hero. */
 .bnt .bn-hero { gap: 6px; padding: 12px 18px 20px; }
 .bnt .bn-h1 { font-size: 40px; }
-.bnt .bn-foto { width: min(76%, 290px); margin-top: 0; }
+.bnt .bn-foto { width: min(70%, 258px); margin-top: 0; }
 .bnt .bn-eyebrow { font-size: 11px; padding: 5px 10px; }
 
 /* preço: aqui o "de/por" é o centro da oferta, então o número cresce */
 .bnt .bn-preco-topo { font-size: 30px; margin-top: 0; }
+/* a linha que diz o que é a oferta, acima do de/por */
+.bnt-oferta-linha {
+  display: block; font-weight: 400; font-size: 19px; line-height: 1.1;
+  color: var(--creme); opacity: .9; margin-bottom: 2px;
+}
 .bnt .bn-preco-topo s { opacity: .5; font-size: 24px; }
 .bnt .bn-preco-topo strong { font-size: 44px; }
 

@@ -105,14 +105,14 @@ export default function BlackNovemberTopo() {
     <div className="bn bnt">
       <PageMeta
         title="Kit Completo com 50% — Comida de Dragão"
-        description="Proteína de larva para cães: o kit com os três produtos, pela metade do preço. De 03 a 30 de novembro."
+        description="Você é novo por aqui? Pega esse presente: o kit inteiro de proteína de larva para cães, pela metade do preço. Até 30 de novembro."
       />
 
-      <div className="bn-faixa" aria-label="Black November: Kit Completo com 50 por cento de desconto, de 03 a 30 de novembro">
+      <div className="bn-faixa" aria-label="Black November: é a sua primeira vez aqui? O kit inteiro por R$ 92,30, de 03 a 30 de novembro">
         <div className="bn-faixa-trilho" aria-hidden>
           {[0, 1].map((n) => (
             <span key={n}>
-              BLACK NOVEMBER ✦ KIT COMPLETO COM 50% ✦ DE R$ 184,60 POR R$ 92,30 ✦ ATÉ 30/11 ✦&nbsp;
+              BLACK NOVEMBER ✦ VOCÊ É NOVO AQUI? PEGA O KIT INTEIRO POR R$ 92,30 ✦ ATÉ 30/11 ✦&nbsp;
             </span>
           ))}
         </div>
@@ -132,31 +132,38 @@ export default function BlackNovemberTopo() {
             Ordem: título · FOTO DO KIT · preço · botão — e tudo tem de caber em 812 px no
             celular. Bate com a regra da casa: primeiro o produto em cena, depois o preço e o
             botão. A explicação do que é a marca desceu para depois dos vídeos. */}
-        <span className="bn-eyebrow">black november · 03 a 30 de novembro</span>
-        <h1 className="bn-h1">O kit inteiro,<br /><span>pela metade.</span></h1>
+        {/* Olivia, 27/10: "nessa do kit inteiro seria legal a gente colocar falando assim: você
+            é novo aqui, então pega esse presente — porque essa vai para topo, aberto, a gente
+            vai divulgar abertão."
+            O enquadramento deixa de ser liquidação e vira boas-vindas: quem chega aqui não
+            conhece a marca, e a metade do preço é o jeito de dizer oi. */}
+        <span className="bn-eyebrow">você é novo por aqui</span>
+        <h1 className="bn-h1">Então pega<br /><span>esse presente.</span></h1>
 
         {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque
             há UM produto só: a foto representa exatamente o que o botão compra. */}
         <div className="bn-foto">
-          <a href={comprar("foto")} data-cta="foto" aria-label={`Comprar o ${KIT.nome} por R$ ${KIT.agora}`}>
+          <a href={comprar("foto")} data-cta="foto" aria-label={`Pegar o ${KIT.nome} por R$ ${KIT.agora}`}>
             <img className="bn-cao" src={KIT.img} alt="Kit Completo para cães: o pacote Original, a Mordida e o pote do Suplemento Integral" />
           </a>
         </div>
 
         <p className="bn-preco-topo">
+          <b className="bnt-oferta-linha">o kit inteiro, pela metade</b>
           de <s>R$ {KIT.cheio}</s> por <strong>R$ {KIT.agora}</strong>
+          {/* uma linha só: a data já está na fita passante do topo e na barra do pé */}
           <small>os três produtos, com frete grátis</small>
         </p>
 
         <div className="bn-cta-texto">
-          <a className="bn-botao" href={comprar("titulo")} data-cta="titulo">Comprar o kit →</a>
+          <a className="bn-botao" href={comprar("titulo")} data-cta="titulo">Pegar o presente →</a>
         </div>
       </header>
 
       {/* Barra fixa: aqui ela COMPRA, não rola — há um produto só. */}
       <a className="bn-barra" href={comprar("barra")} data-cta="barra">
-        <span className="bn-barra-txt">Kit Completo<small>R$ {KIT.agora}, metade do preço</small></span>
-        <strong className="bn-barra-btn">Comprar →</strong>
+        <span className="bn-barra-txt">O seu presente<small>o kit inteiro por R$ {KIT.agora}</small></span>
+        <strong className="bn-barra-btn">Pegar →</strong>
       </a>
 
       {/* Olivia, 27/10: "aí logo embaixo, os vídeos". Quem nunca viu a marca precisa de gente
@@ -191,7 +198,7 @@ export default function BlackNovemberTopo() {
             <p>O pó que você polvilha na comida que ele já come. No mínimo 40% de proteína, podendo chegar a 45%.</p>
           </article>
         </div>
-        <a className="bn-botao" href={comprar("caixa")} data-cta="caixa">Comprar por R$ {KIT.agora} →</a>
+        <a className="bn-botao" href={comprar("caixa")} data-cta="caixa">Pegar o meu por R$ {KIT.agora} →</a>
       </section>
 
       <section className="bn-bloco">
@@ -213,7 +220,7 @@ export default function BlackNovemberTopo() {
         <p className="bnt-rodape-ciencia">
           Os estudos inteiros ficam na <a href="/biblioteca">biblioteca científica</a> da casa.
         </p>
-        <a className="bn-botao" href={comprar("ciencia")} data-cta="ciencia">Comprar o kit →</a>
+        <a className="bn-botao" href={comprar("ciencia")} data-cta="ciencia">Pegar o presente →</a>
       </section>
 
       <section className="bn-bloco">
@@ -227,9 +234,9 @@ export default function BlackNovemberTopo() {
 
       <footer className="bn-fim">
         <p className="bn-oferta-chamada">
-          O kit inteiro por <strong>R$ {KIT.agora}</strong>, com frete grátis. Até 30/11.
+          Boas-vindas: o kit inteiro por <strong>R$ {KIT.agora}</strong>, com frete grátis. Até 30/11.
         </p>
-        <a className="bn-botao" href={comprar("final")} data-cta="final">Comprar o kit →</a>
+        <a className="bn-botao" href={comprar("final")} data-cta="final">Pegar o presente →</a>
         <img className="bn-dragao" src="/assets/halloween/silhueta-dragao.webp" alt="" aria-hidden />
       </footer>
     </div>

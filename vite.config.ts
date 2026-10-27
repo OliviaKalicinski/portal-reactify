@@ -40,8 +40,8 @@ const METAS_POR_ROTA: Record<string, { title: string; description: string; image
   },
   /* A de topo, para público frio: a prévia diz o preço, porque é a oferta que faz a pessoa abrir. */
   "black-november-topo": {
-    title: "Kit Completo com 50% — Comida de Dragão",
-    description: "Proteína de larva para cães: o kit com os três produtos, de R$ 184,60 por R$ 92,30. De 03 a 30 de novembro.",
+    title: "Você é novo por aqui? Pega esse presente — Comida de Dragão",
+    description: "O kit inteiro de proteína de larva para cães, de R$ 184,60 por R$ 92,30, com frete grátis. Até 30 de novembro.",
     image: `${SITE}/assets/images/og-default.jpg`,
   },
 };
