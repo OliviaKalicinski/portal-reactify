@@ -126,8 +126,22 @@ export default function BlackNovemberTopo() {
           <a className="bn-voltar" href="https://www.comidadedragao.com.br/">voltar para a home</a>
         </div>
 
+        {/* Olivia, 27/10: "o kit tem que aparecer primeiro. É uma pessoa que nunca viu. Então
+            tem que ser o kit inteiro pela metade, o kit e o valor. Primeira coisa ali, o botão,
+            na primeira tela."
+            Ordem: título · FOTO DO KIT · preço · botão — e tudo tem de caber em 812 px no
+            celular. Bate com a regra da casa: primeiro o produto em cena, depois o preço e o
+            botão. A explicação do que é a marca desceu para depois dos vídeos. */}
         <span className="bn-eyebrow">black november · 03 a 30 de novembro</span>
         <h1 className="bn-h1">O kit inteiro,<br /><span>pela metade.</span></h1>
+
+        {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque
+            há UM produto só: a foto representa exatamente o que o botão compra. */}
+        <div className="bn-foto">
+          <a href={comprar("foto")} data-cta="foto" aria-label={`Comprar o ${KIT.nome} por R$ ${KIT.agora}`}>
+            <img className="bn-cao" src={KIT.img} alt="Kit Completo para cães: o pacote Original, a Mordida e o pote do Suplemento Integral" />
+          </a>
+        </div>
 
         <p className="bn-preco-topo">
           de <s>R$ {KIT.cheio}</s> por <strong>R$ {KIT.agora}</strong>
@@ -137,22 +151,6 @@ export default function BlackNovemberTopo() {
         <div className="bn-cta-texto">
           <a className="bn-botao" href={comprar("titulo")} data-cta="titulo">Comprar o kit →</a>
         </div>
-
-        <p className="bn-sub">
-          Comida de Dragão é alimento de larva de mosca soldado negro para cães: uma proteína
-          que o seu provavelmente nunca comeu, e que o corpo dele aproveita quase inteira.
-        </p>
-
-        <p className="bn-balao">“ele não sabe que é larva. e não precisa saber”</p>
-
-        {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque
-            há UM produto só: a foto representa exatamente o que o botão compra. */}
-        <div className="bn-foto">
-          <a href={comprar("foto")} data-cta="foto" aria-label={`Comprar o ${KIT.nome} por R$ ${KIT.agora}`}>
-            <img className="bn-cao" src={KIT.img} alt="Kit Completo para cães: o pacote Original, a Mordida e o pote do Suplemento Integral" />
-          </a>
-          <p className="bn-foto-legenda">é isto que chega na sua casa</p>
-        </div>
       </header>
 
       {/* Barra fixa: aqui ela COMPRA, não rola — há um produto só. */}
@@ -160,6 +158,22 @@ export default function BlackNovemberTopo() {
         <span className="bn-barra-txt">Kit Completo<small>R$ {KIT.agora}, metade do preço</small></span>
         <strong className="bn-barra-btn">Comprar →</strong>
       </a>
+
+      {/* Olivia, 27/10: "aí logo embaixo, os vídeos". Quem nunca viu a marca precisa de gente
+          antes de qualquer explicação. Regra da casa (Olivia, 02/10): página com vídeo de
+          creator fica sem review, nem em foto nem em texto. */}
+      <div className="bn-reels">
+        <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga, VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
+      </div>
+
+      {/* A explicação do que é a marca vem DEPOIS dos vídeos: a pessoa já viu cães comendo. */}
+      <section className="bn-bloco bnt-oque">
+        <p className="bn-texto">
+          Comida de Dragão é alimento de larva de mosca soldado negro para cães: uma proteína
+          que o seu provavelmente nunca comeu, e que o corpo dele aproveita quase inteira.
+        </p>
+        <p className="bn-balao">“ele não sabe que é larva. e não precisa saber”</p>
+      </section>
 
       <section className="bn-bloco">
         <h2 className="bn-h2">O que vem na caixa</h2>
@@ -179,12 +193,6 @@ export default function BlackNovemberTopo() {
         </div>
         <a className="bn-botao" href={comprar("caixa")} data-cta="caixa">Comprar por R$ {KIT.agora} →</a>
       </section>
-
-      {/* Prova social antes da ciência: quem não conhece quer ver gente, não gráfico.
-          Regra da casa (Olivia, 02/10): página com vídeo de creator fica sem review. */}
-      <div className="bn-reels">
-        <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga, VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
-      </div>
 
       <section className="bn-bloco">
         <h2 className="bn-h2">Por que larva,<br /><span>e não frango?</span></h2>
