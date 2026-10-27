@@ -124,9 +124,11 @@ export default function BlackNovember() {
       </div>
 
       <header className="bn-hero">
+        {/* Logo normal da marca, não a "escorrendo" do Halloween (Olivia, 27/10: tirar o que é
+            de Halloween daqui). O arquivo é preto com fundo transparente; o CSS inverte. */}
         <div className="bn-topo">
           <a href="https://www.comidadedragao.com.br/collections/produtos">
-            <img className="bn-logo" src="/assets/halloween/logo-comida-de-dragao-escorrendo.webp" alt="Comida de Dragão" />
+            <img className="bn-logo" src="/assets/images/logo-preto.png" alt="Comida de Dragão" />
           </a>
           <a className="bn-voltar" href="https://www.comidadedragao.com.br/">voltar para a home</a>
         </div>
@@ -155,8 +157,12 @@ export default function BlackNovember() {
         {/* Balão de fala humorado, na linha do Canva. */}
         <p className="bn-balao">“ainda tá aí lendo? o dragão já separou o seu”</p>
 
+        {/* Olivia, 27/10: no lugar da cena de Halloween, o PRODUTO em cena — a página fala com
+            quem ainda não tem o material em casa, e precisa ver o que vem na caixa.
+            É o Kit Completo (o maior), com fundo transparente, do CDN da loja. */}
         <div className="bn-foto">
-          <img className="bn-cao" src="/assets/halloween/cena-chihuahua-po-caindo.webp" alt="Cachorro olhando o pote do suplemento flutuar e despejar o pó na tigela" />
+          <img className="bn-cao" src={CDN + "kit-dog-supremo.png?v=1785150064"} alt="Kit Completo para cães: o pacote Original, a Mordida e o pote do Suplemento Integral" />
+          <p className="bn-foto-legenda">é isto que chega na sua casa</p>
         </div>
       </header>
 
@@ -255,6 +261,8 @@ export default function BlackNovember() {
           Compre um kit e <strong>ganhe um suplemento</strong>. Até 30/11.
         </p>
         <a className="bn-botao" href="#kits" data-cta="final">Ver os kits ↓</a>
+        {/* A silhueta é a mascote da marca, não peça de Halloween — mora na pasta do Halloween
+            porque foi lá que entrou. Fica. */}
         <img className="bn-dragao" src="/assets/halloween/silhueta-dragao.webp" alt="" aria-hidden />
       </footer>
     </div>
