@@ -38,6 +38,12 @@ const METAS_POR_ROTA: Record<string, { title: string; description: string; image
     description: "Compre um kit e ganhe um suplemento. E o suplemento avulso pela metade do preço. De 03 a 30 de novembro.",
     image: `${SITE}/assets/images/og-default.jpg`,
   },
+  /* A de topo, para público frio: a prévia diz o preço, porque é a oferta que faz a pessoa abrir. */
+  "black-november-topo": {
+    title: "Kit Completo com 50% — Comida de Dragão",
+    description: "Proteína de larva para cães: o kit com os três produtos, de R$ 184,60 por R$ 92,30. De 03 a 30 de novembro.",
+    image: `${SITE}/assets/images/og-default.jpg`,
+  },
 };
 const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 function htmlPorRota() {

@@ -1,0 +1,71 @@
+/* /black-november-topo · só o que é desta página.
+   O resto do visual vem de BlackNovember.css, importado antes. */
+
+/* preço: aqui o "de/por" é o centro da oferta, então o número cresce */
+.bnt .bn-preco-topo { font-size: 32px; }
+.bnt .bn-preco-topo s { opacity: .5; font-size: 24px; }
+.bnt .bn-preco-topo strong { font-size: 44px; }
+
+/* a foto do topo leva ao carrinho: precisa parecer clicável */
+.bnt .bn-foto a { display: block; width: 100%; border-radius: 14px; }
+.bnt .bn-foto a:focus-visible { outline: 3px solid var(--limao); outline-offset: 6px; }
+@media (hover: hover) {
+  .bnt .bn-foto a:hover .bn-cao { transform: scale(1.02); }
+}
+.bnt .bn-cao { transition: transform .2s ease; }
+@media (prefers-reduced-motion: reduce) { .bnt .bn-cao { transition: none; } }
+
+/* o que vem na caixa: três colunas no computador, empilhado no celular */
+.bnt-caixa {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px;
+  max-width: 820px; margin: 0 auto 8px; text-align: left;
+}
+.bnt-caixa article {
+  background: rgba(243, 240, 230, .06); border: 2px solid rgba(200, 255, 46, .45);
+  border-radius: 12px; padding: 14px 16px;
+}
+.bnt-caixa h3 {
+  font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 22px; line-height: 1;
+  margin: 0 0 6px; color: var(--limao);
+}
+.bnt-caixa p { margin: 0; font-size: 15px; line-height: 1.45; }
+
+/* os cinco blocos de ciência */
+.bnt-ciencia {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;
+  max-width: 940px; margin: 0 auto; text-align: left;
+}
+.bnt-card {
+  position: relative; background: rgba(243, 240, 230, .05);
+  border: 2px solid rgba(200, 255, 46, .35); border-radius: 12px;
+  padding: 18px 16px 14px;
+}
+.bnt-num {
+  position: absolute; top: -14px; left: 14px;
+  font-family: "Bebas Neue", sans-serif; font-size: 26px; line-height: 1;
+  background: var(--limao); color: var(--preto); border: 2px solid var(--preto);
+  border-radius: 999px; width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+}
+.bnt-card h3 {
+  font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 23px; line-height: 1.05;
+  margin: 8px 0 6px; color: var(--creme);
+}
+.bnt-card p { margin: 0 0 8px; font-size: 15px; line-height: 1.5; }
+.bnt-card small {
+  font-family: "Space Mono", monospace; font-size: 11px; line-height: 1.4;
+  display: block; opacity: .65;
+}
+
+.bnt-rodape-ciencia { font-size: 14px; margin: 18px auto 0; max-width: 480px; opacity: .85; }
+/* alvo de toque de 44 px: inline-flex com altura mínima, sem quebrar a linha do texto */
+.bnt-rodape-ciencia a {
+  color: var(--limao); display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px;
+}
+
+/* no computador, a oferta manda: título e preço maiores */
+@media (min-width: 900px) {
+  .bnt .bn-h1 { font-size: 80px; }
+  .bnt .bn-preco-topo { font-size: 36px; }
+  .bnt .bn-preco-topo strong { font-size: 54px; }
+}
