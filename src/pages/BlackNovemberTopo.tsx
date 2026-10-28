@@ -36,12 +36,20 @@ const UTM_FALLBACK = { utm_source: "lp-black-november-topo", utm_medium: "lp", u
 const CHECKOUT = "https://seguro.comidadedragao.com.br/r/";
 const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
 
-/* Kit Completo para Cães, sku 1306. Preço cheio lido na Shopify em 26/10/2026. */
+/* Kit Completo para Cães, sku 1306. Preço cheio lido na Shopify em 26/10/2026.
+   🔴 28/10/2026: o botão NÃO leva mais ao carrinho do kit normal com cupom. Leva a um
+   produto próprio da campanha, oculto da loja (não está em nenhuma coleção), criado na
+   Shopify (sku 1306-BN) e cadastrado à mão na Yampi (produto 46529699), já com o preço
+   promocional de R$ 92,30. Assim a pessoa cai no checkout com o valor certo sem cupom,
+   e o preço da campanha não aparece para quem navega o site.
+   Conferido no checkout em 28/10: abre a R$ 92,30. ⚠️ Vem com o brinde da Yampi junto
+   (Suplemento Integral), porque a regra de brinde dispara acima de R$ 90 — decisão da
+   Olivia se mantém ou se exclui este produto da regra. */
 const KIT = {
   nome: "Kit Completo para Cães",
   img: CDN + "kit-dog-supremo.png?v=1785150064",
-  token: "GPGITR0VZ1",
-  sku: "1306",
+  token: "PDYJH8ZOQU",
+  sku: "1306-BN",
   cheio: "184,60",
   agora: "92,30",
 };
