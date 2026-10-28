@@ -1,6 +1,10 @@
-/* Lista de arquivo em janelinhas (28/10/2026) — cartões no desenho dos cartões da /produtos:
-   borda grossa, canto redondo, sombra lilás e fundo na cor da categoria, que é a mesma cor
-   que as faixas usavam antes. A ficha reaproveita as classes pj-* do ProdutosJanelas.css. */
+/* Lista de arquivo em janelinhas (28/10/2026) — cartões no desenho dos cartões da /produtos.
+   A ficha reaproveita as classes pj-* do ProdutosJanelas.css.
+
+   28/10, segunda rodada (pedido da Olivia: "tem umas cores que não dão para ler, tipo rosa;
+   laranja também não"): o fundo do cartão passou a ser NEUTRO e a cor da categoria virou
+   marca — filete na lateral e ponto ao lado do nome. Estas duas páginas são as mais sérias
+   do portal, então aqui a sombra é discreta e o texto vai em tinta, não em cor. */
 
 .qsd8.hj .lj-filtros { margin-bottom: 4px; }
 
@@ -17,25 +21,36 @@
 .qsd8.hj .lj-card {
   display: flex; flex-direction: column; gap: 6px; min-width: 0;
   padding: 14px 14px 16px; text-align: left; cursor: pointer;
-  font: inherit; color: #0A0A0A;
-  border: 2px solid var(--ink); border-radius: 14px;
-  box-shadow: 4px 4px 0 0 var(--violet);
-  transition: transform .15s, box-shadow .15s;
+  font: inherit; color: var(--ink);
+  background: #fff;
+  border: 2px solid rgba(35, 32, 58, .22);
+  border-left: 7px solid var(--lj-cor, var(--violet));
+  border-radius: 12px;
+  box-shadow: 0 2px 0 0 rgba(35, 32, 58, .10);
+  transition: border-color .15s, box-shadow .15s, transform .15s;
 }
 .qsd8.hj .lj-card:hover, .qsd8.hj .lj-card:focus-visible {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 var(--violet);
+  border-color: var(--ink);
+  box-shadow: 0 4px 0 0 rgba(35, 32, 58, .16);
+  transform: translateY(-2px);
 }
-.qsd8.hj .lj-card:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 0 var(--violet); }
+.qsd8.hj .lj-card:active { transform: translateY(0); box-shadow: 0 1px 0 0 rgba(35, 32, 58, .12); }
 
 .qsd8.hj .lj-card-num {
-  font-family: "Press Start 2P", monospace; font-size: 9px; opacity: .55;
+  font-family: "Space Mono", monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: .12em; opacity: .45;
 }
 /* a categoria vai em Space Mono, a mesma dos filtros: a fonte de pixel não tem as
    maiúsculas acentuadas (Í, Ó), e "NEGÓCIOS" e "MÍDIA" saíam com o acento quebrado */
 .qsd8.hj .lj-card-cat {
+  display: flex; align-items: baseline; gap: 6px;
   font-family: "Space Mono", monospace; font-size: 10px; font-weight: 700;
-  letter-spacing: .14em; line-height: 1.5; text-transform: uppercase; opacity: .78;
+  letter-spacing: .12em; line-height: 1.5; text-transform: uppercase; opacity: .7;
+}
+.qsd8.hj .lj-card-ponto {
+  flex: none; width: 8px; height: 8px; border-radius: 2px;
+  background: var(--lj-cor, var(--violet));
+  border: 1px solid rgba(35, 32, 58, .3);
 }
 .qsd8.hj .lj-card-title {
   font-family: "Space Grotesk", system-ui, sans-serif;
@@ -43,17 +58,18 @@
 }
 .qsd8.hj .lj-card-meta {
   font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 13px; line-height: 1.4; opacity: .8; margin-top: auto; padding-top: 6px;
+  font-size: 13px; line-height: 1.4; opacity: .7; margin-top: auto; padding-top: 6px;
 }
 @media (max-width: 640px) {
-  .qsd8.hj .lj-card { padding: 12px 12px 14px; }
+  .qsd8.hj .lj-card { padding: 12px 12px 14px; border-left-width: 6px; }
   .qsd8.hj .lj-card-title { font-size: 14px; }
   .qsd8.hj .lj-card-meta { font-size: 12px; }
 }
 
 /* ── a ficha que abre por cima ── */
 .qsd8.hj .lj-ficha { max-width: 680px; }
-.qsd8.hj .lj-ficha-secao { margin-top: 14px; }
+.qsd8.hj .lj-ficha-cat { display: flex; align-items: center; gap: 7px; }
+.qsd8.hj .lj-ficha-secao { margin-top: 14px; box-shadow: 0 2px 0 0 rgba(35, 32, 58, .10); }
 .qsd8.hj .lj-ficha-titulo {
   font-family: "Space Grotesk", system-ui, sans-serif;
   font-size: 16px; font-weight: 700; line-height: 1.35; margin: 0 0 10px;

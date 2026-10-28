@@ -8,6 +8,7 @@ import "./QueroSerDragao.css";
 import "./Fofo.css";
 import "./PortalJanelas.css";
 import "./ProdutosJanelas.css";
+import "./InstitucionalJanelas.css";
 import "./Biblioteca.css";
 
 const PDF_BASE = "/assets/pdfs/artigos-cientificos/";
@@ -273,7 +274,7 @@ const ARTIGOS: ItemLista[] = [
 
 const Biblioteca = () => {
   return (
-    <div className="qsd8 fofo fofo-verde hj">
+    <div className="qsd8 fofo fofo-verde hj hj-serio">
       <PageMeta
         title="Biblioteca Científica · Comida de Dragão"
         description="17 papers peer-reviewed sobre proteína de inseto BSF na alimentação de cães e gatos. Digestibilidade, microbiota, alergia, reviews — a ciência que embasa o Dragão."

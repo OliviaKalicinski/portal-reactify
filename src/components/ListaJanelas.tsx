@@ -119,12 +119,14 @@ const ListaJanelas = ({
             type="button"
             key={it.id}
             className="lj-card"
-            style={{ background: colors[it.category] ?? "#FFCC00" }}
+            /* fundo neutro: a cor da categoria entra só como marca na lateral e no ponto,
+               porque sobre o rosa e o laranja cheios o texto ficava difícil de ler */
+            style={{ "--lj-cor": colors[it.category] ?? "#FFCC00" } as React.CSSProperties}
             onClick={() => abrir(it.id)}
             aria-label={`Abrir: ${it.title}`}
           >
             <span className="lj-card-num">{String(items.indexOf(it) + 1).padStart(2, "0")}</span>
-            <span className="lj-card-cat">{it.category}</span>
+            <span className="lj-card-cat"><i className="lj-card-ponto" aria-hidden="true" />{it.category}</span>
             <span className="lj-card-title">{it.shortTitle ?? it.title}</span>
             {it.meta && <span className="lj-card-meta">{it.meta}</span>}
           </button>
@@ -136,7 +138,11 @@ const ListaJanelas = ({
           className="pj-overlay"
           onClick={(e) => { if (e.target === e.currentTarget) fechar(); }}
         >
-          <section className="qsd8-win pj-ficha lj-ficha" role="dialog" aria-modal="true" aria-label={active.title}>
+          <section
+            className="qsd8-win pj-ficha lj-ficha"
+            style={{ "--lj-cor": colors[active.category] ?? "#FFCC00" } as React.CSSProperties}
+            role="dialog" aria-modal="true" aria-label={active.title}
+          >
             <div className="qsd8-titlebar">
               <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>
               <span className="qsd8-tb-name">{fichaNome}</span>
@@ -144,7 +150,8 @@ const ListaJanelas = ({
               <button type="button" ref={fecharRef} className="pj-fechar" onClick={fechar} aria-label="Fechar">×</button>
             </div>
             <div className="qsd8-win-body">
-              <div className="qsd8-eyebrow">
+              <div className="qsd8-eyebrow lj-ficha-cat">
+                <i className="lj-card-ponto" aria-hidden="true" />
                 {active.category} · {String(indiceNaLista).padStart(2, "0")}
               </div>
               <h2 className="qsd8-h2 pj-nome">{active.shortTitle ?? active.title}</h2>

@@ -8,6 +8,7 @@ import "./QueroSerDragao.css";
 import "./Fofo.css";
 import "./PortalJanelas.css";
 import "./ProdutosJanelas.css";
+import "./InstitucionalJanelas.css";
 import "./Imprensa.css";
 
 // Cor do cartão de cada categoria (hex — contraste com texto preto)
@@ -300,7 +301,7 @@ const LINKS: ItemLista[] = [
 
 const Imprensa = () => {
   return (
-    <div className="qsd8 fofo fofo-verde hj">
+    <div className="qsd8 fofo fofo-verde hj hj-serio">
       <PageMeta
         title="Imprensa & Cobertura · Comida de Dragão"
         description="20+ links curados — Globo, G1, BBC, Exame, ArchDaily. O que falam sobre a Comida de Dragão, a Lets Fly e o inseto que tá mudando o jogo."
