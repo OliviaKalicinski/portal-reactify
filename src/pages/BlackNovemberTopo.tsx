@@ -19,13 +19,20 @@ import "./BlackNovemberTopo.css";
    Isso fecha metade do item 1a do plano — o que continua aberto é COMO impedir
    que o brinde entre junto, que é configuração de checkout, não de página.
 
+   🔴 28/10: o preço deixou de ser R$ 92,30 e passou a R$ 96,00. Motivo: naquele
+   dia o mínimo de frete grátis da Yampi subiu de R$ 90 para R$ 95 nos 27 estados,
+   e um kit de R$ 92,30 ficaria abaixo do piso — perderia o frete grátis que esta
+   página promete em quatro lugares. Decisão da Olivia: subir o kit, não mexer no
+   frete. Por isso o título não diz mais "pela metade": R$ 96,00 sobre R$ 184,60
+   é 48% de desconto, e metade seria R$ 92,30.
+
    🔴 NÃO VAI AO AR ANTES DE:
-   1. O brinde. O gatilho da Yampi dispara a partir de R$ 90 e este kit a 50%
-      custa R$ 92,30: hoje ele ganharia o suplemento extra, contra a decisão
-      dela. E DOIS kits somam R$ 184,60, então o piso sozinho não resolve.
-   2. O preço de R$ 92,30 existir no checkout. Enquanto não existir, a página
-      promete um preço que o checkout não cobra.
-   3. A garantia — ver o FAQ.
+   1. O brinde. O checkout entrega o Suplemento Integral junto com este kit, e a
+      decisão dela era que as duas ofertas não se somassem. ⚠️ A causa NÃO é o piso
+      de frete grátis: em 28/10 o piso subiu para R$ 95 e o brinde continuou vindo
+      num carrinho de R$ 92,30. De onde a regra do brinde sai, ainda não achei —
+      não está em Promoções, Descontos nem Marketing da Yampi.
+   2. A garantia — ver o FAQ.
 
    Herda o visual da /black-november (BlackNovember.css) e acrescenta só o que
    é desta página (BlackNovemberTopo.css).
@@ -40,18 +47,18 @@ const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
    🔴 28/10/2026: o botão NÃO leva mais ao carrinho do kit normal com cupom. Leva a um
    produto próprio da campanha, oculto da loja (não está em nenhuma coleção), criado na
    Shopify (sku 1306-BN) e cadastrado à mão na Yampi (produto 46529699), já com o preço
-   promocional de R$ 92,30. Assim a pessoa cai no checkout com o valor certo sem cupom,
+   promocional de R$ 96,00. Assim a pessoa cai no checkout com o valor certo sem cupom,
    e o preço da campanha não aparece para quem navega o site.
-   Conferido no checkout em 28/10: abre a R$ 92,30. ⚠️ Vem com o brinde da Yampi junto
-   (Suplemento Integral), porque a regra de brinde dispara acima de R$ 90 — decisão da
-   Olivia se mantém ou se exclui este produto da regra. */
+   Conferido no checkout em 28/10, depois da troca de preço: abre a R$ 96,00, acima do
+   piso de frete grátis de R$ 95. ⚠️ Vem com o brinde junto (Suplemento Integral) — ver
+   a nota do topo deste arquivo: a causa não é o piso de frete, e ainda não foi achada. */
 const KIT = {
   nome: "Kit Completo para Cães",
   img: CDN + "kit-dog-supremo.png?v=1785150064",
   token: "PDYJH8ZOQU",
   sku: "1306-BN",
   cheio: "184,60",
-  agora: "92,30",
+  agora: "96,00",
 };
 
 /* Os cinco blocos de ciência, da referência do Canva. Cada um conferido no
@@ -119,14 +126,14 @@ export default function BlackNovemberTopo() {
     <div className="bn bnt">
       <PageMeta
         title="Você é novo por aqui? Pega esse presente — Comida de Dragão"
-        description="Você é novo por aqui? Pega esse presente: o kit inteiro de proteína de larva para cães, pela metade do preço. Até 30 de novembro."
+        description="Você é novo por aqui? Pega esse presente: o kit inteiro de proteína de larva para cães, por R$ 96,00. Até 30 de novembro."
       />
 
-      <div className="bn-faixa" aria-label="Black November: é a sua primeira vez aqui? O kit inteiro por R$ 92,30, de 03 a 30 de novembro">
+      <div className="bn-faixa" aria-label="Black November: é a sua primeira vez aqui? O kit inteiro por R$ 96,00, de 03 a 30 de novembro">
         <div className="bn-faixa-trilho" aria-hidden>
           {[0, 1].map((n) => (
             <span key={n}>
-              BLACK NOVEMBER ✦ VOCÊ É NOVO AQUI? PEGA O KIT INTEIRO POR R$ 92,30 ✦ ATÉ 30/11 ✦&nbsp;
+              BLACK NOVEMBER ✦ VOCÊ É NOVO AQUI? PEGA O KIT INTEIRO POR R$ 96,00 ✦ ATÉ 30/11 ✦&nbsp;
             </span>
           ))}
         </div>
@@ -158,15 +165,19 @@ export default function BlackNovemberTopo() {
             é novo aqui, então pega esse presente — porque essa vai para topo, aberto, a gente
             vai divulgar abertão."
             O enquadramento deixa de ser liquidação e vira boas-vindas: quem chega aqui não
-            conhece a marca, e a metade do preço é o jeito de dizer oi. */}
+            conhece a marca, e o preço de entrada é o jeito de dizer oi. */}
         <span className="bn-eyebrow">você é novo por aqui</span>
         {/* Título em bloco, com a linha do meio vazada — o jeito da peça da Bianca. */}
         {/* Olivia, 28/10: "nessa LP eu colocaria o kit pela metade do preço no título".
             A oferta sobe para o h1; o enquadramento de boas-vindas fica no chip, que já
-            diz "você é novo por aqui", e na linha logo abaixo. Duas linhas. */}
+            diz "você é novo por aqui", e na linha logo abaixo. Duas linhas.
+            ⚠️ Mesma data, mais tarde: com o kit a R$ 96,00 a conta não fecha em "metade"
+            (metade de R$ 184,60 é R$ 92,30), então a segunda linha passou a dar o número.
+            Ele é o argumento de qualquer jeito, e o "de R$ 184,60" logo abaixo mostra o
+            tamanho do desconto sem precisar arredondar nada a favor da casa. */}
         <h1 className="bn-h1">
           O kit inteiro
-          <span>pela metade do preço</span>
+          <span>por R$ 96</span>
         </h1>
 
         {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque
