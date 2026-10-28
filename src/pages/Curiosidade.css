@@ -864,13 +864,33 @@
   .cur-hero-chips { grid-column: 2; }
   .cur-hero-product-wrap { grid-column: 1; }
   .cur-section-title, .cur-cta-final h2 { font-size: 60px; }
+
+  /* 28/10 (Olivia: "o desalinhamento"): no computador cada bloco começava numa margem
+     diferente e a página descia em escada. Medido a 1280: topo em 150, seções em 280,
+     oferta em 360, título do fecho em 32 e rodapé em 0. Agora todo bloco usa a MESMA
+     coluna de 980 px do topo; só o texto corrido segue curto, para a linha caber no olho. */
+  .cur-section-inner,
+  .cur-oferta-inner,
+  .cur-cta-final > *,
+  .cur-cta-final h2,
+  .cur-footer > * { max-width: 980px; margin-left: auto; margin-right: auto; }
+  .cur-oferta-inner { max-width: 620px; }
+  .cur-cta-final p { max-width: 560px; }
+  .cur-section-lead { max-width: 640px; }
+  .cur-quotes { max-width: 700px; }
+  /* a faixa de vídeos é componente compartilhado (ReelsSection): o ajuste fica preso
+     a esta página, para não mexer nas outras LPs que usam a mesma faixa. Ela tem 20 px
+     de respiro por dentro, então 1020 aqui põe o primeiro vídeo na coluna dos 150. */
+  /* o !important é porque o estilo da faixa é injetado pelo próprio componente, depois
+     deste arquivo — a /quero-ser-dragao e a /rango fazem o mesmo para ajustá-la */
+  .curiosidade-lp .reels-strip-wrap { max-width: 1020px !important; margin-left: auto !important; margin-right: auto !important; }
   /* 24/09 (auditoria desktop, fase 3): título de 82px empurrava preço e botão para fora da 1ª tela; a barra fixa some acima de 720px */
   /* 48px, não 56: com a coluna de 428px o título da /curiosidade quebrava em 3 linhas e o botão ficava a 740–815px */
   .cur-hero-title { font-size: 48px; line-height: 0.92; }
   /* botão logo depois do preço; os selos e o aviso do cupom descem para baixo dele.
      28/10: os selos vêm antes do cupom. Com o cupom na coluna do texto ele ocupa três
      linhas e, vindo primeiro, empurrava os selos para 899 px — fora da primeira tela
-     de 860. Nesta ordem os selos terminam em 839 e o aviso do cupom é que desce. */
+     de 860. Nesta ordem os selos terminam em 855 e o aviso do cupom é que desce. */
   .cur-hero-chips { order: 1; }
   .cur-hero-coupon { order: 2; margin-top: 4px; }
   /* 24/09 (fase 3): as margens do topo somavam ~120px ao espaço da grade; apertadas para o botão caber em 1280×800 */
