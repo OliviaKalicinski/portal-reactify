@@ -104,7 +104,7 @@ export default function BlackNovemberTopo() {
   return (
     <div className="bn bnt">
       <PageMeta
-        title="Kit Completo com 50% — Comida de Dragão"
+        title="Você é novo por aqui? Pega esse presente — Comida de Dragão"
         description="Você é novo por aqui? Pega esse presente: o kit inteiro de proteína de larva para cães, pela metade do preço. Até 30 de novembro."
       />
 
