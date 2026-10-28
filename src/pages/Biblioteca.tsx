@@ -1,24 +1,18 @@
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
-import StripeList, { StripeItem } from "@/components/StripeList";
+import ListaJanelas, { ItemLista } from "@/components/ListaJanelas";
 import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
-import "./Parceiros.css";
+import "./Produtos.css";
+import "./QueroSerDragao.css";
+import "./Fofo.css";
+import "./PortalJanelas.css";
+import "./ProdutosJanelas.css";
 import "./Biblioteca.css";
 
 const PDF_BASE = "/assets/pdfs/artigos-cientificos/";
 
-// Cores dos dots dos destaques (CSS vars, funcionam com --dragon-* do theme)
-const CATEGORY_COLORS: Record<string, string> = {
-  "Digestibilidade & Nutrição": "var(--dragon-orange)",
-  "Saúde & Microbiota": "var(--dragon-lime)",
-  "Alergia & Dermatite": "var(--dragon-pink)",
-  "Reviews Gerais": "var(--dragon-yellow)",
-  "Aceitação de Consumidor": "var(--dragon-violet)",
-  "Saúde Sênior": "var(--dragon-green)",
-};
-
-// Cores das faixas da lista principal (hex puro — contraste com texto preto)
+// Cor do cartão de cada categoria (hex puro — contraste com texto preto)
 const STRIPE_COLORS: Record<string, string> = {
   "Digestibilidade & Nutrição": "#FF6600",
   "Saúde & Microbiota": "#3FFF33",
@@ -28,7 +22,7 @@ const STRIPE_COLORS: Record<string, string> = {
   "Saúde Sênior": "#FCBA97",
 };
 
-// Cores das faixas dos DESTAQUES (por categoria abreviada)
+// Cor do cartão dos DESTAQUES (por categoria abreviada)
 const DESTAQUE_STRIPE_COLORS: Record<string, string> = {
   "Nutrição": "#FF6600",
   "Microbiota felina": "#3FFF33",
@@ -36,7 +30,7 @@ const DESTAQUE_STRIPE_COLORS: Record<string, string> = {
   "Revisão ampla": "#FFCC00",
 };
 
-// Títulos curtos pra exibir na faixa (editáveis sem alterar dados principais)
+// Títulos curtos pra exibir no cartão (editáveis sem alterar dados principais)
 const SHORT_TITLES: Record<number, string> = {
   1: "BSF em Beagle",
   2: "Farinha & Óleo BSF",
@@ -57,35 +51,20 @@ const SHORT_TITLES: Record<number, string> = {
   17: "FEDIAF Sênior",
 };
 
-const MARQUEE_TOP = [
-  "BIBLIOTECA CIENTÍFICA",
-  "17 PAPERS SOBRE BSF",
-  "A CIÊNCIA POR TRÁS DO DRAGÃO",
-  "HERMETIA ILLUCENS",
-  "88,9% DE DIGESTIBILIDADE",
-  "PEER-REVIEWED",
-];
-
-const MARQUEE_BOTTOM = [
-  "// NUTRIÇÃO · MICROBIOTA · ALERGIA",
-  "// REVIEWS · ACEITAÇÃO · SENIOR",
-  "O DRAGÃO LEU TUDO",
-  "CIÊNCIA DE VERDADE",
-];
-
-const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
-  const doubled = [...items, ...items];
-  return (
-    <div className={`marquee-bar${bottom ? " bottom" : ""}`}>
-      <div
-        className="marquee-track"
-        style={bottom ? { animationDirection: "reverse" } : undefined}
-      >
-        {doubled.map((t, i) => <span key={i}>{t}</span>)}
-      </div>
+/* janela OS, a mesma da home e da /produtos (28/10/26: a página entra no estilo das janelas) */
+const Win = ({ name, children, className, inverted, mac }: {
+  name: string; children: React.ReactNode; className?: string; inverted?: boolean; mac?: boolean;
+}) => (
+  <section className={`qsd8-win${inverted ? " inverted" : ""}${className ? " " + className : ""}`}>
+    <div className="qsd8-titlebar">
+      {mac && <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>}
+      <span className="qsd8-tb-name">{name}</span>
+      <span className="qsd8-tb-stripes" aria-hidden="true" />
+      <span className="qsd8-tb-x" aria-hidden="true">×</span>
     </div>
-  );
-};
+    <div className="qsd8-win-body">{children}</div>
+  </section>
+);
 
 // ==================== DESTAQUES ====================
 interface Destaque {
@@ -95,7 +74,6 @@ interface Destaque {
   titulo: string;
   resumo: string;
   url: string;
-  cor: string;
 }
 
 const DESTAQUES: Destaque[] = [
@@ -107,7 +85,6 @@ const DESTAQUES: Destaque[] = [
     resumo:
       "Proteína BSF (20%) e gordura BSF (8%) mantiveram peso, saúde e capacidade antioxidante normais — e ainda melhoraram a microbiota intestinal.",
     url: PDF_BASE + "bsf-protein-fat-digestibility-microbiota-beagle.pdf",
-    cor: "var(--dragon-orange)",
   },
   {
     id: 7,
@@ -117,7 +94,6 @@ const DESTAQUES: Destaque[] = [
     resumo:
       "Substituir até 6% da proteína por BSF aumentou digestibilidade de aminoácidos essenciais e elevou Bacteroidota — microbiota positiva.",
     url: PDF_BASE + "bsf-substrates-cat-diets-fecal-microbiota.pdf",
-    cor: "var(--dragon-lime)",
   },
   {
     id: 9,
@@ -127,7 +103,6 @@ const DESTAQUES: Destaque[] = [
     resumo:
       "Cadela com alergia a frango: em dieta BSF ficou assintomática. Desafio com frango retomou os sintomas em 2 dias; retorno ao BSF reverteu.",
     url: PDF_BASE + "insect-meal-dog-food-allergy-case-report.pdf",
-    cor: "var(--dragon-pink)",
   },
   {
     id: 13,
@@ -137,12 +112,11 @@ const DESTAQUES: Destaque[] = [
     resumo:
       "42% de proteína, 29% de gordura. A BSF não concentra pesticidas nem micotoxinas e fecha ciclo de nutrientes transformando resíduos em alimento.",
     url: PDF_BASE + "bsf-animal-feed-human-food-review.pdf",
-    cor: "var(--dragon-violet)",
   },
 ];
 
 // ==================== ARTIGOS (arquivo completo) ====================
-const ARTIGOS: StripeItem[] = [
+const ARTIGOS: ItemLista[] = [
   {
     id: 1,
     title:
@@ -299,119 +273,98 @@ const ARTIGOS: StripeItem[] = [
 
 const Biblioteca = () => {
   return (
-    <div className="portal-page parceiros-page skin-2">
+    <div className="qsd8 fofo fofo-verde hj">
       <PageMeta
         title="Biblioteca Científica · Comida de Dragão"
         description="17 papers peer-reviewed sobre proteína de inseto BSF na alimentação de cães e gatos. Digestibilidade, microbiota, alergia, reviews — a ciência que embasa o Dragão."
         image="/assets/images/canal-dragao-cover.webp"
       />
-      <MarqueeBar items={MARQUEE_TOP} />
+      <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
 
-      {/* HERO — padrão */}
-      <section className="archive-hero">
-        <div className="archive-hero-bg" />
-        <div className="dragon-silhouette" aria-hidden="true" />
-        <div className="archive-hero-content">
-          <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
-          <div className="hero-row">
-            <DragonLogo className="hero-logo" />
-            <div className="hero-copy">
-              <div className="hero-eyebrow">Comida de Dragão — Biblioteca Científica</div>
-              <h1 className="archive-hero-title">
-                A ciência por trás
-                <span>do Dragão</span>
-              </h1>
-              <p className="archive-hero-sub">
-                {ARTIGOS.length} papers peer-reviewed sobre a larva da mosca soldado negro
-                na alimentação de cães e gatos. Tudo que embasa o que a gente faz.
-              </p>
-            </div>
+      <div className="qsd8-wrap hj-wrap">
+        <Link to="/" className="pj-voltar">← voltar pra caverna</Link>
+
+        {/* HERO — topo compacto, como na /produtos */}
+        <Win name="BIBLIOTECA.EXE" mac className="qsd8-hero-win pj-hero">
+          <DragonLogo className="qsd8-hero-logo" />
+          <div className="qsd8-eyebrow">Comida de Dragão — Biblioteca Científica</div>
+          <h1 className="qsd8-title">A ciência por trás <span>do Dragão</span></h1>
+          <p className="qsd8-sub">
+            {ARTIGOS.length} papers peer-reviewed sobre a larva da mosca soldado negro
+            na alimentação de cães e gatos. Tudo que embasa o que a gente faz.
+          </p>
+        </Win>
+
+        {/* DESTAQUES — os 4 papers-chave */}
+        <Win name="DESTAQUES.DIR" className="pj-produtos">
+          <div className="qsd8-eyebrow">// destaques</div>
+          <h2 className="qsd8-h2">Papers <span>que embasam a conversa</span></h2>
+          <ListaJanelas
+            items={DESTAQUES.map((d) => ({
+              id: `d${d.id}`,
+              category: d.categoria,
+              shortTitle: d.label,
+              title: d.titulo,
+              summary: d.resumo,
+              href: d.url,
+            }))}
+            colors={DESTAQUE_STRIPE_COLORS}
+            openLabel="Abrir PDF ↗"
+            fichaNome="DESTAQUE.PDF"
+          />
+        </Win>
+
+        {/* ARQUIVO COMPLETO — filtros por categoria e a grade de cartões */}
+        <Win name="PAPERS.DIR" className="pj-produtos">
+          <div className="qsd8-eyebrow">// arquivo completo</div>
+          <h2 className="qsd8-h2">Todos os <span>{ARTIGOS.length} papers</span></h2>
+          <ListaJanelas
+            items={ARTIGOS.map((a) => ({
+              ...a,
+              shortTitle: SHORT_TITLES[a.id as number],
+            }))}
+            colors={STRIPE_COLORS}
+            openLabel="Abrir PDF ↗"
+            fichaNome="PAPER.PDF"
+            filtros
+            emptyMessage="Nenhum paper encontrado."
+          />
+        </Win>
+
+        {/* CTA FINAL — Diego Flores (P&D) */}
+        <Win name="DUVIDA-CIENTIFICA.EXE" inverted className="qsd8-cta-win">
+          <h2 className="qsd8-cta-title">Dúvida <span>científica?</span></h2>
+          <p className="qsd8-cta-sub">
+            Fala direto com o Diego Flores, nosso diretor de P&amp;D.
+            Dá pra aprofundar qualquer um desses papers — metodologia,
+            aplicação clínica, extrapolação pro seu caso.
+          </p>
+          <div className="qsd8-btnrow" style={{ justifyContent: "center", marginTop: 22 }}>
+            <a
+              href="mailto:diego.flores@letsfly.com.br?subject=D%C3%BAvida%20cient%C3%ADfica%20sobre%20BSF"
+              className="qsd8-btn"
+            >
+              diego.flores@letsfly.com.br ↗
+            </a>
           </div>
-        </div>
-      </section>
+          <p className="qsd8-cta-note">Veterinários, pesquisadores e estudantes — todos atendidos.</p>
+        </Win>
 
-      {/* DESTAQUES — 4 papers-chave em faixas coloridas */}
-      <section className="parceiros-secao">
-        <div className="parceiros-tag tag-pink">destaques</div>
-        <h2 className="parceiros-secao-titulo titulo-pink">
-          Papers <span>que embasam a conversa</span>
-        </h2>
-      </section>
-
-      <StripeList
-        items={DESTAQUES.map((d) => ({
-          id: `d${d.id}`,
-          category: d.categoria,
-          shortTitle: d.label.toUpperCase(),
-          title: d.titulo,
-          summary: d.resumo,
-          href: d.url,
-        }))}
-        stripeColors={DESTAQUE_STRIPE_COLORS}
-        openLabel="Abrir PDF →"
-      />
-
-      <div className="parceiros-divider" />
-
-      {/* ARQUIVO COMPLETO — faixas coloridas editorial */}
-      <div className="biblio-archive-header">
-        <div className="parceiros-tag tag-violet">arquivo completo</div>
-        <h2 className="parceiros-secao-titulo titulo-violet">
-          Todos os <span>{ARTIGOS.length} papers</span>
-        </h2>
+        <footer className="qsd8-footer">
+          <DragonLogo className="qsd8-footer-logo" />
+          <nav className="qsd8-footer-nav">
+            <Link to="/">Caverna</Link>
+            <Link to="/produtos">Produtos</Link>
+            <Link to="/parceiros">Parceiros</Link>
+            <Link to="/imprensa">Imprensa</Link>
+            <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+            <a href="mailto:somos@letsfly.com.br">Contato</a>
+          </nav>
+          <div className="qsd8-footer-tag">O Dragão leu. O Dragão aprovou. Agora é sua vez.</div>
+        </footer>
       </div>
-
-      <StripeList
-        items={ARTIGOS.map((a) => ({
-          ...a,
-          shortTitle: SHORT_TITLES[a.id as number],
-        }))}
-        stripeColors={STRIPE_COLORS}
-        openLabel="Abrir PDF →"
-        emptyMessage="Nenhum paper encontrado."
-      />
-
-      {/* CTA FINAL — DIEGO FLORES (P&D) */}
-      <section className="parceiros-cta-final">
-        <h2 className="parceiros-cta-final-titulo">
-          Dúvida <span>científica?</span>
-        </h2>
-        <p className="parceiros-cta-final-sub">
-          Fala direto com o Diego Flores, nosso diretor de P&D.
-          Dá pra aprofundar qualquer um desses papers — metodologia,
-          aplicação clínica, extrapolação pro seu caso.
-        </p>
-        <a
-          href="mailto:diego.flores@letsfly.com.br?subject=D%C3%BAvida%20cient%C3%ADfica%20sobre%20BSF"
-          className="parceiros-btn-primary"
-        >
-          diego.flores@letsfly.com.br ↗
-        </a>
-        <p className="parceiros-cta-final-note">
-          Veterinários, pesquisadores e estudantes — todos atendidos.
-        </p>
-      </section>
-
-      {/* BOTTOM MARQUEE */}
-      <div style={{ marginTop: 24 }}>
-        <MarqueeBar items={MARQUEE_BOTTOM} bottom />
-      </div>
-
-      {/* FOOTER */}
-      <footer className="portal-footer">
-        <DragonLogo className="footer-logo-svg" />
-        <nav className="footer-links">
-          <Link to="/portal">Portal</Link>
-          <Link to="/produtos">Produtos</Link>
-          <Link to="/parceiros">Parceiros</Link>
-          <Link to="/imprensa">Imprensa</Link>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
-          <a href="mailto:somos@letsfly.com.br">Contato</a>
-        </nav>
-        <div className="footer-tagline">O Dragão leu. O Dragão aprovou. Agora é sua vez.</div>
-      </footer>
     </div>
   );
 };

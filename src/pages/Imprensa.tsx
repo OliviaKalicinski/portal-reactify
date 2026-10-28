@@ -1,20 +1,16 @@
 import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
-import StripeList, { StripeItem } from "@/components/StripeList";
+import ListaJanelas, { ItemLista } from "@/components/ListaJanelas";
 import PageMeta from "@/components/PageMeta";
 import "./Portal.css";
-import "./Parceiros.css";
+import "./Produtos.css";
+import "./QueroSerDragao.css";
+import "./Fofo.css";
+import "./PortalJanelas.css";
+import "./ProdutosJanelas.css";
 import "./Imprensa.css";
 
-// Cores dos dots dos destaques
-const CATEGORY_COLORS: Record<string, string> = {
-  "Comida de Dragão": "var(--dragon-orange)",
-  "Na Mídia": "var(--dragon-lime)",
-  "Vídeos & Pitches": "var(--dragon-pink)",
-  "Ecossistema BSF": "var(--dragon-yellow)",
-};
-
-// Cores das faixas da lista principal (hex — contraste com texto preto)
+// Cor do cartão de cada categoria (hex — contraste com texto preto)
 const STRIPE_COLORS: Record<string, string> = {
   "Comida de Dragão": "#FF6600",
   "Na Mídia": "#3FFF33",
@@ -22,7 +18,7 @@ const STRIPE_COLORS: Record<string, string> = {
   "Ecossistema BSF": "#FFCC00",
 };
 
-// Cores das faixas dos DESTAQUES (por label do destaque)
+// Cor do cartão dos DESTAQUES (por label do destaque)
 const DESTAQUE_STRIPE_COLORS: Record<string, string> = {
   "TV aberta nacional": "#FF0066",
   "Alcance nacional": "#3FFF33",
@@ -30,42 +26,27 @@ const DESTAQUE_STRIPE_COLORS: Record<string, string> = {
   "Design & Arquitetura": "#FFCC00",
 };
 
-// Extrai veículo de "Veículo · Tipo" → usado como shortTitle da faixa
+// Extrai veículo de "Veículo · Tipo" → usado como título curto do cartão
 const getVeiculo = (meta?: string) => {
   if (!meta) return "";
   const parts = meta.split(" · ");
   return parts[0].trim();
 };
 
-const MARQUEE_TOP = [
-  "IMPRENSA & COBERTURA",
-  "O DRAGÃO NA MÍDIA",
-  "NA MÍDIA · VÍDEOS · ECOSSISTEMA BSF",
-  "BBC · G1 · EXAME · ARCHDAILY",
-  "A REVOLUÇÃO DO INSETO",
-];
-
-const MARQUEE_BOTTOM = [
-  "// COMIDA DE DRAGÃO",
-  "// NA MÍDIA",
-  "// VÍDEOS & PITCHES",
-  "// ECOSSISTEMA BSF",
-  "O DRAGÃO É NOTÍCIA",
-];
-
-const MarqueeBar = ({ items, bottom = false }: { items: string[]; bottom?: boolean }) => {
-  const doubled = [...items, ...items];
-  return (
-    <div className={`marquee-bar${bottom ? " bottom" : ""}`}>
-      <div
-        className="marquee-track"
-        style={bottom ? { animationDirection: "reverse" } : undefined}
-      >
-        {doubled.map((t, i) => <span key={i}>{t}</span>)}
-      </div>
+/* janela OS, a mesma da home e da /produtos (28/10/26: a página entra no estilo das janelas) */
+const Win = ({ name, children, className, inverted, mac }: {
+  name: string; children: React.ReactNode; className?: string; inverted?: boolean; mac?: boolean;
+}) => (
+  <section className={`qsd8-win${inverted ? " inverted" : ""}${className ? " " + className : ""}`}>
+    <div className="qsd8-titlebar">
+      {mac && <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>}
+      <span className="qsd8-tb-name">{name}</span>
+      <span className="qsd8-tb-stripes" aria-hidden="true" />
+      <span className="qsd8-tb-x" aria-hidden="true">×</span>
     </div>
-  );
-};
+    <div className="qsd8-win-body">{children}</div>
+  </section>
+);
 
 // ========== DADOS ==========
 
@@ -76,7 +57,6 @@ interface Destaque {
   titulo: string;
   resumo: string;
   url: string;
-  cor: string;
 }
 
 const DESTAQUES: Destaque[] = [
@@ -88,7 +68,6 @@ const DESTAQUES: Destaque[] = [
     resumo:
       "Matéria da Globo sobre a marca brasileira de proteína BSF para pets — do estúdio pro país inteiro.",
     url: "https://globoplay.globo.com/v/14061746/",
-    cor: "var(--dragon-pink)",
   },
   {
     id: 12,
@@ -98,7 +77,6 @@ const DESTAQUES: Destaque[] = [
     resumo:
       "A maior mídia brasileira publicou a versão em português da BBC — a pauta ganhou tração no país inteiro.",
     url: "https://g1.globo.com/meio-ambiente/noticia/2025/02/13/o-pequeno-inseto-com-grande-apetite-que-transforma-residuos-organicos-em-fertilizante-sustentavel.ghtml",
-    cor: "var(--dragon-lime)",
   },
   {
     id: 9,
@@ -108,7 +86,6 @@ const DESTAQUES: Destaque[] = [
     resumo:
       "A Exame reconheceu o modelo de negócio — 37 investidores acompanhando a jornada da Lets Fly.",
     url: "https://exame.com/negocios/o-negocio-dele-transforma-moscas-em-comida-de-pet-e-atraiu-37-investidores/",
-    cor: "var(--dragon-orange)",
   },
   {
     id: 10,
@@ -118,12 +95,11 @@ const DESTAQUES: Destaque[] = [
     resumo:
       "O projeto arquitetônico da biofábrica virou pauta em uma das maiores revistas de design do mundo.",
     url: "https://www.archdaily.com.br/br/1027734/biofabrica-lets-fly-grua",
-    cor: "var(--dragon-violet)",
   },
 ];
 
 // ========== LINKS (arquivo completo) ==========
-const LINKS: StripeItem[] = [
+const LINKS: ItemLista[] = [
   // NA MÍDIA — em destaque no topo da lista (Globo)
   {
     id: 24,
@@ -324,113 +300,97 @@ const LINKS: StripeItem[] = [
 
 const Imprensa = () => {
   return (
-    <div className="portal-page parceiros-page skin-2">
+    <div className="qsd8 fofo fofo-verde hj">
       <PageMeta
         title="Imprensa & Cobertura · Comida de Dragão"
         description="20+ links curados — Globo, G1, BBC, Exame, ArchDaily. O que falam sobre a Comida de Dragão, a Lets Fly e o inseto que tá mudando o jogo."
         image="/assets/images/canal-dragao-cover.webp"
       />
-      <MarqueeBar items={MARQUEE_TOP} />
+      <img className="qsd8-bg" src="/assets/bg-clouds.jpg" alt="" aria-hidden="true" />
 
-      {/* HERO — padrão */}
-      <section className="archive-hero">
-        <div className="archive-hero-bg" />
-        <div className="dragon-silhouette" aria-hidden="true" />
-        <div className="archive-hero-content">
-          <Link to="/portal" className="archive-backlink">← voltar pro portal</Link>
-          <div className="hero-row">
-            <DragonLogo className="hero-logo" />
-            <div className="hero-copy">
-              <div className="hero-eyebrow">Comida de Dragão — Imprensa & Cobertura</div>
-              <h1 className="archive-hero-title">
-                O Dragão
-                <span>na Mídia</span>
-              </h1>
-              <p className="archive-hero-sub">
-                {LINKS.length} links curados — matérias, vídeos, produtos e referências
-                do ecossistema BSF. Do G1 à BBC, passando por ArchDaily e Exame.
-              </p>
-            </div>
+      <div className="qsd8-wrap hj-wrap">
+        <Link to="/" className="pj-voltar">← voltar pra caverna</Link>
+
+        {/* HERO — topo compacto, como na /produtos */}
+        <Win name="IMPRENSA.EXE" mac className="qsd8-hero-win pj-hero">
+          <DragonLogo className="qsd8-hero-logo" />
+          <div className="qsd8-eyebrow">Comida de Dragão — Imprensa &amp; Cobertura</div>
+          <h1 className="qsd8-title">O Dragão <span>na mídia</span></h1>
+          <p className="qsd8-sub">
+            {LINKS.length} links curados — matérias, vídeos, produtos e referências
+            do ecossistema BSF. Do G1 à BBC, passando por ArchDaily e Exame.
+          </p>
+        </Win>
+
+        {/* DESTAQUES — os 4 veículos principais */}
+        <Win name="DESTAQUES.DIR" className="pj-produtos">
+          <div className="qsd8-eyebrow">// destaques</div>
+          <h2 className="qsd8-h2">Na mídia, <span>a pauta bateu</span></h2>
+          <ListaJanelas
+            items={DESTAQUES.map((d) => ({
+              id: `d${d.id}`,
+              category: d.label,
+              shortTitle: d.veiculo,
+              title: d.titulo,
+              summary: d.resumo,
+              href: d.url,
+            }))}
+            colors={DESTAQUE_STRIPE_COLORS}
+            openLabel="Abrir matéria ↗"
+            fichaNome="DESTAQUE.URL"
+          />
+        </Win>
+
+        {/* ARQUIVO COMPLETO — filtros por categoria e a grade de cartões */}
+        <Win name="LINKS.DIR" className="pj-produtos">
+          <div className="qsd8-eyebrow">// arquivo completo</div>
+          <h2 className="qsd8-h2">Todos os <span>{LINKS.length} links</span></h2>
+          <ListaJanelas
+            items={LINKS.map((l) => ({
+              ...l,
+              shortTitle: getVeiculo(l.meta),
+            }))}
+            colors={STRIPE_COLORS}
+            openLabel="Abrir link ↗"
+            fichaNome="LINK.URL"
+            filtros
+            emptyMessage="Nenhum link encontrado."
+          />
+        </Win>
+
+        {/* CTA FINAL — pra jornalistas */}
+        <Win name="FAZENDO-MATERIA.EXE" inverted className="qsd8-cta-win">
+          <h2 className="qsd8-cta-title">Tá fazendo <span>matéria?</span></h2>
+          <p className="qsd8-cta-sub">
+            A gente topa entrevista, visita guiada à biofábrica e pauta exclusiva.
+            Tem material fotográfico, dados técnicos e contato direto com os fundadores.
+          </p>
+          <div className="qsd8-btnrow" style={{ justifyContent: "center", marginTop: 22 }}>
+            <a
+              href="mailto:somos@letsfly.com.br?subject=Imprensa%20%E2%80%94%20Pauta%20Comida%20de%20Drag%C3%A3o"
+              className="qsd8-btn"
+            >
+              somos@letsfly.com.br ↗
+            </a>
           </div>
-        </div>
-      </section>
+          <p className="qsd8-cta-note">Respondemos em até 48h úteis</p>
+        </Win>
 
-      {/* DESTAQUES — 4 veículos principais em faixas coloridas */}
-      <section className="parceiros-secao">
-        <div className="parceiros-tag tag-pink">destaques</div>
-        <h2 className="parceiros-secao-titulo titulo-pink">
-          Na mídia, <span>a pauta bateu</span>
-        </h2>
-      </section>
-
-      <StripeList
-        items={DESTAQUES.map((d) => ({
-          id: `d${d.id}`,
-          category: d.label,
-          shortTitle: d.veiculo.toUpperCase(),
-          title: d.titulo,
-          summary: d.resumo,
-          href: d.url,
-        }))}
-        stripeColors={DESTAQUE_STRIPE_COLORS}
-        openLabel="Abrir matéria →"
-      />
-
-      <div className="parceiros-divider" />
-
-      {/* ARQUIVO COMPLETO — faixas coloridas editorial */}
-      <div className="impr-archive-header">
-        <div className="parceiros-tag tag-violet">arquivo completo</div>
-        <h2 className="parceiros-secao-titulo titulo-violet">
-          Todos os <span>{LINKS.length} links</span>
-        </h2>
+        <footer className="qsd8-footer">
+          <DragonLogo className="qsd8-footer-logo" />
+          <nav className="qsd8-footer-nav">
+            <Link to="/">Caverna</Link>
+            <Link to="/produtos">Produtos</Link>
+            <Link to="/parceiros">Parceiros</Link>
+            <Link to="/biblioteca">Biblioteca</Link>
+            <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
+            <a href="mailto:somos@letsfly.com.br">Contato</a>
+          </nav>
+          <div className="qsd8-footer-tag">O Dragão é notícia. O Dragão é ciência. O Dragão é agora.</div>
+        </footer>
       </div>
-
-      <StripeList
-        items={LINKS.map((l) => ({
-          ...l,
-          shortTitle: getVeiculo(l.meta),
-        }))}
-        stripeColors={STRIPE_COLORS}
-        openLabel="Abrir link →"
-        emptyMessage="Nenhum link encontrado."
-      />
-
-      {/* CTA FINAL — pra jornalistas */}
-      <section className="parceiros-cta-final">
-        <h2 className="parceiros-cta-final-titulo">
-          Tá fazendo <span>matéria?</span>
-        </h2>
-        <p className="parceiros-cta-final-sub">
-          A gente topa entrevista, visita guiada à biofábrica e pauta exclusiva.
-          Tem material fotográfico, dados técnicos e contato direto com os fundadores.
-        </p>
-        <a
-          href="mailto:somos@letsfly.com.br?subject=Imprensa%20%E2%80%94%20Pauta%20Comida%20de%20Drag%C3%A3o"
-          className="parceiros-btn-primary"
-        >
-          somos@letsfly.com.br ↗
-        </a>
-        <p className="parceiros-cta-final-note">Respondemos em até 48h úteis</p>
-      </section>
-
-      <MarqueeBar items={MARQUEE_BOTTOM} bottom />
-
-      {/* FOOTER */}
-      <footer className="portal-footer">
-        <DragonLogo className="footer-logo-svg" />
-        <nav className="footer-links">
-          <Link to="/portal">Portal</Link>
-          <Link to="/produtos">Produtos</Link>
-          <Link to="/parceiros">Parceiros</Link>
-          <Link to="/biblioteca">Biblioteca</Link>
-          <a href="https://www.instagram.com/comidadedragao" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.youtube.com/@comidadedragao" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://www.comidadedragao.com.br" target="_blank" rel="noopener noreferrer">Comprar</a>
-          <a href="mailto:somos@letsfly.com.br">Contato</a>
-        </nav>
-        <div className="footer-tagline">O Dragão é notícia. O Dragão é ciência. O Dragão é agora.</div>
-      </footer>
     </div>
   );
 };

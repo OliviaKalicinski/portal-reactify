@@ -1,0 +1,68 @@
+/* Lista de arquivo em janelinhas (28/10/2026) — cartões no desenho dos cartões da /produtos:
+   borda grossa, canto redondo, sombra lilás e fundo na cor da categoria, que é a mesma cor
+   que as faixas usavam antes. A ficha reaproveita as classes pj-* do ProdutosJanelas.css. */
+
+.qsd8.hj .lj-filtros { margin-bottom: 4px; }
+
+.qsd8.hj .lj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+@media (max-width: 640px) {
+  .qsd8.hj .lj-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+
+.qsd8.hj .lj-card {
+  display: flex; flex-direction: column; gap: 6px; min-width: 0;
+  padding: 14px 14px 16px; text-align: left; cursor: pointer;
+  font: inherit; color: #0A0A0A;
+  border: 2px solid var(--ink); border-radius: 14px;
+  box-shadow: 4px 4px 0 0 var(--violet);
+  transition: transform .15s, box-shadow .15s;
+}
+.qsd8.hj .lj-card:hover, .qsd8.hj .lj-card:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 var(--violet);
+}
+.qsd8.hj .lj-card:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 0 var(--violet); }
+
+.qsd8.hj .lj-card-num {
+  font-family: "Press Start 2P", monospace; font-size: 9px; opacity: .55;
+}
+/* a categoria vai em Space Mono, a mesma dos filtros: a fonte de pixel não tem as
+   maiúsculas acentuadas (Í, Ó), e "NEGÓCIOS" e "MÍDIA" saíam com o acento quebrado */
+.qsd8.hj .lj-card-cat {
+  font-family: "Space Mono", monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; line-height: 1.5; text-transform: uppercase; opacity: .78;
+}
+.qsd8.hj .lj-card-title {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 16px; font-weight: 700; line-height: 1.3;
+}
+.qsd8.hj .lj-card-meta {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 13px; line-height: 1.4; opacity: .8; margin-top: auto; padding-top: 6px;
+}
+@media (max-width: 640px) {
+  .qsd8.hj .lj-card { padding: 12px 12px 14px; }
+  .qsd8.hj .lj-card-title { font-size: 14px; }
+  .qsd8.hj .lj-card-meta { font-size: 12px; }
+}
+
+/* ── a ficha que abre por cima ── */
+.qsd8.hj .lj-ficha { max-width: 680px; }
+.qsd8.hj .lj-ficha-secao { margin-top: 14px; }
+.qsd8.hj .lj-ficha-titulo {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 16px; font-weight: 700; line-height: 1.35; margin: 0 0 10px;
+}
+.qsd8.hj .lj-ficha-resumo { font-size: 15px; line-height: 1.6; margin: 0; }
+.qsd8.hj .lj-ficha-btns { margin-top: 18px; }
+.qsd8.hj .lj-ficha-btn {
+  font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-weight: 700;
+  letter-spacing: 0; text-transform: none;
+}
+
+.lj-vazio { font-size: 15px; line-height: 1.5; margin: 12px 0 0; }
