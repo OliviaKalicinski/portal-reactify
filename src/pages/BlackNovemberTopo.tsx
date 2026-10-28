@@ -125,9 +125,13 @@ export default function BlackNovemberTopo() {
       </div>
 
       <header className="bn-hero">
-        {/* Nuvens pixeladas da peça da Bianca (CSS puro, não imagem). */}
+        {/* Nuvens recortadas da peça da Bianca. Posições próprias desta página, no
+            BlackNovemberTopo.css: aqui o kit é maior e as de lá caíam em cima dele. */}
         <i className="bn-nuvem bn-nuvem--1" aria-hidden />
         <i className="bn-nuvem bn-nuvem--2" aria-hidden />
+        <i className="bn-nuvem bn-nuvem--3" aria-hidden />
+        <i className="bn-nuvem bn-nuvem--4" aria-hidden />
+        <i className="bn-nuvem bn-nuvem--5" aria-hidden />
 
         <div className="bn-topo">
           <a href="https://www.comidadedragao.com.br/collections/produtos">
@@ -149,10 +153,10 @@ export default function BlackNovemberTopo() {
             conhece a marca, e a metade do preço é o jeito de dizer oi. */}
         <span className="bn-eyebrow">você é novo por aqui</span>
         {/* Título em bloco, com a linha do meio vazada — o jeito da peça da Bianca. */}
+        {/* Duas linhas, como na página da campanha (Olivia, 28/10). */}
         <h1 className="bn-h1">
           Então pega
-          <span className="bn-vazado">esse</span>
-          <span>presente</span>
+          <span>esse presente</span>
         </h1>
 
         {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque

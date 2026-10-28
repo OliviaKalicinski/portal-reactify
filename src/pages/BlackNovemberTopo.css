@@ -9,6 +9,16 @@
 .bnt .bn-foto { width: min(70%, 258px); margin-top: 0; }
 .bnt .bn-eyebrow { font-size: 11px; padding: 5px 10px; }
 
+/* 🔴 Nuvens próprias desta página: aqui o kit é maior e mais alto que o pote da
+   /black-november, e as posições de lá caíam em cima dele. Medido a 375 px:
+   kit 229–467 em x 69–306 · preço 473–553 · botão 559–639 em x 67–308.
+   Sobram duas colunas de ~65 px nas laterais — é onde elas ficam. */
+.bnt .bn-nuvem--1 { width: 56px; height: 30px; top: 250px; left: 4px; }
+.bnt .bn-nuvem--2 { width: 54px; height: 28px; top: 270px; left: calc(100% - 61px); }
+.bnt .bn-nuvem--3 { width: 48px; height: 26px; top: 340px; left: 6px; }
+.bnt .bn-nuvem--4 { width: 48px; height: 26px; top: 360px; left: calc(100% - 57px); }
+.bnt .bn-nuvem--5 { width: 44px; height: 24px; top: 570px; left: calc(100% - 59px); }
+
 /* preço: aqui o "de/por" é o centro da oferta, então o número cresce */
 .bnt .bn-preco-topo { font-size: 30px; margin-top: 0; }
 /* a linha que diz o que é a oferta, acima do de/por */

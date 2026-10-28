@@ -169,10 +169,10 @@ export default function BlackNovember() {
         <span className="bn-eyebrow">black november · 03 a 30 de novembro</span>
         {/* Título em bloco, com a linha do meio vazada — é o jeito da peça da Bianca, em que
             "BLACK FLYDAY" alterna cheio e contornado. */}
+        {/* Duas linhas, não três (Olivia, 28/10). */}
         <h1 className="bn-h1">
           Compre um kit
-          <span className="bn-vazado">e ganhe</span>
-          <span>um suplemento</span>
+          <span>e ganhe um suplemento</span>
         </h1>
 
         {/* O presente em cena: é ele que a pessoa ganha, e é ele que faz decidir. */}
