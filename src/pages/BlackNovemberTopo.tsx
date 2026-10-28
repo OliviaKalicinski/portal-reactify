@@ -19,12 +19,21 @@ import "./BlackNovemberTopo.css";
    Isso fecha metade do item 1a do plano — o que continua aberto é COMO impedir
    que o brinde entre junto, que é configuração de checkout, não de página.
 
-   🔴 28/10: o preço deixou de ser R$ 92,30 e passou a R$ 96,00. Motivo: naquele
-   dia o mínimo de frete grátis da Yampi subiu de R$ 90 para R$ 95 nos 27 estados,
-   e um kit de R$ 92,30 ficaria abaixo do piso — perderia o frete grátis que esta
-   página promete em quatro lugares. Decisão da Olivia: subir o kit, não mexer no
-   frete. Por isso o título não diz mais "pela metade": R$ 96,00 sobre R$ 184,60
-   é 48% de desconto, e metade seria R$ 92,30.
+   🔴 28/10, e a decisão mudou duas vezes no mesmo dia — leia inteiro antes de mexer.
+   De manhã o preço era R$ 92,30 (metade de R$ 184,60) e o piso de frete grátis da
+   Yampi subiu de R$ 90 para R$ 95; para o kit não ficar abaixo do piso, ele subiu
+   para R$ 96,00 e o título deixou de dizer "pela metade" (R$ 96,00 sobre R$ 184,60
+   é 48%, não 50%).
+   À tarde a Olivia reviu: **esta oferta não era para ter frete grátis**. A regra que
+   ela deu para o piso é "o preço do kit mais barato já com 10% de desconto" — o kit
+   mais barato é o Original 3x a R$ 120,20 (o Original + Mordida, de R$ 80,10, não
+   conta), então 120,20 × 0,90 = R$ 108,18, arredondado para **R$ 108,00** nos 27
+   estados. Com isso o kit de R$ 96,00 fica abaixo do piso e **não tem frete grátis**,
+   que é o que ela quis.
+   Por isso a promessa de frete grátis saiu dos quatro lugares desta página: o FAQ,
+   a linha sob o preço, a barra do pé e a descrição da prévia no vite.config.ts.
+   ⚠️ O preço continua R$ 96,00: a Olivia não pediu para voltar aos R$ 92,30, e voltar
+   mudaria o título de novo.
 
    ✅ O BRINDE, RESOLVIDO (28/10, medido). A regra mora em Yampi → Marketing →
    **Brindes** (`app.yampi.com.br/marketing/freebies`), uma tela que não aparece no
@@ -53,9 +62,11 @@ const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
    Shopify (sku 1306-BN) e cadastrado à mão na Yampi (produto 46529699), já com o preço
    promocional de R$ 96,00. Assim a pessoa cai no checkout com o valor certo sem cupom,
    e o preço da campanha não aparece para quem navega o site.
-   Conferido no checkout em 28/10, depois da troca de preço: abre a R$ 96,00, acima do
-   piso de frete grátis de R$ 95. Num teste feito hoje ele vem com o brinde junto, porque
-   a regra do Halloween ainda está valendo — ver a nota do topo: ela termina em 31/10. */
+   Conferido no checkout em 28/10: abre a R$ 96,00. Fica ABAIXO do piso de frete grátis
+   (R$ 108,00 desde a tarde de 28/10), de propósito — ver a nota do topo. Num teste feito
+   hoje ele vem com o brinde junto, porque a regra do Halloween ainda está valendo; ela
+   termina em 31/10, e a da campanha (piso R$ 100) começa em 03/11, então na janela da
+   Black November este kit de R$ 96,00 também fica fora do presente. */
 const KIT = {
   nome: "Kit Completo para Cães",
   img: CDN + "kit-dog-supremo.png?v=1785150064",
@@ -111,7 +122,7 @@ const FAQ = [
   { q: "Vou ser sincera: cheira bem?", a: "Não. É meio fedidinho, e a sua mão vai querer sabão depois. O seu cão discorda de nós dois." },
   { q: "Isso faz mal para ele?", a: "A larva é criada em biofábrica registrada no MAPA, do ovo ao pacote, tudo rastreável. Não é inseto apanhado por aí." },
   { q: "Serve para pet com alergia?", a: "A proteína da larva é hipoalergênica, e é por isso que ela costuma funcionar em quem reage a frango e a boi. Atenção à Mordida, que vem neste kit e leva ovo em pó: nela o hipoalergênico é a proteína, não o petisco inteiro. Se o seu pet tem quadro alérgico, fale com o veterinário dele." },
-  { q: "O que vem no kit?", a: "Três produtos: o Original de 90 g, a Mordida de 180 g e o Suplemento Integral de 180 g. Com frete grátis." },
+  { q: "O que vem no kit?", a: "Três produtos: o Original de 90 g, a Mordida de 180 g e o Suplemento Integral de 180 g." },
   { q: "Como eu dou?", a: "O Original e a Mordida são petiscos: dá na mão. O Suplemento é um pó que você joga por cima da comida que ele já come." },
   /* 🔴 GARANTIA, pendente: a /halloween promete 14 dias e a política publicada é 7 dias
      com produto LACRADO, que não cobre pet que não gostou. Sem prazo até ela decidir. */
@@ -196,7 +207,7 @@ export default function BlackNovemberTopo() {
           <b className="bnt-oferta-linha">o nosso jeito de dizer oi</b>
           de <s>R$ {KIT.cheio}</s> por <strong>R$ {KIT.agora}</strong>
           {/* uma linha só: a data já está na fita passante do topo e na barra do pé */}
-          <small>os três produtos, com frete grátis</small>
+          <small>os três produtos</small>
         </p>
 
         <div className="bn-cta-texto">
@@ -281,7 +292,7 @@ export default function BlackNovemberTopo() {
 
       <footer className="bn-fim">
         <p className="bn-oferta-chamada">
-          Boas-vindas: o kit inteiro por <strong>R$ {KIT.agora}</strong>, com frete grátis. Até 30/11.
+          Boas-vindas: o kit inteiro por <strong>R$ {KIT.agora}</strong>. Até 30/11.
         </p>
         <a className="bn-botao" href={comprar("final")} data-cta="final">Pegar o presente →</a>
         <img className="bn-dragao" src="/assets/halloween/silhueta-dragao.webp" alt="" aria-hidden />
