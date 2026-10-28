@@ -22,6 +22,7 @@
   --verde-escuro: #3d4c38; /* linha da grade */
   --preto: #000000;
   --creme: #e3fea6;        /* contorno da estrela de explosão */
+  --roxo: #5c2d91;         /* cor oficial da marca (_CANONICO-DA-MARCA) */
   /* nomes antigos mantidos para não reescrever 40 linhas: hoje valem o verde */
   --limao: #81fb5a;
   --limao-escuro: #3d4c38;
@@ -135,44 +136,36 @@
    recortado do PDF vetorial da Bianca — com miolo, anel creme, traço, meio-tom e raios —
    e não o clip-path que eu tinha desenhado de memória. */
 .bn-selo-presente {
-  position: absolute; right: -34px; top: -26px; z-index: 3;
+  position: absolute; right: -8px; bottom: 6px; top: auto; z-index: 3;
   display: flex; align-items: center; justify-content: center;
-  width: 148px; height: 132px;
+  width: 104px; height: 92px;
   background: url("/assets/black-november/splash.png") center / contain no-repeat;
-  font-family: "Bebas Neue", sans-serif; font-size: 21px; letter-spacing: .03em;
-  color: var(--preto); transform: rotate(-7deg); text-align: center; line-height: .92;
-  padding: 0 26px;
+  font-family: "Bebas Neue", sans-serif; font-size: 16px; letter-spacing: .03em;
+  color: var(--roxo); transform: rotate(-7deg); text-align: center; line-height: .92;
+  padding: 0 18px;
 }
 
-/* ── nuvens pixeladas de 8 bits (puro CSS, box-shadow em blocos) ─────────── */
+/* ── nuvens: os PNGs recortados do PDF da peça ──────────────────────────────
+   Primeiro eu desenhei as nuvens com box-shadow em blocos. Funciona em tamanho
+   grande, mas ao encolher para caber no celular os blocos de 8px viram 3px e a
+   nuvem perde a forma — vira um retângulo preto. Trocado em 28/10 pelos recortes
+   do próprio PDF da Bianca: é a nuvem dela, com os três tons e o degrau certo.
+   Todas posicionadas por `left`, encostadas nas bordas, sem cruzar a faixa central
+   do título, do preço e do botão. */
 .bn-nuvem {
-  position: absolute; z-index: 0; width: 8px; height: 8px; background: transparent;
-  pointer-events: none;
-  box-shadow:
-    /* linha de cima: contorno preto */
-     16px   0   0 var(--preto),  24px   0   0 var(--preto),  32px   0   0 var(--preto),
-    /* corpo, com a luz no tom do fundo à esquerda */
-      8px   8px 0 var(--preto),  16px   8px 0 var(--verde),  24px   8px 0 var(--verde-medio),
-     32px   8px 0 var(--verde-medio), 40px  8px 0 var(--preto),
-      0     16px 0 var(--preto),  8px  16px 0 var(--verde),  16px 16px 0 var(--verde-medio),
-     24px  16px 0 var(--verde-medio), 32px 16px 0 var(--verde-medio),
-     40px  16px 0 var(--verde-medio), 48px 16px 0 var(--preto),
-    /* base: contorno preto */
-      0     24px 0 var(--preto),  8px  24px 0 var(--preto), 16px 24px 0 var(--preto),
-     24px  24px 0 var(--preto), 32px  24px 0 var(--preto), 40px 24px 0 var(--preto),
-     48px  24px 0 var(--preto);
+  position: absolute; z-index: 0; pointer-events: none;
+  background: center / contain no-repeat;
 }
-/* Cinco nuvens. A regra é ficar nas BORDAS: nenhuma pode passar por trás do botão
-   nem do preço, que vivem na faixa central (Olivia, 28/10: "toma cuidado para ela não
-   ficar atrás do box"). */
-.bn-nuvem--1 { top: 126px; left: -14px; transform: scale(.62); }
-.bn-nuvem--2 { top: 86px;  right: -10px; transform: scale(.72); }
-.bn-nuvem--3 { top: 250px; left: -22px; transform: scale(.5); }
-.bn-nuvem--4 { top: 318px; right: -18px; transform: scale(.55); }
-.bn-nuvem--5 { top: 196px; right: 26px; transform: scale(.4); }
-@media (max-width: 520px) {
-  .bn-nuvem--3, .bn-nuvem--5 { display: none; }
-}
+.bn-nuvem--1 { width: 72px;  height: 38px; top: 148px; left: 6px;
+  background-image: url("/assets/black-november/nuvem-2-esquerda.png"); }
+.bn-nuvem--2 { width: 86px;  height: 44px; top: 128px; left: calc(100% - 92px);
+  background-image: url("/assets/black-november/nuvem-1-topo.png"); }
+.bn-nuvem--3 { width: 58px;  height: 32px; top: 292px; left: 4px;
+  background-image: url("/assets/black-november/nuvem-3-direita.png"); }
+.bn-nuvem--4 { width: 64px;  height: 34px; top: 356px; left: calc(100% - 72px);
+  background-image: url("/assets/black-november/nuvem-2-esquerda.png"); }
+.bn-nuvem--5 { width: 46px;  height: 26px; top: 236px; left: calc(100% - 54px);
+  background-image: url("/assets/black-november/nuvem-3-direita.png"); }
 
 /* ── grade em perspectiva, o "chão" da peça ─────────────────────────────── */
 .bn-grade-chao {
@@ -294,9 +287,9 @@
   .bn-preco-topo { grid-area: preco; font-size: 30px; max-width: none; }
   .bn-cta-texto { grid-area: cta; justify-self: start; margin: 2px 0 6px; }
   .bn-foto { grid-area: foto; width: 100%; margin-top: 0; }
-  .bn-nuvem--1 { top: 96px; left: 10px; transform: scale(.95); }
-  .bn-nuvem--2 { top: 34px; right: 40px; transform: scale(1.1); }
-  .bn-nuvem--3 { display: block; top: 300px; left: 40px; transform: scale(.7); }
-  .bn-nuvem--4 { top: 150px; right: 10px; transform: scale(.8); }
-  .bn-nuvem--5 { display: block; top: 420px; right: 90px; transform: scale(.5); }
+  .bn-nuvem--1 { width: 112px; height: 58px; top: 100px; left: 16px; }
+  .bn-nuvem--2 { width: 132px; height: 68px; top: 30px;  left: calc(100% - 150px); }
+  .bn-nuvem--3 { width: 86px;  height: 46px; top: 340px; left: 34px; }
+  .bn-nuvem--4 { width: 96px;  height: 50px; top: 170px; left: calc(100% - 108px); }
+  .bn-nuvem--5 { width: 68px;  height: 36px; top: 440px; left: calc(100% - 200px); }
 }

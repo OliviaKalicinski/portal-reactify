@@ -54,15 +54,15 @@ type Kit = { nome: string; img: string; preco: string; sku: string; token: strin
 /* Ordem da grade (Olivia, 27/10): "temos que colocar os kits original e mordida em cima,
    dar preferência pra não produto repetido." Então primeiro os que juntam produtos
    DIFERENTES, com Original e Mordida na frente; por último os que repetem o mesmo item. */
-/* Ordem da grade (Olivia, 28/10): "Original com 3, Mordida com 3, Rango com 7.
-   E aí sim vem os outros." Isto SUBSTITUI a ordem de 27/10 (variados primeiro):
-   agora os kits de um produto só vêm na frente.
+/* Ordem da grade (Olivia, 28/10): "O primeiro kit de todos são os três originais, que
+   são as embalagens brancas. Original com 3, Mordida com 3, Rango com 7. E aí sim vem
+   os outros." Isto SUBSTITUI a ordem de 27/10 (variados primeiro).
 
-   🔴 O KIT ORIGINAL (3 Original, sku 1101, R$ 120,20) DEVERIA SER O PRIMEIRO e não
-   está aqui: é o único kit sem token de carrinho no inventário da casa. Kit sem token
-   é botão que não leva a lugar nenhum. Assim que o token chegar, ele entra no topo
-   desta lista — é trocar uma linha. */
+   🔧 O Kit Original 3x tem token sim — `DZCHG52YG4`. Eu disse duas vezes que faltava
+   porque procurei no inventário por "Kit Comida de Dragão Original" e a linha de lá se
+   chama "Kit Original 3x". Procurar por sinônimo, não só pela palavra que eu usei. */
 const KITS: Kit[] = [
+  { nome: "Kit Original 3x", img: CDN + "Anuncios_Multiplataforma_Original_3x_4804eede-2fc5-41aa-b9a6-3ca0a3c2c776.png?v=1785160614", preco: "120,20", sku: "1101", token: "DZCHG52YG4", vem: "3 Original de 90g", frete: true, brinde: true },
   { nome: "Kit 3 Mordidas", img: CDN + "kit-mordidas.png?v=1785150064", preco: "120,20", sku: "1304", token: "AMX9A1HEPD", vem: "3 Mordida de 180g", frete: true, brinde: true },
   { nome: "Kit Rango do Dragão", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", sku: "1501", token: "MJ9H9ZNKPG", vem: "7 pacotes de Rango — compre 6, ganhe 1", frete: true, brinde: true },
   { nome: "Kit Completo para Cães", img: CDN + "kit-dog-supremo.png?v=1785150064", preco: "184,60", sku: "1306", token: "GPGITR0VZ1", vem: "Original 90g + Mordida 180g + Suplemento Integral 180g", frete: true, brinde: true },
