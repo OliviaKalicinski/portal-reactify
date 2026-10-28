@@ -54,55 +54,65 @@ type Kit = { nome: string; img: string; preco: string; sku: string; token: strin
 /* Ordem da grade (Olivia, 27/10): "temos que colocar os kits original e mordida em cima,
    dar preferência pra não produto repetido." Então primeiro os que juntam produtos
    DIFERENTES, com Original e Mordida na frente; por último os que repetem o mesmo item. */
+/* Ordem da grade (Olivia, 28/10): "Original com 3, Mordida com 3, Rango com 7.
+   E aí sim vem os outros." Isto SUBSTITUI a ordem de 27/10 (variados primeiro):
+   agora os kits de um produto só vêm na frente.
+
+   🔴 O KIT ORIGINAL (3 Original, sku 1101, R$ 120,20) DEVERIA SER O PRIMEIRO e não
+   está aqui: é o único kit sem token de carrinho no inventário da casa. Kit sem token
+   é botão que não leva a lugar nenhum. Assim que o token chegar, ele entra no topo
+   desta lista — é trocar uma linha. */
 const KITS: Kit[] = [
+  { nome: "Kit 3 Mordidas", img: CDN + "kit-mordidas.png?v=1785150064", preco: "120,20", sku: "1304", token: "AMX9A1HEPD", vem: "3 Mordida de 180g", frete: true, brinde: true },
+  { nome: "Kit Rango do Dragão", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", sku: "1501", token: "MJ9H9ZNKPG", vem: "7 pacotes de Rango — compre 6, ganhe 1", frete: true, brinde: true },
   { nome: "Kit Completo para Cães", img: CDN + "kit-dog-supremo.png?v=1785150064", preco: "184,60", sku: "1306", token: "GPGITR0VZ1", vem: "Original 90g + Mordida 180g + Suplemento Integral 180g", frete: true, brinde: true },
   { nome: "Kit Comida de Dragão para Cães", img: CDN + "Anuncios_Multiplataforma_Mordida_Suplemento_030f2ec7-353e-45e0-ae37-979a624c15ec.png?v=1785160455", preco: "144,50", sku: "1302", token: "KQXZ5J7LWK", vem: "Original 90g + Suplemento Integral 180g", frete: true, brinde: true },
   { nome: "Kit Mordida + Suplemento", img: CDN + "kit-dog-mordida-suplemento.png?v=1785150064", preco: "144,50", sku: "1305", token: "ZWOQZDQBW1", vem: "Mordida 180g + Suplemento Integral 180g", frete: true, brinde: true },
-  /* daqui para baixo, produto repetido */
-  { nome: "Kit 3 Mordidas", img: CDN + "kit-mordidas.png?v=1785150064", preco: "120,20", sku: "1304", token: "AMX9A1HEPD", vem: "3 Mordida de 180g", frete: true, brinde: true },
-  { nome: "Kit Rango do Dragão", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", sku: "1501", token: "MJ9H9ZNKPG", vem: "7 pacotes de Rango — compre 6, ganhe 1", frete: true, brinde: true },
-  /* 🔴 Kit Original + Mordida (sku 1303, R$ 80,10, token 8YXY3HISC4) SAIU DA PÁGINA
-     (Olivia, 27/10). Ele fica abaixo do piso de R$ 90 do presente e teria de aparecer
-     com ressalva; ela preferiu tirá-lo da campanha — quem quiser, acha na loja.
-     Fica aqui comentado porque o token é bom e voltar é trocar duas linhas. */
-  /* 🔴 FALTA O TOKEN: Kit Comida de Dragão Original (3 Original), sku 1101, R$ 120,20.
-     É o único kit sem carrinho no inventário da casa. Pedir, não improvisar — por isso
-     ele não está nesta lista: kit sem token é botão que não leva a lugar nenhum. */
 ];
 
-/* O suplemento avulso a 50% (Olivia, 26/10). Preço cheio lido na Shopify em 26/10.
-   🔴 O desconto precisa existir no checkout antes de a página ir ao ar. */
+/* 🔴 O BLOCO DO SUPLEMENTO AVULSO A 50% SAIU DA PÁGINA em 28/10.
+   Olivia: "lá embaixo, só o suplemento pela metade do preço? Tá errado. Essa promoção
+   não existe, eu acho. Eu tenho que verificar." Enquanto ela não confirma, a página não
+   anuncia preço que o checkout pode não cobrar.
+   A imagem segue aqui porque o pote é o PRESENTE da primeira tela. */
 const SUPLEMENTO = {
   img: CDN + "Anuncios_Multiplataforma_Suplemento_Integral.png?v=1785161368",
   token: "BII063ST2H",
   cheio: "110,00",
-  agora: "55,00",
 };
 
 /* O gato mantém o preço do Halloween (Olivia, 26/10).
    🔴 Estoque lido em 26/10: −18. Sem reposição, esta oferta não se sustenta e o bloco
    tem de sair da página. */
+/* 🔴 Corrigido em 28/10 (Olivia pegou): a foto aqui era a do suplemento de CÃO.
+   O pote de gato é outro — laranja, com o gato e o selo de taurina. */
 const GATO = {
-  img: CDN + "Anuncios_Multiplataforma_Suplemento_Integral.png?v=1785161368",
+  img: "/assets/images/produtos/suplemento-felino-frente.webp",
   token: "4DO9WVBVH0",
   cheio: "110,00",
   agora: "85,00",
 };
 
+/* FAQ reescrito em 28/10 lendo a casa, não adaptando o do Halloween (Olivia pegou que
+   eu tinha copiado de outro lugar). Fontes abertas: `00_CONTEXTO_BASE/Voz da marca
+   (marketing).md`, `Objeções e respostas - onde achar (índice).md` e as falas reais em
+   `03 - Vozes & Argumentos (copy de reviews)/melhores-argumentos-por-dor-*.md`.
+   O que a voz manda e está aplicado aqui: a quebra do nojo é a PORTA DE ENTRADA e vem
+   primeiro; humor alto com o nojo e o preconceito, zero humor em problema do pet; de 3 a
+   4 linhas por resposta; e o truque de credibilidade da casa — contar um defeito pequeno,
+   porque "a honestinha ganha confiança". */
 const FAQ = [
-  { q: "O suplemento de presente vem como?", a: "Ele entra sozinho no seu pedido quando você escolhe um kit, sem cupom. Chega na mesma caixa." },
-  /* Todos os kits que aparecem na página ganham o presente, desde que o de R$ 80,10 saiu
-     (Olivia, 27/10). Então a resposta é simples, e não precisa falar de piso nenhum. */
-  { q: "Vale para qualquer kit?", a: "Vale para todos os kits desta página. Escolha o seu e o suplemento entra sozinho no pedido." },
-  { q: "Até quando vale?", a: "Até 30 de novembro, ou enquanto durar o estoque do suplemento." },
-  { q: "É larva mesmo?", a: "É. Larva de mosca soldado negro, criada para isso e desidratada. Proteína que o seu pet reconhece como comida." },
-  { q: "Serve para pet com alergia?", a: "A proteína da larva é hipoalergênica, e é por isso que ela costuma funcionar em quem reage a frango e a boi. Na Mordida há ovo em pó, então nela o que é hipoalergênico é a proteína, não o petisco inteiro." },
+  { q: "Larva? Que nojo.", a: "O nojo é seu, não dele. Cachorro come inseto desde antes de existir ração — e a proteína da larva ele digere quase inteira: 88,9%. Nojento mesmo é o desperdício." },
+  { q: "E se o meu não comer?", a: "Acontece de o tutor ter mais preconceito que o próprio pet. Uma cliente escreveu assim: \u201cNão acreditei quando o meu cachorro devorou! Sempre que pego o pacote ele fica doido!\u201d" },
+  { q: "Vou ser sincera: cheira bem?", a: "Não. É meio fedidinho, e a sua mão vai querer sabão depois. O seu cão discorda de nós dois." },
+  { q: "Serve para pet com alergia?", a: "A proteína da larva é hipoalergênica, e é por isso que ela costuma funcionar em quem reage a frango e a boi. Atenção à Mordida, que leva ovo em pó: nela o hipoalergênico é a proteína, não o petisco inteiro. Se o seu pet tem quadro alérgico, fale com o veterinário dele." },
+  { q: "Tá caro.", a: "É proteína de verdade, com perfil completo de aminoácidos, no lugar de um petisco que só enche. E no kit você leva o suplemento de R$ 110,00 sem pagar nada por ele." },
+  { q: "Isso faz mal para ele?", a: "Nossa larva é criada em biofábrica registrada no MAPA, do ovo ao pacote, tudo rastreável. Não é inseto apanhado por aí." },
+  { q: "Como eu dou?", a: "O Original e a Mordida são petiscos: dá na mão. O Suplemento é um pó que você joga por cima da comida que ele já come." },
   /* 🔴 GARANTIA, pendente: a /halloween promete 14 dias e a política publicada da loja é
      arrependimento em 7 dias com o produto LACRADO — que não cobre pet que não gostou.
-     Até a Olivia decidir prazo, condição do produto e motivo coberto, esta resposta não
-     cita prazo nenhum. Não é marcador de preenchimento: é verdadeira como está. */
-  { q: "E se o meu pet não gostar?", a: "Fala com a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
-  { q: "Ficou outra dúvida?", a: "Chama no WhatsApp: (21) 3950-0576." },
+     Até a Olivia decidir prazo, condição e motivo, esta resposta não cita prazo. */
+  { q: "E se não rolar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
 ];
 
 export default function BlackNovember() {
@@ -138,6 +148,8 @@ export default function BlackNovember() {
         <i className="bn-nuvem bn-nuvem--1" aria-hidden />
         <i className="bn-nuvem bn-nuvem--2" aria-hidden />
         <i className="bn-nuvem bn-nuvem--3" aria-hidden />
+        <i className="bn-nuvem bn-nuvem--4" aria-hidden />
+        <i className="bn-nuvem bn-nuvem--5" aria-hidden />
 
         {/* Logo normal da marca, não a "escorrendo" do Halloween (Olivia, 27/10). */}
         <div className="bn-topo">
@@ -222,27 +234,8 @@ export default function BlackNovember() {
         <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga, VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
       </div>
 
-      <section className="bn-bloco bn-bloco--avulso">
-        <h2 className="bn-h2">Só o suplemento,<br /><span>pela metade do preço.</span></h2>
-        <p className="bn-texto">
-          Se o seu pet já come a ração dele e você só quer somar proteína à tigela, é este.
-          No mínimo 40% de proteína, podendo chegar a 45%, com perfil completo de aminoácidos
-          essenciais. Hipoalergênico.
-        </p>
-        <div className="bn-avulso">
-          <img className="bn-avulso-foto" src={SUPLEMENTO.img} alt="Suplemento Integral de 180 g" loading="lazy" />
-          <div className="bn-avulso-txt">
-            <h3 className="bn-kit-nome">Suplemento Integral · 180 g</h3>
-            <p className="bn-kit-preco">
-              <s>R$ {SUPLEMENTO.cheio}</s> R$ {SUPLEMENTO.agora}
-            </p>
-            <a className="bn-botao" href={comprar(SUPLEMENTO.token, "suplemento")} data-cta="suplemento">
-              Comprar →
-            </a>
-          </div>
-        </div>
-        <p className="bn-balao bn-balao--dir">“metade do preço, dobro de larva. é matemática”</p>
-      </section>
+      {/* 🔴 O bloco do suplemento avulso a 50% saiu em 28/10 — a oferta pode não existir e a
+          Olivia vai verificar. Quando ela confirmar, volta aqui, com o carrinho BII063ST2H. */}
 
       {/* 🔴 Bloco do gato: SAI DA PÁGINA se o estoque não for reposto (−18 em 26/10). */}
       <section className="bn-bloco">

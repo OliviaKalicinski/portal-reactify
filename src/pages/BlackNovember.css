@@ -131,14 +131,17 @@
    e o pote apareceu do tamanho de um kit) */
 .bn-foto--presente { width: min(46%, 168px); }
 
-/* selo "de presente", na linha da estrela de explosão da peça */
+/* O "de presente" vem DENTRO do splash da peça (Olivia, 28/10). O arquivo é o splash
+   recortado do PDF vetorial da Bianca — com miolo, anel creme, traço, meio-tom e raios —
+   e não o clip-path que eu tinha desenhado de memória. */
 .bn-selo-presente {
-  position: absolute; right: -6px; top: 4px;
-  font-family: "Bebas Neue", sans-serif; font-size: 19px; letter-spacing: .04em;
-  background: var(--creme); color: var(--preto);
-  border: 3px solid var(--preto); padding: 7px 13px; transform: rotate(7deg);
-  clip-path: polygon(50% 0%, 61% 12%, 76% 6%, 79% 22%, 95% 25%, 88% 40%, 100% 50%, 88% 60%, 95% 75%, 79% 78%, 76% 94%, 61% 88%, 50% 100%, 39% 88%, 24% 94%, 21% 78%, 5% 75%, 12% 60%, 0% 50%, 12% 40%, 5% 25%, 21% 22%, 24% 6%, 39% 12%);
-  padding: 14px 20px;
+  position: absolute; right: -34px; top: -26px; z-index: 3;
+  display: flex; align-items: center; justify-content: center;
+  width: 148px; height: 132px;
+  background: url("/assets/black-november/splash.png") center / contain no-repeat;
+  font-family: "Bebas Neue", sans-serif; font-size: 21px; letter-spacing: .03em;
+  color: var(--preto); transform: rotate(-7deg); text-align: center; line-height: .92;
+  padding: 0 26px;
 }
 
 /* ── nuvens pixeladas de 8 bits (puro CSS, box-shadow em blocos) ─────────── */
@@ -159,10 +162,17 @@
      24px  24px 0 var(--preto), 32px  24px 0 var(--preto), 40px 24px 0 var(--preto),
      48px  24px 0 var(--preto);
 }
-.bn-nuvem--1 { top: 128px; left: 6px; transform: scale(.72); }
-.bn-nuvem--2 { top: 96px; right: 70px; transform: scale(.85); }
-.bn-nuvem--3 { top: 300px; right: 70px; transform: scale(.6); }
-@media (max-width: 520px) { .bn-nuvem--3 { display: none; } }
+/* Cinco nuvens. A regra é ficar nas BORDAS: nenhuma pode passar por trás do botão
+   nem do preço, que vivem na faixa central (Olivia, 28/10: "toma cuidado para ela não
+   ficar atrás do box"). */
+.bn-nuvem--1 { top: 126px; left: -14px; transform: scale(.62); }
+.bn-nuvem--2 { top: 86px;  right: -10px; transform: scale(.72); }
+.bn-nuvem--3 { top: 250px; left: -22px; transform: scale(.5); }
+.bn-nuvem--4 { top: 318px; right: -18px; transform: scale(.55); }
+.bn-nuvem--5 { top: 196px; right: 26px; transform: scale(.4); }
+@media (max-width: 520px) {
+  .bn-nuvem--3, .bn-nuvem--5 { display: none; }
+}
 
 /* ── grade em perspectiva, o "chão" da peça ─────────────────────────────── */
 .bn-grade-chao {
@@ -284,7 +294,9 @@
   .bn-preco-topo { grid-area: preco; font-size: 30px; max-width: none; }
   .bn-cta-texto { grid-area: cta; justify-self: start; margin: 2px 0 6px; }
   .bn-foto { grid-area: foto; width: 100%; margin-top: 0; }
-  .bn-nuvem--1 { top: 92px; left: 18px; transform: scale(1); }
-  .bn-nuvem--2 { top: 40px; right: 120px; transform: scale(1.15); }
-  .bn-nuvem--3 { display: block; top: 250px; right: 40px; transform: scale(.8); }
+  .bn-nuvem--1 { top: 96px; left: 10px; transform: scale(.95); }
+  .bn-nuvem--2 { top: 34px; right: 40px; transform: scale(1.1); }
+  .bn-nuvem--3 { display: block; top: 300px; left: 40px; transform: scale(.7); }
+  .bn-nuvem--4 { top: 150px; right: 10px; transform: scale(.8); }
+  .bn-nuvem--5 { display: block; top: 420px; right: 90px; transform: scale(.5); }
 }

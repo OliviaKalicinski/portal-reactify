@@ -80,17 +80,23 @@ const CIENCIA = [
   },
 ];
 
+/* FAQ reescrito em 28/10 lendo a casa: `00_CONTEXTO_BASE/Voz da marca (marketing).md`,
+   o índice de objeções e as falas reais em `03 - Vozes & Argumentos (copy de reviews)`.
+   Aqui quem chega NÃO CONHECE a marca, então a quebra do nojo vem primeiro e o tom é
+   mais explicativo que na página da campanha — mas sem virar professoral, que a voz
+   proíbe. O defeito pequeno (o cheiro) fica, porque é o que ganha confiança. */
 const FAQ = [
-  { q: "Larva? Sério?", a: "Sério. Larva de mosca soldado negro, criada em biofábrica para virar alimento e desidratada. Não é a mosca da sua cozinha, e o seu pet não vê larva nenhuma: vê petisco." },
-  { q: "O meu cão vai comer isso?", a: "Nos estudos com cães, as dietas com larva foram bem aceitas. E os vídeos aqui em cima são de tutores de verdade, com os cães deles." },
-  { q: "Serve para pet com alergia?", a: "A proteína da larva é hipoalergênica, e é por isso que ela costuma funcionar em quem reage a frango e a boi. Atenção: a Mordida, que vem neste kit, leva ovo em pó — nela o hipoalergênico é a proteína da larva, não o petisco inteiro." },
+  { q: "Larva? Sério?", a: "Sério, e sem drama: larva de mosca soldado negro, criada em biofábrica para virar alimento e desidratada. Não é a mosca da sua cozinha, e o seu cão não vê larva — vê petisco." },
+  { q: "Por que larva e não frango?", a: "Porque é proteína que o corpo dele aproveita quase inteira, com perfil completo de aminoácidos, e que quase nenhum cão já comeu antes — por isso costuma funcionar em quem reage a frango e a boi." },
+  { q: "O meu vai querer comer?", a: "Nos estudos com cães, as dietas com larva foram bem aceitas. E os vídeos aqui em cima são de tutores de verdade: um deles escreveu que teve de guardar o pacote na geladeira porque o cachorro procurava pela casa." },
+  { q: "Vou ser sincera: cheira bem?", a: "Não. É meio fedidinho, e a sua mão vai querer sabão depois. O seu cão discorda de nós dois." },
+  { q: "Isso faz mal para ele?", a: "A larva é criada em biofábrica registrada no MAPA, do ovo ao pacote, tudo rastreável. Não é inseto apanhado por aí." },
+  { q: "Serve para pet com alergia?", a: "A proteína da larva é hipoalergênica, e é por isso que ela costuma funcionar em quem reage a frango e a boi. Atenção à Mordida, que vem neste kit e leva ovo em pó: nela o hipoalergênico é a proteína, não o petisco inteiro. Se o seu pet tem quadro alérgico, fale com o veterinário dele." },
   { q: "O que vem no kit?", a: "Três produtos: o Original de 90 g, a Mordida de 180 g e o Suplemento Integral de 180 g. Com frete grátis." },
-  { q: "Como eu dou?", a: "O Original e a Mordida são petiscos, dá na mão. O Suplemento é um pó que você polvilha por cima da comida que ele já come." },
-  /* 🔴 GARANTIA, pendente: a /halloween promete 14 dias e a política publicada é
-     arrependimento em 7 dias com produto LACRADO — que não cobre pet que não gostou.
-     Até a Olivia decidir prazo, condição e motivo, esta resposta não cita prazo. */
-  { q: "E se ele não gostar?", a: "Fala com a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
-  { q: "Ficou outra dúvida?", a: "Chama no WhatsApp: (21) 3950-0576." },
+  { q: "Como eu dou?", a: "O Original e a Mordida são petiscos: dá na mão. O Suplemento é um pó que você joga por cima da comida que ele já come." },
+  /* 🔴 GARANTIA, pendente: a /halloween promete 14 dias e a política publicada é 7 dias
+     com produto LACRADO, que não cobre pet que não gostou. Sem prazo até ela decidir. */
+  { q: "E se não rolar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
 ];
 
 export default function BlackNovemberTopo() {
