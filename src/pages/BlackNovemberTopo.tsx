@@ -119,6 +119,10 @@ export default function BlackNovemberTopo() {
       </div>
 
       <header className="bn-hero">
+        {/* Nuvens pixeladas da peça da Bianca (CSS puro, não imagem). */}
+        <i className="bn-nuvem bn-nuvem--1" aria-hidden />
+        <i className="bn-nuvem bn-nuvem--2" aria-hidden />
+
         <div className="bn-topo">
           <a href="https://www.comidadedragao.com.br/collections/produtos">
             <img className="bn-logo" src="/assets/images/logo-preto.png" alt="Comida de Dragão" />
@@ -138,7 +142,12 @@ export default function BlackNovemberTopo() {
             O enquadramento deixa de ser liquidação e vira boas-vindas: quem chega aqui não
             conhece a marca, e a metade do preço é o jeito de dizer oi. */}
         <span className="bn-eyebrow">você é novo por aqui</span>
-        <h1 className="bn-h1">Então pega<br /><span>esse presente.</span></h1>
+        {/* Título em bloco, com a linha do meio vazada — o jeito da peça da Bianca. */}
+        <h1 className="bn-h1">
+          Então pega
+          <span className="bn-vazado">esse</span>
+          <span>presente</span>
+        </h1>
 
         {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque
             há UM produto só: a foto representa exatamente o que o botão compra. */}
@@ -159,6 +168,9 @@ export default function BlackNovemberTopo() {
           <a className="bn-botao" href={comprar("titulo")} data-cta="titulo">Pegar o presente →</a>
         </div>
       </header>
+
+      {/* A grade em perspectiva da peça, fazendo o "chão" entre o cartaz e o conteúdo. */}
+      <div className="bn-grade-chao" aria-hidden />
 
       {/* Barra fixa: aqui ela COMPRA, não rola — há um produto só. */}
       <a className="bn-barra" href={comprar("barra")} data-cta="barra">

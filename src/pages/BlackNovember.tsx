@@ -133,14 +133,20 @@ export default function BlackNovember() {
       </div>
 
       <header className="bn-hero">
-        {/* Logo normal da marca, não a "escorrendo" do Halloween (Olivia, 27/10: tirar o que é
-            de Halloween daqui). O arquivo é preto com fundo transparente; o CSS inverte. */}
+        {/* Nuvens pixeladas de 8 bits, da peça da Bianca. São CSS puro (box-shadow em blocos),
+            não imagem — assim escalam sem serrilhar e não pesam. */}
+        <i className="bn-nuvem bn-nuvem--1" aria-hidden />
+        <i className="bn-nuvem bn-nuvem--2" aria-hidden />
+        <i className="bn-nuvem bn-nuvem--3" aria-hidden />
+
+        {/* Logo normal da marca, não a "escorrendo" do Halloween (Olivia, 27/10). */}
         <div className="bn-topo">
           <a href="https://www.comidadedragao.com.br/collections/produtos">
             <img className="bn-logo" src="/assets/images/logo-preto.png" alt="Comida de Dragão" />
           </a>
           <a className="bn-voltar" href="https://www.comidadedragao.com.br/">voltar para a home</a>
         </div>
+        {/* 28/10: a logo deixou de ser invertida — o fundo agora é verde, não preto. */}
 
         {/* Reescrito em 27/10: a Olivia achou a primeira tela confusa, e estava.
             O que confundia: três números de uma vez ("de R$ 80,10 a R$ 185,40" mais "a partir
@@ -149,7 +155,13 @@ export default function BlackNovember() {
             Agora a primeira tela mostra UMA coisa: o PRESENTE. É o que a oferta é — o resto
             (qual kit, por quanto) se resolve na grade, um kit por cartão. */}
         <span className="bn-eyebrow">black november · 03 a 30 de novembro</span>
-        <h1 className="bn-h1">Compre um kit e<br /><span>ganhe um suplemento.</span></h1>
+        {/* Título em bloco, com a linha do meio vazada — é o jeito da peça da Bianca, em que
+            "BLACK FLYDAY" alterna cheio e contornado. */}
+        <h1 className="bn-h1">
+          Compre um kit
+          <span className="bn-vazado">e ganhe</span>
+          <span>um suplemento</span>
+        </h1>
 
         {/* O presente em cena: é ele que a pessoa ganha, e é ele que faz decidir. */}
         <div className="bn-foto bn-foto--presente">
@@ -167,8 +179,11 @@ export default function BlackNovember() {
         </div>
       </header>
 
-      {/* Barra fixa de compra: rola até a grade, porque aqui há vários kits e nenhum
-          representa os outros. (Na /black-november-topo ela vai compr direto.) */}
+      {/* A grade em perspectiva da peça, fazendo o "chão" entre o cartaz e o conteúdo. */}
+      <div className="bn-grade-chao" aria-hidden />
+
+      {/* Barra fixa de compra: rola até a grade de kits, porque aqui há vários kits e nenhum
+          representa os outros. (Na /black-november-topo ela compra direto.) */}
       <a className="bn-barra" href="#kits" data-cta="barra">
         <span className="bn-barra-txt">Kit + suplemento<small>de presente até 30/11</small></span>
         <strong className="bn-barra-btn">Ver os kits ↓</strong>
