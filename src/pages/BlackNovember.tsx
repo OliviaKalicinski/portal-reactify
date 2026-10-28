@@ -24,12 +24,22 @@ import "./BlackNovember.css";
    página de kits da loja, que reescrevia o utm_content: medido em 26/10, isso
    custou o crédito de 9 pedidos (R$ 1.181,64) à landing page.
 
+   🔴🔴 ESTA PÁGINA PROMETE UM PRESENTE QUE ACABA EM 31/10. Achado em 28/10, medido:
+   o brinde não é regra fixa da loja, é uma regra com data. Mora em Yampi → Marketing →
+   **Brindes** (`app.yampi.com.br/marketing/freebies`), tela que NÃO aparece no menu
+   lateral — chega-se a ela pela busca do painel. A regra 8253 chama-se "Halloween -
+   suplemento acima de R$ 90": dá o Suplemento Integral (sku 302) ao atingir R$ 90,00 no
+   carrinho, e **vale de 19/10 a 31/10/2026**. A campanha é de 03 a 30/11. Ou seja: no dia
+   em que esta página entrar no ar, "Todos estes ganham o suplemento" será falso, a menos
+   que alguém crie a regra nova para a janela da Black November. **Isso é decisão e ação
+   da Olivia, e é o bloqueio número 1 desta página.**
+   Como foi medido: com o Kit Original + Mordida (R$ 80,10) o checkout mostra "Adicione
+   R$ 9,90 e ganhe um brinde!" (80,10 + 9,90 = R$ 90,00) e entrega Produtos (1), sem brinde.
+
    🔴 NÃO VAI AO AR ANTES DE:
-   1. A decisão do brinde. O brinde da Yampi dispara a partir de R$ 90 e o Kit
-      Completo a 50% custa R$ 92,30: do jeito que está, ele ganha o suplemento
-      extra, contra a decisão da Olivia. Por isso a oferta de 50% do Kit Completo
-      NÃO está nesta página ainda — ela é da /black-november-topo, que espera a
-      decisão. Ver item 1a do plano.
+   1. A regra de brinde nova, para 03 a 30/11 — ver acima. *(A preocupação antiga, de o
+      brinde se somar à oferta de 50% do Kit Completo da /black-november-topo, deixou de
+      existir pelo mesmo motivo: na janela da campanha a regra do Halloween já expirou.)*
    2. A garantia. A /halloween promete 14 dias e a política publicada é 7 dias
       com produto lacrado. Aqui o FAQ não cita prazo nenhum até ela decidir.
    3. Conferir no checkout, kit por kit, que o preço da página é o cobrado.
@@ -46,7 +56,8 @@ const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
 
 /* `token`: carrinho da Yampi, de _MIGRAR-PAGINAS/links-checkout-yampi-tokens.md.
    `frete`: frete grátis automático dos kits — o Original + Mordida não tem (regra da casa).
-   `brinde`: ganha o suplemento de presente. O piso do brinde na Yampi é R$ 90, então o
+   `brinde`: ganha o suplemento de presente. O piso do brinde na Yampi é R$ 90 (regra 8253,
+   em Marketing → Brindes, que TERMINA EM 31/10 — ver a nota do topo), então o
    Original + Mordida (R$ 80,10) fica fora — foi o que aconteceu no Halloween, descoberto
    só em 19/10. Preços lidos na Shopify em 26/10/2026. */
 type Kit = { nome: string; img: string; preco: string; sku: string; token: string; vem: string; frete: boolean; brinde: boolean };

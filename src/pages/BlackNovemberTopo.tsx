@@ -26,13 +26,17 @@ import "./BlackNovemberTopo.css";
    frete. Por isso o título não diz mais "pela metade": R$ 96,00 sobre R$ 184,60
    é 48% de desconto, e metade seria R$ 92,30.
 
-   🔴 NÃO VAI AO AR ANTES DE:
-   1. O brinde. O checkout entrega o Suplemento Integral junto com este kit, e a
-      decisão dela era que as duas ofertas não se somassem. ⚠️ A causa NÃO é o piso
-      de frete grátis: em 28/10 o piso subiu para R$ 95 e o brinde continuou vindo
-      num carrinho de R$ 92,30. De onde a regra do brinde sai, ainda não achei —
-      não está em Promoções, Descontos nem Marketing da Yampi.
-   2. A garantia — ver o FAQ.
+   ✅ O BRINDE, RESOLVIDO (28/10, medido). A regra mora em Yampi → Marketing →
+   **Brindes** (`app.yampi.com.br/marketing/freebies`), uma tela que não aparece no
+   menu lateral — só pela busca do painel. É a regra 8253, "Halloween - suplemento
+   acima de R$ 90": dá o Suplemento Integral (sku 302) ao atingir R$ 90,00 no
+   carrinho, e **termina em 31/10/2026**. A campanha começa em 03/11, então nessa
+   janela ela já não existe, e as duas ofertas não se somam. Medido assim: com o
+   Kit Original + Mordida (R$ 80,10) o checkout mostra "Adicione R$ 9,90 e ganhe um
+   brinde!" — 80,10 + 9,90 = R$ 90,00 — e entrega Produtos (1), sem brinde.
+   *(Por isso o brinde aparece em qualquer teste feito hoje: hoje é 28/10.)*
+
+   🔴 NÃO VAI AO AR ANTES DE: a garantia — ver o FAQ.
 
    Herda o visual da /black-november (BlackNovember.css) e acrescenta só o que
    é desta página (BlackNovemberTopo.css).
@@ -50,8 +54,8 @@ const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
    promocional de R$ 96,00. Assim a pessoa cai no checkout com o valor certo sem cupom,
    e o preço da campanha não aparece para quem navega o site.
    Conferido no checkout em 28/10, depois da troca de preço: abre a R$ 96,00, acima do
-   piso de frete grátis de R$ 95. ⚠️ Vem com o brinde junto (Suplemento Integral) — ver
-   a nota do topo deste arquivo: a causa não é o piso de frete, e ainda não foi achada. */
+   piso de frete grátis de R$ 95. Num teste feito hoje ele vem com o brinde junto, porque
+   a regra do Halloween ainda está valendo — ver a nota do topo: ela termina em 31/10. */
 const KIT = {
   nome: "Kit Completo para Cães",
   img: CDN + "kit-dog-supremo.png?v=1785150064",
