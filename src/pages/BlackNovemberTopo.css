@@ -5,7 +5,9 @@
 /* Olivia, 27/10: kit, valor e botão TÊM de caber na primeira tela do celular.
    Alvo: o botão terminar antes de ~740 px numa tela de 812, deixando a barra fixa de fora. */
 .bnt .bn-hero { gap: 6px; padding: 12px 18px 20px; }
-.bnt .bn-h1 { font-size: clamp(40px, 13vw, 78px); }
+/* "PELA METADE DO PREÇO" e longo: a 375 px precisa de ~37 px para caber em uma
+   linha so, senao o titulo vai a tres linhas e o botao sai da primeira tela. */
+.bnt .bn-h1 { font-size: clamp(30px, 9.9vw, 78px); }
 .bnt .bn-foto { width: min(70%, 258px); margin-top: 0; }
 .bnt .bn-eyebrow { font-size: 11px; padding: 5px 10px; }
 

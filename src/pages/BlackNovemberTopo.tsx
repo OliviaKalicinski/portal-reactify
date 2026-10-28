@@ -153,10 +153,12 @@ export default function BlackNovemberTopo() {
             conhece a marca, e a metade do preço é o jeito de dizer oi. */}
         <span className="bn-eyebrow">você é novo por aqui</span>
         {/* Título em bloco, com a linha do meio vazada — o jeito da peça da Bianca. */}
-        {/* Duas linhas, como na página da campanha (Olivia, 28/10). */}
+        {/* Olivia, 28/10: "nessa LP eu colocaria o kit pela metade do preço no título".
+            A oferta sobe para o h1; o enquadramento de boas-vindas fica no chip, que já
+            diz "você é novo por aqui", e na linha logo abaixo. Duas linhas. */}
         <h1 className="bn-h1">
-          Então pega
-          <span>esse presente</span>
+          O kit inteiro
+          <span>pela metade do preço</span>
         </h1>
 
         {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque
@@ -168,7 +170,7 @@ export default function BlackNovemberTopo() {
         </div>
 
         <p className="bn-preco-topo">
-          <b className="bnt-oferta-linha">o kit inteiro, pela metade</b>
+          <b className="bnt-oferta-linha">o nosso jeito de dizer oi</b>
           de <s>R$ {KIT.cheio}</s> por <strong>R$ {KIT.agora}</strong>
           {/* uma linha só: a data já está na fita passante do topo e na barra do pé */}
           <small>os três produtos, com frete grátis</small>
