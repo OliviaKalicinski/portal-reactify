@@ -22,7 +22,8 @@
   --verde-escuro: #3d4c38; /* linha da grade */
   --preto: #000000;
   --creme: #e3fea6;        /* contorno da estrela de explosão */
-  --roxo: #5c2d91;         /* cor oficial da marca (_CANONICO-DA-MARCA) */
+  --roxo: #5c2d91;         /* roxo oficial da marca (_CANONICO-DA-MARCA) */
+  --violeta: #925aed;      /* violeta oficial; e o do splash, ver nota no selo */
   /* nomes antigos mantidos para não reescrever 40 linhas: hoje valem o verde */
   --limao: #81fb5a;
   --limao-escuro: #3d4c38;
@@ -139,9 +140,13 @@
   position: absolute; right: -8px; bottom: 6px; top: auto; z-index: 3;
   display: flex; align-items: center; justify-content: center;
   width: 104px; height: 92px;
-  background: url("/assets/black-november/splash.png") center / contain no-repeat;
+  /* Olivia, 28/10: o roxo vai NO SPLASH e o texto fica preto.
+     O miolo usa o VIOLETA #925AED, nao o roxo #5C2D91: medido, o roxo escuro da
+     2,24:1 de contraste com texto preto (ilegivel) e o violeta da 4,91:1. Os dois
+     sao cores oficiais da marca. O anel creme e o traco preto da peca ficam. */
+  background: url("/assets/black-november/splash-roxo.png") center / contain no-repeat;
   font-family: "Bebas Neue", sans-serif; font-size: 16px; letter-spacing: .03em;
-  color: var(--roxo); transform: rotate(-7deg); text-align: center; line-height: .92;
+  color: var(--preto); transform: rotate(-7deg); text-align: center; line-height: .92;
   padding: 0 18px;
 }
 
