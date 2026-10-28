@@ -4,8 +4,10 @@
    perspectiva, estrela de explosão e moldura tracejada. É o millennium/anos 2000
    que a Olivia citou como inspiração do caverna.
 
-   🔴 O verde #40FE32 foi AMOSTRADO DA IMAGEM da peça, não de um canônico. Se a
-   Bianca tiver o hex oficial, trocar só esta linha.
+   🔴 Cores lidas do PDF VETORIAL da peça (28/10), não de captura de tela: o verde
+   é #81FB5A (68% da arte), o creme da estrela é #E3FEA6, a linha da grade é
+   #3D4C38 e o corpo das nuvens é #5ABA3B. A primeira versão tirou #40FE32 de um
+   print, e estava errada — print passa por compressão e perfil de cor.
    (A versão anterior era preto com rosa #FF2D78 e amarelo #FFE600, da decisão de
    26/10; a peça dela voltou ao verde e a Olivia decidiu em 28/10 seguir a peça.)
 
@@ -15,14 +17,15 @@
    volta como acento. Isso não contraria a peça: a peça é cartaz, a página é
    leitura. */
 .bn {
-  --verde: #40fe32;
-  --verde-escuro: #16a30c;
-  --preto: #0b0b0b;
-  --creme: #fdfbe8;
+  --verde: #81fb5a;        /* fundo, 68% da arte */
+  --verde-medio: #5aba3b;  /* corpo das nuvens */
+  --verde-escuro: #3d4c38; /* linha da grade */
+  --preto: #000000;
+  --creme: #e3fea6;        /* contorno da estrela de explosão */
   /* nomes antigos mantidos para não reescrever 40 linhas: hoje valem o verde */
-  --limao: #40fe32;
-  --limao-escuro: #16a30c;
-  --amarelo: #40fe32;
+  --limao: #81fb5a;
+  --limao-escuro: #3d4c38;
+  --amarelo: #81fb5a;
 
   background-color: var(--verde);
   color: var(--preto);
@@ -83,12 +86,11 @@
   margin: 4px 0 0; color: var(--preto); text-transform: uppercase;
 }
 .bn-h1 span { display: block; color: var(--preto); }
-/* a linha "vazada": contorno preto, miolo verde, como a peça alterna */
-.bn-h1 .bn-vazado {
-  color: var(--verde);
-  -webkit-text-stroke: 3px var(--preto);
-  paint-order: stroke fill;
-}
+/* Na peça NÃO há linha vazada: as cinco linhas são pretas cheias, e o que varia é o
+   ALINHAMENTO de cada uma. Corrigido em 28/10, lendo o PDF vetorial. */
+.bn-h1 .bn-vazado { color: var(--preto); }
+.bn-h1 > span:nth-of-type(1) { margin-left: 8%; }
+.bn-h1 > span:nth-of-type(2) { margin-left: -4%; }
 
 .bn-sub { font-size: 16px; line-height: 1.45; margin: 0; max-width: 420px; font-weight: 600; }
 
@@ -144,13 +146,15 @@
   position: absolute; z-index: 0; width: 8px; height: 8px; background: transparent;
   pointer-events: none;
   box-shadow:
-     16px   0 0 var(--creme),  24px   0 0 var(--creme),  32px   0 0 var(--creme),
-      8px   8px 0 var(--creme), 16px   8px 0 var(--creme), 24px  8px 0 var(--creme),
-     32px   8px 0 var(--creme), 40px   8px 0 var(--creme),
-      0     16px 0 var(--creme),  8px  16px 0 var(--creme), 16px 16px 0 var(--creme),
-     24px  16px 0 var(--creme), 32px  16px 0 var(--creme), 40px 16px 0 var(--creme),
-     48px  16px 0 var(--creme),
-     /* contorno preto embaixo */
+    /* linha de cima: contorno preto */
+     16px   0   0 var(--preto),  24px   0   0 var(--preto),  32px   0   0 var(--preto),
+    /* corpo, com a luz no tom do fundo à esquerda */
+      8px   8px 0 var(--preto),  16px   8px 0 var(--verde),  24px   8px 0 var(--verde-medio),
+     32px   8px 0 var(--verde-medio), 40px  8px 0 var(--preto),
+      0     16px 0 var(--preto),  8px  16px 0 var(--verde),  16px 16px 0 var(--verde-medio),
+     24px  16px 0 var(--verde-medio), 32px 16px 0 var(--verde-medio),
+     40px  16px 0 var(--verde-medio), 48px 16px 0 var(--preto),
+    /* base: contorno preto */
       0     24px 0 var(--preto),  8px  24px 0 var(--preto), 16px 24px 0 var(--preto),
      24px  24px 0 var(--preto), 32px  24px 0 var(--preto), 40px 24px 0 var(--preto),
      48px  24px 0 var(--preto);
@@ -168,8 +172,8 @@
 .bn-grade-chao::before {
   content: ""; position: absolute; inset: -40% -60% -10% -60%;
   background:
-    repeating-linear-gradient(to right, rgba(0,0,0,.75) 0 2px, transparent 2px 46px),
-    repeating-linear-gradient(to bottom, rgba(0,0,0,.75) 0 2px, transparent 2px 46px);
+    repeating-linear-gradient(to right, var(--verde-escuro) 0 2px, transparent 2px 46px),
+    repeating-linear-gradient(to bottom, var(--verde-escuro) 0 2px, transparent 2px 46px);
   transform: perspective(240px) rotateX(62deg);
   transform-origin: 50% 0%;
 }
