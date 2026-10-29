@@ -34,6 +34,8 @@ const ROTAS = new Set([
   "/original",
   "/suplemento",
   "/grub",
+  "/black-november",
+  "/black-november-topo",
   "/g/alergia",
   "/g/idoso",
   "/g/gato-coceira",

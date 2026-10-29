@@ -29,6 +29,21 @@ const METAS_POR_ROTA: Record<string, { title: string; description: string; image
     description: "Promoção sinistra de Halloween: compre um kit e ganhe um suplemento. Só até 31/10.",
     image: `${SITE}/assets/images/og-halloween.jpg`,
   },
+  /* Black November 2026 (03 a 30/11). 🔴 A imagem própria é peça da Bianca e ainda não existe:
+     até ela chegar, vale a og-default. Quando a peça entrar, salvar como
+     public/assets/images/og-black-november.jpg (1200×630) e trocar a linha abaixo.
+     Lembrete do inventário de LPs: mudou a copy da página, muda a descrição aqui também. */
+  "black-november": {
+    title: "Black November — Comida de Dragão",
+    description: "Compre um kit e ganhe um suplemento. E o suplemento avulso pela metade do preço. De 03 a 30 de novembro.",
+    image: `${SITE}/assets/images/og-default.jpg`,
+  },
+  /* A de topo, para público frio: a prévia diz o preço, porque é a oferta que faz a pessoa abrir. */
+  "black-november-topo": {
+    title: "Você é novo por aqui? Pega esse presente — Comida de Dragão",
+    description: "O kit inteiro de proteína de larva para cães, de R$ 184,60 por R$ 96,00. Até 30 de novembro.",
+    image: `${SITE}/assets/images/og-default.jpg`,
+  },
 };
 const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 function htmlPorRota() {

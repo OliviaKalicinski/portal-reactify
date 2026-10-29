@@ -29,6 +29,18 @@ function AteOFimDoHalloween({ pagina, depois }: { pagina: JSX.Element; depois: s
   }
   return <Navigate to={{ pathname: depois, search: window.location.search }} replace />;
 }
+const BlackNovember = lazy(() => import("./pages/BlackNovember.tsx"));
+const BlackNovemberTopo = lazy(() => import("./pages/BlackNovemberTopo.tsx"));
+/* Black November: 03 a 30/11/2026. Como no Halloween, a página se desliga sozinha no fim —
+   depois de 30/11 à meia-noite e meia de 01/12 ela leva à loja, mantendo a UTM de quem chegou.
+   O INÍCIO não tem porta: a rota responde antes de 03/11 de propósito, para a Olivia e a Bianca
+   verem a página antes de a campanha subir. */
+const FIM_DA_BLACK = Date.parse("2026-12-01T00:30:00-03:00");
+function AteOFimDaBlack({ pagina, depois }: { pagina: JSX.Element; depois: string }) {
+  if (Date.now() < FIM_DA_BLACK) return pagina;
+  window.location.replace(depois + window.location.search);
+  return null;
+}
 const Parceiros = lazy(() => import("./pages/Parceiros.tsx"));
 const Produtos = lazy(() => import("./pages/Produtos.tsx"));
 const Lojas = lazy(() => import("./pages/Lojas.tsx"));
@@ -88,6 +100,8 @@ const App = () => (
               <Route path="/qual-dragao" element={<QuizDragao />} />
               <Route path="/halloween" element={<AteOFimDoHalloween pagina={<Halloween />} depois="https://www.comidadedragao.com.br/collections/produtos" />} />
               <Route path="/halloween-gato" element={<AteOFimDoHalloween pagina={<HalloweenGatos />} depois="/gatos" />} />
+              <Route path="/black-november" element={<AteOFimDaBlack pagina={<BlackNovember />} depois="https://www.comidadedragao.com.br/collections/produtos" />} />
+              <Route path="/black-november-topo" element={<AteOFimDaBlack pagina={<BlackNovemberTopo />} depois="https://www.comidadedragao.com.br/collections/produtos" />} />
               <Route path="/parceiros" element={<Parceiros />} />
               <Route path="/produtos" element={<Produtos />} />
               <Route path="/lojas" element={<Lojas />} />

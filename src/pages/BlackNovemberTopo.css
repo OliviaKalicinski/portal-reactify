@@ -1,0 +1,112 @@
+/* /black-november-topo · só o que é desta página.
+   O resto do visual vem de BlackNovember.css, importado antes.
+   Refeito em 28/10/2026 junto com a troca para o verde da peça da Bianca. */
+
+/* Olivia, 27/10: kit, valor e botão TÊM de caber na primeira tela do celular.
+   Alvo: o botão terminar antes de ~740 px numa tela de 812, deixando a barra fixa de fora. */
+/* Olivia, 28/10: "o botao precisa ficar logo na primeira tela". Medido antes numa
+   tela de 812 px e passou; numa de 667 (iPhone SE) nao cabia. Agora o alvo e a tela
+   PEQUENA: tudo ate o botao em ~600 px, deixando a barra fixa de fora. */
+.bnt .bn-hero { gap: 3px; padding: 6px 18px 10px; }
+/* "PELA METADE DO PREÇO" e longo: a 375 px precisa de ~37 px para caber em uma
+   linha so, senao o titulo vai a tres linhas e o botao sai da primeira tela. */
+.bnt .bn-h1 { font-size: clamp(27px, 8.8vw, 78px); }
+.bnt .bn-foto { width: min(52%, 190px); margin-top: 0; }
+.bnt .bn-eyebrow { font-size: 11px; padding: 5px 10px; }
+
+/* 🔴 Nuvens próprias desta página: aqui o kit é maior e mais alto que o pote da
+   /black-november, e as posições de lá caíam em cima dele. Medido a 375 px:
+   kit 229–467 em x 69–306 · preço 473–553 · botão 559–639 em x 67–308.
+   Sobram duas colunas de ~65 px nas laterais — é onde elas ficam. */
+.bnt .bn-nuvem--1 { width: 52px; height: 28px; top: 200px; left: 4px; }
+.bnt .bn-nuvem--2 { width: 54px; height: 28px; top: 212px; left: calc(100% - 93px); }
+.bnt .bn-nuvem--3 { width: 46px; height: 24px; top: 272px; left: 6px; }
+.bnt .bn-nuvem--4 { width: 46px; height: 24px; top: 290px; left: calc(100% - 87px); }
+.bnt .bn-nuvem--5 { width: 38px; height: 20px; top: 340px; left: calc(100% - 79px); }
+
+/* preço: aqui o "de/por" é o centro da oferta, então o número cresce */
+.bnt .bn-preco-topo { font-size: 26px; margin-top: 0; }
+/* a linha que diz o que é a oferta, acima do de/por */
+.bnt-oferta-linha {
+  display: block; font-weight: 400; font-size: 16px; line-height: 1.05;
+  color: var(--preto); margin-bottom: 2px;
+}
+
+/* a foto do topo leva ao carrinho: precisa parecer clicável */
+.bnt .bn-foto a { display: block; width: 100%; }
+.bnt .bn-foto a:focus-visible { outline: 3px solid var(--preto); outline-offset: 6px; }
+@media (hover: hover) {
+  .bnt .bn-foto a:hover .bn-cao { transform: scale(1.02); }
+}
+.bnt .bn-cao { transition: transform .2s ease; }
+@media (prefers-reduced-motion: reduce) { .bnt .bn-cao { transition: none; } }
+
+/* bloco de texto da marca, que vem depois dos vídeos: fundo preto, como os outros de leitura */
+.bnt-oque { padding-top: 34px; padding-bottom: 34px; }
+
+/* o que vem na caixa: três colunas no computador, empilhado no celular */
+.bnt-caixa {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px;
+  max-width: 820px; margin: 0 auto 8px; text-align: left;
+}
+.bnt-caixa article {
+  background: var(--verde); color: var(--preto); border: 3px solid var(--preto);
+  padding: 14px 16px; box-shadow: 5px 5px 0 var(--creme);
+}
+.bnt-caixa h3 {
+  font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 22px; line-height: 1;
+  margin: 0 0 6px;
+}
+.bnt-caixa p { margin: 0; font-size: 15px; line-height: 1.45; }
+
+/* os cinco blocos de ciência */
+.bnt-ciencia {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
+  max-width: 940px; margin: 0 auto; text-align: left;
+}
+.bnt-card {
+  position: relative; background: var(--verde); color: var(--preto);
+  border: 3px solid var(--preto); padding: 20px 16px 14px;
+  box-shadow: 5px 5px 0 var(--creme);
+}
+.bnt-num {
+  position: absolute; top: -16px; left: 14px;
+  font-family: "Bebas Neue", sans-serif; font-size: 26px; line-height: 1;
+  background: var(--preto); color: var(--verde); border: 3px solid var(--preto);
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+}
+.bnt-card h3 {
+  font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 23px; line-height: 1.05;
+  margin: 10px 0 6px; text-transform: uppercase;
+}
+.bnt-card p { margin: 0 0 8px; font-size: 15px; line-height: 1.5; }
+.bnt-card small {
+  font-family: "Space Mono", monospace; font-size: 11px; line-height: 1.4;
+  display: block; opacity: .75;
+}
+
+.bnt-rodape-ciencia { font-size: 14px; margin: 18px auto 0; max-width: 480px; }
+/* alvo de toque de 44 px, sem quebrar a linha do texto */
+.bnt-rodape-ciencia a {
+  color: var(--verde); display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px;
+}
+
+/* no computador, a oferta manda: título e preço maiores */
+@media (min-width: 900px) {
+  .bnt .bn-hero {
+    grid-template-rows: auto 1fr auto auto auto auto 1fr;
+    grid-template-areas:
+      "topo topo"
+      "foto ."
+      "foto eyebrow"
+      "foto h1"
+      "foto preco"
+      "foto cta"
+      "foto .";
+    padding: 20px 32px 36px;
+  }
+  .bnt .bn-foto { width: 100%; }
+  .bnt .bn-h1 { font-size: clamp(56px, 6.5vw, 86px); }
+  .bnt .bn-preco-topo { font-size: 34px; }
+}
