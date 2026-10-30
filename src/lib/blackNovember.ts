@@ -26,11 +26,13 @@
       de produção.md`.
    ────────────────────────────────────────────────────────────── */
 
-/* 🔴 A DATA DE LARGADA. Hoje aponta para 03/11, que era o alvo do planejamento, mas
-   deixou de ser gatilho por decisão dela em 30/10: a campanha começa quando ela disser.
-   Enquanto ninguém troca isto, a campanha abre em 03/11 — se ela quiser segurar, é aqui
-   que se adia, e não em cada página. */
-export const INICIO = Date.parse("2026-11-03T00:00:00-03:00");
+/* 🔴 A DATA DE LARGADA: segunda 09/11, escolhida pela Olivia em 30/10 ("coloca a outra
+   segunda"). Antes era 03/11, o alvo do planejamento, que ela adiou porque a campanha
+   começa quando ela disser e 03/11 chegaria sozinho.
+   ⚠️ ESTA DATA TEM UM PAR FORA DO CÓDIGO: a regra de brinde 8402 na Yampi
+   (Marketing → Brindes), que também foi para 09/11 no mesmo dia. Mudou aqui, muda lá,
+   senão o presente e a página discordam. */
+export const INICIO = Date.parse("2026-11-09T00:00:00-03:00");
 
 /* O FIM já existia no App.tsx e veio para cá sem mudar: 30/11 vira 01/12 à meia-noite
    e meia, para a página não sumir enquanto alguém ainda compra na virada. */
