@@ -31,6 +31,7 @@ function AteOFimDoHalloween({ pagina, depois }: { pagina: JSX.Element; depois: s
 }
 const BlackNovember = lazy(() => import("./pages/BlackNovember.tsx"));
 const BlackNovemberTopo = lazy(() => import("./pages/BlackNovemberTopo.tsx"));
+const BlackNovemberGato = lazy(() => import("./pages/BlackNovemberGato.tsx"));
 /* Black November: 03 a 30/11/2026. Como no Halloween, a página se desliga sozinha no fim —
    depois de 30/11 à meia-noite e meia de 01/12 ela leva à loja, mantendo a UTM de quem chegou.
    O INÍCIO não tem porta: a rota responde antes de 03/11 de propósito, para a Olivia e a Bianca
@@ -102,6 +103,8 @@ const App = () => (
               <Route path="/halloween-gato" element={<AteOFimDoHalloween pagina={<HalloweenGatos />} depois="/gatos" />} />
               <Route path="/black-november" element={<AteOFimDaBlack pagina={<BlackNovember />} depois="https://www.comidadedragao.com.br/collections/produtos" />} />
               <Route path="/black-november-topo" element={<AteOFimDaBlack pagina={<BlackNovemberTopo />} depois="https://www.comidadedragao.com.br/collections/produtos" />} />
+              {/* Gatos, 03 a 30/11. Depois de 30/11 leva para a /gatos, mantendo a UTM. */}
+              <Route path="/black-november-gato" element={<AteOFimDaBlack pagina={<BlackNovemberGato />} depois="/gatos" />} />
               <Route path="/parceiros" element={<Parceiros />} />
               <Route path="/produtos" element={<Produtos />} />
               <Route path="/lojas" element={<Lojas />} />

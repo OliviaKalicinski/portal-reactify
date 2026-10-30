@@ -1,0 +1,53 @@
+/* /black-november-gato · só o que é desta página.
+   O resto do visual vem de BlackNovember.css, importado antes.
+   Criada em 30/10/2026, clonando a estrutura da /black-november-topo. */
+
+/* Mesma régua da LP de topo: título, produto, preço e botão têm de caber na primeira
+   tela de um celular pequeno (375×667). Aqui o pote é mais estreito que o kit, então
+   ele pode ser um pouco maior sem empurrar o botão para fora. */
+.bng .bn-hero { gap: 3px; padding: 6px 18px 10px; }
+.bng .bn-h1 { font-size: clamp(28px, 9vw, 78px); }
+.bng .bn-foto { width: min(44%, 168px); margin-top: 0; }
+.bng .bn-eyebrow { font-size: 11px; padding: 5px 10px; }
+
+/* Nuvens próprias: o pote é estreito e alto, então elas ficam nas laterais, mais
+   afastadas do centro que na /black-november-topo. Nenhuma em cima do texto. */
+.bng .bn-nuvem--1 { width: 50px; height: 26px; top: 196px; left: 2px; }
+.bng .bn-nuvem--2 { width: 52px; height: 27px; top: 214px; left: calc(100% - 88px); }
+.bng .bn-nuvem--3 { width: 44px; height: 23px; top: 286px; left: 4px; }
+.bng .bn-nuvem--4 { width: 44px; height: 23px; top: 304px; left: calc(100% - 82px); }
+
+/* Preço: aqui o de/por é o centro da oferta, como na LP de topo. */
+.bng .bn-preco-topo { font-size: 26px; margin-top: 0; }
+.bng-oferta-linha {
+  display: block; font-weight: 400; font-size: 16px; line-height: 1.05;
+  color: var(--preto); margin-bottom: 2px;
+}
+
+/* O pote leva ao carrinho: precisa parecer clicável. */
+.bng .bn-foto a { display: block; width: 100%; }
+.bng .bn-foto a:focus-visible { outline: 3px solid var(--preto); outline-offset: 6px; }
+@media (hover: hover) {
+  .bng .bn-foto a:hover .bn-cao { transform: scale(1.02); }
+}
+.bng .bn-cao { transition: transform .2s ease; }
+@media (prefers-reduced-motion: reduce) { .bng .bn-cao { transition: none; } }
+
+/* No computador a oferta manda, igual à LP de topo. */
+@media (min-width: 900px) {
+  .bng .bn-hero {
+    grid-template-rows: auto 1fr auto auto auto auto 1fr;
+    grid-template-areas:
+      "topo topo"
+      "foto ."
+      "foto eyebrow"
+      "foto h1"
+      "foto preco"
+      "foto cta"
+      "foto .";
+    padding: 20px 32px 36px;
+  }
+  .bng .bn-foto { width: 78%; justify-self: center; }
+  .bng .bn-h1 { font-size: clamp(52px, 6vw, 82px); }
+  .bng .bn-preco-topo { font-size: 34px; }
+}
