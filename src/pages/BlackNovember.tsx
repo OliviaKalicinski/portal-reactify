@@ -67,7 +67,11 @@ const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
    **R$ 100 de 03 a 30/11** (regra 8402), ambas em Marketing → Brindes — ver a nota do topo.
    Nos dois casos o Original + Mordida (R$ 80,10) fica fora — foi o que aconteceu no Halloween, descoberto
    só em 19/10. Preços lidos na Shopify em 26/10/2026. */
-type Kit = { nome: string; img: string; preco: string; sku: string; token: string; vem: string; frete: boolean; brinde: boolean };
+/* `esgotado`: sem estoque na Shopify. O kit CONTINUA na grade, por decisão da Olivia
+   (30/10): no site ele já aparece riscado com "COMERAM TUDO!", e isso vende, porque
+   mostra que acabou de tanto sair. O que não pode é o botão levar ao checkout, que
+   responde "OPS, TEMOS UM PROBLEMA! Quantidade indisponível" — medido em 30/10. */
+type Kit = { nome: string; img: string; preco: string; sku: string; token: string; vem: string; frete: boolean; brinde: boolean; esgotado?: boolean };
 
 /* Ordem da grade (Olivia, 27/10): "temos que colocar os kits original e mordida em cima,
    dar preferência pra não produto repetido." Então primeiro os que juntam produtos
@@ -82,7 +86,11 @@ type Kit = { nome: string; img: string; preco: string; sku: string; token: strin
 const KITS: Kit[] = [
   { nome: "Kit Original 3x", img: CDN + "Anuncios_Multiplataforma_Original_3x_4804eede-2fc5-41aa-b9a6-3ca0a3c2c776.png?v=1785160614", preco: "120,20", sku: "1101", token: "DZCHG52YG4", vem: "3 Original de 90g", frete: true, brinde: true },
   { nome: "Kit 3 Mordidas", img: CDN + "kit-mordidas.png?v=1785150064", preco: "120,20", sku: "1304", token: "AMX9A1HEPD", vem: "3 Mordida de 180g", frete: true, brinde: true },
-  { nome: "Kit Rango do Dragão", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", sku: "1501", token: "MJ9H9ZNKPG", vem: "7 pacotes de Rango — compre 6, ganhe 1", frete: true, brinde: true },
+  /* 🔴 Rango esgotado desde antes de 30/10, e vai seguir assim: o centro de distribuição
+     está mudando de volta para a biofábrica no Rio e o estoque está em transporte
+     (Olivia, 30/10). Medido: sku 1501 e o avulso 501 com estoque 0 na Shopify, os dois
+     configurados para não vender sem estoque. Quando voltar, é só tirar o `esgotado`. */
+  { nome: "Kit Rango do Dragão", img: CDN + "Copia_de_Anuncios_Multiplataforma_Rango_do_Dragao_1.png?v=1791472229", preco: "185,40", sku: "1501", token: "MJ9H9ZNKPG", vem: "7 pacotes de Rango — compre 6, ganhe 1", frete: true, brinde: true, esgotado: true },
   { nome: "Kit Completo para Cães", img: CDN + "kit-dog-supremo.png?v=1785150064", preco: "184,60", sku: "1306", token: "GPGITR0VZ1", vem: "Original 90g + Mordida 180g + Suplemento Integral 180g", frete: true, brinde: true },
   { nome: "Kit Comida de Dragão para Cães", img: CDN + "Anuncios_Multiplataforma_Mordida_Suplemento_030f2ec7-353e-45e0-ae37-979a624c15ec.png?v=1785160455", preco: "144,50", sku: "1302", token: "KQXZ5J7LWK", vem: "Original 90g + Suplemento Integral 180g", frete: true, brinde: true },
   { nome: "Kit Mordida + Suplemento", img: CDN + "kit-dog-mordida-suplemento.png?v=1785150064", preco: "144,50", sku: "1305", token: "ZWOQZDQBW1", vem: "Mordida 180g + Suplemento Integral 180g", frete: true, brinde: true },
@@ -228,6 +236,7 @@ export default function BlackNovember() {
         <p className="bn-texto">
           <strong>Todos estes ganham o suplemento</strong>, e todos têm frete grátis.
           O botão abre o carrinho já com o kit dentro; o presente entra sozinho.
+          O que está marcado como esgotado volta assim que o estoque chegar.
         </p>
 
         <div className="bn-grade">
@@ -236,10 +245,23 @@ export default function BlackNovember() {
               <img className="bn-kit-foto" src={k.img} alt={k.nome} loading="lazy" />
               <h3 className="bn-kit-nome">{k.nome}</h3>
               <p className="bn-kit-vem">{k.vem}</p>
-              <p className="bn-kit-preco">R$ {k.preco}</p>
-              <a className="bn-botao bn-botao--kit" href={comprar(k.token, k.sku)} data-cta={k.sku}>
-                Comprar →
-              </a>
+              {/* Esgotado: mesma copy da loja, "COMERAM TUDO!", e botão que não leva
+                  a lugar nenhum. O preço sai de cena porque não há o que comprar. */}
+              {k.esgotado ? (
+                <>
+                  <p className="bn-kit-preco bn-kit-preco--esgotado">COMERAM TUDO!</p>
+                  <span className="bn-botao bn-botao--kit bn-botao--esgotado" aria-disabled="true">
+                    Esgotado
+                  </span>
+                </>
+              ) : (
+                <>
+                  <p className="bn-kit-preco">R$ {k.preco}</p>
+                  <a className="bn-botao bn-botao--kit" href={comprar(k.token, k.sku)} data-cta={k.sku}>
+                    Comprar →
+                  </a>
+                </>
+              )}
             </article>
           ))}
         </div>

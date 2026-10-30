@@ -250,6 +250,16 @@
 .bn-kit-preco { font-family: "Bebas Neue", sans-serif; font-size: 30px; margin: 4px 0 10px; }
 .bn-kit-preco s { font-size: 20px; opacity: .55; margin-right: 4px; }
 
+/* Kit sem estoque (Olivia, 30/10): fica na grade, porque "COMERAM TUDO!" é prova de
+   que saiu muito, mas não pode levar ao checkout, que devolve erro. Mesma copy da
+   loja. O cartão inteiro perde cor para não competir com os que vendem. */
+.bn-kit-preco--esgotado { font-size: 24px; letter-spacing: .5px; }
+.bn-botao--esgotado {
+  background: transparent; color: var(--preto); border: 3px dashed var(--preto);
+  box-shadow: none; cursor: not-allowed; opacity: .6; text-align: center;
+}
+@media (hover: hover) { .bn-botao--esgotado:hover { transform: none; } }
+
 /* ── suplemento avulso e gato ───────────────────────────────────────────── */
 .bn-avulso {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px;
