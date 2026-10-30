@@ -310,3 +310,57 @@
 .pc-fech-antes .pc-fech-linhas li { font-size: 12.5px; }
 .pc-fech-antes .pc-fech-linhas { padding-bottom: 10px; }
 .pc-prog-rodape { font-size: 12.5px; padding-top: 10px; border-top: 1.5px dashed rgba(58, 35, 86, .25); color: #4A3466; }
+
+/* ── Bianca (29/10): painel mais fácil de entender no celular ── */
+/* "Seu mês" ficou com 2 cartões (comissão e pedidos): lado a lado em qualquer largura */
+@media (min-width: 640px) { .pc-fofo .pc-numeros { grid-template-columns: repeat(2, 1fr); } }
+/* a janela da conta de vídeos úteis, sob o rótulo */
+.pc-prog-janela { display: block; font-size: 12px; font-weight: 400; color: #4A3466; }
+/* "ver a regra" no vídeo que não contou */
+.pc-porque { display: inline-flex; align-items: center; min-height: 44px; color: var(--limed); font-weight: 700; white-space: nowrap; }
+/* a regra não fica escondida sob a faixa preta de cima ao pular para ela */
+#video-util { scroll-margin-top: 72px; }
+/* texto de 7px era ilegível no celular */
+.pc-fech-quando { font-size: 9px; line-height: 1.5; }
+/* setas do mês com área de toque de 44px */
+.pc-seletor button { width: 44px; height: 44px; }
+/* no celular o "o que falta" vem antes de "Sua faixa atual", para caber na primeira tela */
+@media (max-width: 639px) {
+  .pc-faixa-win .pc-prog-meta { order: -1; border-bottom: 1.5px solid var(--ink); }
+  .pc-faixa-win .pc-prog-atual { border-bottom: 0; }
+}
+
+/* ── Bianca (29/10): "Montar minha arte" — o creator põe a foto e o cupom no template da semana ── */
+.pc-tpl-chamada { display: grid; gap: 8px; justify-items: start; margin-top: 14px; padding-top: 14px; border-top: 1.5px dashed currentColor; }
+.pc-tpl-chamada small { font-size: 13px; opacity: .85; }
+.qsd8.fofo .pc-clima-black-friday .pc-tpl-chamada .qsd8-btn { background: #9BE15D; color: #17131F; }
+.pc-tpl-fundo { position: fixed; inset: 0; z-index: 100; background: rgba(23, 19, 31, .6); display: grid; place-items: center; padding: 16px; overflow-y: auto; }
+.pc-tpl { width: min(880px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; background: #fff; color: var(--ink); border: 2px solid var(--ink); border-radius: 16px; box-shadow: 6px 6px 0 0 var(--violet); outline: none; }
+.pc-tpl-topo { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 8px 8px 16px; background: linear-gradient(90deg, var(--paper2), #EFE6FF); border-bottom: 2px solid var(--ink); }
+.pc-tpl-topo h2 { margin: 0; font-family: "Press Start 2P", monospace; font-size: 12px; line-height: 1.5; }
+.pc-tpl-topo h2 span { background: #FFADD2; padding: 2px 6px; border-radius: 6px; }
+.pc-tpl-fechar { width: 44px; height: 44px; border: 0; background: none; font-size: 28px; line-height: 1; color: var(--ink); cursor: pointer; border-radius: 50%; }
+.pc-tpl-fechar:hover { background: #fff; }
+.pc-tpl-corpo { display: grid; gap: 18px; padding: 16px; }
+@media (min-width: 720px) { .pc-tpl-corpo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
+.pc-tpl-previa { display: grid; place-items: center; background: #F3ECFF; border-radius: 12px; padding: 10px; }
+.pc-tpl-previa canvas { display: block; width: auto; max-width: 100%; max-height: 52dvh; height: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0, 0, 0, .2); transition: opacity .15s; }
+@media (min-width: 720px) { .pc-tpl-previa canvas { max-height: 70dvh; } }
+.pc-tpl-previa canvas.carregando { opacity: .5; }
+.pc-tpl-passos { display: grid; gap: 16px; align-content: start; }
+.pc-tpl-formato { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pc-tpl-formato legend, .pc-tpl-campo > span:first-child { font-size: 14px; font-weight: 700; margin-bottom: 6px; padding: 0; }
+.pc-tpl-formato label { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 2px solid var(--ink); border-radius: 999px; font-size: 14px; font-weight: 700; cursor: pointer; background: #fff; }
+.pc-tpl-formato label.ativo { background: var(--lime); color: #fff; }
+.pc-tpl-formato input { position: absolute; opacity: 0; pointer-events: none; }
+.pc-tpl-formato label:focus-within { outline: 3px solid var(--violet); outline-offset: 2px; }
+.pc-tpl-campo { display: grid; gap: 6px; }
+.pc-tpl-campo small { font-size: 12.5px; color: #4A3466; }
+.pc-tpl-campo input[type="text"] { font: inherit; font-size: 16px; font-weight: 700; letter-spacing: .04em; padding: 10px 12px; min-height: 44px; border: 2px solid var(--violet); border-radius: 12px; color: var(--ink); }
+.pc-tpl-campo input[type="text"]:focus { outline: 3px solid var(--paper2); border-color: var(--lime); }
+.pc-tpl-arquivo { position: relative; display: inline-flex; align-items: center; justify-content: center; justify-self: start; min-height: 44px; padding: 0 18px; border: 2px dashed var(--ink); border-radius: 12px; font-size: 14px; font-weight: 700; background: var(--paper2); cursor: pointer; }
+.pc-tpl-arquivo input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.pc-tpl-arquivo:focus-within { outline: 3px solid var(--violet); outline-offset: 2px; }
+.pc-tpl-acoes { display: grid; gap: 6px; justify-items: start; }
+.pc-tpl-acoes .qsd8-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.pc-tpl-acoes small { font-size: 12.5px; color: #4A3466; }
