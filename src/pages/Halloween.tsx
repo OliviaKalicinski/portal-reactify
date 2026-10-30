@@ -49,8 +49,10 @@ const FAQ = [
   { q: "Até quando vale?", a: "Até 31 de outubro, ou enquanto durar o estoque do suplemento." },
   { q: "É larva mesmo?", a: "É. Larva de mosca soldado negro, criada para isso e desidratada. Proteína que o seu pet reconhece como comida." },
   { q: "O suplemento vem no mesmo pacote?", a: "Vem. Ele entra no mesmo pedido do kit, sem custo, e chega junto." },
-  /* Garantia: a mesma da /original. Olivia, 30/10: vale a lei — 7 dias para devolver, produto lacrado.
-     (Em 18/10 ela havia dito "a gente sempre devolve se a pessoa não gostar"; a decisão de 30/10 substitui.)
+  /* Garantia: a mesma da /original. Olivia, 30/10: a PÁGINA diz o que a lei garante — 7 dias para
+     devolver, produto lacrado. A prática da casa continua sendo devolver quando a pessoa fala com
+     a gente e é de boa (Olivia, 18/10 e 30/10), mas isso NÃO se divulga: escrito na página, viraria
+     fila de quem não gostou. Quem procura, a gente resolve pelo WhatsApp, caso a caso.
      A política de troca na Shopify (só arrependimento em 7 dias, lacrado) está atrás da prática. */
   { q: "E se o meu pet não gostar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
   { q: "Ficou alguma dúvida?", a: "Chama a gente no WhatsApp: (21) 3950-0576." },
