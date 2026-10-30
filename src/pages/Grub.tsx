@@ -93,7 +93,7 @@ const CHIPS = [
   "🦎 Répteis e anfíbios",
   "🛡️ Compra segura",
   "🏭 Fábrica registrada",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 /* ⚠️ REBALANCEADO 28/07 (feedback da Olivia): a praticidade fica, mas o
@@ -492,7 +492,7 @@ const Grub = () => {
               congelar em porções.
             </li>
             <li className="grb-problema-item">
-              <b>Não colou?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong>
+              <b>Não colou?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
         </div>
@@ -565,10 +565,9 @@ const Grub = () => {
           <div className="grb-garantia">
             <div className="grb-garantia-icon">💚</div>
             <div>
-              <div className="grb-garantia-title">Garantia da matilha</div>
+              <div className="grb-garantia-title">Devolução em 7 dias</div>
               <div className="grb-garantia-text">
-                Se ele não topar em 14 dias da entrega, a gente devolve seu dinheiro.
-                Sem letrinha miúda.
+                Mudou de ideia? São 7 dias para devolver, com o produto lacrado.
               </div>
             </div>
           </div>

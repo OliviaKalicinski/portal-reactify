@@ -239,8 +239,8 @@ const Rango = () => {
           <div className="rj-barra rj-barra-aberta"><span><i aria-hidden="true" />garantia.txt</span></div>
           <div className="rj-card-corpo">
           <h2 className="rj-h2">Não topou? A gente devolve.</h2>
-          <p>Se ele não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</p>
-          <div className="rj-dado"><strong>14 dias</strong><span>para ele decidir</span></div>
+          <p>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</p>
+          <div className="rj-dado"><strong>7 dias</strong><span>para devolver</span></div>
           </div>
         </section>
 

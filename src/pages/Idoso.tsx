@@ -68,7 +68,7 @@ const CHIPS = [
   "🚚 Frete grátis",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 const PROBLEMAS = [
@@ -330,8 +330,8 @@ const Idoso = () => {
               <b>Insista com calma</b> — muito cão estranha na primeira e come na terceira.
             </li>
             <li className="ilp-problema-item">
-              <b>Não colou mesmo?</b> — chama a gente no WhatsApp. E, se em 14 dias ele não topar,
-              a gente devolve seu dinheiro.
+              <b>Não colou mesmo?</b> — chama a gente no WhatsApp. E, se mudar de ideia, são 7 dias
+              para devolver, com o produto lacrado.
             </li>
           </ul>
         </div>
@@ -357,8 +357,8 @@ const Idoso = () => {
           <div className="ilp-garantia">
             <div className="ilp-garantia-icon">💚</div>
             <div className="ilp-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>

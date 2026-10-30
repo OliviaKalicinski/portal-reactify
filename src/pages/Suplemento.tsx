@@ -81,7 +81,7 @@ const CHIPS = [
   "🚚 Entrega Brasil",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 /* 26/08 — reescritos na voz do tutor. A versão anterior falava em "fases de
@@ -385,7 +385,7 @@ const Suplemento = () => {
               <b>Um pote dura semanas</b> — de 12 dias num cão grande a mais de um mês num mini. Dá tempo de o hábito pegar.
             </li>
             <li className="slp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -499,8 +499,8 @@ const Suplemento = () => {
           <div className="slp-garantia">
             <div className="slp-garantia-icon">💚</div>
             <div className="slp-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>

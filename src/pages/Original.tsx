@@ -50,7 +50,7 @@ const CHIPS = [
   "🚚 Entrega Brasil",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 const PROBLEMAS = [
@@ -282,7 +282,7 @@ const Original = () => {
               <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
             </li>
             <li className="olp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -343,8 +343,8 @@ const Original = () => {
           <div className="olp-garantia">
             <div className="olp-garantia-icon">💚</div>
             <div className="olp-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu pet não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>

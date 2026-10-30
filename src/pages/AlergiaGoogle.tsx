@@ -51,7 +51,7 @@ const CHIPS = [
   "🚚 Frete grátis",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 const PROBLEMAS = [
@@ -66,7 +66,7 @@ const PROBLEMAS = [
    e a página respondia com produto. É o conteúdo que sustenta a nota de experiência
    de página no Google — hoje "Below average" em 28 de 32 keywords do Non-Brand.
    ⚠️ NÃO afirmar qual causa é mais frequente sem fonte — e NÃO citar prazo de dieta
-   de eliminação sem alinhar com a garantia de 14 dias. Ver o brief de 01/09/26. */
+   de eliminação sem alinhar com a devolução de 7 dias. Ver o brief de 01/09/26. */
 const CAUSAS = [
   { t: "Parasita", d: "pulga, sarna, ácaro. É a primeira a descartar e a mais simples: antiparasitário resolve. Se você já tratou e a coceira continuou, pode riscar da lista." },
   { t: "Alergia ambiental", d: "pólen, ácaro de poeira, grama. Costuma variar com a época do ano, e não some com troca de comida." },
@@ -420,7 +420,7 @@ const AlergiaGoogle = () => {
               <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
             </li>
             <li className="alp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -453,8 +453,8 @@ const AlergiaGoogle = () => {
           <div className="alp-garantia">
             <div className="alp-garantia-icon">💚</div>
             <div className="alp-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>

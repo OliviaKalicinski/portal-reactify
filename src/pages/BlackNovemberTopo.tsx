@@ -124,8 +124,8 @@ const FAQ = [
   { q: "Serve para pet com alergia?", a: "A proteína da larva é hipoalergênica, e é por isso que ela costuma funcionar em quem reage a frango e a boi. Atenção à Mordida, que vem neste kit e leva ovo em pó: nela o hipoalergênico é a proteína, não o petisco inteiro. Se o seu pet tem quadro alérgico, fale com o veterinário dele." },
   { q: "O que vem no kit?", a: "Três produtos: o Original de 90 g, a Mordida de 180 g e o Suplemento Integral de 180 g." },
   { q: "Como eu dou?", a: "O Original e a Mordida são petiscos: dá na mão. O Suplemento é um pó que você joga por cima da comida que ele já come." },
-  /* 🔴 GARANTIA, pendente: a /halloween promete 14 dias e a política publicada é 7 dias
-     com produto LACRADO, que não cobre pet que não gostou. Sem prazo até ela decidir. */
+  /* GARANTIA (decidido por Olivia em 30/10): vale a lei — 7 dias com produto LACRADO,
+     que não cobre pet que não gostou. Esta resposta segue sem prazo, de propósito. */
   { q: "E se não rolar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
 ];
 

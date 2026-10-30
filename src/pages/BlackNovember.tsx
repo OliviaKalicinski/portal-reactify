@@ -44,8 +44,9 @@ import "./BlackNovember.css";
    nas 163 linhas do sku 302 que temos), então o que está medido aqui é preço de tabela.
 
    🔴 NÃO VAI AO AR ANTES DE:
-   1. A garantia. A /halloween promete 14 dias e a política publicada é 7 dias
-      com produto lacrado. Aqui o FAQ não cita prazo nenhum até ela decidir.
+   1. ✅ RESOLVIDO (Olivia, 30/10): vale a lei — 7 dias para devolver, produto lacrado.
+      O FAQ daqui segue sem citar prazo, mandando para o WhatsApp; se for para citar,
+      é "7 dias, lacrado". As 21 LPs que prometiam 14 dias foram corrigidas em 30/10.
    2. Conferir no checkout, kit por kit, que o preço da página é o cobrado.
    *(O token do Kit Original 3x, sku 1101, deixou de ser pendência: o `DZCHG52YG4` usado
    aqui foi aberto no checkout em 28/10 e trouxe "Kit Comida de Dragão Original FRETE
@@ -126,9 +127,9 @@ const FAQ = [
   { q: "Tá caro.", a: "É proteína de verdade, com perfil completo de aminoácidos, no lugar de um petisco que só enche. E no kit você leva o suplemento de R$ 110,00 sem pagar nada por ele." },
   { q: "Isso faz mal para ele?", a: "Nossa larva é criada em biofábrica registrada no MAPA, do ovo ao pacote, tudo rastreável. Não é inseto apanhado por aí." },
   { q: "Como eu dou?", a: "O Original e a Mordida são petiscos: dá na mão. O Suplemento é um pó que você joga por cima da comida que ele já come." },
-  /* 🔴 GARANTIA, pendente: a /halloween promete 14 dias e a política publicada da loja é
-     arrependimento em 7 dias com o produto LACRADO — que não cobre pet que não gostou.
-     Até a Olivia decidir prazo, condição e motivo, esta resposta não cita prazo. */
+  /* GARANTIA (decidido por Olivia em 30/10): vale a lei — arrependimento em 7 dias com o
+     produto LACRADO, que não cobre pet que não gostou. Esta resposta segue sem citar prazo,
+     de propósito: manda para o WhatsApp, onde o caso é tratado um a um. */
   { q: "E se não rolar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
 ];
 

@@ -45,7 +45,7 @@ const CHIPS = [
   "🚚 Frete grátis",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 /* o "não" que trava o tutor curioso */
@@ -102,7 +102,7 @@ const FAQ = [
   },
   {
     q: "E se ele não comer?",
-    a: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura as larvinhas na ração e deixa ele decidir — a taxa de aceitação surpreende. E tem a <strong>garantia da matilha: 14 dias</strong>.",
+    a: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura as larvinhas na ração e deixa ele decidir — a taxa de aceitação surpreende. E, se mudar de ideia, são <strong>7 dias para devolver, com o produto lacrado</strong>.",
   },
   {
     q: "Meu veterinário não conhece",
@@ -311,8 +311,8 @@ const Conheca = () => {
           <div className="cnh-garantia">
             <div className="cnh-garantia-icon">💚</div>
             <div className="cnh-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>

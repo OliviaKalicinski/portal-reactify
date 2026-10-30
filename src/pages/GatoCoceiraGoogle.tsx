@@ -68,7 +68,7 @@ const CHIPS = [
   "🚚 Frete grátis",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 const PROBLEMAS = [
@@ -125,7 +125,7 @@ const FAQ = [
   },
   {
     q: "E se o meu gato simplesmente não comer?",
-    a: "Gato é gato — acontece, e a gente não vai fingir que não. O que mais funciona: <strong>triturar e misturar na comida úmida</strong> em vez de oferecer puro. Uma cliente com 7 gatos fez exatamente isso depois da primeira recusa e todos comeram. E se mesmo assim não colar, <strong>a gente devolve seu dinheiro em 14 dias</strong>.",
+    a: "Gato é gato — acontece, e a gente não vai fingir que não. O que mais funciona: <strong>triturar e misturar na comida úmida</strong> em vez de oferecer puro. Uma cliente com 7 gatos fez exatamente isso depois da primeira recusa e todos comeram. E se mesmo assim não colar, <strong>chama a gente no WhatsApp que a gente resolve</strong>.",
   },
   {
     q: "Isso substitui a ração dele?",
@@ -341,8 +341,7 @@ const GatoCoceiraGoogle = () => {
               <b>Insista alguns dias</b> — gato costuma estranhar cheiro novo antes de aceitar.
             </li>
             <li className="gcp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem
-              letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -398,10 +397,9 @@ const GatoCoceiraGoogle = () => {
           <div className="gcp-garantia">
             <div className="gcp-garantia-icon">💚</div>
             <div>
-              <div className="gcp-garantia-title">Garantia da matilha</div>
+              <div className="gcp-garantia-title">Devolução em 7 dias</div>
               <div className="gcp-garantia-text">
-                Se seu gato não topar em 14 dias da entrega, a gente devolve seu dinheiro.
-                Sem letrinha miúda.
+                Mudou de ideia? São 7 dias para devolver, com o produto lacrado.
               </div>
             </div>
           </div>

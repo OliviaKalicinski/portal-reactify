@@ -552,7 +552,7 @@ const PlanetaDragao = () => {
             </div>
           </Win>
         </div>
-        <div className="os-prod-chips os-kit-chips"><span>🛡️ Reg. MAPA</span><span>🚚 Entrega Brasil</span><span>💚 Garantia 14 dias</span></div>
+        <div className="os-prod-chips os-kit-chips"><span>🛡️ Reg. MAPA</span><span>🚚 Entrega Brasil</span><span>💚 7 dias para devolver</span></div>
 
         {/* POR QUE — bom pro pet / bom pro planeta */}
         <div className="os-grid2">
@@ -666,7 +666,7 @@ const PlanetaDragao = () => {
           </div>
           <div className="os-garantia">
             <span className="os-garantia-ico">💚</span>
-            <div><b>Garantia da matilha</b><p>Se seu pet não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</p></div>
+            <div><b>Devolução em 7 dias</b><p>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</p></div>
           </div>
         </Win>
 
@@ -675,7 +675,7 @@ const PlanetaDragao = () => {
           <div className="os-final">
             <h2>Seu pet também<br /><span>vira dragão.</span></h2>
             <p>É o que a Comida de Dragão faz de verdade: 1 ingrediente hipoalergênico que para a coceira, cai bem no intestino e os pets amam de primeira — e ainda devolve menos lixo pro planeta.</p>
-            <p className="os-final-note">Garantia de 14 dias · cupom <b>{COUPON}</b> na primeira compra</p>
+            <p className="os-final-note">7 dias para devolver · cupom <b>{COUPON}</b> na primeira compra</p>
             <a href={productUrl("final")} className="pl-btn pl-btn-buy" data-cta="final">VER OS PRODUTOS →</a>
           </div>
         </Win>

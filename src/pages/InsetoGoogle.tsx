@@ -46,7 +46,7 @@ const CHIPS = [
   "🚚 Frete grátis",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 /* ÂNGULO "o cão ama E o corpo aproveita": o petisco que faz bem por dentro.
@@ -121,7 +121,7 @@ const FAQ = [
   },
   {
     q: "E se ele não comer?",
-    a: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura as larvinhas na comida e deixa ele decidir — a taxa de aceitação surpreende. E tem a <strong>garantia da matilha: 14 dias</strong>.",
+    a: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura as larvinhas na comida e deixa ele decidir — a taxa de aceitação surpreende. E, se mudar de ideia, são <strong>7 dias para devolver, com o produto lacrado</strong>.",
   },
   {
     q: "Meu veterinário não conhece",
@@ -260,7 +260,7 @@ const InsetoGoogle = () => {
               <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
             </li>
             <li className="cur-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -361,8 +361,8 @@ const InsetoGoogle = () => {
           <div className="cur-garantia">
             <div className="cur-garantia-icon">💚</div>
             <div className="cur-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>

@@ -49,9 +49,10 @@ const FAQ = [
   { q: "Até quando vale?", a: "Até 31 de outubro, ou enquanto durar o estoque do suplemento." },
   { q: "É larva mesmo?", a: "É. Larva de mosca soldado negro, criada para isso e desidratada. Proteína que o seu pet reconhece como comida." },
   { q: "O suplemento vem no mesmo pacote?", a: "Vem. Ele entra no mesmo pedido do kit, sem custo, e chega junto." },
-  /* Garantia: a mesma da /original (14 dias). Olivia, 18/10: "a gente sempre devolve se a pessoa não gostar".
+  /* Garantia: a mesma da /original. Olivia, 30/10: vale a lei — 7 dias para devolver, produto lacrado.
+     (Em 18/10 ela havia dito "a gente sempre devolve se a pessoa não gostar"; a decisão de 30/10 substitui.)
      A política de troca na Shopify (só arrependimento em 7 dias, lacrado) está atrás da prática. */
-  { q: "E se o meu pet não gostar?", a: "Se ele não topar em 14 dias da entrega, a gente devolve o seu dinheiro." },
+  { q: "E se o meu pet não gostar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
   { q: "Ficou alguma dúvida?", a: "Chama a gente no WhatsApp: (21) 3950-0576." },
 ];
 
