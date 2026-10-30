@@ -36,12 +36,17 @@ const BlackNovemberGato = lazy(() => import("./pages/BlackNovemberGato.tsx"));
    depois de 30/11 à meia-noite e meia de 01/12 ela leva à loja, mantendo a UTM de quem chegou.
    O INÍCIO não tem porta: a rota responde antes de 03/11 de propósito, para a Olivia e a Bianca
    verem a página antes de a campanha subir. */
-const FIM_DA_BLACK = Date.parse("2026-12-01T00:30:00-03:00");
+/* 🔴 30/10: a data saiu daqui e foi para `src/lib/blackNovember.ts`, junto com o INICIO,
+   que não existia. Motivo (Olivia, 30/10): a campanha começa quando ela disser, e para
+   isso precisa haver um lugar só onde a data se troca. A porta agora fecha nos DOIS
+   lados: antes do início e depois do fim a rota leva para onde `depois` aponta. */
 function AteOFimDaBlack({ pagina, depois }: { pagina: JSX.Element; depois: string }) {
-  if (Date.now() < FIM_DA_BLACK) return pagina;
+  if (campanhaNoAr()) return pagina;
   window.location.replace(depois + window.location.search);
   return null;
 }
+import { campanhaNoAr } from "@/lib/blackNovember";
+
 const Parceiros = lazy(() => import("./pages/Parceiros.tsx"));
 const Produtos = lazy(() => import("./pages/Produtos.tsx"));
 const Lojas = lazy(() => import("./pages/Lojas.tsx"));

@@ -3,6 +3,7 @@ import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent } from "@/lib/pixel";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
+import { FIM_CURTO, FIM_POR_EXTENSO, JANELA_POR_EXTENSO, JANELA_CURTA } from "@/lib/blackNovember";
 import "./BlackNovember.css";
 
 /* ──────────────────────────────────────────────────────────────
@@ -163,15 +164,15 @@ export default function BlackNovember() {
     <div className="bn">
       <PageMeta
         title="Black November — Comida de Dragão"
-        description="Compre um kit e ganhe um suplemento. E o suplemento avulso pela metade do preço. De 03 a 30 de novembro."
+        description={`Compre um kit e ganhe um suplemento. E o suplemento avulso pela metade do preço. ${JANELA_POR_EXTENSO[0].toUpperCase() + JANELA_POR_EXTENSO.slice(1)}.`}
       />
 
       {/* Fita zebrada passante, no molde da faixa da /halloween. */}
-      <div className="bn-faixa" aria-label="Black November da Comida de Dragão: compre um kit e ganhe um suplemento, de 03 a 30 de novembro">
+      <div className="bn-faixa" aria-label={`Black November da Comida de Dragão: compre um kit e ganhe um suplemento, ${JANELA_POR_EXTENSO}`}>
         <div className="bn-faixa-trilho" aria-hidden>
           {[0, 1].map((n) => (
             <span key={n}>
-              BLACK NOVEMBER ✦ COMPRE UM KIT E GANHE UM SUPLEMENTO ✦ SUPLEMENTO AVULSO PELA METADE ✦ ATÉ 30/11 ✦&nbsp;
+              {`BLACK NOVEMBER ✦ COMPRE UM KIT E GANHE UM SUPLEMENTO ✦ SUPLEMENTO AVULSO PELA METADE ✦ ATÉ ${FIM_CURTO} ✦\u00a0`}
             </span>
           ))}
         </div>
@@ -201,7 +202,7 @@ export default function BlackNovember() {
             que a oferta era daquele kit só.
             Agora a primeira tela mostra UMA coisa: o PRESENTE. É o que a oferta é — o resto
             (qual kit, por quanto) se resolve na grade, um kit por cartão. */}
-        <span className="bn-eyebrow">black november · 03 a 30 de novembro</span>
+        <span className="bn-eyebrow">black november · {JANELA_CURTA}</span>
         {/* Título em bloco, com a linha do meio vazada — é o jeito da peça da Bianca, em que
             "BLACK FLYDAY" alterna cheio e contornado. */}
         {/* Duas linhas, não três (Olivia, 28/10). */}
@@ -232,7 +233,7 @@ export default function BlackNovember() {
       {/* Barra fixa de compra: rola até a grade de kits, porque aqui há vários kits e nenhum
           representa os outros. (Na /black-november-topo ela compra direto.) */}
       <a className="bn-barra" href="#kits" data-cta="barra">
-        <span className="bn-barra-txt">Kit + suplemento<small>de presente até 30/11</small></span>
+        <span className="bn-barra-txt">Kit + suplemento<small>de presente até {FIM_CURTO}</small></span>
         <strong className="bn-barra-btn">Ver os kits ↓</strong>
       </a>
 
@@ -316,7 +317,7 @@ export default function BlackNovember() {
 
       <footer className="bn-fim">
         <p className="bn-oferta-chamada">
-          Compre um kit e <strong>ganhe um suplemento</strong>. Até 30/11.
+          Compre um kit e <strong>ganhe um suplemento</strong>. Até {FIM_CURTO}.
         </p>
         <a className="bn-botao" href="#kits" data-cta="final">Ver os kits ↓</a>
         {/* A silhueta é a mascote da marca, não peça de Halloween — mora na pasta do Halloween

@@ -3,6 +3,7 @@ import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent } from "@/lib/pixel";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
+import { FIM_CURTO, FIM_POR_EXTENSO, JANELA_POR_EXTENSO } from "@/lib/blackNovember";
 import "./BlackNovember.css";
 import "./BlackNovemberTopo.css";
 
@@ -141,14 +142,14 @@ export default function BlackNovemberTopo() {
     <div className="bn bnt">
       <PageMeta
         title="Você é novo por aqui? Pega esse presente — Comida de Dragão"
-        description="Você é novo por aqui? Pega esse presente: o kit inteiro de proteína de larva para cães, por R$ 96,00. Até 30 de novembro."
+        description={`Você é novo por aqui? Pega esse presente: o kit inteiro de proteína de larva para cães, por R$ ${KIT.agora}. Até ${FIM_POR_EXTENSO}.`}
       />
 
-      <div className="bn-faixa" aria-label="Black November: é a sua primeira vez aqui? O kit inteiro por R$ 96,00, de 03 a 30 de novembro">
+      <div className="bn-faixa" aria-label={`Black November: é a sua primeira vez aqui? O kit inteiro por R$ ${KIT.agora}, ${JANELA_POR_EXTENSO}`}>
         <div className="bn-faixa-trilho" aria-hidden>
           {[0, 1].map((n) => (
             <span key={n}>
-              BLACK NOVEMBER ✦ VOCÊ É NOVO AQUI? PEGA O KIT INTEIRO POR R$ 96,00 ✦ ATÉ 30/11 ✦&nbsp;
+              {`BLACK NOVEMBER ✦ VOCÊ É NOVO AQUI? PEGA O KIT INTEIRO POR R$ ${KIT.agora} ✦ ATÉ ${FIM_CURTO} ✦\u00a0`}
             </span>
           ))}
         </div>
@@ -292,7 +293,7 @@ export default function BlackNovemberTopo() {
 
       <footer className="bn-fim">
         <p className="bn-oferta-chamada">
-          Boas-vindas: o kit inteiro por <strong>R$ {KIT.agora}</strong>. Até 30/11.
+          Boas-vindas: o kit inteiro por <strong>R$ {KIT.agora}</strong>. Até {FIM_CURTO}.
         </p>
         <a className="bn-botao" href={comprar("final")} data-cta="final">Pegar o presente →</a>
         <img className="bn-dragao" src="/assets/halloween/silhueta-dragao.webp" alt="" aria-hidden />

@@ -11,7 +11,11 @@ import { componentTagger } from "lovable-tagger";
    description e og:/twitter:. O app é o mesmo — só o <head> muda.
    ⚠️ Depende de a hospedagem servir dist/<rota>/index.html antes do fallback
    da SPA. Conferir depois do Publish: curl na rota e ler o og:title. */
+import { FIM_POR_EXTENSO, JANELA_POR_EXTENSO } from "./src/lib/blackNovember";
+
 const SITE = "https://caverna.comidadedragao.com.br";
+/* "De 03 a 30 de novembro", com a primeira letra maiúscula para começar frase. */
+const JANELA = JANELA_POR_EXTENSO[0].toUpperCase() + JANELA_POR_EXTENSO.slice(1);
 const METAS_POR_ROTA: Record<string, { title: string; description: string; image: string }> = {
   rango: {
     title: "Rango do Dragão — o alimento completo da Comida de Dragão, feito com inseto",
@@ -35,19 +39,19 @@ const METAS_POR_ROTA: Record<string, { title: string; description: string; image
      Lembrete do inventário de LPs: mudou a copy da página, muda a descrição aqui também. */
   "black-november": {
     title: "Black November — Comida de Dragão",
-    description: "Compre um kit e ganhe um suplemento. E o suplemento avulso pela metade do preço. De 03 a 30 de novembro.",
+    description: `Compre um kit e ganhe um suplemento. E o suplemento avulso pela metade do preço. ${JANELA}.`,
     image: `${SITE}/assets/images/og-default.jpg`,
   },
   /* Gatos, 03 a 30/11: a prévia diz taurina e preço, que é o que faz tutor de gato abrir. */
   "black-november-gato": {
     title: "Black November dos gatos — Comida de Dragão",
-    description: "O suplemento do seu gato, rico em taurina, de R$ 110 por R$ 85. De 03 a 30 de novembro.",
+    description: `O suplemento do seu gato, rico em taurina, de R$ 110 por R$ 85. ${JANELA}.`,
     image: `${SITE}/assets/images/og-default.jpg`,
   },
   /* A de topo, para público frio: a prévia diz o preço, porque é a oferta que faz a pessoa abrir. */
   "black-november-topo": {
     title: "Você é novo por aqui? Pega esse presente — Comida de Dragão",
-    description: "O kit inteiro de proteína de larva para cães, de R$ 184,60 por R$ 96,00. Até 30 de novembro.",
+    description: `O kit inteiro de proteína de larva para cães, de R$ 184,60 por R$ 96,00. Até ${FIM_POR_EXTENSO}.`,
     image: `${SITE}/assets/images/og-default.jpg`,
   },
 };

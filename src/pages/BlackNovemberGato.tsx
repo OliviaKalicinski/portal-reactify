@@ -4,6 +4,7 @@ import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent } from "@/lib/pixel";
 import VideosVencedores, { VIDEOS_GATOS } from "@/components/VideosVencedores";
 import type { Reel } from "@/components/ReelsSection";
+import { FIM_CURTO, FIM_POR_EXTENSO, JANELA_POR_EXTENSO } from "@/lib/blackNovember";
 import "./BlackNovember.css";
 import "./BlackNovemberGato.css";
 
@@ -61,7 +62,7 @@ const VIDEOS_DESTA_PAGINA: Reel[] = [
 ];
 
 const FAQ = [
-  { q: "Até quando vale?", a: "Até 30 de novembro, ou enquanto durar o estoque." },
+  { q: "Até quando vale?", a: `Até ${FIM_POR_EXTENSO}, ou enquanto durar o estoque.` },
   { q: "Serve para cachorro?", a: "Não. Este é feito para gatos: tem taurina adicionada, na medida deles. Para cães existe o Suplemento Integral." },
   { q: "Por que taurina?", a: "Porque o gato não produz taurina suficiente sozinho, diferente do cão. Ela é essencial para o coração, a visão, a imunidade e a reprodução dele." },
   { q: "Quanto eu dou?", a: "Use a medida que vem no pacote, pelo peso do gato. É só misturar na comida de sempre." },
@@ -82,14 +83,14 @@ export default function BlackNovemberGato() {
     <div className="bn bng">
       <PageMeta
         title="Black November dos gatos — Comida de Dragão"
-        description="O suplemento do seu gato, rico em taurina, de R$ 110 por R$ 85. De 03 a 30 de novembro."
+        description={`O suplemento do seu gato, rico em taurina, de R$ ${PRECO_DE} por R$ ${PRECO}. ${JANELA_POR_EXTENSO[0].toUpperCase() + JANELA_POR_EXTENSO.slice(1)}.`}
       />
 
-      <div className="bn-faixa" aria-label="Black November dos gatos: Suplemento para Gatos de R$ 110 por R$ 85, de 03 a 30 de novembro">
+      <div className="bn-faixa" aria-label={`Black November dos gatos: Suplemento para Gatos de R$ ${PRECO_DE} por R$ ${PRECO}, ${JANELA_POR_EXTENSO}`}>
         <div className="bn-faixa-trilho" aria-hidden>
           {[0, 1].map((n) => (
             <span key={n}>
-              BLACK NOVEMBER ✦ O SUPLEMENTO DO SEU GATO POR R$ 85 ✦ ATÉ 30/11 ✦&nbsp;
+              {`BLACK NOVEMBER ✦ O SUPLEMENTO DO SEU GATO POR R$ ${PRECO} ✦ ATÉ ${FIM_CURTO} ✦\u00a0`}
             </span>
           ))}
         </div>
@@ -139,7 +140,7 @@ export default function BlackNovemberGato() {
 
       {/* Barra fixa que COMPRA: há um produto só nesta página. */}
       <a className="bn-barra" href={comprar("barra")} data-cta="barra">
-        <span className="bn-barra-txt">Suplemento para Gatos<small>R$ {PRECO} até 30/11</small></span>
+        <span className="bn-barra-txt">Suplemento para Gatos<small>R$ {PRECO} até {FIM_CURTO}</small></span>
         <strong className="bn-barra-btn">Quero →</strong>
       </a>
 
@@ -183,7 +184,7 @@ export default function BlackNovemberGato() {
 
       <footer className="bn-fim">
         <p className="bn-oferta-chamada">
-          O suplemento do seu gato por <strong>R$ {PRECO}</strong>. Até 30/11.
+          O suplemento do seu gato por <strong>R$ {PRECO}</strong>. Até {FIM_CURTO}.
         </p>
         <a className="bn-botao" href={comprar("final")} data-cta="final">Quero o dele →</a>
         <img className="bn-dragao" src="/assets/halloween/silhueta-dragao.webp" alt="" aria-hidden />
