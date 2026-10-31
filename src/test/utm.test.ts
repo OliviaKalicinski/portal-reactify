@@ -55,6 +55,14 @@ describe("isOrigemFraca", () => {
     expect(isOrigemFraca({ utm_source: "google", utm_medium: "cpc" })).toBe(false);
     expect(isOrigemFraca({ utm_source: "IGShopping", utm_medium: "Social", utm_content: "Facebook_UA" })).toBe(false);
   });
+
+  it("DM automatizada do Instagram (manychat) é forte, com qualquer grafia da fonte", () => {
+    expect(isOrigemFraca({ utm_source: "instagram", utm_medium: "manychat" })).toBe(false);
+    expect(isOrigemFraca({ utm_source: "ig", utm_medium: "manychat", utm_campaign: "halloween-2026" })).toBe(false);
+    expect(isOrigemFraca({ utm_source: "Instagram", utm_medium: "ManyChat" })).toBe(false);
+    // a bio do Instagram continua fraca: a mudança vale só para o meio `manychat`
+    expect(isOrigemFraca({ utm_source: "instagram", utm_medium: "bio" })).toBe(true);
+  });
 });
 
 describe("buildCheckoutUrl", () => {
