@@ -51,17 +51,31 @@ const dois = (n: number) => String(n).padStart(2, "0");
 const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho",
   "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
 
+/* 🔴 O DIA E O MÊS SE LEEM NO FUSO DE SÃO PAULO, SEMPRE, e isto não é preciosismo:
+   em 31/10 estas linhas usavam o fuso de quem roda o código e as prévias de link
+   subiram ao ar dizendo "De 09 a 1 de dezembro". O motivo: o FIM é 01/12 00h30 em
+   Brasília, que em UTC já é 01/12 03h30; o navegador da Olivia via 30/11 e o
+   computador que monta o site, em UTC, via 01/12. Com o fuso fixo, os dois veem
+   a mesma data. */
+const EM_SP = (d: Date) => {
+  const p = new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "America/Sao_Paulo", day: "numeric", month: "numeric",
+  }).formatToParts(d);
+  const achar = (t: string) => Number(p.find((x) => x.type === t)?.value);
+  return { dia: achar("day"), mes: achar("month") };
+};
+
 /* O FIM é 01/12 00h30, mas o último dia que a pessoa tem para comprar é 30/11.
    Por isso o texto usa o dia anterior, e não a data técnica do desligamento. */
-const dataInicio = new Date(INICIO);
-const dataFim = new Date(FIM - 60 * 60 * 1000);
+const inicio = EM_SP(new Date(INICIO));
+const fim = EM_SP(new Date(FIM - 60 * 60 * 1000));
 
-/* "03/11" e "30/11" */
-export const INICIO_CURTO = `${dois(dataInicio.getDate())}/${dois(dataInicio.getMonth() + 1)}`;
-export const FIM_CURTO = `${dois(dataFim.getDate())}/${dois(dataFim.getMonth() + 1)}`;
+/* "09/11" e "30/11" */
+export const INICIO_CURTO = `${dois(inicio.dia)}/${dois(inicio.mes)}`;
+export const FIM_CURTO = `${dois(fim.dia)}/${dois(fim.mes)}`;
 /* "30 de novembro" */
-export const FIM_POR_EXTENSO = `${dataFim.getDate()} de ${MESES[dataFim.getMonth()]}`;
-/* "de 03 a 30 de novembro" */
-export const JANELA_POR_EXTENSO = `de ${dois(dataInicio.getDate())} a ${FIM_POR_EXTENSO}`;
-/* "03 a 30 de novembro", sem o "de" na frente, para quando a frase já tem um */
-export const JANELA_CURTA = `${dois(dataInicio.getDate())} a ${FIM_POR_EXTENSO}`;
+export const FIM_POR_EXTENSO = `${fim.dia} de ${MESES[fim.mes - 1]}`;
+/* "de 09 a 30 de novembro" */
+export const JANELA_POR_EXTENSO = `de ${dois(inicio.dia)} a ${FIM_POR_EXTENSO}`;
+/* "09 a 30 de novembro", sem o "de" na frente, para quando a frase já tem um */
+export const JANELA_CURTA = `${dois(inicio.dia)} a ${FIM_POR_EXTENSO}`;
