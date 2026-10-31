@@ -114,6 +114,9 @@ const FONTES_ORGANICAS_INSTAGRAM = ["ig", "instagram", "l.instagram.com", "linkt
 const MEIOS_ORGANICOS = ["bio", "social", "organico", "organic", "stories", "story", "referral", "link_in_bio"];
 const MEIO_PAGO = /paid|cpc|ppc|ads/i;
 const FONTES_COMERCIO = ["igshopping", "fbshopping", "facebook_shop", "instagram_shop"];
+// Conversa 1 a 1 automatizada na DM do Instagram. O link sai de um clique da pessoa dentro
+// da conversa, não da bio: é origem de verdade, igual ao WhatsApp do Reportana (`rptn`).
+const MEIOS_CONVERSA = ["manychat"];
 
 /**
  * Origem FRACA = não pode sobrescrever o que o checkout já guardou.
@@ -126,7 +129,8 @@ const FONTES_COMERCIO = ["igshopping", "fbshopping", "facebook_shop", "instagram
  *  - fonte do Instagram sem meio pago                   (anúncio de Instagram vem `paid_social`)
  *
  * Tudo que tem meio pago (`paid_social`, `cpc`…) é FORTE, mesmo com fonte `ig`.
- * WhatsApp (`rptn`), e-mail e cupom de creator são FORTES.
+ * WhatsApp (`rptn`), e-mail, cupom de creator e a DM automatizada (`instagram / manychat`)
+ * são FORTES.
  */
 export function isOrigemFraca(utms: Utms | null | undefined): boolean {
   if (!utms) return true;
@@ -142,6 +146,11 @@ export function isOrigemFraca(utms: Utms | null | undefined): boolean {
   // sumia do pedido (2 pedidos em 16/08–15/09).
   if (FONTES_COMERCIO.includes(source)) return false;
   if (MEIO_PAGO.test(medium)) return false;
+  // DM automatizada (`instagram / manychat`) é FORTE. Sem esta linha a fonte `instagram` a
+  // jogava pra fraca três linhas abaixo e a etiqueta nunca chegava ao pedido: o ManyChat
+  // fechou outubro com 0 pedidos etiquetados (eram 7 em setembro) enquanto as visitas com a
+  // etiqueta seguiam, 19 a 28 por semana. Os links passaram a usar esta forma em 05/10/26.
+  if (MEIOS_CONVERSA.includes(medium)) return false;
   if (MEIOS_ORGANICOS.includes(medium)) return true;
   if (content === "link_in_bio" || campaign === "organico") return true;
   if (FONTES_ORGANICAS_INSTAGRAM.includes(source)) return true;
