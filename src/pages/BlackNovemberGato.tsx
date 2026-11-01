@@ -4,7 +4,6 @@ import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent } from "@/lib/pixel";
 import VideosVencedores, { VIDEOS_GATOS } from "@/components/VideosVencedores";
 import type { Reel } from "@/components/ReelsSection";
-import { FIM_CURTO, FIM_POR_EXTENSO, JANELA_POR_EXTENSO } from "@/lib/blackNovember";
 import "./BlackNovember.css";
 import "./BlackNovemberGato.css";
 
@@ -42,8 +41,15 @@ const UTM_FALLBACK = { utm_source: "lp-black-november-gato", utm_medium: "lp", u
 /* Suplemento para Gatos · sku 303 · token Yampi de links-checkout-yampi-tokens.md.
    Conferido no checkout em 30/10: abre a R$ 85,00. */
 const CARRINHO = "https://seguro.comidadedragao.com.br/r/4DO9WVBVH0";
-const PRECO = "85";
-const PRECO_DE = "110";
+/* 🔴 01/11: PREÇO DE VOLTA A R$ 110, por decisão da Olivia ("volta pra 110").
+   A página nasceu a R$ 85, que era o preço do Halloween. Em 01/11 às 15h a tarefa
+   `cdd-fim-halloween-suplemento-gato` devolveu o sku 303 ao preço cheio, e a página
+   passou a prometer um valor que o checkout não cobrava. Ela escolheu alinhar a
+   página ao checkout, não o checkout à página.
+   ⚠️ COM ISSO A PÁGINA FICA SEM OFERTA: é uma LP de campanha mostrando preço de
+   tabela. A oferta de Black do gato ainda não foi decidida. Quando for, troque o
+   PRECO abaixo e devolva o PRECO_DE com o valor riscado. */
+const PRECO = "110";
 /* Foto do pote de GATO. 🔴 Em 28/10 a Olivia pegou que aqui estava a foto do suplemento
    de cão: o de gato é outro pote, laranja, com o gato e o selo de taurina. */
 const FOTO = "/assets/images/produtos/suplemento-felino-frente.webp";
@@ -62,7 +68,7 @@ const VIDEOS_DESTA_PAGINA: Reel[] = [
 ];
 
 const FAQ = [
-  { q: "Até quando vale?", a: `Até ${FIM_POR_EXTENSO}, ou enquanto durar o estoque.` },
+  { q: "Tem estoque?", a: "Enquanto durar. Se sumir do site, é porque acabou e estamos repondo." },
   { q: "Serve para cachorro?", a: "Não. Este é feito para gatos: tem taurina adicionada, na medida deles. Para cães existe o Suplemento Integral." },
   { q: "Por que taurina?", a: "Porque o gato não produz taurina suficiente sozinho, diferente do cão. Ela é essencial para o coração, a visão, a imunidade e a reprodução dele." },
   { q: "Quanto eu dou?", a: "Use a medida que vem no pacote, pelo peso do gato. É só misturar na comida de sempre." },
@@ -83,14 +89,14 @@ export default function BlackNovemberGato() {
     <div className="bn bng">
       <PageMeta
         title="Black November dos gatos — Comida de Dragão"
-        description={`O suplemento do seu gato, rico em taurina, de R$ ${PRECO_DE} por R$ ${PRECO}. ${JANELA_POR_EXTENSO[0].toUpperCase() + JANELA_POR_EXTENSO.slice(1)}.`}
+        description={`O suplemento do seu gato, rico em taurina, por R$ ${PRECO}. 180 g, com 40% de proteína.`}
       />
 
-      <div className="bn-faixa" aria-label={`Black November dos gatos: Suplemento para Gatos de R$ ${PRECO_DE} por R$ ${PRECO}, ${JANELA_POR_EXTENSO}`}>
+      <div className="bn-faixa" aria-label={`Suplemento para Gatos da Comida de Dragão, rico em taurina, por R$ ${PRECO}`}>
         <div className="bn-faixa-trilho" aria-hidden>
           {[0, 1].map((n) => (
             <span key={n}>
-              {`BLACK NOVEMBER ✦ O SUPLEMENTO DO SEU GATO POR R$ ${PRECO} ✦ ATÉ ${FIM_CURTO} ✦\u00a0`}
+              {`O SUPLEMENTO DO SEU GATO ✦ RICO EM TAURINA ✦ 40% DE PROTEÍNA ✦\u00a0`}
             </span>
           ))}
         </div>
@@ -116,7 +122,7 @@ export default function BlackNovemberGato() {
         <span className="bn-eyebrow">só para gatos</span>
         <h1 className="bn-h1">
           O suplemento dele
-          <span>por R$ 85</span>
+          <span>com taurina</span>
         </h1>
 
         <div className="bn-foto bng-foto">
@@ -127,7 +133,7 @@ export default function BlackNovemberGato() {
 
         <p className="bn-preco-topo">
           <b className="bng-oferta-linha">rico em taurina</b>
-          de <s>R$ {PRECO_DE}</s> por <strong>R$ {PRECO}</strong>
+          <strong>R$ {PRECO}</strong>
           <small>180 g, com 40% de proteína</small>
         </p>
 
@@ -140,7 +146,7 @@ export default function BlackNovemberGato() {
 
       {/* Barra fixa que COMPRA: há um produto só nesta página. */}
       <a className="bn-barra" href={comprar("barra")} data-cta="barra">
-        <span className="bn-barra-txt">Suplemento para Gatos<small>R$ {PRECO} até {FIM_CURTO}</small></span>
+        <span className="bn-barra-txt">Suplemento para Gatos<small>R$ {PRECO}, rico em taurina</small></span>
         <strong className="bn-barra-btn">Quero →</strong>
       </a>
 
@@ -184,7 +190,7 @@ export default function BlackNovemberGato() {
 
       <footer className="bn-fim">
         <p className="bn-oferta-chamada">
-          O suplemento do seu gato por <strong>R$ {PRECO}</strong>. Até {FIM_CURTO}.
+          O suplemento do seu gato, rico em taurina, por <strong>R$ {PRECO}</strong>.
         </p>
         <a className="bn-botao" href={comprar("final")} data-cta="final">Quero o dele →</a>
         <img className="bn-dragao" src="/assets/halloween/silhueta-dragao.webp" alt="" aria-hidden />
