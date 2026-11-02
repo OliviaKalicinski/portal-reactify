@@ -88,7 +88,7 @@ export default function BlackNovemberGato() {
   return (
     <div className="bn bng">
       <PageMeta
-        title="Black November dos gatos — Comida de Dragão"
+        title="O suplemento do seu gato — Comida de Dragão"
         description={`O suplemento do seu gato, rico em taurina, por R$ ${PRECO}. 180 g, com 40% de proteína.`}
       />
 
