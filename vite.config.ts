@@ -42,12 +42,10 @@ const METAS_POR_ROTA: Record<string, { title: string; description: string; image
     description: `Compre um kit e ganhe um suplemento. E o suplemento avulso pela metade do preço. ${JANELA}.`,
     image: `${SITE}/assets/images/og-default.jpg`,
   },
-  /* Gatos: a prévia diz taurina e proteína. 🔴 01/11: saiu o "de R$ 110 por R$ 85" porque
-     o preço voltou ao cheio e a página deixou de ter oferta (ver a nota em BlackNovemberGato.tsx).
-     Quando a oferta de Black do gato for decidida, o preço volta para cá também. */
+  /* Gatos, 03 a 30/11: a prévia diz taurina e preço, que é o que faz tutor de gato abrir. */
   "black-november-gato": {
-    title: "O suplemento do seu gato — Comida de Dragão",
-    description: "O suplemento do seu gato, rico em taurina, por R$ 110. 180 g, com 40% de proteína.",
+    title: "Black November dos gatos — Comida de Dragão",
+    description: `O suplemento do seu gato, rico em taurina, de R$ 110 por R$ 85. ${JANELA}.`,
     image: `${SITE}/assets/images/og-default.jpg`,
   },
   /* A de topo, para público frio: a prévia diz o preço, porque é a oferta que faz a pessoa abrir. */
