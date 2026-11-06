@@ -35,6 +35,10 @@ import "./BlackNovemberTopo.css";
    a linha sob o preço, a barra do pé e a descrição da prévia no vite.config.ts.
    ⚠️ O preço continua R$ 96,00: a Olivia não pediu para voltar aos R$ 92,30, e voltar
    mudaria o título de novo.
+   🔴 06/11: a Olivia decidiu "coloca com 50%": o kit volta a R$ 92,30, metade exata, e o
+   título passa a ser "50% OFF". Continua abaixo do piso de R$ 108, sem frete grátis.
+   O 1306-BN precisa ir a R$ 92,30 na Shopify E na Yampi (produto 46529699) antes de esta
+   versão subir: a Yampi cobra o preço dela.
 
    ✅ O BRINDE, RESOLVIDO (28/10, medido). A regra mora em Yampi → Marketing →
    **Brindes** (`app.yampi.com.br/marketing/freebies`), uma tela que não aparece no
@@ -74,7 +78,7 @@ const KIT = {
   token: "PDYJH8ZOQU",
   sku: "1306-BN",
   cheio: "184,60",
-  agora: "96,00",
+  agora: "92,30", // 06/11 (Olivia): "coloca com 50%" — metade exata de R$ 184,60; era R$ 96,00
 };
 
 /* Os cinco blocos de ciência, da referência do Canva. Cada um conferido no
@@ -193,7 +197,7 @@ export default function BlackNovemberTopo() {
             tamanho do desconto sem precisar arredondar nada a favor da casa. */}
         <h1 className="bn-h1">
           O kit inteiro
-          <span>por R$ 96</span>
+          <span>por R$ {KIT.agora}</span>
         </h1>
 
         {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque
