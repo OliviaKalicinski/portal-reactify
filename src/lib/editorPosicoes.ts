@@ -102,8 +102,12 @@ export function ligarEditorPosicoes(seletores: string[], chave: string) {
       if (escolhida) escolhida.el.style.outline = "1px dashed rgba(0,0,0,.5)";
       escolhida = { el, id }; el.style.outline = "2px solid #81fb5a";
       const ini = { x: e.clientX, y: e.clientY }, base = { ...(pos[id] || atual(el)) };
+      // se a peça está dentro de algo com `zoom` (o topo do celular encolhe em proporção), o
+      // arrasto na tela vale menos ou mais px dentro dela
+      let z = 1;
+      for (let n: HTMLElement | null = el.parentElement; n; n = n.parentElement) z *= parseFloat(getComputedStyle(n).zoom) || 1;
       const move = (m: PointerEvent) => {
-        pos[id] = { ...base, x: Math.round(base.x + m.clientX - ini.x), y: Math.round(base.y + m.clientY - ini.y) };
+        pos[id] = { ...base, x: Math.round(base.x + (m.clientX - ini.x) / z), y: Math.round(base.y + (m.clientY - ini.y) / z) };
         pintar(el, pos[id]);
       };
       const up = () => {

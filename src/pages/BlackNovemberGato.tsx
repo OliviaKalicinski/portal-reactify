@@ -45,6 +45,8 @@ const UTM_FALLBACK = { utm_source: "lp-black-november-gato", utm_medium: "lp", u
 const CARRINHO = "https://seguro.comidadedragao.com.br/r/4DO9WVBVH0";
 const PRECO = "82,50"; // 06/11 (Olivia): "vai ser 25%", era R$ 85
 const PRECO_DE = "110";
+/* largura, em px, da tela de celular em que a Olivia posicionou o topo (modo ?editar, 06/11) */
+const BASE_CELULAR = 362;
 /* Foto do pote de GATO. 🔴 Em 28/10 a Olivia pegou que aqui estava a foto do suplemento
    de cão: o de gato é outro pote, laranja, com o gato e o selo de taurina. */
 const FOTO = "/assets/images/produtos/suplemento-felino-frente.webp";
@@ -77,6 +79,21 @@ export default function BlackNovemberGato() {
     [".bn-logo", ".bng-titulo", ".bng-eyebrow", ".bng-foto", ".bn-preco-topo", ".bn-cta-texto", ".bng-gato", ".bn-nuvem"],
     "black-november-gato",
   ), []);
+
+  // 06/11 (Olivia: "tinha que ir diminuindo, proporcionalmente, de um jeito que as coisas não saiam
+  // da tela"). No celular o topo é montado numa largura fixa (BASE_CELULAR, a tela em que ela
+  // posicionou as peças) e ampliado ou reduzido inteiro para caber na tela, com `zoom`. Assim as
+  // posições gravadas valem em qualquer celular. No computador (900 px ou mais) não mexe em nada.
+  useEffect(() => {
+    const aplicar = () => {
+      const w = window.innerWidth;
+      const k = w < 900 ? w / BASE_CELULAR : 1;
+      document.documentElement.style.setProperty("--bng-zoom", String(k));
+    };
+    aplicar();
+    window.addEventListener("resize", aplicar);
+    return () => { window.removeEventListener("resize", aplicar); document.documentElement.style.removeProperty("--bng-zoom"); };
+  }, []);
 
   useEffect(() => {
     captureEntryUtms();

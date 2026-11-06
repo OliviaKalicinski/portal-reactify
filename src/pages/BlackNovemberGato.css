@@ -171,3 +171,11 @@
 }
 .bng .bng-bloco--2::before { width: 70px; height: 38px; top: 18px; left: 10px; background-image: url("/assets/black-november/nuvem-8bit-branca-2.png"); }
 .bng .bng-bloco--2::after { width: 58px; height: 32px; bottom: 22px; right: 12px; background-image: url("/assets/black-november/nuvem-8bit-branca-1.png"); }
+
+
+/* 06/11: no celular o topo tem largura fixa de 362 px (BASE_CELULAR no .tsx) e encolhe ou cresce
+   inteiro pelo --bng-zoom, para as peças posicionadas não saírem da tela em celular nenhum. */
+@media (max-width: 899px) {
+  .bng .bn-hero { width: 362px; max-width: none; margin: 0; zoom: var(--bng-zoom, 1); }
+  .bng-ceu { overflow: hidden; }
+}
