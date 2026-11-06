@@ -197,3 +197,13 @@
   .bng .bn-cta-texto { translate: 24px -11px; rotate: 0deg; scale: 1.1; }
   .bng .bn-nuvem--4 { translate: -706px -69px; rotate: 0deg; scale: 1; }
 }
+
+/* 06/11 (Olivia): "centralizar a LP do desktop". O conjunto do topo (logo, título, pote, preço,
+   botão, gatinho) estava 32 px à esquerda do centro da tela (medido em 1440 px, zoom 1,18):
+   anda 27 px de base para a direita, sem mexer nas posições que ela acertou entre as peças.
+   Os vídeos, que começavam colados à esquerda, ficam centralizados. */
+@media (min-width: 900px) {
+  .bng .bn-hero > :not(.bn-nuvem):not(.bng-gato) { left: 27px; }
+  .bng .bng-gato { left: 39px; }
+  .bng .bn-reels .reels-strip { justify-content: center; }
+}
