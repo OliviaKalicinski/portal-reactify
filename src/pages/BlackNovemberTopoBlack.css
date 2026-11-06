@@ -1,0 +1,25 @@
+/* /black-november-topo no visual da /black-november-gato (Olivia, 06/11: "igualzinha").
+   O grosso vem de BlackNovemberGato.css, ligado pela classe .bng na raiz da página; aqui fica só
+   o que esta página tem a mais: um quarto bloco, a quinta nuvem, os cartões e o cachorro. */
+
+/* blocos: creme, céu, creme, céu (o gato tem três; este tem quatro) */
+.bnt.bng .bng-bloco--4 { background: #81b5a8 url("/assets/black-november/ceu-black.jpg") center / cover no-repeat; }
+
+/* a quinta nuvem também vira a 8-bit branca */
+.bnt.bng .bn-nuvem--5 { background-image: url("/assets/black-november/nuvem-8bit-branca-3.png"); }
+
+/* cartões "o que vem na caixa" e "por que larva": brancos com contorno e sombra pretos, como as
+   perguntas do gato; o número do estudo fica preto com o verde da marca */
+.bnt.bng .bnt-caixa article,
+.bnt.bng .bnt-card { background: #fff; box-shadow: 4px 4px 0 var(--preto); }
+.bnt.bng .bnt-rodape-ciencia a { color: var(--roxo); }
+
+/* o cachorro de óculos é mais largo que o gatinho: um pouco maior */
+.bnt.bng .bnt-cao-pixel { width: 92px; }
+@media (min-width: 900px) { .bnt.bng .bnt-cao-pixel { width: 230px; } }
+
+/* "Pegar o presente →" é mais comprido que o "Quero o dele →" do gato: com o mesmo deslocamento
+   ele passava da borda direita no celular (medido a 375 px). E a quinta nuvem caía em cima do
+   preço; o gato só tem quatro, então ela sai. */
+@media (max-width: 899px) { .bnt.bng .bn-cta-texto { translate: 40px -17px; } }
+.bnt.bng .bn-nuvem--5 { display: none; }

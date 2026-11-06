@@ -6,6 +6,11 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import { FIM_CURTO, FIM_POR_EXTENSO, JANELA_POR_EXTENSO } from "@/lib/blackNovember";
 import "./BlackNovember.css";
 import "./BlackNovemberTopo.css";
+/* 06/11 (Olivia: "agora vamos colocar no estilo da do gato, igualzinha"): a página usa o
+   visual da /black-november-gato inteiro (classe .bng na raiz), e o que é só dela vem depois. */
+import "./BlackNovemberGato.css";
+import "./BlackNovemberTopoBlack.css";
+import { ligarEditorPosicoes } from "@/lib/editorPosicoes";
 
 /* ──────────────────────────────────────────────────────────────
    /black-november-topo · Black November (03 a 30/11/2026)
@@ -134,7 +139,42 @@ const FAQ = [
   { q: "E se não rolar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
 ];
 
+/* largura, em px, em que o topo é montado no celular e no computador; o topo inteiro cresce ou
+   encolhe a partir dela (zoom) para caber na largura e na primeira tela. Mesmos números do gato. */
+const BASE_CELULAR = 362;
+const BASE_COMPUTADOR = 1023;
+const ZOOM_MAX_COMPUTADOR = 1.5;
+
 export default function BlackNovemberTopo() {
+  // na prévia local, ?editar deixa a Olivia arrastar, girar e mudar o tamanho das peças do topo
+  useEffect(() => ligarEditorPosicoes(
+    [".bn-logo", ".bng-titulo", ".bng-eyebrow", ".bng-foto", ".bn-preco-topo", ".bn-cta-texto", ".bng-gato", ".bn-nuvem"],
+    "black-november-topo",
+  ), []);
+
+  // topo em proporção, igual ao do gato: o fator é o menor entre o que a largura e o que a
+  // altura permitem (descontando a faixa do topo e a barra fixa), para tudo ficar na primeira tela
+  useEffect(() => {
+    const aplicar = () => {
+      const raiz = document.documentElement;
+      const w = window.innerWidth;
+      const computador = w >= 900;
+      raiz.style.setProperty("--bng-zoom", "1");
+      const hero = document.querySelector<HTMLElement>(".bnt .bn-hero");
+      const faixa = document.querySelector<HTMLElement>(".bnt .bn-faixa")?.getBoundingClientRect().height ?? 0;
+      const barra = document.querySelector<HTMLElement>(".bnt .bn-barra")?.getBoundingClientRect().height ?? 0;
+      const alturaBase = hero?.getBoundingClientRect().height ?? 0;
+      const kLargura = computador ? Math.min(w / BASE_COMPUTADOR, ZOOM_MAX_COMPUTADOR) : w / BASE_CELULAR;
+      const kAltura = alturaBase ? (window.innerHeight - faixa - barra) / alturaBase : kLargura;
+      raiz.style.setProperty("--bng-zoom", String(Math.min(kLargura, kAltura)));
+    };
+    aplicar();
+    const imgs = [...document.querySelectorAll<HTMLImageElement>(".bnt .bn-hero img")];
+    imgs.forEach((i) => { if (!i.complete) i.addEventListener("load", aplicar, { once: true }); });
+    window.addEventListener("resize", aplicar);
+    return () => { window.removeEventListener("resize", aplicar); document.documentElement.style.removeProperty("--bng-zoom"); };
+  }, []);
+
   useEffect(() => {
     captureEntryUtms();
     trackViewContent({ content_name: "LP Black November topo — Kit Completo 50%", content_id: "lp-black-november-topo", value: 0 });
@@ -143,7 +183,7 @@ export default function BlackNovemberTopo() {
   const comprar = (pos: string) => buildCheckoutUrl(CHECKOUT + KIT.token, UTM_FALLBACK, pos);
 
   return (
-    <div className="bn bnt">
+    <div className="bn bng bnt">
       <PageMeta
         title="Você é novo por aqui? Pega esse presente — Comida de Dragão"
         description={`Você é novo por aqui? Pega esse presente: o kit inteiro de proteína de larva para cães, por R$ ${KIT.agora}. Até ${FIM_POR_EXTENSO}.`}
@@ -159,6 +199,7 @@ export default function BlackNovemberTopo() {
         </div>
       </div>
 
+      <div className="bng-ceu">
       <header className="bn-hero">
         {/* Nuvens recortadas da peça da Bianca. Posições próprias desta página, no
             BlackNovemberTopo.css: aqui o kit é maior e as de lá caíam em cima dele. */}
@@ -167,10 +208,12 @@ export default function BlackNovemberTopo() {
         <i className="bn-nuvem bn-nuvem--3" aria-hidden />
         <i className="bn-nuvem bn-nuvem--4" aria-hidden />
         <i className="bn-nuvem bn-nuvem--5" aria-hidden />
+        {/* o cachorro 8-bit de óculos das peças, no lugar do gatinho */}
+        <img className="bng-gato bnt-cao-pixel" src="/assets/black-november/cao-pixel.png" alt="" aria-hidden />
 
         <div className="bn-topo">
           <a href="https://www.comidadedragao.com.br/collections/produtos">
-            <img className="bn-logo" src="/assets/images/logo-preto.png" alt="Comida de Dragão" />
+            <img className="bn-logo bng-logo" src="/assets/black-november/logo-3.png" alt="Comida de Dragão" />
           </a>
           <a className="bn-voltar" href="https://www.comidadedragao.com.br/">voltar para a home</a>
         </div>
@@ -186,33 +229,24 @@ export default function BlackNovemberTopo() {
             vai divulgar abertão."
             O enquadramento deixa de ser liquidação e vira boas-vindas: quem chega aqui não
             conhece a marca, e o preço de entrada é o jeito de dizer oi. */}
-        <span className="bn-eyebrow">você é novo por aqui</span>
-        {/* Título em bloco, com a linha do meio vazada — o jeito da peça da Bianca. */}
-        {/* Olivia, 28/10: "nessa LP eu colocaria o kit pela metade do preço no título".
-            A oferta sobe para o h1; o enquadramento de boas-vindas fica no chip, que já
-            diz "você é novo por aqui", e na linha logo abaixo. Duas linhas.
-            ⚠️ Mesma data, mais tarde: com o kit a R$ 96,00 a conta não fecha em "metade"
-            (metade de R$ 184,60 é R$ 92,30), então a segunda linha passou a dar o número.
-            Ele é o argumento de qualquer jeito, e o "de R$ 184,60" logo abaixo mostra o
-            tamanho do desconto sem precisar arredondar nada a favor da casa. */}
-        <h1 className="bn-h1">
-          O kit inteiro
-          <span>por R$ {KIT.agora}</span>
+        {/* 06/11 (Olivia: "coloca com 50%"): o kit foi a R$ 92,30, metade exata de R$ 184,60,
+            e o título vira o "50% OFF" no desenho das peças (montado com as letras do "25% OFF"
+            do PDF dela). Embaixo, tortinha, a etiqueta que diz o que é. */}
+        <h1 className="bn-h1 bng-titulo">
+          <img src="/assets/black-november/50off.png" alt={`50% off no Kit Completo para Cães, por R$ ${KIT.agora}`} />
         </h1>
+        <span className="bn-eyebrow bng-eyebrow">kit completo para cães</span>
 
         {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque
             há UM produto só: a foto representa exatamente o que o botão compra. */}
-        <div className="bn-foto">
+        <div className="bn-foto bng-foto">
           <a href={comprar("foto")} data-cta="foto" aria-label={`Pegar o ${KIT.nome} por R$ ${KIT.agora}`}>
             <img className="bn-cao" src={KIT.img} alt="Kit Completo para cães: o pacote Original, a Mordida e o pote do Suplemento Integral" />
           </a>
         </div>
 
         <p className="bn-preco-topo">
-          <b className="bnt-oferta-linha">o nosso jeito de dizer oi</b>
           de <s>R$ {KIT.cheio}</s> por <strong>R$ {KIT.agora}</strong>
-          {/* uma linha só: a data já está na fita passante do topo e na barra do pé */}
-          <small>os três produtos</small>
         </p>
 
         <div className="bn-cta-texto">
@@ -222,6 +256,7 @@ export default function BlackNovemberTopo() {
 
       {/* A grade em perspectiva da peça, fazendo o "chão" entre o cartaz e o conteúdo. */}
       <div className="bn-grade-chao" aria-hidden />
+      </div>
 
       {/* Barra fixa: aqui ela COMPRA, não rola — há um produto só. */}
       <a className="bn-barra" href={comprar("barra")} data-cta="barra">
@@ -237,15 +272,14 @@ export default function BlackNovemberTopo() {
       </div>
 
       {/* A explicação do que é a marca vem DEPOIS dos vídeos: a pessoa já viu cães comendo. */}
-      <section className="bn-bloco bnt-oque">
+      <section className="bn-bloco bnt-oque bng-bloco--1">
         <p className="bn-texto">
           Comida de Dragão é alimento de larva de mosca soldado negro para cães: uma proteína
           que o seu provavelmente nunca comeu, e que o corpo dele aproveita quase inteira.
         </p>
-        <p className="bn-balao">“ele não sabe que é larva. e não precisa saber”</p>
       </section>
 
-      <section className="bn-bloco">
+      <section className="bn-bloco bng-bloco--2">
         <h2 className="bn-h2">O que vem na caixa</h2>
         <div className="bnt-caixa">
           <article>
@@ -264,7 +298,7 @@ export default function BlackNovemberTopo() {
         <a className="bn-botao" href={comprar("caixa")} data-cta="caixa">Pegar o meu por R$ {KIT.agora} →</a>
       </section>
 
-      <section className="bn-bloco">
+      <section className="bn-bloco bng-bloco--3">
         <h2 className="bn-h2">Por que larva,<br /><span>e não frango?</span></h2>
         <p className="bn-texto">
           Cinco coisas que os estudos mediram sobre a proteína de larva em cães. Nenhuma delas é
@@ -286,7 +320,7 @@ export default function BlackNovemberTopo() {
         <a className="bn-botao" href={comprar("ciencia")} data-cta="ciencia">Pegar o presente →</a>
       </section>
 
-      <section className="bn-bloco">
+      <section className="bn-bloco bng-bloco--4">
         <h2 className="bn-h2">Antes de comprar</h2>
         <div className="bn-faq">
           {FAQ.map((f) => (
