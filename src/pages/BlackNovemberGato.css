@@ -179,3 +179,21 @@
   .bng .bn-hero { width: 362px; max-width: none; margin: 0 auto; zoom: var(--bng-zoom, 1); }
   .bng-ceu { overflow: hidden; }
 }
+
+/* 06/11 (Olivia, modo ?editar no computador, tela de 1023 px): posições, giros e tamanhos do topo.
+   O topo do computador tem largura fixa de 1023 px (BASE_COMPUTADOR no .tsx) e cresce ou encolhe
+   inteiro pelo --bng-zoom, como o do celular, para nada sair do lugar nem da primeira tela. */
+@media (min-width: 900px) {
+  .bng .bn-hero { width: 1023px; max-width: none; margin: 0 auto; zoom: var(--bng-zoom, 1); }
+  .bng-ceu { overflow: hidden; }
+  .bng .bn-logo { translate: -87px -10px; rotate: 0deg; scale: 0.6; }
+  .bng .bng-gato { translate: -6px 17px; rotate: 0deg; scale: 0.9; }
+  .bng .bng-foto { translate: 556px -18px; rotate: 0deg; scale: 1; }
+  .bng .bn-nuvem--1 { translate: 896px 159px; rotate: 0deg; scale: 1; }
+  .bng .bn-nuvem--3 { translate: 81px -131px; rotate: 0deg; scale: 1; }
+  .bng .bng-titulo { translate: -237px -62px; rotate: 0deg; scale: 1.35; }
+  .bng .bng-eyebrow { translate: -202px -60px; rotate: 2deg; scale: 0.95; }
+  .bng .bn-preco-topo { translate: -10px -54px; rotate: -2deg; scale: 1; }
+  .bng .bn-cta-texto { translate: 24px -11px; rotate: 0deg; scale: 1.1; }
+  .bng .bn-nuvem--4 { translate: -706px -69px; rotate: 0deg; scale: 1; }
+}
