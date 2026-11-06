@@ -4,6 +4,7 @@ import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent } from "@/lib/pixel";
 import VideosVencedores, { VIDEOS_GATOS } from "@/components/VideosVencedores";
 import type { Reel } from "@/components/ReelsSection";
+import { ligarEditorPosicoes } from "@/lib/editorPosicoes";
 import { FIM_CURTO, FIM_POR_EXTENSO, JANELA_POR_EXTENSO } from "@/lib/blackNovember";
 import "./BlackNovember.css";
 import "./BlackNovemberGato.css";
@@ -57,14 +58,13 @@ const reelGato = (id: string, handle: string): Reel => ({
 });
 const VIDEOS_DESTA_PAGINA: Reel[] = [
   ...VIDEOS_GATOS,
-  reelGato("rani-labradora-gatos", "rani.labradora"),
+  // 06/11 (Olivia): "retire o terceiro vídeo" — saiu o @rani.labradora
   reelGato("ogatinhosamu-gatos", "ogatinhosamu"),
 ];
 
 const FAQ = [
   { q: "Até quando vale?", a: `Até ${FIM_POR_EXTENSO}, ou enquanto durar o estoque.` },
-  { q: "Serve para cachorro?", a: "Não. Este é feito para gatos: tem taurina adicionada, na medida deles. Para cães existe o Suplemento Integral." },
-  { q: "Por que taurina?", a: "Porque o gato não produz taurina suficiente sozinho, diferente do cão. Ela é essencial para o coração, a visão, a imunidade e a reprodução dele." },
+  { q: "Serve para cachorro?", a: "Não. Este é feito para gatos, na medida deles. Para cães existe o Suplemento Integral." },
   { q: "Quanto eu dou?", a: "Use a medida que vem no pacote, pelo peso do gato. É só misturar na comida de sempre." },
   { q: "É larva mesmo?", a: "É. Farinha de larva de mosca soldado negra, criada em biofábrica para isso e desidratada. Uma proteína que o seu gato provavelmente nunca comeu." },
   { q: "Vou ser sincera: cheira bem?", a: "Não. É meio fedidinho, e a sua mão vai querer sabão depois. O seu gato discorda de nós dois." },
@@ -72,6 +72,12 @@ const FAQ = [
 ];
 
 export default function BlackNovemberGato() {
+  // 06/11: na prévia local, ?editar deixa a Olivia arrastar as peças do topo (ver editorPosicoes.ts)
+  useEffect(() => ligarEditorPosicoes(
+    [".bn-logo", ".bng-titulo", ".bng-eyebrow", ".bng-foto", ".bn-preco-topo", ".bn-cta-texto", ".bng-gato", ".bn-nuvem"],
+    "black-november-gato",
+  ), []);
+
   useEffect(() => {
     captureEntryUtms();
     trackViewContent({ content_name: "LP Black November — Suplemento para Gatos R$ 82,50", content_id: "303", value: 82.5 });
@@ -83,7 +89,7 @@ export default function BlackNovemberGato() {
     <div className="bn bng">
       <PageMeta
         title="Black November dos gatos — Comida de Dragão"
-        description={`O suplemento do seu gato, rico em taurina, de R$ ${PRECO_DE} por R$ ${PRECO}. ${JANELA_POR_EXTENSO[0].toUpperCase() + JANELA_POR_EXTENSO.slice(1)}.`}
+        description={`O suplemento do seu gato, de R$ ${PRECO_DE} por R$ ${PRECO}. ${JANELA_POR_EXTENSO[0].toUpperCase() + JANELA_POR_EXTENSO.slice(1)}.`}
       />
 
       <div className="bn-faixa" aria-label={`Black November dos gatos: Suplemento para Gatos de R$ ${PRECO_DE} por R$ ${PRECO}, ${JANELA_POR_EXTENSO}`}>
@@ -96,6 +102,8 @@ export default function BlackNovemberGato() {
         </div>
       </div>
 
+      {/* 06/11: céu atrás do topo e do chão juntos, como nas peças de anúncio */}
+      <div className="bng-ceu">
       <header className="bn-hero">
         {/* Nuvens da peça da Bianca, com posições próprias desta página: aqui o pote é
             estreito e alto, e as da /black-november-topo caíam em cima dele. */}
@@ -103,32 +111,35 @@ export default function BlackNovemberGato() {
         <i className="bn-nuvem bn-nuvem--2" aria-hidden />
         <i className="bn-nuvem bn-nuvem--3" aria-hidden />
         <i className="bn-nuvem bn-nuvem--4" aria-hidden />
+        {/* 06/11 (Olivia): o céu e o gatinho de pixel saem das peças de anúncio da Black (PDF do Canva). */}
+        <img className="bng-gato" src="/assets/black-november/gato-pixel.png" alt="" aria-hidden />
 
         <div className="bn-topo">
           <a href="https://www.comidadedragao.com.br/collections/produtos">
-            <img className="bn-logo" src="/assets/images/logo-preto.png" alt="Comida de Dragão" />
+            <img className="bn-logo bng-logo" src="/assets/black-november/logo-3.png" alt="Comida de Dragão" />
           </a>
           <a className="bn-voltar" href="https://www.comidadedragao.com.br/">voltar para a home</a>
         </div>
 
         {/* Mesma ordem que a /black-november-topo: título, produto em cena, preço, botão,
             tudo na primeira tela do celular. */}
-        <span className="bn-eyebrow">só para gatos</span>
-        <h1 className="bn-h1">
-          O suplemento dele
-          <span>por R$ {PRECO}</span>
+        {/* 06/11 (Olivia): o título vira o "25% OFF" das peças (PDF do Canva), com o
+            "só para gatos" embaixo, tortinho. O texto do título fica para leitor de tela. */}
+        <h1 className="bn-h1 bng-titulo">
+          <img src="/assets/black-november/25off.png" alt={`25% off no Suplemento para Gatos, por R$ ${PRECO}`} />
         </h1>
+        {/* 06/11 (Olivia): "ficou faltando dizer o que é: SUPLEMENTO" */}
+        <span className="bn-eyebrow bng-eyebrow">suplemento só para gatos</span>
 
         <div className="bn-foto bng-foto">
           <a href={comprar("foto")} data-cta="foto" aria-label={`Quero o Suplemento para Gatos por R$ ${PRECO}`}>
-            <img className="bn-cao" src={FOTO} alt="Pote do Suplemento para Gatos da Comida de Dragão, com o selo de taurina" />
+            <img className="bn-cao" src={FOTO} alt="Pote do Suplemento para Gatos da Comida de Dragão" />
           </a>
         </div>
 
         <p className="bn-preco-topo">
-          <b className="bng-oferta-linha">rico em taurina</b>
+          {/* 06/11 (Olivia): "no preço vamos fazer direto o de 110 por 82,50" */}
           de <s>R$ {PRECO_DE}</s> por <strong>R$ {PRECO}</strong>
-          <small>180 g, com 40% de proteína</small>
         </p>
 
         <div className="bn-cta-texto">
@@ -137,6 +148,7 @@ export default function BlackNovemberGato() {
       </header>
 
       <div className="bn-grade-chao" aria-hidden />
+      </div>
 
       {/* Barra fixa que COMPRA: há um produto só nesta página. */}
       <a className="bn-barra" href={comprar("barra")} data-cta="barra">
@@ -151,29 +163,30 @@ export default function BlackNovemberGato() {
         <VideosVencedores reels={VIDEOS_DESTA_PAGINA} />
       </div>
 
-      <section className="bn-bloco">
-        <h2 className="bn-h2">Por que gato precisa<br /><span>de taurina?</span></h2>
+      <section className="bn-bloco bng-bloco--1">
+        {/* 06/11 (Olivia): "ele fala de taurina, mas temos que falar do suplemento". Texto só com o
+            que a ficha do PRODUTO 4 sustenta: só para gatos, 40% de proteína, larva BSF, cúrcuma e
+            spirulina, reforço de proteína do dia a dia, medida pelo peso, misturado na comida. */}
+        <h2 className="bn-h2">O que é o<br /><span>suplemento dele?</span></h2>
         <p className="bn-texto">
-          O gato não produz taurina suficiente sozinho, diferente do cão. Ela é essencial para
-          o coração, a visão, a imunidade e a reprodução dele, e a falta dela cobra caro.
-          Este pote tem taurina adicionada, junto com farinha de larva de mosca soldado negra,
-          cúrcuma e spirulina.
+          Um reforço de proteína para o dia a dia do seu gato. Você mistura na comida de sempre,
+          na medida do peso dele. São 40% de proteína, de farinha de larva de mosca soldado negra,
+          com cúrcuma e spirulina. Feito só para gatos.
         </p>
-        <a className="bn-botao" href={comprar("taurina")} data-cta="taurina">Quero por R$ {PRECO} →</a>
+        <a className="bn-botao" href={comprar("suplemento")} data-cta="suplemento">Quero por R$ {PRECO} →</a>
       </section>
 
-      <section className="bn-bloco">
+      <section className="bn-bloco bng-bloco--2">
         <h2 className="bn-h2">Por que tem larva<br /><span>no pote dele?</span></h2>
         <p className="bn-texto">
           Porque é uma proteína que o gato reconhece como comida de verdade, e que o corpo dele
           aproveita quase inteira. Larva de mosca soldado negra, criada em biofábrica registrada
           no MAPA, do ovo ao pacote, e desidratada. Não é inseto apanhado por aí.
         </p>
-        <p className="bn-balao">“ele não sabe que é larva. e não precisa saber”</p>
         <a className="bn-botao" href={comprar("larva")} data-cta="larva">Quero o dele por R$ {PRECO} →</a>
       </section>
 
-      <section className="bn-bloco">
+      <section className="bn-bloco bng-bloco--3">
         <h2 className="bn-h2">Antes de comprar</h2>
         <div className="bn-faq">
           {FAQ.map((f) => (
