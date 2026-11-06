@@ -85,12 +85,26 @@ export default function BlackNovemberGato() {
   // posicionou as peças) e ampliado ou reduzido inteiro para caber na tela, com `zoom`. Assim as
   // posições gravadas valem em qualquer celular. No computador (900 px ou mais) não mexe em nada.
   useEffect(() => {
+    // 06/11 (Olivia: "tem sempre que ficar tudo na primeira tela"): o fator é o menor entre o que
+    // a largura permite e o que a altura permite, descontando a faixa do topo e a barra fixa de
+    // compra. Quando a altura manda, o topo fica um pouco mais estreito e centralizado no céu.
     const aplicar = () => {
+      const raiz = document.documentElement;
       const w = window.innerWidth;
-      const k = w < 900 ? w / BASE_CELULAR : 1;
-      document.documentElement.style.setProperty("--bng-zoom", String(k));
+      if (w >= 900) { raiz.style.setProperty("--bng-zoom", "1"); return; }
+      raiz.style.setProperty("--bng-zoom", "1");
+      const hero = document.querySelector<HTMLElement>(".bng .bn-hero");
+      const faixa = document.querySelector<HTMLElement>(".bng .bn-faixa")?.getBoundingClientRect().height ?? 0;
+      const barra = document.querySelector<HTMLElement>(".bng .bn-barra")?.getBoundingClientRect().height ?? 0;
+      const alturaBase = hero?.getBoundingClientRect().height ?? 0;
+      const kLargura = w / BASE_CELULAR;
+      const kAltura = alturaBase ? (window.innerHeight - faixa - barra) / alturaBase : kLargura;
+      raiz.style.setProperty("--bng-zoom", String(Math.min(kLargura, kAltura)));
     };
     aplicar();
+    // a altura do topo só fica certa depois que as imagens (título, pote) carregam
+    const imgs = [...document.querySelectorAll<HTMLImageElement>(".bng .bn-hero img")];
+    imgs.forEach((i) => { if (!i.complete) i.addEventListener("load", aplicar, { once: true }); });
     window.addEventListener("resize", aplicar);
     return () => { window.removeEventListener("resize", aplicar); document.documentElement.style.removeProperty("--bng-zoom"); };
   }, []);
