@@ -42,7 +42,7 @@ const UTM_FALLBACK = { utm_source: "lp-black-november-gato", utm_medium: "lp", u
 /* Suplemento para Gatos · sku 303 · token Yampi de links-checkout-yampi-tokens.md.
    Conferido no checkout em 30/10: abre a R$ 85,00. */
 const CARRINHO = "https://seguro.comidadedragao.com.br/r/4DO9WVBVH0";
-const PRECO = "85";
+const PRECO = "82,50"; // 06/11 (Olivia): "vai ser 25%", era R$ 85
 const PRECO_DE = "110";
 /* Foto do pote de GATO. 🔴 Em 28/10 a Olivia pegou que aqui estava a foto do suplemento
    de cão: o de gato é outro pote, laranja, com o gato e o selo de taurina. */
@@ -74,7 +74,7 @@ const FAQ = [
 export default function BlackNovemberGato() {
   useEffect(() => {
     captureEntryUtms();
-    trackViewContent({ content_name: "LP Black November — Suplemento para Gatos R$ 85", content_id: "303", value: 85 });
+    trackViewContent({ content_name: "LP Black November — Suplemento para Gatos R$ 82,50", content_id: "303", value: 82.5 });
   }, []);
 
   const comprar = (pos: string) => buildCheckoutUrl(CARRINHO, UTM_FALLBACK, pos);
@@ -116,7 +116,7 @@ export default function BlackNovemberGato() {
         <span className="bn-eyebrow">só para gatos</span>
         <h1 className="bn-h1">
           O suplemento dele
-          <span>por R$ 85</span>
+          <span>por R$ {PRECO}</span>
         </h1>
 
         <div className="bn-foto bng-foto">
