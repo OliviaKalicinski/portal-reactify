@@ -55,3 +55,10 @@
   .bnt.bng .bng-eyebrow { translate: 29px -29px; rotate: 0deg; scale: 1.15; }
   .bnt.bng .bn-nuvem--3 { translate: -8px 66px; rotate: 0deg; scale: 1; }
 }
+
+/* 07/11 (Olivia): "centralizar na tela o texto". No celular o "50% OFF" e a etiqueta estavam
+   3 e 29 px (de base) à esquerda do centro da tela; agora o centro dos dois é o centro da tela. */
+@media (max-width: 899px) {
+  .bnt.bng .bng-titulo { translate: 21px -23px; }
+  .bnt.bng .bng-eyebrow { translate: 0px -29px; }
+}

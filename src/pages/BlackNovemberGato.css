@@ -211,3 +211,10 @@
 /* 07/11 (Olivia): "voltar para a home" é sempre uma linha só, em qualquer tamanho de tela
    (vale também para a /black-november-topo, que usa este visual) */
 .bng .bn-voltar { white-space: nowrap; }
+
+/* 07/11 (Olivia): "centralizar na tela o texto". No celular o "25% OFF" e a etiqueta estavam
+   17 e 30 px (de base) à esquerda do centro da tela; agora o centro dos dois é o centro da tela. */
+@media (max-width: 899px) {
+  .bng .bng-titulo { translate: 21px -7px; }
+  .bng .bng-eyebrow { translate: 0px -12px; }
+}
