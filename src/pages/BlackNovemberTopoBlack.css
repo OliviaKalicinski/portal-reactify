@@ -39,3 +39,19 @@
   .bnt.bng .bn-nuvem--2 { translate: -365px 179px; rotate: 0deg; scale: 1; }
   .bnt.bng .bn-nuvem--3 { translate: 203px -249px; rotate: 0deg; scale: 1; }
 }
+
+/* 07/11 (Olivia, modo ?editar no celular, "salva"): posições, giros e tamanhos do topo do celular.
+   Valem na base de 362 px; o topo inteiro encolhe ou cresce pelo zoom. */
+@media (max-width: 899px) {
+  .bnt.bng .bng-gato { translate: 28px -29px; rotate: 0deg; scale: 1.39; }
+  .bnt.bng .bn-cta-texto { translate: 68px -16px; rotate: 0deg; scale: 0.77; }
+  .bnt.bng .bn-nuvem--2 { translate: 36px -52px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-nuvem--4 { translate: 37px -21px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-nuvem--1 { translate: 36px -21px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bng-foto { translate: 7px -14px; rotate: 0deg; scale: 1.23; }
+  .bnt.bng .bn-preco-topo { translate: 46px -36px; rotate: -4deg; scale: 0.8; }
+  .bnt.bng .bng-titulo { translate: 24px -23px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-logo { translate: -39px -8px; rotate: 0deg; scale: 0.6; }
+  .bnt.bng .bng-eyebrow { translate: 29px -29px; rotate: 0deg; scale: 1.15; }
+  .bnt.bng .bn-nuvem--3 { translate: -8px 66px; rotate: 0deg; scale: 1; }
+}
