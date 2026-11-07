@@ -257,7 +257,6 @@ export default function BlackNovember() {
         {/* O presente em cena: é ele que a pessoa ganha, e é ele que faz decidir. */}
         <div className="bn-foto bn-foto--presente bng-foto">
           <img className="bn-cao" src={SUPLEMENTO.img} alt="Pote do Suplemento Integral de 180 g" />
-          <span className="bn-selo-presente" aria-hidden>de presente</span>
         </div>
 
         <p className="bn-preco-topo">
