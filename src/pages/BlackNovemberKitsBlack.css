@@ -1,0 +1,16 @@
+/* /black-november (kits + suplemento de presente) no visual da /black-november-gato
+   (Olivia, 07/11: "vamos para a próxima landing page", no mesmo estilo). O grosso vem de
+   BlackNovemberGato.css, ligado pela classe .bng na raiz; aqui fica o que é só desta página. */
+
+/* a quinta nuvem caía em cima do preço na /black-november-topo; aqui sai também (o gato tem quatro) */
+.bnk.bng .bn-nuvem--5 { display: none; }
+
+/* cartões dos kits e do suplemento de gato: brancos com contorno e sombra pretos, como as
+   perguntas do gato */
+.bnk.bng .bn-kit,
+.bnk.bng .bn-avulso { background: #fff; color: var(--preto); box-shadow: 4px 4px 0 var(--preto); }
+.bnk.bng .bn-botao--kit { box-shadow: 4px 4px 0 var(--roxo); }
+
+/* o cachorro de óculos é mais largo que o gatinho: um pouco maior */
+.bnk.bng .bnk-cao-pixel { width: 92px; }
+@media (min-width: 900px) { .bnk.bng .bnk-cao-pixel { width: 230px; } }

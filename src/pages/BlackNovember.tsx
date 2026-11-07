@@ -3,8 +3,13 @@ import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent } from "@/lib/pixel";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
-import { FIM_CURTO, FIM_POR_EXTENSO, JANELA_POR_EXTENSO, JANELA_CURTA } from "@/lib/blackNovember";
+import { FIM_CURTO, FIM_POR_EXTENSO, JANELA_POR_EXTENSO } from "@/lib/blackNovember";
 import "./BlackNovember.css";
+/* 07/11 (Olivia: "vamos para a próxima landing page", no estilo da do gato): a página usa o
+   visual da /black-november-gato inteiro (classe .bng na raiz), e o que é só dela vem depois. */
+import "./BlackNovemberGato.css";
+import "./BlackNovemberKitsBlack.css";
+import { ligarEditorPosicoes } from "@/lib/editorPosicoes";
 
 /* ──────────────────────────────────────────────────────────────
    /black-november · Black November (03 a 30/11/2026)
@@ -126,7 +131,7 @@ const GATO = {
   img: "/assets/images/produtos/suplemento-felino-frente.webp",
   token: "4DO9WVBVH0",
   cheio: "110,00",
-  agora: "85,00",
+  agora: "82,50", // 06/11 (Olivia): 25%, era R$ 85,00
 };
 
 /* FAQ reescrito em 28/10 lendo a casa, não adaptando o do Halloween (Olivia pegou que
@@ -151,7 +156,41 @@ const FAQ = [
   { q: "E se não rolar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
 ];
 
+/* largura, em px, em que o topo é montado no celular e no computador; o topo inteiro cresce ou
+   encolhe a partir dela (zoom) para caber na largura e na primeira tela. Mesmos números do gato. */
+const BASE_CELULAR = 362;
+const BASE_COMPUTADOR = 1023;
+const ZOOM_MAX_COMPUTADOR = 1.5;
+
 export default function BlackNovember() {
+  // na prévia local, ?editar deixa a Olivia arrastar, girar e mudar o tamanho das peças do topo
+  useEffect(() => ligarEditorPosicoes(
+    [".bn-logo", ".bng-titulo", ".bng-eyebrow", ".bng-foto", ".bn-preco-topo", ".bn-cta-texto", ".bng-gato", ".bn-nuvem"],
+    "black-november",
+  ), []);
+
+  // topo em proporção, igual ao do gato: tudo na primeira tela, em qualquer tela
+  useEffect(() => {
+    const aplicar = () => {
+      const raiz = document.documentElement;
+      const w = window.innerWidth;
+      const computador = w >= 900;
+      raiz.style.setProperty("--bng-zoom", "1");
+      const hero = document.querySelector<HTMLElement>(".bnk .bn-hero");
+      const faixa = document.querySelector<HTMLElement>(".bnk .bn-faixa")?.getBoundingClientRect().height ?? 0;
+      const barra = document.querySelector<HTMLElement>(".bnk .bn-barra")?.getBoundingClientRect().height ?? 0;
+      const alturaBase = hero?.getBoundingClientRect().height ?? 0;
+      const kLargura = computador ? Math.min(w / BASE_COMPUTADOR, ZOOM_MAX_COMPUTADOR) : w / BASE_CELULAR;
+      const kAltura = alturaBase ? (window.innerHeight - faixa - barra) / alturaBase : kLargura;
+      raiz.style.setProperty("--bng-zoom", String(Math.min(kLargura, kAltura)));
+    };
+    aplicar();
+    const imgs = [...document.querySelectorAll<HTMLImageElement>(".bnk .bn-hero img")];
+    imgs.forEach((i) => { if (!i.complete) i.addEventListener("load", aplicar, { once: true }); });
+    window.addEventListener("resize", aplicar);
+    return () => { window.removeEventListener("resize", aplicar); document.documentElement.style.removeProperty("--bng-zoom"); };
+  }, []);
+
   useEffect(() => {
     captureEntryUtms();
     trackViewContent({ content_name: "LP Black November — kit + suplemento", content_id: "lp-black-november", value: 0 });
@@ -161,7 +200,7 @@ export default function BlackNovember() {
   const comprar = (token: string, pos: string) => buildCheckoutUrl(CHECKOUT + token, UTM_FALLBACK, pos);
 
   return (
-    <div className="bn">
+    <div className="bn bng bnk">
       <PageMeta
         title="Black November — Comida de Dragão"
         description={`Compre um kit e ganhe um suplemento. E o suplemento avulso pela metade do preço. ${JANELA_POR_EXTENSO[0].toUpperCase() + JANELA_POR_EXTENSO.slice(1)}.`}
@@ -178,6 +217,7 @@ export default function BlackNovember() {
         </div>
       </div>
 
+      <div className="bng-ceu">
       <header className="bn-hero">
         {/* Nuvens pixeladas de 8 bits, da peça da Bianca. São CSS puro (box-shadow em blocos),
             não imagem — assim escalam sem serrilhar e não pesam. */}
@@ -186,11 +226,13 @@ export default function BlackNovember() {
         <i className="bn-nuvem bn-nuvem--3" aria-hidden />
         <i className="bn-nuvem bn-nuvem--4" aria-hidden />
         <i className="bn-nuvem bn-nuvem--5" aria-hidden />
+        {/* o cachorro 8-bit de óculos das peças */}
+        <img className="bng-gato bnk-cao-pixel" src="/assets/black-november/cao-pixel.png" alt="" aria-hidden />
 
         {/* Logo normal da marca, não a "escorrendo" do Halloween (Olivia, 27/10). */}
         <div className="bn-topo">
           <a href="https://www.comidadedragao.com.br/collections/produtos">
-            <img className="bn-logo" src="/assets/images/logo-preto.png" alt="Comida de Dragão" />
+            <img className="bn-logo bng-logo" src="/assets/black-november/logo-3.png" alt="Comida de Dragão" />
           </a>
           <a className="bn-voltar" href="https://www.comidadedragao.com.br/">voltar para a home</a>
         </div>
@@ -202,33 +244,34 @@ export default function BlackNovember() {
             que a oferta era daquele kit só.
             Agora a primeira tela mostra UMA coisa: o PRESENTE. É o que a oferta é — o resto
             (qual kit, por quanto) se resolve na grade, um kit por cartão. */}
-        <span className="bn-eyebrow">black november · {JANELA_CURTA}</span>
         {/* Título em bloco, com a linha do meio vazada — é o jeito da peça da Bianca, em que
             "BLACK FLYDAY" alterna cheio e contornado. */}
         {/* Duas linhas, não três (Olivia, 28/10). */}
-        <h1 className="bn-h1">
-          Compre um kit
-          <span>e ganhe um suplemento</span>
+        {/* 07/11: o título vira o "GANHE UM SUPLEMENTO" das peças (PDF do Canva), com a
+            etiqueta tortinha embaixo dizendo a condição */}
+        <h1 className="bn-h1 bng-titulo">
+          <img src="/assets/black-november/ganhe-um-suplemento.png" alt="Compre um kit para cães e ganhe um Suplemento Integral" />
         </h1>
+        <span className="bn-eyebrow bng-eyebrow">na compra de um kit para cães</span>
 
         {/* O presente em cena: é ele que a pessoa ganha, e é ele que faz decidir. */}
-        <div className="bn-foto bn-foto--presente">
+        <div className="bn-foto bn-foto--presente bng-foto">
           <img className="bn-cao" src={SUPLEMENTO.img} alt="Pote do Suplemento Integral de 180 g" />
           <span className="bn-selo-presente" aria-hidden>de presente</span>
         </div>
 
         <p className="bn-preco-topo">
-          o suplemento de <strong>R$ 110,00</strong>, zero
-          <small>vai junto com o seu kit, sem cupom</small>
+          de <s>R$ 110</s> por <strong>R$ 0</strong>
         </p>
 
         <div className="bn-cta-texto">
-          <a className="bn-botao" href="#kits" data-cta="titulo">Ver os kits ↓</a>
+          <a className="bn-botao" href="#kits" data-cta="titulo">Comprar agora ↓</a>
         </div>
       </header>
 
       {/* A grade em perspectiva da peça, fazendo o "chão" entre o cartaz e o conteúdo. */}
       <div className="bn-grade-chao" aria-hidden />
+      </div>
 
       {/* Barra fixa de compra: rola até a grade de kits, porque aqui há vários kits e nenhum
           representa os outros. (Na /black-november-topo ela compra direto.) */}
@@ -241,7 +284,7 @@ export default function BlackNovember() {
           não o presente, e a pessoa tinha de comparar seis cartões linha a linha para descobrir
           qual era a regra. Agora o kit que NÃO ganha sai da grade e vira uma linha no pé: todos
           os da grade ganham, e isso se diz uma vez, acima dela. */}
-      <section className="bn-bloco" id="kits">
+      <section className="bn-bloco bng-bloco--1" id="kits">
         <h2 className="bn-h2">Escolha o kit.<br />O suplemento vem junto.</h2>
         <p className="bn-texto">
           <strong>Todos estes ganham o suplemento</strong>, e todos têm frete grátis.
@@ -287,10 +330,10 @@ export default function BlackNovember() {
           Olivia vai verificar. Quando ela confirmar, volta aqui, com o carrinho BII063ST2H. */}
 
       {/* 🔴 Bloco do gato: SAI DA PÁGINA se o estoque não for reposto (−18 em 26/10). */}
-      <section className="bn-bloco">
+      <section className="bn-bloco bng-bloco--2">
         <h2 className="bn-h2">Tem gato em casa?</h2>
         <p className="bn-texto">
-          O suplemento para gatos segue com o preço da promoção, com taurina.
+          O suplemento para gatos também está na Black, com 25% de desconto.
         </p>
         <div className="bn-avulso">
           <img className="bn-avulso-foto" src={GATO.img} alt="Suplemento para Gatos" loading="lazy" />
@@ -306,7 +349,7 @@ export default function BlackNovember() {
         </div>
       </section>
 
-      <section className="bn-bloco">
+      <section className="bn-bloco bng-bloco--3">
         <h2 className="bn-h2">Antes de comprar</h2>
         <div className="bn-faq">
           {FAQ.map((f) => (
