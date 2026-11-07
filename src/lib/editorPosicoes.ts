@@ -20,7 +20,14 @@ export function ligarEditorPosicoes(seletores: string[], chave: string) {
   const local = ["localhost", "127.0.0.1"].includes(window.location.hostname);
   if (!local || !new URLSearchParams(window.location.search).has("editar")) return () => {};
 
-  const tela = () => (window.innerWidth >= 900 ? "computador" : "celular");
+  // 07/11: a tela (celular ou computador) fica TRAVADA na que estava ao abrir a página. Antes ela
+  // era lida a cada arrasto, e quando o painel mudava de largura no meio da edição o que a Olivia
+  // fazia no computador caía no celular (e vice-versa). Se a largura cruzar os 900 px, o editor
+  // para de aceitar arrasto e pede para recarregar.
+  const telaDaLargura = () => (window.innerWidth >= 900 ? "computador" : "celular");
+  const telaTravada = telaDaLargura();
+  const tela = () => telaTravada;
+  const mudouDeTela = () => telaDaLargura() !== telaTravada;
   const guardado = () => `editor-posicoes:${chave}:${tela()}`;
   let pos: Posicoes = {};
   try { pos = JSON.parse(localStorage.getItem(guardado()) || "{}"); } catch { pos = {}; }
@@ -49,13 +56,20 @@ export function ligarEditorPosicoes(seletores: string[], chave: string) {
   let escolhida: { el: HTMLElement; id: string } | null = null;
   const guardar = () => { try { localStorage.setItem(guardado(), JSON.stringify(pos)); } catch { /* sem armazenamento: só não lembra */ } };
   const mexer = (dr: number, ds: number) => {
-    if (!escolhida) return;
+    if (!escolhida || mudouDeTela()) { atualizarPainel(); return; }
     const p = pos[escolhida.id] || atual(escolhida.el);
     p.r = Math.round(((p.r || 0) + dr) * 10) / 10;
     p.s = Math.max(0.2, Math.round(((p.s ?? 1) + ds) * 100) / 100);
     pos[escolhida.id] = p; pintar(escolhida.el, p); guardar(); atualizarPainel();
   };
   const atualizarPainel = () => {
+    if (mudouDeTela()) {
+      // tira da tela as posições da outra largura, para o layout desta aparecer como é
+      elementos().forEach(({ el }) => pintar(el));
+      painel.textContent = `a janela mudou para ${telaDaLargura()}: recarregue a página para editar o ${telaDaLargura()}. O que você fez no ${tela()} está guardado.`;
+      return;
+    }
+    aplicar();
     painel.textContent = `editar (${tela()}) · ${Object.keys(pos).length} mexida(s)`;
     if (escolhida) {
       const nome = document.createElement("span");
@@ -98,6 +112,7 @@ export function ligarEditorPosicoes(seletores: string[], chave: string) {
     el.addEventListener("click", bloquearClique, true);
     el.querySelectorAll("img").forEach((img) => (img.draggable = false));
     const down = (e: PointerEvent) => {
+      if (mudouDeTela()) { atualizarPainel(); return; }
       e.preventDefault(); e.stopPropagation(); el.setPointerCapture(e.pointerId);
       if (escolhida) escolhida.el.style.outline = "1px dashed rgba(0,0,0,.5)";
       escolhida = { el, id }; el.style.outline = "2px solid #81fb5a";
@@ -125,5 +140,7 @@ export function ligarEditorPosicoes(seletores: string[], chave: string) {
     limpar.push(() => { el.removeEventListener("pointerdown", down); el.removeEventListener("wheel", roda); el.removeEventListener("click", bloquearClique, true); });
   });
   aplicar(); atualizarPainel();
+  window.addEventListener("resize", atualizarPainel);
+  limpar.push(() => window.removeEventListener("resize", atualizarPainel));
   return () => { limpar.forEach((f) => f()); painel.remove(); };
 }

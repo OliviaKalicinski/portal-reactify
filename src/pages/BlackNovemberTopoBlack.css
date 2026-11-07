@@ -23,3 +23,19 @@
    preço; o gato só tem quatro, então ela sai. */
 @media (max-width: 899px) { .bnt.bng .bn-cta-texto { translate: 40px -17px; } }
 .bnt.bng .bn-nuvem--5 { display: none; }
+
+/* 07/11 (Olivia, modo ?editar no computador): posições, giros e tamanhos do topo do computador.
+   O celular fica com as posições de partida (as do gato), por decisão dela: "só vai ele
+   [o computador], coloca as imagens de novo no mobile". */
+@media (min-width: 900px) {
+  .bnt.bng .bng-gato { translate: -24px -16px; rotate: 0deg; scale: 1.04; }
+  .bnt.bng .bn-cta-texto { translate: -125px 23px; rotate: 0deg; scale: 0.92; }
+  .bnt.bng .bng-foto { translate: 533px 5px; rotate: 0deg; scale: 1.28; }
+  .bnt.bng .bn-nuvem--4 { translate: -286px -236px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-nuvem--1 { translate: 22px -20px; rotate: 0deg; scale: 0.85; }
+  .bnt.bng .bng-eyebrow { translate: -328px 46px; rotate: 0deg; scale: 1.4; }
+  .bnt.bng .bng-titulo { translate: -328px -78px; rotate: 0deg; scale: 1.35; }
+  .bnt.bng .bn-preco-topo { translate: -134px -12px; rotate: -2deg; scale: 1; }
+  .bnt.bng .bn-nuvem--2 { translate: -365px 179px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-nuvem--3 { translate: 203px -249px; rotate: 0deg; scale: 1; }
+}
