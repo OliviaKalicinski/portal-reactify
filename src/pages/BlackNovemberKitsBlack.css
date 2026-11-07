@@ -14,3 +14,17 @@
 /* o cachorro de óculos é mais largo que o gatinho: um pouco maior */
 .bnk.bng .bnk-cao-pixel { width: 92px; }
 @media (min-width: 900px) { .bnk.bng .bnk-cao-pixel { width: 230px; } }
+
+/* 07/11 (Olivia, modo ?editar no celular, "mobile ok"): posições, giros e tamanhos do topo do
+   celular, na base de 362 px; o topo inteiro encolhe ou cresce pelo zoom. */
+@media (max-width: 899px) {
+  .bnk.bng .bng-foto { translate: -5px -12px; rotate: 0deg; scale: 1.13; }
+  .bnk.bng .bn-nuvem--1 { translate: -9px 8px; rotate: 0deg; scale: 1; }
+  .bnk.bng .bng-eyebrow { translate: 6px -25px; rotate: 0deg; scale: 0.95; }
+  .bnk.bng .bng-titulo { translate: 14px -28px; rotate: 0deg; scale: 1; }
+  .bnk.bng .bn-logo { translate: -47px -5px; rotate: 0deg; scale: 0.45; }
+  .bnk.bng .bn-nuvem--4 { translate: -4px -18px; rotate: 0deg; scale: 1; }
+  .bnk.bng .bn-preco-topo { translate: 50px -29px; rotate: -4deg; scale: 1; }
+  .bnk.bng .bng-gato { translate: 31px -14px; rotate: 0deg; scale: 1.39; }
+  .bnk.bng .bn-cta-texto { translate: 78px -13px; rotate: 0deg; scale: 0.77; }
+}
