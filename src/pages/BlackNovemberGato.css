@@ -207,3 +207,7 @@
   .bng .bng-gato { left: 39px; }
   .bng .bn-reels .reels-strip { justify-content: center; }
 }
+
+/* 07/11 (Olivia): "voltar para a home" é sempre uma linha só, em qualquer tamanho de tela
+   (vale também para a /black-november-topo, que usa este visual) */
+.bng .bn-voltar { white-space: nowrap; }
