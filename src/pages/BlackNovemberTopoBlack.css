@@ -62,3 +62,9 @@
   .bnt.bng .bng-titulo { translate: 21px -23px; }
   .bnt.bng .bng-eyebrow { translate: 0px -29px; }
 }
+
+/* 07/11 (Olivia): "coloca os botões do mesmo tamanho" e "o botão tem que ser comprar agora".
+   O botão do topo diz "Comprar agora →" nas duas páginas e tem o mesmo tamanho do gato
+   (celular 0,92; computador 1,1). */
+@media (max-width: 899px) { .bnt.bng .bn-cta-texto { scale: 0.92; } }
+@media (min-width: 900px) { .bnt.bng .bn-cta-texto { scale: 1.1; } }

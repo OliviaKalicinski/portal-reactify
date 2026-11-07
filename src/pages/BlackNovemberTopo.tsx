@@ -250,7 +250,7 @@ export default function BlackNovemberTopo() {
         </p>
 
         <div className="bn-cta-texto">
-          <a className="bn-botao" href={comprar("titulo")} data-cta="titulo">Pegar o presente →</a>
+          <a className="bn-botao" href={comprar("titulo")} data-cta="titulo">Comprar agora →</a>
         </div>
       </header>
 

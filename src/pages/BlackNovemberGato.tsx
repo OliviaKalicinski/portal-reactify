@@ -179,7 +179,7 @@ export default function BlackNovemberGato() {
         </p>
 
         <div className="bn-cta-texto">
-          <a className="bn-botao" href={comprar("titulo")} data-cta="titulo">Quero o dele →</a>
+          <a className="bn-botao" href={comprar("titulo")} data-cta="titulo">Comprar agora →</a>
         </div>
       </header>
 

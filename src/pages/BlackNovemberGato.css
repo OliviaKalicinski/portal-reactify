@@ -218,3 +218,7 @@
   .bng .bng-titulo { translate: 21px -7px; }
   .bng .bng-eyebrow { translate: 0px -12px; }
 }
+
+/* "Comprar agora →" é um pouco mais largo que o "Quero o dele →": no celular encostava 1 px
+   fora da borda direita (375 px); anda 10 px para dentro */
+@media (max-width: 899px) { .bng .bn-cta-texto { translate: 70px -17px; } }
