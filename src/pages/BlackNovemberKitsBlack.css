@@ -28,3 +28,14 @@
   .bnk.bng .bng-gato { translate: 31px -14px; rotate: 0deg; scale: 1.39; }
   .bnk.bng .bn-cta-texto { translate: 78px -13px; rotate: 0deg; scale: 0.77; }
 }
+
+/* 07/11 (Olivia, modo ?editar no computador, "a versão desktop está pronta"): posições, giros e
+   tamanhos do topo do computador, na base de 1023 px; o topo inteiro cresce ou encolhe pelo zoom. */
+@media (min-width: 900px) {
+  .bnk.bng .bn-cta-texto { translate: -44px 10px; rotate: 0deg; scale: 1.1; }
+  .bnk.bng .bng-gato { translate: -23px -8px; rotate: 0deg; scale: 1.05; }
+  .bnk.bng .bng-titulo { translate: -219px -75px; rotate: 0deg; scale: 1.35; }
+  .bnk.bng .bng-eyebrow { translate: -256px -58px; rotate: 2deg; scale: 0.85; }
+  .bnk.bng .bn-preco-topo { translate: -43px -49px; rotate: -2deg; scale: 0.95; }
+  .bnk.bng .bng-foto { translate: 538px -14px; rotate: 0deg; scale: 1; }
+}
