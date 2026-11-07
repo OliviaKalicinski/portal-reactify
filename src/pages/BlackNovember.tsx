@@ -264,7 +264,7 @@ export default function BlackNovember() {
         </p>
 
         <div className="bn-cta-texto">
-          <a className="bn-botao" href="#kits" data-cta="titulo">Comprar agora ↓</a>
+          <a className="bn-botao" href="#kits" data-cta="titulo">Ver os kits ↓</a>
         </div>
       </header>
 
