@@ -10,6 +10,16 @@ import "./BlackNovemberTopo.css";
    visual da /black-november-gato inteiro (classe .bng na raiz), e o que é só dela vem depois. */
 import "./BlackNovemberGato.css";
 import "./BlackNovemberTopoBlack.css";
+
+/* Cupom vindo do anúncio (?promocode=). Só letras e números, até 30. */
+function cupomDaEntrada(): string {
+  const CHAVE = "cd_bnt_promocode";
+  try {
+    const daUrl = new URLSearchParams(window.location.search).get("promocode")?.trim().toUpperCase() ?? "";
+    if (/^[A-Z0-9]{2,30}$/.test(daUrl)) { sessionStorage.setItem(CHAVE, daUrl); return daUrl; }
+    return sessionStorage.getItem(CHAVE) ?? "";
+  } catch { return ""; }
+}
 import { ligarEditorPosicoes } from "@/lib/editorPosicoes";
 
 /* ──────────────────────────────────────────────────────────────
@@ -180,7 +190,12 @@ export default function BlackNovemberTopo() {
     trackViewContent({ content_name: "LP Black November topo — Kit Completo 50%", content_id: "lp-black-november-topo", value: 0 });
   }, []);
 
-  const comprar = (pos: string) => buildCheckoutUrl(CHECKOUT + KIT.token, UTM_FALLBACK, pos);
+  /* 09/11 (Olivia): os anúncios de topo levam o cupom do creator (PIPO, CARLAVACCARO, JULLIE10, 10%)
+     no link, como ?promocode=. A página repassa esse cupom ao carrinho e o guarda na sessão,
+     para valer mesmo se a pessoa navegar antes de comprar. Sem cupom no link, nada muda. */
+  const cupom = cupomDaEntrada();
+  const comprar = (pos: string) =>
+    buildCheckoutUrl(CHECKOUT + KIT.token + (cupom ? `?promocode=${encodeURIComponent(cupom)}` : ""), UTM_FALLBACK, pos);
 
   return (
     <div className="bn bng bnt">
