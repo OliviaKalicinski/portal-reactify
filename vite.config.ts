@@ -45,13 +45,13 @@ const METAS_POR_ROTA: Record<string, { title: string; description: string; image
   /* Gatos, 03 a 30/11: a prévia diz taurina e preço, que é o que faz tutor de gato abrir. */
   "black-november-gato": {
     title: "Black November dos gatos — Comida de Dragão",
-    description: `O suplemento do seu gato, rico em taurina, de R$ 110 por R$ 85. ${JANELA}.`,
+    description: `O suplemento do seu gato de R$ 110 por R$ 82,50 (25% OFF). ${JANELA}.`,
     image: `${SITE}/assets/images/og-default.jpg`,
   },
   /* A de topo, para público frio: a prévia diz o preço, porque é a oferta que faz a pessoa abrir. */
   "black-november-topo": {
     title: "Você é novo por aqui? Pega esse presente — Comida de Dragão",
-    description: `O kit inteiro de proteína de larva para cães, de R$ 184,60 por R$ 96,00. Até ${FIM_POR_EXTENSO}.`,
+    description: `O kit inteiro de proteína de larva para cães, de R$ 184,60 por R$ 92,30. Até ${FIM_POR_EXTENSO}.`,
     image: `${SITE}/assets/images/og-default.jpg`,
   },
 };
