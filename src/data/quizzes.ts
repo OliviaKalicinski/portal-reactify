@@ -84,7 +84,6 @@ export const PROFILE_DIMENSIONS: ProfileDimensionDef[] = [
   { key: 'nojo',        title: 'Relação com Inseto',    icon: '🤢', quizId: 'nivel-de-nojo'                 },
   { key: 'knowledge',   title: 'Conhecimento Pet Food', icon: '🎓', quizId: 'quanto-voce-sabe'              },
   { key: 'eco',         title: 'Consciência Ambiental', icon: '🌿', quizId: 'consciencia-ambiental'         },
-  { key: 'pet',         title: 'Perfil do Pet',         icon: '🐾', quizId: 'qual-produto'                  },
   { key: 'revolucao',   title: 'Grau de Revolução',     icon: '🔥', quizId: 'convencional-ou-revolucionario'},
   { key: 'tipo_tutor',  title: 'Estilo de Cuidado',     icon: '🧭', quizId: 'tipo-de-tutor'                 },
   { key: 'alimentacao', title: 'Prato vs Prato',        icon: '🍽️', quizId: 'voce-ou-seu-pet'              },
@@ -588,192 +587,6 @@ const quizKnowledge: QuizDef = {
     if (score >= 5) return 'dragao';
     if (score >= 3) return 'consciente';
     return 'descoberta';
-  },
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// QUIZ 4 — QUAL COMIDA DE DRAGÃO FOI FEITA PRO SEU PET?
-// Tipo: Recomendação. Dimensão: pet.
-// ─────────────────────────────────────────────────────────────────────────────
-
-const quizProduto: QuizDef = {
-  id: 'qual-produto',
-  title: 'QUEM É TEU PET, NA REAL?',
-  subtitle: 'O Dragão diagnostica e aponta o produto certo.',
-  intro: 'O Dragão já viu todo tipo de bicho.\n6 perguntas rápidas — e ele aponta exatamente o que teu pet precisa. 🐉',
-  emoji: '🐾',
-  accent: '#FF2D78',
-  hoverImage: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExODVqZWM0Y2lydzJlNmdjdGUwYzRpenp2dTNjOTJjb3BpemkwMWdjbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Fn0ysbG90HX0uj5shv/giphy.gif',
-  cardRatio: 'ratio-1-1',
-  cardFlex: 1,
-  dimension: 'pet',
-  questions: [
-    {
-      question: 'QUE BICHO É O TEU PET?',
-      emoji: '🐾',
-      options: [
-        { text: 'Cachorro', value: 'cao' },
-        { text: 'Gato (aka o chefe da casa)', value: 'gato' },
-        { text: 'Lagarto, rã, ou outro bicho de pele estranha', value: 'reptil' },
-        { text: 'Mais de um tipo — minha casa é um zoológico', value: 'multi' },
-      ],
-    },
-    {
-      question: 'O QUE VOCÊ TÁ CAÇANDO AGORA?',
-      emoji: '🎯',
-      options: [
-        { text: 'Um petisco pra subornar o pet em treino', value: 'petisco' },
-        { text: 'Um suplemento pra turbinar a ração atual', value: 'suplemento' },
-        { text: 'Algo que faça diferença de verdade na saúde a longo prazo', value: 'saude' },
-        { text: 'Ainda não sei — me guia, Dragão', value: 'nao-sei' },
-      ],
-    },
-    {
-      question: 'O PERFIL DO TEU PET NO DIA A DIA:',
-      emoji: '⚡',
-      options: [
-        { text: 'Atleta. Cheio de energia. Não para um segundo.', value: 'ativo' },
-        { text: 'Filósofo. Dorme 19 horas por dia e não se arrepende.', value: 'tranquilo' },
-        { text: 'Sensível. Coça, alergia, barriga virada, pele irritada.', value: 'sensivel' },
-        { text: 'Em recuperação — pós-cirurgia, gestação, quadro delicado', value: 'recuperacao' },
-      ],
-    },
-    {
-      question: 'ALGUMA RESTRIÇÃO DE SAÚDE QUE VOCÊ JÁ CONHECE?',
-      emoji: '🩺',
-      options: [
-        { text: 'É gato e precisa de taurina (sem ela, o coração sofre)', value: 'taurina' },
-        { text: 'Alergia a frango ou bovino — o clássico', value: 'alergia' },
-        { text: 'Nenhuma. Ele é um tanque.', value: 'saudavel' },
-      ],
-    },
-    {
-      question: 'COMO ELE SE COMPORTA NA HORA DE COMER?',
-      emoji: '😋',
-      options: [
-        { text: 'Come tudo, qualquer coisa, qualquer hora. É uma máquina.', value: 'tudo' },
-        { text: 'Seletivo. Recusa com elegância e te deixa na mão.', value: 'seletivo' },
-        { text: 'Come a ração, mas dá pra ver que tá faltando algo', value: 'boost' },
-        { text: 'É réptil — e eu quero parar de comprar grilo vivo', value: 'reptil' },
-      ],
-    },
-    {
-      question: 'O QUE MAIS TE PREOCUPA NA SAÚDE DELE HOJE?',
-      emoji: '💊',
-      options: [
-        { text: 'Pelagem opaca, pele ressecada, baixa vitalidade', value: 'pelagem' },
-        { text: 'Incluir mais nutriente natural — tipo vegetal', value: 'vegetais' },
-        { text: 'Proteína de verdade, pura, sem enrolação', value: 'proteina' },
-        { text: 'Um petisco que já conte como nutrição', value: 'basico' },
-      ],
-    },
-  ],
-  results: {
-    original: {
-      label: 'COMIDA DE DRAGÃO ORIGINAL',
-      category: 'O clássico. Onde tudo começa.',
-      description: 'Larvas BSF inteiras, 40% de proteína no mínimo. Serve pra cão, gato, ave, réptil, anfíbio — basicamente qualquer bicho. Petisco, ferramenta de treino E introdução ao universo Dragão.\n\nQuando o pet come, o cético do bairro cala a boca.',
-      emoji: '🐛',
-      profileLabel: 'Meu pet come tudo e ama tudo',
-      manifestoLine: 'Meu pet come de tudo — e eu finalmente achei a marca certa',
-      stats: [
-        { label: 'PROTEÍNA',       value: 82 },
-        { label: 'NUTRIÇÃO',       value: 78 },
-        { label: 'ESPECIFICIDADE', value: 62 },
-        { label: 'VITALIDADE',     value: 88 },
-      ],
-      coupon: 'PRIMEIRODRAGO',
-      ctaText: 'COMPRAR ORIGINAL →',
-      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
-    },
-    /* MORDIDA V2 — substituiu Legumes e Spirulina (27/07/26). Um SKU só: a
-       fórmula nova já traz cúrcuma E spirulina. Sem grão, sem glúten, 24% de
-       proteína. Tem OVO: a proteína é hipoalergênica, o produto não. */
-    mordida: {
-      label: 'MORDIDA',
-      category: 'Petisco com substância, não só crocância',
-      description: 'BSF com mandioca, batata-doce, cúrcuma e spirulina. Sem grão, sem glúten, 24% de proteína — e alecrim no lugar do conservante artificial.\n\nPra tutor que não quer só "crocante colorido" — quer alimento que atravessa a embalagem.',
-      emoji: '🥦',
-      profileLabel: 'Só nutrição de verdade pra ele',
-      manifestoLine: 'Pet merece nutrição de verdade — não só crocância colorida',
-      stats: [
-        { label: 'PROTEÍNA',       value: 79 },
-        { label: 'NUTRIÇÃO',       value: 92 },
-        { label: 'ESPECIFICIDADE', value: 76 },
-        { label: 'VITALIDADE',     value: 85 },
-      ],
-      coupon: 'PRIMEIRODRAGO',
-      ctaText: 'COMPRAR MORDIDA →',
-      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
-    },
-    integral: {
-      label: 'SUPLEMENTO INTEGRAL',
-      category: 'O boost diário: mistura na ração e acabou',
-      description: 'No mínimo 40% de proteína, podendo chegar a 45%, com cúrcuma e spirulina em pó. Entra na rotina sem briga. Pra cão em crescimento, muito ativo, ou pet com apetite meio assim-assim.\n\nIngrediente adicional sobe a palatabilidade — o seletivo volta a atacar o prato.',
-      emoji: '💪',
-      profileLabel: 'Meu pet treina como atleta',
-      manifestoLine: 'Meu pet treina como atleta — e eu alimento como tal',
-      stats: [
-        { label: 'PROTEÍNA',       value: 92 },
-        { label: 'NUTRIÇÃO',       value: 88 },
-        { label: 'ESPECIFICIDADE', value: 82 },
-        { label: 'VITALIDADE',     value: 96 },
-      ],
-      coupon: 'PRIMEIRODRAGO',
-      ctaText: 'COMPRAR SUPLEMENTO INTEGRAL →',
-      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
-    },
-    felino: {
-      label: 'SUPLEMENTO FELINO',
-      category: 'Gato não é cão pequeno. Pronto.',
-      description: '40% de proteína + taurina — o aminoácido que gato não fabrica sozinho. Sem ela, coração e visão do gato sofrem. Com ela, ele reina como sempre fez.\n\nPorque gato tem exigência própria — e o Dragão respeita.',
-      emoji: '🐱',
-      profileLabel: 'Gato não é cão pequeno. Sei disso.',
-      manifestoLine: 'Meu gato não é cão pequeno — e eu sei disso',
-      stats: [
-        { label: 'PROTEÍNA',       value: 85 },
-        { label: 'NUTRIÇÃO',       value: 90 },
-        { label: 'ESPECIFICIDADE', value: 99 },
-        { label: 'VITALIDADE',     value: 88 },
-      ],
-      coupon: 'PRIMEIRODRAGO',
-      ctaText: 'COMPRAR SUPLEMENTO FELINO →',
-      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
-    },
-    grub: {
-      label: 'GRUB — ALIMENTO EM GEL',
-      category: 'Pra quem tem um dragão de verdade em casa',
-      description: 'Pó que vira gel com água quente. 47% proteína de 3 fontes de insetos, relação Ca:P perfeita pra réptil. Zero inseto vivo, zero odor de grilo em pote de vidro.\n\nCivilização finalmente chegou no terrário.',
-      emoji: '🦎',
-      profileLabel: 'Tenho um dragão de verdade em casa',
-      manifestoLine: 'Eu tenho um dragão de verdade em casa',
-      stats: [
-        { label: 'PROTEÍNA',       value: 92 },
-        { label: 'NUTRIÇÃO',       value: 82 },
-        { label: 'ESPECIFICIDADE', value: 99 },
-        { label: 'VITALIDADE',     value: 86 },
-      ],
-      coupon: 'PRIMEIRODRAGO',
-      ctaText: 'COMPRAR GRUB →',
-      ctaLink: 'https://www.comidadedragao.com.br/collections/produtos',
-    },
-  },
-  computeResult: (answers) => {
-    const [pet, , perfil, restricao, comportamento, preocupacao] = answers;
-    if (pet === 'gato' || restricao === 'taurina') return 'felino';
-    if (pet === 'reptil' || comportamento === 'reptil') return 'grub';
-    // 16/10/26: o Suplemento Concentrado saiu de linha. Recuperação, gestação e "proteína de
-    // verdade" vão para o Integral (a ficha dele cobre gestação e alta demanda). A opção
-    // "cardíaco, renal ou menos gordura" saiu da pergunta: nenhum produto da linha atende.
-    if (perfil === 'recuperacao') return 'integral';
-    if (perfil === 'ativo' || comportamento === 'boost') return 'integral';
-    if (preocupacao === 'proteina') return 'integral';
-    // Legumes e Spirulina viraram um SKU só: a V2 traz cúrcuma E spirulina na
-    // mesma fórmula (ficha 27/07/26). Os três perfis caem na Mordida.
-    if (preocupacao === 'pelagem' || comportamento === 'seletivo') return 'mordida';
-    if (preocupacao === 'vegetais') return 'mordida';
-    if (pet === 'multi') return 'original';
-    return 'original';
   },
 };
 
@@ -1380,7 +1193,6 @@ export const QUIZZES: QuizDef[] = [
   quizPersonality,
   quizNojo,
   quizKnowledge,
-  quizProduto,
   quizEco,
   quizRevolucao,
   quizTipoTutor,
@@ -1391,5 +1203,5 @@ export const QUIZZES: QuizDef[] = [
 export const GRID_LAYOUT: number[][] = [
   [0, 1, 2],
   [3, 4, 5],
-  [6, 7],
+  [6],
 ];
