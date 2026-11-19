@@ -951,3 +951,22 @@
   text-transform: uppercase;
   padding: 8px 18px;
 }
+
+/* 19/11/2026, 4ª rodada (Olivia): "Ver os outros produtos" com cara de botão
+   (borda mais grossa e sombra, como o principal) e título numa linha só no celular. */
+.original-lp .olp-btn-secondary {
+  border: 2px solid var(--dragon-pink);
+  box-shadow: 4px 4px 0 var(--dragon-pink);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.original-lp .olp-btn-secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--dragon-pink);
+}
+@media (max-width: 979px) {
+  .original-lp .olp-hero-title { font-size: clamp(25px, 7.4vw, 44px); white-space: nowrap; }
+  .original-lp .olp-hero-title br { display: none; }
+  .original-lp .olp-hero-title span { display: inline; }
+  .original-lp .olp-hero-cta-wrap { gap: 16px; }
+}

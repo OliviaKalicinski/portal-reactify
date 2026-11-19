@@ -145,7 +145,7 @@ const Original = () => {
           <span className="olp-hero-eyebrow">novidade · 1 ingrediente · hipoalergênico</span>
 
           <h1 className="olp-hero-title">
-            O petisco que<br /><span>seu pet vai amar.</span>
+            O petisco que{" "}<br /><span>seu pet vai amar.</span>
           </h1>
 
 
