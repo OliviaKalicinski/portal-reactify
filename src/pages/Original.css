@@ -997,3 +997,11 @@
   .original-lp .olp-hero-product-frame img { max-height: min(340px, 41svh); }
   .original-lp .olp-hero-product-frame { max-width: 300px; }
 }
+
+/* 19/11/2026, 6ª rodada (Olivia): etiqueta do preço em outra cor (rosa da marca, letra branca),
+   para não se confundir com o verde do botão de compra. */
+.original-lp .olp-hero-product-frame .olp-hero-price { background: var(--dragon-pink); }
+.original-lp .olp-hero-product-frame .olp-price-from,
+.original-lp .olp-hero-product-frame .olp-price-now,
+.original-lp .olp-hero-product-frame .olp-price-now small,
+.original-lp .olp-hero-product-frame .olp-price-installment { color: #FFFFFF; }
