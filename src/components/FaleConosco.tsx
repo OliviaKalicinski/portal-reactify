@@ -35,7 +35,8 @@ const ROTAS = new Set([
   "/suplemento",
   "/grub",
   "/black-november",
-  "/black-november-topo",
+  // "/black-november-topo" saiu em 17/11/2026: refeita no formato da página de produto do site,
+  // a barra fixa dela já traz o WhatsApp ao lado do botão (como na loja), e a bolinha ficava por cima.
   "/g/alergia",
   "/g/idoso",
   "/g/gato-coceira",

@@ -1,97 +1,102 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageMeta from "@/components/PageMeta";
 import { captureEntryUtms, buildCheckoutUrl } from "@/lib/utm";
 import { trackViewContent } from "@/lib/pixel";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
-import { FIM_CURTO, FIM_POR_EXTENSO, JANELA_POR_EXTENSO } from "@/lib/blackNovember";
-import "./BlackNovember.css";
-import "./BlackNovemberTopo.css";
-/* 06/11 (Olivia: "agora vamos colocar no estilo da do gato, igualzinha"): a página usa o
-   visual da /black-november-gato inteiro (classe .bng na raiz), e o que é só dela vem depois. */
-import "./BlackNovemberGato.css";
-import "./BlackNovemberTopoBlack.css";
-import { ligarEditorPosicoes } from "@/lib/editorPosicoes";
+import { FIM_CURTO, FIM_POR_EXTENSO } from "@/lib/blackNovember";
+import "./BlackNovemberTopoSite.css";
 
 /* ──────────────────────────────────────────────────────────────
-   /black-november-topo · Black November (03 a 30/11/2026)
-   Página de VENDA para PÚBLICO FRIO: quem nunca ouviu falar da marca e chega
-   pelo anúncio de topo. UMA OFERTA SÓ: 50% no Kit Completo.
+   /black-november-topo · Black November (09 a 30/11/2026)
+   Página de VENDA para PÚBLICO FRIO, uma oferta só: Kit Completo de R$ 184,60 por R$ 92,30
+   (50%), carrinho PDYJH8ZOQU (produto oculto 1306-BN na Shopify e 46529699 na Yampi).
+   SEM frete grátis (abaixo do piso de R$ 108) e SEM brinde.
 
-   Por que ela existe separada da /black-november: quem não conhece precisa
-   primeiro entender o que é comida de inseto. Por isso aqui entram os cinco
-   blocos de ciência, e lá não.
+   🔴 17/11/2026 — REFEITA NO FORMATO DA PÁGINA DE PRODUTO DO SITE (Olivia: "deixar ela mais
+   parecida com a de produtos da black no site" / "sinto falta de informação"). Plano e crítica em
+   `PROJETOS/Lançamentos & Campanhas/2026-11-17 - LP black-november-topo - crítica e plano`.
+   Molde: comidadedragao.com.br/products/kit-completo-para-caes, lido em 17/11 (cores, fontes,
+   selos, galeria, textos da descrição e do FAQ). A versão anterior, no visual 8-bit da
+   /black-november-gato, está no histórico do git (commit 1fcec9e e antes).
 
-   Olivia, 27/10, mandando fazer esta página: o Kit Completo fica com os 50%.
-   Isso fecha metade do item 1a do plano — o que continua aberto é COMO impedir
-   que o brinde entre junto, que é configuração de checkout, não de página.
+   O que NÃO mudou: preço, carrinho, UTM de reserva, evento ViewContent, fim em 30/11, a página
+   sem review (regra da casa: página com vídeo de creator fica sem review, Olivia 02/10), os cinco
+   blocos de ciência e o tom do FAQ (o cheiro fica).
 
-   🔴 28/10, e a decisão mudou duas vezes no mesmo dia — leia inteiro antes de mexer.
-   De manhã o preço era R$ 92,30 (metade de R$ 184,60) e o piso de frete grátis da
-   Yampi subiu de R$ 90 para R$ 95; para o kit não ficar abaixo do piso, ele subiu
-   para R$ 96,00 e o título deixou de dizer "pela metade" (R$ 96,00 sobre R$ 184,60
-   é 48%, não 50%).
-   À tarde a Olivia reviu: **esta oferta não era para ter frete grátis**. A regra que
-   ela deu para o piso é "o preço do kit mais barato já com 10% de desconto" — o kit
-   mais barato é o Original 3x a R$ 120,20 (o Original + Mordida, de R$ 80,10, não
-   conta), então 120,20 × 0,90 = R$ 108,18, arredondado para **R$ 108,00** nos 27
-   estados. Com isso o kit de R$ 96,00 fica abaixo do piso e **não tem frete grátis**,
-   que é o que ela quis.
-   Por isso a promessa de frete grátis saiu dos quatro lugares desta página: o FAQ,
-   a linha sob o preço, a barra do pé e a descrição da prévia no vite.config.ts.
-   ⚠️ O preço continua R$ 96,00: a Olivia não pediu para voltar aos R$ 92,30, e voltar
-   mudaria o título de novo.
-   🔴 06/11: a Olivia decidiu "coloca com 50%": o kit volta a R$ 92,30, metade exata, e o
-   título passa a ser "50% OFF". Continua abaixo do piso de R$ 108, sem frete grátis.
-   O 1306-BN precisa ir a R$ 92,30 na Shopify E na Yampi (produto 46529699) antes de esta
-   versão subir: a Yampi cobra o preço dela.
-
-   ✅ O BRINDE, RESOLVIDO (28/10, medido). A regra mora em Yampi → Marketing →
-   **Brindes** (`app.yampi.com.br/marketing/freebies`), uma tela que não aparece no
-   menu lateral — só pela busca do painel. É a regra 8253, "Halloween - suplemento
-   acima de R$ 90": dá o Suplemento Integral (sku 302) ao atingir R$ 90,00 no
-   carrinho, e **termina em 31/10/2026**. A campanha começa em 03/11, então nessa
-   janela ela já não existe, e as duas ofertas não se somam. Medido assim: com o
-   Kit Original + Mordida (R$ 80,10) o checkout mostra "Adicione R$ 9,90 e ganhe um
-   brinde!" — 80,10 + 9,90 = R$ 90,00 — e entrega Produtos (1), sem brinde.
-   *(Por isso o brinde aparece em qualquer teste feito hoje: hoje é 28/10.)*
-
-   🔴 NÃO VAI AO AR ANTES DE: a garantia — ver o FAQ.
-
-   Herda o visual da /black-november (BlackNovember.css) e acrescenta só o que
-   é desta página (BlackNovemberTopo.css).
+   Textos tirados do site e mudados aqui de propósito:
+   - os selos do site dizem "+ suplemento de presente" e "frete grátis": ESTE kit não tem
+     nenhum dos dois, então saíram;
+   - a resposta de entrega do site termina em "os kits com o selo Frete grátis não pagam frete":
+     saiu pelo mesmo motivo;
+   - a resposta de sustentabilidade do site traz "8 vezes menos terra" e "80% menos gases":
+     números sem fonte conferida no cofre, então saíram (regra 1 da casa).
    ────────────────────────────────────────────────────────────── */
 
 const UTM_FALLBACK = { utm_source: "lp-black-november-topo", utm_medium: "lp", utm_campaign: "black-november-2026" };
 
 const CHECKOUT = "https://seguro.comidadedragao.com.br/r/";
 const CDN = "https://cdn.shopify.com/s/files/1/0895/4311/5055/files/";
+// mesmo número e mesma mensagem do botão flutuante das LPs (components/FaleConosco.tsx)
+const WHATSAPP = "https://wa.me/552139500576?text=" + encodeURIComponent("Oi! Vim pelo site e tenho uma dúvida.");
 
-/* Kit Completo para Cães, sku 1306. Preço cheio lido na Shopify em 26/10/2026.
-   🔴 28/10/2026: o botão NÃO leva mais ao carrinho do kit normal com cupom. Leva a um
-   produto próprio da campanha, oculto da loja (não está em nenhuma coleção), criado na
-   Shopify (sku 1306-BN) e cadastrado à mão na Yampi (produto 46529699), já com o preço
-   promocional de R$ 96,00. Assim a pessoa cai no checkout com o valor certo sem cupom,
-   e o preço da campanha não aparece para quem navega o site.
-   Conferido no checkout em 28/10: abre a R$ 96,00. Fica ABAIXO do piso de frete grátis
-   (R$ 108,00 desde a tarde de 28/10), de propósito — ver a nota do topo. Num teste feito
-   hoje ele vem com o brinde junto, porque a regra do Halloween ainda está valendo; ela
-   termina em 31/10, e a da campanha (piso R$ 100) começa em 03/11, então na janela da
-   Black November este kit de R$ 96,00 também fica fora do presente. */
 const KIT = {
   nome: "Kit Completo para Cães",
-  img: CDN + "kit-dog-supremo.png?v=1785150064",
   token: "PDYJH8ZOQU",
   sku: "1306-BN",
   cheio: "184,60",
-  agora: "92,30", // 06/11 (Olivia): "coloca com 50%" — metade exata de R$ 184,60; era R$ 96,00
+  agora: "92,30", // 06/11 (Olivia): "coloca com 50%" — metade exata de R$ 184,60
 };
 
-/* Os cinco blocos de ciência, da referência do Canva. Cada um conferido no
-   Catálogo - Biblioteca BSF do cofre (04_REFERENCIAS_CIENTIFICAS).
-   🔴 REGRA QUE VALE AQUI: o que os estudos mediram é a PROTEÍNA DE LARVA como
-   ingrediente, não o nosso produto acabado. A casa não tem ensaio no produto
-   pronto. Por isso cada bloco diz de que se fala, e nenhum vira promessa de
-   resultado. Ver item 7 do plano. */
+/* As fotos da galeria são as mesmas da página do kit no site (Shopify, lidas em 17/11). */
+const FOTOS = [
+  { src: CDN + "kit-dog-supremo.png?v=1785150064", alt: "Kit Completo para cães: o pacote Original, a Mordida e o pote do Suplemento Integral" },
+  { src: CDN + "d2.png", alt: "Kit Completo para cães, foto 2" },
+  { src: CDN + "d3.png", alt: "Kit Completo para cães, foto 3" },
+  { src: CDN + "d4.png", alt: "Kit Completo para cães, foto 4" },
+  { src: CDN + "d5.png", alt: "Kit Completo para cães, foto 5" },
+  { src: CDN + "d6.png", alt: "Kit Completo para cães, foto 6" },
+];
+
+/* Os outros kits da Black (Olivia, 17/11: "eu queria colocar os outros kits também").
+   Preço e foto lidos na loja (products/<handle>.json) em 17/11; carrinhos de
+   `_MIGRAR-PAGINAS/links-checkout-yampi-tokens.md`. Os 4 passam do piso de R$ 100 da regra de
+   brinde da Black na Yampi (8402, 09 a 30/11): ganham o Suplemento Integral (R$ 110) de presente.
+   Frete grátis: só os kits têm, automático (regra da casa). O Kit Completo de R$ 92,30 lá em cima
+   NÃO ganha nenhum dos dois: cada cartão diz o que inclui. */
+const KITS = [
+  {
+    nome: "Kit Original 3x", preco: "120,20", token: "DZCHG52YG4",
+    img: CDN + "Anuncios_Multiplataforma_Original_3x_4804eede-2fc5-41aa-b9a6-3ca0a3c2c776.png",
+    txt: "Três pacotes de Original: só larva, um ingrediente só. Para quem quer parar de comprar de pacote em pacote.",
+  },
+  {
+    nome: "Kit 3 Mordidas", preco: "120,20", token: "AMX9A1HEPD",
+    img: CDN + "kit-mordidas.png",
+    txt: "Três Mordidas de 180 g: o biscoito crocante de larva, no lugar do biscoito de frango e boi. Leva ovo.",
+  },
+  {
+    nome: "Kit para Cães", preco: "144,50", token: "KQXZ5J7LWK",
+    img: CDN + "Anuncios_Multiplataforma_Mordida_Suplemento_030f2ec7-353e-45e0-ae37-979a624c15ec.png",
+    txt: "Original como agrado e Suplemento Integral por cima da ração, sem trocar a comida dele.",
+  },
+  {
+    nome: "Kit Mordida + Suplemento", preco: "144,50", token: "ZWOQZDQBW1",
+    img: CDN + "kit-dog-mordida-suplemento.png",
+    txt: "O petisco do dia a dia e o reforço por cima da ração, na mesma caixa. A Mordida leva ovo.",
+  },
+];
+
+/* O que vem na caixa, com como dar. Uso e proteína: `00_CONTEXTO_BASE/Produtos - decisões e claims`
+   (Original e Mordida: no máximo 10% do consumo diário; Suplemento: acompanha dosador; proteína na
+   forma de 25/09). A Mordida leva ovo: o KIT nunca é chamado de hipoalergênico. */
+const CAIXA = [
+  { nome: "Comida de Dragão Original", peso: "90 g", txt: "Só larva desidratada, nada mais. Como agrado ou recompensa, até 10% do que ele come no dia." },
+  { nome: "Mordida de Dragão", peso: "180 g", txt: "O petisco assado que quebra na mão, bom para cão pequeno e para pet seletivo. Leva ovo em pó. Como agrado, até 10% do que ele come no dia." },
+  { nome: "Suplemento Integral para cães", peso: "180 g", txt: "O pó que vai por cima da ração que ele já come, na medida do dosador que vem junto. No mínimo 40% de proteína, podendo chegar a 45%." },
+];
+
+/* Os cinco blocos de ciência (sem mudança desde 28/10). Cada um conferido no Catálogo - Biblioteca
+   BSF do cofre. O que os estudos mediram é a PROTEÍNA DE LARVA como ingrediente, não o produto pronto. */
 const CIENCIA = [
   {
     titulo: "O corpo dele aproveita quase tudo",
@@ -120,60 +125,24 @@ const CIENCIA = [
   },
 ];
 
-/* FAQ reescrito em 28/10 lendo a casa: `00_CONTEXTO_BASE/Voz da marca (marketing).md`,
-   o índice de objeções e as falas reais em `03 - Vozes & Argumentos (copy de reviews)`.
-   Aqui quem chega NÃO CONHECE a marca, então a quebra do nojo vem primeiro e o tom é
-   mais explicativo que na página da campanha — mas sem virar professoral, que a voz
-   proíbe. O defeito pequeno (o cheiro) fica, porque é o que ganha confiança. */
+/* FAQ: o da página (voz da casa, 28/10) somado ao do site (17/11). Garantia: vale a lei,
+   7 dias com produto lacrado (Olivia, 30/10); a resposta segue sem prazo, de propósito. */
 const FAQ = [
   { q: "Larva? Sério?", a: "Sério, e sem drama: larva de mosca soldado negro, criada em biofábrica para virar alimento e desidratada. Não é a mosca da sua cozinha, e o seu cão não vê larva — vê petisco." },
-  { q: "Por que larva e não frango?", a: "Porque é proteína que o corpo dele aproveita quase inteira, com perfil completo de aminoácidos, e que quase nenhum cão já comeu antes — por isso costuma funcionar em quem reage a frango e a boi." },
-  { q: "O meu vai querer comer?", a: "Nos estudos com cães, as dietas com larva foram bem aceitas. E os vídeos aqui em cima são de tutores de verdade: um deles escreveu que teve de guardar o pacote na geladeira porque o cachorro procurava pela casa." },
+  { q: "O que é BSF? Por que inseto em vez de carne?", a: "BSF é a sigla em inglês da mosca soldado negra. A larva dela come resíduo orgânico e vira uma proteína completa, com todos os aminoácidos essenciais. Seu pet aproveita 88,9% dessa proteína, que ainda traz ômegas 6 e 9 e ácido láurico. A gente cria as larvas na nossa biofábrica, registrada no MAPA: do resíduo à proteína, tudo rastreável." },
+  { q: "O meu vai querer comer?", a: "Nos estudos com cães, as dietas com larva foram bem aceitas. E os vídeos desta página são de tutores de verdade: um deles escreveu que teve de guardar o pacote na geladeira porque o cachorro procurava pela casa." },
+  { q: "É seguro? Não vai fazer mal para ele?", a: "Sim, é seguro. A gente cria as larvas na nossa biofábrica em Cachoeiras de Macacu (RJ), registrada no MAPA, e controla tudo do início ao fim. Nos estudos com cães e gatos, quem comeu larva por semanas manteve os exames de sangue, de rim e de fígado normais." },
+  { q: "Meu cão tem alergia alimentar. Pode usar?", a: "A maior parte das alergias vem das proteínas de sempre: frango, boi e soja. A larva é uma proteína que o corpo dele nunca viu, por isso costuma não provocar reação. Comece pela Original: ela só tem larva. A Mordida, que vem neste kit, leva ovo; se a alergia é a ovo, fique na Original e no Suplemento. Se a alergia é forte, faça a troca junto com o veterinário." },
+  { q: "Quanto eu dou?", a: "A Original e a Mordida são agrado: até 10% do que ele come no dia. O Suplemento vai por cima da ração, na medida do dosador que vem junto." },
   { q: "Vou ser sincera: cheira bem?", a: "Não. É meio fedidinho, e a sua mão vai querer sabão depois. O seu cão discorda de nós dois." },
-  { q: "Isso faz mal para ele?", a: "A larva é criada em biofábrica registrada no MAPA, do ovo ao pacote, tudo rastreável. Não é inseto apanhado por aí." },
-  { q: "Serve para pet com alergia?", a: "A proteína da larva é hipoalergênica, e é por isso que ela costuma funcionar em quem reage a frango e a boi. Atenção à Mordida, que vem neste kit e leva ovo em pó: nela o hipoalergênico é a proteína, não o petisco inteiro. Se o seu pet tem quadro alérgico, fale com o veterinário dele." },
-  { q: "O que vem no kit?", a: "Três produtos: o Original de 90 g, a Mordida de 180 g e o Suplemento Integral de 180 g." },
-  { q: "Como eu dou?", a: "O Original e a Mordida são petiscos: dá na mão. O Suplemento é um pó que você joga por cima da comida que ele já come." },
-  /* GARANTIA (decidido por Olivia em 30/10): vale a lei — 7 dias com produto LACRADO,
-     que não cobre pet que não gostou. Esta resposta segue sem prazo, de propósito. */
+  { q: "Quanto custa o frete e quando chega?", a: "Entregamos para o Brasil inteiro. O prazo e o valor do frete aparecem pelo CEP no checkout, e você acompanha o pedido pelo WhatsApp ou pelo e-mail." },
+  { q: "É sustentável mesmo?", a: "É. A larva come resíduo orgânico que iria para o lixo e vira proteína. Seu pet come bem, e o desperdício vira comida. Nojento é o desperdício." },
   { q: "E se não rolar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
 ];
 
-/* largura, em px, em que o topo é montado no celular e no computador; o topo inteiro cresce ou
-   encolhe a partir dela (zoom) para caber na largura e na primeira tela. Mesmos números do gato. */
-const BASE_CELULAR = 362;
-const BASE_COMPUTADOR = 1023;
-const ZOOM_MAX_COMPUTADOR = 1.5;
-
 export default function BlackNovemberTopo() {
-  // na prévia local, ?editar deixa a Olivia arrastar, girar e mudar o tamanho das peças do topo
-  useEffect(() => ligarEditorPosicoes(
-    [".bn-logo", ".bng-titulo", ".bng-eyebrow", ".bng-foto", ".bn-preco-topo", ".bn-cta-texto", ".bng-gato", ".bn-nuvem"],
-    "black-november-topo",
-  ), []);
-
-  // topo em proporção, igual ao do gato: o fator é o menor entre o que a largura e o que a
-  // altura permitem (descontando a faixa do topo e a barra fixa), para tudo ficar na primeira tela
-  useEffect(() => {
-    const aplicar = () => {
-      const raiz = document.documentElement;
-      const w = window.innerWidth;
-      const computador = w >= 900;
-      raiz.style.setProperty("--bng-zoom", "1");
-      const hero = document.querySelector<HTMLElement>(".bnt .bn-hero");
-      const faixa = document.querySelector<HTMLElement>(".bnt .bn-faixa")?.getBoundingClientRect().height ?? 0;
-      const barra = document.querySelector<HTMLElement>(".bnt .bn-barra")?.getBoundingClientRect().height ?? 0;
-      const alturaBase = hero?.getBoundingClientRect().height ?? 0;
-      const kLargura = computador ? Math.min(w / BASE_COMPUTADOR, ZOOM_MAX_COMPUTADOR) : w / BASE_CELULAR;
-      const kAltura = alturaBase ? (window.innerHeight - faixa - barra) / alturaBase : kLargura;
-      raiz.style.setProperty("--bng-zoom", String(Math.min(kLargura, kAltura)));
-    };
-    aplicar();
-    const imgs = [...document.querySelectorAll<HTMLImageElement>(".bnt .bn-hero img")];
-    imgs.forEach((i) => { if (!i.complete) i.addEventListener("load", aplicar, { once: true }); });
-    window.addEventListener("resize", aplicar);
-    return () => { window.removeEventListener("resize", aplicar); document.documentElement.style.removeProperty("--bng-zoom"); };
-  }, []);
+  const [foto, setFoto] = useState(0);
+  const trilho = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     captureEntryUtms();
@@ -181,161 +150,178 @@ export default function BlackNovemberTopo() {
   }, []);
 
   const comprar = (pos: string) => buildCheckoutUrl(CHECKOUT + KIT.token, UTM_FALLBACK, pos);
+  const comprarKit = (token: string) => buildCheckoutUrl(CHECKOUT + token, UTM_FALLBACK, "kit-" + token);
+
+  const irPara = (i: number) => {
+    const t = trilho.current;
+    if (!t) return;
+    const n = (i + FOTOS.length) % FOTOS.length;
+    t.scrollTo({ left: n * t.clientWidth, behavior: "smooth" });
+    setFoto(n);
+  };
+  const aoRolar = () => {
+    const t = trilho.current;
+    if (t) setFoto(Math.round(t.scrollLeft / t.clientWidth));
+  };
 
   return (
-    <div className="bn bng bnt">
+    <div className="bnts">
       <PageMeta
-        title="Você é novo por aqui? Pega esse presente — Comida de Dragão"
-        description={`Você é novo por aqui? Pega esse presente: o kit inteiro de proteína de larva para cães, por R$ ${KIT.agora}. Até ${FIM_POR_EXTENSO}.`}
+        title="Kit Completo para Cães por R$ 92,30 — Black Flyday — Comida de Dragão"
+        description={`Black Flyday: o Kit Completo de proteína de larva para cães (Original, Mordida e Suplemento) de R$ ${KIT.cheio} por R$ ${KIT.agora}. Até ${FIM_POR_EXTENSO}.`}
       />
 
-      <div className="bn-faixa" aria-label={`Black November: é a sua primeira vez aqui? O kit inteiro por R$ ${KIT.agora}, ${JANELA_POR_EXTENSO}`}>
-        <div className="bn-faixa-trilho" aria-hidden>
-          {[0, 1].map((n) => (
-            <span key={n}>
-              {`BLACK NOVEMBER ✦ VOCÊ É NOVO AQUI? PEGA O KIT INTEIRO POR R$ ${KIT.agora} ✦ ATÉ ${FIM_CURTO} ✦\u00a0`}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="bng-ceu">
-      <header className="bn-hero">
-        {/* Nuvens recortadas da peça da Bianca. Posições próprias desta página, no
-            BlackNovemberTopo.css: aqui o kit é maior e as de lá caíam em cima dele. */}
-        <i className="bn-nuvem bn-nuvem--1" aria-hidden />
-        <i className="bn-nuvem bn-nuvem--2" aria-hidden />
-        <i className="bn-nuvem bn-nuvem--3" aria-hidden />
-        <i className="bn-nuvem bn-nuvem--4" aria-hidden />
-        <i className="bn-nuvem bn-nuvem--5" aria-hidden />
-        {/* o cachorro 8-bit de óculos das peças, no lugar do gatinho */}
-        <img className="bng-gato bnt-cao-pixel" src="/assets/black-november/cao-pixel.png" alt="" aria-hidden />
-
-        <div className="bn-topo">
-          <a href="https://www.comidadedragao.com.br/collections/produtos">
-            <img className="bn-logo bng-logo" src="/assets/black-november/logo-3.png" alt="Comida de Dragão" />
-          </a>
-          <a className="bn-voltar" href="https://www.comidadedragao.com.br/">voltar para a home</a>
-        </div>
-
-        {/* Olivia, 27/10: "o kit tem que aparecer primeiro. É uma pessoa que nunca viu. Então
-            tem que ser o kit inteiro pela metade, o kit e o valor. Primeira coisa ali, o botão,
-            na primeira tela."
-            Ordem: título · FOTO DO KIT · preço · botão — e tudo tem de caber em 812 px no
-            celular. Bate com a regra da casa: primeiro o produto em cena, depois o preço e o
-            botão. A explicação do que é a marca desceu para depois dos vídeos. */}
-        {/* Olivia, 27/10: "nessa do kit inteiro seria legal a gente colocar falando assim: você
-            é novo aqui, então pega esse presente — porque essa vai para topo, aberto, a gente
-            vai divulgar abertão."
-            O enquadramento deixa de ser liquidação e vira boas-vindas: quem chega aqui não
-            conhece a marca, e o preço de entrada é o jeito de dizer oi. */}
-        {/* 06/11 (Olivia: "coloca com 50%"): o kit foi a R$ 92,30, metade exata de R$ 184,60,
-            e o título vira o "50% OFF" no desenho das peças (montado com as letras do "25% OFF"
-            do PDF dela). Embaixo, tortinha, a etiqueta que diz o que é. */}
-        <h1 className="bn-h1 bng-titulo">
-          <img src="/assets/black-november/50off.png" alt={`50% off no Kit Completo para Cães, por R$ ${KIT.agora}`} />
-        </h1>
-        <span className="bn-eyebrow bng-eyebrow">kit completo para cães</span>
-
-        {/* A foto leva ao carrinho, como na /original e na /curiosidade. Aqui pode, porque
-            há UM produto só: a foto representa exatamente o que o botão compra. */}
-        <div className="bn-foto bng-foto">
-          <a href={comprar("foto")} data-cta="foto" aria-label={`Pegar o ${KIT.nome} por R$ ${KIT.agora}`}>
-            <img className="bn-cao" src={KIT.img} alt="Kit Completo para cães: o pacote Original, a Mordida e o pote do Suplemento Integral" />
-          </a>
-        </div>
-
-        <p className="bn-preco-topo">
-          de <s>R$ {KIT.cheio}</s> por <strong>R$ {KIT.agora}</strong>
-        </p>
-
-        <div className="bn-cta-texto">
-          <a className="bn-botao" href={comprar("titulo")} data-cta="titulo">Comprar agora →</a>
-        </div>
+      <header className="bnts-cabeca">
+        <a href="https://www.comidadedragao.com.br/collections/produtos" aria-label="Comida de Dragão: ver a loja">
+          <img className="bnts-logo" src="/assets/images/logo-preto.png" alt="Comida de Dragão" />
+        </a>
+        <a className="bnts-loja" href="https://www.comidadedragao.com.br/collections/produtos">ver a loja</a>
       </header>
 
-      {/* A grade em perspectiva da peça, fazendo o "chão" entre o cartaz e o conteúdo. */}
-      <div className="bn-grade-chao" aria-hidden />
-      </div>
+      {/* Banner da Black (Olivia, 17/11: "algum banner, alguma indicação da Black Friday"),
+          com o céu 8-bit e o cachorro das peças da campanha. */}
+      <section className="bnts-banner" aria-label={`Black Flyday até ${FIM_CURTO}`}>
+        <img className="bnts-banner-cao" src="/assets/black-november/cao-pixel.png" alt="" aria-hidden />
+        <p className="bnts-banner-sobre">a Black da Comida de Dragão</p>
+        <p className="bnts-banner-titulo">Black Flyday</p>
+        <p className="bnts-banner-linha">50% no Kit Completo · kits com presente · até {FIM_CURTO}</p>
+      </section>
 
-      {/* Barra fixa: aqui ela COMPRA, não rola — há um produto só. */}
-      <a className="bn-barra" href={comprar("barra")} data-cta="barra">
-        <span className="bn-barra-txt">O seu presente<small>o kit inteiro por R$ {KIT.agora}</small></span>
-        <strong className="bn-barra-btn">Pegar →</strong>
-      </a>
+      <main className="bnts-produto">
+        <div className="bnts-midia">
 
-      {/* Olivia, 27/10: "aí logo embaixo, os vídeos". Quem nunca viu a marca precisa de gente
-          antes de qualquer explicação. Regra da casa (Olivia, 02/10): página com vídeo de
-          creator fica sem review, nem em foto nem em texto. */}
-      <div className="bn-reels">
+        <div className="bnts-galeria">
+          <span className="bnts-kit-selo bnts-capa-selo bnts-capa-selo--off">50% off</span>
+          <span className="bnts-kit-selo bnts-capa-selo bnts-capa-selo--black">Black Flyday</span>
+          <div className="bnts-trilho" ref={trilho} onScroll={aoRolar}>
+            {FOTOS.map((f, i) => (
+              <a key={f.src} className="bnts-foto" href={comprar("foto")} data-cta="foto" aria-label={`Comprar o ${KIT.nome} por R$ ${KIT.agora}`}>
+                <img src={f.src} alt={f.alt} loading={i === 0 ? "eager" : "lazy"} />
+              </a>
+            ))}
+          </div>
+          <button type="button" className="bnts-seta bnts-seta--esq" onClick={() => irPara(foto - 1)} aria-label="Foto anterior">‹</button>
+          <button type="button" className="bnts-seta bnts-seta--dir" onClick={() => irPara(foto + 1)} aria-label="Próxima foto">›</button>
+          <div className="bnts-pontos" aria-hidden>
+            {FOTOS.map((f, i) => <span key={f.src} className={i === foto ? "on" : ""} />)}
+          </div>
+        </div>
+        </div>
+
+        <div className="bnts-info">
+        <h1 className="bnts-titulo">{KIT.nome}</h1>
+        <p className="bnts-preco">
+          <s>R$ {KIT.cheio}</s> <strong>R$ {KIT.agora}</strong> <span className="bnts-off">50% off</span>
+        </p>
+
+        {/* 18/11 (Olivia: "os dois botões tinham que ficar mais visíveis, tipo comprar agora e ver
+            outras promoções"): o segundo desce até a vitrine dos kits, com presente e frete grátis. */}
+        <div className="bnts-botoes">
+          <a className="bnts-botao" href={comprar("titulo")} data-cta="titulo">Comprar agora</a>
+          <a className="bnts-botao bnts-botao--promo" href="#kits" data-cta="ver-promocoes">Ver outras promoções ↓</a>
+        </div>
+        <p className="bnts-frete">🚚 Entrega para todo o Brasil. O frete deste kit aparece pelo CEP no checkout.</p>
+
+        <p className="bnts-confianca">Biofábrica registrada no MAPA · Sem conservantes artificiais · Original, Mordida e Suplemento</p>
+
+        <section className="bnts-kits" id="kits" aria-label="Mais kits na Black Flyday">
+          <h2>Mais kits na Black Flyday</h2>
+          <p className="bnts-kits-sub">Estes ganham o Suplemento Integral de R$ 110 de presente e têm frete grátis. Até {FIM_CURTO}.</p>
+          <div className="bnts-kits-grade">
+            {KITS.map((k) => (
+              <article key={k.token} className="bnts-kit">
+              <span className="bnts-kit-selo bnts-kit-selo--frete">Frete grátis</span>
+              <a href={comprarKit(k.token)} data-cta={"kit-" + k.token} className="bnts-kit-foto" aria-label={`Comprar o ${k.nome} por R$ ${k.preco}`}>
+                <img src={k.img} alt={k.nome} loading="lazy" />
+              </a>
+              <span className="bnts-kit-selo bnts-kit-selo--brinde">Ganhe suplemento</span>
+              <h3>{k.nome}</h3>
+              <p className="bnts-kit-preco">R$ {k.preco}</p>
+              <p className="bnts-kit-txt">{k.txt}</p>
+              <a className="bnts-kit-btn" href={comprarKit(k.token)} data-cta={"kit-" + k.token}>Comprar agora</a>
+            </article>
+            ))}
+          </div>
+        </section>
+
+        <p className="bnts-resumo">
+          Cão que coça ou está com o pelo sem brilho? Este kit leva a proteína de larva para o dia dele:
+          a Original e a Mordida como agrado, e o Suplemento na ração.
+        </p>
+
+        <div className="bnts-abas">
+          <details open>
+            <summary>Descrição</summary>
+            <div className="bnts-aba">
+              <p>
+                Se o seu cão coça, lambe a pata ou está com o pelo sem brilho, a proteína pode ser a causa.
+                Frango, boi e soja se repetem em quase tudo que existe no mercado.
+              </p>
+              <p>
+                Este kit traz outra proteína para a rotina dele, a larva de mosca soldado negra, criada na
+                nossa biofábrica no Rio: a Original e a Mordida como agrado ou recompensa, de vez em quando,
+                e o Suplemento Integral por cima da ração.
+              </p>
+              <h3>O que vem na caixa</h3>
+              <ul className="bnts-caixa">
+                {CAIXA.map((c) => (
+                  <li key={c.nome}><strong>✓ {c.nome} — {c.peso}</strong><span>{c.txt}</span></li>
+                ))}
+              </ul>
+              <p className="bnts-nota">A Mordida leva ovo. Sem conservantes artificiais. Registro no MAPA/RJ.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Por que larva, e não frango?</summary>
+            <div className="bnts-aba">
+              <p>
+                Cinco coisas que os estudos mediram sobre a proteína de larva em cães. Nenhuma delas é
+                promessa do nosso produto pronto: é o que a pesquisa viu no ingrediente.
+              </p>
+              <div className="bnts-ciencia">
+                {CIENCIA.map((c, i) => (
+                  <article key={c.titulo}>
+                    <span aria-hidden>{i + 1}</span>
+                    <h4>{c.titulo}</h4>
+                    <p>{c.texto}</p>
+                    <small>{c.fonte}</small>
+                  </article>
+                ))}
+              </div>
+              <p className="bnts-nota">Os estudos inteiros ficam na <a href="/biblioteca">biblioteca científica</a> da casa.</p>
+            </div>
+          </details>
+        </div>
+        </div>
+      </main>
+
+
+
+      <section className="bnts-faixa-titulo"><h2>Por que funciona</h2></section>
+      <div className="bnts-videos">
         <VideosVencedores reels={[VIDEOS.vitydalmata, VIDEOS.omeninomerlin, VIDEOS.pitanga, VIDEOS.sushijullie, VIDEOS.mytribesete, VIDEOS.pipo, VIDEOS.carla, VIDEOS.gabi]} />
       </div>
 
-      {/* A explicação do que é a marca vem DEPOIS dos vídeos: a pessoa já viu cães comendo. */}
-      <section className="bn-bloco bnt-oque bng-bloco--1">
-        <p className="bn-texto">
-          Comida de Dragão é alimento de larva de mosca soldado negro para cães: uma proteína
-          que o seu provavelmente nunca comeu, e que o corpo dele aproveita quase inteira.
-        </p>
+      <section className="bnts-faq">
+        <h2>Perguntas frequentes</h2>
+        {FAQ.map((f) => (
+          <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>
+        ))}
       </section>
 
-      <section className="bn-bloco bng-bloco--2">
-        <h2 className="bn-h2">O que vem na caixa</h2>
-        <div className="bnt-caixa">
-          <article>
-            <h3>Original · 90 g</h3>
-            <p>O petisco de larva desidratada. É por ele que quase todo mundo começa.</p>
-          </article>
-          <article>
-            <h3>Mordida · 180 g</h3>
-            <p>O petisco que quebra na mão, para cão pequeno e para pet seletivo. Leva ovo em pó.</p>
-          </article>
-          <article>
-            <h3>Suplemento Integral · 180 g</h3>
-            <p>O pó que você polvilha na comida que ele já come. No mínimo 40% de proteína, podendo chegar a 45%.</p>
-          </article>
-        </div>
-        <a className="bn-botao" href={comprar("caixa")} data-cta="caixa">Pegar o meu por R$ {KIT.agora} →</a>
-      </section>
-
-      <section className="bn-bloco bng-bloco--3">
-        <h2 className="bn-h2">Por que larva,<br /><span>e não frango?</span></h2>
-        <p className="bn-texto">
-          Cinco coisas que os estudos mediram sobre a proteína de larva em cães. Nenhuma delas é
-          promessa do nosso produto pronto: é o que a pesquisa viu no ingrediente.
-        </p>
-        <div className="bnt-ciencia">
-          {CIENCIA.map((c, i) => (
-            <article className="bnt-card" key={c.titulo}>
-              <span className="bnt-num" aria-hidden>{i + 1}</span>
-              <h3>{c.titulo}</h3>
-              <p>{c.texto}</p>
-              <small>{c.fonte}</small>
-            </article>
-          ))}
-        </div>
-        <p className="bnt-rodape-ciencia">
-          Os estudos inteiros ficam na <a href="/biblioteca">biblioteca científica</a> da casa.
-        </p>
-        <a className="bn-botao" href={comprar("ciencia")} data-cta="ciencia">Pegar o presente →</a>
-      </section>
-
-      <section className="bn-bloco bng-bloco--4">
-        <h2 className="bn-h2">Antes de comprar</h2>
-        <div className="bn-faq">
-          {FAQ.map((f) => (
-            <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>
-          ))}
-        </div>
-      </section>
-
-      <footer className="bn-fim">
-        <p className="bn-oferta-chamada">
-          Boas-vindas: o kit inteiro por <strong>R$ {KIT.agora}</strong>. Até {FIM_CURTO}.
-        </p>
-        <a className="bn-botao" href={comprar("final")} data-cta="final">Pegar o presente →</a>
-        <img className="bn-dragao" src="/assets/halloween/silhueta-dragao.webp" alt="" aria-hidden />
+      <footer className="bnts-fim">
+        <p>Black Flyday: o kit inteiro de <s>R$ {KIT.cheio}</s> por <strong>R$ {KIT.agora}</strong>. Até {FIM_CURTO}.</p>
+        <a className="bnts-botao" href={comprar("final")} data-cta="final">Comprar agora</a>
       </footer>
+
+      {/* Barra fixa como a do site: compra + WhatsApp */}
+      <div className="bnts-barra">
+        <a className="bnts-barra-btn" href={comprar("barra")} data-cta="barra">Comprar agora · R$ {KIT.agora}</a>
+        <a className="bnts-whats" href={WHATSAPP} target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.4.4 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3Z"/></svg>
+        </a>
+      </div>
     </div>
   );
 }

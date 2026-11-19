@@ -1,0 +1,261 @@
+/* /black-november-topo · 17/11/2026: no formato da página de produto do site.
+   Cores e fontes lidas na página do Kit Completo da loja Shopify em 17/11:
+   fundo do produto #0F2626, texto #F6FFE6, botão #B9FF34 com texto #16211A,
+   cabeçalho #7BFF00 com pontilhado, selo da Black #40FE32 com borda preta de 2 px,
+   títulos em Big Shoulders Display, corpo em Inter (aqui com a sans do sistema). */
+
+.bnts {
+  --fundo: #0f2626;
+  --texto: #f6ffe6;
+  --suave: #b9c9b0;
+  --lima: #b9ff34;
+  --escuro: #16211a;
+  --cabeca: #7bff00;
+  --selo: #40fe32;
+  --linha: rgba(246, 255, 230, 0.18);
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 84px; /* espaço da barra fixa */
+}
+.bnts h1, .bnts h2, .bnts h3, .bnts h4, .bnts summary,
+.bnts .bnts-botao, .bnts .bnts-barra-btn, .bnts .bnts-selo, .bnts .bnts-preco {
+  font-family: "Big Shoulders Display", "Bebas Neue", sans-serif;
+}
+
+/* cabeçalho verde do site */
+.bnts-cabeca {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  background-color: var(--cabeca);
+  background-image: radial-gradient(circle, rgba(10, 10, 10, 0.05) 1px, transparent 1.5px);
+  background-size: 6px 6px;
+}
+.bnts-logo { height: 36px; width: auto; display: block; }
+.bnts-loja {
+  font-family: "Big Shoulders Display", sans-serif; font-weight: 800; text-transform: uppercase;
+  color: var(--escuro); text-decoration: none; font-size: 15px;
+  border: 2px solid var(--escuro); border-radius: 999px; padding: 4px 14px;
+}
+
+.bnts-produto { max-width: 560px; margin: 0 auto; padding: 14px 16px 8px; }
+
+/* selos da Black, como no site */
+.bnts-selos { list-style: none; display: flex; justify-content: center; gap: 8px; margin: 0 0 12px; padding: 0; }
+.bnts-selo {
+  font-weight: 900; text-transform: uppercase; text-align: center; line-height: 1;
+  color: #000; border: 2px solid #000; border-radius: 10px; padding: 6px 10px; font-size: 14px;
+}
+.bnts-selo--forte { background: var(--selo); }
+.bnts-selo--linha { background: transparent; color: var(--selo); border-color: var(--selo); align-self: center; font-size: 12px; }
+
+/* galeria */
+.bnts-galeria { position: relative; }
+.bnts-trilho {
+  display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  /* 18/11: o kit da capa no mesmo cartão da coleção da loja (céu, borda verde com sombra) */
+  border-radius: 12px; border: 3px solid var(--selo); box-shadow: 5px 5px 0 var(--selo);
+  background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url("/assets/black-november/ceu-black.jpg") center / cover;
+}
+.bnts-galeria .bnts-capa-selo { position: absolute; z-index: 2; font-size: 21px; padding: 7px 13px; border-width: 3px; }
+.bnts-galeria .bnts-capa-selo--off { top: 12px; left: 12px; }
+.bnts-galeria .bnts-capa-selo--black { top: 12px; right: 12px; transform: rotate(5deg); }
+.bnts-trilho::-webkit-scrollbar { display: none; }
+.bnts-foto { flex: 0 0 100%; scroll-snap-align: center; display: block; aspect-ratio: 1 / 1; }
+.bnts-foto img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.bnts-seta {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 34px; border-radius: 50%; border: 0;
+  background: var(--lima); color: var(--escuro); font-size: 22px; line-height: 1; cursor: pointer;
+}
+.bnts-seta--esq { left: 6px; }
+.bnts-seta--dir { right: 6px; }
+.bnts-pontos { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+.bnts-pontos span { width: 7px; height: 7px; border-radius: 50%; background: var(--linha); }
+.bnts-pontos span.on { background: var(--lima); }
+
+/* nome, preço, botão */
+.bnts-titulo { font-size: 30px; font-weight: 800; margin: 10px 0 2px; line-height: 1.05; }
+.bnts-preco { display: flex; align-items: baseline; gap: 10px; margin: 0; font-size: 18px; }
+.bnts-preco s { color: var(--suave); font-weight: 500; }
+.bnts-preco strong { font-size: 30px; font-weight: 900; color: var(--lima); }
+.bnts-off {
+  background: var(--selo); color: #000; border: 2px solid #000; border-radius: 8px;
+  padding: 3px 10px; font-size: 19px; font-weight: 900; text-transform: uppercase;
+}
+.bnts-frete { margin: 6px 0 10px; font-size: 14px; color: var(--suave); }
+
+.bnts-botao {
+  display: block; text-align: center; text-decoration: none; text-transform: uppercase;
+  background: var(--lima); color: #000; font-weight: 800; font-size: 20px;
+  border: 3px solid #c8ff6a; border-radius: 10px; box-shadow: 4px 4px 0 #5c2d91; padding: 13px 16px;
+}
+.bnts-botoes { display: grid; gap: 12px; }
+/* o segundo botão: mesmo tamanho, verde da Black em vez do lima, para os dois se verem */
+.bnts-botao--promo { background: var(--selo); border-color: #000; box-shadow: 4px 4px 0 #000; }
+#kits { scroll-margin-top: 70px; }
+.bnts-confianca { margin: 10px 0 0; font-size: 12.5px; color: var(--suave); text-align: center; }
+.bnts-resumo { margin: 16px 0 6px; }
+
+/* abas que abrem e fecham, como Descrição / Perguntas frequentes no site */
+.bnts details { border-top: 1px solid var(--linha); }
+.bnts details:last-child { border-bottom: 1px solid var(--linha); }
+.bnts summary {
+  list-style: none; cursor: pointer; text-transform: uppercase; font-weight: 800;
+  font-size: 17px; padding: 14px 0; display: flex; justify-content: space-between; align-items: center;
+}
+.bnts summary::-webkit-details-marker { display: none; }
+.bnts summary::after { content: "+"; font-size: 22px; color: var(--lima); }
+.bnts details[open] > summary::after { content: "–"; }
+.bnts-aba { padding: 0 0 14px; }
+.bnts-aba p { margin: 0 0 10px; }
+.bnts-aba h3 { font-size: 18px; text-transform: uppercase; margin: 14px 0 6px; }
+.bnts-caixa { list-style: none; padding: 0; margin: 0 0 10px; display: grid; gap: 10px; }
+.bnts-caixa li { display: grid; gap: 2px; }
+.bnts-caixa span { color: var(--suave); font-size: 14px; }
+.bnts-nota { font-size: 13px; color: var(--suave); }
+.bnts-nota a { color: var(--lima); }
+
+.bnts-ciencia { display: grid; gap: 10px; margin: 6px 0 10px; }
+.bnts-ciencia article {
+  position: relative; background: rgba(246, 255, 230, 0.06); border-radius: 12px; padding: 12px 12px 10px 44px;
+}
+.bnts-ciencia article > span {
+  position: absolute; left: 12px; top: 12px; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--lima); color: var(--escuro); font-weight: 900; font-size: 13px;
+  display: grid; place-items: center;
+}
+.bnts-ciencia h4 { margin: 0 0 4px; font-size: 17px; text-transform: uppercase; }
+.bnts-ciencia p { margin: 0 0 4px; font-size: 14px; }
+.bnts-ciencia small { color: var(--suave); font-size: 12px; }
+
+/* faixa "Por que funciona" + vídeos */
+.bnts-faixa-titulo { background: #0b1b1b; text-align: center; padding: 18px 16px 6px; }
+.bnts-faixa-titulo h2 { margin: 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
+
+/* perguntas frequentes */
+.bnts-faq { max-width: 560px; margin: 0 auto; padding: 22px 16px 6px; }
+.bnts-faq h2 { font-size: 26px; text-transform: uppercase; font-weight: 900; margin: 0 0 6px; }
+.bnts-faq details p { margin: 0 0 14px; color: var(--texto); }
+
+/* fim */
+.bnts-fim { max-width: 560px; margin: 0 auto; padding: 18px 16px 24px; text-align: center; }
+.bnts-fim p { margin: 0 0 12px; font-size: 16px; }
+.bnts-fim s { color: var(--suave); }
+.bnts-fim strong { color: var(--lima); }
+
+/* barra fixa: compra + WhatsApp */
+.bnts-barra {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  display: flex; gap: 10px; align-items: center;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: #fbffe9; box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.25);
+}
+.bnts-barra-btn {
+  flex: 1; text-align: center; text-decoration: none; text-transform: uppercase;
+  background: var(--lima); color: var(--escuro); font-weight: 800; font-size: 18px;
+  border: 2px solid var(--escuro); border-radius: 10px; padding: 11px 10px;
+}
+.bnts-whats {
+  flex: 0 0 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
+  background: #25d366; color: #fff;
+}
+.bnts-whats svg { width: 26px; height: 26px; }
+
+/* banner da Black */
+.bnts-banner {
+  position: relative; overflow: hidden; text-align: center; color: #000;
+  padding: 8px 16px 9px; background: url("/assets/black-november/ceu-black.jpg") center / cover;
+  border-bottom: 3px solid #000;
+}
+.bnts-banner p { margin: 0; position: relative; z-index: 1; }
+.bnts-banner-sobre { display: none; font-family: "Big Shoulders Display", sans-serif; font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: .04em; }
+.bnts-banner-titulo {
+  font-family: "Big Shoulders Display", sans-serif; font-weight: 900; text-transform: uppercase;
+  font-size: 32px; line-height: .95; color: var(--selo);
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 4px 4px 0 #000;
+}
+.bnts-banner-linha {
+  display: inline-block; margin-top: 5px !important; background: #000; color: var(--selo);
+  font-family: "Big Shoulders Display", sans-serif; font-weight: 800; text-transform: uppercase;
+  font-size: 13px; padding: 4px 10px; border-radius: 8px;
+}
+.bnts-banner-cao { position: absolute; right: 4px; bottom: 0; width: 46px; z-index: 0; image-rendering: pixelated; }
+.bnts-frete a { color: var(--lima); white-space: nowrap; }
+
+/* vitrine dos outros kits */
+.bnts-kits { margin: 18px 0 6px; padding: 16px 0 4px; border-top: 1px solid var(--linha); }
+.bnts-kits h2 { font-size: 24px; text-transform: uppercase; font-weight: 900; margin: 0 0 4px; }
+.bnts-kits-sub { margin: 0 0 14px; color: var(--suave); font-size: 14px; }
+.bnts-kits-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+/* cartão no estilo da coleção da loja na Black (lido em 18/11): céu com véu branco de 40%,
+   borda verde #40FE32 de 3 px com sombra deslocada, selos tortos em lima, preço preto grande,
+   botão lima com sombra roxa. O nome do kit fica visível aqui (na loja ele é escondido). */
+.bnts-kit {
+  position: relative; display: flex; flex-direction: column; color: #000; padding: 10px;
+  background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url("/assets/black-november/ceu-black.jpg") center / cover;
+  border: 3px solid var(--selo); border-radius: 12px; box-shadow: 5px 5px 0 var(--selo);
+}
+.bnts-kit-foto { display: block; aspect-ratio: 1 / 1; margin-top: 18px; }
+.bnts-kit-foto img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.bnts-kit-selo {
+  font-family: "Big Shoulders Display", sans-serif; font-weight: 800; text-transform: uppercase;
+  font-size: 12px; line-height: 1; color: #000; background: #b9ff33; border: 2px solid #000; border-radius: 6px;
+  padding: 4px 7px; box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18); transform: rotate(-6deg); width: fit-content;
+}
+.bnts-kit-selo--frete { position: absolute; top: 8px; left: 8px; z-index: 1; }
+.bnts-kit-selo--brinde { align-self: flex-end; margin-top: -14px; position: relative; z-index: 1; }
+.bnts-kit h3 { font-size: 16px; text-transform: uppercase; margin: 8px 0 0; line-height: 1.05; text-align: center; }
+.bnts-kit-preco { font-family: "Big Shoulders Display", sans-serif; font-weight: 900; font-size: 28px; color: #000; margin: 0; text-align: center; }
+.bnts-kit-txt { font-size: 12px; color: #1b2b20; margin: 2px 0 10px; flex: 1; text-align: center; }
+.bnts-kit-btn {
+  display: block; text-align: center; text-decoration: none; text-transform: uppercase;
+  font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: 15px;
+  background: var(--lima); color: #000; border: 3px solid #c8ff6a; border-radius: 10px;
+  box-shadow: 4px 4px 0 #5c2d91; padding: 8px 6px;
+}
+
+@media (min-width: 900px) {
+  .bnts-banner-titulo { font-size: 64px; }
+  .bnts-banner-cao { width: 110px; right: 6%; }
+
+  /* no computador, como no site: fotos à esquerda, nome, preço e textos à direita */
+  .bnts-produto {
+    max-width: 1120px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px; align-items: start; padding-top: 28px;
+  }
+  .bnts-midia { position: sticky; top: 76px; }
+  .bnts-titulo { margin-top: 0; font-size: 38px; }
+  .bnts-faq, .bnts-fim { max-width: 760px; }
+  .bnts-barra { justify-content: center; }
+  .bnts-barra-btn { flex: 0 1 420px; }
+}
+
+/* 18/11 (Olivia: "tudo tem que estar dentro da primeira tela, e não está"): no celular, cabeçalho,
+   banner, foto, nome, preço e os dois botões cabem acima da barra fixa, também numa tela de 667 px.
+   A foto encolhe com a altura da tela; a linha do frete desceu para depois dos botões. */
+@media (max-width: 899px) {
+  .bnts-cabeca { padding: 7px 14px; }
+  .bnts-logo { height: 30px; }
+  .bnts-loja { font-size: 13px; padding: 3px 11px; }
+  .bnts-banner { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 6px 54px 6px 12px; text-align: left; }
+  .bnts-banner-titulo { font-size: 24px; }
+  .bnts-banner-linha { margin-top: 0 !important; font-size: 11px; padding: 3px 7px; }
+  .bnts-banner-cao { width: 40px; }
+  .bnts-produto { padding-top: 10px; }
+  .bnts-trilho { height: clamp(180px, calc(100svh - 360px), 343px); }
+  .bnts-foto { aspect-ratio: auto; height: 100%; }
+  .bnts-galeria .bnts-capa-selo { font-size: 16px; padding: 5px 10px; }
+  .bnts-pontos { margin-top: 5px; }
+  .bnts-titulo { font-size: 25px; margin-top: 6px; }
+  .bnts-preco { font-size: 16px; }
+  .bnts-preco strong { font-size: 26px; }
+  .bnts-off { font-size: 16px; }
+  .bnts-botoes { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  .bnts-botoes .bnts-botao { font-size: 17px; padding: 12px 6px; line-height: 1.05; display: flex; align-items: center; justify-content: center; }
+  .bnts-frete { margin: 10px 0 0; }
+}
