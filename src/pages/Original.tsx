@@ -177,14 +177,15 @@ const Original = () => {
                 decoding="async"
               />
             </a>
+            {/* 19/11/2026 (Olivia): o preço vira etiqueta em cima da embalagem, para subir os botões. */}
+            <div className="olp-hero-price">
+              <span className="olp-price-from">a partir de</span>
+              {daydeal && <s className="olp-price-old">R$ 42,20</s>}
+              <span className="olp-price-now"><small>R$</small>{daydeal ? "37,98" : "42,20"}</span>
+              <span className="olp-price-installment">4× sem juros</span>
+            </div>
           </div>
 
-          <div className="olp-hero-price">
-            <span className="olp-price-from">a partir de</span>
-            {daydeal && <s className="olp-price-old">R$ 42,20</s>}
-            <span className="olp-price-now"><small>R$</small>{daydeal ? "37,98" : "42,20"}</span>
-            <span className="olp-price-installment">4× sem juros</span>
-          </div>
 
 
           {/* 19/11/2026 (Olivia): primeira tela inteira no celular: foto menor, preço e os dois botões à vista.

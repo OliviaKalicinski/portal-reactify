@@ -965,8 +965,35 @@
   box-shadow: 2px 2px 0 var(--dragon-pink);
 }
 @media (max-width: 979px) {
-  .original-lp .olp-hero-title { font-size: clamp(25px, 7.4vw, 44px); white-space: nowrap; }
-  .original-lp .olp-hero-title br { display: none; }
-  .original-lp .olp-hero-title span { display: inline; }
   .original-lp .olp-hero-cta-wrap { gap: 16px; }
+}
+
+/* 19/11/2026, 5ª rodada (Olivia): título volta a duas linhas; preço vira etiqueta sobre a embalagem. */
+.original-lp .olp-hero-product-frame .olp-hero-price {
+  position: absolute;
+  right: -4px;
+  bottom: 22px;
+  z-index: 3;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 6px 12px 7px;
+  background: var(--dragon-lime);
+  border: 2px solid var(--ink-primary);
+  box-shadow: 3px 3px 0 var(--ink-primary);
+  transform: rotate(-4deg);
+}
+.original-lp .olp-hero-product-frame .olp-price-from { font-size: 9px; color: var(--ink-primary); }
+.original-lp .olp-hero-product-frame .olp-price-now { font-size: 32px; color: var(--ink-primary); }
+.original-lp .olp-hero-product-frame .olp-price-now small { color: var(--ink-primary); }
+.original-lp .olp-hero-product-frame .olp-price-installment { font-size: 10px; color: var(--ink-primary); }
+@media (min-width: 980px) {
+  .original-lp .olp-hero-product-frame .olp-price-now { font-size: 44px; }
+  .original-lp .olp-hero-product-frame .olp-hero-price { right: -12px; bottom: 40px; padding: 8px 16px; }
+}
+@media (max-width: 979px) {
+  .original-lp .olp-hero-product-frame img { max-height: min(340px, 41svh); }
+  .original-lp .olp-hero-product-frame { max-width: 300px; }
 }
