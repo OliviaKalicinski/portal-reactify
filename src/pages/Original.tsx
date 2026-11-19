@@ -188,7 +188,7 @@ const Original = () => {
 
 
           {/* 19/11/2026 (Olivia): primeira tela inteira no celular: foto menor, preço e os dois botões à vista.
-              O texto de apoio, o cupom de afiliado e os selos descem para logo abaixo. */}
+              Os selos descem para logo abaixo. */}
           <div className="olp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="olp-btn-primary" data-cta="hero">
               Bora experimentar →
@@ -198,10 +198,7 @@ const Original = () => {
             </a>
           </div>
 
-          <div className="olp-hero-coupon">
-            🎟️ conhece um afiliado nosso? usa o cupom dele no checkout
-          </div>
-
+          {/* 19/11/2026 (Olivia): saiu o aviso do cupom de afiliado do topo e da oferta. */}
           <div className="olp-hero-chips">
             {CHIPS.map((c, i) => <span className="olp-chip" key={i}>{c}</span>)}
           </div>
@@ -318,11 +315,6 @@ const Original = () => {
             Original 90g<br />
             <span>{daydeal ? <><s className="olp-price-old">R$ 42,20</s> por R$ 37,98</> : "por R$ 42,20"}</span>
           </h2>
-
-          <div className="olp-oferta-coupon-box">
-            <div className="olp-oferta-coupon-label">tem cupom de afiliado?</div>
-            <div className="olp-oferta-coupon-desc">Original por R$ {daydeal ? "37,98" : "42,20"} · conhece um afiliado? usa o cupom dele no checkout</div>
-          </div>
 
           <a href={ctaUrl("oferta")} className="olp-btn-primary" data-cta="oferta">
             Quero o Original →

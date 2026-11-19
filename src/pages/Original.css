@@ -933,3 +933,21 @@
   .original-lp .olp-btn-primary { padding: 12px 28px; font-size: 20px; }
   .original-lp .olp-hero-cta-wrap { gap: 12px; }
 }
+
+/* 19/11/2026, 3ª rodada (Olivia): "Ver os outros produtos" no estilo da caixa do topo
+   (novidade · 1 ingrediente · hipoalergênico): fundo verde claro, borda e letra rosa. */
+.original-lp .olp-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  background: rgba(123, 255, 0, 0.22);
+  border: 1px solid var(--dragon-pink);
+  box-shadow: none;
+  color: var(--dragon-pink);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+}
