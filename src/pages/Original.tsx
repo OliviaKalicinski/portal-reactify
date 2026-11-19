@@ -46,6 +46,10 @@ const ctaUrl = (cta: "hero" | "solucao" | "oferta" | "final" | "sticky" | "foto"
 
 const HERO_IMG = "/assets/images/produtos/original-frente.webp";
 
+/** 19/11/2026 (Olivia): segundo botão da primeira tela leva à vitrine da loja, com a origem de quem chegou. */
+const OUTROS_PRODUTOS_URL = () =>
+  buildCheckoutUrl("https://www.comidadedragao.com.br/collections/produtos", UTM_FALLBACK, "outros-produtos");
+
 const CHIPS = [
   "🚚 Entrega Brasil",
   "🛡️ Compra segura",
@@ -144,11 +148,6 @@ const Original = () => {
             O petisco que<br /><span>seu pet vai amar.</span>
           </h1>
 
-          <p className="olp-hero-sub">
-            A gente faz <strong>petisco com 1 ingrediente só</strong> — larva
-            de Mosca Soldado Negra. No mínimo 40% de proteína, sem frango, sem grão,
-            hipoalergênico de verdade. Pet merece comida real, não promessa de rótulo.
-          </p>
 
           {/* Selo "Dia do Cliente" no canto da embalagem — só aparece dentro da
               janela da promoção (src/lib/promotions.ts). Desconto é automático no
@@ -181,14 +180,25 @@ const Original = () => {
             <span className="olp-price-installment">4× sem juros</span>
           </div>
 
-          <div className="olp-hero-coupon">
-            🎟️ conhece um afiliado nosso? usa o cupom dele no checkout
-          </div>
 
+          {/* 19/11/2026 (Olivia): primeira tela inteira no celular: foto menor, preço e os dois botões à vista.
+              O texto de apoio, o cupom de afiliado e os selos descem para logo abaixo. */}
           <div className="olp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="olp-btn-primary" data-cta="hero">
               Bora experimentar →
             </a>
+            <a href={OUTROS_PRODUTOS_URL()} className="olp-btn-secondary" data-cta="outros-produtos">
+              Ver os outros produtos
+            </a>
+          </div>
+
+          <p className="olp-hero-sub">
+            A gente faz <strong>petisco com 1 ingrediente só</strong> — larva
+            de Mosca Soldado Negra. No mínimo 40% de proteína, sem frango, sem grão,
+            hipoalergênico de verdade. Pet merece comida real, não promessa de rótulo.
+          </p>
+          <div className="olp-hero-coupon">
+            🎟️ conhece um afiliado nosso? usa o cupom dele no checkout
           </div>
 
           <div className="olp-hero-chips">
