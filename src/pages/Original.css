@@ -884,7 +884,6 @@
   text-underline-offset: 4px;
   padding: 6px 4px;
 }
-.original-lp .olp-hero-sub { margin-top: 22px; }
 @media (max-width: 979px) {
   .original-lp .olp-hero { padding: 14px 20px 32px; }
   .original-lp .olp-hero-top { margin-bottom: 10px; }
@@ -906,4 +905,31 @@
 @media (min-width: 980px) {
   .original-lp .olp-hero-inner > *:not(.olp-hero-top):not(.olp-hero-product-frame) { grid-column: 1; }
   .original-lp .olp-hero-product-frame { grid-column: 2; grid-row: 2 / span 4; max-width: 360px; justify-self: center; }
+}
+
+/* 19/11/2026, 2ª rodada (Olivia): texto de volta na primeira tela, foto maior,
+   "Ver os outros produtos" com mais destaque (botão de contorno). */
+.olp-btn-secondary {
+  display: inline-block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-primary);
+  background: var(--bg-card);
+  border: 3px solid var(--ink-primary);
+  box-shadow: 4px 4px 0 var(--ink-primary);
+  padding: 10px 26px;
+}
+@media (max-width: 979px) {
+  .original-lp .olp-hero-eyebrow { font-size: 9px; letter-spacing: 0.1em; padding: 4px 8px; margin-bottom: 8px; }
+  .original-lp .olp-hero-title { font-size: clamp(30px, 8.4vw, 52px); margin-bottom: 8px; }
+  .original-lp .olp-hero-sub { font-size: 13.5px; line-height: 1.42; margin: 0 auto 6px; }
+  .original-lp .olp-hero-product-frame img { max-height: min(300px, 36svh); }
+  .original-lp .olp-hero-product-frame { max-width: 280px; margin-bottom: 4px; }
+  .original-lp .olp-hero-price { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px; margin-bottom: 8px; }
+  .original-lp .olp-price-now { font-size: 34px; }
+  .original-lp .olp-btn-primary { padding: 12px 28px; font-size: 20px; }
+  .original-lp .olp-hero-cta-wrap { gap: 12px; }
 }

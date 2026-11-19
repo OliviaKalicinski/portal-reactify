@@ -149,6 +149,12 @@ const Original = () => {
           </h1>
 
 
+          <p className="olp-hero-sub">
+            A gente faz <strong>petisco com 1 ingrediente só</strong> — larva
+            de Mosca Soldado Negra. No mínimo 40% de proteína, sem frango, sem grão,
+            hipoalergênico de verdade. Pet merece comida real, não promessa de rótulo.
+          </p>
+
           {/* Selo "Dia do Cliente" no canto da embalagem — só aparece dentro da
               janela da promoção (src/lib/promotions.ts). Desconto é automático no
               produto na Yampi — o selo só avisa, não carrega link nem cupom. */}
@@ -192,11 +198,6 @@ const Original = () => {
             </a>
           </div>
 
-          <p className="olp-hero-sub">
-            A gente faz <strong>petisco com 1 ingrediente só</strong> — larva
-            de Mosca Soldado Negra. No mínimo 40% de proteína, sem frango, sem grão,
-            hipoalergênico de verdade. Pet merece comida real, não promessa de rótulo.
-          </p>
           <div className="olp-hero-coupon">
             🎟️ conhece um afiliado nosso? usa o cupom dele no checkout
           </div>
