@@ -1005,3 +1005,29 @@
 .original-lp .olp-hero-product-frame .olp-price-now,
 .original-lp .olp-hero-product-frame .olp-price-now small,
 .original-lp .olp-hero-product-frame .olp-price-installment { color: #FFFFFF; }
+
+/* 19/11/2026, 7ª rodada (Olivia): o preço não pode parecer botão. Sai a caixa com
+   borda e sombra (a linguagem dos botões); entra um selo redondo de preço, sem sombra. */
+.original-lp .olp-hero-product-frame .olp-hero-price {
+  width: 104px;
+  height: 104px;
+  padding: 0;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  box-shadow: none;
+  outline: 2px dashed rgba(255, 255, 255, 0.85);
+  outline-offset: -7px;
+  transform: rotate(-10deg);
+  right: -6px;
+  bottom: 30px;
+}
+.original-lp .olp-hero-product-frame .olp-price-from { font-size: 8px; letter-spacing: 0.1em; }
+.original-lp .olp-hero-product-frame .olp-price-now { font-size: 30px; }
+.original-lp .olp-hero-product-frame .olp-price-installment { font-size: 8.5px; }
+@media (min-width: 980px) {
+  .original-lp .olp-hero-product-frame .olp-hero-price { width: 132px; height: 132px; right: -18px; bottom: 44px; }
+  .original-lp .olp-hero-product-frame .olp-price-now { font-size: 38px; }
+  .original-lp .olp-hero-product-frame .olp-price-from,
+  .original-lp .olp-hero-product-frame .olp-price-installment { font-size: 10px; }
+}
