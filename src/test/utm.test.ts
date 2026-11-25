@@ -24,8 +24,16 @@ function visita(query: string) {
   window.history.replaceState({}, "", `/mordida${query}`);
 }
 
+// Desde 25/11/26 o link sai no formato do carrinho da Shopify, com a origem em
+// attributes[utm_*] (ver src/lib/checkoutShopify.ts). Aqui o teste lê os dois formatos
+// do mesmo jeito, para as regras de origem abaixo continuarem valendo como estão.
 function params(href: string) {
-  return new URL(href).searchParams;
+  const sp = new URLSearchParams();
+  new URL(href).searchParams.forEach((v, k) => {
+    const m = k.match(/^attributes\[(.+)\]$/);
+    sp.set(m ? m[1] : k, v);
+  });
+  return sp;
 }
 
 const temAlgumaUtm = (sp: URLSearchParams) =>

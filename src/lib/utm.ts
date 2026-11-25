@@ -30,6 +30,8 @@
  *    e não bloqueia um anúncio que chegue depois.
  */
 
+import { paraCheckoutShopify } from "./checkoutShopify";
+
 const UTM_KEYS = [
   "utm_source",
   "utm_medium",
@@ -337,5 +339,7 @@ export function buildCheckoutUrl(
 
   if (ctaPos) url.searchParams.set("cta_pos", ctaPos);
 
-  return url.href;
+  // 25/11/26: migração para o checkout da Shopify. O link da Yampi vira o carrinho da Shopify,
+  // com a origem em attributes[...] (ver src/lib/checkoutShopify.ts, onde mora a chave de volta).
+  return paraCheckoutShopify(url.href);
 }
