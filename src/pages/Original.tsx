@@ -8,6 +8,7 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
 import { useRetornoNoToque } from "@/lib/retornoNoToque";
+import { VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — ORIGINAL
@@ -114,7 +115,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -322,7 +323,7 @@ const Original = () => {
           </a>
 
           <p className="olp-hero-note" style={{ marginTop: 16 }}>
-            Compra 100% segura via Yampi
+            Compra 100% segura{VIA_YAMPI}
           </p>
         </div>
       </section>

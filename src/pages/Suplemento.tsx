@@ -6,6 +6,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Suplemento.css";
 import LeadPopup from "@/components/LeadPopup";
+import { VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — SUPLEMENTO INTEGRAL
@@ -173,7 +174,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -474,7 +475,7 @@ const Suplemento = () => {
           </a>
 
           <p className="slp-hero-note" style={{ marginTop: 16 }}>
-            Frete calculado pelo CEP no checkout · compra 100% segura via Yampi · cartão, Pix ou boleto
+            Frete calculado pelo CEP no checkout · compra 100% segura{VIA_YAMPI} · cartão, Pix ou boleto
           </p>
         </div>
       </section>

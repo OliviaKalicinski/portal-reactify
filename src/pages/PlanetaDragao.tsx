@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./PlanetaDragao.css";
+import { VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — PLANETA DRAGÃO · /planeta-dragao
@@ -498,7 +499,7 @@ const PlanetaDragao = () => {
     { q: "Meu pet tem alergia — posso dar?", a: "Sim. É 1 ingrediente só e hipoalergênico por natureza, sem as proteínas mais alergênicas (frango, boi, soja, glúten). Em acompanhamento veterinário, mostre o rótulo antes." },
     { q: "Por que larva faz bem pro planeta?", a: "A Mosca Soldado Negra faz upcycling: come resíduo orgânico e vira proteína usando pouquíssima água e terra. Menos desperdício, menos impacto — mesmo nutriente." },
     { q: "Como ofereço pela primeira vez?", a: "Comece com 2 a 4 unidades por dia, entre as refeições. Alta palatabilidade: a maioria aceita de primeira." },
-    { q: "Como funciona a entrega?", a: "Despacho em até 1 dia útil, frete pelo seu CEP. Compra 100% segura via Yampi (cartão, Pix ou boleto)." },
+    { q: "Como funciona a entrega?", a: `Despacho em até 1 dia útil, frete pelo seu CEP. Compra 100% segura${VIA_YAMPI} (cartão, Pix ou boleto).` },
   ];
 
   const allClean = collected >= GOAL_TRASH;

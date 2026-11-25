@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import "./Alergia.css";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
+import { FRETE_GRATIS, fg, VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — ALERGIA · /alergia
@@ -48,7 +49,7 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky" | "secao-solucao" | 
 const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
 
 const CHIPS = [
-  "🚚 Frete grátis",
+  ...fg(["🚚 Frete grátis"], [] as string[]),
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
   "💚 7 dias para devolver",
@@ -149,7 +150,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil ${fg("e o <strong>frete do Kit é grátis</strong> pra todo o Brasil.", "pra todo o Brasil; o frete é calculado no fim do pedido pelo seu CEP.")} Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -204,17 +205,17 @@ const AlergiaGoogle = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="alp-hero-frete-tag">Kit com frete grátis</span>
+            {FRETE_GRATIS && <span className="alp-hero-frete-tag">Kit com frete grátis</span>}
           </div>
 
           <div className="alp-hero-price">
             <span className="alp-price-from">Kit Cachorro de <s>R$ {PRICE}</s> por</span>
             <span className="alp-price-now"><small>R$</small>{PRICE_OFF}</span>
-            <span className="alp-price-installment">🚚 Frete grátis · 4× sem juros</span>
+            <span className="alp-price-installment">{fg("🚚 Frete grátis · 4× sem juros", "4× sem juros")}</span>
           </div>
 
           <div className="alp-hero-coupon">
-            🏷️ <strong>10% de desconto já aplicado</strong> · 🚚 frete grátis no Kit
+            🏷️ <strong>10% de desconto já aplicado</strong>{fg(" · 🚚 frete grátis no Kit", "")}
           </div>
 
           <div className="alp-hero-cta-wrap">
@@ -337,7 +338,7 @@ const AlergiaGoogle = () => {
           <div className="alp-oferta-coupon-box">
             <div className="alp-oferta-coupon-label">🏷️ seu desconto</div>
             <div className="alp-oferta-coupon-code">10% OFF</div>
-            <div className="alp-oferta-coupon-desc">Kit Cachorro de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom · frete grátis</div>
+            <div className="alp-oferta-coupon-desc">Kit Cachorro de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom{fg(" · frete grátis", "")}</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="alp-btn-primary" data-cta="oferta">
@@ -345,7 +346,7 @@ const AlergiaGoogle = () => {
             </a>
 
           <p className="alp-hero-note" style={{ marginTop: 16 }}>
-            Frete grátis no Kit · compra 100% segura via Yampi
+            {fg("Frete grátis no Kit · compra 100% segura", "Compra 100% segura")}{VIA_YAMPI}
           </p>
         </div>
       </section>

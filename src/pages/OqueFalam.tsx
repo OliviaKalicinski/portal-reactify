@@ -7,6 +7,7 @@ import LeadPopup from "@/components/LeadPopup";
 import "./QueroSerDragao.css"; // sistema visual retrô-OS / duotone (.qsd8)
 import "./OqueFalam.css";      // tema cf-pink 8-bit (cópia do antigo Conheca.css — Conheca virou verde)
 import "./Fofo.css";           // visual fofo, paleta verde (14/10/2026)
+import { fg } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP PROVA SOCIAL — O QUE FALAM · /oquefalam
@@ -177,7 +178,7 @@ const OqueFalam = () => {
 
       {/* sticky mobile — CTA suave, aparece só depois de rolar */}
       <div className={`cf-sticky${showSticky ? " show" : ""}`}>
-        <div className="cf-sticky-info"><strong>4,91★</strong><span>177 avaliações reais · 🚚 frete grátis</span></div>
+        <div className="cf-sticky-info"><strong>4,91★</strong><span>177 avaliações reais{fg(" · 🚚 frete grátis", "")}</span></div>
         <a href={buy("sticky")} target="_blank" rel="noopener noreferrer" className="qsd8-btn">Quero o kit →</a>
       </div>
 

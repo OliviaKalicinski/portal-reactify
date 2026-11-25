@@ -7,6 +7,7 @@ import "./Idoso.css";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
+import { FRETE_GRATIS, fg, VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CÃO IDOSO · /idoso
@@ -65,7 +66,7 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
 const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
 
 const CHIPS = [
-  "🚚 Frete grátis",
+  ...fg(["🚚 Frete grátis"], [] as string[]),
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
   "💚 7 dias para devolver",
@@ -129,7 +130,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil ${fg("e o <strong>frete do Kit é grátis</strong> pra todo o Brasil.", "pra todo o Brasil; o frete é calculado no fim do pedido pelo seu CEP.")} Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -183,7 +184,7 @@ const Idoso = () => {
               decoding="async"
             />
             <div className="ilp-hero-badges">
-              <span className="ilp-hero-frete-tag">Kit com frete grátis</span>
+              {FRETE_GRATIS && <span className="ilp-hero-frete-tag">Kit com frete grátis</span>}
               {daydeal && (
                 <span className="ilp-daydeal-corner">
                   dia do<br />cliente<br /><strong>-20%</strong>
@@ -196,11 +197,11 @@ const Idoso = () => {
             <span className="ilp-price-from">Kit Cachorro por</span>
             {daydeal && <s className="ilp-price-old">R$ {PRICE}</s>}
             <span className="ilp-price-now"><small>R$</small>{displayPrice}</span>
-            <span className="ilp-price-installment">🚚 Frete grátis · 4× sem juros</span>
+            <span className="ilp-price-installment">{fg("🚚 Frete grátis · 4× sem juros", "4× sem juros")}</span>
           </div>
 
           <div className="ilp-hero-coupon">
-            🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout
+            {fg("🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout", "Conhece um afiliado nosso? Usa o cupom dele no checkout")}
           </div>
 
           <div className="ilp-hero-cta-wrap">
@@ -285,8 +286,8 @@ const Idoso = () => {
           </h2>
 
           <div className="ilp-oferta-coupon-box">
-            <div className="ilp-oferta-coupon-label">🚚 vantagem</div>
-            <div className="ilp-oferta-coupon-code">FRETE GRÁTIS</div>
+            {FRETE_GRATIS && <div className="ilp-oferta-coupon-label">🚚 vantagem</div>}
+            {FRETE_GRATIS && <div className="ilp-oferta-coupon-code">FRETE GRÁTIS</div>}
             <div className="ilp-oferta-coupon-desc">
               {daydeal ? <><s className="ilp-price-old">R$ {PRICE}</s> por R$ {PRICE_DAYDEAL}</> : `Kit Cachorro por R$ ${PRICE}`} · conhece um afiliado? usa o cupom dele no checkout
             </div>
@@ -297,7 +298,7 @@ const Idoso = () => {
             </a>
 
           <p className="ilp-hero-note" style={{ marginTop: 16 }}>
-            Frete grátis no Kit · compra 100% segura via Yampi
+            {fg("Frete grátis no Kit · compra 100% segura", "Compra 100% segura")}{VIA_YAMPI}
           </p>
         </div>
       </section>
@@ -395,7 +396,7 @@ const Idoso = () => {
         <div className="ilp-sticky-info">
           <span className="ilp-sticky-name">Kit Cachorro</span>
           <span className="ilp-sticky-price">
-            {daydeal ? <><s className="ilp-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`} · 🚚 frete grátis
+            {daydeal ? <><s className="ilp-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`}{fg(" · 🚚 frete grátis", "")}
           </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {displayPrice} →</a>

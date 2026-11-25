@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import "./Mordida.css";
 import { isDayOfClienteActive } from "@/lib/promotions";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
+import { fg } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP DE LANÇAMENTO — MORDIDA V2 · /mordida
@@ -187,7 +188,7 @@ const BENEFICIOS = [
 const FAQ = [
   {
     q: "O que vem no pacote?",
-    a: `Um pacote de <strong>Mordida de Dragão de 180g</strong> por R$ ${PRICE}. Se quiser levar junto o <strong>Suplemento Integral</strong> — o que mistura na ração todo dia —, o kit com os dois sai por R$ ${PRICE_KIT} e vai com <strong>frete grátis</strong>; o link está embaixo da oferta.`,
+    a: `Um pacote de <strong>Mordida de Dragão de 180g</strong> por R$ ${PRICE}. Se quiser levar junto o <strong>Suplemento Integral</strong> — o que mistura na ração todo dia —, o kit com os dois sai por R$ ${PRICE_KIT}${fg(" e vai com <strong>frete grátis</strong>", "")}; o link está embaixo da oferta.`,
   },
   {
     q: "Meu cão tem alergia. Pode dar?",
@@ -207,7 +208,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil pra todo o Brasil. O frete aparece no checkout, e <strong>nos kits é por nossa conta</strong>. A compra é 100% segura: cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil pra todo o Brasil. O frete aparece no checkout${fg(", e <strong>nos kits é por nossa conta</strong>", "")}. A compra é 100% segura: cartão, Pix ou boleto.`,
   },
 ];
 
@@ -503,7 +504,7 @@ const Mordida = () => {
               🧪 Kit é KIT → -20% no Dia do Cliente, não -10% (regra da casa). */}
           <p className="mdp-oferta-avulso">
             <a href={kitUrl()} data-cta="kit">
-              Levar junto o Suplemento — kit por R$ {displayPriceKit}, com frete grátis
+              Levar junto o Suplemento — kit por R$ {displayPriceKit}{fg(", com frete grátis", "")}
             </a>
           </p>
 

@@ -8,6 +8,7 @@ import "./Portal.css";
 import "./Rango.css";
 import "./RangoJogo.css";
 import "./RangoFofo.css";
+import { FRETE_GRATIS, fg, PELA_YAMPI } from "@/lib/oferta";
 
 /* versão fofa (azul e verde do pacote): desde 15/10 é a /rango de todo mundo (Olivia: "vamos colocar o Rango Fofo
    no ar com o mesmo URL da Rango"). A versão anterior, de janelinhas retas, ainda abre com ?visual=jogo. */
@@ -96,7 +97,7 @@ const Rango = () => {
         <span className="rj-caixa-preco"><small>R$</small>{VENDA.kitPreco}</span>
         <span className="rj-caixa-apoio">R$ {VENDA.kitPorPacote} por pacote</span>
         {/* Olivia, 15/10: "vamos avisar do frete grátis no rango" (o kit passa da regra de frete grátis da Yampi) */}
-        <span className="rj-caixa-frete">Frete grátis</span>
+        {FRETE_GRATIS && <span className="rj-caixa-frete">Frete grátis</span>}
         <span className="rj-caixa-acao">Quero o kit</span>
       </a>
       <a className="rj-caixa" href={ctaUrl(false, pos)}>
@@ -161,7 +162,7 @@ const Rango = () => {
                 <strong>Comida natural</strong>, úmida e completa para cães adultos. Vem pronta, no pouch de 500 g.
               </p>
               <p className="rg-form-legal rj-legal">
-                <strong>No kit, o frete é grátis.</strong> No pacote avulso, o frete é calculado no fim do pedido pelo seu CEP. Compra segura pela Yampi, com cartão, Pix ou boleto.
+                {fg(<><strong>No kit, o frete é grátis.</strong> No pacote avulso, o frete é calculado no fim do pedido pelo seu CEP.</>, <>O frete é calculado no fim do pedido pelo seu CEP.</>)} Compra segura{PELA_YAMPI}, com cartão, Pix ou boleto.
               </p>
             </div>
           </div>
@@ -275,7 +276,7 @@ const Rango = () => {
         <div className="rg-sticky">
           <div className="rg-sticky-info">
             <strong>A partir de R$ {VENDA.preco}</strong>
-            <span>Compre 6, ganhe 1 · frete grátis</span>
+            <span>Compre 6, ganhe 1{fg(" · frete grátis", "")}</span>
           </div>
           <button className="rg-btn rg-btn-sticky" onClick={irPraCompra}>Ver as ofertas</button>
         </div>

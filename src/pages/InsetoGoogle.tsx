@@ -4,6 +4,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Curiosidade.css";
 import LeadPopup from "@/components/LeadPopup";
+import { FRETE_GRATIS, fg, VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP GOOGLE ADS — INSETO · /g/inseto
@@ -43,7 +44,7 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
 const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
 
 const CHIPS = [
-  "🚚 Frete grátis",
+  ...fg(["🚚 Frete grátis"], [] as string[]),
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
   "💚 7 dias para devolver",
@@ -113,11 +114,11 @@ const FAQ = [
   },
   {
     q: "O que vem no Kit Cachorro?",
-    a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco ou topper) + o <strong>Suplemento Integral</strong> (pó pra misturar na comida). Um cuida do agrado, o outro reforça a nutrição do dia a dia — numa caixa só, com frete grátis.",
+    a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco ou topper) + o <strong>Suplemento Integral</strong> (pó pra misturar na comida). Um cuida do agrado, o outro reforça a nutrição do dia a dia — numa caixa só" + fg(", com frete grátis.", "."),
   },
   {
     q: "Por que o kit, e não só o petisco?",
-    a: "Porque cão gosta dos dois: o Original é o petisco/topper de larva e o Suplemento Integral completa a refeição. Sai <strong>mais em conta que comprar separado</strong> e o frete é por nossa conta.",
+    a: "Porque cão gosta dos dois: o Original é o petisco/topper de larva e o Suplemento Integral completa a refeição. Sai <strong>mais em conta que comprar separado</strong>" + fg(" e o frete é por nossa conta.", "."),
   },
   {
     q: "E se ele não comer?",
@@ -129,7 +130,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil ${fg("e o <strong>frete do Kit é grátis</strong> pra todo o Brasil.", "pra todo o Brasil; o frete é calculado no fim do pedido pelo seu CEP.")} Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -143,7 +144,7 @@ const InsetoGoogle = () => {
           independente do noindex. */}
       <PageMeta
         title="Proteína de inseto para cachorro | Comida de Dragão"
-        description="Petisco de larva de inseto para cães: no mínimo 40% de proteína, 88,9% digestível, 1 ingrediente. Kit Cachorro com 10% de desconto e frete grátis."
+        description={`Petisco de larva de inseto para cães: no mínimo 40% de proteína, 88,9% digestível, 1 ingrediente. Kit Cachorro com 10% de desconto${fg(" e frete grátis", "")}.`}
         image={HERO_IMG}
         preload={HERO_IMG}
         noindex
@@ -174,7 +175,7 @@ const InsetoGoogle = () => {
             A larvinha que vira o <strong>petisco favorito do seu cachorro</strong> — ele vai
             <strong> rondar o armário</strong> atrás. E você pode dar <strong>sem dó</strong>:
             1 ingrediente só, <strong>88,9% digestível</strong>, comida de verdade do jeito que o corpo
-            dele aproveita. No <strong>Kit Cachorro</strong>, com frete grátis.
+            dele aproveita. No <strong>Kit Cachorro</strong>{fg(", com frete grátis.", ".")}
           </p>
 
           <div className="cur-hero-product-wrap">
@@ -188,17 +189,17 @@ const InsetoGoogle = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="cur-hero-frete-tag">Kit com frete grátis</span>
+            {FRETE_GRATIS && <span className="cur-hero-frete-tag">Kit com frete grátis</span>}
           </div>
 
           <div className="cur-hero-price">
             <span className="cur-price-from">Kit Cachorro de <s>R$ {PRICE}</s> por</span>
             <span className="cur-price-now"><small>R$</small>{PRICE_OFF}</span>
-            <span className="cur-price-installment">🚚 Frete grátis · 4× sem juros</span>
+            <span className="cur-price-installment">{fg("🚚 Frete grátis · 4× sem juros", "4× sem juros")}</span>
           </div>
 
           <div className="cur-hero-coupon">
-            🏷️ <strong>10% de desconto já aplicado</strong> · 🚚 frete grátis no Kit
+            🏷️ <strong>10% de desconto já aplicado</strong>{fg(" · 🚚 frete grátis no Kit", "")}
           </div>
 
           <div className="cur-hero-cta-wrap">
@@ -327,7 +328,7 @@ const InsetoGoogle = () => {
             <div className="cur-oferta-coupon-label">🏷️ seu desconto</div>
             <div className="cur-oferta-coupon-code">10% OFF</div>
             <div className="cur-oferta-coupon-desc">
-              Kit Cachorro de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom · frete grátis
+              Kit Cachorro de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom{fg(" · frete grátis", "")}
             </div>
           </div>
 
@@ -336,7 +337,7 @@ const InsetoGoogle = () => {
           </a>
 
           <p className="cur-hero-note" style={{ marginTop: 16 }}>
-            Frete grátis no Kit · compra 100% segura via Yampi
+            {fg("Frete grátis no Kit · compra 100% segura", "Compra 100% segura")}{VIA_YAMPI}
           </p>
         </div>
       </section>
@@ -393,7 +394,7 @@ const InsetoGoogle = () => {
         <div className="cur-sticky-info">
           <span className="cur-sticky-name">Kit Cachorro</span>
           <span className="cur-sticky-price">
-            R$ {PRICE_OFF} · 🚚 frete grátis
+            R$ {PRICE_OFF}{fg(" · 🚚 frete grátis", "")}
           </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
