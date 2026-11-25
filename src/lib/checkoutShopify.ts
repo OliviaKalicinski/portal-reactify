@@ -12,12 +12,14 @@
  *
  * A origem vai como ATRIBUTO do carrinho (`attributes[...]`), que a Shopify grava no pedido.
  *
- * VOLTA: `DESTINO = "yampi"` devolve todas as páginas ao link antigo, sem mexer em página nenhuma.
+ * CHAVE DA VIRADA: enquanto `DESTINO = "yampi"`, nada muda para o cliente (o link da Yampi sai como sempre),
+ * e o ramo pode ser publicado antes da virada sem risco. No dia, trocar para "shopify" e publicar.
+ * VOLTA: de "shopify" para "yampi" devolve todas as páginas ao link antigo, sem mexer em página nenhuma.
  */
 
 export type DestinoCheckout = "shopify" | "yampi";
 
-export const DESTINO: DestinoCheckout = "shopify";
+export const DESTINO: DestinoCheckout = "yampi";
 
 const LOJA = "https://www.comidadedragao.com.br";
 const HOST_YAMPI = "seguro.comidadedragao.com.br";
@@ -62,8 +64,8 @@ const VIRA_ATRIBUTO = [
  * Devolve o link original quando não é da Yampi, quando o destino é "yampi" ou quando
  * algum token não está na tabela (melhor abrir a Yampi do que um carrinho incompleto).
  */
-export function paraCheckoutShopify(link: string): string {
-  if (DESTINO !== "shopify") return link;
+export function paraCheckoutShopify(link: string, chave: DestinoCheckout = DESTINO): string {
+  if (chave !== "shopify") return link;
 
   let url: URL;
   try {

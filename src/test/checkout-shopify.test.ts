@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { paraCheckoutShopify, VARIANTE_POR_TOKEN } from "@/lib/checkoutShopify";
+import { DESTINO, paraCheckoutShopify, VARIANTE_POR_TOKEN } from "@/lib/checkoutShopify";
 import { buildCheckoutUrl, captureEntryUtms } from "@/lib/utm";
 
 /**
@@ -16,18 +16,18 @@ beforeEach(() => {
 
 describe("paraCheckoutShopify", () => {
   it("um produto: vira /cart/VARIANTE:1 na loja", () => {
-    const u = new URL(paraCheckoutShopify("https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK"));
+    const u = new URL(paraCheckoutShopify("https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK", "shopify"));
     expect(u.origin).toBe("https://www.comidadedragao.com.br");
     expect(u.pathname).toBe("/cart/57996588319023:1");
   });
 
   it("quantidade e vários produtos", () => {
-    const u = new URL(paraCheckoutShopify("https://seguro.comidadedragao.com.br/r/TQT4HOZK7X:2,AK5VFR5RLO:1"));
+    const u = new URL(paraCheckoutShopify("https://seguro.comidadedragao.com.br/r/TQT4HOZK7X:2,AK5VFR5RLO:1", "shopify"));
     expect(u.pathname).toBe("/cart/50957773308207:2,58247792853295:1");
   });
 
   it("cupom: promocode vira discount", () => {
-    const u = new URL(paraCheckoutShopify("https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=ALERGIA10"));
+    const u = new URL(paraCheckoutShopify("https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?promocode=ALERGIA10", "shopify"));
     expect(u.searchParams.get("discount")).toBe("ALERGIA10");
     expect(u.searchParams.has("promocode")).toBe(false);
   });
@@ -36,7 +36,7 @@ describe("paraCheckoutShopify", () => {
     const u = new URL(
       paraCheckoutShopify(
         "https://seguro.comidadedragao.com.br/r/KQXZ5J7LWK?utm_source=facebook&utm_medium=paid_social&cta_pos=hero&fbclid=abc"
-      )
+      , "shopify")
     );
     expect(u.searchParams.get("attributes[utm_source]")).toBe("facebook");
     expect(u.searchParams.get("attributes[utm_medium]")).toBe("paid_social");
@@ -47,12 +47,12 @@ describe("paraCheckoutShopify", () => {
 
   it("token fora da tabela: o link da Yampi fica como está", () => {
     const link = "https://seguro.comidadedragao.com.br/r/81ZXK4TWPV";
-    expect(paraCheckoutShopify(link)).toBe(link);
+    expect(paraCheckoutShopify(link, "shopify")).toBe(link);
   });
 
   it("link que não é da Yampi: fica como está", () => {
     const link = "https://www.comidadedragao.com.br/collections/produtos";
-    expect(paraCheckoutShopify(link)).toBe(link);
+    expect(paraCheckoutShopify(link, "shopify")).toBe(link);
   });
 
   it("todo token de carrinho escrito nas páginas está na tabela (nenhum botão fica na Yampi)", () => {
@@ -95,14 +95,23 @@ describe("paraCheckoutShopify", () => {
 
   it("o link que sai não aponta mais para a Yampi, nem guarda utm_* soltos", () => {
     for (const token of Object.keys(VARIANTE_POR_TOKEN)) {
-      const u = new URL(paraCheckoutShopify(`https://seguro.comidadedragao.com.br/r/${token}?utm_source=x`));
+      const u = new URL(paraCheckoutShopify(`https://seguro.comidadedragao.com.br/r/${token}?utm_source=x`, "shopify"));
       expect(u.hostname).toBe("www.comidadedragao.com.br");
       expect(u.searchParams.has("utm_source")).toBe(false);
     }
   });
 });
 
-describe("buildCheckoutUrl leva ao carrinho da Shopify", () => {
+describe("chave da virada", () => {
+  it("até a virada a chave fica em yampi: o cliente continua indo à Yampi", () => {
+    // No dia da virada este teste muda junto com a chave (DESTINO = "shopify").
+    expect(DESTINO).toBe("yampi");
+    const u = new URL(buildCheckoutUrl("https://seguro.comidadedragao.com.br/r/AK5VFR5RLO", { utm_source: "lp-mordida" }, "hero"));
+    expect(u.hostname).toBe("seguro.comidadedragao.com.br");
+  });
+});
+
+describe.skipIf(DESTINO !== "shopify")("buildCheckoutUrl leva ao carrinho da Shopify (só com a chave em shopify)", () => {
   it("anúncio na LP: carrinho da Shopify com a origem e a marca da LP nos atributos", () => {
     window.history.replaceState({}, "", "/mordida?utm_source=facebook&utm_medium=paid_social&utm_campaign=c1&utm_content=ad1");
     captureEntryUtms();
