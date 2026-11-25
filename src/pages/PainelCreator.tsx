@@ -223,40 +223,57 @@ const isoMes = (atras: number) => { const h = new Date(); const x = new Date(h.g
   return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}-01`; };
 const isoDia = (atras: number) => { const x = new Date(Date.now() - atras * 86400000); return x.toISOString().slice(0, 10); };
 const PERFIL_DA_MARCA = "https://www.instagram.com/comidadedragao/";
+const postDeExemplo = (n: number) => `${PERFIL_DA_MARCA}#post-de-exemplo-${n}`;   /* único por vídeo; abre o perfil da marca */
 const demoPainel = (): Painel => {
+  /* vendas abaixo do mínimo do Ouro (R$ 250) nos meses fechados, para a Prata ser coerente com a régua da /matilha */
   const serie = [
-    { atras: 5, vendas: 0,      pedidos: 0, comissao: 0 },
-    { atras: 4, vendas: 118.4,  pedidos: 1, comissao: 14.8 },
-    { atras: 3, vendas: 236.8,  pedidos: 2, comissao: 29.6 },
-    { atras: 2, vendas: 412.1,  pedidos: 4, comissao: 51.51 },
-    { atras: 1, vendas: 529.0,  pedidos: 5, comissao: 66.13 },
-    { atras: 0, vendas: 287.6,  pedidos: 3, comissao: 35.95 },
+    { atras: 5, vendas: 0,     pedidos: 0, comissao: 0 },
+    { atras: 4, vendas: 96.0,  pedidos: 1, comissao: 12.0 },
+    { atras: 3, vendas: 142.5, pedidos: 2, comissao: 17.81 },
+    { atras: 2, vendas: 188.0, pedidos: 2, comissao: 23.5 },
+    { atras: 1, vendas: 198.4, pedidos: 2, comissao: 24.8 },
+    { atras: 0, vendas: 287.6, pedidos: 3, comissao: 35.95 },
   ];
+  const OURO_VENDA = 250;
+  const fechado = serie[4];
   const mesAnterior = isoMes(1);
+  /* datas presas ao calendário (dia X de cada mês), para a faixa e as metas fecharem em qualquer dia do mês */
+  const diaDoMes = (atras: number, dia: string) => `${isoMes(atras).slice(0, 8)}${dia}`;
+  const videos: Video[] = [
+    { url: postDeExemplo(1), publicado_em: isoDia(0), views: null, e_video: true, conta_para_a_faixa: false, util: "em_avaliacao",
+      util_texto: null, anuncio: null, anuncio_texto: null },
+    { url: postDeExemplo(2), publicado_em: diaDoMes(0, "01"), views: 2410, e_video: true, conta_para_a_faixa: true, util: "sim",
+      util_texto: null, anuncio: "selecionado", anuncio_texto: "Separado para virar anúncio na próxima campanha." },
+    { url: postDeExemplo(3), publicado_em: diaDoMes(1, "12"), views: 3120, e_video: true, conta_para_a_faixa: true, util: "sim",
+      util_texto: null, anuncio: "testado", anuncio_texto: "Rodou como anúncio por 7 dias." },
+    { url: postDeExemplo(4), publicado_em: diaDoMes(1, "20"), views: 960, e_video: false, conta_para_a_faixa: false, util: "nao",
+      util_texto: "Foto sem o produto aparecendo: para contar, o pet precisa aparecer comendo ou o pacote precisa estar na tela.", anuncio: null, anuncio_texto: null },
+    { url: postDeExemplo(5), publicado_em: diaDoMes(2, "15"), views: 1840, e_video: true, conta_para_a_faixa: true, util: "sim",
+      util_texto: null, anuncio: null, anuncio_texto: null },
+    { url: postDeExemplo(6), publicado_em: diaDoMes(3, "08"), views: 1275, e_video: true, conta_para_a_faixa: true, util: "sim",
+      util_texto: null, anuncio: null, anuncio_texto: null },
+  ];
+  /* as contagens saem da própria lista, para nunca contradizer as datas */
+  const uteisEntre = (inicio: string, fim: string) =>
+    videos.filter((v) => v.util === "sim" && v.conta_para_a_faixa && v.publicado_em >= inicio && v.publicado_em < fim).length;
+  const uteisDesde = (inicio: string) => uteisEntre(inicio, "9999-12-31");
+  /* o fechamento é do mês anterior: conta só os vídeos do trimestre que terminou nele */
+  const uteisNoFechamento = uteisEntre(isoMes(3), isoMes(0));
   return {
     ok: true,
     creator: { primeiro_nome: "Creator de exemplo", instagram: "exemplo.matilha" },
     cupons: ["EXEMPLO10"], legado: false,
     vendas_por_mes: serie.map((x) => ({ mes: isoMes(x.atras), vendas: x.vendas, pedidos: x.pedidos, comissao: x.comissao, taxa: 0.125 })),
     pet: { foto_url: "/assets/halloween/cao-com-tigela-cozinha-azul.webp", nome: "Faísca", dragao: "devorador" },
-    mes_atual: { mes: isoMes(0), vendas: 287.6, pedidos: 3, videos_uteis_no_mes: 1, videos_uteis_no_trimestre: 2 },
+    mes_atual: { mes: isoMes(0), vendas: 287.6, pedidos: 3, videos_uteis_no_mes: uteisDesde(isoMes(0)), videos_uteis_no_trimestre: uteisDesde(isoMes(2)) },
     ultimo_fechamento: { mes: mesAnterior, oficial: true, linhas: [{
       cupom: "EXEMPLO10", faixa: "Prata", comissao_mes_seguinte: "12,5% sobre cada pedido com o seu cupom",
-      valor_comissao: 66.13, linha_vendas: "R$ 529,00 em 5 pedidos", linha_conteudo: "2 vídeos úteis no mês",
-      gate_venda: "Meta de vendas da Prata (R$ 50): batida ✓", gate_video: "Meta de vídeos da Prata (3 no trimestre): batida ✓",
-      original: "Comissão do mês: R$ 66,13", regua_de_origem: "Não se aplica",
-      o_que_mais_te_move: "Mais R$ 250 em vendas e você sobe para o Ouro (18%).", linha_frete: "Frete dos envios por nossa conta", valor_total: 529.0,
+      valor_comissao: fechado.comissao, linha_vendas: `${reais(fechado.vendas)} em ${fechado.pedidos} pedidos`, linha_conteudo: "2 vídeos úteis no mês",
+      gate_venda: "Meta de vendas da Prata (R$ 50): batida ✓", gate_video: `Vídeos úteis no trimestre: ${uteisNoFechamento} de 3 (meta da Prata)`,
+      original: `Comissão do mês: ${reais(fechado.comissao)}`, regua_de_origem: "Não se aplica",
+      o_que_mais_te_move: `Mais ${reais(OURO_VENDA - fechado.vendas)} em vendas no mês e você sobe para o Ouro (18%).`, linha_frete: "Frete dos envios por nossa conta", valor_total: fechado.vendas,
     }] },
-    videos: [
-      { url: PERFIL_DA_MARCA, publicado_em: isoDia(4), views: 3120, e_video: true, conta_para_a_faixa: true, util: "sim",
-        util_texto: null, anuncio: "selecionado", anuncio_texto: "Separado para virar anúncio na próxima campanha." },
-      { url: PERFIL_DA_MARCA, publicado_em: isoDia(19), views: 1840, e_video: true, conta_para_a_faixa: true, util: "sim",
-        util_texto: null, anuncio: "testado", anuncio_texto: "Rodou como anúncio por 7 dias." },
-      { url: PERFIL_DA_MARCA, publicado_em: isoDia(33), views: 960, e_video: false, conta_para_a_faixa: false, util: "nao",
-        util_texto: "Foto sem o produto aparecendo: para contar, o pet precisa aparecer comendo ou o pacote precisa estar na tela.", anuncio: null, anuncio_texto: null },
-      { url: PERFIL_DA_MARCA, publicado_em: isoDia(1), views: null, e_video: true, conta_para_a_faixa: false, util: "em_avaliacao",
-        util_texto: null, anuncio: null, anuncio_texto: null },
-    ],
+    videos,
     atualizado_em: new Date().toISOString(), link_vence_em: new Date(Date.now() + 30 * 86400000).toISOString(),
   };
 };
@@ -366,7 +383,6 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
   };
 
   const sair = () => {
-    if (demo) { window.location.assign("/"); return; }
     const passe = ler(local(), PASSE);
     if (passe) chamar("creator_painel_sair", { p_passe: passe }).catch(() => { /* sai do mesmo jeito */ });
     apagar(local(), PASSE);
@@ -428,7 +444,7 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
                 <p className="qsd8-sub">Tente de novo em alguns minutos.</p>
               </>
             )}
-            <div className="qsd8-btnrow"><Link to="/matilha" className="qsd8-btn ghost">Como funciona a Matilha</Link></div>
+            {!demo && <div className="qsd8-btnrow"><Link to="/matilha" className="qsd8-btn ghost">Como funciona a Matilha</Link></div>}
           </Win>
         )}
 
@@ -459,8 +475,9 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
                   </p>
                   {/* Bianca: links logo abaixo do @ e do cupom, ao lado da foto */}
                   <div className="pc-acoes">
-                    <a href={INFLOWZ} target="_blank" rel="noopener noreferrer">Minha conta na Inflowz ↗</a>
-                    <button type="button" onClick={sair}>Sair</button>
+                    {/* na demonstração não há conta nem saída: nada leva ao painel real nem a conta de terceiros */}
+                    {!demo && <a href={INFLOWZ} target="_blank" rel="noopener noreferrer">Minha conta na Inflowz ↗</a>}
+                    {!demo && <button type="button" onClick={sair}>Sair</button>}
                   </div>
                 </div>
               </div>
@@ -640,7 +657,7 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
                   <article className="pc-video" key={v.url}>
                     <header>
                       <span className="pc-data">{dataCurta(v.publicado_em)}</span>
-                      <a href={v.url} target="_blank" rel="noopener noreferrer">abrir o post ↗</a>
+                      {demo ? <span>post de exemplo</span> : <a href={v.url} target="_blank" rel="noopener noreferrer">abrir o post ↗</a>}
                       {!v.e_video && <span className="pc-selo neutro">foto ou carrossel</span>}
                     </header>
                     <p>
