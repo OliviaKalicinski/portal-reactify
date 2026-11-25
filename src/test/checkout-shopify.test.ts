@@ -69,6 +69,30 @@ describe("paraCheckoutShopify", () => {
     expect(faltando).toEqual([]);
   });
 
+  it("todo link da Yampi escrito numa página só é usado dentro de buildCheckoutUrl (ou para montar outro link)", () => {
+    const arquivos = import.meta.glob("/src/**/*.tsx", { query: "?raw", import: "default", eager: true }) as Record<string, string>;
+    const soltos: string[] = [];
+    for (const [arquivo, codigo] of Object.entries(arquivos)) {
+      if (!codigo.includes("seguro.comidadedragao")) continue;
+      const nomes = new Set<string>();
+      for (const m of codigo.matchAll(/(?:const|let)\s+([A-Za-z_]\w*)\s*=\s*[`"']https:\/\/seguro/g)) nomes.add(m[1]);
+      for (const m of codigo.matchAll(/([A-Za-z_]\w*)\s*:\s*[`"']https:\/\/seguro/g)) nomes.add(m[1]);
+      // link da Yampi escrito direto num href ou num location, sem nome
+      if (/(?:href=|location\.href\s*=|window\.open\()\s*[{(]?\s*[`"']https:\/\/seguro/.test(codigo)) soltos.push(`${arquivo}: link direto`);
+      for (const nome of nomes) {
+        for (const m of codigo.matchAll(new RegExp(`\\b${nome}\\b`, "g"))) {
+          const antes = codigo.slice(Math.max(0, m.index! - 200), m.index!);
+          const depois = codigo.slice(m.index!, m.index! + nome.length + 25);
+          const definicao = new RegExp(`^${nome}\\s*(=|:)\\s*[\`"']https`).test(depois) || /(?:const|let)\s+$/.test(antes);
+          const montaOutro = /=\s*[^;]*$/.test(antes.split("\n").pop() ?? "") && /(?:const|let)\s+\w+\s*=/.test(antes.split("\n").pop() ?? "");
+          if (definicao || montaOutro || antes.includes("buildCheckoutUrl(")) continue;
+          soltos.push(`${arquivo}: ${nome} (linha ${codigo.slice(0, m.index!).split("\n").length})`);
+        }
+      }
+    }
+    expect(soltos).toEqual([]);
+  });
+
   it("o link que sai não aponta mais para a Yampi, nem guarda utm_* soltos", () => {
     for (const token of Object.keys(VARIANTE_POR_TOKEN)) {
       const u = new URL(paraCheckoutShopify(`https://seguro.comidadedragao.com.br/r/${token}?utm_source=x`));
