@@ -366,7 +366,7 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
   };
 
   const sair = () => {
-    if (demo) { window.location.assign("/matilha"); return; }
+    if (demo) { window.location.assign("/"); return; }
     const passe = ler(local(), PASSE);
     if (passe) chamar("creator_painel_sair", { p_passe: passe }).catch(() => { /* sai do mesmo jeito */ });
     apagar(local(), PASSE);
@@ -695,10 +695,10 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
             <Win name="COMO-FUNCIONA.TXT" inverted>
               <h2 className="qsd8-h2">Como funciona <span>a faixa</span></h2>
               <p className="qsd8-sub" style={{ color: "var(--paper)" }}>As três faixas e o que cada uma pede estão na página da Matilha.</p>
-              <div className="qsd8-btnrow"><Link to="/matilha" className="qsd8-btn">Ver as faixas →</Link></div>
+              {!demo && <div className="qsd8-btnrow"><Link to="/matilha" className="qsd8-btn">Ver as faixas →</Link></div>}
               <p className="qsd8-note" style={{ color: "var(--paper)" }}>Números de {new Date(d.atualizado_em).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}.</p>
             </Win>
-            <MenuLinks />
+            {!demo && <MenuLinks />}
           </>
         )}
       </div>
