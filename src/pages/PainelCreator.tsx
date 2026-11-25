@@ -215,7 +215,61 @@ const MenuLinks = () => {
   );
 };
 
-const PainelCreator = () => {
+
+/* ── DEMONSTRAÇÃO (25/11/2026, pedido da Olivia) ─────────────────────────────────────────────────────────────────
+   /demo abre o painel com dados FICTÍCIOS, montados aqui no navegador: não chama o dash, não lê nenhuma creator real e
+   não grava nada (por isso não entra na contagem de parceiros). Serve para mostrar o painel a quem é de fora. */
+const isoMes = (atras: number) => { const h = new Date(); const x = new Date(h.getFullYear(), h.getMonth() - atras, 1);
+  return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}-01`; };
+const isoDia = (atras: number) => { const x = new Date(Date.now() - atras * 86400000); return x.toISOString().slice(0, 10); };
+const PERFIL_DA_MARCA = "https://www.instagram.com/comidadedragao/";
+const demoPainel = (): Painel => {
+  const serie = [
+    { atras: 5, vendas: 0,      pedidos: 0, comissao: 0 },
+    { atras: 4, vendas: 118.4,  pedidos: 1, comissao: 14.8 },
+    { atras: 3, vendas: 236.8,  pedidos: 2, comissao: 29.6 },
+    { atras: 2, vendas: 412.1,  pedidos: 4, comissao: 51.51 },
+    { atras: 1, vendas: 529.0,  pedidos: 5, comissao: 66.13 },
+    { atras: 0, vendas: 287.6,  pedidos: 3, comissao: 35.95 },
+  ];
+  const mesAnterior = isoMes(1);
+  return {
+    ok: true,
+    creator: { primeiro_nome: "Creator de exemplo", instagram: "exemplo.matilha" },
+    cupons: ["EXEMPLO10"], legado: false,
+    vendas_por_mes: serie.map((x) => ({ mes: isoMes(x.atras), vendas: x.vendas, pedidos: x.pedidos, comissao: x.comissao, taxa: 0.125 })),
+    pet: { foto_url: "/assets/halloween/cao-com-tigela-cozinha-azul.webp", nome: "Faísca", dragao: "devorador" },
+    mes_atual: { mes: isoMes(0), vendas: 287.6, pedidos: 3, videos_uteis_no_mes: 1, videos_uteis_no_trimestre: 2 },
+    ultimo_fechamento: { mes: mesAnterior, oficial: true, linhas: [{
+      cupom: "EXEMPLO10", faixa: "Prata", comissao_mes_seguinte: "12,5% sobre cada pedido com o seu cupom",
+      valor_comissao: 66.13, linha_vendas: "R$ 529,00 em 5 pedidos", linha_conteudo: "2 vídeos úteis no mês",
+      gate_venda: "Meta de vendas da Prata (R$ 50): batida ✓", gate_video: "Meta de vídeos da Prata (3 no trimestre): batida ✓",
+      original: "Comissão do mês: R$ 66,13", regua_de_origem: "Não se aplica",
+      o_que_mais_te_move: "Mais R$ 250 em vendas e você sobe para o Ouro (18%).", linha_frete: "Frete dos envios por nossa conta", valor_total: 529.0,
+    }] },
+    videos: [
+      { url: PERFIL_DA_MARCA, publicado_em: isoDia(4), views: 3120, e_video: true, conta_para_a_faixa: true, util: "sim",
+        util_texto: null, anuncio: "selecionado", anuncio_texto: "Separado para virar anúncio na próxima campanha." },
+      { url: PERFIL_DA_MARCA, publicado_em: isoDia(19), views: 1840, e_video: true, conta_para_a_faixa: true, util: "sim",
+        util_texto: null, anuncio: "testado", anuncio_texto: "Rodou como anúncio por 7 dias." },
+      { url: PERFIL_DA_MARCA, publicado_em: isoDia(33), views: 960, e_video: false, conta_para_a_faixa: false, util: "nao",
+        util_texto: "Foto sem o produto aparecendo: para contar, o pet precisa aparecer comendo ou o pacote precisa estar na tela.", anuncio: null, anuncio_texto: null },
+      { url: PERFIL_DA_MARCA, publicado_em: isoDia(1), views: null, e_video: true, conta_para_a_faixa: false, util: "em_avaliacao",
+        util_texto: null, anuncio: null, anuncio_texto: null },
+    ],
+    atualizado_em: new Date().toISOString(), link_vence_em: new Date(Date.now() + 30 * 86400000).toISOString(),
+  };
+};
+const demoTema = (): Tema => ({
+  semana_inicio: isoDia(new Date().getDay() === 0 ? 6 : new Date().getDay() - 1), clima: "natal",
+  titulo: "O presente que o seu pet abre primeiro",
+  o_que_fazer: "Grave o seu pet recebendo o petisco como se fosse presente de Natal: a reação dele é o vídeo.",
+  ideias: ["Embrulhe o pacote e deixe o pet desembrulhar", "Mostre a reação na primeira mordida", "Termine falando o seu cupom em voz alta"],
+  imagem_url: null, material_url: null, links: [], foto_url: null, prompt: null,
+});
+const AVISO_DEMO = "Demonstração com dados fictícios: nenhuma creator, venda ou comissão aqui é real.";
+
+const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
   const [estado, setEstado] = useState<"carregando" | "entrar" | "criar_senha" | "erro" | "pronto">("carregando");
   const [d, setD] = useState<Painel | null>(null);
   const [refs, setRefs] = useState<Referencia[]>([]);
@@ -253,6 +307,7 @@ const PainelCreator = () => {
 
   useEffect(() => {
     vivo.current = true;
+    if (demo) { setD(demoPainel()); setTema(demoTema()); setAviso(AVISO_DEMO); setEstado("pronto"); return () => { vivo.current = false; }; }
     const abrir = () => {
       setProblema(null);
       if (conviteDoEndereco()) { setEstado("criar_senha"); return; }
@@ -311,6 +366,7 @@ const PainelCreator = () => {
   };
 
   const sair = () => {
+    if (demo) { window.location.assign("/matilha"); return; }
     const passe = ler(local(), PASSE);
     if (passe) chamar("creator_painel_sair", { p_passe: passe }).catch(() => { /* sai do mesmo jeito */ });
     apagar(local(), PASSE);

@@ -97,6 +97,8 @@ const App = () => (
               <Route path="/matilha" element={<Matilha />} />
               {/* Painel do creator — abre só pelo link pessoal (segredo depois do #) */}
               <Route path="/painel" element={<PainelCreator />} />
+              {/* Demonstração do painel com dados fictícios, para mostrar a quem é de fora (Olivia, 25/11/2026) */}
+              <Route path="/demo" element={<PainelCreator demo />} />
               <Route path="/conheca" element={<Conheca />} />
               {/* LP PRÉ-LANÇAMENTO · Drop Mordida V2 — captura de lead (lista de espera), público frio */}
               <Route path="/mordida" element={<Mordida />} />
