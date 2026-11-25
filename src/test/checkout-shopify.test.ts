@@ -55,8 +55,26 @@ describe("paraCheckoutShopify", () => {
     expect(paraCheckoutShopify(link)).toBe(link);
   });
 
-  it("os 15 tokens usados nas páginas estão na tabela", () => {
-    expect(Object.keys(VARIANTE_POR_TOKEN)).toHaveLength(15);
+  it("todo token de carrinho escrito nas páginas está na tabela (nenhum botão fica na Yampi)", () => {
+    // Lê o código das páginas e procura os tokens de 10 caracteres depois de /r/ ou nas listas de kits.
+    const arquivos = import.meta.glob("/src/pages/**/*.tsx", { query: "?raw", import: "default", eager: true }) as Record<string, string>;
+    const conhecidos = new Set(Object.keys(VARIANTE_POR_TOKEN));
+    const faltando: string[] = [];
+    for (const [arquivo, codigo] of Object.entries(arquivos)) {
+      const diretos = [...codigo.matchAll(/seguro\.comidadedragao\.com\.br\/r\/([A-Z0-9]{10})/g)].map((m) => m[1]);
+      const temBase = /const CHECKOUT = "https:\/\/seguro\.comidadedragao\.com\.br\/r\/"/.test(codigo);
+      const daLista = temBase ? [...codigo.matchAll(/["'`]([A-Z0-9]{10})["'`]/g)].map((m) => m[1]).filter((t) => /[0-9]/.test(t) && /[A-Z]/.test(t)) : [];
+      for (const t of [...diretos, ...daLista]) if (!conhecidos.has(t)) faltando.push(`${arquivo}: ${t}`);
+    }
+    expect(faltando).toEqual([]);
+  });
+
+  it("o link que sai não aponta mais para a Yampi, nem guarda utm_* soltos", () => {
+    for (const token of Object.keys(VARIANTE_POR_TOKEN)) {
+      const u = new URL(paraCheckoutShopify(`https://seguro.comidadedragao.com.br/r/${token}?utm_source=x`));
+      expect(u.hostname).toBe("www.comidadedragao.com.br");
+      expect(u.searchParams.has("utm_source")).toBe(false);
+    }
   });
 });
 
