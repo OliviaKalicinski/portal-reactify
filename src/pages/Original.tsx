@@ -8,6 +8,7 @@ import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
 import { useRetornoNoToque } from "@/lib/retornoNoToque";
+import { VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — ORIGINAL
@@ -46,11 +47,15 @@ const ctaUrl = (cta: "hero" | "solucao" | "oferta" | "final" | "sticky" | "foto"
 
 const HERO_IMG = "/assets/images/produtos/original-frente.webp";
 
+/** 19/11/2026 (Olivia): segundo botão da primeira tela leva à vitrine da loja, com a origem de quem chegou. */
+const OUTROS_PRODUTOS_URL = () =>
+  buildCheckoutUrl("https://www.comidadedragao.com.br/collections/produtos", UTM_FALLBACK, "outros-produtos");
+
 const CHIPS = [
   "🚚 Entrega Brasil",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 const PROBLEMAS = [
@@ -110,7 +115,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -141,8 +146,9 @@ const Original = () => {
           <span className="olp-hero-eyebrow">novidade · 1 ingrediente · hipoalergênico</span>
 
           <h1 className="olp-hero-title">
-            O petisco que<br /><span>seu pet vai amar.</span>
+            O petisco que{" "}<br /><span>seu pet vai amar.</span>
           </h1>
+
 
           <p className="olp-hero-sub">
             A gente faz <strong>petisco com 1 ingrediente só</strong> — larva
@@ -172,25 +178,29 @@ const Original = () => {
                 decoding="async"
               />
             </a>
+            {/* 19/11/2026 (Olivia): o preço vira etiqueta em cima da embalagem, para subir os botões. */}
+            <div className="olp-hero-price">
+              <span className="olp-price-from">a partir de</span>
+              {daydeal && <s className="olp-price-old">R$ 42,20</s>}
+              <span className="olp-price-now"><small>R$</small>{daydeal ? "37,98" : "42,20"}</span>
+              <span className="olp-price-installment">4× sem juros</span>
+            </div>
           </div>
 
-          <div className="olp-hero-price">
-            <span className="olp-price-from">a partir de</span>
-            {daydeal && <s className="olp-price-old">R$ 42,20</s>}
-            <span className="olp-price-now"><small>R$</small>{daydeal ? "37,98" : "42,20"}</span>
-            <span className="olp-price-installment">4× sem juros</span>
-          </div>
 
-          <div className="olp-hero-coupon">
-            🎟️ conhece um afiliado nosso? usa o cupom dele no checkout
-          </div>
 
+          {/* 19/11/2026 (Olivia): primeira tela inteira no celular: foto menor, preço e os dois botões à vista.
+              Os selos descem para logo abaixo. */}
           <div className="olp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="olp-btn-primary" data-cta="hero">
               Bora experimentar →
             </a>
+            <a href={OUTROS_PRODUTOS_URL()} className="olp-btn-secondary" data-cta="outros-produtos">
+              Ver os outros produtos
+            </a>
           </div>
 
+          {/* 19/11/2026 (Olivia): saiu o aviso do cupom de afiliado do topo e da oferta. */}
           <div className="olp-hero-chips">
             {CHIPS.map((c, i) => <span className="olp-chip" key={i}>{c}</span>)}
           </div>
@@ -282,7 +292,7 @@ const Original = () => {
               <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
             </li>
             <li className="olp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -308,17 +318,12 @@ const Original = () => {
             <span>{daydeal ? <><s className="olp-price-old">R$ 42,20</s> por R$ 37,98</> : "por R$ 42,20"}</span>
           </h2>
 
-          <div className="olp-oferta-coupon-box">
-            <div className="olp-oferta-coupon-label">tem cupom de afiliado?</div>
-            <div className="olp-oferta-coupon-desc">Original por R$ {daydeal ? "37,98" : "42,20"} · conhece um afiliado? usa o cupom dele no checkout</div>
-          </div>
-
           <a href={ctaUrl("oferta")} className="olp-btn-primary" data-cta="oferta">
             Quero o Original →
           </a>
 
           <p className="olp-hero-note" style={{ marginTop: 16 }}>
-            Compra 100% segura via Yampi
+            Compra 100% segura{VIA_YAMPI}
           </p>
         </div>
       </section>
@@ -343,8 +348,8 @@ const Original = () => {
           <div className="olp-garantia">
             <div className="olp-garantia-icon">💚</div>
             <div className="olp-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu pet não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>

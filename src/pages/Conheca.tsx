@@ -7,6 +7,7 @@ import "./Conheca.css";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
+import { FRETE_GRATIS, fg, VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CONHEÇA · /conheca
@@ -42,10 +43,10 @@ const UTM_FALLBACK = {
 const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
 
 const CHIPS = [
-  "🚚 Frete grátis",
+  ...fg(["🚚 Frete grátis"], [] as string[]),
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 /* o "não" que trava o tutor curioso */
@@ -94,15 +95,15 @@ const FAQ = [
   },
   {
     q: "O que vem no Kit Cachorro?",
-    a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco ou topper) + o <strong>Suplemento Integral</strong> (pó pra misturar na ração). Um cuida do agrado, o outro reforça a nutrição do dia a dia — numa caixa só, com frete grátis.",
+    a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco ou topper) + o <strong>Suplemento Integral</strong> (pó pra misturar na ração). Um cuida do agrado, o outro reforça a nutrição do dia a dia — numa caixa só" + fg(", com frete grátis.", "."),
   },
   {
     q: "Como funciona o cupom BEMZAO?",
-    a: "É o nosso desconto de boas-vindas: <strong>10% OFF no Kit</strong>, e ele já vem <strong>aplicado sozinho</strong> no link — você não precisa digitar nada. O Kit sai por R$ 130,05, com frete grátis.",
+    a: "É o nosso desconto de boas-vindas: <strong>10% OFF no Kit</strong>, e ele já vem <strong>aplicado sozinho</strong> no link — você não precisa digitar nada. O Kit sai por R$ 130,05" + fg(", com frete grátis.", "."),
   },
   {
     q: "E se ele não comer?",
-    a: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura as larvinhas na ração e deixa ele decidir — a taxa de aceitação surpreende. E tem a <strong>garantia da matilha: 14 dias</strong>.",
+    a: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura as larvinhas na ração e deixa ele decidir — a taxa de aceitação surpreende. E, se mudar de ideia, são <strong>7 dias para devolver, com o produto lacrado</strong>.",
   },
   {
     q: "Meu veterinário não conhece",
@@ -110,7 +111,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil ${fg("e o <strong>frete do Kit é grátis</strong> pra todo o Brasil.", "pra todo o Brasil; o frete é calculado no fim do pedido pelo seu CEP.")} Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -125,8 +126,8 @@ const Conheca = () => {
   return (
     <div className="conheca-lp">
       <PageMeta
-        title="Conheça a Comida de Dragão — o Kit Cachorro com 10% off e frete grátis"
-        description="Alimento pra pet feito de larva de inseto: hipoalergênica, digestível e o seu cão ama. Kit Cachorro com cupom BEMZAO (10% off) e frete grátis."
+        title={`Conheça a Comida de Dragão — o Kit Cachorro com 10% off${fg(" e frete grátis", "")}`}
+        description={`Alimento pra pet feito de larva de inseto: hipoalergênica, digestível e o seu cão ama. Kit Cachorro com cupom BEMZAO (10% off)${fg(" e frete grátis", "")}.`}
         image={HERO_IMG}
         preload={HERO_IMG}
       />
@@ -167,7 +168,7 @@ const Conheca = () => {
               decoding="async"
             />
             <div className="cnh-hero-badges">
-              <span className="cnh-hero-frete-tag">Kit com frete grátis</span>
+              {FRETE_GRATIS && <span className="cnh-hero-frete-tag">Kit com frete grátis</span>}
               {daydeal && (
                 <span className="cnh-daydeal-corner">
                   dia do<br />cliente<br /><strong>-20%</strong>
@@ -179,7 +180,7 @@ const Conheca = () => {
           <div className="cnh-hero-price">
             <span className="cnh-price-from">Kit Cachorro <s className="cnh-price-old">R$ {PRICE}</s> por</span>
             <span className="cnh-price-now"><small>R$</small>{displayPrice}</span>
-            <span className="cnh-price-installment">🚚 Frete grátis · 4× sem juros</span>
+            <span className="cnh-price-installment">{fg("🚚 Frete grátis · 4× sem juros", "4× sem juros")}</span>
           </div>
 
           <div className="cnh-hero-coupon">
@@ -269,14 +270,14 @@ const Conheca = () => {
                 <div className="cnh-oferta-coupon-label">🎉 dia do cliente</div>
                 <div className="cnh-oferta-coupon-code">-20%</div>
                 <div className="cnh-oferta-coupon-desc">
-                  desconto automático · <s className="cnh-price-old">R$ {PRICE}</s> por R$ {PRICE_DAYDEAL} · 🚚 frete grátis
+                  desconto automático · <s className="cnh-price-old">R$ {PRICE}</s> por R$ {PRICE_DAYDEAL}{fg(" · 🚚 frete grátis", "")}
                 </div>
               </>
             ) : (
               <>
                 <div className="cnh-oferta-coupon-label">🎟️ seu cupom de boas-vindas</div>
                 <div className="cnh-oferta-coupon-code">{COUPON}</div>
-                <div className="cnh-oferta-coupon-desc">10% OFF já aplicado · Kit Cachorro por R$ {PRICE_OFF} · 🚚 frete grátis</div>
+                <div className="cnh-oferta-coupon-desc">10% OFF já aplicado · Kit Cachorro por R$ {PRICE_OFF}{fg(" · 🚚 frete grátis", "")}</div>
               </>
             )}
           </div>
@@ -286,7 +287,7 @@ const Conheca = () => {
           </a>
 
           <p className="cnh-hero-note" style={{ marginTop: 16 }}>
-            Frete grátis no Kit · cupom aplica sozinho · compra 100% segura via Yampi
+            {fg("Frete grátis no Kit · cupom aplica sozinho · compra 100% segura", "Cupom aplica sozinho · compra 100% segura")}{VIA_YAMPI}
           </p>
         </div>
       </section>
@@ -311,8 +312,8 @@ const Conheca = () => {
           <div className="cnh-garantia">
             <div className="cnh-garantia-icon">💚</div>
             <div className="cnh-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>
@@ -323,7 +324,7 @@ const Conheca = () => {
         <h2>
           Bora experimentar<br /><span>o kit do cão?</span>
         </h2>
-        <p>Proteína nova, digestível e sustentável — com 10% off e frete grátis. Estranho por 5 segundos, viciante pro resto da vida.</p>
+        <p>Proteína nova, digestível e sustentável — com 10% off{fg(" e frete grátis", "")}. Estranho por 5 segundos, viciante pro resto da vida.</p>
         <a href={ctaUrl("final")} className="cnh-btn-primary" data-cta="final">
           Quero conhecer o kit →
         </a>
@@ -348,7 +349,7 @@ const Conheca = () => {
       <div className="cnh-sticky-cta">
         <div className="cnh-sticky-info">
           <span className="cnh-sticky-name">Kit Cachorro{daydeal ? " · dia do cliente" : ` · ${COUPON}`}</span>
-          <span className="cnh-sticky-price">R$ {displayPrice} · 🚚 frete grátis</span>
+          <span className="cnh-sticky-price">R$ {displayPrice}{fg(" · 🚚 frete grátis", "")}</span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
       </div>

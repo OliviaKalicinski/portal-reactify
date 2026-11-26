@@ -862,3 +862,172 @@
   justify-content: center;
   margin-top: 36px;
 }
+
+/* ============= PRIMEIRA TELA (19/11/2026, Olivia) =====================
+   No celular, tudo dentro da primeira tela (375x812, descontada a barra fixa
+   de baixo): logo, título, foto menor, preço e os dois botões. */
+.original-lp .olp-hero-cta-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.olp-btn-secondary {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 6px 4px;
+}
+@media (max-width: 979px) {
+  .original-lp .olp-hero { padding: 14px 20px 32px; }
+  .original-lp .olp-hero-top { margin-bottom: 10px; }
+  .original-lp .olp-hero-eyebrow { margin-bottom: 10px; padding: 4px 12px; }
+  .original-lp .olp-hero-title { font-size: clamp(34px, 9vw, 56px); margin-bottom: 10px; }
+  .original-lp .olp-hero-product-frame { max-width: 220px; margin-bottom: 8px; }
+  .original-lp .olp-hero-product-frame img { max-height: min(230px, 28svh); width: auto; margin: 0 auto; }
+  .original-lp .olp-hero-price { margin-bottom: 10px; gap: 2px; }
+  .original-lp .olp-price-now { font-size: 38px; }
+  .original-lp .olp-btn-primary { padding: 14px 32px; font-size: 21px; }
+}
+@media (min-width: 980px) {
+  .original-lp .olp-hero-cta-wrap { align-items: flex-start; }
+}
+
+@media (min-width: 980px) {
+  .original-lp .olp-hero-product-frame { grid-row: 2 / span 7; }
+}
+@media (min-width: 980px) {
+  .original-lp .olp-hero-inner > *:not(.olp-hero-top):not(.olp-hero-product-frame) { grid-column: 1; }
+  .original-lp .olp-hero-product-frame { grid-column: 2; grid-row: 2 / span 4; max-width: 360px; justify-self: center; }
+}
+
+/* 19/11/2026, 2ª rodada (Olivia): texto de volta na primeira tela, foto maior,
+   "Ver os outros produtos" com mais destaque (botão de contorno). */
+.olp-btn-secondary {
+  display: inline-block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-primary);
+  background: var(--bg-card);
+  border: 3px solid var(--ink-primary);
+  box-shadow: 4px 4px 0 var(--ink-primary);
+  padding: 10px 26px;
+}
+@media (max-width: 979px) {
+  .original-lp .olp-hero-eyebrow { font-size: 9px; letter-spacing: 0.1em; padding: 4px 8px; margin-bottom: 8px; }
+  .original-lp .olp-hero-title { font-size: clamp(30px, 8.4vw, 52px); margin-bottom: 8px; }
+  .original-lp .olp-hero-sub { font-size: 13.5px; line-height: 1.42; margin: 0 auto 6px; }
+  .original-lp .olp-hero-product-frame img { max-height: min(300px, 36svh); }
+  .original-lp .olp-hero-product-frame { max-width: 280px; margin-bottom: 4px; }
+  .original-lp .olp-hero-price { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px; margin-bottom: 8px; }
+  .original-lp .olp-price-now { font-size: 34px; }
+  .original-lp .olp-btn-primary { padding: 12px 28px; font-size: 20px; }
+  .original-lp .olp-hero-cta-wrap { gap: 12px; }
+}
+
+/* 19/11/2026, 3ª rodada (Olivia): "Ver os outros produtos" no estilo da caixa do topo
+   (novidade · 1 ingrediente · hipoalergênico): fundo verde claro, borda e letra rosa. */
+.original-lp .olp-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  background: rgba(123, 255, 0, 0.22);
+  border: 1px solid var(--dragon-pink);
+  box-shadow: none;
+  color: var(--dragon-pink);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+}
+
+/* 19/11/2026, 4ª rodada (Olivia): "Ver os outros produtos" com cara de botão
+   (borda mais grossa e sombra, como o principal) e título numa linha só no celular. */
+.original-lp .olp-btn-secondary {
+  border: 2px solid var(--dragon-pink);
+  box-shadow: 4px 4px 0 var(--dragon-pink);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.original-lp .olp-btn-secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--dragon-pink);
+}
+@media (max-width: 979px) {
+  .original-lp .olp-hero-cta-wrap { gap: 16px; }
+}
+
+/* 19/11/2026, 5ª rodada (Olivia): título volta a duas linhas; preço vira etiqueta sobre a embalagem. */
+.original-lp .olp-hero-product-frame .olp-hero-price {
+  position: absolute;
+  right: -4px;
+  bottom: 22px;
+  z-index: 3;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 6px 12px 7px;
+  background: var(--dragon-lime);
+  border: 2px solid var(--ink-primary);
+  box-shadow: 3px 3px 0 var(--ink-primary);
+  transform: rotate(-4deg);
+}
+.original-lp .olp-hero-product-frame .olp-price-from { font-size: 9px; color: var(--ink-primary); }
+.original-lp .olp-hero-product-frame .olp-price-now { font-size: 32px; color: var(--ink-primary); }
+.original-lp .olp-hero-product-frame .olp-price-now small { color: var(--ink-primary); }
+.original-lp .olp-hero-product-frame .olp-price-installment { font-size: 10px; color: var(--ink-primary); }
+@media (min-width: 980px) {
+  .original-lp .olp-hero-product-frame .olp-price-now { font-size: 44px; }
+  .original-lp .olp-hero-product-frame .olp-hero-price { right: -12px; bottom: 40px; padding: 8px 16px; }
+}
+@media (max-width: 979px) {
+  .original-lp .olp-hero-product-frame img { max-height: min(340px, 41svh); }
+  .original-lp .olp-hero-product-frame { max-width: 300px; }
+}
+
+/* 19/11/2026, 6ª rodada (Olivia): etiqueta do preço em outra cor (rosa da marca, letra branca),
+   para não se confundir com o verde do botão de compra. */
+.original-lp .olp-hero-product-frame .olp-hero-price { background: var(--dragon-pink); }
+.original-lp .olp-hero-product-frame .olp-price-from,
+.original-lp .olp-hero-product-frame .olp-price-now,
+.original-lp .olp-hero-product-frame .olp-price-now small,
+.original-lp .olp-hero-product-frame .olp-price-installment { color: #FFFFFF; }
+
+/* 19/11/2026, 7ª rodada (Olivia): o preço não pode parecer botão. Sai a caixa com
+   borda e sombra (a linguagem dos botões); entra um selo redondo de preço, sem sombra. */
+.original-lp .olp-hero-product-frame .olp-hero-price {
+  width: 104px;
+  height: 104px;
+  padding: 0;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  box-shadow: none;
+  outline: 2px dashed rgba(255, 255, 255, 0.85);
+  outline-offset: -7px;
+  transform: rotate(-10deg);
+  right: -6px;
+  bottom: 30px;
+}
+.original-lp .olp-hero-product-frame .olp-price-from { font-size: 8px; letter-spacing: 0.1em; }
+.original-lp .olp-hero-product-frame .olp-price-now { font-size: 30px; }
+.original-lp .olp-hero-product-frame .olp-price-installment { font-size: 8.5px; }
+@media (min-width: 980px) {
+  .original-lp .olp-hero-product-frame .olp-hero-price { width: 132px; height: 132px; right: -18px; bottom: 44px; }
+  .original-lp .olp-hero-product-frame .olp-price-now { font-size: 38px; }
+  .original-lp .olp-hero-product-frame .olp-price-from,
+  .original-lp .olp-hero-product-frame .olp-price-installment { font-size: 10px; }
+}

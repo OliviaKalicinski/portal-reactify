@@ -29,6 +29,24 @@ function AteOFimDoHalloween({ pagina, depois }: { pagina: JSX.Element; depois: s
   }
   return <Navigate to={{ pathname: depois, search: window.location.search }} replace />;
 }
+const BlackNovember = lazy(() => import("./pages/BlackNovember.tsx"));
+const BlackNovemberTopo = lazy(() => import("./pages/BlackNovemberTopo.tsx"));
+const BlackNovemberGato = lazy(() => import("./pages/BlackNovemberGato.tsx"));
+/* Black November: 03 a 30/11/2026. Como no Halloween, a página se desliga sozinha no fim —
+   depois de 30/11 à meia-noite e meia de 01/12 ela leva à loja, mantendo a UTM de quem chegou.
+   O INÍCIO não tem porta: a rota responde antes de 03/11 de propósito, para a Olivia e a Bianca
+   verem a página antes de a campanha subir. */
+/* 🔴 30/10: a data saiu daqui e foi para `src/lib/blackNovember.ts`, junto com o INICIO,
+   que não existia. Motivo (Olivia, 30/10): a campanha começa quando ela disser, e para
+   isso precisa haver um lugar só onde a data se troca. A porta agora fecha nos DOIS
+   lados: antes do início e depois do fim a rota leva para onde `depois` aponta. */
+function AteOFimDaBlack({ pagina, depois }: { pagina: JSX.Element; depois: string }) {
+  if (campanhaNoAr()) return pagina;
+  window.location.replace(depois + window.location.search);
+  return null;
+}
+import { campanhaNoAr } from "@/lib/blackNovember";
+
 const Parceiros = lazy(() => import("./pages/Parceiros.tsx"));
 const Produtos = lazy(() => import("./pages/Produtos.tsx"));
 const Lojas = lazy(() => import("./pages/Lojas.tsx"));
@@ -88,6 +106,10 @@ const App = () => (
               <Route path="/qual-dragao" element={<QuizDragao />} />
               <Route path="/halloween" element={<AteOFimDoHalloween pagina={<Halloween />} depois="https://www.comidadedragao.com.br/collections/produtos" />} />
               <Route path="/halloween-gato" element={<AteOFimDoHalloween pagina={<HalloweenGatos />} depois="/gatos" />} />
+              <Route path="/black-november" element={<AteOFimDaBlack pagina={<BlackNovember />} depois="https://www.comidadedragao.com.br/collections/produtos" />} />
+              <Route path="/black-november-topo" element={<AteOFimDaBlack pagina={<BlackNovemberTopo />} depois="https://www.comidadedragao.com.br/collections/produtos" />} />
+              {/* Gatos, 03 a 30/11. Depois de 30/11 leva para a /gatos, mantendo a UTM. */}
+              <Route path="/black-november-gato" element={<AteOFimDaBlack pagina={<BlackNovemberGato />} depois="/gatos" />} />
               <Route path="/parceiros" element={<Parceiros />} />
               <Route path="/produtos" element={<Produtos />} />
               <Route path="/lojas" element={<Lojas />} />

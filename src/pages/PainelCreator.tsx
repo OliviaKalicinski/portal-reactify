@@ -7,6 +7,7 @@ import "./QueroSerDragao.css";
 import "./Matilha.css";
 import "./PainelCreator.css";
 import "./Fofo.css";
+import { MontarTemplate, TEMPLATES } from "./PainelTemplate";
 
 /* Painel do creator. Entra com e-mail e senha (R648, 14/10/2026): o creator NÃO é usuário do dash; a conta dele mora
    numa tabela própria e entrar devolve um "passe" que só abre as portas do painel. O link pessoal (o segredo depois do
@@ -119,8 +120,8 @@ const reais = (v: number) => `R$ ${Number(v || 0).toFixed(2).replace(".", ",").r
 const PRATA_VIDEOS = 3;
 const PRATA_VENDA = 50;
 
-const Win = ({ name, children, inverted, mac, className }: { name: string; children: ReactNode; inverted?: boolean; mac?: boolean; className?: string }) => (
-  <section className={`qsd8-win${inverted ? " inverted" : ""}${className ? " " + className : ""}`}>
+const Win = ({ name, children, inverted, mac, className, id }: { name: string; children: ReactNode; inverted?: boolean; mac?: boolean; className?: string; id?: string }) => (
+  <section id={id} className={`qsd8-win${inverted ? " inverted" : ""}${className ? " " + className : ""}`}>
     <div className="qsd8-titlebar">
       {mac && <span className="qsd8-mac-dots" aria-hidden="true"><i /><i /></span>}
       <span className="qsd8-tb-name">{name}</span>
@@ -296,6 +297,7 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
   const [senha2, setSenha2] = useState("");
   const [ocupado, setOcupado] = useState(false);
   const [mesSel, setMesSel] = useState<number | null>(null);   // Bianca: mês escolhido no seletor (nulo = o atual)
+  const [tplAberto, setTplAberto] = useState(false);            // Bianca: janela "Montar minha arte" aberta
   const [problema, setProblema] = useState<string | null>(null);   // erro do formulário
   const [aviso, setAviso] = useState<string | null>(null);         // recado no topo do painel
   const vivo = useRef(true);
@@ -492,6 +494,52 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
               )}
             </Win>
 
+            {/* Bianca: a faixa e o que falta sobem para logo abaixo do "Oi": é a única parte do painel que pede ação do creator
+                (antes ficava na 2ª tela do celular, depois dos números e do gráfico) */}
+            <Win name="MINHA-FAIXA.SYS" className="pc-faixa-win">
+              {/* Bianca: faixa atual + progresso da Prata num bloco só, agrupado por assunto (antes era uma lista de frases).
+                  O título do progresso depende da faixa atual: quem já está na Prata não tem a Prata como "próxima". */}
+              {(() => {
+                const faixaAtual = fech?.linhas[0]?.faixa ?? null;
+                const tituloMeta = faixaAtual === "Prata" ? "Para continuar na Prata"
+                  : faixaAtual === "Ouro" ? "Mínimo da Prata"
+                  : "Próxima faixa: Prata";
+                const videos = Number(m.videos_uteis_no_trimestre);
+                const vendas = Number(m.vendas);
+                const pct = (v: number, meta: number) => `${Math.min(100, Math.round((v / meta) * 100))}%`;
+                return (
+                  <section className="pc-progresso" aria-label="Sua faixa e o que falta">
+                    <div className="pc-prog-atual">
+                      <p className="pc-prog-rotulo">Sua faixa atual</p>
+                      <p className="pc-prog-faixa">{faixaAtual ?? "—"}</p>
+                      {taxaMes != null && <p className="pc-prog-pct">{String(Math.round(taxaMes * 1000) / 10).replace(".", ",")}%<span> de comissão</span></p>}
+                      {/* legado (piso_30): 30% sempre; a faixa muda o que se pede e os envios, não a comissão (Olivia, 08/10) */}
+                      <p className="pc-prog-nota">{d.legado
+                        ? "Os seus 30% não mudam com a faixa. Ela muda o que a gente pede e os envios."
+                        : "A faixa muda a sua comissão, o que a gente pede e os envios."}</p>
+                    </div>
+                    <div className="pc-prog-meta">
+                      <p className="pc-prog-rotulo">{tituloMeta}</p>
+                      <div className="pc-prog-linha">
+                        {/* Bianca: diz a janela da conta, já que os cartões de vídeo do "Seu mês" saíram */}
+                        <p><strong>Vídeos úteis <small className="pc-prog-janela">nos últimos 3 meses</small></strong><span>{videos} de {PRATA_VIDEOS} vídeos</span></p>
+                        <div className="pc-prog-barra" role="progressbar" aria-valuemin={0} aria-valuemax={PRATA_VIDEOS} aria-valuenow={videos}><i style={{ width: pct(videos, PRATA_VIDEOS) }} /></div>
+                        <p className="pc-prog-status">{faltaVideos > 0
+                          ? `Falta${faltaVideos === 1 ? "" : "m"} ${faltaVideos} ${faltaVideos === 1 ? "vídeo útil" : "vídeos úteis"} ${faixaAtual === "Prata" ? "para continuar na Prata" : "para alcançar a próxima faixa"}.`
+                          : "Meta de vídeos batida ✓"}</p>
+                      </div>
+                      <div className="pc-prog-linha">
+                        <p><strong>Meta de vendas</strong><span>{reais(vendas)} de {reais(PRATA_VENDA)}</span></p>
+                        <div className="pc-prog-barra" role="progressbar" aria-valuemin={0} aria-valuemax={PRATA_VENDA} aria-valuenow={vendas}><i style={{ width: pct(vendas, PRATA_VENDA) }} /></div>
+                        <p className="pc-prog-status">{faltaVenda > 0 ? `Faltam ${reais(faltaVenda)} em vendas neste mês.` : "Meta de vendas batida ✓"}</p>
+                      </div>
+                      <p className="pc-prog-rodape">Sua nova faixa será definida no início do próximo mês.</p>
+                    </div>
+                  </section>
+                );
+              })()}
+            </Win>
+
             {tema && (
               <Win name={CLIMAS[tema.clima ?? ""]?.janela ?? "ESTA-SEMANA.TXT"} className={`pc-tema pc-clima-${CLIMAS[tema.clima ?? ""] ? tema.clima : "padrao"}`}>
                 <div className="qsd8-eyebrow">// semana de {dataCurta(tema.semana_inicio)}{CLIMAS[tema.clima ?? ""] && <> · {CLIMAS[tema.clima ?? ""].selo}</>}</div>
@@ -546,7 +594,17 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
                     </button>
                   </div>
                 </details>
+                {/* Bianca: o template da semana vira arte do creator aqui mesmo (fora da caixa, para ser visto sem abrir) */}
+                {TEMPLATES[tema.clima ?? ""] && (
+                  <div className="pc-tpl-chamada">
+                    <button type="button" className="qsd8-btn" onClick={() => setTplAberto(true)}>Montar minha arte ✦</button>
+                    <small>Sua foto + seu cupom no template da semana, pronto para postar.</small>
+                  </div>
+                )}
               </Win>
+            )}
+            {tema && tplAberto && TEMPLATES[tema.clima ?? ""] && (
+              <MontarTemplate template={TEMPLATES[tema.clima ?? ""]} cupomInicial={d.cupons[0] ?? ""} aoFechar={() => setTplAberto(false)} />
             )}
 
             {fech && (
@@ -596,8 +654,8 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
                         )}
                       </div>
                       <div><strong>{ehAtual ? m.pedidos : sel.pedidos}</strong><span>{Number(ehAtual ? m.pedidos : sel.pedidos) === 1 ? "pedido com o seu cupom" : "pedidos com o seu cupom"}</span></div>
-                      <div><strong>{ehAtual ? m.videos_uteis_no_mes : "–"}</strong><span>{ehAtual ? "vídeos que contaram para a sua faixa neste mês" : "vídeos que contaram: só aparece no mês atual"}</span></div>
-                      <div><strong>{ehAtual ? m.videos_uteis_no_trimestre : "–"}</strong><span>{ehAtual ? "vídeos que contaram, somando os últimos 3 meses" : "soma dos 3 meses: só aparece no mês atual"}</span></div>
+                      {/* Bianca: saíram os dois cartões de vídeo ("1 neste mês", "2 nos 3 meses"): competiam com o "2 de 3" da faixa
+                          e o creator não sabia qual valia. A contagem que decide a faixa fica só em "Minha faixa". */}
                     </div>
                     {temComissao && <GraficoVendas meses={serie} escolhido={i} aoEscolher={setMesSel} atualizadoEm={d.atualizado_em} />}
                   </>
@@ -606,46 +664,6 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
               {taxaMes != null && (
                 <p className="pc-taxa pc-info"><span aria-hidden="true">ⓘ</span> A sua comissão é {String(Math.round(taxaMes * 1000) / 10).replace(".", ",")}% do valor de cada pedido feito com o seu cupom.</p>
               )}
-              {/* Bianca: faixa atual + progresso da Prata num bloco só, agrupado por assunto (antes era uma lista de frases).
-                  O título do progresso depende da faixa atual: quem já está na Prata não tem a Prata como "próxima". */}
-              {(() => {
-                const faixaAtual = fech?.linhas[0]?.faixa ?? null;
-                const tituloMeta = faixaAtual === "Prata" ? "Para continuar na Prata"
-                  : faixaAtual === "Ouro" ? "Mínimo da Prata"
-                  : "Próxima faixa: Prata";
-                const videos = Number(m.videos_uteis_no_trimestre);
-                const vendas = Number(m.vendas);
-                const pct = (v: number, meta: number) => `${Math.min(100, Math.round((v / meta) * 100))}%`;
-                return (
-                  <section className="pc-progresso" aria-label="Sua faixa e o que falta">
-                    <div className="pc-prog-atual">
-                      <p className="pc-prog-rotulo">Sua faixa atual</p>
-                      <p className="pc-prog-faixa">{faixaAtual ?? "—"}</p>
-                      {taxaMes != null && <p className="pc-prog-pct">{String(Math.round(taxaMes * 1000) / 10).replace(".", ",")}%<span> de comissão</span></p>}
-                      {/* legado (piso_30): 30% sempre; a faixa muda o que se pede e os envios, não a comissão (Olivia, 08/10) */}
-                      <p className="pc-prog-nota">{d.legado
-                        ? "Os seus 30% não mudam com a faixa. Ela muda o que a gente pede e os envios."
-                        : "A faixa muda a sua comissão, o que a gente pede e os envios."}</p>
-                    </div>
-                    <div className="pc-prog-meta">
-                      <p className="pc-prog-rotulo">{tituloMeta}</p>
-                      <div className="pc-prog-linha">
-                        <p><strong>Vídeos úteis</strong><span>{videos} de {PRATA_VIDEOS} vídeos</span></p>
-                        <div className="pc-prog-barra" role="progressbar" aria-valuemin={0} aria-valuemax={PRATA_VIDEOS} aria-valuenow={videos}><i style={{ width: pct(videos, PRATA_VIDEOS) }} /></div>
-                        <p className="pc-prog-status">{faltaVideos > 0
-                          ? `Falta${faltaVideos === 1 ? "" : "m"} ${faltaVideos} ${faltaVideos === 1 ? "vídeo útil" : "vídeos úteis"} ${faixaAtual === "Prata" ? "para continuar na Prata" : "para alcançar a próxima faixa"}.`
-                          : "Meta de vídeos batida ✓"}</p>
-                      </div>
-                      <div className="pc-prog-linha">
-                        <p><strong>Meta de vendas</strong><span>{reais(vendas)} de {reais(PRATA_VENDA)}</span></p>
-                        <div className="pc-prog-barra" role="progressbar" aria-valuemin={0} aria-valuemax={PRATA_VENDA} aria-valuenow={vendas}><i style={{ width: pct(vendas, PRATA_VENDA) }} /></div>
-                        <p className="pc-prog-status">{faltaVenda > 0 ? `Faltam ${reais(faltaVenda)} em vendas neste mês.` : "Meta de vendas batida ✓"}</p>
-                      </div>
-                      <p className="pc-prog-rodape">Sua nova faixa será definida no início do próximo mês.</p>
-                    </div>
-                  </section>
-                );
-              })()}
             </Win>
 
             <Win name="MEUS-VIDEOS.MOV">
@@ -665,6 +683,8 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
                         {v.util === "sim" ? "vídeo útil" : v.util === "nao" ? "não contou" : "em avaliação"}
                       </span>{" "}
                       {v.util === "em_avaliacao" ? "Ainda não avaliamos este post." : v.util === "sim" ? (v.conta_para_a_faixa ? "Conta para a sua faixa." : "") : v.util_texto}
+                      {/* Bianca: a regra ficava só lá embaixo, depois da lista; o link leva direto a ela */}
+                      {v.util === "nao" && <> <a className="pc-porque" href="#video-util">ver a regra ↓</a></>}
                     </p>
                     {v.util === "sim" && !v.conta_para_a_faixa && (
                       <p className="pc-aviso">Ainda não entra na sua faixa: este post não está ligado ao seu cupom. Avise no grupo.</p>
@@ -680,7 +700,7 @@ const PainelCreator = ({ demo = false }: { demo?: boolean } = {}) => {
               </div>
             </Win>
 
-            <Win name="VIDEO-UTIL.TXT" inverted>
+            <Win name="VIDEO-UTIL.TXT" inverted id="video-util">
               <h2 className="qsd8-h2">O que é <span>vídeo útil</span></h2>
               <p className="qsd8-sub" style={{ color: "var(--paper)" }}>É o vídeo que conta para a sua faixa. Ele precisa de 5 coisas:</p>
               <ol className="pc-regra">

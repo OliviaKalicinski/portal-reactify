@@ -1,0 +1,48 @@
+/* ════════════════════════════════════════════════════════════════
+   O TOM SÉRIO das duas páginas de arquivo (28/10/2026)
+
+   Pedido da Olivia: "essas duas páginas são um pouco mais sérias, a gente deveria
+   trazer um pouco de seriedade para elas". A /biblioteca junta estudo científico e
+   a /imprensa junta o que veículo grande publicou — quem chega está conferindo, não
+   passeando. Então é a MESMA família de janelinhas da /produtos, só que calma:
+
+   · o céu do fundo fica lavado, para não disputar com o texto;
+   · a sombra sólida e grossa das janelas vira um apoio discreto;
+   · o destaque berrante dos títulos vira um grifo de lápis por baixo da palavra;
+   · a cor forte sai do fundo e fica só como marca (filete e ponto no cartão).
+
+   Nada de cor ou fonte nova: as cores são as mesmas que a página já tinha.
+   ════════════════════════════════════════════════════════════════ */
+
+/* fundo neutro no lugar do céu azul (pedido da Olivia: "uma cor neutra atrás").
+   O azul vinha do background-color do .qsd8, não da foto; a foto de nuvens fica
+   como textura fraca, só para a página não perder a família das outras. */
+.qsd8.hj-serio { background-color: var(--paper); }
+/* as três classes juntas: o .fofo-verde já dava um filtro ao céu e venceria por especificidade */
+.qsd8.fofo.fofo-verde.hj-serio .qsd8-bg { opacity: .12; filter: saturate(.2) brightness(1.25); }
+
+/* janelas: borda fina e sombra de apoio, no lugar do bloco sólido */
+.qsd8.hj-serio .qsd8-win {
+  border-color: rgba(35, 32, 58, .3);
+  box-shadow: 0 3px 0 0 rgba(35, 32, 58, .12);
+}
+.qsd8.hj-serio .qsd8-win:is(.qsd8-hero-win, .qsd8-cta-win) {
+  border-color: var(--ink);
+  box-shadow: 0 4px 0 0 rgba(35, 32, 58, .18);
+}
+
+/* título: a palavra em destaque ganha um grifo por baixo, não um bloco atrás */
+.qsd8.hj-serio :is(.qsd8-title, .qsd8-h2, .qsd8-cta-title) span {
+  background: none;
+  color: inherit;
+  padding: 0 1px;
+  box-shadow: inset 0 -.32em 0 0 var(--lime);
+}
+
+/* a tarja do rodapé e o eyebrow descem de tom */
+.qsd8.hj-serio .qsd8-footer-tag { opacity: .72; }
+.qsd8.hj-serio .qsd8-eyebrow { opacity: .85; }
+
+/* o botão "voltar pra caverna" acompanha a borda fina */
+.qsd8.hj-serio .pj-voltar { border-width: 2px; border-color: rgba(35, 32, 58, .35); }
+.qsd8.hj-serio .pj-voltar:hover, .qsd8.hj-serio .pj-voltar:focus-visible { border-color: var(--ink); }

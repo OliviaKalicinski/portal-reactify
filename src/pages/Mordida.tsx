@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import "./Mordida.css";
 import { isDayOfClienteActive } from "@/lib/promotions";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
+import { fg } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP DE LANÇAMENTO — MORDIDA V2 · /mordida
@@ -187,7 +188,7 @@ const BENEFICIOS = [
 const FAQ = [
   {
     q: "O que vem no pacote?",
-    a: `Um pacote de <strong>Mordida de Dragão de 180g</strong> por R$ ${PRICE}. Se quiser levar junto o <strong>Suplemento Integral</strong> — o que mistura na ração todo dia —, o kit com os dois sai por R$ ${PRICE_KIT} e vai com <strong>frete grátis</strong>; o link está embaixo da oferta.`,
+    a: `Um pacote de <strong>Mordida de Dragão de 180g</strong> por R$ ${PRICE}. Se quiser levar junto o <strong>Suplemento Integral</strong> — o que mistura na ração todo dia —, o kit com os dois sai por R$ ${PRICE_KIT}${fg(" e vai com <strong>frete grátis</strong>", "")}; o link está embaixo da oferta.`,
   },
   {
     q: "Meu cão tem alergia. Pode dar?",
@@ -203,11 +204,11 @@ const FAQ = [
   },
   {
     q: "E se ele não gostar?",
-    a: "<strong>A gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda. É o mesmo acordo de todos os nossos produtos.",
+    a: "<strong>Você tem 7 dias para devolver, com o produto lacrado.</strong> É o mesmo acordo de todos os nossos produtos.",
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil pra todo o Brasil. O frete aparece no checkout, e <strong>nos kits é por nossa conta</strong>. A compra é 100% segura: cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil pra todo o Brasil. O frete aparece no checkout${fg(", e <strong>nos kits é por nossa conta</strong>", "")}. A compra é 100% segura: cartão, Pix ou boleto.`,
   },
 ];
 
@@ -247,7 +248,7 @@ const Mordida = () => {
     <div className="mordida-lp">
       <PageMeta
         title="Novo Mordida de Dragão — snack natural de verdade | Comida de Dragão"
-        description="O novo Mordida de Dragão chegou: petisco natural com 24% de proteína de inseto, sem grão e sem glúten. 180g por R$ 42,20, com garantia de 14 dias."
+        description="O novo Mordida de Dragão chegou: petisco natural com 24% de proteína de inseto, sem grão e sem glúten. 180g por R$ 42,20, com 7 dias para devolver."
       />
 
       {/* ════ FAIXA PASSANTE DE LANÇAMENTO ════
@@ -351,7 +352,7 @@ const Mordida = () => {
               </div>
 
               <div className="mdp-hero-vantagem">
-                💚 Garantia de 14 dias · não topou, a gente devolve
+                💚 7 dias para devolver, lacrado
               </div>
 
               <div className="mdp-hero-cta-wrap" ref={heroCtaRef}>
@@ -476,7 +477,7 @@ const Mordida = () => {
           <ul className="mdp-oferta-itens">
             <li><strong>Mordida de Dragão · 180g</strong> — <strong>a nova</strong>: sem grão, sem glúten, 24% de proteína</li>
             <li><strong>Proteína de inseto</strong> — 88,9% de aproveitamento pelo organismo do cão</li>
-            <li><strong>Garantia de 14 dias</strong> — não topou, a gente devolve</li>
+            <li><strong>7 dias para devolver</strong> — com o produto lacrado</li>
           </ul>
 
           <div className="mdp-oferta-preco">
@@ -503,7 +504,7 @@ const Mordida = () => {
               🧪 Kit é KIT → -20% no Dia do Cliente, não -10% (regra da casa). */}
           <p className="mdp-oferta-avulso">
             <a href={kitUrl()} data-cta="kit">
-              Levar junto o Suplemento — kit por R$ {displayPriceKit}, com frete grátis
+              Levar junto o Suplemento — kit por R$ {displayPriceKit}{fg(", com frete grátis", "")}
             </a>
           </p>
 
@@ -538,10 +539,9 @@ const Mordida = () => {
           <div className="mdp-garantia">
             <div className="mdp-garantia-icon">💚</div>
             <div>
-              <div className="mdp-garantia-title">Garantia da matilha</div>
+              <div className="mdp-garantia-title">Devolução em 7 dias</div>
               <div className="mdp-garantia-text">
-                Se ele não topar em 14 dias da entrega, a gente devolve seu dinheiro.
-                Sem letrinha miúda.
+                Mudou de ideia? São 7 dias para devolver, com o produto lacrado.
               </div>
             </div>
           </div>
@@ -555,8 +555,7 @@ const Mordida = () => {
         <h2>Bora dar<br /><span>a Mordida nova?</span></h2>
         <p>
           24% de proteína, sem grão e sem glúten. R$ {displayPrice} o pacote de 180g,
-          com garantia de 14 dias.
-          Não topou em 14 dias? A gente devolve.
+          com 7 dias para devolver, com o produto lacrado.
         </p>
         <a href={ctaUrl("final")} className="mdp-btn-primary" data-cta="final">
           Quero a Mordida · R$ {displayPrice}
@@ -593,7 +592,7 @@ const Mordida = () => {
         <div className="mdp-sticky-info">
           <span className="mdp-sticky-name">Mordida de Dragão · 180g</span>
           <span className="mdp-sticky-price">
-            {daydeal ? <><s className="mdp-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`} · garantia 14 dias
+            {daydeal ? <><s className="mdp-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`} · 7 dias para devolver
           </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>

@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import "./Alergia.css";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
+import { FRETE_GRATIS, fg, VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — ALERGIA · /alergia
@@ -48,10 +49,10 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky" | "secao-solucao" | 
 const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
 
 const CHIPS = [
-  "🚚 Frete grátis",
+  ...fg(["🚚 Frete grátis"], [] as string[]),
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 const PROBLEMAS = [
@@ -66,7 +67,7 @@ const PROBLEMAS = [
    e a página respondia com produto. É o conteúdo que sustenta a nota de experiência
    de página no Google — hoje "Below average" em 28 de 32 keywords do Non-Brand.
    ⚠️ NÃO afirmar qual causa é mais frequente sem fonte — e NÃO citar prazo de dieta
-   de eliminação sem alinhar com a garantia de 14 dias. Ver o brief de 01/09/26. */
+   de eliminação sem alinhar com a devolução de 7 dias. Ver o brief de 01/09/26. */
 const CAUSAS = [
   { t: "Parasita", d: "pulga, sarna, ácaro. É a primeira a descartar e a mais simples: antiparasitário resolve. Se você já tratou e a coceira continuou, pode riscar da lista." },
   { t: "Alergia ambiental", d: "pólen, ácaro de poeira, grama. Costuma variar com a época do ano, e não some com troca de comida." },
@@ -149,7 +150,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil ${fg("e o <strong>frete do Kit é grátis</strong> pra todo o Brasil.", "pra todo o Brasil; o frete é calculado no fim do pedido pelo seu CEP.")} Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -204,17 +205,17 @@ const AlergiaGoogle = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="alp-hero-frete-tag">Kit com frete grátis</span>
+            {FRETE_GRATIS && <span className="alp-hero-frete-tag">Kit com frete grátis</span>}
           </div>
 
           <div className="alp-hero-price">
             <span className="alp-price-from">Kit Cachorro de <s>R$ {PRICE}</s> por</span>
             <span className="alp-price-now"><small>R$</small>{PRICE_OFF}</span>
-            <span className="alp-price-installment">🚚 Frete grátis · 4× sem juros</span>
+            <span className="alp-price-installment">{fg("🚚 Frete grátis · 4× sem juros", "4× sem juros")}</span>
           </div>
 
           <div className="alp-hero-coupon">
-            🏷️ <strong>10% de desconto já aplicado</strong> · 🚚 frete grátis no Kit
+            🏷️ <strong>10% de desconto já aplicado</strong>{fg(" · 🚚 frete grátis no Kit", "")}
           </div>
 
           <div className="alp-hero-cta-wrap">
@@ -337,7 +338,7 @@ const AlergiaGoogle = () => {
           <div className="alp-oferta-coupon-box">
             <div className="alp-oferta-coupon-label">🏷️ seu desconto</div>
             <div className="alp-oferta-coupon-code">10% OFF</div>
-            <div className="alp-oferta-coupon-desc">Kit Cachorro de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom · frete grátis</div>
+            <div className="alp-oferta-coupon-desc">Kit Cachorro de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom{fg(" · frete grátis", "")}</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="alp-btn-primary" data-cta="oferta">
@@ -345,7 +346,7 @@ const AlergiaGoogle = () => {
             </a>
 
           <p className="alp-hero-note" style={{ marginTop: 16 }}>
-            Frete grátis no Kit · compra 100% segura via Yampi
+            {fg("Frete grátis no Kit · compra 100% segura", "Compra 100% segura")}{VIA_YAMPI}
           </p>
         </div>
       </section>
@@ -420,7 +421,7 @@ const AlergiaGoogle = () => {
               <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
             </li>
             <li className="alp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -453,8 +454,8 @@ const AlergiaGoogle = () => {
           <div className="alp-garantia">
             <div className="alp-garantia-icon">💚</div>
             <div className="alp-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>

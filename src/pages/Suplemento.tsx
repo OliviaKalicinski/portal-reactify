@@ -6,6 +6,7 @@ import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Suplemento.css";
 import LeadPopup from "@/components/LeadPopup";
+import { VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP PRODUTO — SUPLEMENTO INTEGRAL
@@ -41,12 +42,13 @@ import LeadPopup from "@/components/LeadPopup";
    pelo Timm). `SUPLEMENTO30` só existe nesta página, 1 uso por cliente, e precisa
    estar ATIVO NA YAMPI (cupom da Shopify não atravessa). Com ele no link o cupom
    de creator não entra por cima — por isso a caixa "tem cupom de creator?" saiu. */
-const CUPOM = "SUPLEMENTO30";
-const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/BII063ST2H?promocode=${CUPOM}`;
+/* 26/11/2026 — SAIU o SUPLEMENTO30 (encerrado em 09/11 na Black). Olivia, 26/11: "Tirar o cupom";
+   depois da Black os preços voltam ao normal. A página mostra o preço cheio e o link vai sem cupom
+   (o cupom de creator, se a pessoa tiver, ela digita no checkout). */
+const PRODUCT_URL = `https://seguro.comidadedragao.com.br/r/BII063ST2H`;
 
-/* Preço cheio conferido na Shopify em 23/09 (SKU 302, R$ 110,00). 30% = R$ 77,00. */
+/* Preço cheio conferido na Shopify em 23/09 (SKU 302, R$ 110,00); volta a valer em 01/12, depois da Black. */
 const PRECO_CHEIO = "110,00";
-const PRECO_OFERTA = "77,00";
 
 /** Fallback usado SO quando o anuncio nao trouxe utm_ (trafego direto/organico). */
 const UTM_FALLBACK = {
@@ -81,7 +83,7 @@ const CHIPS = [
   "🚚 Entrega Brasil",
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 /* 26/08 — reescritos na voz do tutor. A versão anterior falava em "fases de
@@ -173,7 +175,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil. Frete calculado no fim do pedido pelo seu CEP. Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -246,9 +248,6 @@ const Suplemento = () => {
           </p>
 
           <div className="slp-hero-product-frame">
-            <span className="slp-daydeal-corner">
-              só por<br />aqui<br /><strong>-30%</strong>
-            </span>
             <img
               src={HERO_IMG}
               alt="Pote Comida de Dragão Suplemento Integral — 180g de farinha de larva BSF"
@@ -262,14 +261,10 @@ const Suplemento = () => {
 
           <div className="slp-hero-price">
             <span className="slp-price-from">Suplemento Integral 180g</span>
-            <s className="slp-price-old">R$ {PRECO_CHEIO}</s>
-            <span className="slp-price-now"><small>R$</small>{PRECO_OFERTA}</span>
+            <span className="slp-price-now"><small>R$</small>{PRECO_CHEIO}</span>
             <span className="slp-price-installment">4× sem juros · frete pelo CEP no checkout</span>
           </div>
 
-          <div className="slp-hero-coupon">
-            🎟️ 30% de desconto já aplicado no carrinho — só pra quem chega por esta página
-          </div>
 
           <div className="slp-hero-cta-wrap">
             <a href={ctaUrl("hero")} className="slp-btn-primary" data-cta="hero" onClick={onCta("hero")}>
@@ -385,7 +380,7 @@ const Suplemento = () => {
               <b>Um pote dura semanas</b> — de 12 dias num cão grande a mais de um mês num mini. Dá tempo de o hábito pegar.
             </li>
             <li className="slp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -441,7 +436,7 @@ const Suplemento = () => {
               adiante, na oferta. */}
           <div className="slp-section-cta">
             <a href={ctaUrl("prova")} className="slp-btn-primary" data-cta="prova" onClick={onCta("prova")}>
-              Quero o meu · R$ {PRECO_OFERTA} →
+              Quero o meu · R$ {PRECO_CHEIO} →
             </a>
           </div>
         </div>
@@ -455,26 +450,18 @@ const Suplemento = () => {
               em 19/08) e o cupom BORALA, por decisão da Olivia. O desconto que
               sobra é o do creator, que a pessoa digita no checkout — a página
               avisa que existe, não promete valor que o link não entrega. */}
-          <span className="slp-tag tag-lime">só por esta página · -30%</span>
           <h2 className="slp-section-title title-lime" style={{ textAlign: "center", marginTop: 12 }}>
             Suplemento Integral<br />
-            <span><s className="slp-price-old">R$ {PRECO_CHEIO}</s> por <span style={{ whiteSpace: "nowrap" }}>R$ {PRECO_OFERTA}</span></span>
+            <span style={{ whiteSpace: "nowrap" }}>R$ {PRECO_CHEIO}</span>
           </h2>
 
-          <div className="slp-oferta-coupon-box">
-            <div className="slp-oferta-coupon-label">o desconto já vai no carrinho</div>
-            <div className="slp-oferta-coupon-desc">
-              Clicou, o Integral entra no carrinho com os 30% aplicados. Não precisa
-              digitar cupom. Vale uma compra por pessoa.
-            </div>
-          </div>
 
           <a href={ctaUrl("oferta")} className="slp-btn-primary" data-cta="oferta" onClick={onCta("oferta")}>
             Quero o Integral →
           </a>
 
           <p className="slp-hero-note" style={{ marginTop: 16 }}>
-            Frete calculado pelo CEP no checkout · compra 100% segura via Yampi · cartão, Pix ou boleto
+            Frete calculado pelo CEP no checkout · compra 100% segura{VIA_YAMPI} · cartão, Pix ou boleto
           </p>
         </div>
       </section>
@@ -499,8 +486,8 @@ const Suplemento = () => {
           <div className="slp-garantia">
             <div className="slp-garantia-icon">💚</div>
             <div className="slp-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>
@@ -537,7 +524,7 @@ const Suplemento = () => {
         <div className="slp-sticky-info">
           <span className="slp-sticky-name">Suplemento Integral 180g</span>
           <span className="slp-sticky-price">
-            <s className="slp-price-old">R$ {PRECO_CHEIO}</s> <span style={{ whiteSpace: "nowrap" }}>R$ {PRECO_OFERTA}</span> · <span style={{ whiteSpace: "nowrap" }}>4× sem juros</span>
+            <span style={{ whiteSpace: "nowrap" }}>R$ {PRECO_CHEIO}</span> · <span style={{ whiteSpace: "nowrap" }}>4× sem juros</span>
           </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky" onClick={onCta("sticky")}>Comprar →</a>

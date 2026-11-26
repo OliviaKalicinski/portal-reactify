@@ -1,0 +1,224 @@
+/* /black-november-gato · só o que é desta página.
+   O resto do visual vem de BlackNovember.css, importado antes.
+   Criada em 30/10/2026, clonando a estrutura da /black-november-topo. */
+
+/* Mesma régua da LP de topo: título, produto, preço e botão têm de caber na primeira
+   tela de um celular pequeno (375×667). Aqui o pote é mais estreito que o kit, então
+   ele pode ser um pouco maior sem empurrar o botão para fora. */
+.bng .bn-hero { gap: 3px; padding: 6px 18px 10px; }
+.bng .bn-h1 { font-size: clamp(28px, 9vw, 78px); }
+.bng .bn-foto { width: min(44%, 168px); margin-top: 0; }
+.bng .bn-eyebrow { font-size: 11px; padding: 5px 10px; }
+
+/* Nuvens próprias: o pote é estreito e alto, então elas ficam nas laterais, mais
+   afastadas do centro que na /black-november-topo. Nenhuma em cima do texto. */
+.bng .bn-nuvem--1 { width: 50px; height: 26px; top: 196px; left: 2px; }
+.bng .bn-nuvem--2 { width: 52px; height: 27px; top: 214px; left: calc(100% - 88px); }
+.bng .bn-nuvem--3 { width: 44px; height: 23px; top: 286px; left: 4px; }
+.bng .bn-nuvem--4 { width: 44px; height: 23px; top: 304px; left: calc(100% - 82px); }
+
+/* Preço: aqui o de/por é o centro da oferta, como na LP de topo. */
+.bng .bn-preco-topo { font-size: 26px; margin-top: 0; }
+.bng-oferta-linha {
+  display: block; font-weight: 400; font-size: 16px; line-height: 1.05;
+  color: var(--preto); margin-bottom: 2px;
+}
+
+/* O pote leva ao carrinho: precisa parecer clicável. */
+.bng .bn-foto a { display: block; width: 100%; }
+.bng .bn-foto a:focus-visible { outline: 3px solid var(--preto); outline-offset: 6px; }
+@media (hover: hover) {
+  .bng .bn-foto a:hover .bn-cao { transform: scale(1.02); }
+}
+.bng .bn-cao { transition: transform .2s ease; }
+@media (prefers-reduced-motion: reduce) { .bng .bn-cao { transition: none; } }
+
+/* No computador a oferta manda, igual à LP de topo. */
+@media (min-width: 900px) {
+  .bng .bn-hero {
+    grid-template-rows: auto 1fr auto auto auto auto 1fr;
+    grid-template-areas:
+      "topo topo"
+      "foto ."
+      "foto eyebrow"
+      "foto h1"
+      "foto preco"
+      "foto cta"
+      "foto .";
+    padding: 20px 32px 36px;
+  }
+  .bng .bn-foto { width: 78%; justify-self: center; }
+  .bng .bn-h1 { font-size: clamp(52px, 6vw, 82px); }
+  .bng .bn-preco-topo { font-size: 34px; }
+}
+
+/* 06/11 (Olivia: "pegar o fundo de nuvem e colocar aqui atrás" e "o elemento do gatinho").
+   Céu e gato saem do PDF das peças de anúncio da Black; o céu leva o mesmo tom verde-água
+   das peças (azul do céu misturado 35% com #92a810, medido contra a arte 9). */
+.bng-ceu { background: #81b5a8 url("/assets/black-november/ceu-black.jpg") center / cover no-repeat; }
+.bng .bn-hero { background: transparent; overflow: hidden; }
+/* 06/11 (Olivia): "tira o grid mesmo" — o chão some nesta página */
+.bng .bn-grade-chao { display: none; }
+/* logo empilhada três vezes, a das peças de anúncio */
+.bng .bng-logo { filter: none; }
+.bng-gato { position: absolute !important; z-index: 0 !important; left: 0; bottom: 0; width: 76px; height: auto; image-rendering: pixelated; pointer-events: none; }
+@media (min-width: 900px) {
+  .bng-gato { width: 210px; left: 12px; }
+}
+.bng .bng-logo { width: 170px; }
+
+/* título em imagem: "25% OFF" das peças, e o "só para gatos" embaixo, tortinho, na ponta.
+   06/11 (Olivia): "centralizado, diminui um pouco, só para gatos maior e mais na ponta". */
+.bng .bng-titulo { margin: 6px 0 0; line-height: 0; align-self: center; }
+.bng .bng-titulo img { width: min(76vw, 290px); height: auto; display: block; }
+.bng .bng-eyebrow {
+  font-size: 15px; padding: 7px 14px; transform: rotate(-5deg);
+  align-self: center; margin: -10px 0 8px calc(min(76vw, 290px) * .42);
+}
+@media (min-width: 900px) {
+  .bng .bn-hero {
+    grid-template-areas:
+      "topo topo"
+      "foto ."
+      "foto h1"
+      "foto eyebrow"
+      "foto preco"
+      "foto cta"
+      "foto .";
+  }
+  .bng .bng-titulo { justify-self: center; }
+  .bng .bng-titulo img { width: min(30vw, 430px); }
+  .bng .bng-eyebrow { justify-self: center; font-size: 19px; padding: 8px 18px; margin: -14px 0 10px calc(min(30vw, 430px) * .42); }
+}
+
+/* 06/11 (Olivia): "troca a nuvenzinha exatamente pela nuvenzinha branca, no mesmo lugar" e depois
+   "é a nuvem 8-bit": as mesmas nuvens de pixel, mesmo desenho e lugar, com o corpo branco
+   em vez de verde, como as nuvenzinhas das peças de anúncio. */
+.bng .bn-nuvem--1 { background-image: url("/assets/black-november/nuvem-8bit-branca-2.png"); }
+.bng .bn-nuvem--2 { background-image: url("/assets/black-november/nuvem-8bit-branca-1.png"); }
+.bng .bn-nuvem--3 { background-image: url("/assets/black-november/nuvem-8bit-branca-3.png"); }
+.bng .bn-nuvem--4 { background-image: url("/assets/black-november/nuvem-8bit-branca-2.png"); }
+
+/* 06/11 (Olivia: "salva os lugares"): posições, giros e tamanhos que ela acertou arrastando no
+   modo ?editar, na prévia do celular (tela de 461 px de largura). Só no celular; no computador
+   nada foi mexido. */
+@media (max-width: 899px) {
+  .bng .bng-titulo { translate: 42px -1px; }
+  .bng .bng-eyebrow { translate: 6px -12px; }
+  .bng .bn-nuvem--2 { translate: 33px -6px; }
+  .bng .bn-logo { translate: -25px -1px; scale: 0.75; }
+  .bng .bng-foto { translate: -33px -5px; scale: 1.03; }
+  .bng .bn-preco-topo { translate: 16px -21px; rotate: -4deg; scale: 0.85; }
+  .bng .bn-cta-texto { translate: 80px -17px; scale: 1.03; }
+  .bng .bn-nuvem--1 { translate: 23px -5px; }
+  .bng .bn-nuvem--4 { translate: -37px 7px; }
+  .bng .bn-nuvem--3 { translate: 0px 2px; }
+  .bng .bng-gato { translate: 31px -14px; scale: 1.4; }
+}
+
+/* 06/11 (Olivia): "traz a nuvem para a camada da frente" */
+.bng .bn-nuvem { z-index: 3; }
+
+/* 06/11: o "rico em taurina" à mão entrou e saiu no mesmo dia (Olivia: "tira o rico em taurina") */
+
+/* a etiqueta ficou mais comprida com "suplemento": sai da ponta e volta para perto do centro */
+.bng .bng-eyebrow { margin-left: 0; }
+@media (max-width: 899px) { .bng .bng-eyebrow { font-size: 13px; letter-spacing: .1em; padding: 7px 12px; translate: 30px -12px; } }
+
+/* 06/11 (Olivia): "um efeito do suplemento voando". O pote sobe e desce devagar e balança
+   um pouco. Usa `translate` e `rotate` (não `transform`) para não brigar com o zoom do hover. */
+@keyframes bng-voando {
+  0%, 100% { translate: 0 0; rotate: -2deg; }
+  50% { translate: 0 -12px; rotate: 2deg; }
+}
+.bng .bng-foto .bn-cao { animation: bng-voando 3.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .bng .bng-foto .bn-cao { animation: none; } }
+
+/* 06/11, segunda rodada do modo ?editar (Olivia: "ok guarda"), prévia do celular a 362 px. Substitui a primeira. */
+@media (max-width: 899px) {
+  .bng .bn-nuvem--4 { translate: -31px -21px; rotate: 0deg; scale: 1; }
+  .bng .bn-nuvem--2 { translate: 13px -5px; rotate: 0deg; scale: 1; }
+  .bng .bn-preco-topo { translate: 35px -24px; rotate: -4deg; scale: 0.8; }
+  .bng .bng-foto { translate: -15px -14px; rotate: 0deg; scale: 1.03; }
+  .bng .bng-titulo { translate: 38px -7px; rotate: 0deg; scale: 1; }
+  .bng .bng-eyebrow { translate: 30px -12px; rotate: 0deg; scale: 0.95; }
+  .bng .bn-cta-texto { translate: 80px -17px; rotate: 0deg; scale: 0.92; }
+  .bng .bng-gato { translate: 31px -14px; rotate: 0deg; scale: 1.49; }
+}
+
+/* 06/11 (Olivia): "onde é verde o fundo, esse céu". A chamada final (.bn-fim) era a única faixa
+   verde que sobrava; ganha o mesmo céu do topo. O fundo da página, que aparecia verde por baixo,
+   vira o verde-água do céu. */
+.bn.bng { background-color: #81b5a8; }
+.bng .bn-fim { background: #81b5a8 url("/assets/black-november/ceu-black.jpg") center / cover no-repeat; }
+
+/* 06/11 (Olivia): "tá tudo muito preto, e pode ficar mais bonitinho". Os blocos de leitura saem do
+   preto e alternam o creme da marca com o céu das peças; texto preto, destaque no roxo oficial
+   (_CANONICO-DA-MARCA). A barra fixa de compra continua preta, para o botão saltar. */
+.bng .bn-reels { background: #81b5a8 url("/assets/black-november/ceu-black.jpg") center / cover no-repeat; border-top: 3px solid var(--preto); }
+.bng .bn-bloco { color: var(--preto); border-top: 3px solid var(--preto); overflow: hidden; }
+.bng .bn-bloco .bn-h2 { color: var(--preto); }
+.bng .bn-bloco .bn-h2 span { color: var(--roxo); }
+.bng .bn-bloco .bn-texto strong { color: var(--roxo); }
+.bng .bn-bloco .bn-botao { box-shadow: 5px 5px 0 var(--roxo); }
+.bng .bng-bloco--1, .bng .bng-bloco--3 { background: var(--creme); }
+.bng .bng-bloco--2 { background: #81b5a8 url("/assets/black-november/ceu-black.jpg") center / cover no-repeat; }
+.bng .bn-faq details { background: #fff; border: 3px solid var(--preto); box-shadow: 4px 4px 0 var(--preto); }
+.bng .bn-faq summary { color: var(--preto); }
+/* nuvenzinhas 8-bit brancas de enfeite nos blocos de céu */
+.bng .bng-bloco--2::before, .bng .bng-bloco--2::after {
+  content: ""; position: absolute; pointer-events: none; background: center / contain no-repeat;
+}
+.bng .bng-bloco--2::before { width: 70px; height: 38px; top: 18px; left: 10px; background-image: url("/assets/black-november/nuvem-8bit-branca-2.png"); }
+.bng .bng-bloco--2::after { width: 58px; height: 32px; bottom: 22px; right: 12px; background-image: url("/assets/black-november/nuvem-8bit-branca-1.png"); }
+
+
+/* 06/11: no celular o topo tem largura fixa de 362 px (BASE_CELULAR no .tsx) e encolhe ou cresce
+   inteiro pelo --bng-zoom, para as peças posicionadas não saírem da tela em celular nenhum. */
+@media (max-width: 899px) {
+  .bng .bn-hero { width: 362px; max-width: none; margin: 0 auto; zoom: var(--bng-zoom, 1); }
+  .bng-ceu { overflow: hidden; }
+}
+
+/* 06/11 (Olivia, modo ?editar no computador, tela de 1023 px): posições, giros e tamanhos do topo.
+   O topo do computador tem largura fixa de 1023 px (BASE_COMPUTADOR no .tsx) e cresce ou encolhe
+   inteiro pelo --bng-zoom, como o do celular, para nada sair do lugar nem da primeira tela. */
+@media (min-width: 900px) {
+  .bng .bn-hero { width: 1023px; max-width: none; margin: 0 auto; zoom: var(--bng-zoom, 1); }
+  .bng-ceu { overflow: hidden; }
+  .bng .bn-logo { translate: -87px -10px; rotate: 0deg; scale: 0.6; }
+  .bng .bng-gato { translate: -6px 17px; rotate: 0deg; scale: 0.9; }
+  .bng .bng-foto { translate: 556px -18px; rotate: 0deg; scale: 1; }
+  .bng .bn-nuvem--1 { translate: 896px 159px; rotate: 0deg; scale: 1; }
+  .bng .bn-nuvem--3 { translate: 81px -131px; rotate: 0deg; scale: 1; }
+  .bng .bng-titulo { translate: -237px -62px; rotate: 0deg; scale: 1.35; }
+  .bng .bng-eyebrow { translate: -202px -60px; rotate: 2deg; scale: 0.95; }
+  .bng .bn-preco-topo { translate: -10px -54px; rotate: -2deg; scale: 1; }
+  .bng .bn-cta-texto { translate: 24px -11px; rotate: 0deg; scale: 1.1; }
+  .bng .bn-nuvem--4 { translate: -706px -69px; rotate: 0deg; scale: 1; }
+}
+
+/* 06/11 (Olivia): "centralizar a LP do desktop". O conjunto do topo (logo, título, pote, preço,
+   botão, gatinho) estava 32 px à esquerda do centro da tela (medido em 1440 px, zoom 1,18):
+   anda 27 px de base para a direita, sem mexer nas posições que ela acertou entre as peças.
+   Os vídeos, que começavam colados à esquerda, ficam centralizados. */
+@media (min-width: 900px) {
+  .bng .bn-hero > :not(.bn-nuvem):not(.bng-gato) { left: 27px; }
+  .bng .bng-gato { left: 39px; }
+  .bng .bn-reels .reels-strip { justify-content: center; }
+}
+
+/* 07/11 (Olivia): "voltar para a home" é sempre uma linha só, em qualquer tamanho de tela
+   (vale também para a /black-november-topo, que usa este visual) */
+.bng .bn-voltar { white-space: nowrap; }
+
+/* 07/11 (Olivia): "centralizar na tela o texto". No celular o "25% OFF" e a etiqueta estavam
+   17 e 30 px (de base) à esquerda do centro da tela; agora o centro dos dois é o centro da tela. */
+@media (max-width: 899px) {
+  .bng .bng-titulo { translate: 21px -7px; }
+  .bng .bng-eyebrow { translate: 0px -12px; }
+}
+
+/* "Comprar agora →" é um pouco mais largo que o "Quero o dele →": no celular encostava 1 px
+   fora da borda direita (375 px); anda 10 px para dentro */
+@media (max-width: 899px) { .bng .bn-cta-texto { translate: 70px -17px; } }

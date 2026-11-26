@@ -47,7 +47,7 @@ const FAQ = [
   { q: "Serve para cachorro?", a: "Não. Ele é feito para gatos: tem taurina adicionada, na medida deles." },
   { q: "Quanto eu dou?", a: "Use a medida que vem no pacote, pelo peso do gato. É só misturar na comida de sempre." },
   { q: "É larva mesmo?", a: "É. Farinha de larva de mosca soldado negra, criada para isso e desidratada. Uma proteína que o seu gato provavelmente nunca comeu." },
-  { q: "E se o meu gato não gostar?", a: "Se ele não topar em 14 dias da entrega, a gente devolve o seu dinheiro." },
+  { q: "E se o meu gato não gostar?", a: "Chama a gente no WhatsApp (21) 3950-0576 que a gente resolve com você." },
   { q: "Ficou alguma dúvida?", a: "Chama a gente no WhatsApp: (21) 3950-0576." },
 ];
 

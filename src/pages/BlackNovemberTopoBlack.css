@@ -1,0 +1,70 @@
+/* /black-november-topo no visual da /black-november-gato (Olivia, 06/11: "igualzinha").
+   O grosso vem de BlackNovemberGato.css, ligado pela classe .bng na raiz da página; aqui fica só
+   o que esta página tem a mais: um quarto bloco, a quinta nuvem, os cartões e o cachorro. */
+
+/* blocos: creme, céu, creme, céu (o gato tem três; este tem quatro) */
+.bnt.bng .bng-bloco--4 { background: #81b5a8 url("/assets/black-november/ceu-black.jpg") center / cover no-repeat; }
+
+/* a quinta nuvem também vira a 8-bit branca */
+.bnt.bng .bn-nuvem--5 { background-image: url("/assets/black-november/nuvem-8bit-branca-3.png"); }
+
+/* cartões "o que vem na caixa" e "por que larva": brancos com contorno e sombra pretos, como as
+   perguntas do gato; o número do estudo fica preto com o verde da marca */
+.bnt.bng .bnt-caixa article,
+.bnt.bng .bnt-card { background: #fff; box-shadow: 4px 4px 0 var(--preto); }
+.bnt.bng .bnt-rodape-ciencia a { color: var(--roxo); }
+
+/* o cachorro de óculos é mais largo que o gatinho: um pouco maior */
+.bnt.bng .bnt-cao-pixel { width: 92px; }
+@media (min-width: 900px) { .bnt.bng .bnt-cao-pixel { width: 230px; } }
+
+/* "Pegar o presente →" é mais comprido que o "Quero o dele →" do gato: com o mesmo deslocamento
+   ele passava da borda direita no celular (medido a 375 px). E a quinta nuvem caía em cima do
+   preço; o gato só tem quatro, então ela sai. */
+@media (max-width: 899px) { .bnt.bng .bn-cta-texto { translate: 40px -17px; } }
+.bnt.bng .bn-nuvem--5 { display: none; }
+
+/* 07/11 (Olivia, modo ?editar no computador): posições, giros e tamanhos do topo do computador.
+   O celular fica com as posições de partida (as do gato), por decisão dela: "só vai ele
+   [o computador], coloca as imagens de novo no mobile". */
+@media (min-width: 900px) {
+  .bnt.bng .bng-gato { translate: -24px -16px; rotate: 0deg; scale: 1.04; }
+  .bnt.bng .bn-cta-texto { translate: -125px 23px; rotate: 0deg; scale: 0.92; }
+  .bnt.bng .bng-foto { translate: 533px 5px; rotate: 0deg; scale: 1.28; }
+  .bnt.bng .bn-nuvem--4 { translate: -286px -236px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-nuvem--1 { translate: 22px -20px; rotate: 0deg; scale: 0.85; }
+  .bnt.bng .bng-eyebrow { translate: -328px 46px; rotate: 0deg; scale: 1.4; }
+  .bnt.bng .bng-titulo { translate: -328px -78px; rotate: 0deg; scale: 1.35; }
+  .bnt.bng .bn-preco-topo { translate: -134px -12px; rotate: -2deg; scale: 1; }
+  .bnt.bng .bn-nuvem--2 { translate: -365px 179px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-nuvem--3 { translate: 203px -249px; rotate: 0deg; scale: 1; }
+}
+
+/* 07/11 (Olivia, modo ?editar no celular, "salva"): posições, giros e tamanhos do topo do celular.
+   Valem na base de 362 px; o topo inteiro encolhe ou cresce pelo zoom. */
+@media (max-width: 899px) {
+  .bnt.bng .bng-gato { translate: 28px -29px; rotate: 0deg; scale: 1.39; }
+  .bnt.bng .bn-cta-texto { translate: 68px -16px; rotate: 0deg; scale: 0.77; }
+  .bnt.bng .bn-nuvem--2 { translate: 36px -52px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-nuvem--4 { translate: 37px -21px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-nuvem--1 { translate: 36px -21px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bng-foto { translate: 7px -14px; rotate: 0deg; scale: 1.23; }
+  .bnt.bng .bn-preco-topo { translate: 46px -36px; rotate: -4deg; scale: 0.8; }
+  .bnt.bng .bng-titulo { translate: 24px -23px; rotate: 0deg; scale: 1; }
+  .bnt.bng .bn-logo { translate: -39px -8px; rotate: 0deg; scale: 0.6; }
+  .bnt.bng .bng-eyebrow { translate: 29px -29px; rotate: 0deg; scale: 1.15; }
+  .bnt.bng .bn-nuvem--3 { translate: -8px 66px; rotate: 0deg; scale: 1; }
+}
+
+/* 07/11 (Olivia): "centralizar na tela o texto". No celular o "50% OFF" e a etiqueta estavam
+   3 e 29 px (de base) à esquerda do centro da tela; agora o centro dos dois é o centro da tela. */
+@media (max-width: 899px) {
+  .bnt.bng .bng-titulo { translate: 21px -23px; }
+  .bnt.bng .bng-eyebrow { translate: 0px -29px; }
+}
+
+/* 07/11 (Olivia): "coloca os botões do mesmo tamanho" e "o botão tem que ser comprar agora".
+   O botão do topo diz "Comprar agora →" nas duas páginas e tem o mesmo tamanho do gato
+   (celular 0,92; computador 1,1). */
+@media (max-width: 899px) { .bnt.bng .bn-cta-texto { scale: 0.92; } }
+@media (min-width: 900px) { .bnt.bng .bn-cta-texto { scale: 1.1; } }

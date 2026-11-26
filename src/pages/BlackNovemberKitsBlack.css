@@ -1,0 +1,41 @@
+/* /black-november (kits + suplemento de presente) no visual da /black-november-gato
+   (Olivia, 07/11: "vamos para a próxima landing page", no mesmo estilo). O grosso vem de
+   BlackNovemberGato.css, ligado pela classe .bng na raiz; aqui fica o que é só desta página. */
+
+/* a quinta nuvem caía em cima do preço na /black-november-topo; aqui sai também (o gato tem quatro) */
+.bnk.bng .bn-nuvem--5 { display: none; }
+
+/* cartões dos kits e do suplemento de gato: brancos com contorno e sombra pretos, como as
+   perguntas do gato */
+.bnk.bng .bn-kit,
+.bnk.bng .bn-avulso { background: #fff; color: var(--preto); box-shadow: 4px 4px 0 var(--preto); }
+.bnk.bng .bn-botao--kit { box-shadow: 4px 4px 0 var(--roxo); }
+
+/* o cachorro de óculos é mais largo que o gatinho: um pouco maior */
+.bnk.bng .bnk-cao-pixel { width: 92px; }
+@media (min-width: 900px) { .bnk.bng .bnk-cao-pixel { width: 230px; } }
+
+/* 07/11 (Olivia, modo ?editar no celular, "mobile ok"): posições, giros e tamanhos do topo do
+   celular, na base de 362 px; o topo inteiro encolhe ou cresce pelo zoom. */
+@media (max-width: 899px) {
+  .bnk.bng .bng-foto { translate: -5px -12px; rotate: 0deg; scale: 1.13; }
+  .bnk.bng .bn-nuvem--1 { translate: -9px 8px; rotate: 0deg; scale: 1; }
+  .bnk.bng .bng-eyebrow { translate: 6px -25px; rotate: 0deg; scale: 0.95; }
+  .bnk.bng .bng-titulo { translate: 14px -28px; rotate: 0deg; scale: 1; }
+  .bnk.bng .bn-logo { translate: -47px -5px; rotate: 0deg; scale: 0.45; }
+  .bnk.bng .bn-nuvem--4 { translate: -4px -18px; rotate: 0deg; scale: 1; }
+  .bnk.bng .bn-preco-topo { translate: 50px -29px; rotate: -4deg; scale: 1; }
+  .bnk.bng .bng-gato { translate: 31px -14px; rotate: 0deg; scale: 1.39; }
+  .bnk.bng .bn-cta-texto { translate: 78px -13px; rotate: 0deg; scale: 0.77; }
+}
+
+/* 07/11 (Olivia, modo ?editar no computador, "a versão desktop está pronta"): posições, giros e
+   tamanhos do topo do computador, na base de 1023 px; o topo inteiro cresce ou encolhe pelo zoom. */
+@media (min-width: 900px) {
+  .bnk.bng .bn-cta-texto { translate: -44px 10px; rotate: 0deg; scale: 1.1; }
+  .bnk.bng .bng-gato { translate: -23px -8px; rotate: 0deg; scale: 1.05; }
+  .bnk.bng .bng-titulo { translate: -219px -75px; rotate: 0deg; scale: 1.35; }
+  .bnk.bng .bng-eyebrow { translate: -256px -58px; rotate: 2deg; scale: 0.85; }
+  .bnk.bng .bn-preco-topo { translate: -43px -49px; rotate: -2deg; scale: 0.95; }
+  .bnk.bng .bng-foto { translate: 538px -14px; rotate: 0deg; scale: 1; }
+}

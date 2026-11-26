@@ -7,6 +7,7 @@ import "./Alergia.css";
 import LeadPopup from "@/components/LeadPopup";
 import { isDayOfClienteActive } from "@/lib/promotions";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
+import { FRETE_GRATIS, fg, VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — ALERGIA · /alergia
@@ -45,10 +46,10 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky" | "secao-solucao" | 
 const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
 
 const CHIPS = [
-  "🚚 Frete grátis",
+  ...fg(["🚚 Frete grátis"], [] as string[]),
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 const PROBLEMAS = [
@@ -63,7 +64,7 @@ const PROBLEMAS = [
    respondia com produto. É o conteúdo que sustenta a nota de experiência de página
    no Google (hoje "Below average" em 28 de 32 keywords do Non-Brand).
    ⚠️ NÃO afirmar qual causa é mais frequente sem fonte — e NÃO citar prazo de dieta
-   de eliminação sem alinhar com a garantia de 14 dias. Ver o brief de 01/09/26. */
+   de eliminação sem alinhar com a devolução de 7 dias. Ver o brief de 01/09/26. */
 const CAUSAS = [
   { t: "Parasita", d: "pulga, sarna, ácaro. É a primeira a descartar e a mais simples: antiparasitário resolve. Se você já tratou e a coceira continuou, pode riscar da lista." },
   { t: "Alergia ambiental", d: "pólen, ácaro de poeira, grama. Costuma variar com a época do ano, e não some com troca de comida." },
@@ -146,7 +147,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil ${fg("e o <strong>frete do Kit é grátis</strong> pra todo o Brasil.", "pra todo o Brasil; o frete é calculado no fim do pedido pelo seu CEP.")} Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -198,7 +199,7 @@ const Alergia = () => {
               decoding="async"
             />
             <div className="alp-hero-badges">
-              <span className="alp-hero-frete-tag">Kit com frete grátis</span>
+              {FRETE_GRATIS && <span className="alp-hero-frete-tag">Kit com frete grátis</span>}
               {daydeal && (
                 <span className="alp-daydeal-corner">
                   dia do<br />cliente<br /><strong>-20%</strong>
@@ -211,11 +212,11 @@ const Alergia = () => {
             <span className="alp-price-from">Kit Cachorro por</span>
             {daydeal && <s className="alp-price-old">R$ {PRICE}</s>}
             <span className="alp-price-now"><small>R$</small>{displayPrice}</span>
-            <span className="alp-price-installment">🚚 Frete grátis · 4× sem juros</span>
+            <span className="alp-price-installment">{fg("🚚 Frete grátis · 4× sem juros", "4× sem juros")}</span>
           </div>
 
           <div className="alp-hero-coupon">
-            🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout
+            {fg("🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout", "Conhece um afiliado nosso? Usa o cupom dele no checkout")}
           </div>
 
           <div className="alp-hero-cta-wrap">
@@ -336,8 +337,8 @@ const Alergia = () => {
           </h2>
 
           <div className="alp-oferta-coupon-box">
-            <div className="alp-oferta-coupon-label">🚚 vantagem</div>
-            <div className="alp-oferta-coupon-code">FRETE GRÁTIS</div>
+            {FRETE_GRATIS && <div className="alp-oferta-coupon-label">🚚 vantagem</div>}
+            {FRETE_GRATIS && <div className="alp-oferta-coupon-code">FRETE GRÁTIS</div>}
             <div className="alp-oferta-coupon-desc">
               {daydeal ? <><s className="alp-price-old">R$ {PRICE}</s> por R$ {PRICE_DAYDEAL}</> : `Kit Cachorro por R$ ${PRICE}`} · conhece um afiliado? usa o cupom dele no checkout
             </div>
@@ -348,7 +349,7 @@ const Alergia = () => {
             </a>
 
           <p className="alp-hero-note" style={{ marginTop: 16 }}>
-            Frete grátis no Kit · compra 100% segura via Yampi
+            {fg("Frete grátis no Kit · compra 100% segura", "Compra 100% segura")}{VIA_YAMPI}
           </p>
         </div>
       </section>
@@ -423,7 +424,7 @@ const Alergia = () => {
               <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
             </li>
             <li className="alp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -456,8 +457,8 @@ const Alergia = () => {
           <div className="alp-garantia">
             <div className="alp-garantia-icon">💚</div>
             <div className="alp-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>
@@ -494,7 +495,7 @@ const Alergia = () => {
         <div className="alp-sticky-info">
           <span className="alp-sticky-name">Kit Cachorro</span>
           <span className="alp-sticky-price">
-            {daydeal ? <><s className="alp-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`} · 🚚 frete grátis
+            {daydeal ? <><s className="alp-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`}{fg(" · 🚚 frete grátis", "")}
           </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar — R$ {displayPrice} →</a>

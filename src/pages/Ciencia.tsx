@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./Ciencia.css";
+import { fg } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP /ciencia — B-side magazine editorial (estilo Fyrre)
@@ -178,7 +179,7 @@ const MOTIVOS: Motivo[] = [
     quoteFonte: "Comparativo de preço por grama de proteína · 2025.",
     evidencias: [
       "1 pacote 90g rende até 30 dias pra cão pequeno",
-      "Clube do Dragão · 10% off + frete grátis",
+      fg("Clube do Dragão · 10% off + frete grátis", "Clube do Dragão · 10% off"),
       "Menos gasto veterinário com problema alimentar",
     ],
   },

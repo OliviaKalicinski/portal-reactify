@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import "./GatoCoceira.css";
 import VideosVencedores, { VIDEOS_GATOS } from "@/components/VideosVencedores";
 import LeadPopup from "@/components/LeadPopup";
+import { FRETE_GRATIS, fg, VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — GATO QUE SE COÇA · /gato-coceira
@@ -65,10 +66,10 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky") =>
 const HERO_IMG = "/assets/images/produtos/kit-gatos.webp";
 
 const CHIPS = [
-  "🚚 Frete grátis",
+  ...fg(["🚚 Frete grátis"], [] as string[]),
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 const PROBLEMAS = [
@@ -125,7 +126,7 @@ const FAQ = [
   },
   {
     q: "E se o meu gato simplesmente não comer?",
-    a: "Gato é gato — acontece, e a gente não vai fingir que não. O que mais funciona: <strong>triturar e misturar na comida úmida</strong> em vez de oferecer puro. Uma cliente com 7 gatos fez exatamente isso depois da primeira recusa e todos comeram. E se mesmo assim não colar, <strong>a gente devolve seu dinheiro em 14 dias</strong>.",
+    a: "Gato é gato — acontece, e a gente não vai fingir que não. O que mais funciona: <strong>triturar e misturar na comida úmida</strong> em vez de oferecer puro. Uma cliente com 7 gatos fez exatamente isso depois da primeira recusa e todos comeram. E se mesmo assim não colar, <strong>chama a gente no WhatsApp que a gente resolve</strong>.",
   },
   {
     q: "Isso substitui a ração dele?",
@@ -137,7 +138,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil ${fg("e o <strong>frete do Kit é grátis</strong> pra todo o Brasil.", "pra todo o Brasil; o frete é calculado no fim do pedido pelo seu CEP.")} Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -199,17 +200,17 @@ const GatoCoceiraGoogle = () => {
               fetchPriority="high"
               decoding="async"
             />
-            <span className="gcp-hero-frete-tag">Kit com frete grátis</span>
+            {FRETE_GRATIS && <span className="gcp-hero-frete-tag">Kit com frete grátis</span>}
           </div>
 
           <div className="gcp-hero-price">
             <span className="gcp-price-from">Kit para Gatos de <s>R$ {PRICE}</s> por</span>
             <span className="gcp-price-now"><small>R$</small>{PRICE_OFF}</span>
-            <span className="gcp-price-installment">🚚 Frete grátis · 4× sem juros</span>
+            <span className="gcp-price-installment">{fg("🚚 Frete grátis · 4× sem juros", "4× sem juros")}</span>
           </div>
 
           <div className="gcp-hero-coupon">
-            🏷️ <strong>10% de desconto já aplicado</strong> · 🚚 frete grátis no Kit
+            🏷️ <strong>10% de desconto já aplicado</strong>{fg(" · 🚚 frete grátis no Kit", "")}
           </div>
 
           <div className="gcp-hero-cta-wrap">
@@ -341,8 +342,7 @@ const GatoCoceiraGoogle = () => {
               <b>Insista alguns dias</b> — gato costuma estranhar cheiro novo antes de aceitar.
             </li>
             <li className="gcp-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem
-              letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -365,7 +365,7 @@ const GatoCoceiraGoogle = () => {
           <div className="gcp-oferta-coupon-box">
             <div className="gcp-oferta-coupon-label">🏷️ seu desconto</div>
             <div className="gcp-oferta-coupon-code">10% OFF</div>
-            <div className="gcp-oferta-coupon-desc">Kit para Gatos de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom · frete grátis</div>
+            <div className="gcp-oferta-coupon-desc">Kit para Gatos de <s>R$ {PRICE}</s> por <strong>R$ {PRICE_OFF}</strong> · desconto já aplicado, sem digitar cupom{fg(" · frete grátis", "")}</div>
           </div>
 
           <a href={ctaUrl("oferta")} className="gcp-btn-primary" data-cta="oferta">
@@ -373,7 +373,7 @@ const GatoCoceiraGoogle = () => {
             </a>
 
           <p className="gcp-hero-note" style={{ marginTop: 16 }}>
-            Frete grátis no Kit · compra 100% segura via Yampi
+            {fg("Frete grátis no Kit · compra 100% segura", "Compra 100% segura")}{VIA_YAMPI}
           </p>
         </div>
       </section>
@@ -398,10 +398,9 @@ const GatoCoceiraGoogle = () => {
           <div className="gcp-garantia">
             <div className="gcp-garantia-icon">💚</div>
             <div>
-              <div className="gcp-garantia-title">Garantia da matilha</div>
+              <div className="gcp-garantia-title">Devolução em 7 dias</div>
               <div className="gcp-garantia-text">
-                Se seu gato não topar em 14 dias da entrega, a gente devolve seu dinheiro.
-                Sem letrinha miúda.
+                Mudou de ideia? São 7 dias para devolver, com o produto lacrado.
               </div>
             </div>
           </div>

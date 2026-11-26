@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import DragonLogo from "@/components/DragonLogo";
 import PageMeta from "@/components/PageMeta";
 import "./PlanetaDragao.css";
+import { VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — PLANETA DRAGÃO · /planeta-dragao
@@ -498,7 +499,7 @@ const PlanetaDragao = () => {
     { q: "Meu pet tem alergia — posso dar?", a: "Sim. É 1 ingrediente só e hipoalergênico por natureza, sem as proteínas mais alergênicas (frango, boi, soja, glúten). Em acompanhamento veterinário, mostre o rótulo antes." },
     { q: "Por que larva faz bem pro planeta?", a: "A Mosca Soldado Negra faz upcycling: come resíduo orgânico e vira proteína usando pouquíssima água e terra. Menos desperdício, menos impacto — mesmo nutriente." },
     { q: "Como ofereço pela primeira vez?", a: "Comece com 2 a 4 unidades por dia, entre as refeições. Alta palatabilidade: a maioria aceita de primeira." },
-    { q: "Como funciona a entrega?", a: "Despacho em até 1 dia útil, frete pelo seu CEP. Compra 100% segura via Yampi (cartão, Pix ou boleto)." },
+    { q: "Como funciona a entrega?", a: `Despacho em até 1 dia útil, frete pelo seu CEP. Compra 100% segura${VIA_YAMPI} (cartão, Pix ou boleto).` },
   ];
 
   const allClean = collected >= GOAL_TRASH;
@@ -552,7 +553,7 @@ const PlanetaDragao = () => {
             </div>
           </Win>
         </div>
-        <div className="os-prod-chips os-kit-chips"><span>🛡️ Reg. MAPA</span><span>🚚 Entrega Brasil</span><span>💚 Garantia 14 dias</span></div>
+        <div className="os-prod-chips os-kit-chips"><span>🛡️ Reg. MAPA</span><span>🚚 Entrega Brasil</span><span>💚 7 dias para devolver</span></div>
 
         {/* POR QUE — bom pro pet / bom pro planeta */}
         <div className="os-grid2">
@@ -666,7 +667,7 @@ const PlanetaDragao = () => {
           </div>
           <div className="os-garantia">
             <span className="os-garantia-ico">💚</span>
-            <div><b>Garantia da matilha</b><p>Se seu pet não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</p></div>
+            <div><b>Devolução em 7 dias</b><p>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</p></div>
           </div>
         </Win>
 
@@ -675,7 +676,7 @@ const PlanetaDragao = () => {
           <div className="os-final">
             <h2>Seu pet também<br /><span>vira dragão.</span></h2>
             <p>É o que a Comida de Dragão faz de verdade: 1 ingrediente hipoalergênico que para a coceira, cai bem no intestino e os pets amam de primeira — e ainda devolve menos lixo pro planeta.</p>
-            <p className="os-final-note">Garantia de 14 dias · cupom <b>{COUPON}</b> na primeira compra</p>
+            <p className="os-final-note">7 dias para devolver · cupom <b>{COUPON}</b> na primeira compra</p>
             <a href={productUrl("final")} className="pl-btn pl-btn-buy" data-cta="final">VER OS PRODUTOS →</a>
           </div>
         </Win>

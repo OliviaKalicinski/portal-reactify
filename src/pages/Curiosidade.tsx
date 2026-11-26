@@ -8,6 +8,7 @@ import LeadPopup from "@/components/LeadPopup";
 import VideosVencedores, { VIDEOS } from "@/components/VideosVencedores";
 import { isDayOfClienteActive } from "@/lib/promotions";
 import { useRetornoNoToque } from "@/lib/retornoNoToque";
+import { FRETE_GRATIS, fg, VIA_YAMPI } from "@/lib/oferta";
 
 /* ──────────────────────────────────────────────────────────────
    LP CAMPANHA — CURIOSIDADE (LARVA) · /curiosidade
@@ -42,10 +43,10 @@ const ctaUrl = (cta: "hero" | "oferta" | "final" | "sticky" | "foto") =>
 const HERO_IMG = "/assets/images/produtos/kit-caes.webp";
 
 const CHIPS = [
-  "🚚 Frete grátis",
+  ...fg(["🚚 Frete grátis"], [] as string[]),
   "🛡️ Compra segura",
   "🏭 Reg. MAPA",
-  "💚 Garantia 14 dias",
+  "💚 7 dias para devolver",
 ];
 
 /* ÂNGULO "VÍCIO DO BOM": o petisco que o cão ama E que faz bem por dentro.
@@ -114,15 +115,15 @@ const FAQ = [
   },
   {
     q: "O que vem no Kit Cachorro?",
-    a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco ou topper) + o <strong>Suplemento Integral</strong> (pó pra misturar na ração). Um cuida do agrado, o outro reforça a nutrição do dia a dia — numa caixa só, com frete grátis.",
+    a: "O <strong>Original</strong> (larvinhas inteiras, pra usar de petisco ou topper) + o <strong>Suplemento Integral</strong> (pó pra misturar na ração). Um cuida do agrado, o outro reforça a nutrição do dia a dia — numa caixa só" + fg(", com frete grátis.", "."),
   },
   {
     q: "Por que o kit, e não só o petisco?",
-    a: "Porque cão gosta dos dois: o Original é o petisco/topper de larva e o Suplemento Integral completa a refeição. Sai <strong>mais em conta que comprar separado</strong> e o frete é por nossa conta.",
+    a: "Porque cão gosta dos dois: o Original é o petisco/topper de larva e o Suplemento Integral completa a refeição. Sai <strong>mais em conta que comprar separado</strong>" + fg(" e o frete é por nossa conta.", "."),
   },
   {
     q: "E se ele não comer?",
-    a: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura as larvinhas na ração e deixa ele decidir — a taxa de aceitação surpreende. E tem a <strong>garantia da matilha: 14 dias</strong>.",
+    a: "Na maioria das vezes o bloqueio é do tutor 😅. Mistura as larvinhas na ração e deixa ele decidir — a taxa de aceitação surpreende. E, se mudar de ideia, são <strong>7 dias para devolver, com o produto lacrado</strong>.",
   },
   {
     q: "Meu veterinário não conhece",
@@ -130,7 +131,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a entrega?",
-    a: "Despachamos em até 1 dia útil e o <strong>frete do Kit é grátis</strong> pra todo o Brasil. Compra <strong>100% segura</strong> via Yampi com cartão, Pix ou boleto.",
+    a: `Despachamos em até 1 dia útil ${fg("e o <strong>frete do Kit é grátis</strong> pra todo o Brasil.", "pra todo o Brasil; o frete é calculado no fim do pedido pelo seu CEP.")} Compra <strong>100% segura</strong>${VIA_YAMPI} com cartão, Pix ou boleto.`,
   },
 ];
 
@@ -142,7 +143,7 @@ const Curiosidade = () => {
     <div className="curiosidade-lp">
       <PageMeta
         title="O petisco que seu cão ama — e que faz bem | Comida de Dragão"
-        description="Larva de inseto: 1 ingrediente, 88,9% digestível, comida de verdade. O raro petisco que o cão vira vício e o corpo aproveita. Kit Cachorro com frete grátis."
+        description={`Larva de inseto: 1 ingrediente, 88,9% digestível, comida de verdade. O raro petisco que o cão vira vício e o corpo aproveita. Kit Cachorro${fg(" com frete grátis", "")}.`}
         image={HERO_IMG}
         preload={HERO_IMG}
       />
@@ -172,7 +173,7 @@ const Curiosidade = () => {
             A larvinha que vira o <strong>petisco favorito do seu cachorro</strong> — ele vai
             <strong> rondar o armário</strong> atrás. E você pode dar <strong>sem dó</strong>:
             1 ingrediente só, <strong>88,9% digestível</strong>, comida de verdade do jeito que o corpo
-            dele aproveita. No <strong>Kit Cachorro</strong>, com frete grátis.
+            dele aproveita. No <strong>Kit Cachorro</strong>{fg(", com frete grátis.", ".")}
           </p>
 
           <div className="cur-hero-product-wrap">
@@ -191,7 +192,7 @@ const Curiosidade = () => {
             />
             </a>
             <div className="cur-hero-badges">
-              <span className="cur-hero-frete-tag">Kit com frete grátis</span>
+              {FRETE_GRATIS && <span className="cur-hero-frete-tag">Kit com frete grátis</span>}
               {daydeal && (
                 <span className="cur-daydeal-corner">
                   dia do<br />cliente<br /><strong>-20%</strong>
@@ -204,11 +205,11 @@ const Curiosidade = () => {
             <span className="cur-price-from">Kit Cachorro por</span>
             {daydeal && <s className="cur-price-old">R$ {PRICE}</s>}
             <span className="cur-price-now"><small>R$</small>{daydeal ? PRICE_DAYDEAL : PRICE}</span>
-            <span className="cur-price-installment">🚚 Frete grátis · 4× sem juros</span>
+            <span className="cur-price-installment">{fg("🚚 Frete grátis · 4× sem juros", "4× sem juros")}</span>
           </div>
 
           <div className="cur-hero-coupon">
-            🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout
+            {fg("🚚 Frete grátis no Kit · conhece um afiliado nosso? usa o cupom dele no checkout", "Conhece um afiliado nosso? Usa o cupom dele no checkout")}
           </div>
 
           <div className="cur-hero-cta-wrap">
@@ -270,7 +271,7 @@ const Curiosidade = () => {
               <b>Use de recompensa</b> — o Original inteiro vira petisco de treino, um de cada vez.
             </li>
             <li className="cur-problema-item">
-              <b>Não colou mesmo?</b> — <strong>a gente devolve seu dinheiro em 14 dias.</strong> Sem letrinha miúda.
+              <b>Não colou mesmo?</b> — <strong>chama a gente no WhatsApp que a gente resolve.</strong>
             </li>
           </ul>
 
@@ -291,8 +292,8 @@ const Curiosidade = () => {
           </h2>
 
           <div className="cur-oferta-coupon-box">
-            <div className="cur-oferta-coupon-label">🚚 vantagem</div>
-            <div className="cur-oferta-coupon-code">FRETE GRÁTIS</div>
+            {FRETE_GRATIS && <div className="cur-oferta-coupon-label">🚚 vantagem</div>}
+            {FRETE_GRATIS && <div className="cur-oferta-coupon-code">FRETE GRÁTIS</div>}
             <div className="cur-oferta-coupon-desc">
               {daydeal ? <><s className="cur-price-old">R$ {PRICE}</s> por R$ {PRICE_DAYDEAL}</> : `Kit Cachorro por R$ ${PRICE}`} · conhece um afiliado? usa o cupom dele no checkout
             </div>
@@ -303,7 +304,7 @@ const Curiosidade = () => {
           </a>
 
           <p className="cur-hero-note" style={{ marginTop: 16 }}>
-            Frete grátis no Kit · compra 100% segura via Yampi
+            {fg("Frete grátis no Kit · compra 100% segura", "Compra 100% segura")}{VIA_YAMPI}
           </p>
         </div>
       </section>
@@ -328,8 +329,8 @@ const Curiosidade = () => {
           <div className="cur-garantia">
             <div className="cur-garantia-icon">💚</div>
             <div className="cur-garantia-body">
-              <strong>Garantia da matilha</strong>
-              <span>Se seu cão não topar em 14 dias da entrega, a gente devolve seu dinheiro. Sem letrinha miúda.</span>
+              <strong>Devolução em 7 dias</strong>
+              <span>Mudou de ideia? Você tem 7 dias corridos depois de receber para devolver, com o produto lacrado.</span>
             </div>
           </div>
         </div>
@@ -366,7 +367,7 @@ const Curiosidade = () => {
         <div className="cur-sticky-info">
           <span className="cur-sticky-name">Kit Cachorro</span>
           <span className="cur-sticky-price">
-            {daydeal ? <><s className="cur-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`} · 🚚 frete grátis
+            {daydeal ? <><s className="cur-price-old">R$ {PRICE}</s> R$ {PRICE_DAYDEAL}</> : `R$ ${PRICE}`}{fg(" · 🚚 frete grátis", "")}
           </span>
         </div>
         <a href={ctaUrl("sticky")} data-cta="sticky">Comprar →</a>
